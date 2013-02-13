@@ -1,0 +1,56 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>NETB161-3</title>
+</head>
+<body>
+<h2>NETB161. Week 3. TESTING AND DEBUGGING<br>
+</h2>
+<p>
+</p>
+<h3 style="font-weight: bold;"><font size="+1">1. Testing - unit tests</font></h3>
+<p><font size="+1">In a unit test, a
+function or procedure is
+compiled outside the program in which it will be used, together with a <i>test
+harness</i> that feeds arguments to it.</font><br>
+</p>
+<font size="+1">Write the following functions:
+<blockquote>
+  <pre>/*05<br>  06     Tests  whether two floating-point numbers are <br>  07     approximately equal.<br>  08     @param x a floating-point number<br>  09     @param y another floating-point number<br>  10     @return true if x and y are approximately equal<br>  11*/<br>/*12*/  bool approx_equal(double x, double y)<br>/*13*/  { const double EPSILON = 1E-14;<br>/*14*/    if (x == 0) return fabs(y) &lt;= EPSILON;<br>/*15*/    if (y == 0) return fabs(x) &lt;= EPSILON;<br>/*16*/    return fabs(x - y) / max(fabs(x), fabs(y)) &lt;= EPSILON;<br>/*17*/  }<br>/*18*/<br>/*19   Function to be tested <br>  20  <br>  21     Computes the square root using Heron's formula<br>  22     @param a an integer &gt;= 0<br>  23     @return the square root of a<br>  24*/<br>/*25*/  double squareroot(double a)<br>/*26*/  { if (a == 0) return 0;<br>/*27*/<br>/*28*/   double xnew = a;<br>/*29*/     double xold;<br>/*30*/     do<br>/*31*/     {  xold = xnew;;<br>/*32*/        xnew = (xold + a / xold) / 2;<br>/*33*/     }<br>/*34*/     while (!approx_equal(xnew, xold));<br>/*35*/     return xnew;<br>/*36*/  }</pre>
+</blockquote>
+Test harness 1:<br>
+<blockquote>
+  <pre>int main()<br>{&nbsp; double x;<br>&nbsp;&nbsp; while (cin &gt;&gt; x)<br>&nbsp;&nbsp; {&nbsp; double y = squareroot(x);<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; "squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";<br>&nbsp;&nbsp; }<br>&nbsp;&nbsp; return 0;<br>}</pre>
+</blockquote>
+</font><font size="+1">
+Test harness 2:<br>
+</font>
+<blockquote>
+  <pre><font size="+1">/*39*/  int main()<br>/*40*/  {  double x;<br>/*41*/     for (x = 0; x &lt;= 10; x = x + 0.5)<br>/*42*/     {  double y = squareroot(x);<br>/*43*/        cout &lt;&lt; "squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";<br>/*44*/     }<br>/*45*/     return 0;<br>/*46*/  }</font></pre>
+</blockquote>
+<h3>2. Debugging</h3>
+<p><big>Complete the "<a href="sqrtest2.cpp">sqrtest2.cpp</a>"
+program,
+compile it, and follow the instructions from <a
+ href="debugging-with-gdb.html">Debugging C++ Programs Using "gdb".</a>
+</big></p>
+<h3>3. Testing - test case evaluation</h3>
+<p><font size="+1">Once you have determined what <i>inputs</i> are
+needed to test the program, you need to decide if the <i>outputs</i>
+are correct.</font><br>
+</p>
+<p><font size="+1">Write the functions
+<tt>rand_seed</tt>
+and <tt>rand_double</tt> and complete the
+program with the test harness using the standard function <tt>sqrt</tt>
+as
+an oracle (see <tt>sqrtest5.cpp</tt>).<br>
+</font></p>
+<hr style="width: 100%; height: 2px;"><span style="font-weight: bold;"></span><font
+ size="+1"><br>
+<br>
+</font>
+</body>
+</html>

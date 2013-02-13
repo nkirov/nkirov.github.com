@@ -1,0 +1,150 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0070)http://www.horstmann.com/sjsu/CMPE46/slides/ch11/code/clocks3.cpp.html -->
+<HTML><HEAD>
+<META content="text/html; charset=windows-1252" http-equiv=Content-Type>
+<META content="MSHTML 5.00.3103.1000" name=GENERATOR></HEAD>
+<BODY><PRE><TT>
+253: <B><FONT color=#000080>#include</FONT></B> <FONT color=#ff0000>&lt;iostream&gt;</FONT>
+254: <B><FONT color=#000080>#include</FONT></B> <FONT color=#ff0000>&lt;iomanip&gt;</FONT>
+255: <B><FONT color=#000080>#include</FONT></B> <FONT color=#ff0000>&lt;string&gt;</FONT>
+256: <B><FONT color=#000080>#include</FONT></B> <FONT color=#ff0000>&lt;vector&gt;</FONT>
+257: 
+258: <B><FONT color=#0000ff>using</FONT></B> <B><FONT color=#0000ff>namespace</FONT></B> std<FONT color=#990000>;</FONT>
+259: 
+260: <B><FONT color=#000080>#include</FONT></B> <FONT color=#ff0000>"ccc_time.h"</FONT>
+261: 
+262: <B><FONT color=#0000ff>class</FONT></B> Clock
+263: <FONT color=#ff0000>{</FONT>
+264: <B><FONT color=#0000ff>public</FONT></B><FONT color=#990000>:</FONT>
+265:    <I><FONT color=#9a1900>/**</FONT></I>
+266: <I><FONT color=#9a1900>      Constructs a clock that can tell the local time.</FONT></I>
+267: <I><FONT color=#9a1900>      @param use_military true if the clock uses military format</FONT></I>
+268: <I><FONT color=#9a1900>   */</FONT></I>
+269:    <B><FONT color=#000000>Clock</FONT></B><FONT color=#990000>(</FONT><FONT color=#009900>bool</FONT> use_military<FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+270:    
+271:    <I><FONT color=#9a1900>/**</FONT></I>
+272: <I><FONT color=#9a1900>      Gets the location of this clock.</FONT></I>
+273: <I><FONT color=#9a1900>      @return the location</FONT></I>
+274: <I><FONT color=#9a1900>   */</FONT></I>
+275:    <B><FONT color=#0000ff>virtual</FONT></B> string <B><FONT color=#000000>get_location</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B><FONT color=#990000>;</FONT>
+276: 
+277:    <I><FONT color=#9a1900>/**</FONT></I>
+278: <I><FONT color=#9a1900>      Gets the hours of this clock.</FONT></I>
+279: <I><FONT color=#9a1900>      @return the hours, in military or am/pm format</FONT></I>
+280: <I><FONT color=#9a1900>   */</FONT></I>
+281:    <B><FONT color=#0000ff>virtual</FONT></B> <FONT color=#009900>int</FONT> <B><FONT color=#000000>get_hours</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B><FONT color=#990000>;</FONT>
+282: 
+283:    <I><FONT color=#9a1900>/**</FONT></I>
+284: <I><FONT color=#9a1900>      Gets the minutes of this clock.</FONT></I>
+285: <I><FONT color=#9a1900>      @return the minutes</FONT></I>
+286: <I><FONT color=#9a1900>   */</FONT></I>
+287:    <FONT color=#009900>int</FONT> <B><FONT color=#000000>get_minutes</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B><FONT color=#990000>;</FONT>
+288: 
+289:    <I><FONT color=#9a1900>/**</FONT></I>
+290: <I><FONT color=#9a1900>      Checks whether this clock uses miltary format.</FONT></I>
+291: <I><FONT color=#9a1900>      @return true if miltary format</FONT></I>
+292: <I><FONT color=#9a1900>   */</FONT></I>
+293:    <FONT color=#009900>bool</FONT> <B><FONT color=#000000>is_military</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B><FONT color=#990000>;</FONT>
+294: <B><FONT color=#0000ff>private</FONT></B><FONT color=#990000>:</FONT>
+295:    <FONT color=#009900>bool</FONT> military<FONT color=#990000>;</FONT>
+296: <FONT color=#ff0000>}</FONT><FONT color=#990000>;</FONT>
+297: 
+298: Clock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>Clock</FONT></B><FONT color=#990000>(</FONT><FONT color=#009900>bool</FONT> use_military<FONT color=#990000>)</FONT>
+299: <FONT color=#ff0000>{</FONT>
+300:    military <FONT color=#990000>=</FONT> use_military<FONT color=#990000>;</FONT>
+301: <FONT color=#ff0000>}</FONT>
+302: 
+303: string Clock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>get_location</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B>
+304: <FONT color=#ff0000>{</FONT>
+305:    <B><FONT color=#0000ff>return</FONT></B> <FONT color=#ff0000>"Local"</FONT><FONT color=#990000>;</FONT>
+306: <FONT color=#ff0000>}</FONT>
+307: 
+308: <FONT color=#009900>int</FONT> Clock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>get_hours</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B>
+309: <FONT color=#ff0000>{</FONT>
+310:    Time now<FONT color=#990000>;</FONT>
+311:    <FONT color=#009900>int</FONT> hours <FONT color=#990000>=</FONT> now<FONT color=#990000>.</FONT><B><FONT color=#000000>get_hours</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+312:    <B><FONT color=#0000ff>if</FONT></B> <FONT color=#990000>(</FONT>military<FONT color=#990000>)</FONT> <B><FONT color=#0000ff>return</FONT></B> hours<FONT color=#990000>;</FONT>
+313:    <B><FONT color=#0000ff>if</FONT></B> <FONT color=#990000>(</FONT>hours <FONT color=#990000>=</FONT><FONT color=#990000>=</FONT> <FONT color=#993399>0</FONT><FONT color=#990000>)</FONT> 
+314:       <B><FONT color=#0000ff>return</FONT></B> <FONT color=#993399>12</FONT><FONT color=#990000>;</FONT>
+315:    <B><FONT color=#0000ff>else</FONT></B> <B><FONT color=#0000ff>if</FONT></B> <FONT color=#990000>(</FONT>hours <FONT color=#990000>&gt;</FONT> <FONT color=#993399>12</FONT><FONT color=#990000>)</FONT>
+316:       <B><FONT color=#0000ff>return</FONT></B> hours <FONT color=#990000>-</FONT> <FONT color=#993399>12</FONT><FONT color=#990000>;</FONT>
+317:    <B><FONT color=#0000ff>else</FONT></B>
+318:       <B><FONT color=#0000ff>return</FONT></B> hours<FONT color=#990000>;</FONT>
+319: <FONT color=#ff0000>}</FONT>
+320: 
+321: <FONT color=#009900>int</FONT> Clock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>get_minutes</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B>
+322: <FONT color=#ff0000>{</FONT>
+323:    Time now<FONT color=#990000>;</FONT>
+324:    <B><FONT color=#0000ff>return</FONT></B> now<FONT color=#990000>.</FONT><B><FONT color=#000000>get_minutes</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+325: <FONT color=#ff0000>}</FONT>
+326: 
+327: <FONT color=#009900>bool</FONT> Clock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>is_military</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B>
+328: <FONT color=#ff0000>{</FONT>
+329:    <B><FONT color=#0000ff>return</FONT></B> military<FONT color=#990000>;</FONT>
+330: <FONT color=#ff0000>}</FONT>
+331: 
+332: <B><FONT color=#0000ff>class</FONT></B> TravelClock <FONT color=#990000>:</FONT> <B><FONT color=#0000ff>public</FONT></B> Clock
+333: <FONT color=#ff0000>{</FONT>
+334: <B><FONT color=#0000ff>public</FONT></B><FONT color=#990000>:</FONT>
+335:    <I><FONT color=#9a1900>/**</FONT></I>
+336: <I><FONT color=#9a1900>      Constructs a travel clock that can tell the time</FONT></I>
+337: <I><FONT color=#9a1900>      at a specified location</FONT></I>
+338: <I><FONT color=#9a1900>      @param mil true if the clock uses military format</FONT></I>
+339: <I><FONT color=#9a1900>      @param loc the location</FONT></I>
+340: <I><FONT color=#9a1900>      @param diff the time difference from the local time</FONT></I>
+341: <I><FONT color=#9a1900>   */</FONT></I>
+342:    <B><FONT color=#000000>TravelClock</FONT></B><FONT color=#990000>(</FONT><FONT color=#009900>bool</FONT> mil<FONT color=#990000>,</FONT> string loc<FONT color=#990000>,</FONT> <FONT color=#009900>int</FONT> diff<FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+343:    string <B><FONT color=#000000>get_location</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B><FONT color=#990000>;</FONT>
+344:    <FONT color=#009900>int</FONT> <B><FONT color=#000000>get_hours</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B><FONT color=#990000>;</FONT>
+345: <B><FONT color=#0000ff>private</FONT></B><FONT color=#990000>:</FONT>
+346:    string location<FONT color=#990000>;</FONT>
+347:    <FONT color=#009900>int</FONT> time_difference<FONT color=#990000>;</FONT>
+348: <FONT color=#ff0000>}</FONT><FONT color=#990000>;</FONT>
+349: 
+350: TravelClock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>TravelClock</FONT></B><FONT color=#990000>(</FONT><FONT color=#009900>bool</FONT> mil<FONT color=#990000>,</FONT> string loc<FONT color=#990000>,</FONT> <FONT color=#009900>int</FONT> diff<FONT color=#990000>)</FONT>
+351:    <FONT color=#990000>:</FONT> <B><FONT color=#000000>Clock</FONT></B><FONT color=#990000>(</FONT>mil<FONT color=#990000>)</FONT>
+352: <FONT color=#ff0000>{</FONT>
+353:    location <FONT color=#990000>=</FONT> loc<FONT color=#990000>;</FONT>
+354:    time_difference <FONT color=#990000>=</FONT> diff<FONT color=#990000>;</FONT>
+355:    <B><FONT color=#0000ff>while</FONT></B> <FONT color=#990000>(</FONT>time_difference <FONT color=#990000>&lt;</FONT> <FONT color=#993399>0</FONT><FONT color=#990000>)</FONT> 
+356:       time_difference <FONT color=#990000>=</FONT> time_difference <FONT color=#990000>+</FONT> <FONT color=#993399>24</FONT><FONT color=#990000>;</FONT>
+357: <FONT color=#ff0000>}</FONT>
+358: 
+359: string TravelClock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>get_location</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B>
+360: <FONT color=#ff0000>{</FONT>
+361:    <B><FONT color=#0000ff>return</FONT></B> location<FONT color=#990000>;</FONT>
+362: <FONT color=#ff0000>}</FONT>
+363: 
+364: <FONT color=#009900>int</FONT> TravelClock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>get_hours</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>const</FONT></B>
+365: <FONT color=#ff0000>{</FONT>
+366:    <FONT color=#009900>int</FONT> h <FONT color=#990000>=</FONT> Clock<FONT color=#990000>:</FONT><FONT color=#990000>:</FONT><B><FONT color=#000000>get_hours</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+367:    <B><FONT color=#0000ff>if</FONT></B> <FONT color=#990000>(</FONT><B><FONT color=#000000>is_military</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT><FONT color=#990000>)</FONT>
+368:       <B><FONT color=#0000ff>return</FONT></B> <FONT color=#990000>(</FONT>h <FONT color=#990000>+</FONT> time_difference<FONT color=#990000>)</FONT> <FONT color=#990000>%</FONT> <FONT color=#993399>24</FONT><FONT color=#990000>;</FONT>
+369:    <B><FONT color=#0000ff>else</FONT></B>
+370:    <FONT color=#ff0000>{</FONT>
+371:       h <FONT color=#990000>=</FONT> <FONT color=#990000>(</FONT>h <FONT color=#990000>+</FONT> time_difference<FONT color=#990000>)</FONT> <FONT color=#990000>%</FONT> <FONT color=#993399>12</FONT><FONT color=#990000>;</FONT>
+372:       <B><FONT color=#0000ff>if</FONT></B> <FONT color=#990000>(</FONT>h <FONT color=#990000>=</FONT><FONT color=#990000>=</FONT> <FONT color=#993399>0</FONT><FONT color=#990000>)</FONT> <B><FONT color=#0000ff>return</FONT></B> <FONT color=#993399>12</FONT><FONT color=#990000>;</FONT>
+373:       <B><FONT color=#0000ff>else</FONT></B> <B><FONT color=#0000ff>return</FONT></B> h<FONT color=#990000>;</FONT>
+374:    <FONT color=#ff0000>}</FONT>
+375: <FONT color=#ff0000>}</FONT>
+376: 
+377: <FONT color=#009900>int</FONT> <B><FONT color=#000000>main</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT>
+378: <FONT color=#ff0000>{</FONT>
+379:    vector<FONT color=#ff0000>&lt;Clock*&gt;</FONT> <B><FONT color=#000000>clocks</FONT></B><FONT color=#990000>(</FONT><FONT color=#993399>3</FONT><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+380:    clocks<FONT color=#990000>[</FONT><FONT color=#993399>0</FONT><FONT color=#990000>]</FONT> <FONT color=#990000>=</FONT> <B><FONT color=#0000ff>new</FONT></B> <B><FONT color=#000000>Clock</FONT></B><FONT color=#990000>(</FONT><B><FONT color=#0000ff>true</FONT></B><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+381:    clocks<FONT color=#990000>[</FONT><FONT color=#993399>1</FONT><FONT color=#990000>]</FONT> <FONT color=#990000>=</FONT> <B><FONT color=#0000ff>new</FONT></B> <B><FONT color=#000000>TravelClock</FONT></B><FONT color=#990000>(</FONT><B><FONT color=#0000ff>true</FONT></B><FONT color=#990000>,</FONT> <FONT color=#ff0000>"Rome"</FONT><FONT color=#990000>,</FONT> <FONT color=#993399>9</FONT><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+382:    clocks<FONT color=#990000>[</FONT><FONT color=#993399>2</FONT><FONT color=#990000>]</FONT> <FONT color=#990000>=</FONT> <B><FONT color=#0000ff>new</FONT></B> <B><FONT color=#000000>TravelClock</FONT></B><FONT color=#990000>(</FONT><B><FONT color=#0000ff>false</FONT></B><FONT color=#990000>,</FONT> <FONT color=#ff0000>"Tokyo"</FONT><FONT color=#990000>,</FONT> <FONT color=#990000>-</FONT><FONT color=#993399>7</FONT><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT>
+383: 
+384:    <B><FONT color=#0000ff>for</FONT></B> <FONT color=#990000>(</FONT><FONT color=#009900>int</FONT> i <FONT color=#990000>=</FONT> <FONT color=#993399>0</FONT><FONT color=#990000>;</FONT> i <FONT color=#990000>&lt;</FONT> clocks<FONT color=#990000>.</FONT><B><FONT color=#000000>size</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT><FONT color=#990000>;</FONT> i<FONT color=#990000>+</FONT><FONT color=#990000>+</FONT><FONT color=#990000>)</FONT>
+385:    <FONT color=#ff0000>{</FONT>
+386:       cout <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> clocks<FONT color=#990000>[</FONT>i<FONT color=#990000>]</FONT><FONT color=#990000>-</FONT><FONT color=#990000>&gt;</FONT><B><FONT color=#000000>get_location</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> <FONT color=#ff0000>" time: "</FONT> 
+387:          <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> clocks<FONT color=#990000>[</FONT>i<FONT color=#990000>]</FONT><FONT color=#990000>-</FONT><FONT color=#990000>&gt;</FONT><B><FONT color=#000000>get_hours</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> <FONT color=#ff0000>":"</FONT>
+388:          <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> <B><FONT color=#000000>setw</FONT></B><FONT color=#990000>(</FONT><FONT color=#993399>2</FONT><FONT color=#990000>)</FONT> <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> <B><FONT color=#000000>setfill</FONT></B><FONT color=#990000>(</FONT><FONT color=#ff0000>'0'</FONT><FONT color=#990000>)</FONT> 
+389:          <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> clocks<FONT color=#990000>[</FONT>i<FONT color=#990000>]</FONT><FONT color=#990000>-</FONT><FONT color=#990000>&gt;</FONT><B><FONT color=#000000>get_minutes</FONT></B><FONT color=#990000>(</FONT><FONT color=#990000>)</FONT> 
+390:          <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> <B><FONT color=#000000>setfill</FONT></B><FONT color=#990000>(</FONT><FONT color=#ff0000>' '</FONT><FONT color=#990000>)</FONT> <FONT color=#990000>&lt;</FONT><FONT color=#990000>&lt;</FONT> <FONT color=#ff0000>"\n"</FONT><FONT color=#990000>;</FONT>
+391:    <FONT color=#ff0000>}</FONT>
+392:    <B><FONT color=#0000ff>return</FONT></B> <FONT color=#993399>0</FONT><FONT color=#990000>;</FONT>
+393: <FONT color=#ff0000>}</FONT>
+394: 
+</TT>
+</PRE></BODY></HTML>

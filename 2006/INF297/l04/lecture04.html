@@ -1,0 +1,219 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1251">
+  <meta name="GENERATOR"
+ content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+  <title>lecture4</title>
+</head>
+<body>
+<h2>4. Динамично оптимиране<br>
+</h2>
+<h3>Числа на Фибоначи [8.3.1]</h3>
+<p>* Числа на Фибоначи: <i>F</i>(0) = <i>F</i>(1) = 1 и <i>F</i>(<i>i</i>)<i><sub>
+</sub></i>= <i>F</i>(<i>i -</i>1) + <i>F</i>(<i>i -</i> 2) за <i>i</i>
+&gt; 1.
+</p>
+<center>1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...</center>
+* Класически рекурсивен (неефективен) алгоритъм:
+<blockquote>
+  <pre>unsigned long fib(unsigned n) <br>{  if (n &lt; 2) return 1; <br>   return fib(n - 1) + fib(n - 2); <br>}</pre>
+</blockquote>
+Експоненциална сложност - многократно извикване на
+функцията с един и същи аргумент!
+<p>* Динамично програмиране - със запомняне на вече пресметнатите
+стойности:
+</p>
+<blockquote>
+  <pre>#include &lt;stdio.h&gt; <br>#define MAX 256 <br><br>unsigned n = 10; <br>unsigned long m[MAX + 1];<br><br>unsigned long fibMemo(unsigned n) <br>{ if (n &lt; 2) m[n] = 1; <br>  else if (0 == m[n]) m[n] = fibMemo(n - 1)+ fibMemo(n - 2); <br>  return m[n];<br>}<br>int main() <br>{ memset(m, 0, MAX*sizeof(*m)); <br>  scanf("%u", &amp;n); <br>  printf("\n%u-тото число на Фибоначи e", %lu", n, fibMemo(n)); <br>  return 0; <br>}</pre>
+</blockquote>
+Линейна сложност - всяка стойност се пресмята само веднаж.
+<hr width="100%">
+<h3>Биномни коефициенти [8.3.2]</h3>
+<p>Нека <i>C</i>(<i>n</i>, <i>k</i>) е биномният
+коефициент
+"<i>n</i> над <i>k</i>" или комбинации без повторения от <i>n</i>
+елемента
+<i>k</i>-ти клас.&nbsp; <br>
+Общата формула е: <i>C</i>(<i>n</i>, <i>k</i>)
+= <i>n</i>!/((<i>n - k</i>)! <i>k</i>!), а от триъгълника на Паскал
+имаме
+и рекурентна формула:
+</p>
+<center><i>C</i>(<i>n</i>, <i>k</i>) = 1,&nbsp; за <i>k</i> = 0 или <i>k
+= n</i>;
+<i>C</i>(<i>n</i>, <i>k</i>) = <i>C</i>(<i>n </i>- 1, <i>k </i>-
+1) + <i>C</i>(<i>n -</i> 1,
+<i>k</i>),&nbsp; за <i>0 &lt; k &lt; n</i>;
+<i>C</i>(<i>n</i>, <i>k</i>) = 0,&nbsp; за <i>k</i> &gt; <i>n.</i></center>
+<p>
+* Рекурсивен неефективен алгоритъм:
+</p>
+<blockquote>
+  <pre>unsigned long binom(unsigned n, unsigned k)<br>{ if (k &gt; n) return 0;<br>  if (k == 0 || k == n) return 1;<br>  return binom(n - 1, k - 1) + binom(n - 1, k); <br>}</pre>
+</blockquote>
+<p>* Динамично програмиране - със запомняне на вече пресметнатите
+стойности.
+Не е необходимо да се пази цялата таблица
+<i>C</i>(<i>n</i>, <i>k</i>), а само един ред от таблицата -
+предишния.
+</p>
+<blockquote>
+  <pre>#define MAX 200<br>unsigned long m[MAX];<br>unsigned long binomDynam(unsigned n, unsigned k)<br>{ unsigned i, j;<br>  for (i = 0; i &lt;= n; i++)<br>  { m[i] = 1;<br>    if (i &gt; 1)<br>    { if (k &lt; i - 1) j = k; else j = i - 1;<br>      for (; j &gt;= 1; j--) m[j] += m[j - 1];<br>    }<br>  }<br>  return m[k];<br>}<br></pre>
+</blockquote>
+Пример: <i>n</i> = 5,<i> k</i>
+= 3; <i>C</i>(5,3) = 10.
+<center>
+<table border="1" cellpadding="4" cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="font-family: monospace;">i</td>
+      <td style="vertical-align: top; font-family: monospace;">k&lt;i-1<br>
+      </td>
+      <td style="font-family: monospace; text-align: center;">начално j</td>
+      <td style="font-family: monospace;">m <font color="#000000">0&nbsp;
+1&nbsp; 2&nbsp; 3&nbsp; 4</font></td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;">0</td>
+      <td style="vertical-align: top; font-family: monospace;">-<br>
+      </td>
+      <td style="font-family: monospace; text-align: center;">-</td>
+      <td style="font-family: monospace;"><font color="#000000">&nbsp;
+1&nbsp; 1&nbsp; 1&nbsp; 1&nbsp; 1</font></td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;">1</td>
+      <td style="vertical-align: top; font-family: monospace;">-<br>
+      </td>
+      <td style="font-family: monospace; text-align: center;">-</td>
+      <td style="font-family: monospace;"><font color="#000000">&nbsp;
+1&nbsp; 1&nbsp; 1&nbsp; 1&nbsp; 1</font></td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;">2</td>
+      <td style="vertical-align: top; font-family: monospace;">3&lt;2-1<br>
+      </td>
+      <td style="font-family: monospace; text-align: center;">1<br>
+      </td>
+      <td style="font-family: monospace;"><font color="#000000">&nbsp;
+1&nbsp; 2&nbsp; 1&nbsp; 1&nbsp; 1</font></td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;">3</td>
+      <td style="vertical-align: top; font-family: monospace;">3&lt;3-1<br>
+      </td>
+      <td style="font-family: monospace; text-align: center;">2</td>
+      <td style="font-family: monospace;"><font color="#000000">&nbsp;
+1&nbsp; 3&nbsp; 3&nbsp; 1&nbsp; 1</font></td>
+    </tr>
+    <tr>
+      <td style="font-family: monospace;">4</td>
+      <td style="vertical-align: top; font-family: monospace;">3&lt;4-1<br>
+      </td>
+      <td style="font-family: monospace; text-align: center;">3</td>
+      <td style="font-family: monospace;"><font color="#000000">&nbsp;
+1&nbsp; 4&nbsp; 6&nbsp; </font>4<font color="#000000">&nbsp; 1&nbsp;</font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">5<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">3&lt;5-1<br>
+      </td>
+      <td
+ style="vertical-align: top; font-family: monospace; text-align: center;">3<br>
+      </td>
+      <td style="vertical-align: top; font-family: monospace;">&nbsp;
+1&nbsp; 5 10 <span style="color: rgb(255, 0, 0);">10</span>&nbsp; 5<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</center>
+Този алгоритъм има сложност <i>O</i>(<i>nk</i>).<br>
+<hr style="width: 100%; height: 2px;">
+<p style="font-weight: bold;">Задача <span
+ style="color: rgb(255, 0, 0);">4a</span>. Числа на Фибоначи<br>
+</p>
+<p>Да се напише програма (<span
+ style="color: rgb(255, 0, 0); font-family: monospace;">4a.cpp</span>
+или <span style="color: rgb(255, 0, 0); font-family: monospace;">4a.c</span>)
+за пресмятане на <span style="font-style: italic;">n</span>-тото
+число на Фибоначи със запомняне
+на вече пресметнати стойности и използване на формулата:<br>
+</p>
+<blockquote><i>F</i>(<i>n</i>) = <i>F</i><sup>2</sup>(<i>n</i>/2) + <i>F</i><sup>2</sup>(<i>n</i>/2
+- 1), за <i>n</i> четно; <i>F</i>(<i>n</i>) = <i>F</i>(<i>n</i> - 1)
++ <i>F</i>(<i>n</i> -
+2),
+за <i>n</i> нечетно.</blockquote>
+Да се намери най-голямото <span style="font-style: italic;">n</span>,
+за което написаната програма пресмята вярно <i>F</i>(<i>n</i>).
+(Логаритмична сложност.)
+<hr style="width: 100%; height: 2px;">
+<h3><span style="font-weight: bold;">Задачи за симулации</span></h3>
+<h4>
+Задача <span style="color: rgb(255, 0, 0);">4b</span>. Едномерен
+дискретен свят<span style="font-weight: bold;"></span></h4>
+<h4><span style="font-weight: bold;"></span></h4>
+<span style="font-weight: bold;"></span>На една отсечка (едномерен
+свят) с дължина N едновременно се
+раждат M обитатели на точки от отсечката с цели координати. Всеки
+току-що роден обитател има две възможности: да тръгне наляво
+(отрицателна посока) или да тръгне надясно (положителна посока).
+Скоростта на движение на всички обитатели е еднаква и е равна на
+единица разстояние за единица време. По време на движението на един
+обитател могат да се случат две неща: или той да се сблъска с друг
+обитател
+или да достигне до края на отсечката. В първия случай двамата обитатели
+се поздравляват и тръгват в обратни посоки, а във втория случай
+обитателят пада от отсечката и престава да съществува. Да се напише
+програма (<span style="color: rgb(255, 0, 0); font-family: monospace;">4b.cpp</span>
+или <span style="color: rgb(255, 0, 0); font-family: monospace;">4b.c</span>),
+която намира в
+кой момент от време и кой последен обитател на едномерния свят ще
+престане да съществува.<span style="font-weight: bold;"></span><span
+ style="font-weight: bold;"><br>
+Вход</span><br>
+На стандартния вход се четат няколко примри. Всеки пример започва с две
+цели положителни числа N и M, след което следват M реда с данни за
+обитателите - посока на движение, място на раждане и име. Посоките на
+движение са&nbsp; p - положителна и n - отрицателна. различните
+обитатели се раждат на различни места.&nbsp; Имената са низове до 10
+букви. Входът завършва с 0 0.<br>
+<span style="font-weight: bold;">Изход</span><br>
+На стандартния изход се отпечатват времето на падане на последния
+обитател и неговото име.<br>
+<br>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Пример за вход<br>
+      <span style="font-family: monospace;"> </span><span
+ style="font-family: monospace;">10 4</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">p 1 Helga </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">n 3 Joanna</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">p 5 Venus </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">n 7 Clever</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">0 0</span><br>
+      </td>
+      <td style="vertical-align: top;">Изход - решение на примерния вход<br>
+      <span style="font-family: monospace;">9 Venus</span></td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"></span><span
+ style="color: rgb(255, 0, 0); font-weight: bold;"></span><span
+ style="font-weight: bold;"></span><br>
+<a href="A.pdf">Задача</a>, дадена на <a href="http://www.acm.ro/">регионалното
+състезание на ACM</a> в Букурещ през 2005 година.<br>
+<hr width="100%">
+</body>
+</html>

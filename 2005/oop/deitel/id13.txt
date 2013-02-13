@@ -1,0 +1,281 @@
+// 13. Предефиниране на членове от базовия клас в производния клас.
+// Прехвърляне на указатели от базовия към производния клас и обратно. 
+//
+// Fig. 10.1: point.h
+// Point class definition represents an x-y coordinate pair.
+#ifndef POINT_H
+#define POINT_H
+
+class Point {
+
+public:
+   Point( int = 0, int = 0 ); // default constructor
+
+   void setX( int );  // set x in coordinate pair
+   int getX() const;  // return x from coordinate pair
+   
+   void setY( int );  // set y in coordinate pair
+   int getY() const;  // return y from coordinate pair
+   
+   void print() const;  // output Point object
+
+private: 
+   int x;  // x part of coordinate pair
+   int y;  // y part of coordinate pair
+
+}; // end class Point
+
+#endif
+/****/
+// Fig. 10.2: point.cpp
+// Point class member-function definitions.
+#include <iostream>  
+
+using std::cout;
+
+#include "point.h"   // Point class definition
+
+// default constructor
+Point::Point( int xValue, int yValue )
+   : x( xValue ), y( yValue )
+{
+   // empty body 
+
+} // end Point constructor
+
+// set x in coordinate pair
+void Point::setX( int xValue )
+{
+   x = xValue; // no need for validation
+
+} // end function setX
+
+// return x from coordinate pair
+int Point::getX() const
+{
+   return x;
+
+} // end function getX
+
+// set y in coordinate pair
+void Point::setY( int yValue )
+{
+   y = yValue; // no need for validation
+
+} // end function setY
+
+// return y from coordinate pair
+int Point::getY() const
+{
+   return y;
+
+} // end function getY
+   
+// output Point object
+void Point::print() const
+{
+   cout << '[' << getX() << ", " << getY() << ']';
+
+} // end function print
+/****/
+// Fig. 10.3: circle.h
+// Circle class contains x-y coordinate pair and radius.
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include "point.h"  // Point class definition
+
+class Circle : public Point {
+
+public:
+
+   // default constructor
+   Circle( int = 0, int = 0, double = 0.0 );  
+
+   void setRadius( double );   // set radius
+   double getRadius() const;   // return radius
+
+   double getDiameter() const;       // return diameter
+   double getCircumference() const;  // return circumference
+   double getArea() const;           // return area
+
+   void print() const;         // output Circle object
+
+private: 
+   double radius;  // Circle's radius
+
+}; // end class Circle
+
+#endif 
+/****/
+// Fig. 10.4: circle.cpp
+// Circle class member-function definitions.
+#include <iostream>  
+
+using std::cout;
+
+#include "circle.h"   // Circle class definition
+
+// default constructor
+Circle::Circle( int xValue, int yValue, double radiusValue )
+   : Point( xValue, yValue )  // call base-class constructor
+{
+   setRadius( radiusValue );
+
+} // end Circle constructor
+
+// set radius 
+void Circle::setRadius( double radiusValue )
+{
+   radius = ( radiusValue < 0.0 ? 0.0 : radiusValue );
+
+} // end function setRadius
+
+// return radius 
+double Circle::getRadius() const
+{
+   return radius;
+
+} // end function getRadius
+
+// calculate and return diameter
+double Circle::getDiameter() const
+{
+   return 2 * getRadius();
+
+} // end function getDiameter
+
+// calculate and return circumference
+double Circle::getCircumference() const
+{
+   return 3.14159 * getDiameter();
+
+} // end function getCircumference
+
+// calculate and return area
+double Circle::getArea() const
+{
+   return 3.14159 * getRadius() * getRadius();
+
+} // end function getArea
+
+// output Circle object
+void Circle::print() const
+{
+   cout << "center = ";
+   Point::print();  // invoke Point's print function
+   cout << "; radius = " << getRadius();
+
+} // end function print
+/****/
+// Fig. 10.5: fig10_05.cpp
+// Aiming base-class and derived-class pointers at base-class
+// and derived-class objects, respectively.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::fixed;
+
+#include <iomanip>
+
+using std::setprecision;
+
+#include "point.h"   // Point class definition
+#include "circle.h"  // Circle class definition
+
+int main()
+{
+   Point point( 30, 50 );
+   Point *pointPtr = 0;    // base-class pointer
+
+   Circle circle( 120, 89, 2.7 );
+   Circle *circlePtr = 0;  // derived-class pointer
+
+   // set floating-point numeric formatting
+   cout << fixed << setprecision( 2 );
+
+   // output objects point and circle
+   cout << "Print point and circle objects:"
+        << "\nPoint: ";
+   point.print();   // invokes Point's print
+   cout << "\nCircle: ";
+   circle.print();  // invokes Circle's print 
+
+   // aim base-class pointer at base-class object and print
+   pointPtr = &point;
+   cout << "\n\nCalling print with base-class pointer to " 
+        << "\nbase-class object invokes base-class print "
+        << "function:\n";
+   pointPtr->print();  // invokes Point's print
+
+   // aim derived-class pointer at derived-class object
+   // and print
+   circlePtr = &circle;
+   cout << "\n\nCalling print with derived-class pointer to "
+        << "\nderived-class object invokes derived-class "
+        << "print function:\n";
+   circlePtr->print();  // invokes Circle's print
+
+   // aim base-class pointer at derived-class object and print
+   pointPtr = &circle;
+   cout << "\n\nCalling print with base-class pointer to " 
+        << "derived-class object\ninvokes base-class print "
+        << "function on that derived-class object\n";
+   pointPtr->print();  // invokes Point's print
+   cout << endl;
+
+   return 0;
+
+} // end main
+/*****/    /****/
+// Fig. 10.6: fig10_06.cpp
+// Aiming a derived-class pointer at a base-class object.
+#include "point.h"   // Point class definition
+#include "circle.h"  // Circle class definition
+
+int main()
+{
+   Point point( 30, 50 );         
+   Circle *circlePtr = 0; 
+
+   // aim derived-class pointer at base-class object     
+   circlePtr = &point;  // Error: a Point is not a Circle
+
+   return 0;
+
+} // end main
+/****/    /****/
+// Fig. 10.7: fig10_07.cpp
+// Attempting to invoke derived-class-only member functions
+// through a base-class pointer.
+#include "point.h"   // Point class definition
+#include "circle.h"  // Circle class definition
+
+int main()
+{
+   Point *pointPtr = 0;
+   Circle circle( 120, 89, 2.7 );
+
+   // aim base-class pointer at derived-class object
+   pointPtr = &circle;
+
+   // invoke base-class member functions on derived-class
+   // object through base-class pointer
+   int x = pointPtr->getX();
+   int y = pointPtr->getY();
+   pointPtr->setX( 10 );
+   pointPtr->setY( 10 );
+   pointPtr->print();
+
+   // attempt to invoke derived-class-only member functions
+   // on derived-class object through base-class pointer   
+   double radius = pointPtr->getRadius();
+   pointPtr->setRadius( 33.33 );
+   double diameter = pointPtr->getDiameter();
+   double circumference = pointPtr->getCircumference();
+   double area = pointPtr->getArea();
+
+   return 0;
+
+} // end main

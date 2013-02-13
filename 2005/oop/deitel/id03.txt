@@ -1,0 +1,277 @@
+// 3. Копиране и константи. Почленно копиране. 
+//    Обекти константи и константи членове на клас - функции и данни.
+//
+// Fig. 6.24: fig06_24.cpp 
+// Demonstrating that class objects can be assigned
+// to each other using default memberwise assignment.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+// class Date definition
+class Date {
+
+public:
+   Date( int = 1, int = 1, int = 2000 ); // default constructor
+   void print();
+
+private:
+   int month;
+   int day;
+   int year;
+
+}; // end class Date
+
+// Date constructor with no range checking
+Date::Date( int m, int d, int y )
+{
+   month = m;
+   day = d;
+   year = y;
+
+} // end constructor Date
+
+// print Date in the format mm-dd-yyyy
+void Date::print() 
+{ 
+   cout << month << '-' << day << '-' << year; 
+
+} // end function print
+
+int main()
+{
+   Date date1( 7, 4, 2002 );
+   Date date2;  // date2 defaults to 1/1/1990
+
+   cout << "date1 = ";
+   date1.print();
+   cout << "\ndate2 = ";
+   date2.print();
+
+   date2 = date1;   // default memberwise assignment
+
+   cout << "\n\nAfter default memberwise assignment, date2 = ";
+   date2.print();
+   cout << endl;
+
+   return 0;
+
+} // end main
+/**********************************************************/
+// Fig. 7.1: time5.h
+// Definition of class Time.
+// Member functions defined in time5.cpp.
+#ifndef TIME5_H
+#define TIME5_H
+
+class Time {
+
+public:
+   Time( int = 0, int = 0, int = 0 );  // default constructor
+
+   // set functions
+   void setTime( int, int, int );  // set time
+   void setHour( int );            // set hour
+   void setMinute( int );          // set minute
+   void setSecond( int );          // set second
+
+   // get functions (normally declared const)
+   int getHour() const;            // return hour
+   int getMinute() const;          // return minute
+   int getSecond() const;          // return second
+
+   // print functions (normally declared const)
+   void printUniversal() const;    // print universal time
+   void printStandard();           // print standard time
+
+private:
+   int hour;    // 0 - 23 (24-hour clock format)
+   int minute;  // 0 - 59
+   int second;  // 0 - 59
+
+}; // end class Time
+
+#endif
+/****/
+// Fig. 7.2: time5.cpp
+// Member-function definitions for class Time.
+#include <iostream>
+
+using std::cout;
+
+#include <iomanip>
+
+using std::setfill;
+using std::setw;
+
+// include definition of class Time from time5.h
+#include "time5.h"
+
+// constructor function to initialize private data;
+// calls member function setTime to set variables;
+// default values are 0 (see class definition)
+Time::Time( int hour, int minute, int second ) 
+{ 
+   setTime( hour, minute, second ); 
+
+} // end Time constructor
+
+// set hour, minute and second values
+void Time::setTime( int hour, int minute, int second )
+{
+   setHour( hour );
+   setMinute( minute );
+   setSecond( second );
+
+} // end function setTime
+
+// set hour value
+void Time::setHour( int h ) 
+{
+   hour = ( h >= 0 && h < 24 ) ? h : 0; 
+
+} // end function setHour
+
+// set minute value
+void Time::setMinute( int m )
+{ 
+   minute = ( m >= 0 && m < 60 ) ? m : 0; 
+
+} // end function setMinute
+
+// set second value
+void Time::setSecond( int s )
+{ 
+   second = ( s >= 0 && s < 60 ) ? s : 0; 
+
+} // end function setSecond
+
+// return hour value
+int Time::getHour() const
+{ 
+   return hour; 
+
+} // end function getHour
+
+// return minute value
+int Time::getMinute() const
+{
+   return minute; 
+
+} // end function getMinute
+
+// return second value
+int Time::getSecond() const
+{ 
+   return second;
+   
+} // end function getSecond
+
+// print Time in universal format
+void Time::printUniversal() const
+{
+   cout << setfill( '0' ) << setw( 2 ) << hour << ":"
+        << setw( 2 ) << minute << ":"
+        << setw( 2 ) << second;
+
+} // end function printUniversal
+
+// print Time in standard format
+void Time::printStandard()
+{
+   cout << ( ( hour == 0 || hour == 12 ) ? 12 : hour % 12 )
+        << ":" << setfill( '0' ) << setw( 2 ) << minute
+        << ":" << setw( 2 ) << second 
+        << ( hour < 12 ? " AM" : " PM" );
+
+} // end function printStandard
+/****/
+// Fig. 7.3: fig07_03.cpp
+// Attempting to access a const object with
+// non-const member functions.
+
+// include Time class definition from time5.h
+#include "time5.h"
+
+int main()
+{
+   Time wakeUp( 6, 45, 0 );       // non-constant object
+   const Time noon( 12, 0, 0 );   // constant object
+
+                          // OBJECT      MEMBER FUNCTION
+   wakeUp.setHour( 18 );  // non-const   non-const
+
+   noon.setHour( 12 );    // const       non-const
+
+   wakeUp.getHour();      // non-const   const
+
+   noon.getMinute();      // const       const
+   noon.printUniversal(); // const       const
+
+   noon.printStandard();  // const       non-const
+
+   return 0;
+
+} // end main
+/*****************************************************/
+// Fig. 7.4: fig07_04.cpp
+// Using a member initializer to initialize a
+// constant of a built-in data type.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+class Increment {
+
+public:
+   Increment( int c = 0, int i = 1 );  // default constructor
+
+   void addIncrement() 
+   { 
+      count += increment; 
+
+   } // end function addIncrement
+
+   void print() const;     // prints count and increment
+
+private:
+   int count;
+   const int increment;    // const data member
+
+}; // end class Increment
+
+// constructor 
+Increment::Increment( int c, int i )
+   : count( c ),     // initializer for non-const member
+     increment( i )  // required initializer for const member     
+{ 
+   // empty body
+
+} // end constructor Increment
+
+// print count and increment values
+void Increment::print() const
+{
+   cout << "count = " << count
+        << ", increment = " << increment << endl;
+
+} // end function print
+
+int main()
+{
+   Increment value( 10, 5 );
+
+   cout << "Before incrementing: ";
+   value.print();
+
+   for ( int j = 0; j < 3; j++ ) {
+      value.addIncrement();
+      cout << "After increment " << j + 1 << ": ";
+      value.print();
+   }
+
+   return 0;
+
+} // end main

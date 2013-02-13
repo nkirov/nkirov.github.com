@@ -1,0 +1,683 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os6</title>
+</head>
+<body>
+<b>21. Планиране (разписание) на един процесор</b>
+<br><b>Типове планирания. Алгоритми за планиране.</b><b></b>
+<p>&nbsp;&nbsp;&nbsp; Цели:
+<br>&nbsp; - бързи отговори на интерактивните потребители;
+<br>&nbsp; - бързо изпълнение на заданията;
+<br>&nbsp; - ефективно използване на процесора.
+<p><b>9.1 Типове планирания</b>
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td>Дългосрочно планиране</td>
+
+<td>Решение да се добави процес към списъка от процеси за изпълнение.</td>
+</tr>
+
+<tr>
+<td>Средносрочно планиране</td>
+
+<td>Решение да се добави процес към процесите, които са частично или напълно
+в паметта.</td>
+</tr>
+
+<tr>
+<td>Краткосрочно планиране</td>
+
+<td>Решение кой процес да бъде изпълняван от процесора.</td>
+</tr>
+
+<tr>
+<td>I/O планиране</td>
+
+<td>Решение кой процес, чакащ за I/O ресурс, да му бъде даден свободен
+ресурс.&nbsp;</td>
+</tr>
+</table>
+
+<p>--- FIGURE 9.1 ---&nbsp;&nbsp; --- FIGURE 9.2 ---&nbsp;&nbsp;&nbsp;
+--- FIGURE 9.3 ---
+<p>** Дългосрочно планиране.
+<br>&nbsp;&nbsp;&nbsp; Многопрограмна система - "степен на многопрограмност".
+<br>&nbsp;&nbsp;&nbsp; Преобразуване на задание в процес:
+<br>&nbsp; - кога да се създаде нов процес?
+<br>&nbsp; - кое задание да се преобразува в процес?
+<br>** Средносрочно планиране - част от прехвърлящата функция (swaping
+function), виртуална памет.
+<br>** Краткосрочно планиране - работа на диспечера.
+<br>&nbsp;&nbsp;&nbsp; Диспечерът се задейства при следните събития:
+<br>&nbsp;&nbsp;&nbsp; - прекъсване на часовника;
+<br>&nbsp;&nbsp;&nbsp; - I/O прекъсване;
+<br>&nbsp;&nbsp;&nbsp; - извиквания на функции на ОС;
+<br>&nbsp;&nbsp;&nbsp; - сигнали.
+<br>
+<hr WIDTH="100%">
+<br><b>9.2 Алгоритми за планиране</b>
+<br>** Критерии за краткосрочно планиране:
+<br>&nbsp;-- ориентирани към потребителя (user-oriented);
+<br>&nbsp;-- ориентирани към системата (system-oriented).
+<br>** Използване на приоритети.
+<br>--- FIGURE 9.4 ---
+<p>
+<hr WIDTH="100%">** Алтернативи за политика на планиране.
+<br>* Първи дошел, първи обслужен (First Come First Served - FCFS)
+<br>* Кръгово (Round Robin - RR).
+<br>* Най-късия процес (Shortest Process Next - SPN).
+<br>&nbsp;&nbsp;&nbsp; Трудности при определяне на времето за работа на
+всеки процес - предсказване на времето за работа на интерактивни процеси.
+<br>* Най-малко оставащо време (Shortest Remaining Time - SRT).
+<br>* Най-голямо отношение за отговор (Highest Responce Ratio Next - HRRN).
+<br>Пресмята се RR = (w+s)/s, където w е времто за чакане, s е времето
+за обслужване на процеса (service time).
+<br>* Обратна връзка (Feedback - FB).
+<br>Понижаване на приоритета след всяко прекъсване. Варианти с времето
+за изпълнение на процеси от различни опашки - 2<sup>i-1</sup> кванта време
+за процес от i-тата опашка (с приоритет i).
+<p>Пример за група процеси и обслужването им.
+<br>--- FIGURE 9.5 ---
+<table CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td VALIGN=TOP>
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="70%" >
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td ALIGN=CENTER VALIGN=CENTER>Процеси</td>
+
+<td>Време на постъпване&nbsp;
+<br>[arrival time]</td>
+
+<td>Време за работа на процеса&nbsp;
+<br>[service time]</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>A</td>
+
+<td>0</td>
+
+<td ALIGN=CENTER VALIGN=CENTER>3</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>
+<center>B</center>
+</td>
+
+<td>2</td>
+
+<td>6</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>C</td>
+
+<td>4</td>
+
+<td>4</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>D</td>
+
+<td>6</td>
+
+<td>5</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>E</td>
+
+<td>8</td>
+
+<td>2</td>
+</tr>
+</table>
+</td>
+
+<td></td>
+</tr>
+</table>
+
+<p>Сравнение за времената за обслужване на процесите:
+<center><table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td ALIGN=CENTER VALIGN=CENTER></td>
+
+<td ALIGN=LEFT>Process&nbsp;
+<br>Arrival Time&nbsp;
+<br>Service Time [T<sub>s</sub>]</td>
+
+<td>A&nbsp;
+<br>0&nbsp;
+<br>3</td>
+
+<td>B&nbsp;
+<br>2&nbsp;
+<br>6</td>
+
+<td>C&nbsp;
+<br>4&nbsp;
+<br>4</td>
+
+<td>D&nbsp;
+<br>6&nbsp;
+<br>4</td>
+
+<td>E&nbsp;
+<br>8&nbsp;
+<br>2</td>
+
+<td>Mean</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>FCFS</td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>3&nbsp;
+<br>3&nbsp;
+<br>1.00</td>
+
+<td>9&nbsp;
+<br>7&nbsp;
+<br>1.17</td>
+
+<td>13&nbsp;
+<br>9&nbsp;
+<br>2.25</td>
+
+<td>18&nbsp;
+<br>12&nbsp;
+<br>2.40</td>
+
+<td>20&nbsp;
+<br>12&nbsp;
+<br>6.00</td>
+
+<td>
+<br>8.20&nbsp;
+<br>2.56</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>RR q=1</td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>4&nbsp;
+<br>4&nbsp;
+<br>1.33</td>
+
+<td>18&nbsp;
+<br>16&nbsp;
+<br>2.67</td>
+
+<td>17&nbsp;
+<br>13&nbsp;
+<br>3.25</td>
+
+<td>20&nbsp;
+<br>14&nbsp;
+<br>2.80</td>
+
+<td>15&nbsp;
+<br>7&nbsp;
+<br>3.50</td>
+
+<td>
+<br>10.80&nbsp;
+<br>2.71</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>RR q=4</td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>3&nbsp;
+<br>3&nbsp;
+<br>1.00</td>
+
+<td>17&nbsp;
+<br>15&nbsp;
+<br>2.50</td>
+
+<td>11&nbsp;
+<br>7&nbsp;
+<br>1.75</td>
+
+<td>20&nbsp;
+<br>14&nbsp;
+<br>2.80</td>
+
+<td>19&nbsp;
+<br>11&nbsp;
+<br>5.50</td>
+
+<td>
+<br>10.00&nbsp;
+<br>2.29</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>SPN</td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>3&nbsp;
+<br>3&nbsp;
+<br>1.00</td>
+
+<td>9&nbsp;
+<br>7&nbsp;
+<br>1.17</td>
+
+<td>15&nbsp;
+<br>11&nbsp;
+<br>2.75</td>
+
+<td>20&nbsp;
+<br>14&nbsp;
+<br>2.80</td>
+
+<td>11&nbsp;
+<br>3&nbsp;
+<br>1.50</td>
+
+<td>
+<br>7.60&nbsp;
+<br>1.84</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>SRT</td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>3&nbsp;
+<br>3&nbsp;
+<br>1.00</td>
+
+<td>15&nbsp;
+<br>1`3&nbsp;
+<br>2.17</td>
+
+<td>8&nbsp;
+<br>4&nbsp;
+<br>1.00</td>
+
+<td>20&nbsp;
+<br>14&nbsp;
+<br>2.80</td>
+
+<td>10&nbsp;
+<br>2&nbsp;
+<br>1.00</td>
+
+<td>
+<br>7.20&nbsp;
+<br>1.59</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>HRRN</td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>3&nbsp;
+<br>3&nbsp;
+<br>1.00</td>
+
+<td>9&nbsp;
+<br>7&nbsp;
+<br>1.17</td>
+
+<td>13&nbsp;
+<br>9&nbsp;
+<br>2.25</td>
+
+<td>20&nbsp;
+<br>14&nbsp;
+<br>2.80</td>
+
+<td>15&nbsp;
+<br>7&nbsp;
+<br>3.50</td>
+
+<td>
+<br>8.00&nbsp;
+<br>2.14</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>FB q=1</td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>4&nbsp;
+<br>4&nbsp;
+<br>1.33</td>
+
+<td>20&nbsp;
+<br>18&nbsp;
+<br>3.00</td>
+
+<td>16&nbsp;
+<br>12&nbsp;
+<br>3.00</td>
+
+<td>19&nbsp;
+<br>13&nbsp;
+<br>2.60</td>
+
+<td>11&nbsp;
+<br>3&nbsp;
+<br>1.5</td>
+
+<td>
+<br>10.00&nbsp;
+<br>2.29</td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>FB q=2<sup>i-1</sup></td>
+
+<td ALIGN=LEFT>Finish Time&nbsp;
+<br>Turnaround Time [T<sub>q</sub>]&nbsp;
+<br>T<sub>q</sub>/T<sub>s</sub></td>
+
+<td>4&nbsp;
+<br>4&nbsp;
+<br>1.33</td>
+
+<td>17&nbsp;
+<br>15&nbsp;
+<br>2.50</td>
+
+<td>18&nbsp;
+<br>14&nbsp;
+<br>3.50</td>
+
+<td>20&nbsp;
+<br>14&nbsp;
+<br>2.80</td>
+
+<td>14&nbsp;
+<br>6&nbsp;
+<br>3.00</td>
+
+<td>
+<br>10.60&nbsp;
+<br>2.63</td>
+</tr>
+</table></center>
+
+<p>Пример за бавно обслужване на къс процес:
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=7 WIDTH="100%" >
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>Process</td>
+
+<td>Arrival Time</td>
+
+<td>Service Time (T<sub>s</sub>)</td>
+
+<td>Start Time</td>
+
+<td>Finish Time</td>
+
+<td>Turnaround&nbsp;
+<br>Time (T<sub>q</sub>)</td>
+
+<td>T<sub>q</sub>/T<sub>s</sub></td>
+</tr>
+
+<tr>
+<td><b>A</b></td>
+
+<td>0</td>
+
+<td>1</td>
+
+<td>0</td>
+
+<td>1</td>
+
+<td>1</td>
+
+<td ALIGN=RIGHT VALIGN=CENTER>1.00</td>
+</tr>
+
+<tr>
+<td><b>B</b></td>
+
+<td>1</td>
+
+<td>100</td>
+
+<td>1</td>
+
+<td>101</td>
+
+<td>100</td>
+
+<td ALIGN=RIGHT>1.00</td>
+</tr>
+
+<tr>
+<td><b>C</b></td>
+
+<td>2</td>
+
+<td>1</td>
+
+<td>101</td>
+
+<td>102</td>
+
+<td>100</td>
+
+<td ALIGN=RIGHT>100.00</td>
+</tr>
+
+<tr>
+<td><b>D</b></td>
+
+<td>3</td>
+
+<td>100</td>
+
+<td>102</td>
+
+<td>202</td>
+
+<td>199</td>
+
+<td ALIGN=RIGHT>1.99</td>
+</tr>
+
+<tr>
+<td>Mean</td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td>100</td>
+
+<td ALIGN=RIGHT>26.00</td>
+</tr>
+</table>
+
+<p>--- FIGURE 9.7 ---&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --- FIGURE 9.10
+---
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><font size=-1>Алгоритми&nbsp;</font></b></td>
+
+<td><b><font size=-1>FCFS</font></b></td>
+
+<td><b><font size=-1>Round Robin</font></b></td>
+
+<td><b><font size=-1>SPN</font></b></td>
+
+<td><b><font size=-1>SRT</font></b></td>
+
+<td><b><font size=-1>HRRN</font></b></td>
+
+<td><b><font size=-1>Feedback</font></b></td>
+</tr>
+
+<tr>
+<td><b><font size=-1>Функция за избиране</font></b>
+<br><b><font size=-1>[selection function]</font></b></td>
+
+<td><font size=-1>max[w]</font></td>
+
+<td><font size=-1>const</font></td>
+
+<td><font size=-1>min[s]</font></td>
+
+<td><font size=-1>min[s-e]</font></td>
+
+<td><font size=-1>max[(w+s)/s]</font></td>
+
+<td><font size=-1>--</font></td>
+</tr>
+
+<tr>
+<td><b><font size=-1>Режим на изпълнение</font></b>
+<br><b><font size=-1>[decision mode]</font></b></td>
+
+<td><font size=-1>без прекъсване</font></td>
+
+<td><font size=-1>прекъсване по време</font></td>
+
+<td><font size=-1>без прекъсване</font></td>
+
+<td><font size=-1>прекъсване по нов по-къс процес&nbsp;</font></td>
+
+<td><font size=-1>без прекъсване</font></td>
+
+<td><font size=-1>прекъсване по време</font></td>
+</tr>
+
+<tr>
+<td><b><font size=-1>Производителност</font></b>
+<br><b><font size=-1>[throughput]</font></b></td>
+
+<td><font size=-1>не е определена</font></td>
+
+<td><font size=-1>може да е ниска, ако кванта време е малък</font></td>
+
+<td><font size=-1>висока</font></td>
+
+<td><font size=-1>висока</font></td>
+
+<td><font size=-1>висока</font></td>
+
+<td><font size=-1>не е определена</font></td>
+</tr>
+
+<tr>
+<td><b><font size=-1>Време за отговор</font></b>
+<br><b><font size=-1>[response time]</font></b></td>
+
+<td><font size=-1>голямо, ако процесите са с много различно време за изпълнение</font></td>
+
+<td><font size=-1>осигурява добро време за отговор на късите процеси</font></td>
+
+<td><font size=-1>осигурява добро време за отговор на късите процеси</font></td>
+
+<td><font size=-1>осигурява добро време за отговор</font></td>
+
+<td><font size=-1>осигурява добро време за отговор</font></td>
+
+<td><font size=-1>не е определено</font></td>
+</tr>
+
+<tr>
+<td><b><font size=-1>Припокриване</font></b>
+<br><b><font size=-1>[overload]</font></b></td>
+
+<td><font size=-1>минимално</font></td>
+
+<td><font size=-1>малко</font></td>
+
+<td><font size=-1>голямо</font></td>
+
+<td><font size=-1>голямо</font></td>
+
+<td><font size=-1>голямо</font></td>
+
+<td><font size=-1>голямо</font></td>
+</tr>
+
+<tr>
+<td><b><font size=-1>Ефект върху процеса</font></b>
+<br><b><font size=-1>[effect on processes]</font></b></td>
+
+<td><font size=-1>глоба за къси процеси и за I/O процеси&nbsp;</font></td>
+
+<td><font size=-1>честно</font></td>
+
+<td><font size=-1>глоба за дълги процеси</font></td>
+
+<td><font size=-1>глоба за дълги процеси</font></td>
+
+<td><font size=-1>добър баланс</font></td>
+
+<td><font size=-1>благосклонен към I/O процеси</font></td>
+</tr>
+
+<tr>
+<td><b><font size=-1>Гладна смърт</font></b>
+<br><b><font size=-1>[starvation]</font></b></td>
+
+<td><font size=-1>не</font></td>
+
+<td><font size=-1>не</font></td>
+
+<td><font size=-1>възможна</font></td>
+
+<td><font size=-1>възможна</font></td>
+
+<td><font size=-1>не</font></td>
+
+<td><font size=-1>възможна</font></td>
+</tr>
+</table>
+
+<p><font size=-1>w - общо време за работа на процеса</font>
+<br><font size=-1>e - време за изпълнение</font>
+<br><font size=-1>s - общо време за обслужване на процеса</font>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>Dijkstra2</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: Dijkstra2</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>public</font>:
+  <font color=#A000A0>void</font> <font color=#000000>run</font>(<font color=#A000A0>const</font> Vertex& s) {				<font color=#0000FF>// run Dijkstra's alg</font>
+    VertexIterator vertices = graph.<font color=#000000>vertices</font>(); 
+    <font color=#00A000>while</font> (vertices.<font color=#000000>hasNext</font>()) {			<font color=#0000FF>// initialize vertices</font>
+      Vertex u = vertices.<font color=#000000>nextVertex</font>();
+      <font color=#A000A0>int</font> u_dist = INFINITE;				<font color=#0000FF>// distance = infinity</font>
+      <font color=#00A000>if</font> (u == s) u_dist = 0;				<font color=#0000FF>// ...except source</font>
+      <font color=#000000>setDist</font>(u, u_dist);
+      Locator u_loc = Q.<font color=#000000>insertItem</font>(u_dist, u);		<font color=#0000FF>// put vertex into Q</font>
+      <font color=#000000>setLoc</font>(u, u_loc);					<font color=#0000FF>// save its locator</font>
+    }
+    <font color=#00A000>while</font> (!Q.<font color=#000000>isEmpty</font>()) {				<font color=#0000FF>// main processing loop</font>
+      Locator  u_loc   = Q.<font color=#000000>min</font>();			<font color=#0000FF>// get closest vertex</font>
+      Vertex   u       = <font color=#000000>getVertex</font>(u_loc);
+      <font color=#A000A0>int</font>      u_dist  = <font color=#000000>getDist</font>(u_loc);		<font color=#0000FF>// ...and its distance</font>
+      Q.<font color=#000000>remove</font>(u_loc);					<font color=#0000FF>// remove it from Q</font>
+      <font color=#000000>setDist</font>(u, u_dist);				<font color=#0000FF>// set final distance</font>
+      <font color=#000000>destroyLoc</font>(u);					<font color=#0000FF>// remove the locator</font>
+      <font color=#00A000>if</font> (u_dist == INFINITE) <font color=#00A000>continue</font>;			<font color=#0000FF>// ignore if unreachable</font>
+      EdgeIterator edges = graph.<font color=#000000>incidentEdges</font>(u);
+      <font color=#00A000>while</font> (edges.<font color=#000000>hasNext</font>()) {				<font color=#0000FF>// visit u's neighbors</font>
+        Edge e = edges.<font color=#000000>nextEdge</font>();
+        Vertex z = graph.<font color=#000000>opposite</font>(u,e);
+        <font color=#00A000>if</font> (<font color=#000000>hasLoc</font>(z)) {				<font color=#0000FF>// if z is not finished</font>
+          <font color=#A000A0>int</font>      e_weight  = <font color=#000000>weight</font>(e);		<font color=#0000FF>// get edge weight</font>
+          Locator  z_loc     = <font color=#000000>getLoc</font>(z);
+          <font color=#A000A0>int</font>      z_dist    = <font color=#000000>getDist</font>(z_loc);		<font color=#0000FF>// get distance to z</font>
+          <font color=#00A000>if</font> (u_dist + e_weight &lt; z_dist)  		<font color=#0000FF>// relaxation of (u,z)</font>
+            Q.<font color=#000000>replaceKey</font>(z_loc, u_dist + e_weight);
+        }
+      }
+    }
+  }
+</dl>
+</body></html>

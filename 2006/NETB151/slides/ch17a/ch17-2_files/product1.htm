@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>product1.html</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+<meta name="generator" content="SynEdit HTML exporter" />
+<style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #0A246A; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+</style>
+</head>
+<body>
+<pre>
+<code><span style="font: 10pt Courier New;"><span class="cpp1-preprocessor">#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+#include &lt;stdexcept&gt;
+#include &lt;vector&gt;
+
+</span><span class="cpp1-reservedword">using</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">namespace</span><span class="cpp1-space"> std;
+ 
+</span><span class="cpp1-reservedword">class</span><span class="cpp1-space"> Product {
+   </span><span class="cpp1-reservedword">public</span><span class="cpp1-symbol">:
+       Product();
+       </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> read(istream&amp; fs);
+       </span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> print() </span><span class="cpp1-reservedword">const</span><span class="cpp1-symbol">; 
+   </span><span class="cpp1-reservedword">private</span><span class="cpp1-symbol">:
+       string name;
+       </span><span class="cpp1-reservedword">double</span><span class="cpp1-space"> price;
+       </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> score;
+};    
+
+Product::Product()
+{ price = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+  score = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;                
+}
+
+</span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> Product::read(istream&amp; fs)
+{  cout &lt;&lt; </span><span class="cpp1-string">&quot;Product: &quot;</span><span class="cpp1-symbol">;
+   getline(fs, name);
+   </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (name == </span><span class="cpp1-string">&quot;&quot;</span><span class="cpp1-symbol">) </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">; </span><span class="cpp1-comment">// end of file
+</span><span class="cpp1-space">   fs &gt;&gt; price &gt;&gt; score;
+   </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (fs.fail())
+      </span><span class="cpp1-reservedword">throw</span><span class="cpp1-space"> runtime_error(</span><span class="cpp1-string">&quot;Error while reading product.&quot;</span><span class="cpp1-symbol">);
+   string remainder;
+   getline(fs, remainder);   
+   </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+}
+
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> Product::print() </span><span class="cpp1-reservedword">const
+</span><span class="cpp1-symbol">{ cout &lt;&lt; name &lt;&lt; </span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-space"> &lt;&lt; price &lt;&lt; </span><span class="cpp1-string">&quot; &quot;</span><span class="cpp1-space"> &lt;&lt; score &lt;&lt; endl;
+} 
+  
+</span><span class="cpp1-reservedword">void</span><span class="cpp1-space"> process_products(istream&amp; fs)
+{  vector&lt;Product*&gt; products;
+   </span><span class="cpp1-reservedword">bool</span><span class="cpp1-space"> more = </span><span class="cpp1-reservedword">true</span><span class="cpp1-symbol">;
+   </span><span class="cpp1-reservedword">while</span><span class="cpp1-space"> (more)
+   {  Product* p = </span><span class="cpp1-reservedword">new</span><span class="cpp1-space"> Product;
+      </span><span class="cpp1-reservedword">if</span><span class="cpp1-space"> (p-&gt;read(fs)) products.push_back(p);
+      </span><span class="cpp1-reservedword">else</span><span class="cpp1-space"> more = </span><span class="cpp1-reservedword">false</span><span class="cpp1-symbol">;
+   }
+         
+   </span><span class="cpp1-comment">/* processing products */</span><span class="cpp1-space">       
+   
+   cout &lt;&lt; </span><span class="cpp1-string">&quot;Print:&quot;</span><span class="cpp1-space"> &lt;&lt; endl;
+   </span><span class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> i = </span><span class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; products.size(); i++)
+   {  products[i]-&gt;print();
+      </span><span class="cpp1-reservedword">delete</span><span class="cpp1-space"> products[i];
+   }      
+}
+
+ </span><span class="cpp1-reservedword">int</span><span class="cpp1-space"> main()
+ {  </span><span class="cpp1-reservedword">try
+</span><span class="cpp1-space">    {  process_products(cin);
+    }
+    </span><span class="cpp1-reservedword">catch</span><span class="cpp1-symbol">(runtime_error&amp; r)  </span><span class="cpp1-comment">// runtime_error&amp; r)
+</span><span class="cpp1-space">    { cout &lt;&lt; r.what() &lt;&lt; endl;                
+    }                        
+    </span><span class="cpp1-reservedword">char</span><span class="cpp1-space"> ch; cin &gt;&gt; ch;
+    </span><span class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span class="cpp1-number">0</span><span class="cpp1-symbol">;
+ }
+
+
+</span></span>
+</code></pre>
+</body>
+</html>

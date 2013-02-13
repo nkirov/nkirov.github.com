@@ -1,0 +1,179 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os4</title>
+</head>
+<body>
+<b>15. Конкуренция: взаимно изключване и синхронизация</b>
+<br><b>Задачата на писатели/читатели.</b>
+<br>&nbsp;
+<br><b>5.7 Задачата на писатели/читатели.</b>
+<br>&nbsp;&nbsp;&nbsp; Данни (файл, блок от паметта) се използват от няколко
+процеса. Някои от процесите само четат тези данни - читатили, а други само
+променят данните - писатели. Следните условия трябва да се спазват:
+<br>&nbsp;&nbsp; 1. Произволен брой читатели могат да четат едновременно
+данните;
+<br>&nbsp;&nbsp; 2. Само един писател може да пише данни;
+<br>&nbsp;&nbsp; 3. Ако писател пише, никой читател не може да чете.
+<br>&nbsp;&nbsp;&nbsp; Ако всеки процес може и да пише и да чете, общото
+решение за ВИ работи.
+<br>&nbsp;&nbsp;&nbsp; Ако един процес може или само да чете, или само
+да пише - общото решение е неприемливо, а съществуват и по-ефективни решения.
+<p>** Предимство на читателите.
+<br><b><tt><font color="#006600">/* program readers_and_writers */</font></tt></b>
+<br><b><tt><font color="#006600">int readcount;</font></tt></b>
+<br><b><tt><font color="#006600">semaphore x = 1, wsem = 1;</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void reader()</font></tt></b>
+<br><b><tt><font color="#006600">{ while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount++;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==1) wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; READUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==0) signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#006600">void writer()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; WRITEUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;
+<br>&nbsp;
+<p>&nbsp;</td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{ readcount = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; parbegin(reader, writer);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p>** Предимство на писателите.
+<br><b><tt><font color="#006600">/* program readers_and_writers */</font></tt></b>
+<br><b><tt><font color="#006600">int readcount, writecount;</font></tt></b>
+<br><b><tt><font color="#006600">semaphore x = 1, y = 1, z = 1, wsem =
+1, rsem = 1;</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void reader()</font></tt></b>
+<br><b><tt><font color="#006600">{ while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(z);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount++;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==1) wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(z);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; READUNIT();&nbsp;&nbsp; /*
+{КС} */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==0) signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#006600">void writer()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; writecount++;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (writecount==1) wait(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; WRITEUNIT();&nbsp; /* КС */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; writecount--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (writecount==0) signal(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;readcount = writecount = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;parbegin (reader, writer);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Общо предназначение на семафорите:
+<br>- <b><tt><font color="#006600">x </font></tt></b>- коректната работа
+с обща глобална променлива <b><tt><font color="#006600">readcount;</font></tt></b>
+<br>- <b><tt><font color="#006600">y </font></tt></b>- коректната работа
+с обща глобална променлива <b><tt><font color="#006600">writecount;</font></tt></b>
+<br>- <b><tt><font color="#006600">z </font></tt></b>- осигурява предимство
+на писателите;
+<br>- <b><tt><font color="#006600">rsem </font></tt></b>- свободно за четене
+(няма писател в КС);
+<br>- <b><tt><font color="#006600">wsem </font></tt></b>- свободно за писане
+(няма читатели в КС).
+<br>&nbsp;&nbsp;&nbsp; Двойката семафори <b><tt>z</tt></b> и <b><tt>rsem</tt></b>
+осигуряват най-много един читател на опашка за семафора <b><tt>rsem</tt></b>,
+което позволява преминаването на първият писател през този семафор. Така
+се дава предимството на писателите.
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td>Състояния на системата:</td>
+
+<td>Състояния на семафорите <b><tt>wsem</tt></b>, <b><tt>rsem</tt></b>
+и <b><tt>z:</tt></b></td>
+</tr>
+
+<tr>
+<td>Само читатели в системата</td>
+
+<td><b><tt>- wsem - 1</tt></b>
+<br><b><tt>- няма опашки</tt></b></td>
+</tr>
+
+<tr>
+<td>Само писатели в системата</td>
+
+<td><b><tt>- rsem - 1</tt></b>
+<br><b><tt>- опашка от писатели на wsem</tt></b></td>
+</tr>
+
+<tr>
+<td>Много читатели четат, идва писател</td>
+
+<td><b><tt>- wsem е затворен (от първия читател); rsem е отворен;</tt></b>
+<br><b><tt>- писателят минава и затваря rsem;</tt></b>
+<br><b><tt>- писателят чака на wsem;</tt></b>
+<br><b><tt>- следващият идващ читател затваря z и чака на rsem;</tt></b>
+<br><b><tt>- всички други идващи читатели чакат на z;</tt></b>
+<br><b><tt>- последният читател, завършил четенето, отваря wsem;</tt></b></td>
+</tr>
+
+<tr>
+<td>Последен писател пише, чакат читатели</td>
+
+<td><b><tt>- wsem е затворен (от пишещия писател);</tt></b>
+<br><b><tt>- опашките са както в предишния случай;</tt></b>
+<br><b><tt>- писателят свършва и отваря wsem;</tt></b>
+<br><b><tt>- писателят отваря rsem;</tt></b>
+<br><b><tt>- читателят, чакащ на rsem минава, отваря z и чете;</tt></b></td>
+</tr>
+</table>
+
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>ArrayStack2</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: ArrayStack2</font></h2>
+</center><br><dl><dd><pre>
+
+  <font color=#0000FF>// ... (continuation of ArrayStack)</font>
+  <font color=#000000>ArrayStack</font>(<font color=#A000A0>const</font> ArrayStack& st);	<font color=#0000FF>// copy constructor</font>
+  					<font color=#0000FF>// assignment operator constructor</font>
+  ArrayStack& <font color=#A000A0>operator</font>=(<font color=#A000A0>const</font> ArrayStack& st);
+  ~<font color=#000000>ArrayStack</font>() 			<font color=#0000FF>// destructor</font>
+    { <font color=#A000A0>delete</font> [] S; }
+};
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;		<font color=#0000FF>// copy constructor</font>
+ArrayStack&lt;Object&gt;::
+<font color=#000000>ArrayStack</font>(<font color=#A000A0>const</font> ArrayStack& st) {
+  capacity  = st.capacity;
+  t         = st.t;
+  S         = <font color=#A000A0>new</font> Object[capacity];
+  <font color=#00A000>for</font> (<font color=#A000A0>int</font> i = 0; i &lt;= t; i++) {	<font color=#0000FF>// copy contents</font>
+    S[i] = st.S[i];
+  }
+}
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;		<font color=#0000FF>// assignment operator</font>
+ArrayStack&lt;Object&gt;& ArrayStack&lt;Object&gt;::
+<font color=#A000A0>operator</font>=(<font color=#A000A0>const</font> ArrayStack& st) {
+  <font color=#00A000>if</font> (<font color=#A000A0>this</font> != &st) {			<font color=#0000FF>// avoid self copy (x = x)</font>
+    <font color=#A000A0>delete</font> [] S;			<font color=#0000FF>// delete old contents</font>
+    capacity  = st.capacity;
+    t         = st.t;
+    S         = <font color=#A000A0>new</font> Object[capacity];
+    <font color=#00A000>for</font> (<font color=#A000A0>int</font> i = 0; i &lt;= t; i++) {	<font color=#0000FF>// copy contents</font>
+      S[i] = st.S[i];
+    }
+  }
+  <font color=#00A000>return</font> *<font color=#A000A0>this</font>;
+}
+</dl>
+</body></html>

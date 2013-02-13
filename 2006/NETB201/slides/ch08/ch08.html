@@ -1,0 +1,712 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Chapter 8</title>
+</head>
+<body>
+<h2>Chapter 8: Dictionaries</h2>
+<font size="+1">
+Like a priority queue, a dictionary is a container of <span
+ style="font-style: italic;">key-element pairs</span>.
+Nevertheless, although a total order relation on the keys is always
+required for a priority queue, it is optional for a dictionary. Indeed,
+the simplest form of a dictionary assumes only that we can determine
+whether <span style="font-style: italic;">two keys are equal</span>.
+When the total order relation on the keys is defined, then we can talk
+about an <span style="font-style: italic;">ordered dictionary</span>,
+and we specify additional ADT functions that refer to the ordering of
+the keys.<br>
+</font>
+<h3>8.1 The Dictionary Abstract Data Type</h3>
+<font size="+1">A dictionary ADT stores key-element pairs (<span
+ style="font-style: italic;">k</span>,<span style="font-style: italic;">e</span>)
+which we call <span style="font-style: italic;">items</span>, where <span
+ style="font-style: italic;">k</span> is the key and <span
+ style="font-style: italic;">e</span> is the element.</font><font
+ size="+1"> <br>
+In an unordered dictionary we can use an equality tester object to test
+whether two keys, <span style="font-style: italic;">k</span><sub>1</sub>
+and <span style="font-style: italic;">k</span><sub>2</sub>, are equal
+with function </font><font size="+1"><span
+ style="font-family: monospace;">isEqualTo(</span></font><font size="+1"><span
+ style="font-style: italic;">k</span><sub>1</sub>, <span
+ style="font-style: italic;">k</span><sub>2</sub>). <br>
+</font>
+<h4><font size="+1"><a name="8.1.1"></a> 8.1.1 The Dictionary ADT</font></h4>
+<font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a></font><font
+ size="+1"> 2</font><br>
+<font size="+1">As an ADT, a dictionary <span
+ style="font-style: italic;">D</span>
+supports the following functions:<br>
+<br>
+</font>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><font size="+1">Function<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Input<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Output<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Description<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">size()<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Integer<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Return the
+number of items in <span style="font-style: italic;">D.</span><br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">isEmpty()<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Boolean<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Test whether <span
+ style="font-style: italic;">D</span> is empty.<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">elements()<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1"><br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Iterator of
+objects (elements)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Returns the
+elements stored in <span style="font-style: italic;">D</span>.<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">keys()<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1"><br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Iterator of
+objects (keys)</font></td>
+      <td style="vertical-align: top;"><font size="+1">Returns the keys
+stored in <span style="font-style: italic;">D</span>.</font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">find(k)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Object (key)</font></td>
+      <td style="vertical-align: top;"><font size="+1">Position<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">If <span
+ style="font-style: italic;">D</span> contain an item with key equal to
+      <span style="font-family: monospace;">k</span>, then return the
+position of such an item. If not, a null position is returned.<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">findAll(k)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Object (key)</font></td>
+      <td style="vertical-align: top;"><font size="+1">Iterator of
+Positions</font></td>
+      <td style="vertical-align: top;"><font size="+1">Return an
+iterator of positions
+for all items whose key equals <span style="font-family: monospace;">k</span>.<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">insertItem(k,e)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Objects <span
+ style="font-family: monospace;">k</span> (key) and<span
+ style="font-family: monospace;"> e </span>(element)</font> </td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Insert an item
+with element <span style="font-family: monospace;">e</span> and key<span
+ style="font-family: monospace;"> </span></font><font size="+1"><span
+ style="font-family: monospace;">k</span></font><font size="+1"> into <span
+ style="font-style: italic;">D</span>.<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">removeElement(k)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Object (key)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Remove an item
+with key equal to <span style="font-family: monospace;">k</span> from <span
+ style="font-style: italic;">D</span>. An error condition occurs if <span
+ style="font-style: italic;">D</span> has no such item.<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">removeAllElements(k)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Object (key)</font></td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Remove the items
+with key equal
+to <span style="font-family: monospace;">k</span> from <span
+ style="font-style: italic;">D</span>.</font></td>
+    </tr>
+  </tbody>
+</table>
+<h4 style="font-weight: normal;"><font size="+1">Remarks: The way the
+items of a
+dictionary are stored is implementation dependent. The notation <span
+ style="font-family: monospace;">p(x)</span> indicates the position of
+the item storing element <span style="font-family: monospace;">x</span>.<br>
+</font></h4>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><font size="+1">Operation<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Output<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Dictionary<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">insertItem(5,A)<br>
+insertItem(7,B)<br>
+insertItem(2,C)<br>
+insertItem(8,D)<br>
+insertItem(2,E)<br>
+find(7)<br>
+find(4)<br>
+find(2)<br>
+findAll(2)<br>
+size()<br>
+removeElement(5)<br>
+removeElement(5)<br>
+removeAllElements(2)<br>
+find(2)<br>
+findAll(2)<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-family: monospace;"></span><span
+ style="font-family: monospace;">-</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">-</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">-</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">-<br>
+-<br style="font-family: monospace;">
+      </span><span style="font-family: monospace;">p(B)<br>
+"null"<br>
+p(C) or p(E)<br>
+p(C),p(E)<br>
+5<br>
+-<br>
+"error"<br>
+-<br>
+"null"<br>
+"empty iterator"<br>
+      </span></font> </td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-family: monospace;">{(5,A)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}<br>
+      </span><span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(8,D)}</span></font>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<font size="+1"><br>
+Position class provides:<br>
+<br>
+</font>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><font size="+1">Operation<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Input<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Output<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Description</font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">element()</font></td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Object (element)</font></td>
+      <td style="vertical-align: top;"><font size="+1">Return a
+reference to the
+element of the associated item.<br>
+      </font> </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">key()</font></td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Object (key)</font></td>
+      <td style="vertical-align: top;"><font size="+1">Return a
+constant reference to
+the key of the associated item.</font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">isNull()</font></td>
+      <td style="vertical-align: top;"><font size="+1">-<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Boolean<br>
+      </font> </td>
+      <td style="vertical-align: top;"><font size="+1">Determine if
+this is a null
+position.<br>
+      </font> </td>
+    </tr>
+  </tbody>
+</table>
+<font size="+1"><br>
+</font>
+<h4><font size="+1"> 8.1.2 Log Files</font></h4>
+<font size="+1">A simple way of realizing a
+dictionary is to use an
+unordered vector,
+list, or general sequence to store the key-element pairs. Such an
+implementation is called a <span style="font-style: italic;">log file</span>.<br>
+</font><font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a></font><font
+ size="+1"> 3</font><br>
+<font size="+1"><br>
+<span style="font-weight: bold;">Unordered Sequence Implementation<br>
+</span></font><font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a></font><font
+ size="+1"> 3</font><br>
+<font size="+1"><span style="font-weight: bold;"></span>The sequence S
+used for the log file is implemented either a vector or a doubly linked
+list.<span style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;"><br>
+Analysis of the Log File Data Structure<br>
+</span></font><font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a></font><font
+ size="+1"> 3</font><br style="font-weight: bold;">
+<font size="+1"><span style="font-weight: bold;"></span><span
+ style="font-weight: bold;"><br>
+Applications for Log Files<br>
+</span></font><font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a></font><font
+ size="+1"> 3</font><br>
+<hr style="width: 100%; height: 1px;">
+<h3>8.2 Hash Tables</h3>
+<font size="+1">One of the most efficient ways to implement a
+dictionary is to use a <span style="font-style: italic;">hash table</span>.
+Although hash tables
+have high worst-case running times for dictionary ADT operations, we
+will see that their expected-case running time are excellent. Letting <span
+ style="font-style: italic;">n</span> denote the number of items, the
+worst-case running times are <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span>), but the expected-case times are
+only <span style="font-style: italic;">O</span>(1).<br>
+</font>
+<h4><font size="+1"> 8.2.1 Bucket Arrays</font></h4>
+<big>A <span style="font-style: italic;">bucked array</span> for a
+hash table is an array <span style="font-style: italic;">A</span> of
+size <span style="font-style: italic;">N</span>, where each cell of <span
+ style="font-style: italic;">A</span> is thought of as a "bucket" (that
+is, a container of key-element pairs) and the integer <span
+ style="font-style: italic;">N</span> denotes the <span
+ style="font-style: italic;">capacity</span> of the array. If the keys
+are integers well distributed in the range [0,<span
+ style="font-style: italic;">N</span>-1], this bucket array is all that
+is needed - an element <span style="font-style: italic;">e</span> with
+a key <span style="font-style: italic;">k</span> is simply inserted
+into the bucket <span style="font-style: italic;">A</span>[<span
+ style="font-style: italic;">k</span>].<br>
+If keys are not unique, then two different elements may be mapped to
+the same bucket in <span style="font-style: italic;">A</span>. In this
+case, we say that a <span style="font-style: italic;">collision</span>
+has occurs.<br>
+</big><br>
+<font size="+1"><span style="font-weight: bold;">Analysis of the Bucket
+Array Structure</span></font><br>
+<ul>
+  <li><big><span style="font-style: italic;">O</span>(1) for all
+functions </big></li>
+  <li><big>space Theta(<span style="font-style: italic;">N</span>) -
+wasteful when <span style="font-style: italic;">N</span> is large
+relative to <span style="font-style: italic;">n</span></big></li>
+  <li><big><span style="font-style: italic;"></span>keys are integers
+in [0, <span style="font-style: italic;">N-</span>1]<span
+ style="font-style: italic;"></span></big></li>
+</ul>
+<h4><font size="+1"> 8.2.2 Hash Functions</font></h4>
+<font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a> 4-6<br>
+The hash function is "good" if it maps the keys in out dictionary to
+minimize collisions as much as possible. <br>
+Also it should be fast and easy to compute.<br>
+</font>
+<h4><font size="+1"> 8.2.3 Hash Codes</font></h4>
+<font size="+1">The integer assigned to a key <span
+ style="font-style: italic;">k</span>
+is called the <span style="font-style: italic;">hash code</span> or <span
+ style="font-style: italic;">hash value</span> for <span
+ style="font-style: italic;">k</span>.</font><br>
+<font size="+1"><span style="font-weight: bold;"><br>
+Hash Codes in C++<br>
+</span></font><font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a>
+7</font><br>
+<font size="+1"><span style="font-weight: bold;"><br
+ style="font-weight: bold;">
+</span><span style="font-weight: bold;">Casting to an Integer<br>
+</span>Take an integer interpretation of data type X bits as a hash
+code for X.<br>
+</font><font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a>
+7</font><br>
+<font size="+1"><span style="font-weight: bold;"><br
+ style="font-weight: bold;">
+</span><span style="font-weight: bold;">Summing Components<br>
+</span></font><font size="+1"><a href="HashTables-slides.pdf">HashTables.pdf</a>
+7</font><br>
+<font size="+1"><span style="font-weight: bold;"></span><span
+ style="font-family: monospace;"><br>
+</span><span style="font-weight: bold;"><span style="font-weight: bold;">A
+Small C++ Example<br>
+</span></span>64-bit integer if we have 32-bit integer hash function<span
+ style="font-weight: bold;"><span style="font-weight: bold;"><br>
+</span></span></font>
+<pre><font size="+1">int hashCode(int x)<br>{ return x; }<br><br>int hashCode(long x)<br>{  typedef unsigned long ulong;<br>   return hashCode(int(ulong(x)&gt;&gt;32)+int(x));<br>}<br><br>int hashCode(long x)<br>{  typedef unsigned long ulong;<br>   return hashCode(static_cast&lt;int&gt;(static_cast&lt;ulong&gt;(x) &gt;&gt; 32) <br>          + static_cast&lt;int&gt;(x));<br>}</font></pre>
+<font size="+1"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><span style="font-weight: bold;">Polynomial
+Hash Codes<br>
+</span></span></span><a href="HashTables-slides.pdf">HashTables.pdf</a>
+8<br>
+<span style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Cyclic Shift Hash Codes</span></span></span><br>
+<blockquote>
+  <pre>int hashCode(const char* p, int len) // hash a character array<br>{ unsigned int h = 0;<br>  for (int i=0; i&lt;len; i++)<len
+ ;="" i=""><br>  { h = (h&lt;&lt;5)|(h&gt;&gt;27);               // 5-bit cyclic shift<br>    h += (unsigned int)p[i];         // add in next character<br>  }<br>  return hashCode(int(h));<br>}<br></len></pre>
+</blockquote>
+<span style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;">
+</span><span style="font-weight: bold;">Experimental Results<br>
+</span></span></span>25000 English words<span style="font-weight: bold;"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"><br>
+</span></span></span></font>
+<table style="text-align: left; width: 687px; height: 144px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Shift<br>
+      </td>
+      <td style="vertical-align: top;">Collisions Total<br>
+      </td>
+      <td style="vertical-align: top;">Collisions Max<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">0<br>
+      </td>
+      <td style="vertical-align: top;">23739<br>
+      </td>
+      <td style="vertical-align: top;">86<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">1<br>
+      </td>
+      <td style="vertical-align: top;">10517<br>
+      </td>
+      <td style="vertical-align: top;">21<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">5<br>
+      </td>
+      <td style="vertical-align: top;">4<br>
+      </td>
+      <td style="vertical-align: top;">2<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">6<br>
+      </td>
+      <td style="vertical-align: top;">6<br>
+      </td>
+      <td style="vertical-align: top;">2<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;">11<br>
+      </td>
+      <td style="vertical-align: top;">453<br>
+      </td>
+      <td style="vertical-align: top;">4<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<font size="+1"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"><br
+ style="font-weight: bold;">
+</span><span style="font-weight: bold;">Hashing Floating-Point
+Quantities<br>
+</span></span></span></font><font size="+1"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"></span></span></span><br>
+<blockquote>
+  <pre>int hashCode(const double&amp; x)       // hash a double<br>{ int len = sizeof(x);<br>  const char* p = reinterpret_cast&lt;const char *&gt;(&amp;x);<len
+ ;="" i=""><br>  return hashCode(p, len);<br>}<br></len></pre>
+</blockquote>
+<span style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;">
+</span></span></span></font><font size="+1"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"></span>
+<h4> 8.2.4 Compression Maps</h4>
+</span></span></font><font size="+1">
+<span style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;">The Division Method<br>
+</span></span></span></font><font size="+1"><a
+ href="HashTables-slides.pdf">HashTables.pdf</a></font>
+<font size="+1"> 9</font><br>
+<font size="+1"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"><br
+ style="font-weight: bold;">
+</span><span style="font-weight: bold;">The MAD Method<br>
+</span></span></span></font><font size="+1"><a
+ href="HashTables-slides.pdf">HashTables.pdf</a></font>
+<font size="+1"> 9</font><br>
+<font size="+1"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"></span>
+<h4> 8.2.5 Collision-Handling Schemes</h4>
+</span></span><a href="HashTables-slides.pdf">HashTables.pdf</a></font>
+<font size="+1"> 10<br>
+<br>
+<span style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;">Separate Chaining<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Open Addressing<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Linear Probing<br>
+</span></span></span><a href="HashTables-slides.pdf">HashTables.pdf</a></font>
+<font size="+1">11-13<br>
+<span style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Quadratic Probing<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Double Hashing<br>
+</span></span></span><a href="HashTables-slides.pdf">HashTables.pdf</a></font>
+<font size="+1">14-15<br>
+<span style="font-weight: bold;"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"></span>
+<h4> 8.2.6 Load Factors and Rehashing</h4>
+<span style="font-weight: bold;">Rehashing into a New Table<br>
+</span></span></span></font><font size="+1"><a
+ href="HashTables-slides.pdf">HashTables.pdf</a></font>
+<font size="+1">16</font><br>
+<font size="+1"><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"></span>
+<h4> 8.2.7 A C++ Hash Table Implementation</h4>
+</span></span><a href="8.1_LinearProbeHashTable.h-HashEntry.html">html-8.1</a>
+(HashEntry)<br>
+<a href="8.2_LinearProbeHashTable.h-Position.html">html-8.2</a>
+(Position)<br>
+<a href="8.3_LinearProbeHashTable.h-Hash1.html">html-8.3</a> (Hash1)<br>
+<a href="8.4_LinearProbeHashTable.h-Hash2.html">html-8.</a><a
+ href="8.4_LinearProbeHashTable.h-Hash2.html">4</a> (Hash2)<br>
+<br>
+<a href="hash.cpp">hash.cpp</a><span style="font-weight: bold;"><span
+ style="font-weight: bold;"><br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3> 8.3 Ordered Dictionaries</h3>
+</span></span>In an ordered dictionary, we wish to perform the usual
+dictionary operations, but also maintain an order relation for the keys
+in our dictionary.<span style="font-weight: bold;"><span
+ style="font-weight: bold;"><br>
+<h4> 8.3.1 The Ordered Dictionary ADT</h4>
+</span></span>An ordered dictionary supports the following functions
+beyond those included in the general dictionary ADT (<a href="#8.1.1">8.1.1</a>):<span
+ style="font-weight: bold;"><span style="font-weight: bold;"><br>
+</span></span></font>
+<ul>
+  <li><font size="+1"><span style="font-family: monospace;">closestBefore(k)</span></font><font
+ size="+1"> -
+Return a position of an item with the largest key less than or equal to
+    </font><font size="+1"><span style="font-family: monospace;">k.</span></font></li>
+  <li><font size="+1"><span style="font-family: monospace;">closestAfter(k)</span></font><font
+ size="+1"> - </font><font size="+1">Return a position of an item with
+the smallest key greater than or equal to </font><font size="+1"><span
+ style="font-family: monospace;">k.</span></font></li>
+</ul>
+<font size="+1"><span style="font-weight: bold;"><span
+ style="font-weight: bold;">
+<h4> 8.3.2 Look-Up Tables</h4>
+</span></span></font><font size="+1"><a href="Dictionaries-slides.pdf">Dictionary.pdf</a>
+<span style="font-weight: bold;">6</span></font><font size="+1"><span
+ style="font-weight: bold;"><span style="font-weight: bold;"><br>
+<h4> 8.3.3 Binary Search</h4>
+</span></span></font><font size="+1"><a href="Dictionaries-slides.pdf">Dictionary.pdf</a>
+5<br>
+<br>
+<a href="bsearch.cpp">bsearch.cpp</a><br>
+<br>
+<span style="font-weight: bold;"><span style="font-weight: bold;">Analysis
+of Binary Search<br>
+</span></span>The running time is proportional to the number <span
+ style="font-style: italic;">m</span> of recursive calls. The number of
+remaining candidates is reduced by at least one half with each
+recursive call. In the worst case (unsuccessful search), the recursive
+call stops when there are no more candidates, i.e. <span
+ style="font-style: italic;">n</span>/2<sup><span
+ style="font-style: italic;">m</span></sup> = 1, <span
+ style="font-style: italic;">m</span> = log <span
+ style="font-style: italic;">n</span> and we obtain <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) running time.<span
+ style="font-weight: bold;"><span style="font-weight: bold;"><br>
+<br>
+Using Look-Up Tables as Ordered Dictionaries<br>
+</span></span><a href="Dictionaries-slides.pdf">Dictionary.pdf</a> 6<br>
+<span style="font-weight: bold;"><span style="font-weight: bold;"><br>
+Comparing Simple Ordered Dictionary Implementations<br>
+<br>
+</span></span></font>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><font size="+1">Function<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1">Log File<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1">Look-Up Table<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">size(), isEmpty()<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(1)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(1)<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">keys(),
+elements()<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">find(key)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>)<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">findAll(key)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1">Theta(<span
+ style="font-style: italic;">n</span>)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n + s</span>)<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">insertItem(key,
+element)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(1)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">removeElement(key)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </font></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><font
+ size="+1">removeAllElements()<br>
+      </font></td>
+      <td style="vertical-align: top;"><font size="+1">Theta(<span
+ style="font-style: italic;">n</span>)</font></td>
+      <td style="vertical-align: top;"><font size="+1"><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </font></td>
+    </tr>
+  </tbody>
+</table>
+<font size="+1">
+</font>
+<hr style="width: 100%; height: 2px;"><br>
+<br>
+</body>
+</html>

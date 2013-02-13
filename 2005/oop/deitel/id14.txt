@@ -1,0 +1,440 @@
+// 14. Виртуални функции. Абстрактни базови класове. 
+// Статично и динамична свързване - клас Shape и 
+// производни класове. Виртуални деструктури.
+//
+// Fig. 10.12: shape.h
+// Shape abstract-base-class definition.
+#ifndef SHAPE_H
+#define SHAPE_H
+
+#include <string>  // C++ standard string class
+
+using std::string;
+
+class Shape {
+
+public:
+   
+   // virtual function that returns shape area
+   virtual double getArea() const;
+
+   // virtual function that returns shape volume
+   virtual double getVolume() const;
+
+   // pure virtual functions; overridden in derived classes
+   virtual string getName() const = 0; // return shape name
+   virtual void print() const = 0;     // output shape
+
+}; // end class Shape
+
+#endif
+/****/
+// Fig. 10.14: point.h
+// Point class definition represents an x-y coordinate pair.
+#ifndef POINT_H
+#define POINT_H
+
+#include "shape.h"  // Shape class definition
+
+class Point : public Shape {
+
+public:
+   Point( int = 0, int = 0 ); // default constructor
+
+   void setX( int );  // set x in coordinate pair
+   int getX() const;  // return x from coordinate pair
+   
+   void setY( int );  // set y in coordinate pair
+   int getY() const;  // return y from coordinate pair
+   
+   // return name of shape (i.e., "Point" )
+   virtual string getName() const;
+
+   virtual void print() const;  // output Point object
+
+private: 
+   int x;  // x part of coordinate pair
+   int y;  // y part of coordinate pair
+
+}; // end class Point
+
+#endif
+/****/
+// Fig. 10.16: circle.h
+// Circle class contains x-y coordinate pair and radius.
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include "point.h"  // Point class definition
+
+class Circle : public Point {
+
+public:
+
+   // default constructor
+   Circle( int = 0, int = 0, double = 0.0 );  
+
+   void setRadius( double );   // set radius
+   double getRadius() const;   // return radius
+
+   double getDiameter() const;       // return diameter
+   double getCircumference() const;  // return circumference
+   virtual double getArea() const;   // return area
+
+   // return name of shape (i.e., "Circle")
+   virtual string getName() const;
+
+   virtual void print() const;  // output Circle object
+
+private: 
+   double radius;  // Circle's radius
+
+}; // end class Circle
+
+#endif 
+/****/
+// Fig. 10.18: cylinder.h
+// Cylinder class inherits from class Circle.
+#ifndef CYLINDER_H
+#define CYLINDER_H
+
+#include "circle.h"  // Circle class definition
+
+class Cylinder : public Circle {
+
+public:
+
+   // default constructor
+   Cylinder( int = 0, int = 0, double = 0.0, double = 0.0 ); 
+      
+   void setHeight( double );  // set Cylinder's height
+   double getHeight() const;  // return Cylinder's height 
+
+   virtual double getArea() const; // return Cylinder's area
+   virtual double getVolume() const; // return Cylinder's volume
+   
+   // return name of shape (i.e., "Cylinder" )
+   virtual string getName() const;
+
+   virtual void print() const;  // output Cylinder
+
+private:
+   double height;  // Cylinder's height
+
+}; // end class Cylinder
+
+#endif
+/****/
+// Fig. 10.13: shape.cpp
+// Shape class member-function definitions.
+#include <iostream>  
+
+using std::cout;
+
+#include "shape.h"  // Shape class definition
+
+// return area of shape; 0.0 by default
+double Shape::getArea() const
+{
+   return 0.0;
+
+}  // end function getArea
+
+// return volume of shape; 0.0 by default
+double Shape::getVolume() const
+{
+   return 0.0;
+
+}  // end function getVolume
+/****/
+// Fig. 10.15: point.cpp
+// Point class member-function definitions.
+#include <iostream>
+
+using std::cout;
+
+#include "point.h"   // Point class definition
+
+// default constructor
+Point::Point( int xValue, int yValue )
+   : x( xValue ), y( yValue )
+{
+   // empty body 
+
+} // end Point constructor
+
+// set x in coordinate pair
+void Point::setX( int xValue )
+{
+   x = xValue; // no need for validation
+
+} // end function setX
+
+// return x from coordinate pair
+int Point::getX() const
+{
+   return x;
+
+} // end function getX
+
+// set y in coordinate pair
+void Point::setY( int yValue )
+{
+   y = yValue; // no need for validation
+
+} // end function setY
+
+// return y from coordinate pair
+int Point::getY() const
+{
+   return y;
+
+} // end function getY
+
+// override pure virtual function getName: return name of Point
+string Point::getName() const
+{
+   return "Point";
+
+}  // end function getName
+
+// override pure virtual function print: output Point object
+void Point::print() const
+{
+   cout << '[' << getX() << ", " << getY() << ']';
+
+} // end function print
+/****/
+// Fig. 10.17: circle.cpp
+// Circle class member-function definitions.
+#include <iostream>  
+
+using std::cout;
+
+#include "circle.h"   // Circle class definition
+
+// default constructor
+Circle::Circle( int xValue, int yValue, double radiusValue )
+   : Point( xValue, yValue )  // call base-class constructor
+{
+   setRadius( radiusValue );
+
+} // end Circle constructor
+
+// set radius 
+void Circle::setRadius( double radiusValue )
+{
+   radius = ( radiusValue < 0.0 ? 0.0 : radiusValue );
+
+} // end function setRadius
+
+// return radius 
+double Circle::getRadius() const
+{
+   return radius;
+
+} // end function getRadius
+
+// calculate and return diameter
+double Circle::getDiameter() const
+{
+   return 2 * getRadius();
+
+} // end function getDiameter
+
+// calculate and return circumference
+double Circle::getCircumference() const
+{
+   return 3.14159 * getDiameter();
+
+} // end function getCircumference
+
+// override virtual function getArea: return area of Circle
+double Circle::getArea() const
+{
+   return 3.14159 * getRadius() * getRadius();
+
+} // end function getArea
+
+// override virutual function getName: return name of Circle
+string Circle::getName() const
+{
+   return "Circle";
+
+}  // end function getName
+
+// override virtual function print: output Circle object
+void Circle::print() const
+{
+   cout << "center is ";
+   Point::print();  // invoke Point's print function
+   cout << "; radius is " << getRadius();
+
+} // end function print
+/****/
+// Fig. 10.19: cylinder.cpp
+// Cylinder class inherits from class Circle.
+#include <iostream>
+
+using std::cout;
+
+#include "cylinder.h"   // Cylinder class definition
+
+// default constructor
+Cylinder::Cylinder( int xValue, int yValue, double radiusValue, 
+  double heightValue ) 
+  : Circle( xValue, yValue, radiusValue )
+{
+   setHeight( heightValue );
+
+} // end Cylinder constructor
+
+// set Cylinder's height
+void Cylinder::setHeight( double heightValue )
+{
+   height = ( heightValue < 0.0 ? 0.0 : heightValue );
+
+} // end function setHeight
+
+// get Cylinder's height
+double Cylinder::getHeight() const
+{
+   return height;
+
+} // end function getHeight
+
+// override virtual function getArea: return Cylinder area
+double Cylinder::getArea() const
+{
+   return 2 * Circle::getArea() +           // code reuse
+      getCircumference() * getHeight();
+
+} // end function getArea
+
+// override virtual function getVolume: return Cylinder volume
+double Cylinder::getVolume() const
+{
+   return Circle::getArea() * getHeight();  // code reuse
+
+} // end function getVolume
+
+// override virtual function getName: return name of Cylinder
+string Cylinder::getName() const
+{
+   return "Cylinder";
+
+}  // end function getName
+
+// override virtual function print: output Cylinder object
+void Cylinder::print() const
+{
+   Circle::print();  // code reuse
+   cout << "; height is " << getHeight();
+
+} // end function print
+/****/
+// Fig. 10.20: fig10_20.cpp
+// Driver for shape, point, circle, cylinder hierarchy.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::fixed;
+
+#include <iomanip>
+
+using std::setprecision;
+
+#include <vector>
+
+using std::vector;
+
+#include "shape.h"     // Shape class definition
+#include "point.h"     // Point class definition 
+#include "circle.h"    // Circle class definition 
+#include "cylinder.h"  // Cylinder class definition
+
+void virtualViaPointer( const Shape * );  
+void virtualViaReference( const Shape & );
+
+int main()
+{
+   // set floating-point number format
+   cout << fixed << setprecision( 2 );
+
+   Point point( 7, 11 );                  // create a Point
+   Circle circle( 22, 8, 3.5 );           // create a Circle
+   Cylinder cylinder( 10, 10, 3.3, 10 );  // create a Cylinder
+
+   cout << point.getName() << ": ";    // static binding
+   point.print();                      // static binding
+   cout << '\n';
+
+   cout << circle.getName() << ": ";   // static binding
+   circle.print();                     // static binding
+   cout << '\n';
+
+   cout << cylinder.getName() << ": "; // static binding
+   cylinder.print();                   // static binding
+   cout << "\n\n";
+
+   // create vector of three base-class pointers
+   vector< Shape * > shapeVector( 3 );  
+
+   // aim shapeVector[0] at derived-class Point object
+   shapeVector[ 0 ] = &point;
+
+   // aim shapeVector[1] at derived-class Circle object
+   shapeVector[ 1 ] = &circle;
+
+   // aim shapeVector[2] at derived-class Cylinder object
+   shapeVector[ 2 ] = &cylinder;
+
+   // loop through shapeVector and call virtualViaPointer
+   // to print the shape name, attributes, area and volume 
+   // of each object using dynamic binding
+   cout << "\nVirtual function calls made off "
+        << "base-class pointers:\n\n";
+
+   for ( int i = 0; i < shapeVector.size(); i++ ) 
+      virtualViaPointer( shapeVector[ i ] );
+
+   // loop through shapeVector and call virtualViaReference
+   // to print the shape name, attributes, area and volume 
+   // of each object using dynamic binding
+   cout << "\nVirtual function calls made off "
+        << "base-class references:\n\n";
+
+   for ( int j = 0; j < shapeVector.size(); j++ ) 
+      virtualViaReference( *shapeVector[ j ] );
+
+   return 0;
+
+} // end main
+
+// make virtual function calls off a base-class pointer
+// using dynamic binding
+void virtualViaPointer( const Shape *baseClassPtr )
+{
+   cout << baseClassPtr->getName() << ": ";
+
+   baseClassPtr->print();
+
+   cout << "\narea is " << baseClassPtr->getArea()
+        << "\nvolume is " << baseClassPtr->getVolume() 
+        << "\n\n";
+
+} // end function virtualViaPointer
+
+// make virtual function calls off a base-class reference
+// using dynamic binding
+void virtualViaReference( const Shape &baseClassRef )
+{
+   cout << baseClassRef.getName() << ": ";
+
+   baseClassRef.print();
+
+   cout << "\narea is " << baseClassRef.getArea()
+        << "\nvolume is " << baseClassRef.getVolume() << "\n\n";
+
+} // end function virtualViaReference

@@ -1,0 +1,207 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+<pre><tt>
+01: <b><font color="#000080">#include</font></b> <font
+ color="#ff0000">&lt;iostream&gt;</font>
+02: <b><font color="#000080">#include</font></b> <font
+ color="#ff0000">&lt;iomanip&gt;</font>
+04: <b><font color="#0000ff">using</font></b> <b><font
+ color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+05: 
+06: <b><font
+ color="#000080">#include</font></b> <font color="#ff0000">"ccc_time.cpp"</font>
+08: <i><font
+ color="#9a1900">/**</font></i>
+09: <i><font color="#9a1900">   Compute the number of seconds between two points in time.</font></i>
+10: <i><font
+ color="#9a1900">   @param a a point in time</font></i>
+11: <i><font
+ color="#9a1900">   @param b another point in time</font></i>
+12: <i><font
+ color="#9a1900">   @return the number of seconds that a is away from b</font></i>
+13: <i><font
+ color="#9a1900">*/</font></i>
+14: <font color="#009900">int</font> <b><font
+ color="#0000ff">operator</font></b><font color="#990000">-</font><font
+ color="#990000">(</font>Time a<font color="#990000">,</font> Time b<font
+ color="#990000">)</font>
+15: <font color="#ff0000">{</font>  <b><font
+ color="#0000ff">return</font></b> a<font color="#990000">.</font><b><font
+ color="#000000">seconds_from</font></b><font color="#990000">(</font>b<font
+ color="#990000">)</font><font color="#990000">;</font>  <font
+ color="#ff0000">}</font>
+18: 
+19: <i><font color="#9a1900">/**</font></i>
+20: <i><font
+ color="#9a1900">   Compute a point in time that is some number of seconds away.</font></i>
+21: <i><font
+ color="#9a1900">   @param a a point in time</font></i>
+22: <i><font
+ color="#9a1900">   @param sec the seconds to add</font></i>
+23: <i><font
+ color="#9a1900">   @return a point in time that is sec seconds away from a</font></i>
+24: <i><font
+ color="#9a1900">*/</font></i>
+25: Time <b><font color="#0000ff">operator</font></b><font
+ color="#990000">+</font><font color="#990000">(</font>Time a<font
+ color="#990000">,</font> <font color="#009900">int</font> sec<font
+ color="#990000">)</font>
+26: <font color="#ff0000">{</font>  Time r <font
+ color="#990000">=</font> a<font color="#990000">;</font>
+28:    r<font
+ color="#990000">.</font><b><font color="#000000">add_seconds</font></b><font
+ color="#990000">(</font>sec<font color="#990000">)</font><font
+ color="#990000">;</font>
+29:    <b><font color="#0000ff">return</font></b> r<font
+ color="#990000">;</font>
+30: <font color="#ff0000">}</font>
+31: 
+32: <i><font
+ color="#9a1900">/**</font></i>
+33: <i><font color="#9a1900">   Compare two points in time.</font></i>
+34: <i><font
+ color="#9a1900">   @param a a point in time</font></i>
+35: <i><font
+ color="#9a1900">   @param b another point in time</font></i>
+36: <i><font
+ color="#9a1900">   @return true if they are the same</font></i>
+37: <i><font
+ color="#9a1900">*/</font></i>
+38: <font color="#009900">bool</font> <b><font
+ color="#0000ff">operator</font></b><font color="#990000">=</font><font
+ color="#990000">=</font><font color="#990000">(</font>Time a<font
+ color="#990000">,</font> Time b<font color="#990000">)</font>
+39: <font
+ color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> a<font
+ color="#990000">.</font><b><font color="#000000">seconds_from</font></b><font
+ color="#990000">(</font>b<font color="#990000">)</font> <font
+ color="#990000">=</font><font color="#990000">=</font> <font
+ color="#993399">0</font><font color="#990000">;</font>  <font
+ color="#ff0000">}</font>
+42: 
+43: <i><font color="#9a1900">/**</font></i>
+44: <i><font
+ color="#9a1900">   Compare two points in time.</font></i>
+45: <i><font
+ color="#9a1900">   @param a a point in time</font></i>
+46: <i><font
+ color="#9a1900">   @param b another point in time</font></i>
+47: <i><font
+ color="#9a1900">   @return true if they are the different</font></i>
+48: <i><font
+ color="#9a1900">*/</font></i>
+49: <font color="#009900">bool</font> <b><font
+ color="#0000ff">operator</font></b><font color="#990000">!</font><font
+ color="#990000">=</font><font color="#990000">(</font>Time a<font
+ color="#990000">,</font> Time b<font color="#990000">)</font>
+50: <font
+ color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> a<font
+ color="#990000">.</font><b><font color="#000000">seconds_from</font></b><font
+ color="#990000">(</font>b<font color="#990000">)</font> <font
+ color="#990000">!</font><font color="#990000">=</font> <font
+ color="#993399">0</font><font color="#990000">;</font>   <font
+ color="#ff0000">}</font>
+53: 
+54: <i><font color="#9a1900">/**</font></i>
+55: <i><font
+ color="#9a1900">   Print a Time object</font></i>
+56: <i><font
+ color="#9a1900">   @param out an output stream</font></i>
+57: <i><font
+ color="#9a1900">   @param a a point in time</font></i>
+58: <i><font
+ color="#9a1900">   @return out</font></i>
+59: <i><font color="#9a1900">*/</font></i>
+60: ostream<font
+ color="#990000">&amp;</font> <b><font color="#0000ff">operator</font></b><font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font><font
+ color="#990000">(</font>ostream<font color="#990000">&amp;</font> out<font
+ color="#990000">,</font> Time a<font color="#990000">)</font>
+61: <font
+ color="#ff0000">{</font>  out <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> a<font color="#990000">.</font><b><font
+ color="#000000">get_hours</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <font color="#ff0000">":"</font>
+63:        <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font
+ color="#000000">setw</font></b><font color="#990000">(</font><font
+ color="#993399">2</font><font color="#990000">)</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font
+ color="#000000">setfill</font></b><font color="#990000">(</font><font
+ color="#ff0000">'0'</font><font color="#990000">)</font> <br>64:        <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> a<font
+ color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">":"</font>
+65:        <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font
+ color="#990000">(</font><font color="#993399">2</font><font
+ color="#990000">)</font> <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> a<font color="#990000">.</font><b><font
+ color="#000000">get_seconds</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font
+ color="#990000">(</font><font color="#ff0000">' '</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+66:    <b><font
+ color="#0000ff">return</font></b> out<font color="#990000">;</font>
+67: <font
+ color="#ff0000">}</font> <br>68: <br>69: <font color="#009900">int</font> <b><font
+ color="#000000">main</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+70: <font color="#ff0000">{</font>  Time now<font
+ color="#990000">;</font>
+72:    cout <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <font color="#ff0000">"Now it is "</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> now <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"\n"</font><font color="#990000">;</font>
+73:    Time later <font
+ color="#990000">=</font> now <font color="#990000">+</font> <font
+ color="#993399">1000</font><font color="#990000">;</font>
+74:    cout <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"A thousand seconds later it is "</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> later <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"\n"</font><font color="#990000">;</font>
+75:    Time now2<font
+ color="#990000">;</font>
+76:    <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>now <font color="#990000">=</font><font
+ color="#990000">=</font> now2<font color="#990000">)</font> cout <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"It still is "</font> <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> now2 <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font
+ color="#990000">;</font>
+78:    <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>now <font color="#990000">!</font><font
+ color="#990000">=</font> now2<font color="#990000">)</font> cout <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"It is already "</font> <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> now2 <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font
+ color="#990000">;</font>
+80:    cout <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <font color="#ff0000">"Another "</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> later <font
+ color="#990000">-</font> now2 <br>81:         <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <font color="#ff0000">" seconds until "</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> later <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"\n"</font><font color="#990000">;</font>
+82:    <b><font
+ color="#0000ff">return</font></b> <font color="#993399">0</font><font
+ color="#990000">;</font>
+83: <font color="#ff0000">}</font>
+84: 
+</tt>
+</pre>
+</body>
+</html>

@@ -1,0 +1,410 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Pointers</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 10: Pointers</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To learn how to declare, initialize and use
+pointers</font></li>
+  <li><font size="+1">To become familiar with dynamic memory allocation
+and deallocation</font></li>
+  <li><font size="+1">To use pointers in common programming situations
+that involve optional and shared objects</font></li>
+  <li><font size="+1">To understand the relationship between arrays and
+pointers</font></li>
+  <li><font size="+1">To be able to convert between string objects and
+character pointers </font></li>
+</ul>
+<h2>Pointers and Memory Allocation</h2>
+<ul>
+  <li><font size="+1">The C++ run-time system can create new objects
+for us.</font></li>
+  <li><font size="+1">When we create a new object, a <i>memory
+alllocator</i> finds a storage location for the object.</font></li>
+  <li><font size="+1">The memory allocator keeps a large storage area,
+called the <i>heap</i>, for that purpose.</font></li>
+  <li><font size="+1">The heap is a flexible pool of memory that can
+hold values of any type.</font></li>
+  <li><font size="+1">When you allocate a new heap object, the memory
+allocator tells where the object is located, by giving you the object's
+    <i>memory address</i>.</font></li>
+  <li><font size="+1">To manipulate memory addresses, you need to use a
+    <i>pointer</i>.</font></li>
+</ul>
+<h2>Pointers and Memory Allocation (Syntax 10.1 <tt>new</tt>
+Expression)</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 10.1 : <tt>new</tt>
+Expression</font></p>
+      <pre><font size="+1">new</font><i><font size="+1"> type_name<br></font></i><font
+ size="+1">new</font><i><font size="+1"> type_name</font></i><font
+ size="+1">(</font><i><font size="+1">exprssion</font></i><font
+ size="+1"><sub>1</sub>,</font><i><font size="+1"> expression</font></i><font
+ size="+1"><sub>2</sub>, . . . ,</font><i><font size="+1"> expression</font></i><font
+ size="+1"><sub>n</sub>)</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">new Time;<br>new Employee("Lin, Lisa", 68000)</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Allocate and construct a value on the
+heap and return a pointer to the value.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Pointers and Memory Allocation (Syntax 10.1 Pointer Variable
+Definition)</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 10.2 : Pointer Variable
+Definition</font></p>
+      <pre><font size="+1"><i>type_name</i>*<i> variable_name</i>;<i><br>type_name</i>*<i> variable_name </i>=<i> expression</i>;</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">Employee* boss;<br>Product* p = new Product;</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a new pointer variable, and
+optionally supply an initial value.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Pointers and Memory Allocation</h2>
+<ul>
+  <li><font size="+1">Pointers are declared by placing an<tt> *</tt>
+after the typename.
+    <blockquote>
+      <pre>Time * deadline;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Pointers hold the location of an object, not the
+actual object itself.</font></li>
+  <li><font size="+1">To create a new object, you use the <tt>new</tt>
+command.
+    <blockquote>
+      <pre>deadline = new Time;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You can also call the <tt>new</tt> command in
+conjunction with a constructor to initialize the object.
+    <blockquote>
+      <pre>Employee* boss = new Employee("Lin, Lisa", 68000);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To access the object that a pointer points to,
+the object must be dereferenced:</font>
+    <ul>
+      <li><font size="+1">Use <tt>*</tt> to access the actual object.</font></li>
+      <li><font size="+1">Use <tt>-&gt;</tt> to access methods of the
+object. </font> </li>
+    </ul>
+    <blockquote><font size="+1">
+      <pre>raise_salary(*boss, 10);<br>string name = boss-&gt;get_name();</pre>
+      </font></blockquote>
+  </li>
+  <li><font size="+1">The dot operator has a higher precedence than the
+    <tt>*</tt> operator: </font>
+    <blockquote>
+      <pre><font size="+1">string name = *boss.get_name(); // Error<br>string name = (*boss).get_name(); // OK</font></pre>
+    </blockquote>
+  </li>
+</ul>
+<h2>Pointers and Memory Allocation (Syntax 10.3 Pointer Dereferencing)</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 10.3 : Pointer
+Dereferencing</font></p>
+      <pre><font size="+1">*<i>pointer_expression<br>pointer_expression</i>-&gt;<i>class_member</i></font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">*boss<br>boss-&gt;set_salary(70000)</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Access the object to which a pointer
+points.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Pointers and Memory Allocation</h2>
+<ul>
+  <li><font size="+1">The special value <tt>NULL</tt> indicates that a
+pointer doesn't point anywhere.</font></li>
+  <li><font size="+1">Instead of leaving pointers uninitialized, you
+should always set them to <tt>NULL</tt> when you define them.
+    <blockquote>
+      <pre>Employee* boss = NULL; // will set later<br>. . .<br>if (boss != NULL) name = boss-&gt;get_name(); // OK</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You cannot dereference a <tt>NULL</tt> pointer.
+    <blockquote>
+      <pre>Employee* boss = NULL;<br>string name = boss-&gt;get_name(); // NO!! Program will crash</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Deallocating Dynamic Memory</h2>
+<ul>
+  <li><font size="+1">When you make a variable of a certain type, the
+object is allocated on the run-time stack. This object automatically
+goes away when the program leaves the block in which the variable is
+allocated:
+    <blockquote>
+      <pre>void f()<br>{  Employee harry; // memory for employee allocated on the stack<br>   . . . <br><br>} // memory for employee object automatically reclaimed</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Value that are allocated on the heap do not
+follow this automatic allocation mechanism. You must reclaim the memory
+using the <tt>delete</tt> operator.
+    <blockquote>
+      <pre>void g()<br>{  Employee* boss;<br>   boss = new Employee(. . .);<br>      // memory for employee object allocated on the heap<br>   . . .<br>   delete boss; // memory for employee object manually reclaimed<br>} // memory for boss automatically reclaimed</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Deallocating Dynamic Memory (Syntax 10.4 <tt>delete</tt>
+Expression)</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 10.4: <tt>delete</tt>
+Expression</font></p>
+      <pre><font size="+1">delete<i> pointer_expression</i></font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">delete boss;</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Deallocate a value that is stored on
+the heap and allow the memory to be reallocated.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Deallocating Dynamic Memory</h2>
+<ul>
+  <li><font size="+1">Reclaiming a pointer variable does not
+automatically reclaim the object to which it points.</font></li>
+  <li><font size="+1">(Common Error 10.4) A memory block that is not
+deallocated is called a <i>memory leak</i>.</font></li>
+  <li><font size="+1">Leaked memory can cause the heap to run out of
+memory.</font>
+    <ul>
+      <li><font size="+1">Program crashes.</font></li>
+      <li><font size="+1">Computer freezes up.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">When a pointer is defined it points to a random
+address; using this random address causes and error.
+    <blockquote>
+      <pre>Employee* boss;<br>string name = boss-&gt;get_name(); // NO!! boss contains a random address</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">After you <tt>delete</tt> the value attached to
+a pointer, you can no longer use that address.
+    <blockquote>
+      <pre>delete boss;<br>string name = boss-&gt;get_name(); // NO!! boss points to a deleted element</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">(Common Error 10.3) Such pointers are called <i>dangling</i>
+because they do not point to a valid object</font>.</li>
+</ul>
+<h2>Common Uses for Pointers (Optional Attributes)</h2>
+<ul>
+  <li><font size="+1">One use for pointers is <i>optional attributes</i>.</font></li>
+  <li><font size="+1">If the attribute is needed, the pointer is set to
+the address of the object; otherwise the pointer will be set to <tt>NULL</tt>.
+    <blockquote>
+      <pre>class Department {<br> . . .<br>private:<br>   string name;<br>   Employee* receptionist;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">This is better than allocating space for an
+object that might not be used.
+    <blockquote>
+      <pre>class Department  {     // modeled without pointer<br> . . .<br>private:<br>   string name;<br>   bool has_receptionist;<br>   Employee receptionist;<br>};</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Common Uses for Pointers (Sharing)</h2>
+<ul>
+  <li><font size="+1">Another common use of pointers is <i>sharing</i>.
+    </font></li>
+  <li><font size="+1">Rather than duplicating objects, we can use
+pointers to share the object. </font></li>
+  <li><font size="+1">Pointers are useful to model a "<i>n</i>:1"
+relationship, in which a number of different variables share the same
+object.</font></li>
+  <li><font size="+1">Example: Many departments may have a receptionist
+and a secretary. In some departments, this it the same person.
+    <blockquote>
+      <pre>class Department {<br> . . .<br>private:<br>   string name;<br>   Employee* receptionist;<br>   Employee* secretary;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Sharing is particularly important when changes to
+the object need to be observed by all users of the object.
+    <blockquote>
+      <pre>Employee* tina = new Employee("Tester, Tina", 50000);<br>Department qc("Quality Control");<br>qc.set_receptionist(tina);<br>qc.set_secretary(tina);<br>tina-&gt;set_salary(55000);<br></pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Without using pointers, changing Tina's salary
+would not update the information in the receptionist or secretary
+attribute. </font> </li>
+</ul>
+<h2>Common Uses for Pointers (<tt>department.cpp</tt>)</h2>
+<iframe src="code/department.cpp.html" height="80%" width="80%">Your
+browser does not support the &amp;amp;lt;iframe&amp;amp;gt; tag.</iframe>
+<h2>Arrays and Pointers</h2>
+<ul>
+  <li><font size="+1">There is an intimate connection between arrays
+and pointers in C++.</font></li>
+  <li><font size="+1">The name of an array is a pointer to the starting
+element.
+    <blockquote>
+      <pre>int a[10];<br>int* p = a; // now p points to a[0];<br>*a = 12; // same as a[0] = 12;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You can add an integer to offset to the pointer
+to point to another array location (<i>pointer arithmetic</i>).
+    <blockquote>
+      <pre>*(a + 3) <i>means the same as</i> a[3]</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">This relationship is called the <i>array/pointer
+duality law</i>. For any integer <tt>n</tt>,
+    <blockquote>
+      <pre>*(a + n) <i>means the same as</i> a[n]</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">When an array is passed into a function, it is
+actually a pointer to the starting element of the array.
+    <blockquote>
+      <pre>double maximum(const double a[], int a_size)<br>{  if (a_size == 0) return 0;<br>   double highest = a[0];<br>   int i;<br>   for (i = 0; i &lt; a_size; i++)<br>      if (a[i] &gt; highest) highest = a[i];<br>   return highest;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The declaration gives the illusion that an entire
+array is passed to the function, but in fact the function receives only
+the starting address of the array.
+    <blockquote>
+      <pre>double maximum(const double* a, int a_size)<br>{  /* identical code as above yields same results */<br>   . . . <br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">It is essential that the function also knows
+where the array ends.</font></li>
+</ul>
+<h2>Pointers to Character Strings</h2>
+<ul>
+  <li><font size="+1">C++ inherits a more primitive level of string
+handling from the C language, in which strings are represented as
+arrays of <tt>char</tt> values.</font></li>
+  <li><font size="+1">We don't recommend that you use character
+pointers or arrays in your programs, but you occasionally need to
+interface with functions that receive or return <tt>char*</tt> values.
+    <blockquote>
+      <pre>char s[] = "Harry";</pre>
+      <table bgcolor="#00ffff" border="1" cellpadding="4">
+        <tbody>
+          <tr bgcolor="#ffffff">
+            <td>
+            <p><tt><font size="+1">s[0]</font></tt></p>
+            </td>
+            <td><tt><font size="+1">s[1]</font></tt></td>
+            <td><tt><font size="+1">s[2]</font></tt></td>
+            <td><tt><font size="+1">s[3]</font></tt></td>
+            <td><tt><font size="+1">s[4]</font></tt></td>
+            <td><tt><font size="+1">s[5]</font></tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt><font size="+1">'H'</font></tt></td>
+            <td><tt><font size="+1">'a'</font></tt></td>
+            <td><tt><font size="+1">'r'</font></tt></td>
+            <td><tt><font size="+1">'r'</font></tt></td>
+            <td><tt><font size="+1">'y'</font></tt></td>
+            <td><tt><font size="+1">'\0'</font></tt></td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Literal</font><font size="+1"> strings are stored
+inside <tt>char</tt> arrays. </font></li>
+</ul>
+<p>
+</p>
+<div align="center"> </div>
+<ul>
+  <li><font size="+1">The <tt>string</tt> class has a constructor <tt>string(char
+*)</tt> that you can use to convert any character pointer or array to a
+safe an convenient <tt>string</tt> object.
+    <blockquote>
+      <pre>char* p = "Harry";<br>string name(p);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Use the <tt>c_str</tt> member function of the <tt>string</tt>
+class to obtain a <tt>char*</tt> pointer that points to the first
+character in the <tt>string</tt> object.</font></li>
+  <li><font size="+1">The <tt>tempnam</tt> function in the standard
+library yields the name of a temporary file, and expects a <tt>char*</tt>
+parameter for the directory name.
+    <blockquote>
+      <pre>string dir = . . .;<br>char* p = tempnam(dir.c_str(), NULL);<br>string file_name(p);</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<hr>
+</body>
+</html>

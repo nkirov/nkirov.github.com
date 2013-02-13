@@ -1,0 +1,174 @@
+// 10. Наследяване на класове. Базови и производни класове.
+//     Защитени членове на клас.
+//
+// Fig. 9.17: point3.h
+// Point3 class definition represents an x-y coordinate pair.
+#ifndef POINT3_H
+#define POINT3_H
+
+class Point3 {
+public:
+   Point3( int = 0, int = 0 ); // default constructor
+
+   void setX( int );    // set x in coordinate pair
+   int getX() const;    // return x from coordinate pair  
+   void setY( int );    // set y in coordinate pair
+   int getY() const;    // return y from coordinate pair  
+   void print() const;  // output Point3 object
+private:                // or protected:
+   int x;  // x part of coordinate pair
+   int y;  // y part of coordinate pair
+}; // end class Point3
+
+#endif
+/****/
+
+// Fig. 9.18: point3.cpp
+// Point class member-function definitions.
+#include <iostream>  
+using std::cout;
+#include "point3.h"   // Point3 class definition
+
+// default constructor
+Point3::Point3( int xValue, int yValue )
+   : x( xValue ), y( yValue )
+{  } // end Point3 constructor
+
+// set x in coordinate pair
+void Point3::setX( int xValue )
+{  x = xValue; // no need for validation
+} // end function setX
+
+// return x from coordinate pair
+int Point3::getX() const
+{  return x;
+} // end function getX
+
+// set y in coordinate pair
+void Point3::setY( int yValue )
+{  y = yValue; // no need for validation
+} // end function setY
+
+// return y from coordinate pair
+int Point3::getY() const
+{  return y;
+} // end function getY
+   
+// output Point3 object
+void Point3::print() const
+{  cout << '[' << getX() << ", " << getY() << ']';
+} // end function print
+/****/
+
+// Fig. 9.19: circle4.h
+// Circle4 class contains x-y coordinate pair and radius.
+#ifndef CIRCLE4_H
+#define CIRCLE4_H
+
+#include "point3.h"  // Point3 class definition
+
+class Circle4 : public Point3 {
+public:
+   // default constructor
+   Circle4( int = 0, int = 0, double = 0.0 );  
+
+   void setRadius( double );   // set radius
+   double getRadius() const;   // return radius
+
+   double getDiameter() const;       // return diameter
+   double getCircumference() const;  // return circumference
+   double getArea() const;           // return area
+   void print() const;         // output Circle4 object
+private: 
+   double radius;  // Circle4's radius
+}; // end class Circle4
+#endif 
+/****/
+
+// Fig. 9.20: circle4.cpp
+// Circle4 class member-function definitions.
+#include <iostream>  
+using std::cout;
+#include "circle4.h"   // Circle4 class definition
+
+// default constructor
+Circle4::Circle4( int xValue, int yValue, double radiusValue )
+   : Point3( xValue, yValue )  // call base-class constructor
+{  setRadius( radiusValue );
+} // end Circle4 constructor
+
+// set radius 
+void Circle4::setRadius( double radiusValue )
+{  radius = ( radiusValue < 0.0 ? 0.0 : radiusValue );
+} // end function setRadius
+
+// return radius 
+double Circle4::getRadius() const
+{  return radius;
+} // end function getRadius
+
+// calculate and return diameter
+double Circle4::getDiameter() const
+{  return 2 * getRadius();
+} // end function getDiameter
+
+// calculate and return circumference
+double Circle4::getCircumference() const
+{  return 3.14159 * getDiameter();
+} // end function getCircumference
+
+// calculate and return area
+double Circle4::getArea() const
+{  return 3.14159 * getRadius() * getRadius();
+} // end function getArea
+
+// output Circle4 object
+void Circle4::print() const
+{  cout << "Center = ";
+   Point3::print();      // invoke Point3's print function
+   cout << "; Radius = " << getRadius();
+} // end function print
+/*****/
+
+// Fig. 9.21: circletest4.cpp
+// Testing class Circle4.
+#include <iostream>  
+using std::cout;
+using std::endl;
+using std::fixed;
+
+#include <iomanip>
+using std::setprecision;
+
+#include "circle4.h"  // Circle4 class definition
+
+int main()
+{  Circle4 circle( 37, 43, 2.5 ); // instantiate Circle4 object
+
+   // display point coordinates
+   cout << "X coordinate is " << circle.getX() 
+        << "\nY coordinate is " << circle.getY()
+        << "\nRadius is " << circle.getRadius();
+   circle.setX( 2 );          // set new x-coordinate
+   circle.setY( 2 );          // set new y-coordinate
+   circle.setRadius( 4.25 );  // set new radius
+
+   // display new circle value
+   cout << "\n\nThe new location and radius of circle are\n";
+   circle.print();
+
+   // display floating-point values with 2 digits of precision
+   cout << fixed << setprecision( 2 );
+
+   // display Circle4's diameter
+   cout << "\nDiameter is " << circle.getDiameter();
+
+   // display Circle4's circumference
+   cout << "\nCircumference is " << circle.getCircumference();
+
+   // display Circle4's area
+   cout << "\nArea is " << circle.getArea();
+   cout << endl;
+
+   return 0;  // indicates successful termination 
+} // end main

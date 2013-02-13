@@ -1,0 +1,209 @@
+// 4. Композиция. Обекти като членове-данни на клас.
+//
+// Fig. 7.6: date1.h 
+// Date class definition.
+// Member functions defined in date1.cpp
+#ifndef DATE1_H
+#define DATE1_H
+
+class Date {
+
+public:
+   Date( int = 1, int = 1, int = 1900 ); // default constructor
+   void print() const;  // print date in month/day/year format
+   ~Date();  // provided to confirm destruction order
+
+private:
+   int month;  // 1-12 (January-December)
+   int day;    // 1-31 based on month
+   int year;   // any year
+
+   // utility function to test proper day for month and year
+   int checkDay( int ) const; 
+
+}; // end class Date
+
+#endif
+/****/
+// Fig. 7.8: employee1.h
+// Employee class definition.
+// Member functions defined in employee1.cpp.
+#ifndef EMPLY1_H
+#define EMPLY1_H
+
+// include Date class definition from date1.h
+#include "date1.h"
+
+class Employee {
+
+public:
+   Employee( 
+      const char *, const char *, const Date &, const Date & );
+
+   void print() const;
+   ~Employee();  // provided to confirm destruction order
+
+private:
+   char firstName[ 25 ];
+   char lastName[ 25 ];
+   const Date birthDate;  // composition: member object
+   const Date hireDate;   // composition: member object
+
+}; // end class Employee
+
+#endif
+/****/
+// Fig. 7.7: date1.cpp
+// Member-function definitions for class Date.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+// include Date class definition from date1.h
+#include "date1.h"
+
+// constructor confirms proper value for month; calls
+// utility function checkDay to confirm proper value for day
+Date::Date( int mn, int dy, int yr )
+{
+   if ( mn > 0 && mn <= 12 )  // validate the month
+      month = mn;
+
+   else {                     // invalid month set to 1
+      month = 1;
+      cout << "Month " << mn << " invalid. Set to month 1.\n";
+   }
+
+   year = yr;                 // should validate yr
+   day = checkDay( dy );      // validate the day
+
+   // output Date object to show when its constructor is called
+   cout << "Date object constructor for date ";
+   print();                   
+   cout << endl;
+
+} // end Date constructor
+
+// print Date object in form month/day/year
+void Date::print() const
+{
+   cout << month << '/' << day << '/' << year; 
+
+} // end function print
+
+// output Date object to show when its destructor is called
+Date::~Date()
+{ 
+   cout << "Date object destructor for date ";
+   print();
+   cout << endl;
+
+} // end ~Date destructor
+
+// utility function to confirm proper day value based on 
+// month and year; handles leap years, too
+int Date::checkDay( int testDay ) const
+{
+   static const int daysPerMonth[ 13 ] = 
+      { 0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31 };
+
+   // determine whether testDay is valid for specified month
+   if ( testDay > 0 && testDay <= daysPerMonth[ month ] )
+      return testDay;
+
+   // February 29 check for leap year 
+   if ( month == 2 && testDay == 29 &&
+      ( year % 400 == 0 ||                      
+         ( year % 4 == 0 && year % 100 != 0 ) ) )
+      return testDay;
+
+   cout << "Day " << testDay << " invalid. Set to day 1.\n";
+
+   return 1;  // leave object in consistent state if bad value
+
+} // end function checkDay
+/****/
+// Fig. 7.9: employee1.cpp
+// Member-function definitions for class Employee.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include <cstring>      // strcpy and strlen prototypes
+
+#include "employee1.h"  // Employee class definition
+#include "date1.h"      // Date class definition
+
+// constructor uses member initializer list to pass initializer
+// values to constructors of member objects birthDate and      
+// hireDate [Note: This invokes the so-called "default copy    
+// constructor" which the C++ compiler provides implicitly.]   
+Employee::Employee( const char *first, const char *last,
+   const Date &dateOfBirth, const Date &dateOfHire )
+   : birthDate( dateOfBirth ),  // initialize birthDate
+     hireDate( dateOfHire )     // initialize hireDateba
+{
+   // copy first into firstName and be sure that it fits
+   int length = strlen( first );
+   length = ( length < 25 ? length : 24 );
+   strncpy( firstName, first, length );
+   firstName[ length ] = '\0';
+
+   // copy last into lastName and be sure that it fits
+   length = strlen( last );
+   length = ( length < 25 ? length : 24 );
+   strncpy( lastName, last, length );
+   lastName[ length ] = '\0';
+
+   // output Employee object to show when constructor is called
+   cout << "Employee object constructor: "
+        << firstName << ' ' << lastName << endl;
+
+} // end Employee constructor
+
+// print Employee object
+void Employee::print() const
+{
+   cout << lastName << ", " << firstName << "\nHired: ";
+   hireDate.print();
+   cout << "  Birth date: ";
+   birthDate.print();
+   cout << endl;
+
+} // end function print
+
+// output Employee object to show when its destructor is called
+Employee::~Employee()
+{ 
+   cout << "Employee object destructor: " 
+        << lastName << ", " << firstName << endl;
+
+} // end ~Employee destructor
+/****/
+// Fig. 7.10: fig07_10.cpp
+// Demonstrating composition--an object with member objects.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include "employee1.h"  // Employee class definition
+
+int main()
+{
+   Date birth( 7, 24, 1949 );
+   Date hire( 3, 12, 1988 );
+   Employee manager( "Bob", "Jones", birth, hire );
+
+   cout << '\n';
+   manager.print();
+
+   cout << "\nTest Date constructor with invalid values:\n";
+   Date lastDayOff( 14, 35, 1994 );  // invalid month and day
+   cout << endl;
+
+   return 0;
+
+} // end main

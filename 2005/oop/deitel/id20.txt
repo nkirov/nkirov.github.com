@@ -1,0 +1,297 @@
+// 20. Пренасочване на обработката на изключението. "Развиване" на 
+// стека. Обработка на изключение при new. 
+//
+// Fig. 13.2: fig13_02.cpp
+// Demonstrating exception rethrowing.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include <exception>
+
+using std::exception;
+
+// throw, catch and rethrow exception
+void throwException() 
+{
+   // throw exception and catch it immediately
+   try {
+      cout << "  Function throwException throws an exception\n";
+      throw exception();  // generate exception
+
+   } // end try
+
+   // handle exception
+   catch ( exception &caughtException ) {
+      cout << "  Exception handled in function throwException"
+           << "\n  Function throwException rethrows exception";
+
+      throw;  // rethrow exception for further processing
+
+   } // end catch
+
+   cout << "This also should not print\n";
+
+}  // end function throwException
+
+int main()
+{
+   // throw exception
+   try {
+      cout << "\nmain invokes function throwException\n";
+      throwException();
+      cout << "This should not print\n";
+
+   } // end try
+
+   // handle exception
+   catch ( exception &caughtException ) {
+      cout << "\n\nException handled in main\n";
+
+   } // end catch
+
+   cout << "Program control continues after catch in main\n";
+
+   return 0;
+
+}  // end main
+/**********************************************************/
+// Fig. 13.3: fig13_03.cpp
+// Demonstrating stack unwinding.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include <stdexcept>
+
+using std::runtime_error;
+
+// function3 throws run-time error
+void function3() throw ( runtime_error )
+{
+   throw runtime_error( "runtime_error in function3" ); // fourth
+}
+
+// function2 invokes function3
+void function2() throw ( runtime_error )
+{
+   function3(); // third
+}
+
+// function1 invokes function2
+void function1() throw ( runtime_error )
+{
+   function2(); // second
+}
+
+// demonstrate stack unwinding
+int main()
+{
+   // invoke function1
+   try {
+      function1(); // first
+
+   } // end try
+
+   // handle run-time error
+   catch ( runtime_error &error ) // fifth
+   {
+      cout << "Exception occurred: " << error.what() << endl;
+
+   } // end catch
+
+   return 0;
+
+}  // end main
+/************/
+// Fig. 13.4: fig13_04.cpp
+// Demonstrating pre-standard new returning 0 when memory 
+// is not allocated.
+#include <iostream>
+
+using std::cout;
+
+int main()
+{
+   double *ptr[ 50 ];
+
+   // allocate memory for ptr
+   for ( int i = 0; i < 50; i++ ) {
+      ptr[ i ] = new double[ 5000000 ];
+
+      // new returns 0 on failure to allocate memory
+      if ( ptr[ i ] == 0 ) {
+         cout << "Memory allocation failed for ptr[ " 
+              << i << " ]\n";
+
+         break;
+
+      } // end if
+
+      // successful memory allocation
+      else
+         cout << "Allocated 5000000 doubles in ptr[ " 
+              << i << " ]\n";
+
+   } // end for
+
+   return 0;
+
+}  // end main
+/************/
+// Fig. 13.5: fig13_05.cpp
+// Demonstrating standard new throwing bad_alloc when memory
+// cannot be allocated.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include <new> // standard operator new
+
+using std::bad_alloc;
+
+int main()
+{
+   double *ptr[ 50 ];
+   
+   // attempt to allocate memory
+   try {
+
+      // allocate memory for ptr[ i ]; new throws bad_alloc 
+      // on failure
+      for ( int i = 0; i < 50; i++ ) {
+         ptr[ i ] = new double[ 5000000 ];
+         cout << "Allocated 5000000 doubles in ptr[ " 
+              << i << " ]\n";
+      }
+
+   } // end try
+
+   // handle bad_alloc exception
+   catch ( bad_alloc &memoryAllocationException ) {
+      cout << "Exception occurred: " 
+           << memoryAllocationException.what() << endl;
+
+   } // end catch
+   
+   return 0;
+
+}  // end main
+/************/
+// Fig. 13.6: fig13_06.cpp
+// Demonstrating set_new_handler.
+#include <iostream>
+
+using std::cout;
+using std::cerr;
+
+#include <new>     // standard operator new and set_new_handler
+
+using std::set_new_handler;
+
+#include <cstdlib> // abort function prototype
+
+void customNewHandler()
+{
+   cerr << "customNewHandler was called";
+   abort();
+}
+
+// using set_new_handler to handle failed memory allocation
+int main()
+{
+   double *ptr[ 50 ];
+
+   // specify that customNewHandler should be called on failed 
+   // memory allocation
+   set_new_handler( customNewHandler );   
+
+   // allocate memory for ptr[ i ]; customNewHandler will be
+   // called on failed memory allocation
+   for ( int i = 0; i < 50; i++ ) {
+      ptr[ i ] = new double[ 5000000 ];
+
+      cout << "Allocated 5000000 doubles in ptr[ " 
+           << i << " ]\n";
+
+   } // end for
+
+   return 0;
+
+}  // end main
+/************/
+// Fig. 13.7: fig13_07.cpp
+// Demonstrating auto_ptr.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include <memory>
+
+using std::auto_ptr; // auto_ptr class definition
+
+class Integer {
+
+public:
+
+   // Integer constructor
+   Integer( int i = 0 )
+      : value( i )
+   {
+      cout << "Constructor for Integer " << value << endl;
+
+   } // end Integer constructor
+
+   // Integer destructor
+   ~Integer()
+   {
+      cout << "Destructor for Integer " << value << endl;
+
+   } // end Integer destructor
+
+   // functions to set Integer
+   void setInteger( int i )
+   {
+      value = i;
+
+   } // end function setInteger
+
+   // function to return Integer
+   int getInteger() const
+   {
+      return value;
+
+   } // end function getInteger
+
+private:
+   int value;
+
+};  // end class Integer
+
+// use auto_ptr to manipulate Integer object
+int main()
+{
+   cout << "Creating an auto_ptr object that points to an "
+        << "Integer\n";
+
+   // "aim" auto_ptr at Integer object
+   auto_ptr< Integer > ptrToInteger( new Integer( 7 ) );
+
+   cout << "\nUsing the auto_ptr to manipulate the Integer\n";
+
+   // use auto_ptr to set Integer value
+   ptrToInteger->setInteger( 99 );
+
+   // use auto_ptr to get Integer value
+   cout << "Integer after setInteger: " 
+        << ( *ptrToInteger ).getInteger()
+        << "\n\nTerminating program" << endl;
+
+   return 0;
+
+}  // end main
+

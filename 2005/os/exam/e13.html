@@ -1,0 +1,339 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os4</title>
+</head>
+<body>
+<b>13. Конкуренция: взаимно изключване и синхронизация</b>
+<br><b>Семафори. Задача за производител/потребител.</b>
+<p><b>5.5 Задача за производител/потребител.</b>
+<br>&nbsp;&nbsp;&nbsp; Един или няколко производители генерират данни (записи,
+символи) и ги поставят в един буфер. Един потребител взема по една данна
+от буфера. Само един агент (производител или потребител) има достъп да
+буфера в даден момент.
+<br>--- FIGURE 5.11 ---
+<p>* <b>Първи опит</b> за решение със семафори:
+<br><b><tt><font color="#003300">/* program producer_consumer */</font></tt></b>
+<br><b><tt><font color="#003300">int n;</font></tt></b>
+<br><b><tt><font color="#003300">binary_semaphore s = 1;</font></tt></b>
+<br><b><tt><font color="#003300">binary_semaphore delay = 0;</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td VALIGN=TOP><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; void
+producer()</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">/*p1*/ produce();</font></tt></b>
+<br><b><tt><font color="#003300">/*p2*/ waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">/*p3*/ append(); /*КС*/&nbsp;</font></tt></b>
+<br><b><tt><font color="#003300">/*p4*/ n++;</font></tt></b>
+<br><b><tt><font color="#003300">/*p5*/ if (n==1) signalB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">/*p6*/ signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b></td>
+
+<td><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; void consumer()</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">/*c1*/ waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">/*c2*/ take();&nbsp;&nbsp;&nbsp; /*КС*/</font></tt></b>
+<br><b><tt><font color="#003300">/*c3*/ n--;</font></tt></b>
+<br><b><tt><font color="#003300">/*c4*/ signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">/*c5*/ consume();</font></tt></b>
+<br><b><tt><font color="#003300">/*c6*/ if (n==0) waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{ n = 0;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; parbegin(producer, consumer);</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp; Семафорът </font><b><tt><font color="#006600">s</font></tt></b><font color="#000000">
+служи за взаимно изключване, семафорът </font><b><tt><font color="#006600">delay</font></tt></b><font color="#000000">
+- за чакане на потребителя, когато буферът е празен.</font>
+<br><font color="#000000">Проблем:</font>
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td>
+<center><b><tt>n</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>delay</tt></b></center>
+</td>
+
+<td></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Init</tt></b></center>
+</td>
+
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>2</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Producer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td><b><tt>p1->p2->p3->p4->p5->p6</tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>3</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>waitB(delay)</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>4</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td><b><tt>c1->c2->c3->c4->c5-></tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>5</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Producer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td><b><tt>p1->p2->p3->p4-></tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>6</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt><font color="#003300">if (n==0) waitB(delay)</font></tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td><b><tt>->c6</tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>7</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td><b><tt>c1->c2->c3->c4->c5-></tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>8</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt><font color="#003300">if (n==0) waitB(delay)</font></tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td><b><tt>->c6</tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>9</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>-1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td><b><tt>c1->c2-> !!!</tt></b></td>
+</tr>
+</table>
+
+<p>* <b>Втори опит</b> - решение:
+<br><b><tt><font color="#333300">int n;</font></tt></b>
+<br><b><tt><font color="#333300">binary_semaphore s = 1;</font></tt></b>
+<br><b><tt><font color="#333300">binary_semaphore delay = 0;</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td VALIGN=TOP><b><tt><font color="#003300">void producer()</font></tt></b>
+<br><b><tt><font color="#003300">{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; produce();</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; append();n++;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; if (n==1) signalB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b></td>
+
+<td><b><tt><font color="#003300">void consumer()</font></tt></b>
+<br><b><tt><font color="#003300">{ int m;&nbsp; /* a local variable */</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; take(); n--;&nbsp; m = n;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; consume();</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; if (m==0) waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{ n = 0;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; parbegin (producer, consumer);</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Варианти на задачата - безкраен буфер и краен кръгов
+буфер.
+<br>--- FIGURE 5.15 ---
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

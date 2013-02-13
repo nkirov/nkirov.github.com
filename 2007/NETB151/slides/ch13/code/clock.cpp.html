@@ -1,0 +1,787 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+<pre><tt>
+001: <b><font color="#000080">#include</font></b> <font
+ color="#ff0000">&lt;cstdlib&gt;</font>
+002: <b><font color="#000080">#include</font></b> <font
+ color="#ff0000">&lt;cmath&gt;</font>
+003: <b><font color="#000080">#include</font></b> <font
+ color="#ff0000">&lt;ctime&gt;</font>
+005: <b><font color="#0000ff">using</font></b> <b><font
+ color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+006: 
+007: <b><font
+ color="#000080">#include</font></b> <font color="#ff0000">"ccc_win.h"</font>
+008: <b><font
+ color="#000080">#include</font></b> <font color="#ff0000">"ccc_time.h"</font>
+009: 
+010: <b><font
+ color="#0000ff">const</font></b> <font color="#009900">double</font> PI <font
+ color="#990000">=</font> <font color="#993399">3.141592653589793</font><font
+ color="#990000">;</font>
+012: <i><font color="#9a1900">/**</font></i>
+013: <i><font
+ color="#9a1900">   A clock that can draw its face.</font></i>
+014: <i><font
+ color="#9a1900">*/</font></i>
+015: <b><font color="#0000ff">class</font></b> Clock <font
+ color="#ff0000">{</font>
+017: <b><font color="#0000ff">public</font></b><font
+ color="#990000">:</font>
+018:    <i><font color="#9a1900">/**</font></i>
+019: <i><font
+ color="#9a1900">      Constructs a clock with a given center and radius.</font></i>
+020: <i><font
+ color="#9a1900">      @param c the center of the clock</font></i>
+021: <i><font
+ color="#9a1900">      @param r the radius of the clock</font></i>
+022: <i><font
+ color="#9a1900">   */</font></i>              <br>023:    <b><font
+ color="#000000">Clock</font></b><font color="#990000">(</font>Point c<font
+ color="#990000">,</font> <font color="#009900">double</font> r<font
+ color="#990000">)</font><font color="#990000">;</font>
+025:    <i><font
+ color="#9a1900">/**</font></i>
+026: <i><font color="#9a1900">      Sets the current time.</font></i>
+027: <i><font
+ color="#9a1900">      @param t the time to set</font></i>
+028: <i><font
+ color="#9a1900">   */</font></i>
+029:    <font color="#009900">void</font> <b><font
+ color="#000000">set_time</font></b><font color="#990000">(</font>Time t<font
+ color="#990000">)</font><font color="#990000">;</font>
+031:    <i><font
+ color="#9a1900">/**</font></i>
+032: <i><font color="#9a1900">      Draws the clock face, with tick marks and hands.</font></i>
+033: <i><font
+ color="#9a1900">   */</font></i>
+034:    <font color="#009900">void</font> <b><font
+ color="#000000">draw</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <b><font color="#0000ff">const</font></b><font
+ color="#990000">;</font>
+035: <b><font color="#0000ff">private</font></b><font
+ color="#990000">:</font>
+036:    <i><font color="#9a1900">/**</font></i>
+037: <i><font
+ color="#9a1900">      Draw a tick mark (hour or minute mark).</font></i>
+038: <i><font
+ color="#9a1900">      @param angle the angle in minutes (0...59, 0 = top)</font></i>
+039: <i><font
+ color="#9a1900">      @param length the length of the tick mark</font></i>
+040: <i><font
+ color="#9a1900">   */</font></i>
+041:    <font color="#009900">void</font> <b><font
+ color="#000000">draw_tick</font></b><font color="#990000">(</font><font
+ color="#009900">double</font> angle<font color="#990000">,</font> <font
+ color="#009900">double</font> length<font color="#990000">)</font> <b><font
+ color="#0000ff">const</font></b><font color="#990000">;</font>
+043:    <i><font
+ color="#9a1900">/**</font></i>
+044: <i><font color="#9a1900">      Draw a hand, starting from the center.</font></i>
+045: <i><font
+ color="#9a1900">      @param angle the angle in minutes (0...59, 0 = top)</font></i>
+046: <i><font
+ color="#9a1900">      @param length the length of the hand</font></i>
+047: <i><font
+ color="#9a1900">   */</font></i>
+048:    <font color="#009900">void</font> <b><font
+ color="#000000">draw_hand</font></b><font color="#990000">(</font><font
+ color="#009900">double</font> angle<font color="#990000">,</font> <font
+ color="#009900">double</font> length<font color="#990000">)</font> <b><font
+ color="#0000ff">const</font></b><font color="#990000">;</font>
+049: 
+050:    Time current_time<font
+ color="#990000">;</font>
+051:    Point center<font color="#990000">;</font>
+052:    <font
+ color="#009900">double</font> radius<font color="#990000">;</font>
+053: <font
+ color="#ff0000">}</font><font color="#990000">;</font>
+054: 
+055: <i><font
+ color="#9a1900">/**</font></i>
+056: <i><font color="#9a1900">   The player of the clock game.</font></i>
+057: <i><font
+ color="#9a1900">*/</font></i>
+058: <b><font color="#0000ff">class</font></b> Player <font
+ color="#ff0000">{</font>
+060: <b><font color="#0000ff">public</font></b><font
+ color="#990000">:</font>
+061:    <i><font color="#9a1900">/**</font></i>
+062: <i><font
+ color="#9a1900">      Constructs a player with no name, level 1, and score 0.</font></i>
+063: <i><font
+ color="#9a1900">   */</font></i>
+064:    <b><font color="#000000">Player</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+066:    <i><font color="#9a1900">/**</font></i>
+067: <i><font
+ color="#9a1900">      Constructs a player with given name and level.</font></i>
+068: <i><font
+ color="#9a1900">      @param player_name the player name</font></i>
+069: <i><font
+ color="#9a1900">      @param initial_level the player's level (1...4)</font></i>
+070: <i><font
+ color="#9a1900">   */</font></i>            <br>071:    <b><font
+ color="#000000">Player</font></b><font color="#990000">(</font>string player_name<font
+ color="#990000">,</font> <font color="#009900">int</font> initial_level<font
+ color="#990000">)</font><font color="#990000">;</font>
+073:    <i><font
+ color="#9a1900">/**</font></i>
+074: <i><font color="#9a1900">      Increments the score. Moves to next level if current </font></i>
+075: <i><font
+ color="#9a1900">      level complete</font></i>
+076: <i><font
+ color="#9a1900">   */</font></i>
+077:    <font color="#009900">void</font> <b><font
+ color="#000000">increment_score</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+079:    <i><font
+ color="#9a1900">/**</font></i>
+080: <i><font color="#9a1900">      Gets the current level.</font></i>
+081: <i><font
+ color="#9a1900">      @return the level</font></i>
+082: <i><font
+ color="#9a1900">   */</font></i>
+083:    <font color="#009900">int</font> <b><font
+ color="#000000">get_level</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <b><font color="#0000ff">const</font></b><font
+ color="#990000">;</font>
+085:    <i><font color="#9a1900">/**</font></i>
+086: <i><font
+ color="#9a1900">      Gets the player's name.</font></i>
+087: <i><font
+ color="#9a1900">      @return the name</font></i>
+088: <i><font
+ color="#9a1900">   */</font></i>
+089:    string <b><font
+ color="#000000">get_name</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <b><font color="#0000ff">const</font></b><font
+ color="#990000">;</font>
+090: <b><font color="#0000ff">private</font></b><font
+ color="#990000">:</font>
+091:    string name<font color="#990000">;</font>
+092:    <font
+ color="#009900">int</font> score<font color="#990000">;</font>
+093:    <font
+ color="#009900">int</font> level<font color="#990000">;</font>
+094: <font
+ color="#ff0000">}</font><font color="#990000">;</font>
+095: 
+096: <i><font
+ color="#9a1900">/**</font></i>
+097: <i><font color="#9a1900">   The clock game.</font></i>
+098: <i><font
+ color="#9a1900">*/</font></i>
+099: <b><font color="#0000ff">class</font></b> Game <font
+ color="#ff0000">{</font>
+101: <b><font color="#0000ff">public</font></b><font
+ color="#990000">:</font>
+102:    <i><font color="#9a1900">/**</font></i>
+103: <i><font
+ color="#9a1900">      Constructs the game with a default player.</font></i>
+104: <i><font
+ color="#9a1900">   */</font></i>
+105:    <b><font color="#000000">Game</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+107:    <i><font color="#9a1900">/**</font></i>
+108: <i><font
+ color="#9a1900">      Plays the game while the player wants to continue.</font></i>
+109: <i><font
+ color="#9a1900">   */</font></i>
+110:    <font color="#009900">void</font> <b><font
+ color="#000000">play</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+112:    <i><font
+ color="#9a1900">/**</font></i>
+113: <i><font color="#9a1900">      Reads player name and level.</font></i>
+114: <i><font
+ color="#9a1900">   */</font></i>
+115:    <font color="#009900">void</font> <b><font
+ color="#000000">read_player_information</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+117:    <i><font
+ color="#9a1900">/**</font></i>
+118: <i><font color="#9a1900">      Plays a round, with up to two guesses.</font></i>
+119: <i><font
+ color="#9a1900">   */</font></i>
+120:    <font color="#009900">void</font> <b><font
+ color="#000000">play_round</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+121: <b><font
+ color="#0000ff">private</font></b><font color="#990000">:</font>
+122:    <i><font
+ color="#9a1900">/**</font></i>
+123: <i><font color="#9a1900">      Makes a random time, depending on the level</font></i>
+124: <i><font
+ color="#9a1900">      @return the random time</font></i>
+125: <i><font
+ color="#9a1900">   */</font></i>
+126:    Time <b><font color="#000000">random_time</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+128:    <i><font color="#9a1900">/**   </font></i>
+129: <i><font
+ color="#9a1900">      Gets a time input from the user</font></i>
+130: <i><font
+ color="#9a1900">      @return  the time guessed by the user</font></i>
+131: <i><font
+ color="#9a1900">   */</font></i>
+132:    Time <b><font color="#000000">get_guess</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+133: 
+134:    Player player<font
+ color="#990000">;</font>
+135: <font color="#ff0000">}</font><font
+ color="#990000">;</font>
+136: 
+137: <i><font color="#9a1900">/**</font></i>
+138: <i><font
+ color="#9a1900">   Sets the seed of the random number generator.</font></i>
+139: <i><font
+ color="#9a1900">*/</font></i>
+140: <font color="#009900">void</font> <b><font
+ color="#000000">rand_seed</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+141: <font color="#ff0000">{</font> i<font
+ color="#009900">nt</font> seed <font color="#990000">=</font> <b><font
+ color="#000000">static_cast</font></b><font color="#ff0000">&lt;int&gt;</font><font
+ color="#990000">(</font><b><font color="#000000">time</font></b><font
+ color="#990000">(</font><font color="#993399">0</font><font
+ color="#990000">)</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+143:   <b><font color="#000000">srand</font></b><font
+ color="#990000">(</font>seed<font color="#990000">)</font><font
+ color="#990000">;</font>
+144: <font color="#ff0000">}</font>
+146: <i><font
+ color="#9a1900">/**</font></i>
+147: <i><font color="#9a1900">   Returns a random integer in a range.</font></i>
+148: <i><font
+ color="#9a1900">   @param a the bottom of the range</font></i>
+149: <i><font
+ color="#9a1900">   @param b the top of the range</font></i>
+150: <i><font
+ color="#9a1900">   @return a random number x, a &lt;= x and x &lt;= b</font></i>
+151: <i><font
+ color="#9a1900">*/</font></i>
+152: <font color="#009900">int</font> <b><font
+ color="#000000">rand_int</font></b><font color="#990000">(</font><font
+ color="#009900">int</font> a<font color="#990000">,</font> <font
+ color="#009900">int</font> b<font color="#990000">)</font>
+153: <font
+ color="#ff0000">{</font> <b><font color="#0000ff">return</font></b> a <font
+ color="#990000">+</font> <b><font color="#000000">rand</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <font
+ color="#990000">%</font> <font color="#990000">(</font>b <font
+ color="#990000">-</font> a <font color="#990000">+</font> <font
+ color="#993399">1</font><font color="#990000">)</font><font
+ color="#990000">;</font> <font color="#ff0000">}</font>
+156: 
+157: Clock<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">Clock</font></b><font color="#990000">(</font>Point c<font
+ color="#990000">,</font> <font color="#009900">double</font> r<font
+ color="#990000">)</font>
+158: <font color="#ff0000">{</font>  center <font
+ color="#990000">=</font> c<font color="#990000">;</font>
+160:    radius <font
+ color="#990000">=</font> r<font color="#990000">;</font>
+161: <font
+ color="#ff0000">}</font>
+162: 
+163: <font color="#009900">void</font> Clock<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">set_time</font></b><font color="#990000">(</font>Time t<font
+ color="#990000">)</font>
+164: <font color="#ff0000">{</font> current_time <font
+ color="#990000">=</font> t<font color="#990000">;</font> <font
+ color="#ff0000">}</font>
+167: 
+168: <font color="#009900">void</font> Clock<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">draw_tick</font></b><font color="#990000">(</font><font
+ color="#009900">double</font> angle<font color="#990000">,</font> <font
+ color="#009900">double</font> length<font color="#990000">)</font> <b><font
+ color="#0000ff">const</font></b>
+169: <font color="#ff0000">{</font> <font
+ color="#009900">double</font> alpha <font color="#990000">=</font> PI <font
+ color="#990000">/</font> <font color="#993399">2</font> <font
+ color="#990000">-</font> <font color="#993399">6</font> <font
+ color="#990000">*</font> angle <font color="#990000">*</font> PI <font
+ color="#990000">/</font> <font color="#993399">180</font><font
+ color="#990000">;</font>
+171:   Point <b><font color="#000000">from</font></b><font
+ color="#990000">(</font>
+172:       center<font color="#990000">.</font><b><font
+ color="#000000">get_x</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <font color="#990000">+</font> <b><font
+ color="#000000">cos</font></b><font color="#990000">(</font>alpha<font
+ color="#990000">)</font> <font color="#990000">*</font> radius <font
+ color="#990000">*</font> <font color="#990000">(</font><font
+ color="#993399">1</font> <font color="#990000">-</font> length<font
+ color="#990000">)</font><font color="#990000">,</font>
+173:       center<font
+ color="#990000">.</font><b><font color="#000000">get_y</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <font
+ color="#990000">+</font> <b><font color="#000000">sin</font></b><font
+ color="#990000">(</font>alpha<font color="#990000">)</font> <font
+ color="#990000">*</font> radius <font color="#990000">*</font> <font
+ color="#990000">(</font><font color="#993399">1</font> <font
+ color="#990000">-</font> length<font color="#990000">)</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+174:   Point <b><font
+ color="#000000">to</font></b><font color="#990000">(</font>center<font
+ color="#990000">.</font><b><font color="#000000">get_x</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <font
+ color="#990000">+</font> <b><font color="#000000">cos</font></b><font
+ color="#990000">(</font>alpha<font color="#990000">)</font> <font
+ color="#990000">*</font> radius<font color="#990000">,</font>
+175:       center<font
+ color="#990000">.</font><b><font color="#000000">get_y</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <font
+ color="#990000">+</font> <b><font color="#000000">sin</font></b><font
+ color="#990000">(</font>alpha<font color="#990000">)</font> <font
+ color="#990000">*</font> radius<font color="#990000">)</font><font
+ color="#990000">;</font>
+176:   cwin <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <b><font color="#000000">Line</font></b><font
+ color="#990000">(</font>from<font color="#990000">,</font> to<font
+ color="#990000">)</font><font color="#990000">;</font>
+177: <font
+ color="#ff0000">}</font>
+178: 
+179: <font color="#009900">void</font> Clock<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">draw_hand</font></b><font color="#990000">(</font><font
+ color="#009900">double</font> angle<font color="#990000">,</font> <font
+ color="#009900">double</font> length<font color="#990000">)</font> <b><font
+ color="#0000ff">const</font></b>
+180: <font color="#ff0000">{</font> <font
+ color="#009900">double</font> alpha <font color="#990000">=</font> PI <font
+ color="#990000">/</font> <font color="#993399">2</font> <font
+ color="#990000">-</font> <font color="#993399">6</font> <font
+ color="#990000">*</font> angle <font color="#990000">*</font> PI <font
+ color="#990000">/</font> <font color="#993399">180</font><font
+ color="#990000">;</font>
+182:   Point from <font color="#990000">=</font> center<font
+ color="#990000">;</font>
+183:   Point <b><font color="#000000">to</font></b><font
+ color="#990000">(</font>center<font color="#990000">.</font><b><font
+ color="#000000">get_x</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <font color="#990000">+</font> <b><font
+ color="#000000">cos</font></b><font color="#990000">(</font>alpha<font
+ color="#990000">)</font> <font color="#990000">*</font> radius <font
+ color="#990000">*</font> length<font color="#990000">,</font>
+184:       center<font
+ color="#990000">.</font><b><font color="#000000">get_y</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <font
+ color="#990000">+</font> <b><font color="#000000">sin</font></b><font
+ color="#990000">(</font>alpha<font color="#990000">)</font> <font
+ color="#990000">*</font> radius <font color="#990000">*</font> length<font
+ color="#990000">)</font><font color="#990000">;</font>
+185:   cwin <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font
+ color="#000000">Line</font></b><font color="#990000">(</font>from<font
+ color="#990000">,</font> to<font color="#990000">)</font><font
+ color="#990000">;</font>
+186: <font color="#ff0000">}</font>
+187: 
+188: <font
+ color="#009900">void</font> Clock<font color="#990000">:</font><font
+ color="#990000">:</font><b><font color="#000000">draw</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <b><font
+ color="#0000ff">const</font></b>
+189: <font color="#ff0000">{</font> cwin <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font
+ color="#000000">Circle</font></b><font color="#990000">(</font>center<font
+ color="#990000">,</font> radius<font color="#990000">)</font><font
+ color="#990000">;</font>
+191:   <b><font color="#0000ff">const</font></b> <font
+ color="#009900">double</font> HOUR_TICK_LENGTH <font color="#990000">=</font> <font
+ color="#993399">0.2</font><font color="#990000">;</font>
+192:   <b><font
+ color="#0000ff">const</font></b> <font color="#009900">double</font> MINUTE_TICK_LENGTH <font
+ color="#990000">=</font> <font color="#993399">0.1</font><font
+ color="#990000">;</font>
+193:   <b><font color="#0000ff">const</font></b> <font
+ color="#009900">double</font> HOUR_HAND_LENGTH <font color="#990000">=</font> <font
+ color="#993399">0.6</font><font color="#990000">;</font>
+194:   <b><font
+ color="#0000ff">const</font></b> <font color="#009900">double</font> MINUTE_HAND_LENGTH <font
+ color="#990000">=</font> <font color="#993399">0.75</font><font
+ color="#990000">;</font>
+195:   <b><font color="#0000ff">for</font></b> <font
+ color="#990000">(</font><font color="#009900">int</font> i <font
+ color="#990000">=</font> <font color="#993399">0</font><font
+ color="#990000">;</font> i <font color="#990000">&lt;</font> <font
+ color="#993399">12</font><font color="#990000">;</font> i<font
+ color="#990000">+</font><font color="#990000">+</font><font
+ color="#990000">)</font>
+196:   <font color="#ff0000">{</font> <b><font
+ color="#000000">draw_tick</font></b><font color="#990000">(</font>i <font
+ color="#990000">*</font> <font color="#993399">5</font><font
+ color="#990000">,</font> HOUR_TICK_LENGTH<font color="#990000">)</font><font
+ color="#990000">;</font>
+198:     <font color="#009900">int</font> j<font
+ color="#990000">;</font>
+199:     <b><font color="#0000ff">for</font></b> <font
+ color="#990000">(</font>j <font color="#990000">=</font> <font
+ color="#993399">1</font><font color="#990000">;</font> j <font
+ color="#990000">&lt;</font><font color="#990000">=</font> <font
+ color="#993399">4</font><font color="#990000">;</font> j<font
+ color="#990000">+</font><font color="#990000">+</font><font
+ color="#990000">)</font>
+200:          <b><font color="#000000">draw_tick</font></b><font
+ color="#990000">(</font>i <font color="#990000">*</font> <font
+ color="#993399">5</font> <font color="#990000">+</font> j<font
+ color="#990000">,</font> MINUTE_TICK_LENGTH<font color="#990000">)</font><font
+ color="#990000">;</font>
+201:   <font color="#ff0000">}</font>
+202:   <b><font
+ color="#000000">draw_hand</font></b><font color="#990000">(</font>current_time<font
+ color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">,</font> MINUTE_HAND_LENGTH<font color="#990000">)</font><font
+ color="#990000">;</font>
+203:   <b><font color="#000000">draw_hand</font></b><font
+ color="#990000">(</font><font color="#990000">(</font>current_time<font
+ color="#990000">.</font><b><font color="#000000">get_hours</font></b><font
+ color="#990000">(</font><font color="#990000">)</font> <font
+ color="#990000">+</font>
+204:       current_time<font color="#990000">.</font><b><font
+ color="#000000">get_minutes</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <font color="#990000">/</font> <font
+ color="#993399">60.0</font><font color="#990000">)</font> <font
+ color="#990000">*</font> <font color="#993399">5</font><font
+ color="#990000">,</font> HOUR_HAND_LENGTH<font color="#990000">)</font><font
+ color="#990000">;</font>
+205: <font color="#ff0000">}</font>
+206: 
+207: Player<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">Player</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+208: <font color="#ff0000">{</font> level <font
+ color="#990000">=</font> <font color="#993399">1</font><font
+ color="#990000">;</font>
+210:   score <font color="#990000">=</font> <font
+ color="#993399">0</font><font color="#990000">;</font>
+211: <font
+ color="#ff0000">}</font>
+212: 
+213: Player<font color="#990000">:</font><font
+ color="#990000">:</font><b><font color="#000000">Player</font></b><font
+ color="#990000">(</font>string player_name<font color="#990000">,</font> <font
+ color="#009900">int</font> initial_level<font color="#990000">)</font>
+214: <font
+ color="#ff0000">{</font>  name <font color="#990000">=</font> player_name<font
+ color="#990000">;</font>
+216:    level <font color="#990000">=</font> initial_level<font
+ color="#990000">;</font>
+217:    score <font color="#990000">=</font> <font
+ color="#993399">0</font><font color="#990000">;</font>
+218: <font
+ color="#ff0000">}</font>
+219: 
+220: <font color="#009900">int</font> Player<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">get_level</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+221: <font
+ color="#ff0000">{</font> <b><font color="#0000ff">return</font></b> level<font
+ color="#990000">;</font> <font color="#ff0000">}</font>
+224: 
+225: string Player<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">get_name</font></b><font color="#990000">(</font><font
+ color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+226: <font
+ color="#ff0000">{</font> <b><font color="#0000ff">return</font></b> name<font
+ color="#990000">;</font> <font color="#ff0000">}</font>
+229: 
+230: <font
+ color="#009900">void</font> Player<font color="#990000">:</font><font
+ color="#990000">:</font><b><font color="#000000">increment_score</font></b><font
+ color="#990000">(</font><font color="#990000">)</font>
+231: <font
+ color="#ff0000">{</font> score<font color="#990000">+</font><font
+ color="#990000">+</font><font color="#990000">;</font>
+233:   <b><font
+ color="#0000ff">if</font></b> <font color="#990000">(</font>score <font
+ color="#990000">%</font> <font color="#993399">5</font> <font
+ color="#990000">=</font><font color="#990000">=</font> <font
+ color="#993399">0</font> <font color="#990000">&amp;</font><font
+ color="#990000">&amp;</font> level <font color="#990000">&lt;</font> <font
+ color="#993399">4</font><font color="#990000">)</font> level<font
+ color="#990000">+</font><font color="#990000">+</font><font
+ color="#990000">;</font>
+235: <font color="#ff0000">}</font>
+236: 
+237: Game<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">Game</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#ff0000"> {</font><font
+ color="#ff0000">}</font>
+240: 
+241: <font color="#009900">void</font> Game<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">play</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+242: <font color="#ff0000">{</font> <b><font
+ color="#000000">rand_seed</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+244:   <b><font
+ color="#000000">read_player_information</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+245:   string response<font
+ color="#990000">;</font>
+246:   <b><font color="#0000ff">do</font></b>
+247:    <font
+ color="#ff0000">{</font> <b><font color="#000000">play_round</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+249:      response <font color="#990000">=</font> cwin<font
+ color="#990000">.</font><b><font color="#000000">get_string</font></b><font
+ color="#990000">(</font><font color="#ff0000">"Do you want to play again? (y/n)"</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+251:    <font
+ color="#ff0000">}</font> <br>252:    <b><font color="#0000ff">while</font></b> <font
+ color="#990000">(</font>response <font color="#990000">=</font><font
+ color="#990000">=</font> <font color="#ff0000">"y"</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+253: <font
+ color="#ff0000">}</font>
+254: 
+255: <font color="#009900">void</font> Game<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">read_player_information</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+256: <font color="#ff0000">{</font> string name <font
+ color="#990000">=</font> cwin<font color="#990000">.</font><b><font
+ color="#000000">get_string</font></b><font color="#990000">(</font><font
+ color="#ff0000">"What is your name?"</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+258:   <font color="#009900">int</font> initial_level<font
+ color="#990000">;</font>
+259:   <b><font color="#0000ff">do</font></b>
+260:   <font
+ color="#ff0000">{</font> initial_level <font color="#990000">=</font> cwin<font
+ color="#990000">.</font><b><font color="#000000">get_int</font></b><font
+ color="#990000">(</font><font color="#ff0000">"At what level do you want to start? (1-4)"</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+263:   <font
+ color="#ff0000">}</font> <br>264:   <b><font color="#0000ff">while</font></b> <font
+ color="#990000">(</font>initial_level <font color="#990000">&lt;</font> <font
+ color="#993399">1</font> <font color="#990000">|</font><font
+ color="#990000">|</font> initial_level <font color="#990000">&gt;</font> <font
+ color="#993399">4</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+265:   player <font color="#990000">=</font> <b><font
+ color="#000000">Player</font></b><font color="#990000">(</font>name<font
+ color="#990000">,</font> initial_level<font color="#990000">)</font><font
+ color="#990000">;</font>
+266: <font color="#ff0000">}</font>
+267: 
+268: Time Game<font
+ color="#990000">:</font><font color="#990000">:</font><b><font
+ color="#000000">random_time</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+269: <font color="#ff0000">{</font> <font
+ color="#009900">int</font> level <font color="#990000">=</font> player<font
+ color="#990000">.</font><b><font color="#000000">get_level</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+271:   <font color="#009900">int</font> minutes<font
+ color="#990000">;</font>
+272:   <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>level <font color="#990000">=</font><font
+ color="#990000">=</font> <font color="#993399">1</font><font
+ color="#990000">)</font> minutes <font color="#990000">=</font> <font
+ color="#993399">0</font><font color="#990000">;</font>
+273:   <b><font
+ color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>level <font color="#990000">=</font><font
+ color="#990000">=</font> <font color="#993399">2</font><font
+ color="#990000">)</font> minutes <font color="#990000">=</font> <font
+ color="#993399">15</font> <font color="#990000">*</font> <b><font
+ color="#000000">rand_int</font></b><font color="#990000">(</font><font
+ color="#993399">0</font><font color="#990000">,</font> <font
+ color="#993399">3</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+274:   <b><font color="#0000ff">else</font></b> <b><font
+ color="#0000ff">if</font></b> <font color="#990000">(</font>level <font
+ color="#990000">=</font><font color="#990000">=</font> <font
+ color="#993399">3</font><font color="#990000">)</font> minutes <font
+ color="#990000">=</font> <font color="#993399">5</font> <font
+ color="#990000">*</font> <b><font color="#000000">rand_int</font></b><font
+ color="#990000">(</font><font color="#993399">0</font><font
+ color="#990000">,</font> <font color="#993399">11</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+275:   <b><font
+ color="#0000ff">else</font></b> minutes <font color="#990000">=</font> <b><font
+ color="#000000">rand_int</font></b><font color="#990000">(</font><font
+ color="#993399">0</font><font color="#990000">,</font> <font
+ color="#993399">59</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+276:   <font color="#009900">int</font> hours <font
+ color="#990000">=</font> <b><font color="#000000">rand_int</font></b><font
+ color="#990000">(</font><font color="#993399">1</font><font
+ color="#990000">,</font> <font color="#993399">12</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+277:   <b><font
+ color="#0000ff">return</font></b> <b><font color="#000000">Time</font></b><font
+ color="#990000">(</font>hours<font color="#990000">,</font> minutes<font
+ color="#990000">,</font> <font color="#993399">0</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+278: <font
+ color="#ff0000">}</font>
+279: 
+280: Time Game<font color="#990000">:</font><font
+ color="#990000">:</font><b><font color="#000000">get_guess</font></b><font
+ color="#990000">(</font><font color="#990000">)</font>
+281: <font
+ color="#ff0000">{</font> <font color="#009900">int</font> hours<font
+ color="#990000">;</font>
+283:   <b><font color="#0000ff">do</font></b>
+284:   <font
+ color="#ff0000">{</font> hours <font color="#990000">=</font> cwin<font
+ color="#990000">.</font><b><font color="#000000">get_int</font></b><font
+ color="#990000">(</font><font color="#ff0000">"Please enter hours: (1-12)"</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+286:   <font
+ color="#ff0000">}</font> <br>287:   <b><font color="#0000ff">while</font></b> <font
+ color="#990000">(</font>hours <font color="#990000">&lt;</font> <font
+ color="#993399">1</font> <font color="#990000">|</font><font
+ color="#990000">|</font> hours <font color="#990000">&gt;</font> <font
+ color="#993399">12</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+288:   <font color="#009900">int</font> minutes<font
+ color="#990000">;</font>
+289:   <b><font color="#0000ff">do</font></b>
+290:   <font
+ color="#ff0000">{</font> minutes <font color="#990000">=</font> cwin<font
+ color="#990000">.</font><b><font color="#000000">get_int</font></b><font
+ color="#990000">(</font><font color="#ff0000">"Please enter minutes: (0-59)"</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+292:   <font
+ color="#ff0000">}</font> <br>293:   <b><font color="#0000ff">while</font></b> <font
+ color="#990000">(</font>minutes <font color="#990000">&lt;</font> <font
+ color="#993399">0</font> <font color="#990000">|</font><font
+ color="#990000">|</font> minutes <font color="#990000">&gt;</font> <font
+ color="#993399">59</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+294: 
+295:   <b><font color="#0000ff">return</font></b> <b><font
+ color="#000000">Time</font></b><font color="#990000">(</font>hours<font
+ color="#990000">,</font> minutes<font color="#990000">,</font> <font
+ color="#993399">0</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+296: <font color="#ff0000">}</font>
+297: 
+298: <font
+ color="#009900">void</font> Game<font color="#990000">:</font><font
+ color="#990000">:</font><b><font color="#000000">play_round</font></b><font
+ color="#990000">(</font><font color="#990000">)</font>
+299: <font
+ color="#ff0000">{</font> cwin<font color="#990000">.</font><b><font
+ color="#000000">clear</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+301:   Time t <font
+ color="#990000">=</font> <b><font color="#000000">random_time</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+302:   <b><font color="#0000ff">const</font></b> <font
+ color="#009900">double</font> CLOCK_RADIUS <font color="#990000">=</font> <font
+ color="#993399">5</font><font color="#990000">;</font>
+303:   Clock <b><font
+ color="#000000">clock</font></b><font color="#990000">(</font><b><font
+ color="#000000">Point</font></b><font color="#990000">(</font><font
+ color="#993399">0</font><font color="#990000">,</font> <font
+ color="#993399">0</font><font color="#990000">)</font><font
+ color="#990000">,</font> CLOCK_RADIUS<font color="#990000">)</font><font
+ color="#990000">;</font>
+304:   clock<font color="#990000">.</font><b><font
+ color="#000000">set_time</font></b><font color="#990000">(</font>t<font
+ color="#990000">)</font><font color="#990000">;</font>
+305:   clock<font
+ color="#990000">.</font><b><font color="#000000">draw</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+306: 
+307:   Time guess <font
+ color="#990000">=</font> <b><font color="#000000">get_guess</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+308:   <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>t<font color="#990000">.</font><b><font
+ color="#000000">seconds_from</font></b><font color="#990000">(</font>guess<font
+ color="#990000">)</font> <font color="#990000">!</font><font
+ color="#990000">=</font> <font color="#993399">0</font><font
+ color="#990000">)</font> guess <font color="#990000">=</font> <b><font
+ color="#000000">get_guess</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+310: 
+311:   string text<font
+ color="#990000">;</font>
+312:   <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>t<font color="#990000">.</font><b><font
+ color="#000000">seconds_from</font></b><font color="#990000">(</font>guess<font
+ color="#990000">)</font> <font color="#990000">=</font><font
+ color="#990000">=</font> <font color="#993399">0</font><font
+ color="#990000">)</font>
+313:   <font color="#ff0000">{</font> text <font
+ color="#990000">=</font> <font color="#ff0000">"Congratulations, "</font> <font
+ color="#990000">+</font> player<font color="#990000">.</font><b><font
+ color="#000000">get_name</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+315:                                <font
+ color="#990000">+</font> <font color="#ff0000">"! That is correct."</font><font
+ color="#990000">;</font>
+316:      player<font color="#990000">.</font><b><font
+ color="#000000">increment_score</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+317:   <font
+ color="#ff0000">}</font>
+318:   <b><font color="#0000ff">else</font></b>
+319:      text <font
+ color="#990000">=</font> <font color="#ff0000">"Sorry, "</font> <font
+ color="#990000">+</font> player<font color="#990000">.</font><b><font
+ color="#000000">get_name</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+320:                       <font
+ color="#990000">+</font> <font color="#ff0000">"! That is not correct."</font><font
+ color="#990000">;</font>
+321:   cwin <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <b><font color="#000000">Message</font></b><font
+ color="#990000">(</font><b><font color="#000000">Point</font></b><font
+ color="#990000">(</font><font color="#990000">-</font>CLOCK_RADIUS<font
+ color="#990000">,</font> CLOCK_RADIUS <font color="#990000">+</font> <font
+ color="#993399">1</font><font color="#990000">)</font><font
+ color="#990000">,</font> text<font color="#990000">)</font><font
+ color="#990000">;</font>
+322: <font color="#ff0000">}</font>
+323: 
+324: <font
+ color="#009900">int</font> <b><font color="#000000">ccc_win_main</font></b><font
+ color="#990000">(</font><font color="#990000">)</font>
+325: <font
+ color="#ff0000">{</font> Game clock_game<font color="#990000">;</font>
+327:   clock_game<font
+ color="#990000">.</font><b><font color="#000000">play</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+328:   <b><font color="#0000ff">return</font></b> <font
+ color="#993399">0</font><font color="#990000">;</font>
+330: <font
+ color="#ff0000">}</font>
+</tt>
+</pre>
+</body>
+</html>

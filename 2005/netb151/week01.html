@@ -1,0 +1,121 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>NETB161-1</title>
+</head>
+<body>
+<h2>NETB161. Week 1. VECTORS AND ARRAYS</h2>
+<p>
+<font size="+1"><b>1. Inserting and removing elements</b></font><br>
+</p>
+<font size="+1">A. Write a function </font>
+<blockquote>
+  <pre><font size="+1">void insert_element(vector&lt;int&gt;, int)</font></pre>
+</blockquote>
+<font size="+1">that
+inserts an
+element in a vector of
+integers. Suppose that the elements are sorted in increasing order and
+the new element must be inserted in such a way that the vector be
+sorted again. Test the function with a vector, whose elements are
+stored in a file (using input redirection).<br>
+REMEMBER:<br>
+</font>
+<p><font size="+1">To insert an element in the middle of a vector, you
+must add a new
+element at the end of the vector and move all elements above the
+insertion location up by one slot.
+</font></p>
+<blockquote>
+  <pre><font size="+1">void insert(vector&lt;string&gt;&amp; v, int pos, string s)<br>{  int last = v.size()-1;<br>   v.push_back(v[last]);<br>   for (int i = last; i &gt; pos; i--) v[i] = v[i-1];<br>   v[pos] = s;<br>}</font></pre>
+</blockquote>
+<p><font size="+1">
+To link a file to the input of a program <span
+ style="font-family: monospace;">words</span>, you type </font></p>
+<blockquote>
+  <pre><font size="+1">words &lt; article.txt</font></pre>
+</blockquote>
+<font size="+1">on a command line. The input instructions no longer
+expect
+input from
+the keyboard but from the file <span style="font-family: monospace;">article.txt</span>.<br>
+</font><br>
+<font size="+1">B. Write a function </font>
+<blockquote>
+  <pre><font size="+1">void erase_first(vector&lt;int&gt;)</font></pre>
+</blockquote>
+<font size="+1">that removes the fist element of an integer vector, not
+changing the order of the remaining elements.</font><br>
+<big>REMEMBER:<br>
+</big><font size="+1">You must move all elements
+down by one slot, then shrink the size of the vector.</font><br>
+<font><font size="+1">
+<pre>void erase(vector&lt;string&gt;&amp; v, int pos)<br>{  for (int i = pos; i &lt; v.size()-1; i++) v[i] = v[i+1];<br>   v.pop_back();<br>}</pre>
+</font></font><big>Read a vector from a file, remove the first element,
+and save the elements to another file.<br>
+<br>
+</big>
+<p><big><b>2. Parallel vectors</b></big></p>
+<big>&nbsp;
+Look at the program and explain its purpose. Write down the code,
+compile and start the program.<br>
+<blockquote>
+  <pre>#include&lt;cstdlib&gt;<br>#include&lt;vector&gt;<br>using namespace std;<br><br>#include "ccc_win.h"<br><br>class Cloud {<br>public:<br>&nbsp;&nbsp; Cloud();<br>&nbsp;&nbsp; void add_point(Point p);<br>&nbsp;&nbsp; void plot() const;<br>private:<br>&nbsp;&nbsp; vector&lt;Point&gt; dots;<br>};<br><br>void rand_seed()<br>{&nbsp; int seed = static_cast&lt;int&gt;(time(0));<br>&nbsp;&nbsp; srand(seed);<br>}<br><br>double rand_double(double a, double b)<br>{&nbsp; return a + (b - a) * rand() * (1.0 / RAND_MAX); }<br><br>Cloud::Cloud(){}<br><br>void Cloud::add_point(Point p)<br>{&nbsp; dots.push_back(p); }<br><br>void Cloud::plot() const<br>{&nbsp; int i;<br>&nbsp;&nbsp; for (i = 0; i &lt; dots.size(); i++) cwin &lt;&lt; dots[i];<br>}<br><br>int main()<br>{&nbsp; rand_seed();<br>&nbsp;&nbsp; Cloud random_cloud;<br>&nbsp;&nbsp; int i;<br>&nbsp;&nbsp; for (i = 1; i &lt;= 100; i++)<br>&nbsp;&nbsp;&nbsp;&nbsp; <br>   random_cloud.add_point(Point(rand_double(-4, 4),<br>&nbsp;&nbsp;&nbsp;                  &nbsp;&nbsp;&nbsp;&nbsp;     &nbsp; rand_double(-4, 4)));<br>&nbsp;&nbsp; random_cloud.plot();<br>&nbsp;&nbsp; return 0;<br>}<br></pre>
+</blockquote>
+</big>
+<p><big><span style="font-weight: bold;">3. Character arrays<br>
+</span></big></p>
+<big>Write a program, that reads an natural number as a string, then
+convert it to a floating point number and output it's square root. Use
+the member-function <span style="font-family: monospace;">c_str()</span>
+and <span style="font-family: monospace;">atoi(const char [])</span>
+function.<span style="font-weight: bold;"><br>
+</span><br>
+</big>
+<b align="JUSTIFY">
+<p><big>4. Two-dimensional arrays</big></p>
+</b><font size="+1">Syntax 9.4 : Two-Dimensional
+Array Definition</font><br>
+<table style="text-align: left; width: 547px; height: 102px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+      <pre style="color: rgb(0, 0, 0);"><font size="+1"><i>type_name variable_name</i>[<i>size</i><sub>1</sub>][<i>size</i><sub>2</sub>];<br></font></pre>
+      <table style="color: rgb(0, 0, 0);" border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">double monthly_sales[NREGIONS][12];</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font size="+1">Purpose:</font><font size="+1"> </font></td>
+            <td><font size="+1">Define a new variable that is a
+two-dimensional array. </font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<b align="JUSTIFY"><br>
+</b><big>Write a program, that produces a table of account
+balances, when varying interest rates over multiple years.<b
+ align="JUSTIFY"><br style="color: rgb(0, 0, 0);">
+</b></big>
+<pre style="color: rgb(0, 0, 0);"><big><tt>void print_table(const double table[][BALANCES_COLS], int table_rows)<br>{&nbsp; const int WIDTH = 10;<br>&nbsp;&nbsp; cout &lt;&lt; setiosflags(ios::fixed) &lt;&lt; setprecision(2);<br>&nbsp;&nbsp; for (int i = 0; i &lt; table_rows; i++)<br>&nbsp;&nbsp; {&nbsp; for (int j = 0; j &lt; BALANCES_COLS; j++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; setw(WIDTH) &lt;&lt; table[i][j];<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; "\n";<br>&nbsp;&nbsp; }<br>} <br></tt></big></pre>
+<pre><tt><big style="color: rgb(0, 0, 0);">double future_value(double initial_balance, double p, int n)<br>{&nbsp; double b = initial_balance * pow(1 + p / 100, n);<br>&nbsp;&nbsp; return b</big><font
+ color="#990000"><big style="color: rgb(0, 0, 0);">;<br>}</big><br></font></tt></pre>
+<hr style="width: 100%; height: 2px;">
+<h2><br>
+</h2>
+<br>
+<br>
+</body>
+</html>

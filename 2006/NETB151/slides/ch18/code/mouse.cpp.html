@@ -1,0 +1,128 @@
+<pre>
+<tt>
+001: <b><font color=#000080>#include</font></b> <font color=#FF0000>&lt;wx/wx.h&gt;</font>
+002: 
+003: <i><font color=#9A1900>/**</font></i>
+004: <i><font color=#9A1900>   A window on which the program user can draw</font></i>
+005: <i><font color=#9A1900>   a triangle by clicking on the three corners.</font></i>
+006: <i><font color=#9A1900>*/</font></i>
+007: <b><font color=#0000FF>class</font></b> TriangleWindow <font color=#990000>:</font> <b><font color=#0000FF>public</font></b> wxWindow
+008: <font color=#FF0000>{</font>
+009: <b><font color=#0000FF>public</font></b><font color=#990000>:</font>
+010:    <i><font color=#9A1900>/**</font></i>
+011: <i><font color=#9A1900>      Initializes the base class.</font></i>
+012: <i><font color=#9A1900>      @param parent the parent window</font></i>
+013: <i><font color=#9A1900>   */</font></i>   
+014:    <b><font color=#000000>TriangleWindow</font></b><font color=#990000>(</font>wxWindow<font color=#990000>*</font> parent<font color=#990000>)</font><font color=#990000>;</font>
+015:    <i><font color=#9A1900>/**</font></i>
+016: <i><font color=#9A1900>      Paints the corners and lines that have already been</font></i>
+017: <i><font color=#9A1900>      entered.</font></i>
+018: <i><font color=#9A1900>      @param event the event descriptor</font></i>
+019: <i><font color=#9A1900>   */</font></i>      
+020:    <font color=#009900>void</font> <b><font color=#000000>OnPaint</font></b><font color=#990000>(</font>wxPaintEvent<font color=#990000>&amp;</font> event<font color=#990000>)</font><font color=#990000>;</font>
+021:    <i><font color=#9A1900>/**</font></i>
+022: <i><font color=#9A1900>      Adds another corner to the triangle.</font></i>
+023: <i><font color=#9A1900>      @param event the event descriptor</font></i>
+024: <i><font color=#9A1900>   */</font></i>
+025:    <font color=#009900>void</font> <b><font color=#000000>OnMouseEvent</font></b><font color=#990000>(</font>wxMouseEvent<font color=#990000>&amp;</font> event<font color=#990000>)</font><font color=#990000>;</font>
+026: <b><font color=#0000FF>private</font></b><font color=#990000>:</font>
+027:    <font color=#009900>int</font> x<font color=#990000>[</font><font color=#993399>3</font><font color=#990000>]</font><font color=#990000>;</font>
+028:    <font color=#009900>int</font> y<font color=#990000>[</font><font color=#993399>3</font><font color=#990000>]</font><font color=#990000>;</font>
+029:    <font color=#009900>int</font> corners<font color=#990000>;</font>
+030:    <b><font color=#000000>DECLARE_EVENT_TABLE</font></b><font color=#990000>(</font><font color=#990000>)</font>
+031: <font color=#FF0000>}</font><font color=#990000>;</font>
+032: 
+033: <i><font color=#9A1900>/**</font></i>
+034: <i><font color=#9A1900>   A frame with a window that shows a triangle.</font></i>
+035: <i><font color=#9A1900>*/</font></i>
+036: <b><font color=#0000FF>class</font></b> MouseFrame <font color=#990000>:</font> <b><font color=#0000FF>public</font></b> wxFrame
+037: <font color=#FF0000>{</font>
+038: <b><font color=#0000FF>public</font></b><font color=#990000>:</font>
+039:    <i><font color=#9A1900>/**</font></i>
+040: <i><font color=#9A1900>      Constructs the window.</font></i>
+041: <i><font color=#9A1900>   */</font></i>
+042:    <b><font color=#000000>MouseFrame</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+043: <b><font color=#0000FF>private</font></b><font color=#990000>:</font>
+044:    TriangleWindow<font color=#990000>*</font> window<font color=#990000>;</font>
+045: <font color=#FF0000>}</font><font color=#990000>;</font>
+046: 
+047: <i><font color=#9A1900>/**</font></i>
+048: <i><font color=#9A1900>   An application to demonstrate mouse event handling.</font></i>
+049: <i><font color=#9A1900>*/</font></i>
+050: <b><font color=#0000FF>class</font></b> MouseApp <font color=#990000>:</font> <b><font color=#0000FF>public</font></b> wxApp
+051: <font color=#FF0000>{</font>
+052: <b><font color=#0000FF>public</font></b><font color=#990000>:</font>
+053:    <i><font color=#9A1900>/**</font></i>
+054: <i><font color=#9A1900>      Constructs the frame.</font></i>
+055: <i><font color=#9A1900>   */</font></i>
+056:    <b><font color=#000000>MouseApp</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+057:    <i><font color=#9A1900>/**</font></i>
+058: <i><font color=#9A1900>      Shows the frame.</font></i>
+059: <i><font color=#9A1900>      @return true</font></i>
+060: <i><font color=#9A1900>   */</font></i>
+061:    <b><font color=#0000FF>virtual</font></b> <font color=#009900>bool</font> <b><font color=#000000>OnInit</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+062: <b><font color=#0000FF>private</font></b><font color=#990000>:</font>
+063:    MouseFrame<font color=#990000>*</font> frame<font color=#990000>;</font>
+064: <font color=#FF0000>}</font><font color=#990000>;</font>
+065: 
+066: <b><font color=#000000>DECLARE_APP</font></b><font color=#990000>(</font>MouseApp<font color=#990000>)</font>
+067: 
+068: <b><font color=#000000>IMPLEMENT_APP</font></b><font color=#990000>(</font>MouseApp<font color=#990000>)</font>
+069: 
+070: <b><font color=#000000>BEGIN_EVENT_TABLE</font></b><font color=#990000>(</font>TriangleWindow<font color=#990000>,</font> wxWindow<font color=#990000>)</font>
+071:    <b><font color=#000000>EVT_MOUSE_EVENTS</font></b><font color=#990000>(</font>TriangleWindow<font color=#990000>:</font><font color=#990000>:</font>OnMouseEvent<font color=#990000>)</font>
+072:    <b><font color=#000000>EVT_PAINT</font></b><font color=#990000>(</font>TriangleWindow<font color=#990000>:</font><font color=#990000>:</font>OnPaint<font color=#990000>)</font>
+073: <b><font color=#000000>END_EVENT_TABLE</font></b><font color=#990000>(</font><font color=#990000>)</font>
+074: 
+075: TriangleWindow<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>TriangleWindow</font></b><font color=#990000>(</font>wxWindow<font color=#990000>*</font> parent<font color=#990000>)</font>
+076:    <font color=#990000>:</font> <b><font color=#000000>wxWindow</font></b><font color=#990000>(</font>parent<font color=#990000>,</font> <font color=#990000>-</font><font color=#993399>1</font><font color=#990000>)</font>
+077: <font color=#FF0000>{</font>
+078:    corners <font color=#990000>=</font> <font color=#993399>0</font><font color=#990000>;</font>
+079: <font color=#FF0000>}</font>
+080: 
+081: <font color=#009900>void</font> TriangleWindow<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>OnMouseEvent</font></b><font color=#990000>(</font>wxMouseEvent<font color=#990000>&amp;</font> event<font color=#990000>)</font>
+082: <font color=#FF0000>{</font>
+083:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>event<font color=#990000>.</font><b><font color=#000000>ButtonDown</font></b><font color=#990000>(</font><font color=#990000>)</font> <font color=#990000>&amp;</font><font color=#990000>&amp;</font> corners <font color=#990000>&lt;</font> <font color=#993399>3</font><font color=#990000>)</font>
+084:    <font color=#FF0000>{</font>
+085:       x<font color=#990000>[</font>corners<font color=#990000>]</font> <font color=#990000>=</font> event<font color=#990000>.</font><b><font color=#000000>GetX</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+086:       y<font color=#990000>[</font>corners<font color=#990000>]</font> <font color=#990000>=</font> event<font color=#990000>.</font><b><font color=#000000>GetY</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+087:       corners<font color=#990000>+</font><font color=#990000>+</font><font color=#990000>;</font>
+088:       <b><font color=#000000>Refresh</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+089:    <font color=#FF0000>}</font>
+090: <font color=#FF0000>}</font>
+091: 
+092: <font color=#009900>void</font> TriangleWindow<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>OnPaint</font></b><font color=#990000>(</font>wxPaintEvent<font color=#990000>&amp;</font> event<font color=#990000>)</font>
+093: <font color=#FF0000>{</font>
+094:    <b><font color=#0000FF>const</font></b> <font color=#009900>int</font> RADIUS <font color=#990000>=</font> <font color=#993399>2</font><font color=#990000>;</font>
+095:    wxPaintDC <b><font color=#000000>dc</font></b><font color=#990000>(</font><b><font color=#0000FF>this</font></b><font color=#990000>)</font><font color=#990000>;</font>
+096:    dc<font color=#990000>.</font><b><font color=#000000>SetBrush</font></b><font color=#990000>(</font><font color=#990000>*</font>wxTRANSPARENT_BRUSH<font color=#990000>)</font><font color=#990000>;</font>
+097:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>corners <font color=#990000>=</font><font color=#990000>=</font> <font color=#993399>1</font><font color=#990000>)</font>
+098:       dc<font color=#990000>.</font><b><font color=#000000>DrawEllipse</font></b><font color=#990000>(</font>x<font color=#990000>[</font><font color=#993399>0</font><font color=#990000>]</font> <font color=#990000>-</font> RADIUS<font color=#990000>,</font> y<font color=#990000>[</font><font color=#993399>0</font><font color=#990000>]</font> <font color=#990000>-</font> RADIUS<font color=#990000>,</font> 
+099:          <font color=#993399>2</font> <font color=#990000>*</font> RADIUS<font color=#990000>,</font> <font color=#993399>2</font> <font color=#990000>*</font> RADIUS<font color=#990000>)</font><font color=#990000>;</font>
+100:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>corners <font color=#990000>&gt;</font><font color=#990000>=</font> <font color=#993399>2</font><font color=#990000>)</font>
+101:       dc<font color=#990000>.</font><b><font color=#000000>DrawLine</font></b><font color=#990000>(</font>x<font color=#990000>[</font><font color=#993399>0</font><font color=#990000>]</font><font color=#990000>,</font> y<font color=#990000>[</font><font color=#993399>0</font><font color=#990000>]</font><font color=#990000>,</font> x<font color=#990000>[</font><font color=#993399>1</font><font color=#990000>]</font><font color=#990000>,</font> y<font color=#990000>[</font><font color=#993399>1</font><font color=#990000>]</font><font color=#990000>)</font><font color=#990000>;</font>
+102:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>corners <font color=#990000>&gt;</font><font color=#990000>=</font> <font color=#993399>3</font><font color=#990000>)</font>
+103:    <font color=#FF0000>{</font>
+104:       dc<font color=#990000>.</font><b><font color=#000000>DrawLine</font></b><font color=#990000>(</font>x<font color=#990000>[</font><font color=#993399>1</font><font color=#990000>]</font><font color=#990000>,</font> y<font color=#990000>[</font><font color=#993399>1</font><font color=#990000>]</font><font color=#990000>,</font> x<font color=#990000>[</font><font color=#993399>2</font><font color=#990000>]</font><font color=#990000>,</font> y<font color=#990000>[</font><font color=#993399>2</font><font color=#990000>]</font><font color=#990000>)</font><font color=#990000>;</font>
+105:       dc<font color=#990000>.</font><b><font color=#000000>DrawLine</font></b><font color=#990000>(</font>x<font color=#990000>[</font><font color=#993399>2</font><font color=#990000>]</font><font color=#990000>,</font> y<font color=#990000>[</font><font color=#993399>2</font><font color=#990000>]</font><font color=#990000>,</font> x<font color=#990000>[</font><font color=#993399>0</font><font color=#990000>]</font><font color=#990000>,</font> y<font color=#990000>[</font><font color=#993399>0</font><font color=#990000>]</font><font color=#990000>)</font><font color=#990000>;</font>
+106:    <font color=#FF0000>}</font>
+107: <font color=#FF0000>}</font>
+108: 
+109: MouseFrame<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>MouseFrame</font></b><font color=#990000>(</font><font color=#990000>)</font> 
+110:    <font color=#990000>:</font> <b><font color=#000000>wxFrame</font></b><font color=#990000>(</font>NULL<font color=#990000>,</font> <font color=#990000>-</font><font color=#993399>1</font><font color=#990000>,</font> <font color=#FF0000>"MouseFrame"</font><font color=#990000>)</font>
+111: <font color=#FF0000>{</font>
+112:    window <font color=#990000>=</font> <b><font color=#0000FF>new</font></b> <b><font color=#000000>TriangleWindow</font></b><font color=#990000>(</font><b><font color=#0000FF>this</font></b><font color=#990000>)</font><font color=#990000>;</font>
+113: <font color=#FF0000>}</font>
+114: 
+115: MouseApp<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>MouseApp</font></b><font color=#990000>(</font><font color=#990000>)</font>
+116: <font color=#FF0000>{</font>
+117:    frame <font color=#990000>=</font> <b><font color=#0000FF>new</font></b> <b><font color=#000000>MouseFrame</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+118: <font color=#FF0000>}</font>
+119: 
+120: <font color=#009900>bool</font> MouseApp<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>OnInit</font></b><font color=#990000>(</font><font color=#990000>)</font>
+121: <font color=#FF0000>{</font>
+122:    frame<font color=#990000>-</font><font color=#990000>&gt;</font><b><font color=#000000>Show</font></b><font color=#990000>(</font><b><font color=#0000FF>true</font></b><font color=#990000>)</font><font color=#990000>;</font>
+123:    <b><font color=#0000FF>return</font></b> <b><font color=#0000FF>true</font></b><font color=#990000>;</font>
+124: <font color=#FF0000>}</font>
+</tt>
+</pre>

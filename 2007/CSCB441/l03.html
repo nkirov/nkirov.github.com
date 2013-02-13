@@ -1,0 +1,589 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1251">
+  <meta name="Author" content="Nikolay Kirov">
+  <meta name="GENERATOR"
+ content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+  <title>l03</title>
+</head>
+<body>
+<h3 style="font-weight: normal;">3. Основни комбинаторни алгоритми [1.3]</h3>
+<br>
+<span style="font-weight: bold;">Основни
+техники за вход и изход
+в С и С++ : </span><br style="font-weight: bold;">
+<br>
+1. Стандартен вход за езика C
+<br>
+<b><tt><font color="#006600">scanf("&lt;форматиращ
+спецификатор&gt;",&lt;адрес
+на променлива&gt;);</font></tt></b>
+<br>
+<font color="#000000">Пример:</font>
+<br>
+<b><tt><font color="#660000">int ik;</font></tt></b>
+<br>
+<b><tt><font color="#660000">unsigned uk;</font></tt></b>
+<br>
+<b><tt><font color="#660000">long lk;</font></tt></b>
+<br>
+<b><tt><font color="#660000">unsigned long ulk;</font></tt></b>
+<br>
+<b><tt><font color="#660000">double dk;</font></tt></b>
+<br>
+<b><tt><font color="#660000">scanf("%d %u %ld %lu %lf", &amp;ik,
+&amp;uk,
+&amp;lk, &amp;ulk, &amp;dk);</font></tt></b>
+<p><font color="#000000">2. Стандартен изход за езика C</font>
+<br>
+<b><tt><font color="#006600">printf("&lt;форматиращ спецификатор&gt;",
+&lt;променлива&gt;);</font></tt></b>
+<br>
+<font color="#000000">Пример:</font>
+<br>
+<b><tt><font color="#660000">int ik = -10;</font></tt></b>
+<br>
+<b><tt><font color="#660000">unsigned uk = 10;</font></tt></b>
+<br>
+<b><tt><font color="#660000">long lk = -1000000;</font></tt></b>
+<br>
+<b><tt><font color="#660000">unsigned long ulk = 1000000;</font></tt></b>
+<br>
+<b><tt><font color="#660000">double dk = 2.52;</font></tt></b>
+<br>
+<b><tt><font color="#660000">printf("%d %u %ld %lu %lf\n", ik, uk,
+lk, ulk, dk);</font></tt></b>
+</p>
+<p>3. Стандартен вход за езика C++
+<br>
+<b><tt><font color="#006600">cin &gt;&gt; &lt;име на променлива&gt;;</font></tt></b>
+<br>
+<font color="#000000">Пример:</font>
+<br>
+<b><tt><font color="#660000">int k;</font></tt></b>
+<br>
+<b><tt><font color="#660000">cin &gt;&gt; k;</font></tt></b>
+</p>
+<p><font color="#000000">4. Стандартен изход за езика C++</font>
+<br>
+<b><tt><font color="#006600">cout &lt;&lt; &lt;име на променлива&gt;;</font></tt></b>
+<br>
+<font color="#000000">Пример:</font>
+<br>
+<b><tt><font color="#660000">int ik = -10;</font></tt></b>
+<br>
+<b><tt><font color="#660000">unsigned int uk = 10;</font></tt></b>
+<br>
+<b><tt><font color="#660000">long lk = -1000000;</font></tt></b>
+<br>
+<b><tt><font color="#660000">unsigned long ulk = 1000000;</font></tt></b>
+<br>
+<b><tt><font color="#660000">double dk = 2.52;</font></tt></b>
+<br>
+<b><tt><font color="#660000">cout &lt;&lt; ik &lt;&lt; " " &lt;&lt;
+uk &lt;&lt; " " &lt;&lt; lk &lt;&lt; " "</font></tt></b>
+<br>
+<b><tt><font color="#660000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt; ulk
+&lt;&lt; " " &lt;&lt; dk &lt;&lt; "\n";</font></tt></b>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h3 style="font-weight: normal;">Основни комбинаторни алгоритми [1.3]</h3>
+<p>*** Пермутации [1.3.1] - наредени <i>n</i>-торки
+<br>
+<span style="font-weight: bold;">А.</span> Без повторения { 1 2 3 }
+<br>
+123&nbsp; 132&nbsp; 213&nbsp; 231&nbsp; 312&nbsp; 321
+<br>
+Общ брой <i>n</i>!
+<br>
+<b><tt>/<font color="#000099">/ permute.c - пермутации без повторения</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;stdio.h&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">#define MAXN 100</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">const unsigned n = 3;</font></tt></b>
+<br>
+<b><tt><font color="#000099">unsigned char used[MAXN];</font></tt></b>
+<br>
+<b><tt><font color="#000099">unsigned mp[MAXN];</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">void print(void)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; for (j=0; j&lt;n; j++) printf("%u
+", mp[j]+1);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; printf("\n");</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099">void permute(unsigned i)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; if (i&gt;=n) { print(); return; }</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; for (j=0; j&lt;n; j++)</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; { if (!used[j])</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { used[j]=1; mp[i]=j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+permute(i+1);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; used[j]=0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; for (j=0; j&lt;n; j++) used[j]=0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; permute(0);&nbsp; return 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<span style="font-weight: bold;">Б.</span> С повторения { 1 1 2 3 }
+<br>
+1123&nbsp; 1132&nbsp; 1213&nbsp; 1231&nbsp; 1312&nbsp; 1321&nbsp;
+2113&nbsp;
+2131&nbsp; 2311&nbsp; 3112&nbsp; 3121&nbsp; 3211
+<br>
+Общ брой <i>n</i>!/(<i>s</i><sub>1</sub>!<i>s</i><sub>2</sub>!...<i>s<sub>k</sub></i>!),
+където <i>s<sub>i</sub></i>! е броят на i-тия различен елемент,
+участващ
+в мултимножеството. В примера 4!/(2!1!1!) = 12.
+</p>
+<p>*** Вариации [1.3.2] - нареден <i>k</i>-елементен списък измежду <i>n</i>
+елемента (<span style="font-style: italic;">k</span> &lt;= <span
+ style="font-style: italic;">n</span>)<br>
+<span style="font-weight: bold;">А.</span> Без повторения <i>n </i>=<i>
+</i>3
+{ 1 2 3 },&nbsp; <i>k = </i>2
+<br>
+12&nbsp; 13&nbsp; 21&nbsp; 23&nbsp; 31&nbsp; 32
+<br>
+Общ брой <i>n</i>!/(<i>n - k</i>)!&nbsp; В примера 3!/1! = 6.
+<br>
+<span style="font-weight: bold;">Б.</span> С повторения <i>n= </i>3 {
+1 2 3 },&nbsp; <i>k = </i>2
+<br>
+11&nbsp; 12&nbsp; 13&nbsp; 21&nbsp; 22&nbsp; 23&nbsp; 31&nbsp; 32&nbsp;
+33
+<br>
+Общ брой <i>n<sup>k</sup></i>. В примера 3<sup>2 </sup>= 9.
+<br>
+<b><tt><font color="#000099">// variate.c - вариации с повторения</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;stdio.h&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">#define MAXN 100</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">const unsigned n = 3;</font></tt></b>
+<br>
+<b><tt><font color="#000099">const unsigned k = 2;</font></tt></b>
+<br>
+<b><tt><font color="#000099">unsigned mp[MAXN];</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">void print(void)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; for (j=0; j&lt;k; j++) printf("%u
+", mp[j]+1);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; printf("\n");</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099">void variate(unsigned i)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; if (i&gt;=k) { print(); return; }</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; for (j=0; j&lt;n; j++)</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; { mp[i]=j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; variate(i+1);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ variate(0); return 0; }</font></tt></b>
+</p>
+<p>*** Комбинации [1.3.3] <i>k</i>-елементно подмножество измежду <i>n</i>
+елемента (ненаредено)
+<br>
+<span style="font-weight: bold;">А.</span> Без повторения&nbsp; <i>n= </i>5
+{ 1 2 3 4 5 },&nbsp; <i>k = </i>2
+<br>
+12&nbsp; 13&nbsp; 14&nbsp; 15&nbsp; 23&nbsp; 24&nbsp; 25&nbsp; 34&nbsp;
+35&nbsp; 45
+<br>
+Общ брой <i>n</i>!/((<i>n - k</i>)!<i>k</i>!).&nbsp; В примера
+5!/(3!2!)
+= 10.
+<br>
+<b><tt><font color="#000099">// comb.c - комбинации без повторения</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;stdio.h&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">#define MAXN 20</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">const unsigned n = 5;</font></tt></b>
+<br>
+<b><tt><font color="#000099">const unsigned k = 2;</font></tt></b>
+<br>
+<b><tt><font color="#000099">unsigned mp[MAXN];</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">void print(void)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; for (j=0; j&lt;k; j++) printf("%u
+", mp[j]);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; printf("\n");</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099">void comb(unsigned i, unsigned after)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; if (i&gt;k) return;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; for (j=after+1; j&lt;=n; j++)</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; { mp[i-1]=j;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (i==k) print();</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; comb(i+1,j);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ comb(1,0);&nbsp; return 0; }</font></tt></b>
+</p>
+<p><span style="font-weight: bold;">Б. </span>с повторения <i>n= </i>5
+{ 1 2 3 4 5 },&nbsp; <i>k = </i>2
+<br>
+11&nbsp; 12&nbsp; 13&nbsp; 14&nbsp; 15&nbsp; 22&nbsp; 23&nbsp; 24&nbsp;
+25&nbsp; 33&nbsp; 34&nbsp; 35&nbsp; 44&nbsp; 45&nbsp; 55
+<br>
+Общ брой (<i>n </i>+ <i>k - </i>1)! / ((<i>n - </i>1)! <i>k</i>!).&nbsp;
+В примера 6!/(4!2!) = 15.
+<br>
+</p>
+<hr style="width: 100%; height: 2px;"><br>
+<span style="font-weight: bold;">Задача 3a.&nbsp; </span><b
+ style="font-weight: bold;">Огърлици</b><span style="font-weight: bold;">
+</span><br>
+&nbsp;&nbsp;&nbsp; Дадени са неограничен брой мъниста от <span
+ style="font-style: italic;">K</span> цвята (<span
+ style="font-style: italic;">K</span>&lt;10),
+от които се правят огърлици с дължина <span style="font-style: italic;">N</span>
+(<span style="font-style: italic;">N</span>&lt;10). Да се намери броят
+на
+всички различни огърлици с дължина <span style="font-style: italic;">N</span>.
+<br>
+&nbsp;&nbsp;&nbsp; Вход<br>
+Всеки ред съдържа две числа <span style="font-style: italic;">K</span>
+и <span style="font-style: italic;">N</span>. Числото 0 е последно във
+файла.
+<br>
+&nbsp;&nbsp;&nbsp; Изход<br>
+За всеки ред от входния файл програмата записва на отделен ред броя
+на различните огърлици.
+<br>
+<span style="font-weight: bold; color: rgb(255, 0, 0);">Пример:
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">2 3
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">2 4
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">3 5
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">5 5
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">0</span><br
+ style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">Решение на
+примера:
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">4
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">6
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">51
+</span><br style="font-weight: bold; color: rgb(255, 0, 0);">
+<span style="font-weight: bold; color: rgb(255, 0, 0);">629
+</span><br>
+<p><span style="font-weight: bold;">Задача 3b</span>.<span
+ style="font-weight: bold;"> </span><a href="../../2002/5cp/shsh.pdf"><font
+ color="#000000">Индекс
+на Шапли-Шубик </font> за политическа сила при
+да-не система за гласуване</a><br>
+[ Пети междууниверситетски турнир по програмиране, 19 май 2002
+г., БСУ ]<br>
+&nbsp;&nbsp;&nbsp; Във всеки съюз или обединение от политически субекти
+(напр. държави) се налага да се приеме система за вземане на решения.
+Една
+такава система е да се гласува с "да'' или "не'', като всяка държава да
+има определен брой гласове. Решение да се взема когато броят на
+гласовете
+"да'' е по-голям или равен на определена граница. Коалиция се нарича
+група
+държави, която гласува
+<br>
+с "да'' за дадено предложение. Ако сумата от гласовете на държавите
+в коалицията е по-голяма или равна на определената граница, то
+предложението
+се приема и тази коалиция се нарича печеливша.
+<br>
+&nbsp;&nbsp;&nbsp; Например през 1958 г. се създава Европейския съюз
+с точно такава система за вземани на важни решения. Участващите в съюза
+държави и гласовете им са: Франция, Германия, Италия - по 4 гласа,
+<br>
+Белгия, Холандия - по 2 гласа, Люксембург - 1 глас. Предложение се
+приема, ако за него са гласували с "да'' 12 от общо 17 гласа. Две
+печеливши
+коалиции в съюза са например Франция, Германия и Италия или Франция,
+Германия,
+Белгия, Холандия и Люксембург.
+<br>
+&nbsp;&nbsp;&nbsp; Една от няколкото известни мерки за политическата
+сила на дадена държава в един съюз е индексът на Шапли-Шубик. Ето как
+се
+дефинира този индекс. Нека съюзът се състои от <b
+ style="font-style: italic;">n</b> държави
+- <b><span style="font-style: italic;">p</span><sub>1</sub>, <span
+ style="font-style: italic;">p</span><sub>2</sub>, ...<span
+ style="font-style: italic;">, p<sub>n</sub></span></b>. Разглеждаме
+всички възможне наредби
+на <b style="font-style: italic;">n</b>-те държави. Нека индексите
+<br>
+<b><span style="font-style: italic;">i</span><sub>1</sub>,<span
+ style="font-style: italic;"> i</span><sub>2</sub>,...,<span
+ style="font-style: italic;"> i</span></b><sub><b
+ style="font-style: italic;">n</b></sub> задават една конкретна
+наредба. Държавата
+<b style="font-style: italic;">p<sub>ik</sub></b>
+се нарича централна за тази наредба, ако коалицията, състояща се от <b><span
+ style="font-style: italic;">p</span><sub><span
+ style="font-style: italic;">i</span>1</sub>, <span
+ style="font-style: italic;">p</span><sub><span
+ style="font-style: italic;">i</span>2</sub>, ..., <span
+ style="font-style: italic;">p</span><sub><span
+ style="font-style: italic;">i</span>(<span style="font-style: italic;">k
+-</span> 1)</sub> </b>не е печеливша, а коалицията <b><span
+ style="font-style: italic;">p</span><sub><span
+ style="font-style: italic;">i</span>1</sub>, <span
+ style="font-style: italic;">p</span><sub><span
+ style="font-style: italic;">i</span>2</sub>, ...,<span
+ style="font-style: italic;"> p</span><sub style="font-style: italic;">ik</sub></b>
+е печеливша. Индекс на Шапли-Шубик за държавата&nbsp; <b><span
+ style="font-style: italic;">p</span></b> се нарича
+отношението на броя на наредбите, в които&nbsp; <b><span
+ style="font-style: italic;">p</span></b> е централна
+към броя на всички възможни наредби. Да се напише програма за
+пресмятане
+на индекса на Шапли-Шубик.
+<br>
+&nbsp;&nbsp;&nbsp; Входен файл - <b><tt>shsh.in</tt></b>
+<br>
+Съдържа няколко тестови примери. Данните за всеки от примерите са
+записани
+на два последователни реда във файла. Първият ред за всеки от примерите
+съдържа две цели числа, разделени с един интервал - броят <span
+ style="font-style: italic;">N</span> на държавите
+в съюза (1 &lt;<span style="font-style: italic;"> N </span>&lt; 11) и
+необходимият брой гласове <span style="font-style: italic;">V</span>
+за вземане на решение.
+На следващия ред има <span style="font-style: italic;">N</span> цели
+числа (разделени с по един
+интервал), които са гласовете на участниците в съюза. Файлът завършва
+с ред, съдържащ числото 0.
+<br>
+&nbsp;&nbsp;&nbsp; Изходен файл - <b><tt>shsh.out</tt></b>
+<br>
+За всеки пример трябва да се изведат <span style="font-style: italic;">N</span>
+цели числа, по едно на ред,
+всяко равно на индекса на Шапли-Шубик, изразен в проценти за поредния
+участник
+в съюза. Числата да са закръглени (по общоприетите правила за
+закръгляване)
+с 1 значеща цифра след десетичната точка. Между изходните данни за
+отделните
+примери трябва да се оставя по един празен ред.
+<br>
+Пример:
+<br>
+<b><tt>3 51</tt></b>
+<br>
+<b><tt>50 49 1</tt></b>
+<br>
+<b><tt>6 12</tt></b>
+<br>
+<b><tt>4 4 4 2 2 1</tt></b>
+<br>
+<b><tt>0</tt></b>
+<br>
+Решение на примера:
+<br>
+<b><tt>66.6</tt></b>
+<br>
+<b><tt>16.6</tt></b>
+<br>
+<b><tt>16.6</tt></b>
+</p>
+<b><tt>23.3</tt></b>
+<br>
+<b><tt>23.3</tt></b>
+<br>
+<b><tt>23.3</tt></b>
+<br>
+<b><tt>15</tt></b>
+<br>
+<b><tt>15</tt></b>
+<br>
+<b><tt>0</tt></b><br>
+<br>
+<span style="font-weight: bold;">Задача 3c</span>. <a
+ href="../../2002/problems.pdf">Политическа
+сила</a> (Задача 3 )<br>
+[ Междууниверситетско състезание по програмиране, 24 март 2002
+г.,
+БСУ ]<br>
+&nbsp;&nbsp;&nbsp; Всички важни решения в Eвропейския съюз се вземат
+чрез да-не гласуване на дадено предложение, като участващите в съюза
+държави
+имат различен брой гласове. Ето разпределението на гласовете по
+държави:
+Франция, Германия, Италия и Англия - по 10 гласа, Испания - 8,&nbsp;
+Белгия,
+Холандия, Португалия и Гърция - 5, Австрия и Швеция - 4, Дания,
+Ирландия
+и Финландия - 3, Люксембург - 2 гласа. Предложение се приема при
+събрани
+62 от общо 87 гласа.
+<br>
+&nbsp;&nbsp;&nbsp; Една мярка са политическата сила на една държава
+в съюза е индексът на Банзаф. Нека <b style="font-style: italic;">p</b>
+е дадена държава.
+Обща политическа сила <b><span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">p</span>)</b> на<span
+ style="font-style: italic;"> </span><b style="font-style: italic;">p</b>
+се нарича
+броя на коалициите <b style="font-style: italic;">C</b>, изпълняващи
+следните 3 условия:
+<br>
+&nbsp;&nbsp;&nbsp; 1. <b style="font-style: italic;">p</b> е член на
+коалиция <b style="font-style: italic;">C</b>;
+<br>
+&nbsp;&nbsp;&nbsp; 2. <b><span style="font-style: italic;">C</span> </b>е
+печеливша коалиция (събира
+необходимите брой гласове за приемане на дадено предложение);
+<br>
+&nbsp;&nbsp;&nbsp; 3. Когато <b style="font-style: italic;">p</b>
+излезе от <b style="font-style: italic;">C</b>,
+получената коалиция е губеща (не е печеливша).
+<br>
+&nbsp;&nbsp;&nbsp; Индекс на Банзаф <b><span
+ style="font-style: italic;">B</span>(p)</b> за държавата
+p се пресмята по формулата: <b><span style="font-style: italic;">B</span>(</b><b
+ style="font-style: italic;">p</b><b>) = O(</b><b
+ style="font-style: italic;">p</b><b>)/<span style="font-style: italic;">s</span></b>,
+където <b style="font-style: italic;">s</b>
+е сумата от общата политическа сила на всички участници в съюза. Да се
+напише програма за пресмятане на индекса на Банзаф.
+<br>
+&nbsp;&nbsp;&nbsp; Входен файл - <b><tt>banzaf.inp</tt></b>
+<br>
+Първият ред от един пример съдържа две цели числа - броя на държавите
+<span style="font-style: italic;">N</span> в съюза (1&lt;<span
+ style="font-style: italic;">N</span>&lt;32) и необходимия брой гласове
+<span style="font-style: italic;">V</span> за вземане на решение.
+Следващите <span style="font-style: italic;">N</span> цели числа са
+гласовете на участниците в съюза. Във файла
+се съдържат много примери, като последно число във файла е стойност 0
+за
+<span style="font-style: italic;">N</span>.
+<br>
+&nbsp;&nbsp;&nbsp; Изходен файл - <b><tt>banzaf.out</tt></b>
+<br>
+За всеки пример се извеждат N цели числа - индекса на Банзаф в проценти
+за участниците в съюза (закръглен до цяло число). Между примерите се
+оставя
+празен ред.
+<br>
+Пример:
+<br>
+<b><tt>15 62</tt></b>
+<br>
+<b><tt>10 10 10 10 8 5 5 5 5 4 4 3 3 3 2</tt></b>
+<br>
+<b><tt>2 50</tt></b>
+<br>
+<b><tt>49 51</tt></b>
+<br>
+<b><tt>0</tt></b>
+<br>
+Решение на примера:
+<br>
+<b><tt>11</tt></b>
+<br>
+<b><tt>11</tt></b>
+<br>
+<b><tt>11</tt></b>
+<br>
+<b><tt>11</tt></b>
+<br>
+<b><tt>9</tt></b>
+<br>
+<b><tt>6</tt></b>
+<br>
+<b><tt>6</tt></b>
+<br>
+<b><tt>6</tt></b>
+<br>
+<b><tt>6</tt></b>
+<br>
+<b><tt>5</tt></b>
+<br>
+<b><tt>5</tt></b>
+<br>
+<b><tt>4</tt></b>
+<br>
+<b><tt>4</tt></b>
+<br>
+<b><tt>4</tt></b>
+<br>
+<b><tt>2</tt></b>
+<p><b><tt>0</tt></b>
+<br>
+<b><tt>100<br>
+</tt></b></p>
+<hr style="width: 100%; height: 2px;">
+</body>
+</html>

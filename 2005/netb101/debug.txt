@@ -1,0 +1,138 @@
+Hints on debugging your C++ programs:
+====================================
+
+Debugging is the most time cosuming part of programming. Part of the
+problem is that every error is different, there is no general method
+that works in every case. We will go into this in greater depth in
+Chapter 8 of Horstmann.
+
+
+Compilation errors:
+------------------
+
+First, some general advice: if you get more than one compilation
+error, try to fix the first one listed, then compile again. Sometimes
+an error can trigger other errors (for example, a syntax error in
+a declare statement will cause an undeclared variable error farther
+down in the program); so fixing the first error will often take care
+of many errors farther down.
+
+The easy ones are things like "syntax error at line NNN". Just
+look at line NNN and figure out what is wrong (something mispelled,
+parentheses that don't match, use a ; where it needed a , etc.
+
+Next easiest are things like "thing undeclared at line NNN". Again,
+look at line NNN and see what "thing" is supposed to be. If it is
+a variable, remember that it has to be declared so the compiler knows
+how to deal with it (that is, "double thing;" , "string thing;", 
+whatever. If it is not supposed to be a variable it may be some keyword
+that is mistyped.
+
+Sometimes you will find that something that looks perfectly good gives
+a syntax or undefined error. This often happens because you did not
+include the right header files. For example, to be able to use strings,
+you need "#include <string>"; to use cout and cin you need 
+"#include <iostream>". 
+
+The hardest ones are things like "Parse error before 'else' at line NNN".
+This is what you get when the compiler got lost trying to understand your
+program, usually because it suddenly ran into something it did not
+understand. The problem is that the cause of the error is not necessarily
+at line NNN, but may be well before it. In the example where 'else' causes
+a parse error, what may be happening is that the compiler can't find an
+IF to match the else, so the problem could be many lines before NNN.
+
+If you get this kind of error look for missing ; on lines above NNN, look
+for { or } that don't match, unmatched parenthesis, unmatched quotes around
+a string, things like that. Also missing commas, missing 'and' or 'or' 
+operators or comparison operators in a complicated IF statement. You may need
+to print out the whole program and start marking things off with a pencil
+(like, match { with } and see if any are left that you can't match with
+anything).
+
+Runtime errors:
+--------------
+
+These fall in two general categories:
+
+- Errors which cause your program to die. One frequent symptom is, you
+get a message that includes the phrase " core dumped ". This generally
+happens because your program tried to access memory it doesn't own.
+Make sure every variable and object is declared and initialized.
+
+You may also need to put output statements into your program, just so
+you know how far it got before it died. Put in statements like:
+	cout << "Reached position X" << eln; 
+into your code, (different X for each message), then depending on what
+prints out and what doesn't you can narrow down the place in the program
+where it died.
+
+- Your program runs, but the output is not what you expected.
+
+First thing to do here is to make sure the program is reading what you
+think it is reading. Right after
+	cin >> input_data;
+put in a statement that does
+	cout << input_data;
+just to be sure it got in. Also, if you do something to the input data
+(like you get a substring of an input string), ouput that also, just
+to make sure it is doing what you think it is doing.
+
+Next, you need to trace the logic. For particular input data, trace the
+code after each input, see if you can figure out where it goes on each
+if statement. You may want to put more output statements (cout << something)
+into the code, just so you can tell that the program is actually doing
+what you think it is.
+
+- In general, print out the code and try to figure out manually what it
+is actually doing with data.
+
+Conditional compilation:
+=======================
+
+All the output statements described above make your program output look
+messy. You don't want all the debugging information all the time, but it is
+nice to be able to turn it on or off. Compiler directives allow you to do this:
+
+
+// near  the top of your program listing, type:
+ 
+#define THING
+
+// THING can be any word/name - up to you. does not have to be in capitals,
+// but this is good practice to distinguish it from a normal variable
+
+
+// then in the program ..
+
+... program code ..
+
+#ifdef THING
+	// debug output statement
+#endif
+
+... program code ..
+
+#ifdef THING
+	// debug output statement
+#endif
+
+	
+	
+The statments between #ifdef THING and #endif only get translated if THING
+has been defined. So you can turn the debug output on or off by including
+or not including the #define THING statment.
+
+for examlple:
+
+// debug output is on
+#define THING
+
+// debug output is off
+// #define THING
+
+This technique can also be used to write a program that can be compiled
+several different ways, for example a program that has to call different
+functions to run on different operating systems.
+
+

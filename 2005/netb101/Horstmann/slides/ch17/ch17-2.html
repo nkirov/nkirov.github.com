@@ -1,0 +1,1266 @@
+<html>
+<head>
+<title>Advanced C++ Topics</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF" text="#000000">
+<h2>Chapter 17: Advanced C++ Topics</h2>
+<p align="center"><img src="images/ccc_4.png"></p>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To learn about operator overloading</font></li>
+  <li><font size="+1">To learn how to automatically manage dynamic memory</font></li>
+  <li><font size="+1">To understand nested classes</font></li>
+  <li><font size="+1">To define and use name spaces</font></li>
+  <li><font size="+1">To be able to implement templates</font></li>
+  <li><font size="+1">To become familiar with exception handling</font></li>
+</ul>
+<h2>Operator Overloading</h2>
+<ul>
+  <li><font size="+1">Many classes use operators such as <tt>++</tt>, <tt>*</tt> 
+    and <tt>==.</tt> </font></li>
+  <li><font size="+1">Giving a new meaning to an operator is called <i>operator 
+    overloading</i>. </font></li>
+  <li><font size="+1">You can overload an operator by defining a function whose 
+    name is operator followed by the operator symbol.</font></li>
+  <li><font size="+1">For example, you can define the <i>difference</i> between 
+    two <tt>Time</tt> objects as the number of seconds between them. 
+    <blockquote>
+      <pre>int operator-{Time a, Time b)
+{
+   return a.seconds_from(b);
+}</pre>
+    </blockquote></font></li>
+	
+  <li><font size="+1">Now you can use the <tt>-</tt> operator instead of calling 
+    <tt>seconds_from</tt>. 
+    <blockquote>
+      <pre>Time now;
+Time morning(9, 0, 0);
+long seconds_elapsed = now - morning;</pre>
+    </blockquote></font>
+</ul>
+<h2>Operator Overloading (Syntax 17.1 : Overloading Operator Definition)</h2>
+<P><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.1 : Overloading Operator Definition</font></p>
+      <pre><font size="+1"><i>return_type</i> operator<i>operator_symbol</i>(<i>parameters</i>)
+{</font><i><font size="+1">
+</font></i><font size="+1">   <i>statements</i>
+}</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">int operator-(Time a, Time b)
+{
+   return a.seconds_from(b)
+}</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Supply the implementation of an overloaded operator.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Operator Overloading</h2>
+<ul>
+  <li><font size="+1">Does it make sense to add two times? 
+  <blockquote><pre><i>some_return_type</i> operator+(Time a, Time b);</pre></blockquote></font></li>
+  <li><font size="+1">A <tt>Time</tt> objects represent a point in time, not a 
+    duration: what does 3 P.M. + 3 P.M. mean?</font></li>
+  <li><font size="+1">It does make sense to add a number of seconds to a <tt>Time</tt> 
+    object, resulting in a new <tt>Time</tt> object.
+	<blockquote>
+      <pre>Time operator+(Time a, int sec)
+{
+   Time r = a;
+   r.add_seconds(sec);
+   return r;
+}</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Overloading Operators</h2>
+<ul>
+  <li><font size="+1">A commonly overloaded operator is the <tt>==</tt> operator, 
+    to compare two values. 
+    <blockquote>
+      <pre>bool operator==(Time a, Time b)
+{
+   return a.seconds_from(b) == 0;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">For completeness, it is a good idea to also define a <tt>!=</tt> 
+    operator.
+	<blockquote>
+      <pre>bool operator!=(Time a, Time b)
+{
+   return a.seconds_from(b) != 0;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">You may also find it useful to define a <tt>&lt;</tt> operator.
+  <blockquote>
+      <pre>bool operator&lt;(Time a, Time b)
+{
+   return a.seconds_from(b) &lt; 0;
+}</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Overloading Operators</h2>
+<ul>
+  <li><font size="+1">For many classes, you want to print the object with the 
+    familiar <tt>&lt;&lt;</tt> notation.</font></li>
+  <li><font size="+1">The output operator takes a parameter of type <tt>ostream&amp;</tt> 
+    (because printing modifies the stream) and the object to be printed.
+	<blockquote>
+      <pre>ostream&amp; operator&lt;&lt;(ostream&amp; out, Time a)
+{
+   out &lt;&lt; a.get_hours() &lt;&lt; &quot;:&quot;;
+   if (a.get_minutes() &lt; 10) out &lt;&lt; &quot;0&quot;;
+   out &lt;&lt; a.get_minutes() &lt;&lt; &quot;:&quot;;
+   if (a.get_seconds() &lt; 10) out &lt;&lt; &quot;0&quot;;
+   out &lt;&lt; a.get_seconds();
+   return out;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">The<tt> &lt;&lt;</tt> operator returns the out stream to 
+    enable chaining of the <tt>&lt;&lt;</tt> operator. 
+    <blockquote>
+      <pre>cout &lt;&lt; now &lt;&lt; &quot;\n&quot;;</pre>
+    </blockquote>
+	really means
+	<blockquote>
+      <pre>(cout &lt;&lt; not) &lt;&lt; &quot;\n&quot;;</pre>
+    </blockquote>
+	that is
+	<blockquote>
+      <pre>operator(cout, now) &lt;&lt; &quot;\n&quot;;</pre>
+    </blockquote></font></li>
+	
+  <li><font size="+1">The call to <tt>operator(cout, now)</tt> returns <tt>cout</tt>, 
+    then <tt>cout &lt;&lt; &quot;\n&quot;</tt> prints a new line.</font> 
+</ul>
+<h2>Operator Overloading</h2>
+<ul>
+  <li><font size="+1">You can also overload the input operator to read in other 
+    types of objects.
+	<blockquote>
+      <pre>istream &amp; operator&gt;&gt;(istream&amp; in, Time&amp; a)
+{
+   int hours;
+   int minutes;
+   int seconds;
+   in &gt;&gt; hours &gt;&gt; minutes &gt;&gt; seconds;
+   a = Time(hours, minutes, seconds);
+   return in;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Note that the <tt>&gt;&gt;</tt> operator returns the input 
+    stream just like the <tt>&lt;&lt;</tt> operator.</font></li>
+  <li><font size="+1">Unlike the <tt>&lt;&lt;</tt> operator, the <tt>&gt;&gt;</tt> 
+    operator must have a parameter of <tt>Time&amp;</tt>.</font></li>
+  <li><font size="+1">It is easy to go overboard overloading operators! Using 
+    inappropriate operators can make programs more difficult to read.</font>
+    <ul>
+      <li><font size="+1">Does it make sense to overload <tt>*</tt>, <tt>/</tt> 
+        or <tt>%</tt> for Time objects?</font></li>
+    </ul>
+  </li>
+</ul>
+<h2>Operator Overloading (<tt>overload.cpp</tt>)</h2>
+<iframe src="code/overload.cpp.html" width="80%" height="80%">Your browser does 
+not support the &lt;iframe&gt; tag.</iframe> 
+<h2>Operator Overloading</h2>
+<ul>
+  <li><font size="+1">There are actually two forms of the <tt>++</tt> and <tt>--</tt> 
+    operators.</font> 
+    <ul>
+      <li><font size="+1">A prefix form:
+	  <blockquote><pre>++x;</pre></blockquote></font></li>
+      <li><font size="+1">A postfix form:
+	  <blockquote><pre>x++;</pre></blockquote></font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Recall that <tt>++x</tt> evaluates to <tt>x</tt> after the 
+    increment, and <tt>x++</tt> evaluates to <tt>x</tt> before the increment.
+	<blockquote>
+      <pre>int i = 0;
+int j = 0;
+vector&lt;double&gt; s(10);
+double a = s[i++]; /* a is s[0], i is 1 */
+double b = s[++j]; /* b is s[1], j is 1 */</pre>
+    </blockquote></font></li>
+  <li><font size="+1">In order for the compiler to distinguish between the two 
+    versions, the operators must have two different parameter lists.
+	<blockquote>
+      <pre>void operator++(Time&amp; a) /* prefix operator */
+. . .
+
+
+void operator++(Time&amp; a, int dummy) /* postfix operator */</pre>
+    </blockquote></font></li>
+  <li><font size="+1">The <tt>int dummy</tt> parameter is not used inside the 
+    function, it merely serves to differentiate the two <tt>operator++</tt> functions.</font></li>
+</ul>
+<h2>Operator Overloading</h2>
+<ul>
+  <li><font size="+1">Some operators must access the internals of the class and 
+    must be member functions.</font></li>
+  <li><font size="+1">Member functions use the implicit parameter as the left 
+    operand.</font></li>
+  <li><font size="+1">A non member operator:
+  <blockquote><pre>bool operator==(Iterator a, Iterator b)</pre></blockquote></font></li>
+  <li><font size="+1">The same operator as a member function:
+  <blockquote><pre>bool Iterator::operator==(Iterator b) const</pre></blockquote></font></li>
+  <li><font size="+1">If the operator is unary, then the member function has no 
+    explicit parameter
+	<blockquote><pre>string Iterator::operator*() const</pre></blockquote></font></li>
+</ul>
+<h2>Operator Overloading</h2>
+<ul>
+  <li><font size="+1">Actual implementation of the operators is somewhat anticlimactic.
+<blockquote>
+      <pre>string Iterator::operator*() const
+{
+   assert(position != NULL);
+   return position-&gt;data;
+}
+
+bool Iterator::operator==(Iterator b) const
+{
+   return position == b.position;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Note the parameter in the postfix version of the <tt>++</tt> 
+    operator.
+	<blockquote>
+      <pre>void Iterator::operator++(int dummy) const
+{
+   assert(position != NULL);
+   return = position-&gt;next;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Also note that the <tt>!=</tt> operator uses the <tt>==</tt> 
+    operator.<blockquote>
+      <pre>bool Iterator::operator!=(Iterator b) const
+{
+   return !(*this == b); // calls operator ==
+}</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">For this discussion, we will use a modification of the Department 
+    class that was introduced earlier.
+	<blockquote>
+      <pre>class Department
+{
+   ...
+private:
+   string name;
+   Employee* receptionist;
+};
+
+Department::Department(string n, Employee)
+{
+   name = n;
+   receptionist = new Employee(e.get_name(), e.get_salary());
+}
+
+/* second constructor */
+
+Department::Department(string n)
+{
+   name = n;
+   receptionist = NULL;
+}</pre>
+    </blockquote> </font></li>
+</ul>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">A <tt>Department</tt> object contains a pointer to an <tt>Employee</tt> 
+    object.</font></li>
+  <li><font size="+1">When the <tt>Department</tt> object is destroyed (goes out 
+    of scope, for example) the <tt>Employee</tt> object is leaked.</font></li>
+  <li><font size="+1">In C++, you can define a <i>destructor</i>, a function that 
+    is called when an object is about to go out of scope.</font></li>
+  <li><font size="+1">The destructor for the <tt>Department</tt> class should 
+    delete the receptionist pointer.
+	<blockquote>
+      <pre>Department::~Department()
+{
+   delete receptionist;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Note that calling delete on a <tt>NULL</tt> pointer is safe, 
+    so you don't need a special case for that situation.</font></li>
+</ul>
+<h2>Automatic Memory Management (Syntax 17.2 : Destructor Definition)</h2>
+<p><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.2 : Destructor Definition</font></p>
+      <pre><font size="+1"><i>Class_name</i>::~<i>Class_name</i>()
+{</font><i><font size="+1">
+</font></i><font size="+1">   <i>statements</i>
+}</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">Department::~Department()
+{
+   delete receptionist;
+}</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Supply the implementation of a destructor that is 
+            invoked whenever and object goes out of scope.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">The destructor is automatically invoked (not called directly). 
+    <blockquote> 
+      <pre>{
+   Department dept;
+   ...
+} // dept.~Department() automatically invoked here
+
+...
+Department* p = new Department(...);
+...
+delete p; // p-&gt;~Department() automatically invoked here</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">A class can only have one destructor with no parameters. 
+    </font></li>
+  <li><font size="+1">You should always supply a destructor when some amount of 
+    clean up is required when an object goes out of scope.</font>
+    <ul>
+      <li><font size="+1">Recycling dynamic memory (as shown here).</font> </li>
+    </ul>
+  </li>
+  <ul>
+    <li><font size="+1">Close a file.</font></li>
+    <li><font size="+1">Relinquish some other resource.</font></li>
+  </ul>
+</ul>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">Consider the following declarations. </font> 
+    <blockquote> 
+      <pre><font size="+1">Department qc("Qualitiy Control", Employee("Tester, Tina", 50000));
+Department dept(&quot;Shipping&quot;, Employee(&quot;Hacker, Harry&quot;, 35000));</font></pre>
+    </blockquote>
+  </li>
+  <li><font size="+1">Suppose we assign one department to the other. </font> 
+    <blockquote> 
+      <pre><font size="+1">dept = qc;</font></pre>
+    </blockquote>
+  </li>
+  <li><font size="+1">This assignment causes a memory leak! (See following slide).</font></li>
+  <li><font size="+1">When one object goes out of scope (and the other doesn't) 
+    the <tt>Employee</tt> is destroyed, causing a dangling pointer.</font></li>
+</ul>
+<h2>Automatic Memory Management</h2>
+<blockquote><img src="images/department_assignment.png"></blockquote>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">The remedy is to overload the <tt>operator=</tt> to make 
+    the assignment safe by deleting the only <tt>Employee</tt> object, and making 
+    a copy of the new <tt>Employee</tt> object. 
+    <blockquote>
+      <pre>Department& Department::operator=(const Department& b)
+{
+   if (this != &amp; b)
+   {
+      name = b.name;
+      delete receptionist;
+      if (b.receptionist == NULL)
+         receptionist == NULL;
+      else
+         receptionist = new Employee(b.receptionist-&gt;get_name(),
+            b.receptionist-&gt;get_salary());
+    }
+    return *this;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Unlike most other operators, the <tt>operator=</tt> must 
+    be a member function.</font></li>
+  <li><font size="+1">Special care must be taken to avoid a destructive &quot;self-assignment.&quot;</font></li>
+  <li><font size="+1">A return by reference is required to handle chaining of 
+    assignments, such as. 
+    <blockquote><pre>z = y = x;</pre></blockquote></font></li>
+  <li><font size="+1">You should always overload the = operator if your class 
+    has data fields that are pointers, and a simple copy of objects leads to dangerous 
+    shared pointers.</font></li>
+</ul>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">The purpose of <tt>operator=</tt> is to set an existing 
+    object equal to another object.</font></li>
+  <li><font size="+1">Use of <tt>=</tt> for construction is not always appropriate.</font></li>
+  <li><font size="+1">Example: Here, the pointer <tt>dept.receptionist</tt> is 
+    set to a random value. The operator will try to delete the receptionist causing 
+    an error. 
+    <blockquote><pre>Department dept = qc;</pre></blockquote></font></li>
+  <li><font size="+1">The copy constructor defines how to construct an object 
+    of a class as a copy of another object of the same class.
+	<blockquote><pre>Department dept(qc)</pre></blockquote></font></li>
+  <li><font size="+1">If you don't define a copy constructor, then the compiler 
+    provides a version that simply copies the corresponding data fields of the 
+    existing object.</font></li>
+  <li><font size="+1">This version of the copy constructor is still inappropriate, 
+    leading to the same kind of errors as the default version of the assignment 
+    operator.</font></li>
+</ul>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">Here is a valid copy constructor for the <tt>Department</tt> 
+    class.
+	<blockquote>
+      <pre>Department::Department(const Department& b)
+{
+   name = b.name;
+   if (b.receptionist == NULL)
+      receptionist = NULL;
+   else
+      receptionist = new Employee(b.receptionist-&gt;get_name(),
+         b.receptionist-&gt;get_salary());
+}</pre>
+    </blockquote>
+	</font></li>
+  <li><font size="+1">The parameter must be <tt>const</tt> reference because pass 
+    by value invokes the copy constructor!</font></li>
+</ul>
+<h2>Automatic Memory Management</h2>
+<ul>
+  <li><font size="+1">The assignment operator, copy constructor, and destructor 
+    are collectively called the &quot;big three.&quot;</font></li>
+  <li><font size="+1">You must implement all three for any class that manages 
+    heap memory.</font></li>
+  <li><font size="+1">Each function has the following logic.</font> 
+    <ul>
+      <li><font size="+1"><b>Destructor</b>: <i><br>
+        Free all dynamic memory that the object manages.</i></font></li>
+      <li><font size="+1"><b>Copy Constructor</b>: <br>
+        <i>Initialize the object as a copy of the explicit parameter object.</i></font></li>
+      <li><font size="+1"><b>Assignment Operator</b>: <br>
+        <i>Check whether</i> <tt>this == &amp;b</tt>. <i>If so do nothing.<br>
+        Free the dynamic memory of the object that is no longer needed.<br>
+        Set the object as a copy of the explicit parameter object.<br>
+        Return</i> <tt>*this</tt>.</font></li>
+    </ul>
+  </li>
+</ul>
+<h2>Automatic Memory Management (<tt>department.cpp</tt>)</h2>
+  <iframe src="code/department.cpp.html" width="80%" height="80%">Your browser does 
+not support the &lt;iframe&gt; tag.</iframe> 
+<h2>Memory Management for Linked Lists</h2>
+<ul>
+  <li><font size="+1">When a linked list (Chapter 16) is no longer needed, the 
+    nodes should be deleted. </font></li>
+  <li><font size="+1">To automate this task you define a destructor. 
+    <blockquote> 
+      <pre>List::~List()
+{
+   free();
+}
+
+void List::free()
+{
+   while(begin() != end())
+      erase(begin());
+}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The free function is kept separate from the destructor because 
+    its implementation is also needed for the assignment operator. 
+    <blockquote> 
+      <pre>List& List::operator=(const List& b)
+{
+   if (this != &amp;b)
+   {
+      free();
+      copy(b);
+   }
+   return *this;
+}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Memory Management for Linked Lists</h2>
+<ul>
+  <li><font size="+1">As part of the &quot;Big 3&quot;, we supply a copy constructor 
+    for the list class at well. 
+    <blockquote> 
+      <pre>List::List(const List& b)
+{
+   first = NULL;
+   last = NULL;
+   copy(b);
+}</pre>
+    </blockquote>
+    </font></li>
+	
+  <li><font size="+1">These memory management functions will be included in the 
+    <tt>List</tt> implementation that follows.</font> 
+</ul>
+<h2>Templates</h2>
+<ul>
+  <li><font size="+1">A <i>class template</i> is a mechanism that allows us to 
+    create classes whose data fields have arbitrary type.</font></li>
+  <li><font size="+1">We have already seen an example: the vector template.
+  <blockquote>
+      <pre>vector&lt;int&gt; v_i; 
+vector&lt;double&gt; v_d;
+vector&lt;Employee&gt; v_e;</pre>
+    </blockquote></font></li>
+  <li><font size="+1">To define a template, denote the arbitrary type with a<i> 
+    type parameter</i> as show in syntax 17.3 (next slide), and add the line <tt>template&lt;typename 
+    T&gt;</tt> before the class definition. 
+    <blockquote>
+      <pre>template&lt;typename T&gt;
+class Pair
+{
+public:
+   Pair(T a, T b);
+   T get_first() const;
+   T get_second() const;
+private:
+   T first;
+   T second;
+};</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Templates (Syntax 17.3 Template Class Definition)
+<p><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+        <p><font size="+1" color="#00FFFF">Syntax 17.3 : Template Class Definition</font></p>
+        <pre><font size="+1">template&lt;typename <i>type_variable</i>&gt;
+class <i>class_name</i>
+{</font><i><font size="+1">
+</font></i><font size="+1">   <i>features</i>
+};</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+              <pre><font size="+1">template&lt;typename T&gt;
+class Pair
+{
+public:
+   Pair(T a, T b);
+   T get_first() const;
+   T get_second() const;
+private:
+   T first;
+   T second;
+};</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+            <td><font size="+1">Define a class template with a type parameter.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table></h2>
+<h2>Templates</h2>
+<ul>
+  <li><font size="+1">When you implement each member function, you must make it 
+    a template as indicated in syntax 17.4. 
+    <blockquote> 
+      <pre>template&lt;typename T&gt;
+Pair&lt;T&gt;::Pair(T a, T b)
+{
+   first = a;
+   second = b;
+}
+
+template&lt;typename T&gt;
+T Pair&lt;T&gt;::get_first() const
+{
+   return first;
+}
+
+template&lt;typename T&gt;
+T Pair&lt;T&gt;::get_second() const
+{
+   return second;
+}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Each function is turned into a separate template.</font></li>
+  <li><font size="+1">Each function name is prefixed by the &quot;<tt>Pair&lt;T&gt;::</tt>&quot; 
+    qualifier.</font></li>
+  <li><font size="+1">Note the use of the type variable <tt>T</tt> to represent 
+    a type.</font></li>
+</ul>
+<h2>Templates (Syntax 17.4 Template Member Function Definition)</h2>
+<p><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.4 : Template Member Function 
+        Definition</font></p>
+      <pre><font size="+1">template&lt;typename <i>type_variable</i>&gt;
+<i>return_type</i> <i>class_name</i>&lt;<i>type_variable</i>&gt;::<i>function_name</i>(<i>parameters</i>) const<sub><i>opt</i></sub>
+{</font><i><font size="+1">
+</font></i><font size="+1">   <i>statements</i>
+}</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">template&lt;typename T&gt;
+T Pair&lt;T&gt;::get_first() const
+{
+   return first;
+}</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Supply the implementation of a member function for 
+            a class template.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Templates</h2>
+<ul>
+  <li><font size="+1">A template version of the <tt>List</tt> class presented 
+    in chapter 16 follows. 
+	<blockquote>
+      <pre>template&lt;typename T&gt;
+class List
+{
+public:
+   List();
+   void push_back(T s);
+   void insert(Iterator&lt;T&gt; pos, T s);
+   void erase(Iterator&lt;T&gt; pos);
+   Iterator&lt;T&gt; begin();
+   Iterator&lt;T&gt; end();
+private:
+   Node&lt;T&gt;* first;
+   Node&lt;T&gt;* last;
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Both the <tt>Node</tt> and <tt>Iterator</tt> classes need 
+    to be made templates as well.</font></li>
+  <li><font size="+1">Each member function must also be made into a template.
+  <blockquote>
+      <pre>template&lt;typename T&gt;
+Iterator&lt;T&gt; List&lt;T&gt;::begin()
+{
+   Iterator&lt;T&gt; iter;
+   iter.position = first;
+   iter.position = last;
+   return iter;
+}</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Templates (<tt>list.cpp</tt>)</h2>
+  <iframe src="code/list.cpp.html" width="80%" height="80%">Your browser does 
+not support the &lt;iframe&gt; tag.</iframe> 
+<h2>Nested Classes and Name Spaces</h2>
+<ul>
+  <li><font size="+1">In the standard library, the <tt>iterator</tt> class is 
+    nested inside the <tt>list</tt> class.
+	<blockquote>
+      <pre>list&lt;string&gt;::iterator pos = staff.begin();</pre>
+    </blockquote></font></li>
+  <li><font size="+1">The reason is so several different implementations (for 
+    vectors, lists, maps, and sets) can all share the same name (iterator), but 
+    have different implementations.<blockquote>
+      <pre>vector&lt;double&gt;::iterator p = a.begin();
+list&lt;string&gt;::iterator q = b.begin();</pre>
+    </blockquote></font></li>
+  <li><font size="+1">To nest a class inside another, first declare the nested 
+    class inside the outer class.
+	<blockquote>
+      <pre>class List
+{
+   ...
+   class Iterator;
+   ...
+};</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Nested Classes and Name Spaces (Syntax 17.5 : Nested Class Declaration)</h2>
+<p><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.5 : Nested Class Declaration</font></p>
+      <pre><font size="+1">class<i> Outer_class_name</i>
+{</font><i><font size="+1">
+</font></i><font size="+1">   <i>...
+   </i>class<i> Nested_class_name
+   </i>{<i>
+      ...
+   </i>};<i>
+   ...</i>
+}</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">class List
+{
+   ...
+   class Iterator
+   {
+      ...
+   };
+};</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Define a class whose scope is contained in the scope 
+            of another class.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Nested Classes and Name Spaces</h2>
+<ul>
+  <li><font size="+1">The definition of the member functions requires references 
+    to both the outer and inner classes. 
+    <blockquote> 
+      <pre>List::Iterator::Iterator()
+{
+   ...
+}
+
+string List::Iterator::get() const
+{
+   ...
+}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Note that the name of constructor is just <tt>Iterator</tt>.</font></li>
+  <li><font size="+1">In general, use nested classes for just one reason: to place 
+    the name of a class inside the scope of another class.</font></li>
+</ul>
+<h2>Nested Classes and Name Spaces</h2>
+<ul>
+  <li><font size="+1">Name spaces are also used to avoid naming conflicts.</font></li>
+  <li><font size="+1">By using name spaces, it becomes possible to use classes 
+    or functions with the same name in the same program.
+	<blockquote>
+      <pre>std::map /* standard library template map */
+acme::map /* another class called map */</pre>
+    </blockquote></font></li>
+  <li><font size="+1">To add classes, functions, or variables to a name space, 
+    surround their declarations with a <tt>namespace</tt> block.
+	<blockquote>
+      <pre>namespace acme
+{
+   class map
+   {
+      ...
+   };
+ 
+   void draw(map m);
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Namespaces are open - you can add as many items to a namespace 
+    as you like by starting another <tt>namespace</tt> block. 
+    <blockquote>
+      <pre>namespace acme
+{
+   class maze
+   {
+      ...
+   }
+};</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Nested Classes and Name Spaces (Syntax 17.6 : Name Space Definition)</h2>
+<p><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.6 : Name Space Definition</font></p>
+      <pre><font size="+1">namespace <i>name_space_name</i>
+{</font><i><font size="+1">
+</font></i><font size="+1">   <i>feature</i><sub>1</sub>
+   <i>feature</i>2
+   <i>...</i>
+   <i>feature</i>n
+};</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">namespace ACME_Software_San_Jose_CA_US
+{
+   class map
+   {
+      <i>...</i>
+   };
+}</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Include a class, function or variable in a name 
+            space. </font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Nested Classes and Name Spaces</h2>
+<ul>
+  <li><font size="+1">Instead of using a prefix qualifier, if there are no conflicts 
+    we can just start a program with a <tt>using</tt> declaration.</font></li>
+  <li><font size="+1">This allows us to use <tt>cout</tt> instead of <tt>std::cout</tt>.</font></li>
+  <li><font size="+1">Since you create name spaces to avoid name clashes, you 
+    want to name them in a unambiguous (usually long) way, such as <tt>ACME_Software_San_Jose_CA_US</tt>.</font></li>
+  <li><font size="+1">Unfortunately, it would be painful to constantly type
+  <blockquote><pre>ACME_Software_San_Jose_CA_US::map</pre></blockquote></font></li>
+  <li><font size="+1">You can define a short alias for a long name space.
+  <blockquote>
+      <pre>namespace acme = ACME_Software_San_Jose_CA_US</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Nested Classes and Name Spaces (Syntax 17.7 : Name Space Alias)</h2>
+<p><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.7 : Name Space Alias</font></p>
+      <pre><font size="+1">namespace </font><font size="+1"><i>alias_name</i> = <i>name_space_name;</i></font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">namespace acme = ACME_Software_San_Jose_CA_US;</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Introduce a short alias for the long name of a name 
+            space. </font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">How do you handle programmer errors when using a function 
+    or class?</font>
+    <ul>
+      <li><font size="+1">Don't check the error condition and executing the code 
+        anyway, possibly causing a problem.
+		<blockquote>
+          <pre>double future_value(double initial_balance, double p, int n)
+{
+   return initial_balance * pow(1 + p / 100, n);
+}</pre>
+        </blockquote></font></li>
+      <li><font size="+1">Check the error condition and doing nothing if it occurs.
+	  <blockquote>
+          <pre>double future_value(double initial_balance, double p, int n)
+{
+   if (p &lt; 0 || n &lt; 0) return 0;
+   return initial_balance * pow(1 + p / 100, n);
+}</pre>
+        </blockquote></font></li>
+      <li><font size="+1">Check the error condition and alert the caller if it 
+        occurs.
+		<blockquote>
+          <pre>double future_value(double initial_balance, double p, int n)
+{
+   assert(p &gt;= 0 &amp;&amp; n &gt;= 0);
+   return initial_balance * pow(1 + p / 100, n);
+}</pre>
+        </blockquote></font></li>
+    </ul>
+  </li>
+</ul>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">Problems:</font> 
+    <ul>
+      <li><font size="+1">If you don't check for the error, your program may be 
+        unreliable.</font></li>
+      <li><font size="+1">If you return a fake value, the program continues using 
+        the value. No one knows what the error was, only that something went wrong.</font></li>
+      <li><font size="+1">Many real pieces of software can't be halted, such as 
+        one that controls a medical device.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">C++ has a mechanism called <i>exception handling</i>. When 
+    a function detects an error, it can signal (<i>throw an exception</i>) a condition 
+    to some other part of the program whose job it is to deal with errors.
+	<blockquote>
+      <pre>double future_value(double initial_balance, double p, int n)
+{
+   if (p &lt; 0 || n &lt; 0)
+   {
+      logic_error description(&quot;illegal future_value parameter&quot;);
+      throw description;
+   }
+   return initial_balance * pow(1 + p / 100, n);
+}</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Exception Handling (Syntax 17.8 : Throwing an Exception)</h2>
+<P><table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.8 : Throwing an Exception</font></p>
+      <pre><font size="+1">throw <i>expression</i>;</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">throw logic_error(&quot;illegal future_value parameter&quot;);</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Abandon this function and throw a value to an exception 
+            handler.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">Here, <tt>logic_error</tt> is a standard exception class 
+    that is declared in the <tt>&lt;stdexcept&gt; </tt>header.</font> </li>
+  <li><font size="+1"> The keyword <tt>throw</tt> indicates that the function 
+    exits immediately, but the function does not return to the caller. Instead, 
+    the program searches for a <i>handler</i> that specifies how to handle the 
+    logic error.</font> </li>
+  <li><font size="+1">You supply an exception handler with the <tt>try</tt> statement. 
+    </font>
+<font size="+1">
+<blockquote> 
+  <pre>try
+{
+   <i>code</i>
+}
+catch (logic_error&amp; e)
+{
+   <i>handler</i>
+}</pre>
+</blockquote>
+</font></li>
+</ul> 
+<h2>Exception Handling (Syntax 17.9 : Try Block)</h2>
+<p>
+<table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.9 : Try Block</font></p>
+      <pre><font size="+1">try
+{</font><i><font size="+1">
+</font></i><font size="+1">   <i>statements</i> 
+}
+catch (<i>type_name</i><sub>1</sub> <i>variable_name</i><sub>1</sub>)
+{
+   <i>statements</i>
+}
+catch (<i>type_name</i>2 <i>variable_name</i>2)
+{
+   <i>statements</i>
+}
+...
+catch (<i>type_name</i>n <i>variable_name</i>n)
+{
+   <i>statements</i>
+}</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">try
+{
+   List staff = read_list();
+   process_list(staff);
+}
+catch(logic_error&amp; e)
+{
+   cout &lt;&lt; &quot;Processing error &quot; &lt;&lt; e.what() &lt;&lt; &quot;\n&quot;;
+}</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">Provide one or more handlers for types of exceptions 
+            that may be thrown when executing a block of statements.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">If any of the functions in the <tt>try</tt> clause throw 
+    a <tt>logic_error</tt>, or call another function that throws such an exception, 
+    then the code in the catch clause executes immediately.
+	<blockquote>
+      <pre>while (more)
+{
+   try 
+   {
+      <i>code</i>
+   }
+   catch (logic_error&amp; e)
+   {
+      cout &lt;&lt; &quot;A logic error has occurred &quot;
+         &lt;&lt; e.what() &lt;&lt; &quot;\n&quot;
+         &lt;&lt; &quot;Retry? (y/n)&quot;;
+      string input;
+      getline(cin, input);
+      if (input == &quot;n&quot; more = false;
+   }
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">The <tt>what</tt> member function of the <tt>locic_error</tt> 
+    class returns the string that was passed to the constructor of the error object 
+    in the throw statement. </font></li>
+</ul>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">It's a good idea to use inheritance to define your own exception 
+    types.
+	<blockquote>
+      <pre>class FutureValueError : public logic_error
+{
+
+public:
+   FutureValueError(const char reason[]);
+};
+
+FutureValueError::FutureValueError(const char reason[])
+   : logic_error(reason){}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Here, the <tt>future_value</tt> function can now throw a 
+    <tt>FutureValueError</tt> object.
+	<blockquote>
+      <pre>if (p &lt; 0 || n &lt; 0)
+   throw FutureValueError(&quot;illegal parameter&quot;);</pre>
+    </blockquote></font></li>
+  <li><font size="+1">Because</font><font size="+1"><tt> FutureValueError</tt> 
+    is a <tt>logic_error</tt>, you can still catch it with <tt>catch&nbsp;(logic_error&amp;&nbsp;e)</tt>.</font></li>
+  
+  <li><font size="+1"> You can even catch other types of errors. Note that the 
+    exception handling mechanism matches the handlers top to button, and executes 
+    the first matching handler. 
+    <blockquote>
+      <pre>try
+{
+   <i>code</i>
+}
+catch (FutureValueError&amp; e)
+{
+   <i>handler</i><sub>1</sub>
+} 
+catch (logic_error&amp; e)
+{
+   <i>handler</i><sub>2</sub>
+}</pre>
+    </blockquote></font></li>
+</ul>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">One common use of exception handling is in functions that 
+    read input.</font></li>
+  <li><font size="+1">Example: suppose that no price or score is given? 
+    <blockquote> 
+      <pre>bool Product::read(fstream&amp; fs)
+{
+   getline(fs, name);
+   if (name == &quot;&quot;) return false; // end of file
+   fs &gt;&gt; price &gt;&gt; score;
+   if (fs.fail())
+      throw runtime_error(&quot;Error while reading product&quot;);
+   string remainder;
+   getline(fs, remainder);
+   return true;
+}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">When a logic error occurs, it never makes sense to retry 
+    the same operation, but a runtime error may have some chance of going away 
+    when the operation is attempted again.</font></li>
+  <li><font size="+1">Note that this function distinguishes between the expected 
+    end of file (returning false), and an unexpected problem (which throws an 
+    exception). </font></li>
+</ul>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">Here we see the hierarchy of standard exception types in 
+    C++. </font></li>
+</ul>
+<blockquote><img src="images/exceptions.png"></blockquote>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">Consider the following function:
+  <blockquote>
+      <pre>void process_products(fstream&amp; fs)
+{
+   list&lt;Product&gt; products;
+   bool more = true;
+   while (more)
+   {
+      Product p;
+      if (p.read(fs)) products.push_back(p);
+      else more = false;
+   }
+   <i>do something with</i> products
+}</pre>
+    </blockquote></font></li>
+  <li><font size="+1">If the <tt>read</tt> function throws an exception, the <tt>process_products</tt> 
+    functions halts, and the exception handling mechanism searches for an appropriate 
+    handler.</font></li>
+  <li><font size="+1">The C++ exception handling mechanism invokes <i>all destructors 
+    of stack objects</i> before it abandons a function.</font></li>
+  <li><font size="+1">In our example, the list object is destroyed, along with 
+    all <tt>Product</tt>s in the list.</font></li>
+</ul>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">This automatic invocation of destructors only applies to 
+    objects.</font></li>
+  <li><font size="+1">Consider the following code. 
+    <blockquote> 
+      <pre>Product* p = new Product();
+if (p-&gt;read())
+{
+   ...
+}
+delete p; // never executes if read throws an exception</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">If an exception occurs in the <tt>read</tt> function, <tt>p</tt> 
+    receives no special attention because it is not an object.</font></li>
+  <li><font size="+1">A memory leak occurs.</font></li>
+</ul>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">The best remedy is to make sure that all allocated memory 
+    is deleted in a destructor.</font></li>
+  <li><font size="+1">If a local pointer variable i unavoidable, you can use the 
+    following construct: 
+    <blockquote> 
+      <pre>Product* p = NULL;
+try
+{
+   p = new Product();
+   if (p-&gt;read())
+   {
+      ...
+   }
+   delete p;
+}
+catch(...)
+{
+   delete p;
+   throw;
+}
+</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The clause <tt>catch(...) </tt>matches any exception.</font></li>
+  <li><font size="+1">The handle contains the local cleanup, followed by the <tt>throw</tt> 
+    statement without an exception object.</font></li>
+  <li><font size="+1">This rethrows the exception so that the correct handler 
+    can process it.</font></li>
+</ul>
+<h2>Exception Handling</h2>
+<ul>
+  <li><font size="+1">If an exception is thrown and no <tt>catch</tt> clause exists 
+    to catch it, then the program terminates with an error message.</font></li>
+  <li><font size="+1">Because of potential dangers in throwing exceptions, a function 
+    can declare that it only throws exceptions of a certain type, or no exceptions 
+    at all.</font></li>
+  <li><font size="+1">You can use that knowledge to make sure that it is safe 
+    to call certain functions, or to know which kinds of exceptions you program 
+    needs to catch. 
+    <blockquote>
+      <pre>void process_products(fstream&amp; fs)
+   throw (UnexpectedEndOfFile, bad_alloc)</pre>
+    </blockquote></font></li>
+  <li><font size="+1">A function signature can optionally be followed by the keyword 
+    <tt>throw</tt> and a parenthesized, comma-separated list of exception types; 
+    for example:</font></li>
+  <li><font size="+1">To denote that a function throws no exceptions, use an empty 
+    exception list.
+	<blockquote>
+      <pre>void process_products(fstream&amp; fs)
+   throw ()</pre>
+    </blockquote></font></li>
+	
+  <li><font size="+1">A function without a <tt>throw</tt> specification is allowed 
+    to throw any exceptions.</font>
+</ul>
+<h2>Exception Handling (Syntax 17.10 : Exception Specification)</h2>
+<p>
+<table border="1" cellpadding="4" bgcolor="#00FFFF">
+  <tr> 
+    <td bgcolor="#FFFFFF"> 
+      <p><font size="+1" color="#00FFFF">Syntax 17.10 : Exception Specification</font></p>
+      <pre><font size="+1"><i>return_type</i> <i>function_name</i>(<i>parameters</i>)
+   throw (<i>type_name</i><sub>1</sub>, <i>type_name</i><sub>2</sub>, ..., <i>type_name</i><sub>n</sub>)</font></pre>
+      <table border="0" cellpadding="4">
+        <tr> 
+          <td valign="top"><font size="+1" color="#00FFFF">Example:</font><font size="+1"> 
+            </font></td>
+          <td> 
+            <pre><font size="+1">void process_products(fstrream&amp; fs)
+   throw(UnexpectedEndOfFile, bad_alloc)</font></pre>
+          </td>
+        </tr>
+        <tr> 
+          <td><font size="+1" color="#00FFFF">Purpose:</font><font size="+1"> 
+            </font></td>
+          <td><font size="+1">List the types of all exceptions that a function 
+            can throw.</font></td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Testing and Debugging</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 8: Testing and Debugging</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To learn how to design test harnesses for testing
+components of your programs in isolation</font></li>
+  <li><font size="+1">To understand the principles of test case
+selection and evaluation </font></li>
+  <li><font size="+1">To be able to use assertions to document program
+assumptions</font></li>
+  <li><font size="+1">To become familiar with the debugger</font></li>
+  <li><font size="+1">To learn strategies for effective debugging</font></li>
+</ul>
+<h2>Unit Tests</h2>
+<ul>
+  <li><font size="+1">In a unit test, a function or procedure is
+compiled outside the program in which it will be used, together with a <i>test
+harness</i> that feeds arguments to it.</font></li>
+  <li><font size="+1">Once you have confidence that the function is
+working correctly, you can plug it into your program.</font></li>
+  <li><font size="+1">Test data can be entered manually (see <tt>sqrtest1.cpp</tt>),
+in a loop (see <tt>sqrtest2.cpp</tt>), or using random number
+generation (see <tt>sqrtest3.cpp</tt>).</font></li>
+</ul>
+<h2>Unit Tests (<tt>sqrtest1.cpp</tt>)</h2>
+<iframe src="code/sqrtest1.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Unit Tests (<tt>sqrtest2.cpp</tt>)</h2>
+<iframe src="code/sqrtest2.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Unit Tests (<tt>sqrtest3.cpp</tt>)</h2>
+<iframe src="code/sqrtest3.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Selecting Test Cases</h2>
+<ul>
+  <li><font size="+1"><i>Positive tests</i> consist of legitimate
+inputs that you expect the program handles correctly.</font></li>
+  <li><font size="+1"><i>Boundary cases</i> are also legitimate inputs
+that you expect the program to handle in a trivial way.</font></li>
+  <li><font size="+1"><i>Negative cases</i> are inputs that you expect
+the program to fail on.</font></li>
+  <li><font size="+1">Keeping test data in a file is smart because you
+can use it to review every version of the program.</font></li>
+  <li><font size="+1">When you find a bug, you should record the data
+that caused the bug, and retest your program with that data after you
+have tried to fix the bug.</font></li>
+  <li><font size="+1">The phenomenon of fixing a bug, only to have it
+reappear after further program modifications is called <i>cycling</i>.</font></li>
+  <li><font size="+1">The process of testing against a set of past
+failures is called <i>regression testing</i>. </font></li>
+</ul>
+<h2>Test Case Evaluations</h2>
+<ul>
+  <li><font size="+1">Once you have determined what <i>inputs</i> are
+needed to test the program, you need to decide if the <i>outputs</i>
+are correct.</font></li>
+  <li><font size="+1">Sometimes you can verify output by calculating
+the correct values by hand.</font></li>
+  <li><font size="+1">Sometimes a computation does a lot of work, and
+it is not practical to do the computation manually.
+    <blockquote>
+      <pre>double squareroot(double a)<br>{  if (a == 0) return 0;<br> <br>   double xnew = a;<br>   double xold;<br><br>   do<br>   {  xold = xnew;<br>      xnew = (xold + a / xold) / 2;<br>   }<br>   while (not approx_equal(xnew, xold));<br>   return xnew;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">We could write a test program that verifies that
+the output values fulfill certain properties.</font></li>
+  <li><font size="+1">Here we test the <tt>squareroot()</tt> function
+by comparing the square of the returned number with the original input.
+(See <tt>sqrtest4.cpp</tt>).</font></li>
+  <li><font size="+1">Another method is to use a slower but reliable
+procedure (called an <i>oracle</i>) to verify the results. (In this
+case, we will use <tt>pow()</tt> as an oracle). (See <tt>sqrtest5.cpp</tt>)</font></li>
+</ul>
+<h2>Test Case Evaluations (<tt>sqrtest4.cpp</tt>)</h2>
+<iframe src="code/sqrtest4.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Test Case Evaluations (<tt>sqrtest5.cpp</tt>)</h2>
+<iframe src="code/sqrtest5.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Assertions</h2>
+<ul>
+  <li><font size="+1">Functions often contain implicit assumptions
+(denominators should be nonzero, salaries should not be negative).</font></li>
+  <li><font size="+1">Such illegal values can creep into a program due
+to an input or processing error - with distressing regularity!</font></li>
+  <li><font size="+1">Assertions provide a valuable sanity check.
+    <blockquote>
+      <pre>void raise_salary(Employee&amp; e, double by)<br>{  assert(e.get_salary() &gt;= 0 );<br>   assert(by &gt;= -100);<br>   double new_salary = e.get_salary() * (1 + by / 100);<br>   e.set_salary(new_salary);<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">If an assertion is not satisfied, the program
+terminates with a useful error message showing the line number and the
+code of the failed assertion:
+    <blockquote>
+      <pre>assertion failed in file finclac.cpp line 61: by &gt;= -100</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Program Traces</h2>
+<ul>
+  <li><font size="+1">To get a printout of the program flow, you can
+insert trace messages into the beginning and end of every procedure.</font></li>
+  <li><font size="+1">It is also useful to print the input parameters
+when a procedure is entered and to print return values when a function
+is exited.
+    <blockquote>
+      <pre>string int_name(int n)<br>{  cout &lt;&lt; "Entering digit_name. n = " &lt;&lt; n &lt;&lt; "\n";<br>   ...<br>   cout &lt;&lt; "Exiting digit name. Return value = "<br>        &lt;&lt; s &lt;&lt; "\n";<br>   return s;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To get a proper trace, you must locate <i>each</i>
+function exit point. </font></li>
+  <li><font size="+1">Sample output for <tt>n</tt> = 12305.
+    <blockquote>
+      <pre>Inside int_name. Thousands.<br>Entering int_name. n = 12<br>Inside int_name. Teens.<br>Entering teen_name. n = 12<br>Exiting teen_name. Return value = twelve<br>Exiting digit_name. Return value = twelve<br>Inside int_name. Hundreds.<br>Entering digit_name. n = 3<br>Exiting digit_name. Return value = three<br>Inside int_name. Ones.<br>Entering digit_name. n = 5<br>Exiting digit_name. Return value = five<br>Exiting int_name. Return value = twelve thousand three hundred five</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Program Traces (Problems with Trace Messages)</h2>
+<ul>
+  <li><font size="+1">Program traces can be time-consuming to find out
+which trace message to insert.</font></li>
+  <li><font size="+1">If you insert too many messages, you produce a
+flurry of output that is hard to analyze.</font></li>
+  <li><font size="+1">If you insert to few, you many not have enough
+information to spot the cause of the error.</font></li>
+  <li><font size="+1">When you are done with the program, you need to
+remove all the trace messages.</font></li>
+  <li><font size="+1">When you find a new error, you need to stick the
+print statement back in.</font></li>
+  <li><font size="+1">Many profession programmers use a <i>debugger</i>,
+not trace messages, to locate errors in their code.</font></li>
+</ul>
+<h2>The Debugger</h2>
+<ul>
+  <li><font size="+1">Modern development environments contain special
+programs, called <i>debuggers</i>, that help you locate bugs by
+letting you follow the execution of a program.</font></li>
+  <li><font size="+1">You can stop and restart your program and see the
+contents of variables whenever your program is temporarily stopped.</font></li>
+  <li><font size="+1">Using a debugger is not cost free - it takes time
+to set up and carry out an effective debugging session.</font></li>
+  <li><font size="+1">Larger programs are harder to debug without using
+a debugger, so learn how to use one is time well spent.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">Debuggers vary wildly from one system to another.</font></li>
+  <li><font size="+1">If you use an integrated development environment,
+which contains an editor, compiler, and a debugger, finding and
+starting the debugger is usually very easy.</font></li>
+  <li><font size="+1">On a UNIX system, you must manually build a debug
+version of your program and invoke the debugger.</font></li>
+  <li><font size="+1">You can go a long way with just three commands:</font>
+    <ul>
+      <li><font size="+1">Run until this line.</font></li>
+      <li><font size="+1">Step to next line.</font></li>
+      <li><font size="+1">Inspect variable.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">The exact names for these commands will vary from
+debugger to debugger, but all debuggers support them.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">The "run until this line" command is the most
+important.</font></li>
+  <li><font size="+1">Select a line with the mouse or cursor, then hit
+a key or select a menu command to run the program to the select line.</font></li>
+  <li><font size="+1">It's possible that the program terminates
+normally without reaching that line, but that could be informative.</font></li>
+</ul>
+<blockquote> <img src="images/debug-run-to-line.png"></blockquote>
+<ul>
+  <li><font size="+1">The "step to next line" command executes the
+current line and stops at the next program line. </font></li>
+  <li><font size="+1">Once the program has stopped, you can look at the
+current values of variables.</font></li>
+  <li><font size="+1">Some debuggers require you select the variable
+the choose a command such as "inspect variable."</font></li>
+  <li><font size="+1">Some debuggers require you to type the name of
+the variable into a dialogue box.</font></li>
+  <li><font size="+1">Some variables automatically show the values of
+all variables.</font></li>
+</ul>
+<blockquote><img src="images/debug-inspect-variables.png"></blockquote>
+<ul>
+  <li><font size="+1">Many debuggers also have "step over" and "step
+into" commands.</font></li>
+  <li><font size="+1">The "step over" command advances to the next
+program line:</font></li>
+  <li><font size="+1">Example: If the current line is
+    <blockquote>
+      <pre><font color="#0000ff">r = future_value(balance, p n);</font><br>cout &lt;&lt; setw(10) &lt;&lt; r;</pre>
+    </blockquote>
+"step over" advances the program to
+    <blockquote>
+      <pre>r = future_value(balance, p n);<br><font color="#0000ff">cout &lt;&lt; setw(10) &lt;&lt; r;</font></pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The "step into" command advances into function
+calls.</font></li>
+  <li><font size="+1">Example: if the current line is
+    <blockquote>
+      <pre><font color="#0000ff">r = future_value(balance, p n);</font><br>cout &lt;&lt; setw(10) &lt;&lt; r;</pre>
+    </blockquote>
+"step into" advances the program to
+    <blockquote>
+      <pre>double future_value(double initial_balance, double p, int n)<br>{  <font
+ color="#0000ff">double b = initial_balance * pow((1 + p /100), n);</font><br>   return b;<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">You should not "step into" system functions like <tt>setw</tt>.
+    </font></li>
+  <li><font size="+1">Some debuggers have a "run to end of function" or
+"step out" command to get out of a function. </font></li>
+  <li><font size="+1">Most debuggers can show you a call stack: a
+listing of all currently pending function calls. </font></li>
+  <li><font size="+1">My selecting the function in the middle of the
+call stack, you can jump to the code line containing that function call.</font></li>
+</ul>
+<blockquote><img src="images/debug-call-stack.png"></blockquote>
+<ul>
+  <li><font size="+1">All debuggers support a navigational approach by
+inserting <i>breakpoints</i> in the code. </font></li>
+  <li><font size="+1">When the program reaches any breakpoint,
+execution stops. </font></li>
+  <li><font size="+1">Breakpoints are particularly useful when you know
+at which point your program starts doing the wrong thing.</font></li>
+  <li><font size="+1">Some debuggers let you set <i>conditional
+breakpoints</i> - the program stops only when a certain condition, such
+as <tt>n == 0</tt>, is met.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">When inspecting an object variable, all the
+fields are displayed.
+    <blockquote><img src="images/debug-inspect-object.png"></blockquote>
+    </font></li>
+  <li><font size="+1">With some variables you must "open up" the
+object, usually by clicking on a tree node. Here, we have opened up the
+    <tt>name</tt> field of the <tt>harry</tt> object..
+    <blockquote><img src="images/debug-inspect-string.png"></blockquote>
+    </font></li>
+</ul>
+<h2>Strategies</h2>
+<ul>
+  <li><font size="+1">Reproduce the error.</font>
+    <ul>
+      <li><font size="+1">What numbers did you enter?</font></li>
+      <li><font size="+1">Where did you click the mouse?</font></li>
+      <li><font size="+1">Run the same program again; type in exactly
+the same input.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Divide and Conquer</font>
+    <ul>
+      <li><font size="+1">Step over features using debugger, but don't
+step into them.</font></li>
+      <li><font size="+1">Locate the last procedure called before
+failure.</font></li>
+      <li><font size="+1">Step into that procedure, and repeat.</font></li>
+    </ul>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">Know what your program should do.</font>
+    <ul>
+      <li><font size="+1">Does your program do what's expected?</font></li>
+      <li><font size="+1">Before you inspect a variable, decide what
+value is should have.</font>
+        <ul>
+          <li><font size="+1">If value is correct, look elsewhere for
+the bug.</font></li>
+          <li><font size="+1">If value is incorrect, double check your
+computation, then try to find out why your program comes up with a
+different value.</font></li>
+        </ul>
+      </li>
+      <li><font size="+1">Look for off by one errors.</font></li>
+      <li><font size="+1">Look for computation errors (is the formula
+typed in correctly).</font></li>
+      <li><font size="+1">Make "sign calculations" when the numbers get
+nasty. ("Should this number be positive or negative?")</font></li>
+    </ul>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">Avoid quick fixes - they tend to create problems
+elsewhere.</font></li>
+  <li><font size="+1">Develop a thorough understanding of the problem
+and the program before you try to fix it.</font></li>
+  <li><font size="+1">Sometimes fix and fix only causes the problem to
+move around. Possibly the program logic is incorrect (does the program
+need redesign?).</font></li>
+</ul>
+<h2>Debugger Limitations</h2>
+<ul>
+  <li><font size="+1">Break points in recursive procedures interrupt
+the program each time through the procedure.</font></li>
+  <li><font size="+1">When using the debugger on a recursive procedure,
+watch the call stack carefully.</font></li>
+  <li><font size="+1">Sometimes the compiler generates faster code by
+keeping a variable in a processor register rather than reserving a
+memory location for it. </font>
+    <ul>
+      <li><font size="+1">The debugger cannot find that variable or
+displays a wrong value for it.</font></li>
+      <li><font size="+1">You can try turning off all compiler
+optimizations and recompile.</font></li>
+      <li><font size="+1">You can open a special register window that
+shows all processor registers (advanced). </font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Some errors show up when you run the program
+normally, but go away under the debugger.</font>
+    <ul>
+      <li><font size="+1">Usually an uninitialized variable is the
+cause.</font></li>
+      <li><font size="+1">Inspect all variables manually and check that
+they are initialized.</font></li>
+      <li><font size="+1">Insert print statements if you are desperate.</font></li>
+    </ul>
+  </li>
+</ul>
+<hr>
+</body>
+</html>

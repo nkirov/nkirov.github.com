@@ -1,0 +1,256 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1251">
+  <meta name="Author" content="Nikolay Kirov">
+  <meta name="GENERATOR"
+ content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+  <title>l02a</title>
+</head>
+<body>
+<h3>2c. Основни техники за вход и изход
+в С и С++ : <span style="font-weight: normal;"></span><br
+ style="font-weight: normal;">
+<font style="font-weight: normal;" color="#000000"></font><font
+ style="font-weight: normal;" color="#000000">- четене и записване в
+текстови файлове в С++.</font><span style="font-weight: normal;">&nbsp;
+</span><br>
+</h3>
+В заглавния файл <b><tt><font color="#000000">fstream</font></tt></b>
+са дефинирани обекти, функции и операции за работа с файлове.
+<p>А) Файл за четене.
+<br>
+* дефиниране на файлова променлива за четене - обект от класа <b><tt><font
+ color="#006600">ifstream:</font></tt></b>
+<br>
+<b><tt><font color="#006600">ifstream inp_data;</font></tt></b>
+<br>
+* отваряне на файл от текущата директория с име <b><tt><font
+ color="#006600">input.dat:</font></tt></b>
+<br>
+<b><tt><font color="#006600">inp_data.open("input.dat");</font></tt></b>
+<br>
+* четене от файл на:
+<br>
+&nbsp;- цели числа и числа с плаваща точка
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; int n;</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; double x;</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; inp_data &gt;&gt; n &gt;&gt;
+x;</font></tt></b>
+<br>
+&nbsp;- низове
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; string s;</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; inp_data &gt;&gt;
+s;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// чете до разделител</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; getline(inp_data, s); //
+чете цял ред</font></tt></b>
+<br>
+&nbsp;- символи
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; char ch;</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp;
+inp_data.get(ch);&nbsp;&nbsp;&nbsp;
+// чете един символ</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp;
+inp_data.unget();&nbsp;&nbsp;&nbsp;
+// връща последния прочетен символ в буфера</font></tt></b>
+<br>
+* затваряне на файл
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; inp_data.close();</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">// readf.cpp</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include
+&lt;fstream&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* включване на заглавен файл */</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br>
+<b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{&nbsp; ifstream in_data; /* дефиниране
+на файлова променлива за четене */</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;
+in_data.open("readf.txt");&nbsp;
+/* отваряне на файла input.txt */</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; string s1, s2;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; getline(in_data,
+s1);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* четене на ред */</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; in_data &gt;&gt;
+s2;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* четене на дума */</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; double x;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; in_data &gt;&gt; n &gt;&gt;
+x;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* четене на числови данни */</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; char ch;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; while (!in_data.eof())</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;
+in_data.get(ch);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* четене на символ */</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">&nbsp;&nbsp;
+in_data.close();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* затваряне на файла */</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; s1 &lt;&lt;
+endl &lt;&lt; s2 &lt;&lt; " "</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt; n &lt;&lt; " " &lt;&lt; x &lt;&lt; " " &lt;&lt; ch &lt;&lt;
+endl;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+</p>
+<p><font color="#000000">Файл </font><b><tt><font color="#000099">readf.txt:</font></tt></b>
+<br>
+</p>
+<table style="text-align: left;" border="1" cellpadding="4"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b><tt><font color="#000000">many
+happy words</font></tt></b> <br>
+      <b><tt><font color="#000000">one_word&nbsp; 123&nbsp; 9.98&nbsp; N</font></tt></b></td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<p><b><tt><font color="#000000"></font></tt></b><b><tt><font
+ color="#000000"></font></tt></b>
+<table border="1" cellpadding="4" width="100%">
+  <tbody>
+    <tr>
+      <td><b><tt><font color="#993300">many happy words</font></tt></b>
+      <br>
+      <b><tt><font color="#993300">one_word&nbsp; 123&nbsp; 9.98&nbsp; N</font></tt></b></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p>Б) Файл за писане.
+<br>
+* дефиниране на файлова променлива за писане - обект от класа <b><tt><font
+ color="#006600">ofstream:</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; ofstream out_data;</font></tt></b>
+<br>
+* отваряне на файл
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; out_data.open("output.dat");</font></tt></b>
+<br>
+* писане във&nbsp; файл с:
+<br>
+&nbsp;- изходен поток
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; int n = 2;</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; double x = 1.5;</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; string s = " Hello";</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; out_data &lt;&lt; n &lt;&lt;
+"&nbsp; " &lt;&lt; x &lt;&lt; s;</font></tt></b>
+<br>
+&nbsp;- член-функция
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; char ch = 'A';</font></tt></b>
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; out_data.put(ch);</font></tt></b>
+<br>
+* затваряне на файл
+<br>
+<b><tt><font color="#006600">&nbsp;&nbsp; out_data.close();</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">// writef.cpp</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include
+&lt;fstream&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* включване на заглавен файл */</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br>
+<b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{&nbsp; ofstream out_data; /* дефиниране
+на файлова променлива за писане */</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp;
+out_data.open("writef.txt");&nbsp;
+/* отваряне на файла writef.txt */</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; string s = "Hello";</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; out_data &lt;&lt; s &lt;&lt;
+endl; /* писане на низ */</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; int n = 5;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; double x = 5.5;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; out_data &lt;&lt; n &lt;&lt;
+" " &lt;&lt; x &lt;&lt; " "; /* писане на числови данни */</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; char ch = 'T';</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; out_data.put(ch); /* писане
+на символ */</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">&nbsp;&nbsp;
+out_data.close();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* затваряне на файла */</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}<br>
+</font></tt></b></p>
+<p><font color="#000000"> </font><font color="#000000">Файл <b><tt>writef.txt:</tt></b></font>
+</p>
+<table style="text-align: left;" border="1" cellpadding="4"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><b><tt><font color="#000000">Hello</font></tt></b>
+      <br>
+      <b><tt><font color="#000000">5 5.5 T</font></tt></b></td>
+    </tr>
+  </tbody>
+</table>
+<p></p>
+<p></p>
+<hr width="100%">
+</body>
+</html>

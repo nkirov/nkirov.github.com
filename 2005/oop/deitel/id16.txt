@@ -1,0 +1,207 @@
+//16. Входни и изходни потоци: заглавни файлове и класове в 
+//потоковата библиотека; потоков вход и изход - операции и функции;
+//потокови манипулатори; състояния на потоците.  
+//
+// Fig. 12.3: fig12_03.cpp
+// Printing the address stored in a char * variable.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+int main()
+{
+   char *word = "test";
+
+   // display value of char *, then display value of char *
+   // static_cast to void *
+   cout << "Value of word is: " << word << endl
+        << "Value of static_cast< void * >( word ) is: " 
+        << static_cast< void * >( word ) << endl;
+
+   return 0;
+
+} // end main
+/****/
+// Fig. 12.4: fig12_04.cpp 
+// Using member functions get, put and eof.
+#include <iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+int main()
+{
+   int character; // use int, because char cannot represent EOF
+
+   // prompt user to enter line of text
+   cout << "Before input, cin.eof() is " << cin.eof() << endl
+        << "Enter a sentence followed by end-of-file:" << endl;
+
+   // use get to read each character; use put to display it
+   while ( ( character = cin.get() ) != EOF )
+      cout.put( character );
+
+   // display end-of-file character
+   cout << "\nEOF in this system is: " << character << endl;
+   cout << "After input, cin.eof() is " << cin.eof() << endl;
+
+   return 0;
+
+} // end main
+/****/
+// Fig. 12.5: fig12_05.cpp 
+// Contrasting input of a string via cin and cin.get.
+#include <iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+int main()
+{
+   // create two char arrays, each with 80 elements
+   const int SIZE = 80;
+   char buffer1[ SIZE ];
+   char buffer2[ SIZE ];
+
+   // use cin to input characters into buffer1
+   cout << "Enter a sentence:" << endl;
+   cin >> buffer1;
+
+   // display buffer1 contents
+   cout << "\nThe string read with cin was:" << endl
+        << buffer1 << endl << endl;
+ 
+   // use cin.get to input characters into buffer2
+   cin.get( buffer2, SIZE );
+
+   // display buffer2 contents
+   cout << "The string read with cin.get was:" << endl 
+        << buffer2 << endl;
+
+   return 0;
+
+} // end main
+/****/
+// Fig. 12.7: fig12_07.cpp 
+// Unformatted I/O using read, gcount and write.
+#include <iostream>
+
+using std::cout;
+using std::cin;
+using std::endl;
+
+int main()
+{
+   const int SIZE = 80;
+   char buffer[ SIZE ]; // create array of 80 characters
+
+   // use function read to input characters into buffer
+   cout << "Enter a sentence:" << endl;
+   cin.read( buffer, 20 );
+
+   // use functions write and gcount to display buffer characters
+   cout << endl << "The sentence entered was:" << endl;
+   cout.write( buffer, cin.gcount() );
+   cout << endl;
+
+   return 0;
+
+} // end main
+/****/
+// Fig. 12.11: fig12_12.cpp
+// Creating and testing user-defined, nonparameterized 
+// stream manipulators.
+#include <iostream>
+
+using std::ostream;
+using std::cout;
+using std::flush;
+
+// bell manipulator (using escape sequence \a)
+ostream& bell( ostream& output )
+{
+   return output << '\a';  // issue system beep
+}
+
+// carriageReturn manipulator (using escape sequence \r)
+ostream& carriageReturn( ostream& output )
+{
+   return output << '\r';  // issue carriage return
+}
+
+// tab manipulator (using escape sequence \t)
+ostream& tab( ostream& output )
+{
+   return output << '\t';  // issue tab
+}
+
+// endLine manipulator (using escape sequence \n and member
+// function flush)
+ostream& endLine( ostream& output ) 
+{ 
+   return output << '\n' << flush;  // issue end of line
+}
+
+int main()
+{
+   // use tab and endLine manipulators
+   cout << "Testing the tab manipulator:" << endLine
+        << 'a' << tab << 'b' << tab << 'c' << endLine;
+
+   cout << "Testing the carriageReturn and bell manipulators:"
+        << endLine << "..........";
+
+   cout << bell; // use bell manipulator
+
+   // use ret and endLine manipulators
+   cout << carriageReturn << "-----" << endLine;
+
+   return 0;
+
+} // end main
+/****/
+// Fig. 12.22: fig12_22.cpp 
+// Testing error states.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::cin;
+
+int main()
+{
+   int integerValue;
+
+   // display results of cin functions
+   cout << "Before a bad input operation:"
+        << "\ncin.rdstate(): " << cin.rdstate()
+        << "\n    cin.eof(): " << cin.eof()
+        << "\n   cin.fail(): " << cin.fail()
+        << "\n    cin.bad(): " << cin.bad()
+        << "\n   cin.good(): " << cin.good()
+        << "\n\nExpects an integer, but enter a character: ";
+
+   cin >> integerValue; // enter character value
+   cout << endl;
+
+   // display results of cin functions after bad input
+   cout << "After a bad input operation:"
+        << "\ncin.rdstate(): " << cin.rdstate()
+        << "\n    cin.eof(): " << cin.eof()
+        << "\n   cin.fail(): " << cin.fail()
+        << "\n    cin.bad(): " << cin.bad()
+        << "\n   cin.good(): " << cin.good() << endl << endl;
+
+   cin.clear(); // clear stream
+
+   // display results of cin functions after clearing cin
+   cout << "After cin.clear()"
+        << "\ncin.fail(): " << cin.fail()
+        << "\ncin.good(): " << cin.good() << endl;
+
+   return 0;
+
+} // end main

@@ -1,0 +1,534 @@
+// 15. Виртуални функции. Статично и динамично свързване.
+// Клас Employee и производни класове.
+//
+// Fig. 10.23: employee.h
+// Employee abstract base class.
+#ifndef EMPLOYEE_H
+#define EMPLOYEE_H
+
+#include <string>  // C++ standard string class
+
+using std::string;
+
+class Employee {
+
+public:
+   Employee( const string &, const string &, const string & );
+
+   void setFirstName( const string & );
+   string getFirstName() const;
+
+   void setLastName( const string & );
+   string getLastName() const;
+
+   void setSocialSecurityNumber( const string & );
+   string getSocialSecurityNumber() const;
+
+   // pure virtual function makes Employee abstract base class
+   virtual double earnings() const = 0;  // pure virtual
+   virtual void print() const;           // virtual
+
+private:
+   string firstName;
+   string lastName;
+   string socialSecurityNumber;
+
+}; // end class Employee
+
+#endif // EMPLOYEE_H
+/****/
+// Fig. 10.24: employee.cpp
+// Abstract-base-class Employee member-function definitions.
+// Note: No definitions are given for pure virtual functions.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include "employee.h"  // Employee class definition
+
+// constructor
+Employee::Employee( const string &first, const string &last,
+   const string &SSN )
+   : firstName( first ),
+     lastName( last ),
+     socialSecurityNumber( SSN )
+{
+   // empty body 
+
+} // end Employee constructor
+
+// return first name
+string Employee::getFirstName() const 
+{ 
+   return firstName;  
+   
+} // end function getFirstName
+
+// return last name
+string Employee::getLastName() const
+{
+   return lastName;   
+   
+} // end function getLastName
+
+// return social security number
+string Employee::getSocialSecurityNumber() const
+{
+   return socialSecurityNumber;   
+   
+} // end function getSocialSecurityNumber
+
+// set first name
+void Employee::setFirstName( const string &first ) 
+{ 
+   firstName = first;  
+   
+} // end function setFirstName
+
+// set last name
+void Employee::setLastName( const string &last )
+{
+   lastName = last;   
+   
+} // end function setLastName
+
+// set social security number
+void Employee::setSocialSecurityNumber( const string &number )
+{
+   socialSecurityNumber = number;  // should validate
+   
+} // end function setSocialSecurityNumber
+
+// print Employee's information
+void Employee::print() const
+{ 
+   cout << getFirstName() << ' ' << getLastName() 
+        << "\nsocial security number: " 
+        << getSocialSecurityNumber() << endl; 
+
+} // end function print
+/****/
+// Fig. 10.25: salaried.h
+// SalariedEmployee class derived from Employee.
+#ifndef SALARIED_H
+#define SALARIED_H
+
+#include "employee.h"  // Employee class definition
+
+class SalariedEmployee : public Employee {
+
+public:
+   SalariedEmployee( const string &, const string &, 
+      const string &, double = 0.0 );
+
+   void setWeeklySalary( double );
+   double getWeeklySalary() const;
+
+   virtual double earnings() const;
+   virtual void print() const;  // "salaried employee: "
+
+private:
+   double weeklySalary; 
+
+}; // end class SalariedEmployee
+
+#endif // SALARIED_H
+/****/
+// Fig. 10.26: salaried.cpp
+// SalariedEmployee class member-function definitions.
+#include <iostream>
+
+using std::cout;
+
+#include "salaried.h" // SalariedEmployee class definition
+
+// SalariedEmployee constructor 
+SalariedEmployee::SalariedEmployee( const string &first, 
+   const string &last, const string &socialSecurityNumber,
+   double salary )
+   : Employee( first, last, socialSecurityNumber )
+{ 
+   setWeeklySalary( salary ); 
+
+} // end SalariedEmployee constructor
+
+// set salaried worker's salary
+void SalariedEmployee::setWeeklySalary( double salary )
+{ 
+   weeklySalary = salary < 0.0 ? 0.0 : salary; 
+
+} // end function setWeeklySalary
+
+// calculate salaried worker's pay
+double SalariedEmployee::earnings() const 
+{ 
+   return getWeeklySalary(); 
+
+} // end function earnings
+
+// return salaried worker's salary
+double SalariedEmployee::getWeeklySalary() const
+{
+   return weeklySalary;
+
+} // end function getWeeklySalary
+
+// print salaried worker's name 
+void SalariedEmployee::print() const
+{
+   cout << "\nsalaried employee: ";
+   Employee::print();  // code reuse
+
+} // end function print
+/****/
+// Fig. 10.27: hourly.h
+// HourlyEmployee class definition.
+#ifndef HOURLY_H
+#define HOURLY_H
+
+#include "employee.h"  // Employee class definition
+
+class HourlyEmployee : public Employee {
+
+public:
+   HourlyEmployee( const string &, const string &, 
+      const string &, double = 0.0, double = 0.0);
+   
+   void setWage( double );
+   double getWage() const;
+
+   void setHours( double );
+   double getHours() const;
+
+   virtual double earnings() const;
+   virtual void print() const;
+
+private:
+   double wage;   // wage per hour
+   double hours;  // hours worked for week
+
+}; // end class HourlyEmployee
+
+#endif // HOURLY_H
+/****/
+// Fig. 10.28: hourly.cpp
+// HourlyEmployee class member-function definitions.
+#include <iostream>
+
+using std::cout;
+
+#include "hourly.h"
+
+// constructor for class HourlyEmployee
+HourlyEmployee::HourlyEmployee( const string &first, 
+   const string &last, const string &socialSecurityNumber,
+   double hourlyWage, double hoursWorked )
+   : Employee( first, last, socialSecurityNumber )   
+{
+   setWage( hourlyWage );
+   setHours( hoursWorked );
+
+} // end HourlyEmployee constructor
+
+// set hourly worker's wage
+void HourlyEmployee::setWage( double wageAmount ) 
+{ 
+   wage = wageAmount < 0.0 ? 0.0 : wageAmount; 
+
+} // end function setWage
+
+// set hourly worker's hours worked
+void HourlyEmployee::setHours( double hoursWorked )
+{ 
+   hours = ( hoursWorked >= 0.0 && hoursWorked <= 168.0 ) ?
+      hoursWorked : 0.0;
+
+} // end function setHours
+
+// return hours worked
+double HourlyEmployee::getHours() const
+{
+   return hours;
+
+} // end function getHours
+
+// return wage
+double HourlyEmployee::getWage() const
+{
+   return wage;
+
+} // end function getWage
+
+// get hourly worker's pay
+double HourlyEmployee::earnings() const 
+{ 
+   if ( hours <= 40 )  // no overtime
+      return wage * hours;
+   else                // overtime is paid at wage * 1.5
+      return 40 * wage + ( hours - 40 ) * wage * 1.5;
+
+} // end function earnings
+
+// print hourly worker's information 
+void HourlyEmployee::print() const
+{
+   cout << "\nhourly employee: ";
+   Employee::print();  // code reuse
+
+} // end function print
+/****/
+// Fig. 10.29: commission.h
+// CommissionEmployee class derived from Employee.
+#ifndef COMMISSION_H
+#define COMMISSION_H
+
+#include "employee.h"  // Employee class definition
+
+class CommissionEmployee : public Employee {
+
+public:
+   CommissionEmployee( const string &, const string &,
+      const string &, double = 0.0, double = 0.0 );
+
+   void setCommissionRate( double );
+   double getCommissionRate() const;
+
+   void setGrossSales( double );
+   double getGrossSales() const;
+
+   virtual double earnings() const;
+   virtual void print() const;
+
+private:
+   double grossSales;      // gross weekly sales
+   double commissionRate;  // commission percentage
+
+}; // end class CommissionEmployee
+
+#endif  // COMMISSION_H
+/****/
+// Fig. 10.30: commission.cpp
+// CommissionEmployee class member-function definitions.
+#include <iostream>
+
+using std::cout;
+
+#include "commission.h"  // Commission class
+
+// CommissionEmployee constructor 
+CommissionEmployee::CommissionEmployee( const string &first,
+   const string &last, const string &socialSecurityNumber,
+   double grossWeeklySales, double percent )
+   : Employee( first, last, socialSecurityNumber )  
+{
+   setGrossSales( grossWeeklySales );
+   setCommissionRate( percent );
+
+} // end CommissionEmployee constructor
+
+// return commission worker's rate
+double CommissionEmployee::getCommissionRate() const
+{
+    return commissionRate;
+
+} // end function getCommissionRate
+
+// return commission worker's gross sales amount
+double CommissionEmployee::getGrossSales() const
+{
+    return grossSales;
+
+} // end function getGrossSales
+
+// set commission worker's weekly base salary
+void CommissionEmployee::setGrossSales( double sales ) 
+{ 
+   grossSales = sales < 0.0 ? 0.0 : sales; 
+
+} // end function setGrossSales
+
+// set commission worker's commission
+void CommissionEmployee::setCommissionRate( double rate )
+{ 
+    commissionRate = ( rate > 0.0 && rate < 1.0 ) ? rate : 0.0;
+
+} // end function setCommissionRate
+
+// calculate commission worker's earnings
+double CommissionEmployee::earnings() const
+{ 
+   return getCommissionRate() * getGrossSales(); 
+
+} // end function earnings
+
+// print commission worker's name 
+void CommissionEmployee::print() const
+{
+   cout << "\ncommission employee: ";
+   Employee::print();  // code reuse
+
+} // end function print
+/****/
+// Fig. 10.31: baseplus.h
+// BasePlusCommissionEmployee class derived from Employee.
+#ifndef BASEPLUS_H
+#define BASEPLUS_H
+
+#include "commission.h"  // Employee class definition
+
+class BasePlusCommissionEmployee : public CommissionEmployee {
+
+public:
+   BasePlusCommissionEmployee( const string &, const string &,
+      const string &, double = 0.0, double = 0.0, double = 0.0 );
+
+   void setBaseSalary( double );
+   double getBaseSalary() const;
+   
+   virtual double earnings() const;
+   virtual void print() const;
+
+private:
+   double baseSalary;       // base salary per week
+
+}; // end class BasePlusCommissionEmployee
+
+#endif // BASEPLUS_H
+/****/
+// Fig. 10.32: baseplus.cpp
+// BasePlusCommissionEmployee member-function definitions.
+#include <iostream>
+
+using std::cout;
+
+#include "baseplus.h"
+
+// constructor for class BasePlusCommissionEmployee
+BasePlusCommissionEmployee::BasePlusCommissionEmployee( 
+   const string &first, const string &last, 
+   const string &socialSecurityNumber, 
+   double baseSalaryAmount,
+   double grossSalesAmount, 
+   double rate )
+   : CommissionEmployee( first, last, socialSecurityNumber, 
+     grossSalesAmount, rate )  
+{
+   setBaseSalary( baseSalaryAmount );
+
+} // end BasePlusCommissionEmployee constructor
+
+// set base-salaried commission worker's wage
+void BasePlusCommissionEmployee::setBaseSalary( double salary )
+{ 
+   baseSalary = salary < 0.0 ? 0.0 : salary; 
+
+} // end function setBaseSalary
+
+// return base-salaried commission worker's base salary
+double BasePlusCommissionEmployee::getBaseSalary() const
+{ 
+    return baseSalary; 
+
+} // end function getBaseSalary
+
+// return base-salaried commission worker's earnings
+double BasePlusCommissionEmployee::earnings() const
+{ 
+    return getBaseSalary() + CommissionEmployee::earnings(); 
+
+} // end function earnings
+
+// print base-salaried commission worker's name 
+void BasePlusCommissionEmployee::print() const
+{
+   cout << "\nbase-salaried commission worker: ";
+   Employee::print();  // code reuse
+
+} // end function print
+/****/
+// Fig. 10.33: fig10_33.cpp
+// Driver for Employee hierarchy.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+using std::fixed;
+
+#include <iomanip>
+
+using std::setprecision;
+  
+#include <vector>
+
+using std::vector;
+
+#include <typeinfo>
+
+#include "employee.h"    // Employee base class 
+#include "salaried.h"    // SalariedEmployee class 
+#include "commission.h"  // CommissionEmployee class 
+#include "baseplus.h"    // BasePlusCommissionEmployee class 
+#include "hourly.h"      // HourlyEmployee class 
+
+int main()
+{
+   // set floating-point output formatting
+   cout << fixed << setprecision( 2 );
+
+   // create vector employees
+   vector < Employee * > employees( 4 );
+
+   // initialize vector with Employees
+   employees[ 0 ] = new SalariedEmployee( "John", "Smith", 
+      "111-11-1111", 800.00 );
+   employees[ 1 ] = new CommissionEmployee( "Sue", "Jones", 
+      "222-22-2222", 10000, .06 );
+   employees[ 2 ] = new BasePlusCommissionEmployee( "Bob", 
+      "Lewis", "333-33-3333", 300, 5000, .04 );
+   employees[ 3 ] = new HourlyEmployee( "Karen", "Price", 
+      "444-44-4444", 16.75, 40 );
+
+   // generically process each element in vector employees
+   for ( int i = 0; i < employees.size(); i++ ) {
+
+      // output employee information
+      employees[ i ]->print();  
+
+      // downcast pointer
+      BasePlusCommissionEmployee *commissionPtr = 
+         dynamic_cast < BasePlusCommissionEmployee * >
+            ( employees[ i ] );
+
+      // determine whether element points to base-salaried 
+      // commission worker
+      if ( commissionPtr != 0 ) {
+         cout << "old base salary: $" 
+              << commissionPtr->getBaseSalary() << endl;
+         commissionPtr->setBaseSalary( 
+            1.10 * commissionPtr->getBaseSalary() );
+         cout << "new base salary with 10% increase is: $" 
+              << commissionPtr->getBaseSalary() << endl;
+
+      } // end if
+                               
+      cout << "earned $" << employees[ i ]->earnings() << endl;
+
+   } // end for   
+ 
+   // release memory held by vector employees
+   for ( int j = 0; j < employees.size(); j++ ) {
+
+      // output class name
+      cout << "\ndeleting object of " 
+           << typeid( *employees[ j ] ).name();
+
+      delete employees[ j ];
+
+   } // end for
+
+   cout << endl;
+
+   return 0;
+
+} // end main

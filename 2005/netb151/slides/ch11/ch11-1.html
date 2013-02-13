@@ -1,0 +1,263 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Inheritance</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 11: Inheritance I<br>
+</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To understand the concepts of inheritance and
+polymorphism</font></li>
+  <li><font size="+1">To learn how inheritance is a tool for code reuse</font></li>
+  <li><font size="+1">To learn how to call base-class constructors and
+member functions </font></li>
+</ul>
+<h2>Derived Classes</h2>
+<ul>
+  <li><font size="+1">Inheritance is a mechanism for enhancing existing
+working classes. </font></li>
+  <li><font size="+1">If a new class needs to be implemented and a
+class representing a more general concept is already available, then
+the new class can <i>inherit</i> from the existing class.</font></li>
+  <li><font size="+1">The existing, more general class is called the <i>base
+class</i>.</font></li>
+  <li><font size="+1">The more specialized class that inherits from the
+base class is called the <i>derived class</i>.</font></li>
+  <li><font size="+1">Example: We already have a class Employee, and a
+manager is a special case of an employee.
+    <blockquote>
+      <pre>class Manager : public Employee {<br>public:<br>   <i>new member functions</i><br>private:<br>   <i>new data members</i><br>};</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 11.1 Derived Class Definition</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 11.1 : Derived Class
+Definition</font></p>
+      <pre><font size="+1">class </font><i><font size="+1">Derived_class_name </font></i><font
+ size="+1">: public </font><i><font size="+1">Base_class_name<br></font></i><font
+ size="+1">{</font><i><font size="+1"><br></font></i><font size="+1">   <i>features</i><br>};</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">class Manager : public Employee<br>{<br>public:<br>   Manager(string name, double salary, string dept);<br>   string get_department() const;<br>private:<br>   string department;<br>};</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a class that inherits features
+from a base class. </font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Derived Classes</h2>
+<ul>
+  <li><font size="+1">All member functions and data members of the base
+class are automatically inherited by the derived class.
+    <blockquote>
+      <pre>Manager m;<br>m.set_salary(68000);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">In the derived class definition you specify only
+new member functions and data members.
+    <blockquote>
+      <pre>class Manager : public Employee {<br>public:<br>   Manager(string name, double salary, string dept);<br>   string get_department() const;<br>private:<br>   string department;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The class diagram below shows the relationship
+between derived classes. The arrow with a hollow head indicates
+inheritance.
+    <blockquote><img src="images/inherit1.png"></blockquote>
+    </font></li>
+  <li><big> Example: Modelling a set of clocks that display the times
+in different cities.</big></li>
+</ul>
+<h2>Derived Classes (<tt>clocks1.cpp</tt>)</h2>
+<iframe src="code/clocks1.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<h2>Derived Classes</h2>
+<ul>
+  <li><font size="+1">The <tt>Clock</tt> class presented in <tt>clocks1.cpp</tt>
+provides a base class that can tell the current local time.</font></li>
+  <li><font size="+1">You can set a clock to either "military" or
+"am/pm" format.</font></li>
+  <li><font size="+1">We will create a derived class, <tt>TravelClock</tt>
+that gains two additional data fields: <tt>location</tt> and <tt>time_difference</tt>.
+    <table border="0" cellpadding="4">
+      <tbody>
+        <tr>
+          <td align="left"><img src="images/inherit2.png"></td>
+          <td width="15%">&nbsp;</td>
+          <td align="right"><img src="images/datalayout.png"></td>
+        </tr>
+      </tbody>
+    </table>
+    </font></li>
+  <li><font size="+1">The time for a <tt>TravelClock</tt> is computed
+by taking the local time and adding the time difference.
+    <blockquote>
+      <pre>TravelClock clock("New York", 3);<br>cout &lt;&lt; "The time in " &lt;&lt; clock.get_location() &lt;&lt; " is "<br>   &lt;&lt; clock.get_hours() &lt;&lt; ":" &lt;&lt; clock.get_minutes();</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">A <tt>TravelClock</tt> differs from a <tt>Clock</tt>
+in three ways:</font>
+    <ul>
+      <li><font size="+1">Its objects store the location and time
+difference.</font></li>
+      <li><font size="+1">The <tt>get_hours</tt> function of the <tt>TravelClock</tt>
+adds the time difference to the current time.</font></li>
+      <li><font size="+1">The <tt>get_location</tt> function returns
+the actual location, not the string <tt>"Local"</tt>.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">When the <tt>TravelClock</tt> class inherits
+from the <tt>Clock</tt> class, it needs only to spell out these three
+differences.
+    <blockquote>
+      <pre>class TravelClock : public Clock {<br>public:<br>   TravelClock(bool mil, string loc, double off);<br>   int get_hours() const;<br>   string get_location() const;<br>private:<br>   string location;<br>   int time_difference;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The data members of the base class are present in
+each derived class object, but they are <span
+ style="font-style: italic;">not accessible</span> by the member
+functions of the derived class besause these fields are <span
+ style="font-style: italic;">private</span> data of the base class.<br>
+    </font></li>
+</ul>
+<h2>Calling the Base-Class Constructor</h2>
+<ul>
+  <li><font size="+1">The constructor of a derived class has two tasks:</font>
+    <ul>
+      <li><font size="+1">Initialize the base object.</font></li>
+      <li><font size="+1">Initialize all data members.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Frequently, a derived-class constructor must
+invoke the base-class constructor before initializing the derived-class
+data.</font></li>
+  <li><font size="+1">Here, we call the <tt>Clock</tt> constructor
+with the parameter <tt>mil</tt> before executing the code inside the <tt>{}</tt>.
+    <blockquote>
+      <pre>TravelClock::TravelClock(bool mil, string loc, int diff)<br>   : Clock(mil)<br>{  location = loc;<br>   time_difference = diff;<br>   while (time_difference &lt; 0)<br>          time_difference = time_difference + 24;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">If you omit the base-class constructor, then the
+base object is constructed with the default constructor of the base
+class.</font></li>
+  <li><font size="+1">If the base class has no default constructor,
+then you have to explicitly call the base-class constructor in the
+derived-class constructor.</font></li>
+</ul>
+<h2>Syntax 11.2 Constructor with
+Base-Class Initializer</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 11.2 : Constructor with
+Base-Class Initializer </font></p>
+      <pre><i><font size="+1">Derived_class_name </font></i><font
+ size="+1">:: </font><i><font size="+1">Derived_class_name</font></i><font
+ size="+1">(</font><i><font size="+1">expressions</font></i><font
+ size="+1">)</font><i><font size="+1"><br>   </font></i><font size="+1">:</font><i><font
+ size="+1"> Base_class_name</font></i><font size="+1">(</font><i><font
+ size="+1">expressions</font></i><font size="+1">)</font><i><font
+ size="+1"><br></font></i><font size="+1">{</font><i><font size="+1"><br></font></i><font
+ size="+1">   <i>statements</i><br>}</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">Manager::Manager(string name, double salary, string dept)<br>   : Employee(name, salary)<br>{<br>   department = dept;<br>}</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Supply the implementation of a
+constructor, initializing the base class before the body of the
+derived-class constructor.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Calling Base-Class Member Functions</h2>
+<ul>
+  <li><font size="+1">Suppose <i><tt>B</tt></i><tt>::<i>f</i></tt> is
+a function in the base class. The the derived class <i><tt>D</tt></i>
+can take three kinds of actions.</font>
+    <ul>
+      <li><font size="+1">The derived class can <i>extend</i> <i><tt>B</tt></i><tt>::<i>f</i></tt>
+by supplying a new implementation that refers to the base-class
+implementation. For example, the <tt>TravelClock::get_hours</tt>
+function is an extension of <tt>Clock::get_hours</tt>.</font></li>
+      <p> </p>
+      <li><font size="+1">The derived class can <i>replace</i> <i><tt>B</tt></i><tt>::<i>f</i></tt>
+by supplying a new implementation that is unrelated to the base-class
+implementation. For example, <tt>TravelClock::get_location </tt>is a
+replacement for <tt>Clock::get_location</tt>.</font></li>
+      <p> </p>
+      <li><font size="+1">The derived class can <i>inherit</i> <i><tt>B</tt></i><tt>::<i>f</i></tt>
+by not supplying an implementation for <tt><i>f</i></tt>. For example,
+        <tt>TravelClock</tt> inherits <tt>Clock::get_minutes</tt> and <tt>Clock::is_military</tt>.</font></li>
+    </ul>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">A member function called without an implicit
+parameter - it is
+called through the implicit parameter object of the derived class.
+    <blockquote>
+      <pre>int TrvaelClock::get_hours() const<br>{ . . . <br><br>   if (<span
+ style="font-weight: bold;">is_military()</span>)  /* clock uses military time */<br>          return (h + time_difference) % 24;<br>  . . . <br> }</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">When the base class and the derived class have a
+member function with the same name, you must be more specific which
+function you want to call.
+    <blockquote>
+      <pre>int TrvaelClock::get_hours() const<br>{  . . .<br>   int h = <span
+ style="font-weight: bold;">Clock::get_hours()</span>; /* calls base-class function */<br>   . . .<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The following call would die in an infinite
+recursion.
+    <blockquote>
+      <pre>int TravelClock::get_hours() const<br>{  . . .<br>   int h = <span
+ style="font-weight: bold;">get_hours()</span>; /* <span
+ style="font-weight: bold;">BAD!</span> calls itself */<br>   . . . <br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Calling Base-Class Member Functions (<tt>clocks2.cpp</tt>)</h2>
+<iframe src="code/clocks2.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr>
+</body>
+</html>

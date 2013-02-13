@@ -1,0 +1,270 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os5</title>
+</head>
+<body>
+<b>17. Конкуренция: "мъртва хватка" и "гладна смърт"</b>
+<br><b>Предпазване от МХ. Избягване на МХ.</b>
+<p><b>6.2 Предпазване (prevention) от МХ</b>
+<br>** Взаимно изключване.
+<br>&nbsp;&nbsp;&nbsp;&nbsp; Не може да бъде избягнато.
+<br>** Владея и чакам.
+<br>&nbsp;&nbsp;&nbsp; Процесът чака за всички необходими ресурси - неефективно
+<br>** Няма отстъпки (no preemtion).
+<br>** Циклично чакане.
+<p><b>6.3 Избягване (avoidance) на МХ</b>
+<br>&nbsp;&nbsp;&nbsp; Два подхода при избягване на МХ:
+<br>&nbsp; -- да не се стартира процес, който води до МХ;
+<br>&nbsp; -- да не се дава ресурс на процес, ако това води до МХ.
+<br>&nbsp;&nbsp;&nbsp; Изисква се предварителна информация за необходимите
+расурси на всеки процес.
+<br>** Отказ за стартиране на процес.
+<br>&nbsp;&nbsp;&nbsp; Дадени са:
+<br><b><tt>&nbsp;&nbsp;&nbsp; C</tt></b> - матрица на исканията на всеки
+процес за всеки ресурс;
+<br><b><tt>&nbsp;&nbsp;&nbsp; R</tt></b>&nbsp; - вектор на всички налични
+ресурси;
+<br><b><tt>&nbsp;&nbsp;&nbsp; A</tt></b> - матрица на дадени на всеки процес
+ресурси (състояние на системата);
+<br><b><tt>&nbsp;&nbsp;&nbsp; V</tt></b> - вектор на свободните ресурси.
+<br>&nbsp;&nbsp;&nbsp; Стартираме процес, само ако всичките му необходими
+ресурси са "излишни", т.е. те са свободни в момента и при удовлетворяване
+на всички искания на всички активни процеси пак ще останат свободни.
+<br>Пример.
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp; 2
+активен</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3
+активен</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;&nbsp;
+4&nbsp;</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp;<i> Можем ли да стартираме процес </i><b><tt><font color="#993300">P3</font></tt></b><font color="#000000"><i>?
+</i>-
+Да.</font>
+<br><i>&nbsp;&nbsp;&nbsp; Можем ли да стартираме процес </i><b><tt><font color="#993300">P4</font></tt></b><font color="#000000"><i>?
+</i>-
+Не.</font>
+<br>&nbsp;&nbsp;&nbsp; Тази стратегия е твърде песимистична - предполага
+се, че всички процеси ще искат всички необходими им ресурси едновременно.
+<p>** Отказ за даване на ресурс - алгоритъм на банкера.
+<br>&nbsp;&nbsp;&nbsp; Безопасно (сигурно) състояние на системата - съществува
+такава последователност от изпълнение на процесите, при която всички процеси
+завършват успешно (няма МХ). Опасно (несигурно) състояние - всяко друго.
+<p>&nbsp;&nbsp;&nbsp; Пример 1. Безопасно състояние и изпълнение на процесите:
+<br><b><tt><font color="#333333">Начално състояние</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">P2 се изпълнява и завършва</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 6&nbsp;&nbsp; 2&nbsp;&nbsp;
+3&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">P1 се изпълнява и завършва</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp; 2&nbsp;&nbsp;
+3&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">P3 се изпълнява и завършва</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+4&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">P4 се изпълнява и завършва</font></tt></b>
+<p>Пример 2. Опасно състояние и изпълнение на процесите:
+<br><b><tt><font color="#333333">Начално състояние</font></tt></b>
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 5&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp;
+2&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">На P1 се дават R1 и R3</font></tt></b>
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 2&nbsp;&nbsp; 0&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 5&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<font color="#333333">&nbsp;&nbsp;&nbsp; На всеки процес му трябва <b><tt>R1</tt></b>
+за да завърши, а такъв няма. Това не е МХ, но може да се появи МХ. Ако
+някой процес освободи <b><tt>R1</tt></b>, МХ се избягва.</font>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

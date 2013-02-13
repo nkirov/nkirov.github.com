@@ -1,0 +1,69 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+</head>
+<body>
+
+<pre><tt>01: <b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream>
+</font>02: <b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iomanip>
+</font>03: <b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;cmath></font>&nbsp;
+04: <b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;
+</font>05:&nbsp;
+06: <b><font color="#0000FF">const</font></b> <font color="#009900">int</font> BALANCES_ROWS <font color="#990000">=</font> <font color="#993399">11</font><font color="#990000">;
+</font>07: <b><font color="#0000FF">const</font></b> <font color="#009900">int</font> BALANCES_COLS <font color="#990000">=</font> <font color="#993399">6</font><font color="#990000">;
+</font>08:&nbsp;
+09: <b><font color="#0000FF">const</font></b> <font color="#009900">double</font> RATE_MIN <font color="#990000">=</font> <font color="#993399">5</font><font color="#990000">;
+</font>10: <b><font color="#0000FF">const</font></b> <font color="#009900">double</font> RATE_MAX <font color="#990000">=</font> <font color="#993399">10</font><font color="#990000">;
+</font>11: <b><font color="#0000FF">const</font></b> <font color="#009900">double</font> RATE_INCR <font color="#990000">=</font>&nbsp;
+12:&nbsp;&nbsp;&nbsp; <font color="#990000">(</font>RATE_MAX <font color="#990000">-</font> RATE_MIN<font color="#990000">)</font> <font color="#990000">/</font> <font color="#990000">(</font>BALANCES_ROWS <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">);
+</font>13: <b><font color="#0000FF">const</font></b> <font color="#009900">int</font> YEAR_MIN <font color="#990000">=</font> <font color="#993399">5</font><font color="#990000">;
+</font>14: <b><font color="#0000FF">const</font></b> <font color="#009900">int</font> YEAR_MAX <font color="#990000">=</font> <font color="#993399">30</font><font color="#990000">;
+</font>15: <b><font color="#0000FF">const</font></b> <font color="#009900">int</font> YEAR_INCR <font color="#990000">=</font>&nbsp;
+16:&nbsp;&nbsp;&nbsp; <font color="#990000">(</font>YEAR_MAX <font color="#990000">-</font> YEAR_MIN<font color="#990000">)</font> <font color="#990000">/</font> <font color="#990000">(</font>BALANCES_COLS <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">);
+</font>17:&nbsp;&nbsp;
+18: <i><font color="#9A1900">/**
+</font></i>19:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; Prints a table of account balances.
+</font></i>20:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; @param the table to print
+</font></i>21:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; @param table_rows the number of rows in the table.
+</font></i>22: <i><font color="#9A1900">*/
+</font></i>23: <font color="#009900">void</font> <b><font color="#000000">print_table</font></b><font color="#990000">(</font><b><font color="#0000FF">const</font></b> <font color="#009900">double</font> table<font color="#990000">[][</font>BALANCES_COLS<font color="#990000">],</font>&nbsp;
+24:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#009900">int</font> table_rows<font color="#990000">)
+</font>25: <font color="#FF0000">{</font>&nbsp; <b><font color="#0000FF">const</font></b> <font color="#009900">int</font> WIDTH <font color="#990000">=</font> <font color="#993399">10</font><font color="#990000">;
+</font>26:&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <b><font color="#000000">setiosflags</font></b><font color="#990000">(</font>ios<font color="#990000">::</font>fixed<font color="#990000">)</font> <font color="#990000">&lt;&lt;</font> <b><font color="#000000">setprecision</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">);
+</font>27:&nbsp;&nbsp;&nbsp; <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> table_rows<font color="#990000">;</font> i<font color="#990000">++)
+</font>28:&nbsp;&nbsp;&nbsp; <font color="#FF0000">{</font>&nbsp; <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> j <font color="#990000">&lt;</font> BALANCES_COLS<font color="#990000">;</font> j<font color="#990000">++)
+</font>29:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font>WIDTH<font color="#990000">)</font> <font color="#990000">&lt;&lt;</font> table<font color="#990000">[</font>i<font color="#990000">][</font>j<font color="#990000">];
+</font>30:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"\n"</font><font color="#990000">;
+</font>31:&nbsp;&nbsp;&nbsp; <font color="#FF0000">}
+</font>32: <font color="#FF0000">}</font>&nbsp;
+33: <i><font color="#9A1900">/**
+</font></i>34:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; Computes the value of an investment with compound interest
+</font></i>35:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; @param initial_balance the initial value of the investment
+</font></i>36:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; @param p the interest rate per period in percent
+</font></i>37:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; @param n the number of periods the investment is held
+</font></i>38:&nbsp;<i><font color="#9A1900">&nbsp;&nbsp; @return the balance after n periods
+</font></i>39: <i><font color="#9A1900">*/
+</font></i>40: <font color="#009900">double</font> <b><font color="#000000">future_value</font></b><font color="#990000">(</font><font color="#009900">double</font> initial_balance<font color="#990000">,</font> <font color="#009900">double</font> p<font color="#990000">,</font> <font color="#009900">int</font> n<font color="#990000">)
+</font>41: <font color="#FF0000">{</font>&nbsp; <font color="#009900">double</font> b <font color="#990000">=</font> initial_balance <font color="#990000">*</font> <b><font color="#000000">pow</font></b><font color="#990000">(</font><font color="#993399">1</font> <font color="#990000">+</font> p <font color="#990000">/</font> <font color="#993399">100</font><font color="#990000">,</font> n<font color="#990000">);
+</font>42:&nbsp;&nbsp;&nbsp; <b><font color="#0000FF">return</font></b> b<font color="#990000">;
+</font>43: <font color="#FF0000">}
+</font>44:&nbsp;
+45: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()
+</font>46: <font color="#FF0000">{</font>&nbsp; <font color="#009900">double</font> balances<font color="#990000">[</font>BALANCES_ROWS<font color="#990000">][</font>BALANCES_COLS<font color="#990000">];
+</font>47:&nbsp;&nbsp;&nbsp; <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> BALANCES_ROWS<font color="#990000">;</font> i<font color="#990000">++)
+</font>48:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> j <font color="#990000">&lt;</font> BALANCES_COLS<font color="#990000">;</font> j<font color="#990000">++)
+</font>49:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; balances<font color="#990000">[</font>i<font color="#990000">][</font>j<font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#000000">future_value</font></b><font color="#990000">(</font><font color="#993399">10000</font><font color="#990000">,</font>&nbsp;
+50:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; RATE_MIN <font color="#990000">+</font> i <font color="#990000">*</font> RATE_INCR<font color="#990000">,
+</font>51:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; YEAR_MIN <font color="#990000">+</font> j <font color="#990000">*</font> YEAR_INCR<font color="#990000">);
+</font>52:&nbsp;
+53:&nbsp;&nbsp;&nbsp; <b><font color="#000000">print_table</font></b><font color="#990000">(</font>balances<font color="#990000">,</font> BALANCES_ROWS<font color="#990000">);
+</font>54:&nbsp;
+55:&nbsp;&nbsp;&nbsp; <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;
+</font>56: <font color="#FF0000">}</font></tt>
+
+</pre>
+
+</body>
+</html>

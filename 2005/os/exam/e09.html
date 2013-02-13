@@ -1,0 +1,197 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os4</title>
+</head>
+<body>
+<b>9. Конкуренция: взаимно изключване и синхронизация</b>
+<br><b>Принципи на конкуренцията.</b>
+<p>Централни теми при изграждане на ОС:
+<br>&nbsp; - многопрограмна работа;
+<br>&nbsp; - многопроцесорна работа;
+<br>&nbsp; - разпределени процеси.
+<br>&nbsp;&nbsp;&nbsp; Конкуренция на процеси - 3 различни аспекта:
+<br>&nbsp; - много на брой активни приложения едновременно;
+<br>&nbsp; - структурирани приложения - за повишаване на ефективността
+някои приложения се програмират като множества от конкурентни процеси;
+<br>&nbsp; - структурата на ОС - често като множество от конкурентни процеси.
+<p><b>5.1 Принципи на конкуренцията.</b>
+<br>&nbsp;&nbsp;&nbsp; Пример.
+<br>&nbsp;&nbsp;&nbsp; Процесите <b><tt>P1</tt></b> и <b><tt>P2</tt></b>
+използват обща "ехо" функция (напр. за отпечатване на екрана на натиснат
+клавиш) - без и със защита на функцията. ОС може да прекъсва изпълнението
+на функцията след всеки оператор.
+<br><b><tt><font color="#000099">char chin, chout;</font></tt></b>
+<br><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp; От клавиатурата на&nbsp; </font><b><tt><font color="#003300">P1
+</font></tt></b><font color="#000000">се
+въвежда '<b><tt>A</tt></b>', а от клавиатурата на <b><tt>P2</tt></b> -
+'<b><tt>B</tt></b>'. </font>Възможни са следните сценарии за изпълнение
+на процесите <b><tt>P1</tt></b> и <b><tt>P2</tt></b>, които използват функцията
+"ехо".
+<p>&nbsp; <b>А. Без защита : </b>ОС може да прекъсва изпълнението на функцията
+след всеки оператор.
+<br>&nbsp;
+<table BORDER=0 CELLPADDING=4 >
+<tr>
+<td><b><font color="#003300">// <tt>PROCESS P1</tt></font></b>
+<br><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">................</font></tt></b>
+<br><b><tt><font color="#000099">................</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">.................</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b></td>
+
+<td><b><font color="#003300">// <tt>PROCESS P2</tt></font></b>
+<br><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b></td>
+
+<td>v<b><tt>alue of chin</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>A</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b></td>
+
+<td><b><tt>value of chout</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b></td>
+</tr>
+</table>
+
+<p>т.е. <b><tt><font color="#006600">P1(getchar)-> P2(getchar)-> P2(=)->
+P1(=)-> P1(putchar)-> P2(putchar)-> </font></tt></b><font color="#000000">и
+двата процеса извеждат '<b><tt>B</tt></b>' <b><tt>-> BAD.</tt></b></font>
+<br>&nbsp;<b>&nbsp;&nbsp;&nbsp;&nbsp; Б. Със защита: </b>ОС <b>не</b> може
+да прекъсва изпълнението на функцията.
+<br><b><tt><font color="#006600">P1(getchar)-> P2(echo, недостъпна!)->
+P1(=)-> P1(putchar)-> P2(=)-> P2(putchar)-> </font></tt></b>и процесът
+<b><tt>P1</tt></b>
+извежда '<b><tt>A</tt></b>', а процесът <b><tt>P2</tt></b> - '<b><tt>B</tt></b>'<b><tt>
+-> OK.</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Извод - управление на достъпа до съвместно използвана
+функция!
+<p>** Задължения на ОС.
+<br>&nbsp;&nbsp;&nbsp; 1. Следене на активните прцеси.
+<br>&nbsp;&nbsp;&nbsp; 2. Отпускане на ресурси за активните процеси:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - процесорно
+време;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - памет;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - файлове;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - I/O устройства.
+<br>&nbsp;&nbsp;&nbsp; 3. Предпазване на данни и ресурси на всеки процес
+от неправомерна намеса на друг процес.
+<br>&nbsp;&nbsp;&nbsp; 4. Резултатът от работата на един процес трябва
+да е независим от скоростта на изпълнението му, както и от скоростта на
+изпълнение на другите процеси.
+<p>** Взаимодействие на процеси.
+<br>* Състезание между процесите за ресурси.
+<br><b>&nbsp;&nbsp;&nbsp; Взаимно изключване</b> (ВИ) - mutual exclusion:
+<b>критичен
+ресурс</b> (КР) и <b>критична секция</b> (КС).
+<br>&nbsp;&nbsp;&nbsp; Пример: ресурс принтер.
+<br><b><tt><font color="#003300">/* program mutual_exclusion */</font></tt></b>
+<br><b><tt><font color="#003300">const int n; /* number of processes */</font></tt></b>
+<br><b><tt><font color="#003300">void P(int i)</font></tt></b>
+<br><b><tt><font color="#003300">{ while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; { enter_critical(i);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp; exit_critical(i);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">void main( )</font></tt></b>
+<br><b><tt><font color="#003300">{ parbegin(P(1), P(2), ..., P(n)); }</font></tt></b>
+<p><font color="#003300">&nbsp;&nbsp;&nbsp; <i>Какво лошо може да се случи?</i></font>
+<br><b>&nbsp;&nbsp;&nbsp; Мъртва хватка</b> (МХ) - deadlock.
+<br>&nbsp;&nbsp;&nbsp; Дадени са процеси <b><tt>P1</tt></b> и <b><tt>P2
+</tt></b>и
+ресурси <b><tt>R1</tt></b> и <b><tt>R2</tt></b>. За да завършат, двата
+процеса трябва да използват и двата ресурса. Ако процесът <b><tt>P1</tt></b>
+заеме ресурс <b><tt>R1</tt></b> и процес <b><tt>P2</tt></b> заеме ресурс
+<b><tt>R2</tt></b>,&nbsp;
+тогава нито един от процесите не може да завърши - <b><tt>P1</tt></b> чака
+да бъде освободен ресурс <b><tt>R2</tt></b>, а <b><tt>P2</tt></b> чака
+да бъде освободен ресурс <b><tt>R1</tt></b> - МХ.
+<br><b>&nbsp;&nbsp;&nbsp; Гладна смърт</b> (ГС) - starvation.
+<br>&nbsp;&nbsp;&nbsp; Дадени са процеси <b><tt>P1</tt></b>, <b><tt>P2</tt></b>
+и <b><tt>P3</tt></b> и ресурс <b><tt>R</tt></b>. И трите процеса използват
+дадения ресурс. Нека <b><tt>P1</tt></b> и <b><tt>P2 </tt></b>да се изпълняват
+периодично, т.е. заемат ресурса за определено време, след което го освобождават.
+При сценарии
+<br><b><tt><font color="#006600">P1(R)-> P2(R)-> P1(R)-> P2(R)-> P1(R)->
+...</font></tt></b>
+<br><b><tt>P3</tt></b> чака да бъде освободен ресурса и това чакане може
+да продължи неопределено време - ГС.
+<p>*&nbsp; Кооперация между процеси чрез поделяне, съгласуване на данните.
+<br>&nbsp;&nbsp;&nbsp; Два процеса, като използват общи променливи <b><tt>a
+</tt></b>и
+<b><tt>b</tt></b>, поддържат връзката <b><tt>a = b</tt></b>.
+<br><b><tt><font color="#006600">int a=1, b=1;</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">PROCESS P1</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; a = a + 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; b = b + 1;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#006600">PROCESS P2</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; b = 2 * b;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; a = 2 * a;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; При сценарии (без защита):
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+P1(a = a + 1)-> P2(b = 2 * b)-> P2(a = 2 * a)-> P1(b = b + 1)</font></tt></b>
+<br>стойностите на двете променливи са съответно
+<br><b><tt><font color="#006600">(1,1) ->&nbsp; (2,1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+->&nbsp;&nbsp; (2,2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ->&nbsp;&nbsp; (4,2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+->&nbsp;&nbsp;&nbsp; (4,3)</font></tt></b>
+<br>и връзката <b><tt>a = b </tt></b>е нарушена. Отново възниква необходимост
+от защита - от ВИ.
+<p>** Изисквания за ВИ:
+<br>&nbsp;&nbsp;&nbsp; 1. Само един процес е в КС секция относно даден
+КР.
+<br>&nbsp;&nbsp;&nbsp; 2. Процес извън КС може да прекъсва, без това да
+влияе на останалите процеси.
+<br>&nbsp;&nbsp;&nbsp; 3. Всеки процес, чакащ за влизане в КС, трябва да
+може да влезе в КС (с крайно време за чакане).
+<br>&nbsp;&nbsp;&nbsp; 4. Ако няма процес в КС (относно КР), всеки процес,
+който иска този КР, трябва да може да влезе в КС незабавно.
+<br>&nbsp;&nbsp;&nbsp; 5. Няма ограничения за брой процеси, чакащи за КР
+и няма ограничения за времето и честотата на използване на този ресурс.
+<br>&nbsp;&nbsp;&nbsp; 6. Един процес може да остане в КС за крайно време.
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

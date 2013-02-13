@@ -1,0 +1,668 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Advanced C++ Topics</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">
+<h2>Chapter 17: Advanced C++ Topics II<br>
+</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To be able to implement templates</font></li>
+  <li><font size="+1">To become familiar with exception handling</font></li>
+</ul>
+<ul>
+</ul>
+<h2>Templates</h2>
+<ul>
+  <li><font size="+1">A <i>class template</i> is a mechanism that
+allows us to create classes whose data fields have arbitrary type.</font></li>
+  <li><font size="+1">We have already seen an example: the vector
+template.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">vector</span>&lt;<span
+ style="color: rgb(51, 51, 255);">int</span>&gt; v_i; <br><span
+ style="color: rgb(51, 51, 255);">vector</span>&lt;<span
+ style="color: rgb(51, 51, 255);">double</span>&gt; v_d;<br><span
+ style="color: rgb(51, 51, 255);">vector</span>&lt;Employee&gt; v_e;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To define a template, denote the arbitrary type
+with a<i> type parameter</i> as show in syntax 17.3, and
+add the line <tt><span style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> T&gt;</tt> before the
+class
+definition.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> T&gt;<br><span
+ style="color: rgb(51, 51, 255);">class</span> Pair {<br><span
+ style="color: rgb(51, 51, 255);">public:</span><br>   Pair(T a, T b);<br>   T get_first() <span
+ style="color: rgb(51, 51, 255);">const</span>;<br>   T get_second() <span
+ style="color: rgb(51, 51, 255);">const</span>;<br><span
+ style="color: rgb(51, 51, 255);">private:</span><br>   T first;<br>   T second;<br>};</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 17.3 Template Class Definition
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.3 : Template Class
+Definition</font></p>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> <i>type_variable</i>&gt;<br><span
+ style="color: rgb(51, 51, 255);">class</span> <i>class_name</i><br>{</font><i><font
+ size="+1"><br></font></i><font size="+1">   <i>features</i><br>};</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1"><span style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> T&gt;<br><span
+ style="color: rgb(51, 51, 255);">class</span> Pair<br>{<br><span
+ style="color: rgb(51, 51, 255);">public:</span><br>   Pair(T a, T b);<br>   T get_first() <span
+ style="color: rgb(51, 51, 255);">const</span>;<br>   T get_second() <span
+ style="color: rgb(51, 51, 255);">const</span>;<br><span
+ style="color: rgb(51, 51, 255);">private:</span><br>   T first;<br>   T second;<br>};</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a class template with a type
+parameter.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+</h2>
+<ul>
+  <li><font size="+1">When you implement each member function, you must
+make it a template as indicated in syntax 17.4.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> T&gt;<br>Pair&lt;T&gt;::Pair(T a, T b)<br>{  first = a;<br>   second = b;<br>}<br><br><span
+ style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> T&gt;<br>T Pair&lt;T&gt;::get_first() <span
+ style="color: rgb(51, 51, 255);">const</span><br>{  <span
+ style="color: rgb(51, 51, 255);">return</span> first;<br>}<br><br><span
+ style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> T&gt;<br>T Pair&lt;T&gt;::get_second() <span
+ style="color: rgb(51, 51, 255);">const</span><br>{  <span
+ style="color: rgb(51, 51, 255);">return</span> second;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Each function is turned into a separate template.</font></li>
+  <li><font size="+1">Each function name is prefixed by the "<tt>Pair&lt;T&gt;::</tt>"
+qualifier.</font></li>
+  <li><font size="+1">Note the use of the type variable <tt>T</tt> to
+represent a type.</font></li>
+</ul>
+<h2>Syntax 17.4 Template Member Function Definition</h2>
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.4 : Template Member
+Function Definition</font></p>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> <i>type_variable</i>&gt;<br><i>return_type</i> <i>class_name</i>&lt;<i>type_variable</i>&gt;::<i>function_name</i>(<i>parameters</i>) <span
+ style="color: rgb(51, 51, 255);">const</span><sub><i>opt</i></sub><br>{</font><i><font
+ size="+1"><br></font></i><font size="+1">   <i>statements</i><br>}</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1"><span style="color: rgb(51, 51, 255);">template</span>&lt;<span
+ style="color: rgb(51, 51, 255);">typename</span> T&gt;<br>T Pair&lt;T&gt;::get_first() <span
+ style="color: rgb(51, 51, 255);">const</span><br>{<br>   <span
+ style="color: rgb(51, 51, 255);">return</span> first;<br>}</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Supply the implementation of a member
+function for a class template.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<h2>Templates (<a href="../../sources/ch17/pairs.cpp"><tt>pairs.cpp</tt></a>)</h2>
+<iframe src="code/pairs.cpp.html" height="80%" width="80%">Your
+browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">A template version of the <tt>List</tt> class
+presented in chapter 16 (</font><font style="font-weight: bold;"
+ size="+1"><a style="font-family: monospace;"
+ href="../../sources/ch16/list2.cpp">list2.cpp</a></font><font size="+1">)
+follows.
+    <blockquote>
+      <pre><span style="color: rgb(0, 0, 153);">template</span>&lt;<span
+ style="color: rgb(0, 0, 153);">typename</span> T&gt;<br><span
+ style="color: rgb(0, 0, 153);">class</span> List {<br><span
+ style="color: rgb(0, 0, 153);">public:</span><br>   List();<br>   <span
+ style="color: rgb(0, 0, 153);">void</span> push_back(T s);<br>   <span
+ style="color: rgb(0, 0, 153);">void</span> insert(Iterator&lt;T&gt; pos, T s);<br>   <span
+ style="color: rgb(0, 0, 153);">void</span> erase(Iterator&lt;T&gt; pos);<br>   Iterator&lt;T&gt; begin();<br>   Iterator&lt;T&gt; end();<br><span
+ style="color: rgb(0, 0, 153);">private:</span><br>   Node&lt;T&gt;* first;<br>   Node&lt;T&gt;* last;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Both the <tt>Node</tt> and <tt>Iterator</tt>
+classes need to be made templates as well.</font></li>
+  <li><font size="+1">Each member function must also be made into a
+template.
+    <blockquote>
+      <pre><span style="color: rgb(0, 0, 153);">template</span>&lt;<span
+ style="color: rgb(0, 0, 153);">typename</span> T&gt;<br>Iterator&lt;T&gt; List&lt;T&gt;::begin()<br>{  Iterator&lt;T&gt; iter;<br>   iter.position = first;<br>   iter.position = last;<br>   <span
+ style="color: rgb(0, 0, 153);">return</span> iter;<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Templates (<a href="code/list.cpp.html"><tt>list.cpp</tt></a>)</h2>
+<iframe src="code/list.cpp.html" height="80%" width="80%">Your browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Nested Classes<br>
+</h2>
+<ul>
+  <li><font size="+1">In the standard library, the <tt>iterator</tt>
+class is nested inside the <tt>list</tt> class.
+    <blockquote>
+      <pre>list&lt;string&gt;::iterator pos = staff.begin();</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The reason is so several different
+implementations (for vectors, lists, maps, and sets) can all share the
+same name (iterator), but have different implementations.
+    <blockquote>
+      <pre>vector&lt;<span style="color: rgb(0, 0, 153);">double</span>&gt;::iterator p = a.begin();<br>list&lt;string&gt;::iterator q = b.begin();</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To nest a class inside another, first declare the
+nested class inside the outer class.
+    <blockquote>
+      <pre><span style="color: rgb(0, 0, 153);">class</span> List {<br>   ...<br>   <span
+ style="color: rgb(0, 0, 153);">class</span> Iterator;<br>   ...<br>};</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 17.5 : Nested Class
+Declaration</h2>
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.5 : Nested Class
+Declaration</font></p>
+      <pre><font size="+1"><span style="color: rgb(0, 0, 153);">class</span><i> Outer_class_name</i><br>{</font><i><font
+ size="+1"><br></font></i><font size="+1">   <i>...<br>   </i><span
+ style="color: rgb(0, 0, 153);">class</span><i> Nested_class_name<br>   </i>{<i><br>      ...<br>   </i>};<i><br>   ...</i><br>}</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1"><span style="color: rgb(0, 0, 153);">class</span> List<br>{<br>   ...<br>   <span
+ style="color: rgb(0, 0, 153);">class</span> Iterator<br>   {<br>      ...<br>   };<br>};</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a class whose scope is contained
+in the scope of another class.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<ul>
+  <li><font size="+1">The definition of the member functions requires
+references to both the outer and inner classes.
+    <blockquote>
+      <pre>List::Iterator::Iterator()<br>{<br>   ...<br>}<br><br>string List::Iterator::get() <span
+ style="color: rgb(0, 0, 153);">const</span><br>{<br>   ...<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Note that the name of constructor is just <tt>Iterator</tt>.</font></li>
+  <li><font size="+1">In general, use nested classes for just one
+reason: to place the name of a class inside the scope of another class.</font></li>
+  <li><font size="+1">Example: </font><a
+ href="../../sources/ch17/list1.cpp"><font size="+1"><span
+ style="font-family: monospace;">list1.cpp</span></font></a><font
+ size="+1"><br>
+    </font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Exception Handling</h2>
+<h3>Signaling Error Conditions</h3>
+<ul>
+  <li><font size="+1">How do you handle programmer errors when using a
+function or class?</font>
+    <ul>
+      <li><font size="+1">Don't check the error condition and executing
+the code anyway, possibly causing a problem.
+        <blockquote>
+          <pre><span style="color: rgb(51, 51, 255);">double</span> future_value(<span
+ style="color: rgb(51, 51, 255);">double</span> initial_balance, <span
+ style="color: rgb(51, 51, 255);">double</span> p, <span
+ style="color: rgb(51, 51, 255);">int</span> n)<br>{  <span
+ style="color: rgb(51, 51, 255);">return</span> initial_balance * pow(1 + p / 100, n);<br>}</pre>
+        </blockquote>
+        </font></li>
+      <li><font size="+1">Check the error condition and doing nothing
+if it occurs.
+        <blockquote>
+          <pre><span style="color: rgb(51, 51, 255);">double</span> future_value(<span
+ style="color: rgb(51, 51, 255);">double</span> initial_balance, <span
+ style="color: rgb(51, 51, 255);">double</span> p, <span
+ style="color: rgb(51, 51, 255);">int</span> n)<br>{  <span
+ style="color: rgb(51, 51, 255);">if</span> (p &lt; 0 || n &lt; 0) <span
+ style="color: rgb(51, 51, 255);">return</span> 0;<br>   <span
+ style="color: rgb(51, 51, 255);">return</span> initial_balance * pow(1 + p / 100, n);<br>}</pre>
+        </blockquote>
+        </font></li>
+      <li><font size="+1">Check the error condition and alert the
+caller if it occurs.
+        <blockquote>
+          <pre><span style="color: rgb(51, 51, 255);">double</span> future_value(<span
+ style="color: rgb(51, 51, 255);">double</span> initial_balance, <span
+ style="color: rgb(51, 51, 255);">double</span> p, <span
+ style="color: rgb(51, 51, 255);">int</span> n)<br>{  assert(p &gt;= 0 &amp;&amp; n &gt;= 0);<br>   <span
+ style="color: rgb(51, 51, 255);">return</span> initial_balance * pow(1 + p / 100, n);<br>}</pre>
+        </blockquote>
+        </font></li>
+    </ul>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">Problems:</font>
+    <ul>
+      <li><font size="+1">If you don't check for the error, your
+program may be unreliable.</font></li>
+      <li><font size="+1">If you return a fake value, the program
+continues using the value. No one knows what the error was, only that
+something went wrong.</font></li>
+      <li><font size="+1">Many real pieces of software can't be halted,
+such as one that controls a rocket or a medical device.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">C++ has a mechanism called <i>exception handling</i>.
+When a function detects an error, it can signal (<i>throw an exception</i>)
+a condition to some other part of the program whose job it is to deal
+with errors.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">double</span> future_value(<span
+ style="color: rgb(51, 51, 255);">double</span> initial_balance, <span
+ style="color: rgb(51, 51, 255);">double</span> p, <span
+ style="color: rgb(51, 51, 255);">int</span> n)<br>{  <span
+ style="color: rgb(51, 51, 255);">if</span> (p &lt; 0 || n &lt; 0)<br>   {  logic_error description("illegal future_value parameter");<br>      <span
+ style="color: rgb(51, 51, 255);">throw</span> description;<br>   }<br>   <span
+ style="color: rgb(51, 51, 255);">return</span> initial_balance * pow(1 + p / 100, n);<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1"> Many programmers don't bother to give the
+exception object a name and just throw an anonymous object,
+like this:
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">double</span> future_value(<span
+ style="color: rgb(51, 51, 255);">double</span> initial_balance, <span
+ style="color: rgb(51, 51, 255);">double</span> p, <span
+ style="color: rgb(51, 51, 255);">int</span> n)<br>{ <span
+ style="color: rgb(51, 51, 255);">if</span> (p &lt; 0 || n &lt; 0)<br>    <span
+ style="color: rgb(51, 51, 255);">throw</span> logic_error("illegal future_value parameter");<br> <span
+ style="color: rgb(51, 51, 255);">return</span> initial_balance * pow(1 + p / 100, n);<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 17.8: Throwing an Exception</h2>
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.8: Throwing an
+Exception</font></p>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">throw</span> <i>expression</i>;</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1"><span style="color: rgb(51, 51, 255);">throw</span> logic_error("illegal future_value parameter");</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Abandon this function and throw a value
+to an exception handler.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<ul>
+  <li><font size="+1">Here, <tt>logic_error</tt> is a standard
+exception class that is declared in the <tt>&lt;stdexcept&gt; </tt>header.</font>
+  </li>
+  <li><font size="+1"> The keyword <tt style="color: rgb(51, 51, 255);">throw</tt>
+indicates that the
+function exits immediately, but the function does not return to the
+caller. Instead, the program searches for a <i>handler</i> that
+specifies how to handle the logic error.</font></li>
+</ul>
+<h3>Catching Exceptions</h3>
+<ul>
+  <li><font size="+1">You supply an exception handler with the <tt
+ style="color: rgb(51, 51, 255);">try</tt>
+statement. </font> <font size="+1">
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">try</span><br>{<br>   <i>code</i><br>}<br><span
+ style="color: rgb(51, 51, 255);">catch</span> (logic_error&amp; e)<br>{<br>   <i>handler</i><br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 17.9: Try Block</h2>
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.9: Try Block</font></p>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">try</span><br>{</font><i><font
+ size="+1"><br></font></i><font size="+1">   <i>statements</i> <br>}<br><span
+ style="color: rgb(51, 51, 255);">catch</span> (<i>type_name</i><sub>1</sub> <i>variable_name</i><sub>1</sub>)<br>{<br>   <i>statements</i><br>}<br><span
+ style="color: rgb(51, 51, 255);">catch</span> (<i>type_name</i><sub>2</sub> <i>variable_name</i><sub>2</sub>)<br>{<br>   <i>statements</i><br>}<br>...<br><span
+ style="color: rgb(51, 51, 255);">catch</span> (<i>type_name</i><sub>n</sub> <i>variable_name</i><sub>n</sub>)<br>{<br>   <i>statements</i><br>}</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1"><span style="color: rgb(51, 51, 255);">try</span><br>{<br>   double fvalue = future_value(init, interest, years); <br>   cout &lt;&lt; "The future value is " &lt;&lt; fvalue &lt;&lt; endl;<br>}<br><span
+ style="color: rgb(51, 51, 255);">catch</span>(logic_error&amp; e)<br>{<br>   cout &lt;&lt; "Processing error " &lt;&lt; e.what() &lt;&lt; "\n";<br>}</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Provide one or more handlers for types
+of exceptions that may be thrown when executing a block of statements.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<ul>
+  <li><font size="+1">If any of the functions in the <tt
+ style="color: rgb(51, 51, 255);">try</tt>
+clause throw a <tt>logic_error</tt>, or call another function that
+throws such an exception, then the code in the catch clause executes
+immediately. </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">while</span> (more)<br>{  <span
+ style="color: rgb(51, 51, 255);">try</span> <br>   {<br>      <i>code</i><br>   }<br>   <span
+ style="color: rgb(51, 51, 255);">catch</span> (logic_error&amp; e)<br>   {  cout &lt;&lt; "A logic error has occurred "<br>           &lt;&lt; e.what() &lt;&lt; "\n" &lt;&lt; "Retry? (y/n)";<br>      string input;<br>      getline(cin, input);<br>      <span
+ style="color: rgb(51, 51, 255);">if</span> (input == "n") more = false;<br>   }<br>}</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+  <li><font size="+1">The <tt>what</tt> member function of the <tt>logic_error</tt>
+class returns the string that was passed to the constructor of the
+error object in the throw statement. </font></li>
+</ul>
+<h2>Exception Handling (<a href="../../sources/ch17/exception1.cpp"><tt>exception1.cpp</tt></a>)</h2>
+<iframe src="code/exception1.cpp.html" height="80%" width="80%">Your
+browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">It's a good idea to use inheritance to define
+your own exception types.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">class</span> FutureValueError : <span
+ style="color: rgb(51, 51, 255);">public</span> logic_error {<br><span
+ style="color: rgb(51, 51, 255);">public:</span><br>   FutureValueError(<span
+ style="color: rgb(51, 51, 255);">const</span> <span
+ style="color: rgb(51, 51, 255);">char</span> reason[]);<br>};<br><br>FutureValueError::FutureValueError(<span
+ style="color: rgb(51, 51, 255);">const</span> <span
+ style="color: rgb(51, 51, 255);">char</span> reason[])<br>   : logic_error(reason){}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Here, the <tt>future_value</tt> function can now
+throw a <tt>FutureValueError</tt> object.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">if</span> (p &lt; 0 || n &lt; 0)<br>   <span
+ style="color: rgb(51, 51, 255);">throw</span> FutureValueError("illegal parameter");</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Because</font><font size="+1"><tt>
+FutureValueError</tt> is a <tt>logic_error</tt>, you can still catch
+it with <tt><span style="color: rgb(51, 51, 255);">catch</span>&nbsp;(logic_error&amp;&nbsp;e)</tt>.</font></li>
+  <li><font size="+1"> You can even catch other types of errors. Note
+that the exception handling mechanism matches the handlers top to
+bottom, and executes the first matching handler. </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">try</span><br>{<br>   <i>code</i><br>}<br><span
+ style="color: rgb(51, 51, 255);">catch</span> (FutureValueError&amp; e)<br>{<br>   <i>handler</i><sub>1</sub><br>} <br><span
+ style="color: rgb(51, 51, 255);">catch</span> (logic_error&amp; e)<br>{<br>   <i>handler</i><sub>2</sub><br>}</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+</ul>
+<h2>Exception Handling (<a href="../../sources/ch17/exception2.cpp"><tt>exception2.cpp</tt></a>)</h2>
+<iframe src="code/exception2.cpp.html" height="80%" width="80%">Your
+browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<h3>Stack Unwinding</h3>
+<ul>
+  <li><font size="+1">One common use of exception handling is in
+functions that read input.</font></li>
+  <li><font size="+1">Example: suppose that no price or score is given?
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">bool</span> Product::read(fstream&amp; fs)<br>{  getline(fs, name);<br>   <span
+ style="color: rgb(51, 51, 255);">if</span> (name == "") return false; // end of file<br>   fs &gt;&gt; price &gt;&gt; score;<br>   <span
+ style="color: rgb(51, 51, 255);">if</span> (fs.fail())<br>      <span
+ style="color: rgb(51, 51, 255);">throw</span> runtime_error("Error while reading product");<br>   string remainder;<br>   getline(fs, remainder);<br>   <span
+ style="color: rgb(51, 51, 255);">return</span> true;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">When a logic error occurs, it never makes sense
+to retry the same operation, but a runtime error may have some chance
+of going away when the operation is attempted again.</font></li>
+  <li><font size="+1">Note that this function distinguishes between the
+expected end of file (returning </font><font size="+1"><span
+ style="font-family: monospace;">false</span></font><font size="+1">),
+and an unexpected problem
+(which throws an exception). </font></li>
+</ul>
+<ul>
+  <li><font size="+1">Here we see the hierarchy of standard exception
+types in C++. </font></li>
+</ul>
+<blockquote><img src="images/exceptions.png"></blockquote>
+<ul>
+  <li><font size="+1">Consider the following function: </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>{  vector&lt;Product&gt; products;<br>   <span
+ style="color: rgb(51, 51, 255);">bool</span> more = true;<br>   <span
+ style="color: rgb(51, 51, 255);">while</span> (more)<br>   {  Product p;<br>      <span
+ style="color: rgb(51, 51, 255);">if</span> (p.read(fs)) products.push_back(p);<br>      <span
+ style="color: rgb(51, 51, 255);">else</span> more = false;<br>   }<br>   <i>do something with</i> products<br>}</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+  <li><font size="+1">If the <tt>read</tt> function throws an
+exception, the <tt>process_products</tt> functions halts, and the
+exception handling mechanism searches for an appropriate handler.</font></li>
+  <li><font size="+1">The C++ exception handling mechanism invokes <i>all
+destructors of stack objects</i> before it abandons a function.</font></li>
+  <li><font size="+1">In our example, the vector object is destroyed,
+along with all <tt>Product</tt>s in the list.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">This automatic invocation of destructors only
+applies to objects.</font></li>
+  <li><font size="+1">Consider the following code.
+    <blockquote>
+      <pre>Product* p = <span style="color: rgb(51, 51, 255);">new</span> Product();<br><span
+ style="color: rgb(51, 51, 255);">if</span> (p-&gt;read())<br>{<br>   ...<br>}<br><span
+ style="color: rgb(51, 51, 255);">delete</span> p; // never executes if read throws an exception</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">If an exception occurs in the <tt>read</tt>
+function, <tt>p</tt> receives no special attention because it is not
+an object.</font></li>
+  <li><font size="+1">A memory leak occurs.</font></li>
+</ul>
+<h2>Exception Handling (<a href="../../sources/ch17/product1.cpp"><tt>product1.cpp</tt></a>)</h2>
+<iframe src="code/product1.cpp.html" height="80%" width="80%">Your
+browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">The best remedy is to make sure that all
+allocated memory is deleted in a destructor.</font></li>
+  <li><font size="+1">If a local pointer variable unavoidable, you
+can use the following construct: </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1">Product* p = NULL;<br><span
+ style="color: rgb(51, 51, 255);">try</span><br>{  p = <span
+ style="color: rgb(51, 51, 255);">new</span> Product();<br>   if (p-&gt;read())<br>   {<br>      ...<br>   }<br>   <span
+ style="color: rgb(51, 51, 255);">delete</span> p;<br>}<br><span
+ style="color: rgb(51, 51, 255);">catch</span>(...)<br>{  <span
+ style="color: rgb(51, 51, 255);">delete</span> p;<br>   <span
+ style="color: rgb(51, 51, 255);">throw</span>;<br>}<br></font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+  <li><font size="+1">The clause <tt><span
+ style="color: rgb(51, 51, 255);">catch</span>(...) </tt>matches any
+exception.</font></li>
+  <li><font size="+1">The handle contains the local cleanup, followed
+by the <tt style="color: rgb(51, 51, 255);">throw</tt> statement
+without an exception object.</font></li>
+  <li><font size="+1">This rethrows the exception so that the correct
+handler can process it.</font></li>
+</ul>
+<h2>Exception Handling (<a href="../../sources/ch17/product2.cpp"><tt>product2.cpp</tt></a>)</h2>
+<iframe src="code/product2.cpp.html" height="80%" width="80%">Your
+browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<h3>Exception Specifications</h3>
+<ul>
+  <li><font size="+1">If an exception is thrown and <span
+ style="font-style: italic;">no</span> <tt
+ style="color: rgb(51, 51, 255);">catch</tt>
+clause exists to catch it, then the program terminates with an error
+message.</font></li>
+  <li><font size="+1">Because of potential dangers in throwing
+exceptions, a function can declare that it only throws exceptions of a
+certain type, or no exceptions at all.</font></li>
+  <li><font size="+1">You can use that knowledge to make sure that it
+is safe to call certain functions, or to know which kinds of exceptions
+you program needs to catch.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>   <span
+ style="color: rgb(51, 51, 255);">throw</span> (UnexpectedEndOfFile, bad_alloc)</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">A function signature can optionally be followed
+by the keyword <tt style="color: rgb(51, 51, 255);">throw</tt> and a
+parenthesized, comma-separated
+list of exception types; for example:</font></li>
+  <li><font size="+1">To denote that a function throws no exceptions,
+use an empty exception list.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>   <span
+ style="color: rgb(51, 51, 255);">throw</span> ()</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">A function without a <tt
+ style="color: rgb(51, 51, 255);">throw</tt>
+specification is allowed to throw any exceptions.</font> </li>
+</ul>
+<h2>Syntax 17.10: Exception Specification</h2>
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.10 : Exception
+Specification</font></p>
+      <pre><font size="+1"><i>return_type</i> <i>function_name</i>(<i>parameters</i>)<br>   <span
+ style="color: rgb(51, 51, 255);">throw</span> (<i>type_name</i><sub>1</sub>, <i>type_name</i><sub>2</sub>, ..., <i>type_name</i><sub>n</sub>)</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1"><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>   <span
+ style="color: rgb(51, 51, 255);">throw</span>(UnexpectedEndOfFile, bad_alloc)</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">List the types of all exceptions that a
+function can throw.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<ul>
+  <li><font size="+1">Stroustrup's example: </font><font size="+1"><span
+ style="font-family: monospace;">class Vector</span></font><font
+ size="+1"> (</font><a style="font-weight: bold;"
+ href="../../sources/ch17/strous.cpp"><font size="+1"><span
+ style="font-family: monospace;">strous.cpp</span></font></a><font
+ size="+1">)</font></li>
+</ul>
+<hr>
+</body>
+</html>

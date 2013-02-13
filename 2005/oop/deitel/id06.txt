@@ -1,0 +1,143 @@
+// 6. Статични членове на клас - данни и функции.
+//
+// Fig. 7.17: employee2.h
+// Employee class definition.
+#ifndef EMPLOYEE2_H
+#define EMPLOYEE2_H
+
+class Employee {
+
+public:
+   Employee( const char *, const char * ); // constructor
+   ~Employee();                       // destructor
+   const char *getFirstName() const;  // return first name
+   const char *getLastName() const;   // return last name
+
+   // static member function
+   static int getCount();  // return # objects instantiated
+
+private:
+   char *firstName;
+   char *lastName;
+
+   // static data member
+   static int count;  // number of objects instantiated
+
+}; // end class Employee
+
+#endif
+/****/
+// Fig. 7.18: employee2.cpp
+// Member-function definitions for class Employee.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include <new>          // C++ standard new operator
+#include <cstring>      // strcpy and strlen prototypes
+
+#include "employee2.h"  // Employee class definition 
+
+// define and initialize static data member
+int Employee::count = 0;
+
+// define static member function that returns number of 
+// Employee objects instantiated
+int Employee::getCount() 
+{ 
+   return count; 
+   
+} // end static function getCount
+
+// constructor dynamically allocates space for
+// first and last name and uses strcpy to copy
+// first and last names into the object
+Employee::Employee( const char *first, const char *last )
+{
+   firstName = new char[ strlen( first ) + 1 ];
+   strcpy( firstName, first );
+
+   lastName = new char[ strlen( last ) + 1 ];
+   strcpy( lastName, last );
+
+   ++count;  // increment static count of employees
+
+   cout << "Employee constructor for " << firstName
+        << ' ' << lastName << " called." << endl;
+
+} // end Employee constructor
+
+// destructor deallocates dynamically allocated memory
+Employee::~Employee()
+{
+   cout << "~Employee() called for " << firstName
+        << ' ' << lastName << endl;
+
+   delete [] firstName;  // recapture memory
+   delete [] lastName;   // recapture memory
+
+   --count;  // decrement static count of employees
+
+} // end ~Employee destructor
+
+// return first name of employee
+const char *Employee::getFirstName() const
+{
+   // const before return type prevents client from modifying
+   // private data; client should copy returned string before
+   // destructor deletes storage to prevent undefined pointer
+   return firstName;
+
+} // end function getFirstName
+
+// return last name of employee
+const char *Employee::getLastName() const
+{
+   // const before return type prevents client from modifying
+   // private data; client should copy returned string before
+   // destructor deletes storage to prevent undefined pointer
+   return lastName;
+
+} // end function getLastName
+/****/
+// Fig. 7.19: fig07_19.cpp
+// Driver to test class Employee.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+#include <new>          // C++ standard new operator
+
+#include "employee2.h"  // Employee class definition
+
+int main()
+{
+   cout << "Number of employees before instantiation is "
+        << Employee::getCount() << endl;   // use class name
+
+   Employee *e1Ptr = new Employee( "Susan", "Baker" );
+   Employee *e2Ptr = new Employee( "Robert", "Jones" );
+
+   cout << "Number of employees after instantiation is "
+        << e1Ptr->getCount();
+
+   cout << "\n\nEmployee 1: "
+        << e1Ptr->getFirstName()
+        << " " << e1Ptr->getLastName()
+        << "\nEmployee 2: "
+        << e2Ptr->getFirstName()
+        << " " << e2Ptr->getLastName() << "\n\n";
+
+   delete e1Ptr;  // recapture memory
+   e1Ptr = 0;     // disconnect pointer from free-store space
+   delete e2Ptr;  // recapture memory
+   e2Ptr = 0;     // disconnect pointer from free-store space
+
+   cout << "Number of employees after deletion is "
+        << Employee::getCount() << endl;
+
+   return 0;
+
+} // end main

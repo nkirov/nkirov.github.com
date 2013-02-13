@@ -1,0 +1,635 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Vectors and Arrays</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 9: Vectors and Arrays</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To become familiar with using vectors to collect
+objects</font></li>
+  <li><font size="+1">To be able to access vector elements and resize
+vectors</font></li>
+  <li><font size="+1">To be able to pass vectors to functions</font></li>
+  <li><font size="+1">To learn about common array algorithms</font></li>
+  <li><font size="+1">To learn how to use one-dimensional and
+two-dimensional arrays </font></li>
+</ul>
+<h2>Using Vectors to Collect Data Items</h2>
+<ul>
+  <li><font size="+1">Suppose you write a program that read in a list
+of salary figures and prints out the list, marking the highest value,
+like
+this:
+    <blockquote>
+      <pre>32000<br>54000<br>67500<br>29000<br>35000<br>80000<br>highest value =&gt; 115000<br>44500<br>100000<br>65000</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">All the values need to be read to find the
+highest one.</font></li>
+  <li><font size="+1">If you know there are ten inputs, you could use
+10 variables <tt>salary1</tt>, <tt>salary2</tt>, ... , <tt>salary10</tt>.
+But you would have to write a lot of code ten times to handle each
+variable.</font></li>
+  <li><font size="+1">This technique becomes prohibitive as the list
+gets larger (100 salaries).</font></li>
+</ul>
+<ul>
+  <li><font size="+1">A <i>vector</i> is a collection of data items of
+the same type.
+    <blockquote>
+      <pre>vector&lt;double&gt; salaries(10);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">This vector holds 10 values, each of which are <tt>double</tt>.
+    <blockquote><img src="images/vector.png"></blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 9.1 Vector Variable
+Definition</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 9.1 : Vector Variable
+Definition</font></p>
+      <pre><font size="+1">vector&lt;<i>type_name</i>&gt;<i> variable_name</i>;<i><br></i>vector&lt;<i>type_name</i>&gt;<i> variable_name</i>(<i>initial_size</i>);</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">vector&lt;int&gt; scores;<br>vector&lt;Employee&gt; staff(20);</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a new variable of vector type,
+and optionally supply an initial size.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li><font size="+1">You must specify which slot you want to use with
+the <tt>[]</tt> operator.
+    <blockquote>
+      <pre>salaries[4] = 35000;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The number inside the brackets is called an <i>index</i>.</font></li>
+  <li><font size="+1">Because salaries is a vector of double values, a
+slot such as <tt>salaries[4]</tt> can be used just like any variable
+of type double.
+    <blockquote>
+      <pre>cout &lt;&lt; salaries[4] &lt;&lt; "\n";</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">In C++, the slots of vectors are numbered <i>starting
+at 0</i>.
+    <blockquote><img src="images/elements.png"></blockquote>
+    </font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Syntax 9.2 Vector Subscripts</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 9.2 : Vector Subscripts</font></p>
+      <pre><font size="+1"><i>vector_expression</i>[<i>integer_expression</i>]</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">salaries[i + 1]</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Access and element in a vector.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Vector Subscripts</h2>
+<ul>
+  <li><font size="+1">Trying to access a slot that does not exist in
+the vector is an error.
+    <blockquote>
+      <pre>vector&lt;double&gt; salaries(10);<br><span
+ style="color: rgb(204, 0, 0);">cout &lt;&lt; salaries[10]; /* ERROR ! Legal subscripts are 0 until 9 */</span></pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The C++ standard implementation of <tt>vector</tt>
+generates <i>no</i> error message.</font></li>
+  <li><font size="+1">If you make an index error, you silently read or
+overwrite another memory location.</font></li>
+  <li><font size="+1">When a vector is defined without a size
+parameter, it is empty and can hold <i>no</i> elements.
+    <blockquote>
+      <pre>vector&lt;double&gt; salaries; /* no size given */<br><span
+ style="color: rgb(204, 0, 0);">salaries[0] = 35000; /* ERROR ! */</span></pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">You can find the size vector by calling the <tt>size</tt>
+member function.
+    <blockquote>
+      <pre>for(i = 0; i &lt; v.size(); i++)<br>   <i>do something with</i> v[i];</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Using <tt>size</tt> is actually better than
+using a constant (so called<i> magic number</i>).</font></li>
+  <li><font size="+1">The function <tt>push_back</tt> allows you to
+start out with an empty vector and grow the vector whenever another
+element is added.
+    <blockquote>
+      <pre>vector&lt;double&gt; salaries;<br>. . . <br>double s;<br>cin &gt;&gt; s;<br>. . .<br>salaries.push_back(s);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The <tt>push_back</tt> member function resizes
+the
+vector by adding one element to its end.</font></li>
+  <li><font size="+1">If you already know how many elements you need in
+a vector, you should specify that size when you define it.</font></li>
+  <li><font size="+1">Another member function, <tt>pop_back</tt>,
+removes the last element of a vector, shrinking its size by one.
+    <blockquote>
+      <pre>salaries.pop_back(); /* Now salaries has size 9 */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The C++ standard (STL) defines many more useful
+functions
+for vectors, but we will use </font><font size="+1">only </font><font
+ size="+1"><tt>push_back</tt> and <tt>pop_back</tt>.</font></li>
+</ul>
+<h2>Vector Subscripts (<a href="../../sources/ch9/salvect.cpp"><tt>salvect.cpp</tt></a>)</h2>
+<iframe src="code/salvect.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Vector Parameters and Return Values<br>
+</h2>
+<ul>
+  <li><font size="+1">Functions and procedures often have vector
+parameters. <br>
+    </font></li>
+  <li><font size="+1">This function computes the average of a vector of
+floating-point numbers.&nbsp;
+    <blockquote>
+      <pre>double average(<span style="font-weight: bold;">vector&lt;double&gt; v</span>)<br>{  if (v.size() == 0) return 0;<br>   double sum = 0;<br>   for (int i = 0; i &lt; v.size(); i++) sum = sum + v[i];<br>   return sum / v.size();<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li style="font-family: monospace;"><a
+ href="../../sources/ch9/average.cpp"><font size="+1">average.cpp</font></a>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">A vector can be passed by value or by reference.</font></li>
+  <li><font size="+1">Pass by reference is used for modifying
+individual elements of the vector.</font></li>
+  <li><font size="+1">The function raises all values in the vector by
+the given percentage.
+    <blockquote>
+      <pre>void raise_by_percent(<span style="font-weight: bold;">vector&lt;double&gt;&amp; v</span>, double p)<br>{  for (int i = 0; i &lt; v.size(); i++)<br>           v[i] = v[i] * (1 + p / 100);<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li style="font-family: monospace;"><a
+ href="../../sources/ch9/raisesal.cpp"><font size="+1">raisesal.cpp</font></a>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">A function can return a vector.</font></li>
+  <li><font size="+1">Here is a function that collects all <span
+ style="font-style: italic;">values</span> that
+fall within a certain range.
+    <blockquote>
+      <pre><span style="font-weight: bold;">vector&lt;double&gt;</span> between(vector&lt;double&gt; v, double low, double high)<br>{  <span
+ style="font-weight: bold;">vector&lt;double&gt; result;</span><br>   for (int i = 0; i &lt; v.size(); i++)<br>      if (low &lt;= v[i] &amp;&amp; v[i] &lt;= high) result.push_back(v[i]);<br>   return <span
+ style="font-weight: bold;">result</span>;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li style="font-family: monospace;"><a
+ href="../../sources/ch9/between.cpp"><font size="+1">between.cpp</font></a></li>
+</ul>
+<ul>
+  <li><font size="+1">Here is a function that collects the<span
+ style="font-style: italic;"> positions</span> of
+all matching values in a vector of integers.
+    <blockquote>
+      <pre><span style="font-weight: bold;">vector&lt;int&gt;</span> find_all_between(vector&lt;double&gt; v, double low, double high)<br>{  <span
+ style="font-weight: bold;">vector&lt;int&gt; pos;</span><br>   for (int i = 0; i &lt; v.size(); i++)<br>      if (low &lt;= v[i] &amp;&amp; v[i] &lt;= high) pos.push_back(i);<br>   return <span
+ style="font-weight: bold;">pos</span>;<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Vector Parameters and Return Values (<a
+ href="../../sources/ch9/matches.cpp"><tt>matches.cpp</tt></a>)</h2>
+<iframe src="code/matches.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Removing and Inserting Elements</h2>
+<ul>
+  <li><font size="+1">How do you remove an element from a vector? </font></li>
+  <li><font size="+1">If the order is <i>not</i> important, overwrite
+the element to be removed with the <i>last</i> element of the vector,
+then shrink the size of the vector.
+    <blockquote>
+      <pre>void erase(vector&lt;string&gt;&amp; v, int pos)<br>{  int last_pos = v.size()-1;<br>   v[pos] = v[last_pos];<br>   v.pop_back();<br>}</pre>
+    </blockquote>
+    <img src="images/remove1.png"></font></li>
+</ul>
+<ul>
+  <li><font size="+1">If the order matters, you must move all elements
+down by one slot, then shrink the size of the vector.
+    <blockquote>
+      <pre>void erase(vector&lt;string&gt;&amp; v, int pos)<br>{  for (int i = pos; i &lt; v.size()-1; i++) v[i] = v[i+1];<br>   v.pop_back();<br>}</pre>
+    </blockquote>
+    <img src="images/remove2.png"></font></li>
+</ul>
+<h2>Removing and Inserting Elements (<a
+ href="../../sources/ch9/erase2.cpp"><tt>erase2.cpp</tt></a>)</h2>
+<iframe src="code/erase2.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">To insert an element in the middle of a
+vector, you must add a new element at the end of the vector and move
+all elements above the insertion location up by one slot.
+    <blockquote>
+      <pre>void insert(vector&lt;string&gt;&amp; v, int pos, string s)<br>{  int last = v.size()-1;<br>   v.push_back(v[last]);<br>   for (int i = last; i &gt; pos; i--) v[i] = v[i-1];<br>   v[pos] = s;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Note that when you insert an element you start at
+the end of the vector, move that element up, then go to the one before
+that.</font></li>
+  <blockquote><img src="images/insert.png"></blockquote>
+</ul>
+<h2>Removing and Inserting Elements (<a
+ href="../../sources/ch9/insert.cpp"><tt>insert.cpp</tt></a>)</h2>
+<iframe src="code/insert.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr width="100%">
+<h2>Parallel Vectors</h2>
+<ul>
+  <li><font size="+1">Suppose you want to process a series of product
+data, and the display the product information, making the best value
+(with the best price/score ratio).
+    <blockquote>
+      <pre>               ACMA P600 Price: 995 Score75<br>               ALaris Nx686 Price 798 Score 57<br>               AMAX Powerstation 600 Price: 999 Score 75<br>               AMS Infogold P600 Price: 795 Score: 69<br>               AST PRemmia Price: 2080 Score: 80<br>               Austin 600 Price: 1499 Score: 95<br>beast value =&gt; Blackship NX-600 Price 598 Score: 60<br>               Kompac 690 Price: 695 Score: 60</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">One possibility is to create three vectors
+(names, price, scores) of the same length. (See <a
+ href="../../sources/ch9/bestval1.cpp"><tt>bestval1.cpp</tt></a>)</font></li>
+  <li><font size="+1">These vectors are called <i>parallel</i> <i>vectors</i>
+because they must be processed together.</font></li>
+  <li><font size="+1">Each <i>slice</i> - <tt>names[i]</tt>, <tt>prices[i]</tt>,
+    <tt>scores[i]</tt> - contains data that needs to be processed
+together.</font></li>
+</ul>
+<img src="images/parallel-vectors.png">
+<h2>Parallel Vectors (<a href="../../sources/ch9/bestval1.cpp"><tt>bestval1.cpp</tt></a>)</h2>
+<iframe src="code/bestval1.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">Parallel vectors become a headache in larger
+programs.</font>
+    <ul>
+      <li><font size="+1">Each vector must be the same length.</font></li>
+      <li><font size="+1">Each slice is filled with values that belong
+together.</font></li>
+      <li><font size="+1">Any function that operates on a slice must
+get several vectors as parameters.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">To remove parallel vectors, look at the slice and
+find the <i>concept</i> it represents. Make the concept into <span
+ style="font-weight: bold;">a class</span>.</font></li>
+  <li><font size="+1">Eliminate parallel vectors and replace them with
+a single vector of objects.</font></li>
+</ul>
+<img src="images/eliminate-parallel.png">
+<h2>Parallel Vectors (<a href="../../sources/ch9/bestval2.cpp"><tt>bestval2.cpp</tt></a>)</h2>
+<iframe src="code/bestval2.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr width="100%">
+<h2>Arrays</h2>
+<ul>
+  <li><font size="+1">A second mechanism for collecting elements of the
+same type is using <i>arrays</i>.</font></li>
+  <li><font size="+1">Arrays are a lower-level abstraction than
+vectors, so they are less convenient.</font>
+    <ul>
+      <li><font size="+1">Arrays cannot be resized.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Vectors are a recent addition to C++, so many
+older programs use arrays instead.</font></li>
+  <li><font size="+1">Arrays are faster and more efficient than vectors.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">Declaring an array is very similar to declaring a
+vector.
+    <blockquote>
+      <pre>double salaries[10]; /* array */<br><br>/* compare to.... */<br>vector&lt;double&gt; salaries(10); /* vector */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Arrays can never change size.</font></li>
+  <li><font size="+1">The array size must be set <i>when the program
+is compiled</i>. (You can't ask the user how many elements and then
+allocate a sufficient number because the size must be a constant).</font></li>
+  <li><font size="+1">When defining an array, you must guess on the
+maximum number of elements you need to store.
+    <blockquote>
+      <pre>const int SALARIES_CAPACITY = 100;<br>double salaries[SALARIES_CAPACITY];</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You must keep a constant to hold the <i>capacity</i>
+of the array. </font></li>
+  <li><font size="+1">You must keep a <i>companion variable</i> that
+counts how many elements are actually <i>used</i>. The following loop
+collects data and fills up the </font><font size="+1"><span
+ style="font-family: monospace;">salaries</span></font><font size="+1">
+array.
+    <blockquote>
+      <pre>int salaries_size = 0;<br>while (more &amp;&amp; salaries_size &lt; SALARIES_CAPACITY)<br>{  cout &lt;&lt; "Enter salary or 0 to quit: ";<br>   double x;<br>   cin &gt;&gt; x;<br>   if (cin.fail() || x == 0) more = false;<br>   else<br>   {  salaries[salaries_size] = x;<br>      salaries_size++;<br>   }<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 9.3: Array Variable Definition</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 9.3 : Array Variable
+Definition</font></p>
+      <pre><font size="+1"><i>type_name variable_name</i>[<i>size</i>]<i>;</i></font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">int scores[20];</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a new variable of an array type.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<hr style="width: 100%; height: 2px;">
+<h2>Array Parameters</h2>
+<ul>
+  <li><font size="+1">When writing a function with an array parameter,
+you place an empty<tt>[]</tt> behind the parameter name:
+    <blockquote>
+      <pre>double maximum(double a[], int a_size);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You need to pass the size of the array into the
+function, because the function has no other way of querying the size of
+the array (there is no <tt>size()</tt> member function).</font></li>
+  <li><font size="+1">Unlike all other parameters, array parameters are
+    <span style="font-style: italic;">always passed by reference</span>.
+    <blockquote>
+      <pre>void raise_by_percent(double s[], double s_size, double p)<br>{  int i;<br>   for (i = 0; i &lt; s_size; i++) s[i] = s[i]*(1 + p/100);<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Never use an <tt>&amp;</tt> when defining an
+array parameter.</font></li>
+  <li><font size="+1">Use the <tt>const</tt> keyword whenever a
+function does not actually modify an array.
+    <blockquote>
+      <pre>double maximum(const double a[], int a_size)</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">If a function adds elements to an array, you need
+to pass the array, the maximum size, and the current size.</font></li>
+  <li><font size="+1">The current size must be passed as a reference
+parameter.
+    <blockquote>
+      <pre>void read_data(double a[], int a_capacity, int&amp; a_size)<br>{  a_size = 0;<br>   while (a_size &lt; a_capacity)<br>   {  double x;<br>      cin &gt;&gt; x;<br>      if (cin.fail()) return;<br>      a[a_size] = x;<br>      a_size++;<br>   }<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Arrays cannot be function return types.</font></li>
+  <li><font size="+1">To "return" an array, the caller of the function
+must provide an array parameter to hold the result.</font></li>
+</ul>
+<h2>Array Parameters (<a href="../../sources/ch9/salarray.cpp"><tt>salarray.cpp</tt></a>)</h2>
+<iframe src="code/salarray.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Character Arrays</h2>
+<ul>
+  <li><font size="+1">There was a time when C++ had no <tt>string</tt>
+class.</font></li>
+  <li><font size="+1">All string processing was carried out by
+manipulating arrays of the type <tt>char</tt>.</font></li>
+  <li><font size="+1">The char type denotes an individual character and
+is delimited by single quotes.
+    <blockquote>
+      <pre>char input = 'y'; /* don't confuse with "y" */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">A character array is used to hold a string.
+    <blockquote>
+      <pre>char greeting[] = "Hello";<br>   /* same as <br>char greeting[6] = "Hello"; */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The array occupies size characters - one for each
+letter and a <i>zero</i> <i>terminator</i>.
+    <table bgcolor="#00ffff" border="1" cellpadding="4">
+      <tbody>
+        <tr bgcolor="#ffffff">
+          <td width="160">
+          <div align="center"><tt><font size="+1">greeting[0]</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">greeting[1]</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">greeting[2]</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">greeting[3]</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">greeting[4]</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">greeting[5]</font></tt></div>
+          </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+          <td width="160">
+          <div align="center"><tt><font size="+1">'H'</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">'e'</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">'l'</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">'l'</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">'o'</font></tt></div>
+          </td>
+          <td width="160">
+          <div align="center"><tt><font size="+1">'\0'</font></tt></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </font></li>
+  <li><font size="+1">You do not need to specify the size of the array
+variable for a character array constant.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">Many string functions in the standard library
+depend on zero terminators in character arrays.
+    <blockquote>
+      <pre>int strlen(const char s[])<br>{  int i = 0;<br>   while (s[i] != '\0') i++;<br>   return i;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">It's important to not forget the space for the
+zero terminator.</font></li>
+  <li><font size="+1">It's helpful to declare character arrays with an
+"extra space" for the zero terminator.
+    <blockquote>
+      <pre>const int MYSTRING_MAXLENGTH = 4;<br>char mystring[MYSTRING_MAXLENGTH + 1];</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Character Arrays (<a href="../../sources/ch9/append.cpp"><tt>append.cpp</tt></a>)</h2>
+<iframe src="code/append.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">Generally it is best to avoid the use of
+character arrays - the string class is safer and far more convenient.</font></li>
+  <li><font size="+1">Occasionally you need to convert a <tt>string</tt>
+into a character array to call a function that was written before the <tt>string</tt>
+class was invented.</font></li>
+  <li><font size="+1">Example: to convert a character array containing
+digits into its integer value.
+    <blockquote>
+      <pre>int atoi(const char s[])</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Use the <tt>c_str</tt> member function to
+convert a <tt>string</tt> into a character array.
+    <blockquote>
+      <pre>string year = "1999";<br>int y = atoi(year.c_str());</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<hr>
+<h2>Two-Dimensional Arrays</h2>
+<ul>
+  <li><font size="+1">It often happens that we want to store
+collections of numbers that have a two-dimensional layout.</font></li>
+  <li><font size="+1">Such an arrangement, consisting of row and
+columns of values, is called a <i>two-dimensional</i> <i>array</i>,
+or a <i>matrix</i>.</font></li>
+  <li><font size="+1">C++ uses an array with two subscripts to store a
+two-dimensional array:
+    <blockquote>
+      <pre>const int BALANCE_ROWS = 11;<br>const int BALANCE_COLS = 6;<br>double balances[BALANCE_ROWS][BALANCE_COLS];</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To select a particular element in the
+two-dimensional array, we need to specify two subscripts in separate
+brackets to select the row and column.
+    <blockquote><img src="images/twodim-array.png"></blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 9.4: Two-Dimensional Array
+Definition</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 9.4 : Two-Dimensional
+Array Definition</font></p>
+      <pre><font size="+1"><i>type_name variable_name</i>[<i>size</i><sub>1</sub>][<i>size</i><sub>2</sub>];<br></font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">double monthly_sales[NREGIONS][12];</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a new variable that is a
+two-dimensional array. </font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<p><font size="+1">When passing a two-dimensional array to a function,
+you must specify the number of columns <i>as a constant</i> with the
+parameter type. </font>
+</p>
+<p><font size="+1">The number of rows can be variable.
+<blockquote>
+  <pre>void print_table(const double table[][BALANCE_COLS], int table_rows)<br>{  const int WIDTH = 10;<br>   cout &lt;&lt; fixed &lt;&lt; setprecision(2);<br>   for (int i = 0; i &lt; table_rows; i++)<br>   {  for (int j = 0; j &lt; BALANCES_COLS; j++)<br>         cout &lt;&lt; setw(WIDTH) &lt;&lt; table[i][j];<br>      cout &lt;&lt; "\n";<br>   }<br>}</pre>
+</blockquote>
+</font></p>
+<h2>Two-Dimensional Arrays (<a href="../../sources/ch9/matrix.cpp"><tt>matrix.cpp</tt></a>)</h2>
+<iframe src="code/matrix.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr width="100%">
+</body>
+</html>

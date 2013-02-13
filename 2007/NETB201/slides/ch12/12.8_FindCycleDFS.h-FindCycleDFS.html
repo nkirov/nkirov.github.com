@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>FindCycleDFS</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: FindCycleDFS</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Graph&gt;
+<font color=#A000A0>class</font> FindCycleDFS : <font color=#A000A0>public</font> DFS&lt;Graph&gt; {
+<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local types</font>
+  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::Vertex	    Vertex;
+  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::Edge		    Edge;
+  <font color=#0000FF>// ... (other Graph typenames omitted)</font>
+<font color=#A000A0>private</font>: 						<font color=#0000FF>// local data</font>
+  <font color=#A000A0>bool</font>		    cycleDetected;			<font color=#0000FF>// cycle detected?</font>
+  Vertex	    cycleStart;				<font color=#0000FF>// start of cycle</font>
+  EdgeSequence      cycle;				<font color=#0000FF>// cycle storage</font>
+<font color=#A000A0>protected</font>: 						<font color=#0000FF>// overrriden functions</font>
+  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>finishVisit</font>(<font color=#A000A0>const</font> Vertex& v) { 		<font color=#0000FF>// finished with vertex</font>
+    <font color=#00A000>if</font> ((!cycle.<font color=#000000>isEmpty</font>()) && (!cycleDetected))		<font color=#0000FF>// not building a cycle?</font>
+      cycle.<font color=#000000>remove</font>(cycle.<font color=#000000>last</font>());			<font color=#0000FF>// remove this edge</font>
+  }
+  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>traverseDiscovery</font>(<font color=#A000A0>const</font> Edge& e, <font color=#A000A0>const</font> Vertex& from)
+    { <font color=#00A000>if</font> (!cycleDetected) cycle.<font color=#000000>insertLast</font>(e); }	<font color=#0000FF>// add edge to sequence</font>
+  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>traverseBack</font>(<font color=#A000A0>const</font> Edge& e, <font color=#A000A0>const</font> Vertex& from) {
+    <font color=#00A000>if</font> (!cycleDetected) {				<font color=#0000FF>// no cycle yet?</font>
+      cycleDetected = <font color=#A000A0>true</font>;				<font color=#0000FF>// cycle is now detected</font>
+      cycle.<font color=#000000>insertLast</font>(e);				<font color=#0000FF>// insert back edge</font>
+      cycleStart = G.<font color=#000000>opposite</font>(from, e);			<font color=#0000FF>// save starting vertex</font>
+    }
+  }
+  <font color=#A000A0>virtual</font> <font color=#A000A0>bool</font> <font color=#000000>isDone</font>() <font color=#A000A0>const</font> { <font color=#00A000>return</font> cycleDetected; } <font color=#0000FF>// done yet?</font>
+<font color=#A000A0>public</font>:
+  <font color=#000000>FindCycleDFS</font>(<font color=#A000A0>const</font> Graph& g) : DFS&lt;Graph&gt;(g) { }	<font color=#0000FF>// constructor</font>
+  EdgeSequence <font color=#000000>run</font>(<font color=#A000A0>const</font> Vertex& s) {			<font color=#0000FF>// find a cycle from s</font>
+    <font color=#000000>initialize</font>();					<font color=#0000FF>// initialize DFS</font>
+    cycle = <font color=#000000>EdgeSequence</font>();				<font color=#0000FF>// create cycle sequence</font>
+    cycleDetected = <font color=#A000A0>false</font>;
+    <font color=#000000>dfsTraversal</font>(s);					<font color=#0000FF>// do the search</font>
+    <font color=#00A000>if</font> (!cycle.<font color=#000000>isEmpty</font>() && s != cycleStart) {		<font color=#0000FF>// found a cycle?</font>
+      EdgeSeqPosIterator pi = cycle.<font color=#000000>positions</font>();
+      <font color=#00A000>while</font> (pi.<font color=#000000>hasNext</font>()) {				<font color=#0000FF>// remove the tail</font>
+        EdgeSeqPosition ep = pi.<font color=#000000>next</font>();
+        cycle.<font color=#000000>remove</font>(ep);				<font color=#0000FF>// ...up to cycleStart</font>
+        <font color=#00A000>if</font> (G.<font color=#000000>areIncident</font>(cycleStart, ep.<font color=#000000>element</font>())) <font color=#00A000>break</font>;
+      }
+    }
+    <font color=#00A000>return</font> cycle;					<font color=#0000FF>// return the cycle</font>
+  }
+};
+</dl>
+</body></html>

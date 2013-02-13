@@ -1,0 +1,360 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Chapter 12</title>
+</head>
+<body>
+<h2><span style="font-weight: bold;">Chapter
+12: </span><span style="font-weight: bold;">Graphs</span><span
+ style="font-weight: bold;"></span><span style="font-weight: bold;"></span><span
+ style="font-weight: bold;"></span><span style="font-weight: bold;"></span></h2>
+<h3>12.1 The Graph Abstract Data Type</h3>
+<h4><a href="Graph-slides.pdf">Graphs.pdf</a> 1-10<br>
+</h4>
+<h4> 12.1.1 Graph Functions</h4>
+<span style="font-weight: bold;">General Functions:<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">numVertices()<br>
+      </td>
+      <td style="vertical-align: top;">Return the number of vertices in
+G.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">numEdges()<br>
+      </td>
+      <td style="vertical-align: top;">Return the number of edges in G.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">vertices()<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of the
+vertices of G.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">edges()<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of the edges
+of G.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">aVertex()<br>
+      </td>
+      <td style="vertical-align: top;">Return a vertex of G.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">degree(v)<br>
+      </td>
+      <td style="vertical-align: top;">&nbsp;Return the degree of <span
+ style="font-family: monospace;">v</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">adjacentVertices(v)<br>
+      </td>
+      <td style="vertical-align: top;"> Return an iterator of the
+vertices adjacent to <span style="font-family: monospace;">v</span>.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">incidentEdges(v)<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of the edges
+incident upon <span style="font-family: monospace;">v</span>.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">endVertices(e)<br>
+      </td>
+      <td style="vertical-align: top;">Return an array of size 2
+storing the end vertices of <span style="font-family: monospace;">e</span>.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">opposite(v,e)<br>
+      </td>
+      <td style="vertical-align: top;">Return the endpoint of edge e
+distinct from <span style="font-family: monospace;">v</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">areAdjacent(v,w)<br>
+      </td>
+      <td style="vertical-align: top;">Return <span
+ style="font-family: monospace;">tru</span>e whenever vertices <span
+ style="font-family: monospace;">v</span> and <span
+ style="font-family: monospace;">w</span> are adjacent.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Functions Dealing with Directed
+Edges:<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">directedEdges()<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of all
+directed edges.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">undirectedEdges()<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of all
+undirected edges.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">destination(e)<br>
+      </td>
+      <td style="vertical-align: top;">Return the destination of the
+directed edge <span style="font-family: monospace;">e</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">origin(e)<br>
+      </td>
+      <td style="vertical-align: top;">Return the origin of the
+directed edge <span style="font-family: monospace;">e</span>.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">isDirected(e)<br>
+      </td>
+      <td style="vertical-align: top;">Return <span
+ style="font-family: monospace;">true </span>if and only if the edge
+is directed.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">inDegree(v)<br>
+      </td>
+      <td style="vertical-align: top;">Return the in-degree of <span
+ style="font-family: monospace;">v</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">outDegree(v)<br>
+      </td>
+      <td style="vertical-align: top;">Return the out-degree of <span
+ style="font-family: monospace;">v</span>.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">inIncidentEdges(v)<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of all the
+incoming edges to <span style="font-family: monospace;">v</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">outIncidentEdges(v)<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of all the
+outgoing edges from <span style="font-family: monospace;">v</span>.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">inAdjacentVertices(v)<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of all
+vertices adjacent to <span style="font-family: monospace;">v</span>
+along incoming edges to <span style="font-family: monospace;">v</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">outAdjacentVertices(v)<br>
+      </td>
+      <td style="vertical-align: top;">Return an iterator of all
+vertices adjacent to <span style="font-family: monospace;">v</span>
+along outgoing edges from <span style="font-family: monospace;">v</span>.</td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Functions for Updating Graphs:<br>
+</span>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">insertEdge(v,w,o)<br>
+      </td>
+      <td style="vertical-align: top;">Insert and return an undirected
+edge between vertices <span style="font-family: monospace;">v</span>
+and <span style="font-family: monospace;">w</span>, storing the object
+      <span style="font-family: monospace;">o</span> at this position.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">insertDirectedEdge(v,w,o)</td>
+      <td style="vertical-align: top;">Insert and return an directed
+edge from vertex <span style="font-family: monospace;">v</span> to
+vertex <span style="font-family: monospace;">w</span>, storing the
+object <span style="font-family: monospace;">o</span> at this position.</td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">insertVertex(o)<br>
+      </td>
+      <td style="vertical-align: top;">Insert and return a new
+(isolated) vertex storing the object <span
+ style="font-family: monospace;">o</span> at this position.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">removeVertex(v)<br>
+      </td>
+      <td style="vertical-align: top;">Remove the vertex <span
+ style="font-family: monospace;">v</span> and all its incident edges.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">removeEdge(e)<br>
+      </td>
+      <td style="vertical-align: top;">Remove edge <span
+ style="font-family: monospace;">e</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">makeUndirected(e)<br>
+      </td>
+      <td style="vertical-align: top;">Make edge <span
+ style="font-family: monospace;">e</span> undirected.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">reverseDirection(e)<br>
+      </td>
+      <td style="vertical-align: top;">Reverse the direction of
+directed edge <span style="font-family: monospace;">e</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">setDirectionFrom(e,v)<br>
+      </td>
+      <td style="vertical-align: top;">Make <span
+ style="font-family: monospace;">e</span> directed away from vertex <span
+ style="font-family: monospace;">v</span>.<br>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;">setDirectionTo(e,v)</td>
+      <td style="vertical-align: top;">Make <span
+ style="font-family: monospace;">e</span> directed into vertex <span
+ style="font-family: monospace;">v</span>.</td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br>
+</span>
+<hr style="width: 100%; height: 2px;">
+<h3>12.2 Data Structures for Graphs</h3>
+<h4><a href="Graph-slides.pdf">Graphs.pdf</a> 11-14</h4>
+<h4> 12.2.1 The Edge List Structure</h4>
+<span style="font-weight: bold;">Vertex Objects<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Edge Objects<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">The Edge List<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Performance</span><br>
+<h4> 12.2.2 The Adjacency List Structure</h4>
+<span style="font-weight: bold;">The Adjacency List</span><br
+ style="font-weight: bold;">
+<span style="font-weight: bold;">Performance</span><br>
+<h4> 12.2.3 The Adjacency Matrix Structure</h4>
+<span style="font-weight: bold;">Performance</span><br>
+<hr style="width: 100%; height: 2px;">
+<h3> 12.3 Graph Traversal</h3>
+<h4> 12.3.1 Depth-First Search</h4>
+<span style="font-weight: bold;">The Decorator Pattern<br>
+</span><span style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Polymorphic Objects<br>
+</span><a href="12.2_MiniObject.cpp-Object1.html">html-12.2</a>
+(Object1)<br>
+<a href="12.3_MiniObject.cpp-Object2.html">html-12.3</a> (Object2)<br>
+<span style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;">A Generic DFS Implementation in
+C++</span><br>
+<span style="font-weight: bold;"><br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Using the Template Method
+Pattern for DFS<br>
+</span><a href="12.4_DFS.h-DFS1.html">html-12.4</a> (DFS1)<br>
+<a href="12.5_DFS.h-DFS2.html">html-12.5</a> (DFS2)<br>
+<a href="12.6_ConnectivityTesterDFS.h-ConnectTestDFS.html">html-12.6</a>
+(ConnectTestDFS)<br>
+<a href="12.7_FindPathDFS.h-FindPathDFS.html">html-12.7</a>
+(FindPathDFS)<br>
+<a href="12.8_FindCycleDFS.h-FindCycleDFS.html">html-12.8</a>
+(FindCycleDFS)<br>
+<h4> 12.3.2 Breadth-First Search</h4>
+<a href="BFS-slides.pdf">BFS.pdf</a> 1-12<br>
+<hr style="width: 100%; height: 2px;">
+<h3> 12.4 Directed Graphs</h3>
+<a href="Digraphs-slides.pdf">Digraphs.pdf</a> 1-<br>
+<span style="font-weight: bold;">Comparing BFS and DFS for Directed and
+Undirected<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Graphs<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Reachability</span><br>
+<h4>12.4.1 Traversing a Digraph</h4>
+<span style="font-weight: bold;">Testing for Strong Connectivity<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Directed Breadth-First Search</span><br>
+<h4>12.4.2 Transitive Closure</h4>
+<h4>12.4.3 Directed Acyclic Graphs</h4>
+Testing if a Directed Graph is Acyclic<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3>12.5 Weighted Graphs</h3>
+<a href="ShortestPath-slides.pdf">ShrotestPaths.pdf</a> 3<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3>12.6 Shortest Paths</h3>
+<a href="ShortestPath-slides.pdf">ShrotestPaths.pdf</a> 4-5<br>
+<br>
+<h4>12.6.1 Dijkstra's Algorithm</h4>
+<a href="ShortestPath-slides.pdf">ShrotestPaths.pdf</a> 6<br>
+<br>
+<span style="font-weight: bold;">A Greedy Method for Finding Shortest
+Paths<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Edge Relaxation<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Why It Works<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">The Running Time of Dijkstra's
+Algorithm<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">An Alternative Implementation
+for Dijkstra's Algorithm<br>
+<br style="font-weight: bold;">
+</span><span style="font-weight: bold;">Comparing the Two
+Implementations<br>
+<br>
+Programming Dijkstra's Algorithm in C++<br>
+</span><a href="12.14_Dijkstra.h-LocatorX.html">html-12.14</a>
+(LocatorX)<br>
+<a href="12.15_Dijkstra.h-Dijkstra1.html">html-12.15</a> (Dijkstra1)<br>
+<a href="12.16_Dijkstra.h-Dijkstra2.html">html-12.16</a> (Dijkstra2)<br>
+<span style="font-weight: bold;"></span>
+<hr style="width: 100%; height: 2px;">
+<h3>12.7 Minimum Spanning Trees</h3>
+<a href="MST-slides.pdf">MST.pdf</a> 1-<br>
+Problem Definition<br>
+A Crucial Fact about Minimum Spanning Trees<br>
+<h4>12.7.1 Kruskal's Algorithm</h4>
+The Running Time of Kruskal's Algorithm<br>
+<h4>12.7.2 The Prim-Jarnik Algorithm</h4>
+A Comparison of the Above MST Algorithms
+<br>
+<hr style="width: 100%; height: 2px;"><br>
+<br>
+</body>
+</html>

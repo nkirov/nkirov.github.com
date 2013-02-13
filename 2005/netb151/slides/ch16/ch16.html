@@ -1,0 +1,499 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>An Introduction to Data Structures</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 16: An Introduction to Data Structures</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To be able to write programs with standard lists
+and iterators</font></li>
+  <li><font size="+1">To understand the advantages and disadvantages of
+the list data structure</font></li>
+  <li><font size="+1">To be able to implement linked lists</font></li>
+  <li><font size="+1">To learn about stacks and queues</font></li>
+  <li><font size="+1">To become familiar with common containers and
+algorithms from the Standard Template Library</font></li>
+</ul>
+<h2>Linked Lists</h2>
+<ul>
+  <li><font size="+1">Suppose you are maintaining a vector of sorted
+objects (such as employees)</font>
+    <ul>
+      <li><font size="+1">Many elements will need to be shifted back if
+an new object is inserted in the middle.</font></li>
+      <li><font size="+1">Many elements will need to be shifted forward
+if an object is deleted from the middle.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Moving a large number of records can involve a
+substantial amount of computer time.</font></li>
+  <li><font size="+1">Rather than store a sequence of values in one
+long block of memory (like a vector or an array) a linked list stores
+each value in its own memory block, together with the locations of the
+neighboring blocks in the sequence.</font></li>
+</ul>
+<blockquote>
+  <p><img src="images/linked_list_1.png"></p>
+</blockquote>
+<ul>
+  <li><font size="+1">Inserting an element into a list now requires no
+shifting, merely reassigning new locations to adjacent objects.</font></li>
+</ul>
+<blockquote><img src="images/insert_node.png"></blockquote>
+<ul>
+  <li><font size="+1">Removing an element from the list doesn't require
+shifts either.</font></li>
+</ul>
+<blockquote><img src="images/remove_node.png"></blockquote>
+<ul>
+  <li><font size="+1">The standard C++ library has an implementation of
+the linked list structure.</font>
+    <ul>
+      <li><font size="+1">First we will learn how to use the standard
+list.</font> </li>
+      <li><font size="+1">Later we will find out how to implement lists.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Doubly linked lists (as shown in the
+illustrations) have links going in both directions.</font></li>
+  <li><font size="+1">Singly linked lists only link elements in one
+direction.</font> </li>
+</ul>
+<ul>
+  <li><font size="+1">Just like the vector, the standard list is a
+template.</font></li>
+  <li><font size="+1">You can use <tt>push_back</tt> to add elements
+to the list.
+    <blockquote>
+      <pre>list&lt;string&gt; staff;<br><br>staff.push_back("Cracker, Carl");<br>staff.push_back("Hacker, Harry");<br>staff.push_back("Lam, Larry");<br>staff.push_back("Sandman, Susan");</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You <span style="font-style: italic;">cannot</span>
+directly access elements using
+subscript access (e.g. <tt>staff[3]</tt>) - the values are not stored
+in one contiguous block in memory and there is no fast way to access
+them.<br>
+    </font></li>
+  <li><font size="+1">Instead you must start at the beginning of the
+list, and visit each element in turn using a <i>list</i> <i>iterator</i>.
+An iterator marks a <span style="font-style: italic;">position</span>
+in the list.
+    <blockquote>
+      <pre>list&lt;string&gt;::iterator pos;<br>pos = staff.begin();<br></pre>
+    </blockquote>
+    </font> </li>
+</ul>
+<ul>
+  <li><font size="+1">To move an iterator forward in the list, use the <tt>++</tt>
+operator.
+    <blockquote>
+      <pre>pos++;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To move an iterator backward in the list, use the
+    <tt>--</tt> operator.
+    <blockquote>
+      <pre>pos--;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You can find the value that is stored in the
+position with the <tt>*</tt> operator.
+    <blockquote>
+      <pre>string value = *pos;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The value <tt>*pos</tt> represent the value that
+is stored in the list.
+    <blockquote>
+      <pre>*pos = "Van Dyck, Vicki";</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To insert another string <span
+ style="font-style: italic;">before</span> the iterator
+position, use the <tt>insert</tt> function.
+    <blockquote>
+      <pre>staff.insert(pos, "Reindeer, Rudolph");</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">Each list has an end position that does not
+correspond to any value in the list but that points past the list's
+end.
+    <blockquote>
+      <pre>pos = staff.end(); /* points past the end of the list */<br>staff.insert(pos, "Yaglov, Yvonne");<br>   /* insert past the end of list */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The end position does not point to any value, so
+you cannot look up the value at that position.
+    <blockquote>
+      <pre>string value = *(staff.end()); /* <span
+ style="font-weight: bold;">ERROR</span> */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Compare to accessing <tt>s[10]</tt> in a vector
+with 10 elements.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">The end position is useful for stopping a
+traversal of the list.
+    <blockquote>
+      <pre>pos = staff.begin();<br>while (pos != staff.end())<br>{  cout &lt;&lt; *pos &lt;&lt; "\n";<br>   pos++;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The traversal can be described more concisely
+with a <tt>for</tt> loop:
+    <blockquote>
+      <pre>for (pos = staff.begin(); pos != staff.end(); pos++)<br>   cout &lt;&lt; *pos &lt;&lt; "\n";</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Compare this to a traversal of a vector.
+    <blockquote>
+      <pre>for (i = 0; i &lt; s.size(); i++)<br>   cout &lt;&lt; s[i] &lt;&lt; "\n";</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To remove an element from a list, you move an
+iterator to the position you want to remove, then call the erase
+function.
+    <blockquote>
+      <pre>pos = staff.begin();<br>pos++;<br>staff.erase(pos);</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Linked Lists(<tt>list1.cpp</tt>)</h2>
+<iframe src="code/list1.cpp.html" height="80%" width="80%">Your browser
+does not support the &amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Implementing Linked Lists (The Classes for Lists, Nodes, and
+Iterators)</h2>
+<ul>
+  <li><font size="+1">We will start with a linked list of strings.</font></li>
+  <li><font size="+1">A linked list stores each value in a separate
+object called a <i>node</i>.
+    <blockquote>
+      <pre>class Node {<br>public:<br>   Node(string s);<br>private:<br>   string data;<br>   Node* previous;<br>   Node* next;<br>friend class List;<br>friend class Iterator;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The <tt>friend</tt> declarations indicate the <tt>List</tt>
+and <tt>Iterator</tt> member functions are allowed to inspect and
+modify the data members of the <tt>Node</tt> class.</font></li>
+  <li><font size="+1">A class should not grant friendship to another
+class lightly, because it breaks the privacy protection.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">The list object holds the locations of the first
+and last nodes in the list.
+    <blockquote>
+      <pre>class List {<br>public:<br>   List();<br>   void push_back(string s);<br>   void insert(Iterator pos, string s);<br>   Iterator erase(Iterator pos);<br>   Iterator begin();<br>   Iterator end();<br>private:<br>   Node* first;<br>   Node* last;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">When the list is empty the first and last
+pointers are <tt>NULL</tt>.</font></li>
+  <li><font size="+1">A list object stores no data; it just knows where
+to find the node objects that store the list contents. </font></li>
+</ul>
+<ul>
+  <li><font size="+1">An iterator denotes a position in the list.</font>
+    <font size="+1">
+    <blockquote>
+      <pre>class Iterator {<br>public:<br>   Iterator();<br>   string get() const;     /* use instead of * */<br>   void next();            /* use instead of ++ */<br>   void previous();        /* use instead of -- */<br>   bool equals(Iterator b) const; /* use instead of == */<br>private:<br>   Node* position;<br>   Node* last;<br>friend class List;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">We will enable the operators <tt>++</tt>, <tt>--</tt>,
+    <tt>*</tt> and <tt>==</tt> in the next chapter.</font></li>
+  <li><font size="+1">If the iterator points past the end of the list,
+then the <tt>position</tt> pointer is <tt>NULL</tt>.</font></li>
+  <li><font size="+1">The iterator stores a pointer to the last element
+of the list, so that the previous method can move the iterator back
+from the past-the-end position to the last element of the list.</font></li>
+</ul>
+<h2>Implementing Linked Lists (Implementing Iterators)</h2>
+<ul>
+  <li><font size="+1">Iterators are created by the begin and end
+functions of the List class.
+    <blockquote>
+      <pre>Iterator List::begin() {<br>   Iterator iter;<br>   iter.position = first;<br>   iter.last = last;<br>   return iter;<br>}<br><br>Iterator List::end() {<br>   Iterator iter;<br>   iter.position = NULL;<br>   iter.last = last;<br>   return iter;<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">The next function advances the iterator to the
+next position.</font></li>
+</ul>
+<blockquote><img src="images/iterator_next.png"></blockquote>
+<ul>
+  <li><font size="+1">Note that it is illegal to advance the iterator
+once it is in the past-the-end position.
+    <blockquote>
+      <pre>void Iterator::next()<br>{  assert(position != NULL)<br>   position = position-&gt;next;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The previous function is similar.</font></li>
+  <li><font size="+1">When the iterator points to the first element in
+the list, it is illegal to move it further backward.
+    <blockquote>
+      <pre>void Iterator::previous()<br>{  if (position == NULL) position = last;<br>   else    position = position-&gt;previous;<br>   assert(position != NULL);<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">The get function simply returns the data value of
+the node to which position points.
+    <blockquote>
+      <pre>string Iterator::get() const<br>{  assert(position != NULL);<br>   return position-&gt;data;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The equals function compares two position
+pointers.
+    <blockquote>
+      <pre>bool Iterator::equals(Iterator b) const<br>{  return position == b.position; }</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Implementing Linked Lists (Implementing Insertion and Removal)</h2>
+<ul>
+  <li><font size="+1">For the <tt>push_back</tt> function, we must
+first make a new node.
+    <blockquote>
+      <pre>Node* newnode = new Node(s);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The node must point back to the old end of the
+list, while the old end must point to it.
+    <blockquote>
+      <pre>newnode-&gt;previous = last; // (1)<br>last-&gt;next = newnode;     // (2)<br>last = newnode;           // (3) !</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">There is a special case when last is <tt>NULL</tt>
+(the list is empty).
+    <blockquote>
+      <pre>if (last == NULL)<br>{  first = newnode;<br>   last = newnode;<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<blockquote><img src="images/appending.png"></blockquote>
+<ul>
+  <li><font size="+1">To insert an element in the middle of the list
+requires manipulating both elements on either side of the new node. </font></li>
+</ul>
+<blockquote><img src="images/insert_middle.png"></blockquote>
+<ul>
+  <li><font size="+1">There is a special case when the list is empty.
+    <blockquote>
+      <pre>if (iter.position == NULL)<br>{  push_back(s);<br>   return;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Otherwise we create pointers to track the
+surrounding nodes.
+    <blockquote>
+      <pre>Node* after = iter.position;<br>Node* before = after-&gt;previous;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">We tell the new node where it belongs in the
+list.
+    <blockquote>
+      <pre>newnode-&gt;previous = before; // (1)<br>newnode-&gt;next = after;      // (2)</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Then update the surrounding nodes.
+    <blockquote>
+      <pre>after-&gt;previous = newnode;  // (3)<br>if (before == NULL) /* insert at beginning */<br>   first = newnode;<br>else<br>   before-&gt;next = newnode;  // (4)</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">When know that <tt>after</tt> is not <tt>NULL</tt>,
+but <tt>before</tt> could be.</font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<ul>
+</ul>
+<ul>
+  <li><font size="+1">As with insertion, we will need to work with both
+the element before and after the one to be removed.</font></li>
+</ul>
+<blockquote><img src="images/removing.png"></blockquote>
+<p><font size="+1">Of course we cannot remove a node that is not there.
+<blockquote>
+  <pre>assert(iter.position != NULL)</pre>
+</blockquote>
+</font></p>
+<p><font size="+1">We create pointers to track all three nodes we need
+to work with.
+<blockquote>
+  <pre>Node* remove = iter.position;<br>Node* before = remove-&gt;previous;<br>Node* after = remove-&gt;next;</pre>
+</blockquote>
+</font></p>
+<p><font size="+1">We disconnect the node to be removed from the one
+before it; note the special case when we delete from the front of the
+list.
+<blockquote>
+  <pre>if (remove == first) first = after;<br>else   before-&gt;next = after;</pre>
+</blockquote>
+</font></p>
+<p><font size="+1">We repeat the process with the node after the one to
+delete.
+<blockquote>
+  <pre>if (remove == last) last = before;<br>else   after-&gt;previous = before;</pre>
+</blockquote>
+</font></p>
+<p><font size="+1">Finally we delete the node.
+<blockquote>
+  <pre>delete remove;</pre>
+</blockquote>
+</font></p>
+<h2>Implementing Linked Lists (<tt>list2.cpp</tt>)</h2>
+<iframe src="code/list2.cpp.html" height="80%" width="80%">Your browser
+does not support the &amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Stacks and Queues</h2>
+<ul>
+  <li><font size="+1">Stacks and queues are special data types that
+allow insertion and remove of items at the <span
+ style="font-style: italic;">ends</span> only, not in the
+middle. </font></li>
+  <li><font size="+1">A <i>stack</i> lets you insert and remove
+elements at <span style="font-style: italic;">one end</span> only,
+traditionally called the <i>top</i> of the
+stack.</font></li>
+  <li><font size="+1">To visualize a stack, think of a stack of books.</font></li>
+  <li><font size="+1">Since items can only be added or removed from the
+top of the stack, they are removed in the order that is opposite from
+the order they were added.</font></li>
+  <li><font size="+1">This is called <i>last in</i>, <i>first out </i>or
+    <i>LIFO</i> order.</font></li>
+  <li><font size="+1">The addition and removal operations are called <tt>push</tt>
+and <tt>pop</tt>. </font></li>
+</ul>
+<ul>
+  <li><font size="+1">The is a <tt>stack</tt> template in the standard
+C++ library.
+    <blockquote>
+      <pre>stack&lt;string&gt; s;<br>s.push("Tom");<br>s.push("Dick");<br>s.push("Harry");<br>while (s.size() &gt; 0)<br>{  cout &lt;&lt; s.top() &lt;&lt; "\n";<br>   s.pop();<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">A queue is similar to a stack, except that you
+add items to <span style="font-style: italic;">one end</span> of the
+queue (the <i>back</i>) and remove them
+from the <span style="font-style: italic;">other end</span> of the
+queue (the <i>front</i>). </font></li>
+  <li><font size="+1">To visualize a queue, think of people lining up. </font></li>
+  <li><font size="+1">Queues store items in a <i>first</i> <i>in</i>,
+    <i>first</i> <i>out</i> or <i>FIFO</i> fashion. </font></li>
+  <li><font size="+1">The standard queue template implements a queue in
+C++.
+    <blockquote>
+      <pre>queue&lt;string&gt; q;<br>q.push("Tom");<br>q.push("Dick");<br>q.push("Harry");<br>while (q.size() &gt; 0)<br>{  cout &lt;&lt; q.front() &lt;&lt; "\n";<br>   q.pop();<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Stacks and Queues (<tt>fifolifo.cpp</tt>)</h2>
+<iframe src="code/fifolifo.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;gt; tag.</iframe>
+<h2>Other Standard Containers </h2>
+<ul>
+  <li><font size="+1">The standard library contains several other
+useful containers. </font></li>
+  <li><font size="+1">The <tt>set</tt> always keeps its elements in
+order, no matter in which order you insert them.
+    <blockquote>
+      <pre>set&lt;string&gt; s;<br><br>s.insert("Tom");<br>s.insert("Dick");<br>s.insert("Harry");<br><br>set&lt;string&gt;::iterator p;<br>for (p = s.begin(); p!= s.end(); p++)<br>   cout &lt;&lt; *p &lt;&lt; "\n";</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The above code displays the strings in sorted
+order: Dick, Harry, Tom.</font></li>
+  <li><font size="+1">The <tt>set</tt> data structure keeps the values
+in a special tree shaped structure; each time an element is inserted,
+the tree is reorganized.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">The C++ <tt>set</tt> ignore duplicates; if you
+insert an element into the set that is already present, the insertion
+has no effect.</font></li>
+  <li><font size="+1">The <tt>count</tt> function returns the number
+of times that an element is contained in a set (should always be 1).
+    <blockquote>
+      <pre>set&lt;string&gt; s;<br><br>s.insert("Tom");<br>s.insert("Tom");<br>cout &lt;&lt; s.count("Tom") &lt;&lt; "\n"; /* displays 1 */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">If you want to be able to keep track of multiple
+occurrences of identical values, use a <tt>multiset</tt> instead.</font></li>
+  <li><font size="+1">The <tt>count</tt> function works for multiset,
+with expected results.
+    <blockquote>
+      <pre>multiset&lt;string&gt; m;<br><br>m.insert("Tom");<br>m.insert("Tom");<br>cout &lt;&lt; m.count("Tom") &lt;&lt; "\n"; /* displays 2 */</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">A <i>map</i> is similar to a <tt>vector</tt>,
+but you can use another data type for the indices.
+    <blockquote>
+      <pre>map&lt;string, double&gt; scores;<br>scores["Tom"] = 90;<br>scores["Dick"] = 86;<br>scores["Harry"] = 100;</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Standard Algorithms </h2>
+<ul>
+  <li><font size="+1">Why iterators?</font></li>
+  <li><font size="+1">It is possible to supply <i>generic functions</i>
+that can carry out a task with the elements in any container that uses
+iterators.</font></li>
+  <li><font size="+1">Example: The accumulate function can compute the
+sum of all elements in a vector or a list.
+    <blockquote>
+      <pre>vector&lt;double&gt; data;<br>/* do something with data */<br><br>double vsum = 0;<br>accumulate(data.begin(), data.end(), vsum);<br>/* now vsum contains the sum of the elements in the vector */<br>list&lt;double&gt; salaries;<br>/* do something with salaries */<br><br>double lsum = 0;<br>accumulate(salaries.begin(), salaries.end(), lsum);<br>/* now lsum contains the sum of the elements in the list */</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">The standard library also supplies a find
+algorithm.</font></li>
+  <li><font size="+1">The find algorithm returns the second iterator
+(from the parameter list) if
+the search fails.
+    <blockquote>
+      <pre>/* search for a certain name on the staff */<br>list&lt;string&gt;::iterator it =<br>   find(staff.begin(), staff.end(), name);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The first two parameters can be other iterators
+for the list (if you don't want to search the entire list).</font></li>
+</ul>
+<ul>
+  <li><font size="+1">The standard library provides a wealth of
+ready-to-use and fully debugged data structures and algorithms. </font>
+    <ul>
+      <li><font size="+1"><tt>for_each</tt> applies a function to each
+element</font></li>
+      <li><font size="+1"><tt>find</tt> (as above)</font></li>
+      <li><font size="+1"><tt>find_if</tt> locates the first element
+fulfilling a condition</font></li>
+      <li><font size="+1"><tt>count</tt> (as above)</font></li>
+      <li><font size="+1"><tt>equal</tt> tests if containers have the
+same elements in the same order</font></li>
+      <li><font size="+1"><tt>replace</tt>/<tt>replace_if</tt> replace
+all matching elements with a new one</font></li>
+      <li><font size="+1"><tt>unique</tt> remove adjacent identical
+values</font></li>
+      <li><font size="+1"><tt>min_element</tt>, <tt>max_element</tt>
+finds the smallest and largest elements</font></li>
+      <li><font size="+1"><tt>next_permutation</tt> rearranges the
+elements; call it <i>n</i>! times iterates through all permutations</font></li>
+      <li><font size="+1"><tt>sort</tt> sorts the elements; <tt>stable_sort</tt>
+performs better if the container is already almost sorted</font></li>
+      <li><font size="+1"><tt>random_shuffle</tt> randomly rearranges
+the elements</font></li>
+      <li><font size="+1"><tt>nth_element</tt> find the <i>n</i>th
+element without sorting the container.</font></li>
+      <li><font size="+1">plus many more...</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Before writing a lot of code from scratch, check
+whether the standard library already has what you need.</font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+</body>
+</html>

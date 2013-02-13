@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>LinkedQueue</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: LinkedQueue</font></h2>
+</center><br><dl><dd><pre>
+
+  <font color=#0000FF>// ... (part of class LinkedQueue)</font>
+  <font color=#A000A0>void</font> <font color=#000000>enqueue</font>(<font color=#A000A0>const</font> Object& e) {		<font color=#0000FF>// enqueue element</font>
+    NodePtr v = <font color=#A000A0>new</font> <font color=#000000>Node</font>(e, NULL);
+    <font color=#00A000>if</font> (sz == 0) head = v;			<font color=#0000FF>// if empty, this is new head</font>
+    <font color=#00A000>else</font> tail-&gt;next = v;			<font color=#0000FF>// else link after tail</font>
+    tail = v;					<font color=#0000FF>// v is now the tail</font>
+    sz++;
+  }
+  Object <font color=#000000>dequeue</font>() <font color=#00A000>throw</font>(QueueEmptyException) {	<font color=#0000FF>// dequeue</font>
+    <font color=#00A000>if</font> (<font color=#000000>isEmpty</font>())
+      <font color=#00A000>throw</font> <font color=#000000>QueueEmptyException</font>(<font color=#0000FF>"Dequeue of empty queue"</font>);
+    NodePtr old = head;				<font color=#0000FF>// node to remove</font>
+    head = head-&gt;next;
+    <font color=#00A000>if</font> ((--sz) == 0) tail = NULL;		<font color=#0000FF>// deletion causes empty queue</font>
+    Object result = old-&gt;element;
+    <font color=#A000A0>delete</font> old;
+    <font color=#00A000>return</font> result;
+  }
+  <font color=#0000FF>// ...</font>
+</dl>
+</body></html>

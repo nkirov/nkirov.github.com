@@ -1,0 +1,60 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+</head>
+<body>
+
+<pre><tt><b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream>
+</font><b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;cstdlib>
+</font><b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;cmath>
+</font><b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;ctime>
+</font><b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;
+
+</font><i><font color="#9A1900">/**
+&nbsp;&nbsp; Sets the seed of the random number generator.
+*/
+</font></i><font color="#009900">void</font> <b><font color="#000000">rand_seed</font></b><font color="#990000">()
+</font><font color="#FF0000">{</font>&nbsp; <font color="#009900">int</font> seed <font color="#990000">=</font> <b><font color="#000000">static_cast</font></b><font color="#FF0000">&lt;int></font><font color="#990000">(</font><b><font color="#000000">time</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">));
+</font>&nbsp;&nbsp; <b><font color="#000000">srand</font></b><font color="#990000">(</font>seed<font color="#990000">);
+</font><font color="#FF0000">}
+
+</font><i><font color="#9A1900">/**&nbsp;
+&nbsp;&nbsp; Compute a random floating point number in a range
+&nbsp;&nbsp; @param a the bottom of the range
+&nbsp;&nbsp; @param b the top of the range
+&nbsp;&nbsp; @return a random floating point number x,&nbsp;
+&nbsp;&nbsp; a &lt;= x and x &lt;= b
+*/
+</font></i><font color="#009900">double</font> <b><font color="#000000">rand_double</font></b><font color="#990000">(</font><font color="#009900">double</font> a<font color="#990000">,</font> <font color="#009900">double</font> b<font color="#990000">)
+</font><font color="#FF0000">{</font>&nbsp; <b><font color="#0000FF">return</font></b> a <font color="#990000">+</font> <font color="#990000">(</font>b <font color="#990000">-</font> a<font color="#990000">)</font> <font color="#990000">*</font> <b><font color="#000000">rand</font></b><font color="#990000">()</font> <font color="#990000">*</font> <font color="#990000">(</font><font color="#993399">1.0</font> <font color="#990000">/</font> RAND_MAX<font color="#990000">);
+</font><font color="#FF0000">}
+
+</font><i><font color="#9A1900">/**&nbsp;
+&nbsp;&nbsp; Converts an angle from degree to radian.
+&nbsp;&nbsp; @param alpha the angle in degrees
+&nbsp;&nbsp; @return the angle in radian
+*/
+</font></i><font color="#009900">double</font> <b><font color="#000000">deg2rad</font></b><font color="#990000">(</font><font color="#009900">double</font> alpha<font color="#990000">)
+</font><font color="#FF0000">{</font>&nbsp; <b><font color="#0000FF">const</font></b> <font color="#009900">double</font> PI <font color="#990000">=</font> <font color="#993399">3.141592653589793</font><font color="#990000">;
+</font>&nbsp;&nbsp; <b><font color="#0000FF">return</font></b> alpha <font color="#990000">*</font> PI <font color="#990000">/</font> <font color="#993399">180</font><font color="#990000">;
+</font><font color="#FF0000">}
+
+</font><font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()
+</font><font color="#FF0000">{</font>&nbsp; <font color="#009900">int</font> NTRIES <font color="#990000">=</font> <font color="#993399">10000</font><font color="#990000">;
+</font>&nbsp;&nbsp; <font color="#009900">int</font> hits <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;
+</font>&nbsp;&nbsp; <b><font color="#000000">rand_seed</font></b><font color="#990000">();
+</font>&nbsp;&nbsp; <b><font color="#0000FF">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;</font> i <font color="#990000">&lt;=</font> NTRIES<font color="#990000">;</font> i<font color="#990000">++)
+</font>&nbsp;&nbsp; <font color="#FF0000">{</font>&nbsp; <font color="#009900">double</font> ylow <font color="#990000">=</font> <b><font color="#000000">rand_double</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">2</font><font color="#990000">);
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> angle <font color="#990000">=</font> <b><font color="#000000">rand_double</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">180</font><font color="#990000">);
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> yhigh <font color="#990000">=</font> ylow <font color="#990000">+</font> <b><font color="#000000">sin</font></b><font color="#990000">(</font><b><font color="#000000">deg2rad</font></b><font color="#990000">(</font>angle<font color="#990000">));
+</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>yhigh <font color="#990000">>=</font> <font color="#993399">2</font><font color="#990000">)</font> hits<font color="#990000">++;</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp; <font color="#FF0000">}
+</font>&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"Tries / Hits = "</font>&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> NTRIES <font color="#990000">*</font> <font color="#990000">(</font><font color="#993399">1.0</font> <font color="#990000">/</font> hits<font color="#990000">)</font> <font color="#990000">&lt;&lt;</font> <font color="#FF0000">"\n"</font><font color="#990000">;
+</font>&nbsp;&nbsp; <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;
+</font><font color="#FF0000">}</font></tt></pre>
+
+</body>
+</html>

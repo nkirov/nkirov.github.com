@@ -1,0 +1,627 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Chapter 10</title>
+</head>
+<body>
+<h2>Chapter 10: Sorting, Sets, and Selection</h2>
+<ul>
+  <li><big>The sorting problem is defined as follows: Let <span
+ style="font-style: italic;">S</span> be a sequence of <span
+ style="font-style: italic;">n</span>
+elements that can be compared to each other according to a total order
+relation. We want to rearrange <span style="font-style: italic;">S</span>
+in such a way that the elements appear
+in increasing order.</big></li>
+  <li><big>The <span style="font-family: monospace;">PriorityQueueSort</span>
+algorithms:</big></li>
+  <ul>
+    <li><big>sequence implementation: insertion-sort and selection-sort
+      <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span><sup>2</sup>)</big></li>
+    <li><big>heap implementation: heap-sort <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>
+log <span style="font-style: italic;">n</span>)</big></li>
+  </ul>
+</ul>
+<h3>10.1 Merge-Sort</h3>
+<big><span style="font-weight: bold;"> 10.1.1 Divide-and-Conquer</span><br>
+<a href="MergeSort-slides.pdf">MergeSort.pdf</a> 3<br>
+</big>
+<ul>
+  <li><big>Divide-and-conquer is a general algorithm design paradigm:</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;">Divide</span>: divide
+the input data <span style="font-style: italic;">S</span> in two
+disjoint subsets <span style="font-style: italic;">S</span><sub>1</sub>
+and <span style="font-style: italic;">S</span><sub>2</sub></big></li>
+    <li><big><span style="font-style: italic;">Recur</span>: solve the
+subproblems associated with </big><big><span
+ style="font-style: italic;">S</span><sub>1</sub></big><big> and </big><big><span
+ style="font-style: italic;">S</span><sub>2</sub></big></li>
+    <li><big><span style="font-style: italic;">Conquer</span>: combine
+the solutions for </big><big><span style="font-style: italic;">S</span><sub>1</sub></big><big>
+and </big><big><span style="font-style: italic;">S</span><sub>2</sub></big><big>
+into a
+solution
+for </big><big><span style="font-style: italic;">S</span></big></li>
+  </ul>
+  <li><big>The base case for the recursion are subproblems of size 0 or
+1</big></li>
+  <li><big>Merge-sort is a sorting algorithm based on the
+divide-and-conquer paradigm</big></li>
+  <li><big>Like heap-sort</big></li>
+  <ul>
+    <li><big>It uses a comparator</big></li>
+    <li><big>It has <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span> log <span
+ style="font-style: italic;">n</span>) running time</big></li>
+  </ul>
+  <li><big>Unlike heap-sort</big></li>
+  <ul>
+    <li><big>It does not use an auxiliary priority queue</big></li>
+    <li><big>It accesses data in a sequential manner (suitable to sort
+data on a disk)</big></li>
+  </ul>
+</ul>
+<big><span style="font-weight: bold;">Using Divide-and-Conquer for
+Sorting</span><br style="font-weight: bold;">
+<a href="MergeSort-slides.pdf">MergeSort.pdf</a> 4<br>
+</big>
+<ul>
+  <li><big>Merge-sort on an input sequence <span
+ style="font-style: italic;">S</span> with <span
+ style="font-style: italic;">n</span> elements consists
+of three steps:</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;">Divide</span>: partition
+      </big><big><span style="font-style: italic;">S</span></big><big>
+into two sequences </big><big><span style="font-style: italic;">S</span><sub>1</sub></big><big>
+and </big><big><span style="font-style: italic;">S</span><sub>2</sub></big><big>
+of
+about <span style="font-style: italic;">n</span>/2 elements each</big></li>
+    <li><big><span style="font-style: italic;">Recur</span>:
+recursively sort </big><big><span style="font-style: italic;">S</span><sub>1</sub></big><big>
+and </big><big><span style="font-style: italic;">S</span><sub>2</sub></big></li>
+    <li><big><span style="font-style: italic;">Conquer</span>: merge </big><big><span
+ style="font-style: italic;">S</span><sub>1</sub></big><big> and </big><big><span
+ style="font-style: italic;">S</span><sub>2</sub></big><big> into a
+unique sorted sequence</big></li>
+  </ul>
+  <li><big><a href="MergeSort-slides.pdf">MergeSort.pdf</a> 7 (applet)<br>
+    </big></li>
+  <li><big>Merging two sorted sequences, each with <span
+ style="font-style: italic;">n</span>/2 elements and
+implemented by means of a doubly linked list, takes <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)
+time</big></li>
+  <li><big>The running time of merge-sort is <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>
+log <span style="font-style: italic;">n</span>)<br>
+    </big></li>
+</ul>
+<big><span style="font-weight: bold;"> 10.1.2 A C++ Implementation of
+Merge-Sort</span><br>
+<a href="10.2_Sort.h-MergeSort.html">html-10.2</a> (MergeSort)<br>
+<br>
+</big>
+<big style="font-family: monospace;"><a href="mergsort.cpp">mergesort.cpp</a></big><span
+ style="font-weight: bold;"><br>
+</span>
+<hr style="width: 100%; height: 2px;">
+<h3>10.2 The Set ADT</h3>
+<ul>
+  <li><big>A set is a container of distinct objects (no duplicate
+elements).</big></li>
+  <li><big>Set operations - union, intersection and subtraction:</big></li>
+  <ul>
+    <li><big><span style="font-family: monospace;">union(A,B) </span>-
+return a set <span style="font-style: italic;">C</span>, which<span
+ style="font-family: monospace;"></span> is the union of </big><big><span
+ style="font-family: monospace;">A</span></big><big> and </big><big><span
+ style="font-family: monospace;">B</span></big></li>
+    <li><big><span style="font-family: monospace;">intersect(A,B)</span>
+- </big><big>return a set <span style="font-style: italic;">C</span>,
+which<span style="font-family: monospace;"></span> is</big><big> the
+intersection
+of </big><big><span style="font-family: monospace;">A</span></big><big>
+and </big><big><span style="font-family: monospace;">B</span></big></li>
+    <li><big><span style="font-family: monospace;">subtract(A,B)</span>
+- </big><big>return a set <span style="font-style: italic;">C</span>,
+which<span style="font-family: monospace;"></span> is</big><big> the
+difference of </big><big><span style="font-family: monospace;">A</span></big><big>
+and </big><big><span style="font-family: monospace;">B</span></big></li>
+  </ul>
+</ul>
+<big><span style="font-weight: bold;"> 10.2.1 A Simple Set
+Implementation</span><br>
+<a href="Sets-slides.pdf">Sets.pdf</a> 3<span style="font-weight: bold;"></span><span
+ style="font-weight: bold;"><br>
+Using a Sorted Sequence to Implement a Set<br>
+</span></big>
+<ul>
+  <li><big>We represent a set by the <span style="font-style: italic;">sorted
+sequence</span> of its elements.</big></li>
+  <li><big>In general, it should always be possible to impose an order
+on the elements.</big></li>
+  <li><big>The <span style="font-style: italic;">generic merge function</span>
+iteratively examines and compares the current elements <span
+ style="font-style: italic;">a</span> and <span
+ style="font-style: italic;">b</span> of the sequences <span
+ style="font-style: italic;">A</span> and <span
+ style="font-style: italic;">B</span>, respectively, and finds out
+whether <span style="font-style: italic;">a &lt; b</span>, <span
+ style="font-style: italic;">a = b</span> or <span
+ style="font-style: italic;">a &gt; b</span>.</big></li>
+  <li><big>Based on the outcome, it determines whether it should copy
+one or none of elements <span style="font-style: italic;">a</span> and
+    <span style="font-style: italic;">b</span> to the end of the output
+sequence <span style="font-style: italic;">C</span> - the result of
+set operations.<br>
+    </big></li>
+  <li><big>The total running time of <span
+ style="font-family: monospace;">genericMerge</span>(<span
+ style="font-style: italic;">A</span>,<span style="font-style: italic;">B</span>)
+is <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n<sub>A</sub> + n<sub>B</sub></span>),
+where </big><big><span style="font-style: italic;">n<sub>A</sub></span></big><big>
+is the size of <span style="font-style: italic;">A</span> and </big><big><span
+ style="font-style: italic;">n<sub>B</sub></span></big><big> is the
+size of <span style="font-style: italic;">B</span>.<br>
+    </big></li>
+</ul>
+<big><span style="font-weight: bold;">Generic Merging as a Template
+Method Pattern</span><br style="font-weight: bold;">
+<a href="10.4a_Merger.h-Merger1.html">html-10.4a</a> (Merger1)<br>
+<a href="10.4b_Merger.h-Merger2.html">html-10.4b</a> (Merger2)<br>
+<br>
+<span style="font-weight: bold;">Using Inheritance to Derive Set
+Operations<br>
+</span><a href="10.5a_Merger.h-UnionMerger.html">html-10.5a</a>
+(UnionMerger)<br>
+<a href="10.5b_Merger.h-IntersectMerger.html">html-10.5b</a>
+(IntersectMerger)<br>
+<a href="10.5c_Merger.h-SubtractMerger.html">html-10.5c</a>
+(SubtractMerger)</big><br>
+<hr style="width: 100%; height: 2px;">
+<h3>10.3 Quick-Sort</h3>
+<big><span style="font-weight: bold;">High-Level Description of
+Quick-Sort<br>
+</span><a href="QuickSort-slides.pdf">QuickSort.pdf</a> 3-12<br>
+<br>
+</big>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><img
+ style="width: 357px; height: 418px;" alt="" src="pic1.jpg"></td>
+      <td style="vertical-align: middle;">
+      <ul>
+        <li><big>Quick-sort is a randomized sorting algorithm based on
+the <span style="font-style: italic;">divide-and-conquer</span>
+paradigm:</big></li>
+        <ul>
+          <li><big><span style="color: rgb(204, 0, 0);">Divide:</span>
+pick a random element <span style="font-style: italic;">x</span>
+(called pivot) and
+partition <span style="font-style: italic;">S</span> into</big></li>
+          <li><big><span style="font-style: italic;">L</span> elements
+less
+than <span style="font-style: italic;">x</span></big></li>
+          <li><big><span style="font-style: italic;">E</span> elements
+equal <span style="font-style: italic;">x</span></big></li>
+          <li><big><span style="font-style: italic;">G</span> elements
+greater than <span style="font-style: italic;">x</span></big></li>
+          <li><big><span style="color: rgb(204, 0, 0);">Recur:</span>
+sort <span style="font-style: italic;">L</span>
+and <span style="font-style: italic;">G</span></big></li>
+          <li><big><span style="color: rgb(204, 0, 0);">Conquer:</span>
+join <span style="font-style: italic;">L</span>, <span
+ style="font-style: italic;">E</span> and <span
+ style="font-style: italic;">G</span></big></li>
+        </ul>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big><br>
+<span style="font-weight: bold;"></span></big>
+<ul>
+</ul>
+<ul>
+  <li><big>We partition an input sequence as follows:</big></li>
+  <ul>
+    <li><big>We remove, in turn, each element <span
+ style="font-style: italic;">y</span> from <span
+ style="font-style: italic;">S</span> and</big></li>
+    <li><big>We insert <span style="font-style: italic;">y</span> into
+      <span style="font-style: italic;">L</span>, <span
+ style="font-style: italic;">E</span> or <span
+ style="font-style: italic;">G</span>, depending on the result of
+the
+comparison with the pivot <span style="font-style: italic;">x</span></big></li>
+  </ul>
+  <li><big>Each insertion and removal is at the beginning or at the end
+of a sequence, and hence takes <span style="font-style: italic;">O</span>(1)
+time</big></li>
+  <li><big>Thus, the partition step of quick-sort takes <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)
+time</big></li>
+  <li><big><a href="QuickSort-slides.pdf">QuickSort.pdf</a> 6 </big><big>(applet)</big></li>
+</ul>
+<big><span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;"></span></span>
+</big>
+<table style="text-align: left; width: 549px; height: 327px;" border="1"
+ cellpadding="4" cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big><span
+ style="font-weight: bold;">Algorithm</span> <span
+ style="color: rgb(204, 0, 0);"><span style="font-style: italic;">partition</span>(<span
+ style="font-style: italic;">S</span>, <span
+ style="font-style: italic;">p</span>)</span><br>
+      <span style="font-weight: bold;">Input</span> <span
+ style="color: rgb(51, 102, 102);">sequence <span
+ style="font-style: italic;">S,</span> position <span
+ style="font-style: italic;">p</span> of pivot</span><br>
+      <span style="font-weight: bold;">Output</span> <span
+ style="color: rgb(51, 102, 102);">subsequences <span
+ style="font-style: italic;">L</span>, <span
+ style="font-style: italic;">E</span>, <span
+ style="font-style: italic;">G</span> of the</span><span
+ style="color: rgb(51, 102, 102);"> elements of <span
+ style="font-style: italic;">S</span> less than, equal to,</span><span
+ style="color: rgb(51, 102, 102);"> or greater than the pivot, resp.</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">L</span>, <span
+ style="font-style: italic;">E</span>, <span
+ style="font-style: italic;">G</span> &#8592; empty sequences</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">x</span> &#8592; <span
+ style="font-style: italic;">S.remove</span>(<span
+ style="font-style: italic;">p</span>)</span><br>
+      <span style="font-weight: bold;">while </span>&not;<span
+ style="color: rgb(51, 102, 102);"><span style="font-style: italic;">S.isEmpty</span>()</span><br>
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp; y</span> &#8592; <span
+ style="font-style: italic;">S.remove</span>(<span
+ style="font-style: italic;">S.first</span>())</span><br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; if </span><span
+ style="color: rgb(51, 102, 102); font-style: italic;">y &lt; x</span><br>
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+L.insertLast</span>(<span style="font-style: italic;">y</span>)</span><br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; else if
+      </span><span style="font-style: italic;">y = x</span><br>
+      <span style="color: rgb(51, 102, 102); font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+E.insertLast</span><span style="color: rgb(51, 102, 102);">(</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">y</span><span
+ style="color: rgb(51, 102, 102);">)</span><br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp; else<span
+ style="color: rgb(51, 102, 102);"> </span></span><span
+ style="color: rgb(51, 102, 102);">{ </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">y &gt; x </span><span
+ style="color: rgb(51, 102, 102);">}</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+G.insertLast</span>(<span style="font-style: italic;">y</span>)</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="font-weight: bold;">return</span><span
+ style="color: rgb(51, 102, 102);"> <span style="font-style: italic;">L</span>,
+      <span style="font-style: italic;">E</span>, <span
+ style="font-style: italic;">G</span></span></big></td>
+    </tr>
+  </tbody>
+</table>
+<big><br>
+</big><big><span style="font-weight: bold;"> 10.3.1 In-Place Quick-Sort<br>
+</span></big>
+<ul>
+  <li><big>Quick-sort can be implemented to run in-place</big></li>
+  <li><big>In the partition step, we use replace operations to
+rearrange the elements of the input sequence such that</big></li>
+  <ul>
+    <li><big>the elements less than the pivot have rank less than <span
+ style="font-style: italic;">h</span></big></li>
+    <li><big>the elements equal to the pivot have rank between <span
+ style="font-style: italic;">h</span> and <span
+ style="font-style: italic;">k</span></big></li>
+    <li><big>the elements greater than the pivot have rank greater than
+      <span style="font-style: italic;">k</span></big></li>
+  </ul>
+  <li><big>The recursive calls consider</big></li>
+  <ul>
+    <li><big>elements with rank less than <span
+ style="font-style: italic;">h</span></big></li>
+    <li><big>elements with rank greater than <span
+ style="font-style: italic;">k</span></big></li>
+  </ul>
+  <li><big>Perform the partition using two indices to split <span
+ style="font-style: italic;">S</span> into <span
+ style="font-style: italic;">L</span> and (<span
+ style="font-style: italic;">E</span> union <span
+ style="font-style: italic;">G</span>).<span style="font-style: italic;"><br>
+    </span></big></li>
+</ul>
+<big><img style="width: 815px; height: 107px;" alt="" src="pic6.jpg"><br>
+</big>
+<ul>
+  <li><big>Repeat until <span style="font-style: italic;">j</span> and
+    <span style="font-style: italic;">k</span> cross:</big></li>
+  <ul>
+    <li><big>Scan <span style="font-style: italic;">j</span> to the
+right until finding an element &gt;<span style="font-style: italic;"> </span>pivot.</big></li>
+    <li><big>Scan <span style="font-style: italic;">k</span> to the
+left until finding an element &lt; <span style="font-style: italic;"></span></big><big>pivot</big><big><span
+ style="font-style: italic;"></span>.</big></li>
+    <li><big>Swap elements at indices <span style="font-style: italic;">j</span>
+and <span style="font-style: italic;">k</span></big></li>
+  </ul>
+</ul>
+<big><img style="width: 602px; height: 152px;" alt="" src="pic7.jpg"><br>
+</big>
+<table style="text-align: left; width: 668px; height: 222px;" border="1"
+ cellpadding="2" cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big><span
+ style="font-weight: bold;">Algorithm</span> <span
+ style="font-style: italic; color: rgb(204, 0, 0);">inPlaceQuickSort</span><span
+ style="color: rgb(204, 0, 0);">(</span><span
+ style="font-style: italic; color: rgb(204, 0, 0);">S</span><span
+ style="color: rgb(204, 0, 0);">, </span><span
+ style="font-style: italic; color: rgb(204, 0, 0);">l</span><span
+ style="color: rgb(204, 0, 0);">, </span><span
+ style="font-style: italic; color: rgb(204, 0, 0);">r</span><span
+ style="color: rgb(204, 0, 0);">)</span><br>
+&nbsp;&nbsp; <span style="font-weight: bold;">Input</span>: sequence <span
+ style="font-style: italic;">S</span>,
+ranks <span style="font-style: italic;">l</span> and <span
+ style="font-style: italic;">r</span><br>
+&nbsp;&nbsp; <span style="font-weight: bold;">Output</span>: sequence <span
+ style="font-style: italic;">S</span>
+with the elements of rank between <span style="font-style: italic;">l</span>
+and <span style="font-style: italic;">r</span> rearranged in
+increasing order<br>
+&nbsp;<span style="color: rgb(51, 102, 102);">&nbsp; </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">if</span><span
+ style="color: rgb(51, 102, 102);"> </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">l</span><span
+ style="color: rgb(51, 102, 102);"> &#8805; </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">r</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">return</span><br>
+&nbsp;&nbsp; <span
+ style="font-style: italic; color: rgb(51, 102, 102);">i </span><span
+ style="color: rgb(51, 102, 102);">&#8592; </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">a</span><span
+ style="color: rgb(51, 102, 102);"> random integer between </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">l</span><span
+ style="color: rgb(51, 102, 102);"> and </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">r</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);">&nbsp;&nbsp; </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">x</span><span
+ style="color: rgb(51, 102, 102);"> &#8592; </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">S</span><span
+ style="color: rgb(51, 102, 102);">.</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">elemAtRank</span><span
+ style="color: rgb(51, 102, 102);">(</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">i</span><span
+ style="color: rgb(51, 102, 102);">)</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);">&nbsp;&nbsp; (</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">h</span><span
+ style="color: rgb(51, 102, 102);">, </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">k</span><span
+ style="color: rgb(51, 102, 102);">) &#8592; </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">inPlacePartition</span><span
+ style="color: rgb(51, 102, 102);">(</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">x</span><span
+ style="color: rgb(51, 102, 102);">)</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);">&nbsp;&nbsp;</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);"> inPlaceQuickSort</span><span
+ style="color: rgb(51, 102, 102);">(</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">S</span><span
+ style="color: rgb(51, 102, 102);">, </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">l</span><span
+ style="color: rgb(51, 102, 102);">, </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">h</span><span
+ style="color: rgb(51, 102, 102);"> &#8722; 1)</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);">&nbsp;&nbsp;</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);"> inPlaceQuickSort</span><span
+ style="color: rgb(51, 102, 102);">(</span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">S</span><span
+ style="color: rgb(51, 102, 102);">, </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">k</span><span
+ style="color: rgb(51, 102, 102);"> + 1, </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">r</span><span
+ style="color: rgb(51, 102, 102);">)</span></big></td>
+    </tr>
+  </tbody>
+</table>
+<big><span style="font-weight: bold;"><br>
+</span><a href="10.7_Sort.h-QuickSort.html">html-10.7</a> (QuickSort)<br>
+<br>
+<a style="font-family: monospace;" href="qsort.cpp">qsort.cpp</a><br>
+<br>
+<span style="font-weight: bold;">Running Time of Quick-Sort</span><br>
+<a href="QuickSort-slides.pdf">QuickSort.pdf</a>
+13-15
+<br>
+</big>
+<ul>
+  <li><big>The worst case for quick-sort occurs when the pivot is the
+unique minimum or maximum element</big></li>
+  <li><big>One of <span style="font-style: italic;">L</span> and <span
+ style="font-style: italic;">G</span> has size <span
+ style="font-style: italic;">n</span> &#8722; 1 and the other has size 0</big></li>
+  <li><big>The running time is proportional to the sum: <span
+ style="font-style: italic;">n</span> + (<span
+ style="font-style: italic;">n </span>&#8722; 1) + &#8230;+ 2 + 1</big></li>
+  <li><big>Thus, the worst-case running time of quick-sort is <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span><sup>2</sup>)</big></li>
+</ul>
+<big><img style="width: 696px; height: 307px;" alt="" src="pic2.jpg"><br>
+</big>
+<ul>
+  <li><big>The best case for quick-sort on a sequence of distinct
+elements occur when subsequences <span style="font-style: italic;">L</span>
+and <span style="font-style: italic;">G</span> happen to have roughly
+the same size.</big></li>
+  <li><big>The tree <span style="font-style: italic;">T</span> has
+height <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) and </big><big>quick-sort runs
+in <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span> log <span
+ style="font-style: italic;">n</span>) time.</big></li>
+</ul>
+<img style="width: 569px; height: 244px;" alt="" src="pic3.jpg"><br>
+<br>
+<big><span style="font-weight: bold;">10.3.2 Randomized Quick-Sort</span></big><br>
+<ul>
+  <li><big>Since the goal of the partition step of the quick-sort
+function is to divide the sequence S almost equally, let us pick a <span
+ style="font-style: italic;">random element </span>of the input
+sequence as the pivot.</big></li>
+  <li><big>The expected running time of <span
+ style="font-style: italic;">randomized </span></big><big><span
+ style="font-style: italic;">quick-sort</span> on a sequence with <span
+ style="font-style: italic;">n</span> elements is <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>
+log <span style="font-style: italic;">n</span>).</big></li>
+  <li><big>Consider a recursive call of quick-sort on a sequence of
+size <span style="font-style: italic;">n</span></big></li>
+  <ul>
+    <li><big>Good call: the sizes of <span style="font-style: italic;">L</span>
+and <span style="font-style: italic;">G</span> are each less than 3<span
+ style="font-style: italic;">n</span>/4</big></li>
+    <li><big>Bad call: one of <span style="font-style: italic;">L</span>
+and <span style="font-style: italic;">G</span> has size greater than 3<span
+ style="font-style: italic;">n</span>/4</big></li>
+  </ul>
+</ul>
+<img style="width: 897px; height: 115px;" alt="" src="pic4.jpg"><br>
+<br>
+<ul>
+  <li><big>A call is good with probability 1/2 (1/2 of the possible
+pivots cause good calls):</big></li>
+</ul>
+<img style="width: 576px; height: 130px;" alt="" src="pic5.jpg"><br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3>10.4 A Lower Bound on Comparison-Based Sorting</h3>
+<big><a href="SortingLowerBound-slides.pdf">SortingLowerBound.pdf</a>
+1-5<br>
+</big><br>
+<hr style="width: 100%; height: 2px;">
+<h3>10.5 Bucket-Sort and Radix-Sort</h3>
+<big><span style="font-weight: bold;"> 10.5.1 Bucket-Sort</span><br>
+<a href="RadixSort-slides.pdf">RadixSort.pdf</a>&nbsp; 2<br>
+<br>
+<span style="font-weight: bold;">Stable Sorting<br>
+<br>
+</span><span style="font-weight: bold;"> 10.5.2 Radix-Sort</span><br>
+<a href="RadixSort-slides.pdf">RadixSort.pdf</a>&nbsp; 7</big>
+<br>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3>10.6 Comparison of Sorting Algorithms</h3>
+<big><a href="QuickSort-slides.pdf">QuickSort.pdf</a> 18<br>
+<br>
+</big>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big>Algorithm</big></td>
+      <td style="vertical-align: top;"><big>Time</big></td>
+      <td style="vertical-align: top;">
+      <ul>
+        <li><big>Notes</big></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>insertion-sort<br>
+selection-sort<br>
+bubble-sort</big><br>
+      </td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span><sup>2</sup>)</big></td>
+      <td style="vertical-align: top;">
+      <ul>
+        <li><big>in-place</big> </li>
+        <li><big>slow (good for small inputs)</big></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>quick-sort</big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span><sup>2</sup>)
+worst case and </big><big><span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span> log <span
+ style="font-style: italic;">n</span>) in average<br>
+      </big></td>
+      <td style="vertical-align: top;">
+      <ul>
+        <li><big>in-place, randomized</big></li>
+        <li><big>fastest (good for large inputs)</big></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>heap-sort</big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>
+log <span style="font-style: italic;">n</span>)</big></td>
+      <td style="vertical-align: top;">
+      <ul>
+        <li><big>in-place</big></li>
+        <li><big>fast (good for large inputs)</big></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>merge-sort</big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>
+log <span style="font-style: italic;">n</span>)</big></td>
+      <td style="vertical-align: top;">
+      <ul>
+        <li><big>sequential data access</big></li>
+        <li><big>fast (good for huge inputs)</big></li>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>bucket-sort<br>
+radix-sort</big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span><span
+ style="font-style: italic;"></span>)</big></td>
+      <td style="vertical-align: top;">
+      <ul>
+        <li><big>the keys are integers in the range [0, <span
+ style="font-style: italic;">N</span> &#8722;1]</big></li>
+        <li><big>fast </big><big>(good for huge inputs)</big></li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<hr style="width: 100%; height: 2px;"><br>
+<br>
+</body>
+</html>

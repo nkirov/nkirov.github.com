@@ -1,0 +1,410 @@
+// 2. Функции като членове на клас. Конструктор, аргументи по 
+// подразбиране. Деструктор. Get и set функции. 
+//
+// Fig. 6.12: time2.h
+// Declaration of class Time.
+// Member functions defined in time2.cpp.
+
+// prevent multiple inclusions of header file
+#ifndef TIME2_H
+#define TIME2_H
+
+// Time abstract data type definition
+class Time {
+
+public:
+   Time( int = 0, int = 0, int = 0); // default constructor
+   void setTime( int, int, int ); // set hour, minute, second
+   void printUniversal();         // print universal-time format
+   void printStandard();          // print standard-time format
+
+private:
+   int hour;     // 0 - 23 (24-hour clock format)
+   int minute;   // 0 - 59
+   int second;   // 0 - 59
+
+}; // end class Time
+
+#endif
+/****/
+// Fig. 6.13: time2.cpp
+// Member-function definitions for class Time.
+#include <iostream>
+
+using std::cout;
+
+#include <iomanip>
+
+using std::setfill;
+using std::setw;
+
+// include definition of class Time from time2.h
+#include "time2.h" 
+
+// Time constructor initializes each data member to zero;
+// ensures all Time objects start in a consistent state
+Time::Time( int hr, int min, int sec ) 
+{ 
+   setTime( hr, min, sec );  // validate and set time
+
+} // end Time constructor
+
+// set new Time value using universal time, perform validity
+// checks on the data values and set invalid values to zero
+void Time::setTime( int h, int m, int s )
+{
+   hour = ( h >= 0 && h < 24 ) ? h : 0;
+   minute = ( m >= 0 && m < 60 ) ? m : 0;
+   second = ( s >= 0 && s < 60 ) ? s : 0;
+
+} // end function setTime
+
+// print Time in universal format
+void Time::printUniversal()
+{
+   cout << setfill( '0' ) << setw( 2 ) << hour << ":"
+        << setw( 2 ) << minute << ":"
+        << setw( 2 ) << second;
+
+} // end function printUniversal
+
+// print Time in standard format
+void Time::printStandard()
+{
+   cout << ( ( hour == 0 || hour == 12 ) ? 12 : hour % 12 )
+        << ":" << setfill( '0' ) << setw( 2 ) << minute
+        << ":" << setw( 2 ) << second 
+        << ( hour < 12 ? " AM" : " PM" );
+
+} // end function printStandard
+/****/
+// Fig. 6.14: fig06_14.cpp 
+// Demonstrating a default constructor for class Time.
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+// include definition of class Time from time2.h
+#include "time2.h"
+
+int main()
+{
+   Time t1;               // all arguments defaulted
+   Time t2( 2 );          // minute and second defaulted
+   Time t3( 21, 34 );     // second defaulted 
+   Time t4( 12, 25, 42 ); // all values specified
+   Time t5( 27, 74, 99 ); // all bad values specified
+
+   cout << "Constructed with:\n\n"
+        << "all default arguments:\n  ";
+   t1.printUniversal();  // 00:00:00
+   cout << "\n  ";
+   t1.printStandard();   // 12:00:00 AM
+
+   cout << "\n\nhour specified; default minute and second:\n  ";
+   t2.printUniversal();  // 02:00:00
+   cout << "\n  ";
+   t2.printStandard();   // 2:00:00 AM
+
+   cout << "\n\nhour and minute specified; default second:\n  ";
+   t3.printUniversal();  // 21:34:00
+   cout << "\n  ";
+   t3.printStandard();   // 9:34:00 PM
+
+   cout << "\n\nhour, minute, and second specified:\n  ";
+   t4.printUniversal();  // 12:25:42
+   cout << "\n  ";
+   t4.printStandard();   // 12:25:42 PM
+
+   cout << "\n\nall invalid values specified:\n  ";
+   t5.printUniversal();  // 00:00:00
+   cout << "\n  ";
+   t5.printStandard();   // 12:00:00 AM
+   cout << endl;
+
+   return 0;
+
+} // end main
+
+/******************************************/
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+class CreateAndDestroy {
+
+public:
+   CreateAndDestroy( int, char * );  // constructor
+   ~CreateAndDestroy();              // destructor
+
+private:
+   int objectID;
+   char *message;
+
+}; // end class CreateAndDestroy
+
+// constructor
+CreateAndDestroy::CreateAndDestroy( 
+   int objectNumber, char *messagePtr )
+{
+   objectID = objectNumber;
+   message = messagePtr;
+
+   cout << "Object " << objectID << "   constructor runs   "
+        << message << endl;
+
+} // end CreateAndDestroy constructor
+
+// destructor
+CreateAndDestroy::~CreateAndDestroy()
+{ 
+   // the following line is for pedagogic purposes only
+   cout << ( objectID == 1 || objectID == 6 ? "\n" : "" );
+
+   cout << "Object " << objectID << "   destructor runs    " 
+        << message << endl; 
+
+} // end ~CreateAndDestroy destructor
+
+void create( void );   // prototype
+
+// global object
+CreateAndDestroy first( 1, "(global before main)" );
+
+int main()
+{
+   cout << "\nMAIN FUNCTION: EXECUTION BEGINS" << endl;
+
+   CreateAndDestroy second( 2, "(local automatic in main)" );
+
+   static CreateAndDestroy third( 
+      3, "(local static in main)" );
+   
+   create();  // call function to create objects
+
+   cout << "\nMAIN FUNCTION: EXECUTION RESUMES" << endl;
+
+   CreateAndDestroy fourth( 4, "(local automatic in main)" );
+   
+   cout << "\nMAIN FUNCTION: EXECUTION ENDS" << endl;
+
+   return 0;
+
+} // end main
+
+// function to create objects
+void create( void )
+{
+   cout << "\nCREATE FUNCTION: EXECUTION BEGINS" << endl;
+
+   CreateAndDestroy fifth( 5, "(local automatic in create)" );
+
+   static CreateAndDestroy sixth( 
+      6, "(local static in create)" );
+
+   CreateAndDestroy seventh( 
+      7, "(local automatic in create)" );
+
+   cout << "\nCREATE FUNCTION: EXECUTION ENDS" << endl;
+
+} // end function create
+
+/*****************************************************/
+// Fig. 6.18: time3.h
+// Declaration of class Time.
+// Member functions defined in time3.cpp
+
+// prevent multiple inclusions of header file
+#ifndef TIME3_H  
+#define TIME3_H 
+
+class Time {
+
+public:
+   Time( int = 0, int = 0, int = 0 );  // default constructor
+
+   // set functions
+   void setTime( int, int, int );  // set hour, minute, second
+   void setHour( int );   // set hour
+   void setMinute( int ); // set minute
+   void setSecond( int ); // set second
+
+   // get functions
+   int getHour();         // return hour
+   int getMinute();       // return minute
+   int getSecond();       // return second
+
+   void printUniversal(); // output universal-time format
+   void printStandard();  // output standard-time format
+
+private:
+   int hour;              // 0 - 23 (24-hour clock format)
+   int minute;            // 0 - 59
+   int second;            // 0 - 59
+
+}; // end clas Time
+
+#endif
+/****/
+// Fig. 6.19: time3.cpp
+// Member-function definitions for Time class.
+#include <iostream>
+
+using std::cout;
+
+#include <iomanip>
+
+using std::setfill;
+using std::setw;
+
+// include definition of class Time from time3.h
+#include "time3.h"
+
+// constructor function to initialize private data;
+// calls member function setTime to set variables;
+// default values are 0 (see class definition)
+Time::Time( int hr, int min, int sec ) 
+{ 
+   setTime( hr, min, sec ); 
+
+} // end Time constructor
+
+// set hour, minute and second values
+void Time::setTime( int h, int m, int s )
+{
+   setHour( h );
+   setMinute( m );
+   setSecond( s );
+
+} // end function setTime
+
+// set hour value
+void Time::setHour( int h ) 
+{
+   hour = ( h >= 0 && h < 24 ) ? h : 0; 
+
+} // end function setHour
+
+// set minute value
+void Time::setMinute( int m )
+{ 
+   minute = ( m >= 0 && m < 60 ) ? m : 0; 
+
+} // end function setMinute
+
+// set second value
+void Time::setSecond( int s )
+{ 
+   second = ( s >= 0 && s < 60 ) ? s : 0; 
+
+} // end function setSecond
+
+// return hour value
+int Time::getHour() 
+{ 
+   return hour; 
+
+} // end function getHour
+
+// return minute value
+int Time::getMinute() 
+{
+   return minute; 
+
+} // end function getMinute
+
+// return second value
+int Time::getSecond() 
+{ 
+   return second;
+   
+} // end function getSecond
+
+// print Time in universal format
+void Time::printUniversal()
+{
+   cout << setfill( '0' ) << setw( 2 ) << hour << ":"
+        << setw( 2 ) << minute << ":"
+        << setw( 2 ) << second;
+
+} // end function printUniversal
+
+// print Time in standard format
+void Time::printStandard()
+{
+   cout << ( ( hour == 0 || hour == 12 ) ? 12 : hour % 12 )
+        << ":" << setfill( '0' ) << setw( 2 ) << minute
+        << ":" << setw( 2 ) << second 
+        << ( hour < 12 ? " AM" : " PM" );
+
+} // end function printStandard
+/****/
+// Fig. 6.20: fig06_20.cpp
+// Demonstrating the Time class set and get functions
+#include <iostream>
+
+using std::cout;
+using std::endl;
+
+// include definition of class Time from time3.h
+#include "time3.h"
+
+void incrementMinutes( Time &, const int );  // prototype
+
+int main()
+{
+   Time t;              // create Time object
+
+   // set time using individual set functions
+   t.setHour( 17 );     // set hour to valid value
+   t.setMinute( 34 );   // set minute to valid value
+   t.setSecond( 25 );   // set second to valid value
+
+   // use get functions to obtain hour, miunute and second
+   cout << "Result of setting all valid values:\n" 
+        << "  Hour: " << t.getHour()
+        << "  Minute: " << t.getMinute()
+        << "  Second: " << t.getSecond();
+
+   // set time using individual set functions
+   t.setHour( 234 );    // invalid hour set to 0
+   t.setMinute( 43 );   // set minute to valid value
+   t.setSecond( 6373 ); // invalid second set to 0
+
+   // display hour, minute and second after setting 
+   // invalid hour and second values
+   cout << "\n\nResult of attempting to set invalid hour and"
+        << " second:\n  Hour: " << t.getHour()
+        << "  Minute: " << t.getMinute()
+        << "  Second: " << t.getSecond() << "\n\n";
+
+   t.setTime( 11, 58, 0 );    // set time
+   incrementMinutes( t, 3 );  // increment t's minute by 3
+
+   return 0;
+
+} // end main
+
+// add specified number of minutes to a Time object
+void incrementMinutes( Time &tt, const int count )
+{
+   cout << "Incrementing minute " << count
+        << " times:\nStart time: ";
+   tt.printStandard();
+
+   for ( int i = 0; i < count; i++ ) {
+      tt.setMinute( ( tt.getMinute() + 1 ) % 60 );  
+
+      if ( tt.getMinute() == 0 )
+         tt.setHour( ( tt.getHour() + 1 ) % 24 );
+
+      cout << "\nminute + 1: ";
+      tt.printStandard();
+
+   } // end for
+
+   cout << endl;
+
+} // end function incrementMinutes
