@@ -1,0 +1,203 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+</head>
+<body>
+<pre><tt> <b><font color="#000080">#include</font></b> <font
+ color="#ff0000">&lt;iostream&gt;</font>
+ <b><font color="#000080">#include</font></b> <font
+ color="#ff0000">&lt;sstream&gt;</font>
+ <b><font color="#0000ff">using</font></b> <b><font
+ color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+ 
+ <i><font
+ color="#9a1900">/** </font></i>
+ <i><font color="#9a1900">   Converts an integer value to a string, e.g. 3 -&gt; "3".</font></i>
+ <i><font
+ color="#9a1900">   @param s an integer value</font></i>
+ <i><font
+ color="#9a1900">   @return the equivalent string</font></i>
+ <i><font
+ color="#9a1900">*/</font></i>   <br> string <b><font color="#000000">int_to_string</font></b><font
+ color="#990000">(</font><font color="#009900">int</font> n<font
+ color="#990000">)</font>
+ <font color="#ff0000">{</font>  ostringstream outstr<font
+ color="#990000">;</font>
+    outstr <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> n<font color="#990000">;</font>
+    <b><font
+ color="#0000ff">return</font></b> outstr<font color="#990000">.</font><b><font
+ color="#000000">str</font></b><font color="#990000">(</font><font
+ color="#990000">)</font><font color="#990000">;</font>
+ <font
+ color="#ff0000">}</font>
+ <i><font color="#9a1900">/**</font></i>
+ <i><font
+ color="#9a1900">   Reads a time from standard input in the format hh:mm or </font></i>
+ <i><font
+ color="#9a1900">   hh:mm am or hh:mm pm</font></i>
+ <i><font
+ color="#9a1900">   @param hours filled with the hours</font></i>
+ <i><font
+ color="#9a1900">   @param minutes filled with the minutes</font></i>
+ <i><font
+ color="#9a1900">*/</font></i>
+ <font color="#009900">void</font> <b><font
+ color="#000000">read_time</font></b><font color="#990000">(</font><font
+ color="#009900">int</font><font color="#990000">&amp;</font> hours<font
+ color="#990000">,</font> <font color="#009900">int</font><font
+ color="#990000">&amp;</font> minutes<font color="#990000">)</font>
+ <font
+ color="#ff0000">{</font>  string line<font color="#990000">;</font>
+    <b><font
+ color="#000000">getline</font></b><font color="#990000">(</font>cin<font
+ color="#990000">,</font> line<font color="#990000">)</font><font
+ color="#990000">;</font>
+    istringstream <b><font color="#000000">instr</font></b><font
+ color="#990000">(</font>line<font color="#990000">)</font><font
+ color="#990000">;</font>
+ 
+    instr <font color="#990000">&gt;</font><font
+ color="#990000">&gt;</font> hours<font color="#990000">;</font>
+    minutes <font
+ color="#990000">=</font> <font color="#993399">0</font><font
+ color="#990000">;</font>
+ 
+    <font color="#009900">char</font> ch<font
+ color="#990000">;</font>
+    instr<font color="#990000">.</font><b><font
+ color="#000000">get</font></b><font color="#990000">(</font>ch<font
+ color="#990000">)</font><font color="#990000">;</font>
+    <b><font
+ color="#0000ff">if</font></b> <font color="#990000">(</font>ch <font
+ color="#990000">=</font><font color="#990000">=</font> <font
+ color="#ff0000">':'</font><font color="#990000">)</font> instr <font
+ color="#990000">&gt;</font><font color="#990000">&gt;</font> minutes<font
+ color="#990000">;</font>
+    <b><font color="#0000ff">else</font></b> instr<font
+ color="#990000">.</font><b><font color="#000000">unget</font></b><font
+ color="#990000">(</font><font color="#990000">)</font><font
+ color="#990000">;</font>
+ 
+    string suffix<font color="#990000">;</font>
+    instr <font
+ color="#990000">&gt;</font><font color="#990000">&gt;</font> suffix<font
+ color="#990000">;</font>
+ 
+    <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>suffix <font color="#990000">=</font><font
+ color="#990000">=</font> <font color="#ff0000">"pm"</font><font
+ color="#990000">)</font> hours <font color="#990000">=</font> hours <font
+ color="#990000">+</font> <font color="#993399">12</font><font
+ color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ <i><font
+ color="#9a1900">/** </font></i>
+ <i><font color="#9a1900">   Computes a string representing a time.</font></i>
+ <i><font
+ color="#9a1900">   @param hours the hours (0...23)</font></i>
+ <i><font
+ color="#9a1900">   @param minutes the minutes (0...59)</font></i>
+ <i><font
+ color="#9a1900">   @param military true for military format, </font></i>
+ <i><font
+ color="#9a1900">   false for am/pm format,                </font></i>
+ <i><font
+ color="#9a1900">*/</font></i>
+ string <b><font color="#000000">time_to_string</font></b><font
+ color="#990000">(</font><font color="#009900">int</font> hours<font
+ color="#990000">,</font> <font color="#009900">int</font> minutes<font
+ color="#990000">,</font> <font color="#009900">bool</font> military<font
+ color="#990000">)</font>
+ <font color="#ff0000">{</font>  string suffix<font
+ color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font><font color="#990000">!</font>military<font
+ color="#990000">)</font>
+    <font color="#ff0000">{</font>  <b><font
+ color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font
+ color="#990000">&lt;</font> <font color="#993399">12</font><font
+ color="#990000">)</font> suffix <font color="#990000">=</font> <font
+ color="#ff0000">"am"</font><font color="#990000">;</font>
+       <b><font
+ color="#0000ff">else</font></b><span style="font-family: mon;"><span
+ style="font-weight: bold;"><br></span></span>       <font
+ color="#ff0000">{</font>  suffix <font color="#990000">=</font> <font
+ color="#ff0000">"pm"</font><font color="#990000">;</font>
+          hours <font
+ color="#990000">=</font> hours <font color="#990000">-</font> <font
+ color="#993399">12</font><font color="#990000">;</font>
+       <font
+ color="#ff0000">}</font>
+       <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font>hours <font color="#990000">=</font><font
+ color="#990000">=</font> <font color="#993399">0</font><font
+ color="#990000">)</font> hours <font color="#990000">=</font> <font
+ color="#993399">12</font><font color="#990000">;</font>
+    <font
+ color="#ff0000">}</font>
+    string result <font color="#990000">=</font> <b><font
+ color="#000000">int_to_string</font></b><font color="#990000">(</font>hours<font
+ color="#990000">)</font> <font color="#990000">+</font> <font
+ color="#ff0000">":"</font><font color="#990000">;</font>
+    <b><font
+ color="#0000ff">if</font></b> <font color="#990000">(</font>minutes <font
+ color="#990000">&lt;</font> <font color="#993399">10</font><font
+ color="#990000">)</font> result <font color="#990000">=</font> result <font
+ color="#990000">+</font> <font color="#ff0000">"0"</font><font
+ color="#990000">;</font>
+    result <font color="#990000">=</font> result <font
+ color="#990000">+</font> <b><font color="#000000">int_to_string</font></b><font
+ color="#990000">(</font>minutes<font color="#990000">)</font><font
+ color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font
+ color="#990000">(</font><font color="#990000">!</font>military<font
+ color="#990000">)</font> result <font color="#990000">=</font> result <font
+ color="#990000">+</font> <font color="#ff0000">" "</font> <font
+ color="#990000">+</font> suffix<font color="#990000">;</font>
+    <b><font
+ color="#0000ff">return</font></b> result<font color="#990000">;</font>
+ <font
+ color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> <b><font
+ color="#000000">main</font></b><font color="#990000">(</font><font
+ color="#990000">)</font>
+ <font color="#ff0000">{</font>  cout <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"Please enter the time: "</font><font color="#990000">;</font>
+ 
+    <font
+ color="#009900">int</font> hours<font color="#990000">;</font>
+    <font
+ color="#009900">int</font> minutes<font color="#990000">;</font>
+    <b><font
+ color="#000000">read_time</font></b><font color="#990000">(</font>hours<font
+ color="#990000">,</font> minutes<font color="#990000">)</font><font
+ color="#990000">;</font>
+ 
+    cout <font color="#990000">&lt;</font><font
+ color="#990000">&lt;</font> <font color="#ff0000">"Military time: "</font> <br>       <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font
+ color="#000000">time_to_string</font></b><font color="#990000">(</font>hours<font
+ color="#990000">,</font> minutes<font color="#990000">,</font> <b><font
+ color="#0000ff">true</font></b><font color="#990000">)</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"\n"</font><font color="#990000">;</font>
+    cout <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"Using am/pm:   "</font> <br>       <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font
+ color="#000000">time_to_string</font></b><font color="#990000">(</font>hours<font
+ color="#990000">,</font> minutes<font color="#990000">,</font> <b><font
+ color="#0000ff">false</font></b><font color="#990000">)</font> <font
+ color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
+ color="#ff0000">"\n"</font><font color="#990000">;</font>
+ 
+    <b><font
+ color="#0000ff">return</font></b> <font color="#993399">0</font><font
+ color="#990000">;</font>
+ <font color="#ff0000">}</font></tt>
+</pre>
+</body>
+</html>

@@ -1,0 +1,827 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Chapter 9</title>
+</head>
+<body>
+<h2>Chapter 9: Search Trees II</h2>
+<h3>9.3 Multi-Way Search Trees</h3>
+<big><span style="font-weight: bold;">Definition</span><br>
+</big>
+<ul>
+  <li><big>A node <span style="font-style: italic;">v</span> of an
+ordered tree is a <span style="font-style: italic;">d</span>-node if <span
+ style="font-style: italic;">v</span> has <span
+ style="font-style: italic;">d</span> children. <br>
+    </big></li>
+  <li><big>A <span style="font-style: italic;">multi-way search tree</span>
+is an ordered tree such that:</big></li>
+  <ul>
+    <li><big>Each internal node <span style="font-style: italic;">v</span>
+has at least two children (<span style="font-style: italic;">d</span>-node
+with d &gt;= 2 )</big></li>
+    <li><big><span style="font-style: italic;">v</span> stores <span
+ style="font-style: italic;">d</span> &#8722; 1 key-element items (<span
+ style="font-style: italic;">k<sub>i</sub></span>, <span
+ style="font-style: italic;">e<sub>i</sub></span>)&nbsp; (<span
+ style="font-style: italic;">d</span> is the number of children)</big></li>
+    <li><big>For a node with children <span style="font-style: italic;">v</span><sub>1</sub>,
+      <span style="font-style: italic;">v</span><sub>2</sub></big><big>,</big><big>
+&#8230;, <span style="font-style: italic;">v<sub>d</sub></span> storing keys
+      <span style="font-style: italic;">k</span><sub>1</sub> &lt; <span
+ style="font-style: italic;">k</span><sub>2 &lt; </sub>&#8230; &lt; <span
+ style="font-style: italic;">k<sub>d</sub></span><sub>&#8722;1</sub></big></li>
+    <ul>
+      <li><big>keys in the subtree of <span style="font-style: italic;">v</span><sub>1</sub>
+are <span style="font-style: italic;">less</span> than <span
+ style="font-style: italic;">k</span><sub>1</sub></big></li>
+      <li><big>keys in the subtree of <span style="font-style: italic;">v<sub>i</sub></span>
+are between <span style="font-style: italic;">k<sub>i</sub></span><sub>&#8722;1</sub>
+and <span style="font-style: italic;">k<sub>i</sub> </span>(<span
+ style="font-style: italic;">i</span> = 2, &#8230;, <span
+ style="font-style: italic;">d</span> &#8722; 1)</big></li>
+      <li><big>keys in the subtree of <span style="font-style: italic;">v<sub>d</sub></span>
+are <span style="font-style: italic;">greater</span> than <span
+ style="font-style: italic;">k<sub>d</sub></span><sub>&#8722;1</sub></big></li>
+    </ul>
+    <li><big>The leaves store no items and serve as placeholders</big></li>
+  </ul>
+</ul>
+<div style="text-align: center;"><big><img
+ style="width: 646px; height: 206px;" alt="" src="pic11.jpg"></big><br>
+<big></big></div>
+<ul>
+  <li><big>We can extend the notion of <span
+ style="font-style: italic;">inorder traversal </span>from binary
+trees to multi-way search trees</big></li>
+  <li><big>Namely, we visit item (<span style="font-style: italic;">k<sub>i</sub></span>,
+    <span style="font-style: italic;">e<sub>i</sub></span>) of node <span
+ style="font-style: italic;">v</span> <span style="font-style: italic;">between</span>
+the recursive traversals
+of the subtrees of <span style="font-style: italic;">v</span> rooted
+at children <span style="font-style: italic;">v<sub>i</sub></span> and
+    <span style="font-style: italic;">v<sub>i</sub></span><sub>+1</sub></big></li>
+  <li><big>An inorder traversal of
+a multi-way search tree visits the
+keys in <span style="font-style: italic;">increasing</span> order<span
+ style="font-weight: bold;"></span></big></li>
+</ul>
+<div style="text-align: center;"><big><span style="font-weight: bold;"><img
+ style="width: 649px; height: 238px;" alt="" src="pic12.jpg"></span></big><br>
+<big><span style="font-weight: bold;"></span></big></div>
+<big><span style="font-weight: bold;">Searching in a Multi-Way Tree</span><br
+ style="font-weight: bold;">
+</big>
+<ul>
+  <li><big>Similar to search in a binary search tree</big></li>
+  <li><big>For each internal node with children <span
+ style="font-style: italic;">v</span><sub>1</sub></big><big>,</big><big>
+    <span style="font-style: italic;">v</span><sub>2</sub></big><big>, </big><big>&#8230;,
+    <span style="font-style: italic;">v<sub>d</sub></span> and keys <span
+ style="font-style: italic;">k</span><sub>1</sub></big><big>,</big><big>
+    <span style="font-style: italic;">k</span><sub>2</sub></big><big>, </big><big>&#8230;</big><big>,</big><big>
+    <span style="font-style: italic;">k<sub>d</sub></span><sub>&#8722;1</sub></big></li>
+  <ul>
+    <li><big><span style="font-style: italic;">k</span> = <span
+ style="font-style: italic;">k<sub>i</sub></span> (<span
+ style="font-style: italic;">i</span> = 1, &#8230;, <span
+ style="font-style: italic;">d</span> &#8722; 1): the search terminates
+successfully</big></li>
+    <li><big><span style="font-style: italic;">k</span> &lt; <span
+ style="font-style: italic;">k</span><sub>1</sub>: we continue
+the search in child <span style="font-style: italic;">v</span><sub>1</sub></big></li>
+    <li><big><span style="font-style: italic;">k<sub>i</sub></span><sub>&#8722;1</sub>
+&lt; <span style="font-style: italic;">k</span> </big><big>
+&lt; <span style="font-style: italic;">k<sub>i</sub></span>
+(</big><big><span style="font-style: italic;">i</span> = 2, &#8230;, <span
+ style="font-style: italic;">d</span> &#8722; 1</big><big>): we continue the
+search in child <span style="font-style: italic;">v<sub>i</sub></span></big></li>
+    <li><big><span style="font-style: italic;">k</span> &gt; <span
+ style="font-style: italic;">k<sub>d</sub></span><sub>&#8722;1</sub>:
+we continue the search in child <span style="font-style: italic;">v<sub>d</sub></span></big></li>
+  </ul>
+  <li><big>Reaching an external node terminates the search
+unsuccessfully</big></li>
+  <li><big><span style="color: rgb(51, 102, 102);">Example:</span>
+search for 30</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 652px; height: 206px;" alt="" src="pic13.jpg"><big><span
+ style="font-weight: bold;"></span></big><br>
+</div>
+<hr style="width: 100%; height: 2px;">
+<h3>9.4 (2,4) Trees</h3>
+<big>
+</big>
+<ul>
+  <li><big>A (2,4) <span style="font-style: italic;">tree</span> (also
+called 2-4 tree or 2-3-4 tree) is a <span style="font-style: italic;">multi-way
+search tree</span> with
+the following properties</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;">Node-Size Property</span>:
+every internal node has at most four
+children (and at least two)<br>
+      </big></li>
+    <li><big><span style="font-style: italic;">Depth Property</span>:
+all the external nodes have the same
+depth</big></li>
+  </ul>
+  <li><big>Depending on the number of children, an internal node of a
+(2,4) tree is called a 2-node, 3-node or 4-node</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 696px; height: 181px;" alt="" src="pic14.jpg"><br>
+</div>
+<ul>
+  <li><big><span style="color: rgb(0, 102, 0);">Theorem: </span>A
+(2,4) tree storing <span style="font-style: italic;">n</span> items
+has height <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>)</big></li>
+  <li style="color: rgb(0, 102, 0);"><big>Proof:</big></li>
+  <ul>
+    <li><big>Let <span style="font-style: italic;">h</span> be the
+height of a (2,4) tree with <span style="font-style: italic;">n</span>
+items</big></li>
+    <li><big>Since there are at least 2<sup style="font-style: italic;">i</sup>
+items at depth <span style="font-style: italic;">i</span> = 0, &#8230; , <span
+ style="font-style: italic;">h</span> &#8722;1 and no items at depth <span
+ style="font-style: italic;">h</span>, we have<br>
+      </big>
+      <div style="text-align: center;"><big><span
+ style="font-style: italic;">n </span>&#8805; 1 + 2 + 4 +&#8230; +
+2<sup><span style="font-style: italic;">h</span>&#8722;1</sup> = 2<sup><span
+ style="font-style: italic;">h</span></sup> &#8722; 1</big></div>
+    </li>
+    <li><big>Thus, <span style="font-style: italic;">h</span> &#8804; log (<span
+ style="font-style: italic;">n</span> + 1)</big></li>
+  </ul>
+  <li><big>Searching in a (2,4) tree with <span
+ style="font-style: italic;">n</span> items takes <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) time</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 660px; height: 194px;" alt="" src="pic15.jpg"><br>
+</div>
+<big style="font-weight: bold;">9.4.1 Update Operations<br>
+<br>
+</big><big>I<span style="font-weight: bold;">nsertion</span><br>
+</big>
+<ul>
+  <li><big>We insert a new item (<span style="font-style: italic;">k</span>,
+    <span style="font-style: italic;">e</span>) at the <span
+ style="font-style: italic;">parent</span> <span
+ style="font-style: italic;">v</span> of the leaf
+reached by <span style="font-style: italic;">searching</span> for <span
+ style="font-style: italic;">k</span></big></li>
+  <ul>
+    <li><big>We preserve the depth property but</big></li>
+    <li><big>We may cause an <span style="font-style: italic;">overflow</span>
+(i.e., node <span style="font-style: italic;">v</span> may become a
+5-node)</big></li>
+  </ul>
+  <li><big><span style="color: rgb(0, 153, 0);">Example:</span>
+inserting key 30 causes an overflow</big></li>
+</ul>
+<div style="text-align: center;"><big><img
+ style="width: 593px; height: 291px;" alt="" src="pic16.jpg"></big><br>
+<big></big></div>
+<ul>
+  <li><big>We handle an overflow at a 5-node <span
+ style="font-style: italic;">v</span> with a <span
+ style="font-style: italic; color: rgb(204, 51, 204); font-weight: bold;">split</span>
+operation:</big></li>
+  <ul>
+    <li><big>let <span style="font-style: italic;">v</span><sub>1</sub></big><big>,
+      </big><big>&#8230;</big><big>,</big><big> <span
+ style="font-style: italic;">v</span><sub>5</sub> be the
+children of <span style="font-style: italic;">v</span> and <span
+ style="font-style: italic;">k</span><sub>1</sub></big><big>, </big><big>&#8230;</big><big>,</big><big>
+      <span style="font-style: italic;">k</span><sub>4</sub> be the
+keys of <span style="font-style: italic;">v</span></big></li>
+    <li><big>node <span style="font-style: italic;">v</span>
+is replaced nodes <span style="font-style: italic;">v</span>' and <span
+ style="font-style: italic;">v</span>"</big></li>
+    <li><big><span style="font-style: italic;">v</span>' is a 3-node
+with keys <span style="font-style: italic;">k</span><sub>1</sub></big><big>,</big><big>
+      <span style="font-style: italic;">k</span><sub>2</sub> and
+children </big><big><span style="font-style: italic;">v</span><sub>1</sub></big><big>,</big><big>
+      </big><big><span style="font-style: italic;">v</span><sub>2</sub></big><big>,</big><big>
+      </big><big><span style="font-style: italic;">v</span><sub>3</sub></big></li>
+    <li><big><span style="font-style: italic;">v</span>" is a 2-node
+with key </big><big><span style="font-style: italic;">k</span><sub>4</sub></big><big>
+and children </big><big><span style="font-style: italic;">v</span><sub>4</sub></big><big>,</big><big>
+      </big><big><span style="font-style: italic;">v</span><sub>5</sub></big></li>
+    <li><big>key </big><big><span style="font-style: italic;">k</span><sub>3</sub></big><big>
+is inserted into the parent <span style="font-style: italic;">u</span>
+of <span style="font-style: italic;">v</span> (a new root may
+be created)</big></li>
+  </ul>
+  <li><big>The overflow may <span style="font-style: italic;">propagate</span>
+to the parent node <span style="font-style: italic;">u</span></big></li>
+</ul>
+<div style="text-align: center;"><big><img
+ style="width: 748px; height: 196px;" alt="" src="pic17.jpg"></big><br>
+<big></big></div>
+<big>
+<table style="text-align: left; width: 539px; height: 155px;" border="1"
+ cellpadding="4" cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big>Algorithm <span
+ style="color: rgb(204, 0, 0);"><span style="font-style: italic;">insertItem</span>(<span
+ style="font-style: italic;">k</span>, <span
+ style="font-style: italic;">e</span>)</span><br>
+      <span style="color: rgb(51, 102, 102);">1.We search for key </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">k</span><span
+ style="color: rgb(51, 102, 102);"> to locate the insertion node </span><span
+ style="font-style: italic; color: rgb(51, 102, 102);">v</span><br>
+      <span style="color: rgb(51, 102, 102);">2.We add the new item (<span
+ style="font-style: italic;">k</span>, <span
+ style="font-style: italic;">e</span>) at node <span
+ style="font-style: italic;">v</span></span><br>
+      <span style="color: rgb(51, 102, 102);">3.</span> while <span
+ style="color: rgb(51, 102, 102);"><span style="font-style: italic;">overflow</span>(<span
+ style="font-style: italic;">v</span>)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if <span
+ style="color: rgb(51, 102, 102);"><span style="font-style: italic;">isRoot</span>(<span
+ style="font-style: italic;">v</span>)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
+ style="color: rgb(51, 102, 102);"> create a new empty root above <span
+ style="font-style: italic;">v</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+ style="color: rgb(51, 102, 102);"><span style="font-style: italic;">v</span>
+&#8592; <span style="font-style: italic;">split</span>(<span
+ style="font-style: italic;">v</span>)</span><br>
+      </big></td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br>
+Analysis of Insertion in a (2,4) Tree</span><br>
+</big>
+<ul>
+  <li><big>Let <span style="font-style: italic;">T</span> be a (2,4)
+tree with <span style="font-style: italic;">n</span> items</big></li>
+  <ul>
+    <li><big>Tree <span style="font-style: italic;">T</span> has <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) height</big></li>
+    <li><big>Searching takes <span style="font-style: italic;">O</span>(log
+      <span style="font-style: italic;">n</span>) time because we visit
+      <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) nodes</big></li>
+    <li><big>Restoring </big><big style="font-style: italic;">Node-Size
+Property</big><big> takes <span style="font-style: italic;">O</span>(log
+      <span style="font-style: italic;">n</span>) time because each <span
+ style="font-style: italic;">split</span>
+takes <span style="font-style: italic;">O</span>(1) time and we
+perform <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) splits</big></li>
+  </ul>
+  <li><big>Thus, an insertion in a (2,4) tree takes <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) time</big></li>
+</ul>
+<big>
+</big><big><span style="font-weight: bold;">Removal</span><br>
+</big>
+<ul>
+  <li><big>We reduce deletion of an item to the case where the item is
+at the node with<span style="font-style: italic;"> leaf children</span></big></li>
+  <li><big>Otherwise, we replace the item with its inorder successor
+(or, equivalently, with its inorder predecessor) and delete the latter
+item</big></li>
+  <li><big><span style="color: rgb(0, 153, 0);">Example:</span> to
+delete key 24, we replace it with 27 (inorder
+successor)</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 561px; height: 280px;" alt="" src="pic18.jpg"><br>
+</div>
+<ul>
+  <li><big>Deleting an item from a node <span
+ style="font-style: italic;">v</span> may cause an <span
+ style="font-style: italic;">underflow</span>, where
+node <span style="font-style: italic;">v</span> becomes a 1-node with
+one child and no keys</big></li>
+  <li><big>To handle an underflow at node <span
+ style="font-style: italic;">v</span> with parent <span
+ style="font-style: italic;">u</span>, we consider
+two cases:</big></li>
+  <li><big>Case 1: the adjacent siblings of <span
+ style="font-style: italic;">v</span> are 2-nodes</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;"><span
+ style="color: rgb(204, 51, 204); font-weight: bold;">Fusion</span> </span>operation:</big></li>
+    <ol>
+      <li><big>we merge <span style="font-style: italic;">v</span>
+with an adjacent
+sibling <span style="font-style: italic;">w</span></big></li>
+      <li><big>we move an item from <span style="font-style: italic;">u</span>
+to the
+merged node <span style="font-style: italic;">v</span>'</big></li>
+    </ol>
+    <li><big>After a fusion, the underflow may <span
+ style="font-style: italic;">propagate</span> to the
+parent <span style="font-style: italic;">u</span></big></li>
+  </ul>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 761px; height: 172px;" alt="" src="pic19.jpg"><br>
+</div>
+<ul>
+  <li><big>Case 2: an adjacent sibling <span
+ style="font-style: italic;">w</span> of <span
+ style="font-style: italic;">v</span> is a 3-node or a 4-node</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;"><span
+ style="font-weight: bold; color: rgb(204, 51, 204);">Transfer</span> </span>operation:</big></li>
+    <ol>
+      <li><big>we move a child of <span style="font-style: italic;">w</span>
+to <span style="font-style: italic;">v</span></big></li>
+      <li><big>we move an item from <span style="font-style: italic;">u</span>
+to <span style="font-style: italic;">v</span></big></li>
+      <li><big>we move an item from <span style="font-style: italic;">w</span>
+to <span style="font-style: italic;">u</span></big></li>
+    </ol>
+    <li><big>After a transfer, no underflow occurs</big></li>
+  </ul>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 742px; height: 182px;" alt="" src="pic20.jpg"><br>
+</div>
+<br>
+<big><span style="font-weight: bold;">Analysis of Removal in a (2,4)
+Tree</span></big><br>
+<ul>
+  <li><big>Let <span style="font-style: italic;">T</span> be a (2,4)
+tree with <span style="font-style: italic;">n</span> items</big></li>
+  <ul>
+    <li><big>Tree <span style="font-style: italic;">T</span> has <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) height</big></li>
+  </ul>
+  <li><big>In a deletion operation</big></li>
+  <ul>
+    <li><big>We visit <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) nodes to locate the node from
+which to delete the item</big></li>
+    <li><big>We handle an underflow with a series of <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) fusions, followed by at most one
+transfer</big></li>
+    <li><big>Each fusion and transfer takes <span
+ style="font-style: italic;">O</span>(1) time</big></li>
+  </ul>
+  <li><big>Thus, deleting an item from a (2,4) tree takes <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) time</big></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h3>9.5 <span style="color: rgb(204, 0, 0);">Red</span>-Black Trees</h3>
+<big>
+</big>
+<ul>
+  <li><big>A <span style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span>
+tree is a representation of a (2,4) tree by
+means of a <span style="font-style: italic;">binary</span> tree whose
+nodes are colored <span style="color: rgb(204, 0, 0);">red</span> or <span
+ style="font-weight: bold;">black</span></big></li>
+  <li><big>In comparison with its associated (2,4) tree, a <span
+ style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span>
+tree has:</big></li>
+  <ul>
+    <li><big>same logarithmic time performance</big></li>
+    <li><big>simpler implementation with a single node type</big></li>
+  </ul>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 733px; height: 265px;" alt="" src="rb1.jpg"><br>
+</div>
+<br>
+<ul>
+  <li><big>A <span style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span>
+tree can also be defined as a binary search tree
+that satisfies the following properties:</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;">Root Property</span>:
+the <span style="font-style: italic;">root</span>
+is <span style="font-weight: bold;">black</span></big></li>
+    <li><big><span style="font-style: italic;">External Property</span>:
+every <span style="font-style: italic;">leaf</span>
+is <span style="font-weight: bold;">black</span></big></li>
+    <li><big><span style="font-style: italic;">Internal Propert</span>y:
+the <span style="font-style: italic;">children</span>
+of a <span style="color: rgb(204, 0, 0);">red</span> node are <span
+ style="font-weight: bold;">black</span></big></li>
+    <li><big><span style="font-style: italic;">Depth Propert</span>y:
+all the <span style="font-style: italic;">leaves</span>
+have the same <span style="font-weight: bold;">black</span> depth</big></li>
+  </ul>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 464px; height: 226px;" alt="" src="rb2.jpg"><br>
+</div>
+<ul>
+  <li><big><span style="color: rgb(0, 102, 0);">Theorem:</span> A <span
+ style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span>
+tree storing <span style="font-style: italic;">n</span> items has
+height <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>)</big></li>
+  <li style="color: rgb(0, 102, 0);"><big>Proof:</big></li>
+  <ul>
+    <li><big>The height of a <span style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span>
+tree is at most twice the
+height
+of its associated (2,4) tree, which is <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>)</big></li>
+  </ul>
+  <li><big>The search algorithm for a </big><big><span
+ style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span></big><big> tree is the same as
+that for a binary search tree</big></li>
+  <li><big>By the above theorem, searching in a <span
+ style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span> tree takes <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) time</big></li>
+</ul>
+<big style="font-weight: bold;"> 9.5.1 Update Operations<br>
+<br>
+</big><big><span style="font-weight: bold;">Insertion</span><br>
+</big>
+<ul>
+  <li><big>To perform operation <span style="font-family: monospace;">insertItem</span>(<span
+ style="font-style: italic;">k</span>, <span
+ style="font-style: italic;">e</span>), we execute the
+insertion algorithm for binary search trees and color <span
+ style="color: rgb(204, 0, 0);">red</span> the newly
+inserted node <span style="font-style: italic;">z</span> unless it is
+the root</big></li>
+  <ul>
+    <li><big>We preserve the root, external, and depth properties</big></li>
+    <li><big>If the parent <span style="font-style: italic;">v</span>
+of <span style="font-style: italic;">z</span> is <span
+ style="font-weight: bold;">black</span>, we also
+preserve the
+internal
+property and we are done</big></li>
+    <li><big>If the parent <span style="font-style: italic;">v</span>
+of <span style="font-style: italic;">z</span> </big><big><span
+ style="font-style: italic;"></span> is <span
+ style="color: rgb(204, 0, 0);">red</span>, we have a <span
+ style="color: rgb(255, 0, 0); font-style: italic;">double red</span><span
+ style="font-style: italic;"> </span>(i.e., a violation
+of
+the <span style="font-style: italic;">internal property</span>), which
+requires a reorganization of the tree</big></li>
+  </ul>
+  <li><big><span style="color: rgb(0, 102, 0);">Example</span> where
+the insertion of 4 causes a <span
+ style="color: rgb(255, 0, 0); font-style: italic;">double red</span>:</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 687px; height: 216px;" alt="" src="rb22.jpg"><br>
+</div>
+<ul>
+  <li><big>Consider a <span
+ style="color: rgb(255, 0, 0); font-style: italic;">double red</span><span
+ style="color: rgb(255, 0, 0);"> </span>with child <span
+ style="font-style: italic;">z</span> and
+parent <span style="font-style: italic;">v</span>, and let <span
+ style="font-style: italic;">w</span> be the sibling of <span
+ style="font-style: italic;">v</span>:</big></li>
+</ul>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><img
+ style="width: 219px; height: 219px;" alt="" src="rb3.jpg"><br>
+      </td>
+      <td style="vertical-align: middle;">
+      <ul>
+        <li><big>Case 1: <span style="font-style: italic;">w</span> is
+          <span style="font-weight: bold;">black</span></big></li>
+        <ul>
+          <li><big>The <span
+ style="color: rgb(255, 0, 0); font-style: italic;">double red</span>
+is an incorrect replacement of a
+4-node</big></li>
+          <li><big><span style="color: rgb(51, 51, 255);">Restructuring</span>:
+we change the 4-node replacement</big></li>
+        </ul>
+      </ul>
+      </td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><img
+ style="width: 210px; height: 193px;" alt="" src="rb4.jpg"><br>
+      </td>
+      <td style="vertical-align: middle;">
+      <ul>
+        <li><big>Case 2: <span style="font-style: italic;">w</span> is
+          <span style="color: rgb(204, 0, 0);">red</span></big></li>
+        <ul>
+          <li><big>The <span
+ style="color: rgb(255, 0, 0); font-style: italic;">double red</span>
+corresponds to an overflow</big></li>
+          <li><big><span style="color: rgb(51, 51, 255);">Recoloring</span>:
+we perform the equivalent of a <span style="color: rgb(204, 51, 204);">split
+            </span>operation in (2,4)-tree<span
+ style="color: rgb(204, 51, 204);"><br>
+            </span></big></li>
+        </ul>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big><br>
+</big>
+<ul>
+  <li><big>A <span style="color: rgb(51, 51, 255);">restructuring</span>
+remedies a child-parent <span
+ style="color: rgb(255, 0, 0); font-style: italic;">double red</span>
+when the
+parent <span style="color: rgb(204, 0, 0);">red</span> node has a <span
+ style="font-weight: bold;">black</span> sibling</big></li>
+  <li><big>It is equivalent to restoring the correct replacement of a
+4-node</big></li>
+  <li><big>The internal property is restored and the other properties
+are preserved</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 647px; height: 299px;" alt="" src="rb5.jpg"><br>
+</div>
+<ul>
+  <li><big>There are four restructuring configurations depending on
+whether the <span style="color: rgb(255, 0, 0); font-style: italic;">double
+red</span>
+nodes are left or right children</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 704px; height: 319px;" alt="" src="rb6.jpg"><br>
+</div>
+<ul>
+  <li><big>A <span style="color: rgb(51, 51, 255);">recoloring</span>
+remedies a child-parent <span
+ style="font-style: italic; color: rgb(255, 0, 0);">double </span><span
+ style="color: rgb(204, 0, 0);"><span
+ style="font-style: italic; color: rgb(255, 0, 0);">red</span> </span>when
+the
+parent <span style="color: rgb(204, 0, 0);">red</span> node has a <span
+ style="color: rgb(204, 0, 0);">red</span>
+sibling</big></li>
+  <li><big>The parent <span style="font-style: italic;">v</span> and
+its sibling <span style="font-style: italic;">w</span> become <span
+ style="font-weight: bold;">black</span> and
+the grandparent <span style="font-style: italic;">u</span> becomes <span
+ style="color: rgb(204, 0, 0);">red</span>, unless it is the root</big></li>
+  <li><big>It is equivalent to performing a <span
+ style="color: rgb(204, 51, 204);">split</span> </big><big>operation
+on (2,4)-tree </big><big>on a 5-node</big></li>
+  <li><big>The <span style="font-style: italic; color: rgb(255, 0, 0);">double
+    </span><span style="color: rgb(204, 0, 0);"><span
+ style="font-style: italic; color: rgb(255, 0, 0);">red</span> </span>violation
+may <span style="font-style: italic;">propagate</span> to the
+grandparent <span style="font-style: italic;">u</span></big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 588px; height: 255px;" alt="" src="rb7.jpg"><br>
+</div>
+<big><span style="font-weight: bold;">
+Analysis of Insertion in a </span></big><big><span
+ style="color: rgb(204, 0, 0);">Red</span>-<span
+ style="font-weight: bold;">Black</span></big><big><span
+ style="font-weight: bold;"> Tree</span></big>
+<ul>
+  <li><big>Recall that a <span style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span>
+tree has <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) height</big></li>
+  <li><big>Step 1 takes <span style="font-style: italic;">O</span>(log
+    <span style="font-style: italic;">n</span>) time because we visit <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) nodes</big></li>
+  <li><big>Step 2 takes <span style="font-style: italic;">O</span>(1)
+time</big></li>
+  <li><big>Step 3 takes <span style="font-style: italic;">O</span>(log
+    <span style="font-style: italic;">n</span>) time because we perform</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) recolorings, each taking <span
+ style="font-style: italic;">O</span>(1) time, and</big></li>
+    <li><big>at most one restructuring taking <span
+ style="font-style: italic;">O</span>(1) time</big></li>
+  </ul>
+  <li><big>Thus, an insertion in a <span style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span> tree takes <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) time</big></li>
+</ul>
+<big><span style="font-weight: bold;">Removal</span><br>
+</big>
+<ul>
+  <li><big>To perform operation <span style="font-family: monospace;">remove</span>(<span
+ style="font-style: italic;">k</span>), we first execute the deletion
+algorithm for binary search trees</big></li>
+  <li><big>Let <span style="font-style: italic;">v</span> be the
+internal node removed, <span style="font-style: italic;">w</span> the
+external node removed, and <span style="font-style: italic;">r</span>
+the sibling of <span style="font-style: italic;">w</span></big></li>
+  <ul>
+    <li><big>If either <span style="font-style: italic;">v</span> of <span
+ style="font-style: italic;">r</span> was <span
+ style="color: rgb(204, 0, 0);">red</span>, we color <span
+ style="font-style: italic;">r</span> <span style="font-weight: bold;">black</span>
+and we are done</big></li>
+    <li><big>If <span style="font-style: italic;">v</span> and <span
+ style="font-style: italic;">r</span> were both <span
+ style="font-weight: bold;">black,</span> we color <span
+ style="font-style: italic;">r</span> <span
+ style="font-weight: bold; font-style: italic;">double black</span>,
+which is a
+violation of the <span style="font-style: italic;">depth property</span>
+requiring a reorganization of the
+tree</big></li>
+  </ul>
+  <li><big><span style="color: rgb(0, 102, 0);">Example</span> where
+the deletion of 8 causes a <span
+ style="font-weight: bold; font-style: italic;">double black</span>:</big></li>
+</ul>
+<div style="text-align: center;"><img
+ style="width: 637px; height: 183px;" alt="" src="rb8.jpg"><br>
+</div>
+<ul>
+  <li><big>The algorithm for remedying a <span
+ style="font-style: italic;"><span style="font-weight: bold;">double</span>
+    </span><span style="font-weight: bold; font-style: italic;">black</span>
+node <span style="font-style: italic;">w</span> with sibling <span
+ style="font-style: italic;">y</span> considers three cases</big></li>
+  <li><big>Case 1: <span style="font-style: italic;">y</span> is <span
+ style="font-weight: bold;">black</span>
+and has a <span style="color: rgb(204, 0, 0);">red</span> child</big></li>
+  <ul>
+    <li><big>We perform a <span style="color: rgb(51, 51, 255);">restructuring</span>,
+equivalent to a transfer, and
+we are done</big></li>
+  </ul>
+  <li><big>Case 2: <span style="font-style: italic;">y</span> is <span
+ style="font-weight: bold;">black</span>
+and its children are both <span style="font-weight: bold;">black</span></big></li>
+  <ul>
+    <li><big>We perform a <span style="color: rgb(51, 51, 255);">recoloring</span>,
+equivalent to a <span style="color: rgb(204, 51, 204);">fusion</span> </big><big>operation
+on (2,4)-tree</big><big>, which may <span style="font-style: italic;">propagate</span>
+up the <span style="font-style: italic;"><span
+ style="font-weight: bold;">double</span> </span><span
+ style="font-weight: bold; font-style: italic;">black</span>
+violation</big></li>
+  </ul>
+  <li><big>Case 3: <span style="font-style: italic;">y</span> is <span
+ style="color: rgb(204, 0, 0);">red</span></big></li>
+  <ul>
+    <li><big>We perform an <span style="color: rgb(51, 51, 255);">adjustment</span>,
+equivalent to choosing a
+different representation of a 3-node, after which either Case 1 or Case
+2 applies</big></li>
+  </ul>
+  <li><big>Deletion in a <span style="color: rgb(204, 0, 0);">red</span>-<span
+ style="font-weight: bold;">black</span>
+tree takes <span style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) time</big></li>
+</ul>
+<big>
+</big><br>
+<big><span style="font-weight: bold;"><span
+ style="color: rgb(204, 0, 0);">Red</span>-Black Tree Reorganization<br>
+<br>
+</span><span style="color: rgb(255, 0, 0); font-weight: bold;">Insertion
+(remedy double red)</span><br>
+</big>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td
+ style="vertical-align: top; color: rgb(255, 0, 0); font-weight: bold;"><big>Red-black
+tree action<br>
+      </big></td>
+      <td
+ style="vertical-align: top; color: rgb(255, 0, 0); font-weight: bold;"><big>(2,4)
+tree action<br>
+      </big></td>
+      <td
+ style="vertical-align: top; color: rgb(255, 0, 0); font-weight: bold;"><big>result<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 255, 204); color: rgb(51, 51, 255);"><big>restructuring</big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 255, 204);"><big>change
+of 4-node representation<br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 255, 204);"><big>double
+red removed<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 255, 255);"><big><span
+ style="color: rgb(51, 51, 255);">recoloring</span><br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 255, 255);"><big><span
+ style="color: rgb(204, 51, 204);">split</span><br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 255, 255);"><big>double
+red removed or propagated up<br>
+      </big></td>
+    </tr>
+  </tbody>
+</table>
+<big><br>
+<span style="font-weight: bold;">Deletion (remedy double black)</span><br>
+</big>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top; font-weight: bold;"><big>Red-black
+tree action<br>
+      </big></td>
+      <td style="vertical-align: top; font-weight: bold;"><big>(2,4)
+tree action</big></td>
+      <td style="vertical-align: top; font-weight: bold;"><big>result<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 255, 204);"><big><span
+ style="color: rgb(51, 51, 255);">restructuring</span><br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 255, 204);"><big><span
+ style="color: rgb(204, 51, 204);">transfer</span><br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 255, 204);"><big>double
+black removed<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 255, 255);"><big><span
+ style="color: rgb(51, 51, 255);">recoloring</span><br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 255, 255);"><big><span
+ style="color: rgb(204, 51, 204);">fusion</span><br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(204, 255, 255);"><big>double
+black removed or propagated up<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 204, 204);"><big><span
+ style="color: rgb(51, 51, 255);">adjustment</span><br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 204, 204);"><big>change
+of 3-node representation<br>
+      </big></td>
+      <td
+ style="vertical-align: top; background-color: rgb(255, 204, 204);"><big>restructuring
+or recoloring follows</big><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big style="font-weight: bold;"><br>
+</big><big style="font-weight: bold;"> 9.5.2 C++ Implementation</big><br>
+<big><a href="9.11_RBTree.h-RBItem.html">html-9.11</a> (RBItem)<br>
+<a href="9.12_RBTree.h-RBTree1.html">html-9.12</a> (RBTree1)<br>
+<a href="9.13_RBTree.h-RBTree2.html">html-9.13</a> (RBTree2)<br>
+<a href="9.14_RBTree.h-RBTree3.html">html-9.14</a> (RBTree3)</big><big
+ style="font-weight: bold;"><br>
+<br>
+</big>
+<hr style="width: 100%; height: 2px;">
+</body>
+</html>

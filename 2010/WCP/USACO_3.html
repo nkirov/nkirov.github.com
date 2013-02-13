@@ -1,0 +1,162 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
+  <title>USACO_3</title>
+</head>
+<body>
+<h3>iCow [Jeffrey Wang, 2008]</h3>
+<br>
+Fatigued by the endless toils of farming, Farmer John has decided to
+try his hand in the MP3 player market with the new iCow. It is an MP3
+player that stores N songs (1 &lt;= N &lt;= 1,000) indexed 1 through N
+that plays songs in a "shuffled" order, as determined by Farmer John's
+own algorithm:<br>
+&nbsp;&nbsp; * Each song i has an initial rating Ri (1 &lt;= Ri &lt;=
+10,000).<br>
+&nbsp;&nbsp; * The next song to be played is always the one with the
+highest rating (or, if two or more are tied, the highest rated song
+with the lowest index is chosen).<br>
+&nbsp;&nbsp; * After being played, a song's rating is set to zero, and
+its rating points are distributed evenly among the other N-1 songs.<br>
+&nbsp;&nbsp; * If the rating points cannot be distributed evenly (i.e.,
+they are not divisible by N-1), then the extra points are parceled out
+one at a time to the first songs on the list (i.e., R_1, R_2, etc. --
+but not the played song) until no more extra points remain.<br>
+&nbsp;&nbsp;&nbsp; This process is repeated with the new ratings after
+the next song is played.<br>
+&nbsp;&nbsp;&nbsp; Determine the first T songs (1 &lt;= T &lt;= 1000)
+that are played by the iCow.<br>
+<hr style="width: 100%; height: 2px;"><br>
+INPUT FORMAT:<br>
+<br>
+* Line 1: Two space-separated integers: N and T<br>
+<br>
+* Lines 2..N+1: Line i+1 contains a single integer: Ri<br>
+<br>
+SAMPLE INPUT (file icow.in):<br>
+<br>
+3 4<br>
+10<br>
+8<br>
+11<br>
+<br>
+INPUT DETAILS:<br>
+<br>
+The iCow contains 3 songs, with ratings 10, 8, and 11, respectively.
+You must determine the first 4 songs to be played.<br>
+<br>
+OUTPUT FORMAT:<br>
+<br>
+* Lines 1..T: Line i contains a single integer that is the i-th
+song&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; that the iCow
+plays.<br>
+<br>
+SAMPLE OUTPUT (file icow.out):<br>
+<br>
+3<br>
+1<br>
+2<br>
+3<br>
+<br>
+OUTPUT DETAILS:<br>
+<br>
+The ratings before each song played are:<br>
+&nbsp;&nbsp; R_1&nbsp; R_2&nbsp; R_3<br>
+&nbsp;&nbsp;&nbsp; 10&nbsp;&nbsp;&nbsp; 8&nbsp;&nbsp; 11&nbsp; -&gt;
+play #3&nbsp; 11/2 = 5, leftover = 1<br>
+&nbsp;&nbsp;&nbsp; 16&nbsp;&nbsp; 13&nbsp;&nbsp;&nbsp; 0&nbsp; -&gt;
+play #1&nbsp; 16/2 = 8<br>
+&nbsp;&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 21&nbsp;&nbsp;&nbsp; 8&nbsp;
+-&gt; play #2&nbsp; 21/2 = 10, leftover = 1<br>
+&nbsp;&nbsp;&nbsp; 11&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 18&nbsp; -&gt;
+play #3&nbsp; ...<br>
+<br>
+This program is a "pure programming" task. It requires nothing more
+than the implementation of a set of rules. The example even showed how
+one of the potentially troublesome rules actually worked. <br>
+The program below is commented to show how each step is performed. The
+only potentially tricky part is the use of two variables for the
+distribution: one to count how many pieces get distributed and the
+second to say where they go. The second variable is the trick for
+implementing the "Don't redistribute back to the currently playing
+song" rule. <br>
+<hr style="width: 100%; height: 2px;"><br>
+<span style="font-family: monospace;">#include &lt;stdio.h&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">#include &lt;stdlib.h&gt;</span><br
+ style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">void main() {</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; int bestrate,
+bestj, i, j, k, n, t, r[1000+1];</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; int
+evenlydistribute, leftover;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; FILE
+*fin&nbsp; = fopen ("icow.in", "r");</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; FILE *fout =
+fopen ("icow.out", "w");</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fscanf (fin,
+"%d %d", &amp;n, &amp;t);</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (i = 0; i
+&lt; n; i++)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fscanf (fin, "%d", &amp;r[i]);</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; for (i = 0; i &lt;
+t; i++) {&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* play t
+songs */</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* find highest rated song */</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bestrate = -1;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for (j = 0; j &lt; n; j++) {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (r[j] &gt; bestrate) {&nbsp;&nbsp; /* best, lowest index */</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bestj = j;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bestrate = r[j];</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fprintf (fout, "%d\n",
+bestj+1);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* play it */</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+evenlydistribute = r[bestj]/(n-1);</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+leftover = r[bestj] % (n-1);</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+r[bestj] = 0;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for (j = 0; j &lt; n; j++)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (j != bestj)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+r[j] += evenlydistribute;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+for (k = j = 0; j &lt; leftover; j++, k++)&nbsp; {</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (j == bestj) k++;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+r[k]++;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">}</span><br>
+<hr style="width: 100%; height: 2px;"><br>
+</body>
+</html>

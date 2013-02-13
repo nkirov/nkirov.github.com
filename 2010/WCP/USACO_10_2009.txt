@@ -1,0 +1,617 @@
+ANALYSIS MODE
+Submit solutions for your own enjoyment.
+
+**********************************************************************
+                           GOLD PROBLEMS
+**********************************************************************
+                  Nine problems numbered 1 through 9
+**********************************************************************
+
+Problem 1: Even? Odd?  [25 points] [Rob Kolstad, 2009]
+
+Bessie's cruel second grade teacher has assigned a list of N (1 <= N <=
+100) positive integers I (1 <= I <= 10^60) for which Bessie must determine
+their parity (explained in second grade as "Even... or odd?"). Bessie is
+overwhelmed by the size of the list and by the size of the numbers. After
+all, she only learned to count recently.
+
+Write a program to read in the N integers and print 'even' on a single line
+for even numbers and likewise 'odd' for odd numbers.
+
+POINTS: 25
+
+PROBLEM NAME: evenodd
+
+INPUT FORMAT:
+
+* Line 1: A single integer: N
+
+* Lines 2..N+1: Line j+1 contains I_j, the j-th integer to determine
+        even/odd
+
+SAMPLE INPUT (file evenodd.in):
+
+2
+1024
+5931
+
+INPUT DETAILS:
+
+Two integers: 1024 and 5931
+
+OUTPUT FORMAT:
+
+* Lines 1..N: Line j contains the word 'even' or 'odd', depending on
+        the parity of I_j
+
+SAMPLE OUTPUT (file evenodd.out):
+
+even
+odd
+
+OUTPUT DETAILS:
+
+1024 is eminently divisible by 2; 5931 is not
+
+**********************************************************************
+
+Problem 2: The Robot Plow [25 points] [Rob Kolstad (traditional), 2009]
+
+Farmer John has purchased a new robotic plow in order to relieve
+him from the drudgery of plowing field after field after field. It
+achieves this goal but at a slight disadvantage: the robotic plow
+can only plow in a perfect rectangle with sides of integer length.
+
+Because FJ's field has trees and other obstacles, FJ sets up the
+plow to plow many different rectangles, which might end up overlapping.
+He's curious as to just how many squares in his field are actually
+plowed after he programs the plow with various plow instructions,
+each of which describes a rectangle by giving its lower left and
+upper right x,y coordinates.
+
+As usual, the field is partitioned into squares whose sides are
+parallel to the x and y axes. The field is X squares wide and Y
+squares high (1 <= X <= 240; 1 <= Y <= 240). Each of the I (1 <= I
+<= 200) plow instructions comprises four integers: Xll, Yll, Xur,
+and Yur (1 <= Xll <= Xur; Xll <= Xur <= X; 1 <= Yll <= Yur; Yll <=
+Yur <= Y) which are the lower left and upper right coordinates of
+the rectangle to be plowed. The plow will plow all the field's
+squares in the range (Xll..Xur, Yll..Yur) which might be one more
+row and column than would initially be assumed (depending on how
+you go about your assumptions, of course).
+
+Consider a field that is 6 squares wide and 4 squares high. As FJ
+issues a pair of plowing instructions (shown), the field gets plowed
+as shown by '*' and '#' (normally plowed field all looks the same,
+but '#' shows which were most recently plowed):
+
+    ......             **....             #####.
+    ......  (1,1)(2,4) **....  (1,3)(5,4) #####.
+    ......             **....             **....
+    ......             **....             **....
+
+A total of 14 squares are plowed.
+
+POINTS: 25
+
+PROBLEM NAME: rplow
+
+INPUT FORMAT:
+
+* Line 1: Three space-separated integers: X, Y, and I
+
+* Lines 2..I+1: Line i+1 contains plowing instruction i which is
+        described by four integers: Xll, Yll, Xur, and Yur
+
+SAMPLE INPUT (file rplow.in):
+
+6 4 2
+1 1 2 4
+1 3 5 4
+
+INPUT DETAILS:
+
+As in the task's example.
+
+OUTPUT FORMAT:
+
+* Line 1: A single integer that is the total number of squares plowed
+
+SAMPLE OUTPUT (file rplow.out):
+
+14
+
+**********************************************************************
+
+Problem 3: Barn Echoes [50 points] [Traditional, 2009]
+
+The cows enjoy mooing at the barn because their moos echo back,
+although sometimes not completely. Bessie, ever the excellent
+secretary, has been recording the exact wording of the moo as it
+goes out and returns. She is curious as to just how much overlap
+there is.
+
+Given two lines of input (letters from the set a..z, total length
+in the range 1..80), each of which has the wording of a moo on it,
+determine the greatest number of characters of overlap between one
+string and the other. A string is an overlap between two other
+strings if it is a prefix of one string and a suffix of the other
+string.
+
+By way of example, consider two moos:
+
+     moyooyoxyzooo
+     yzoooqyasdfljkamo
+
+The last part of the first string overlaps 'yzooo' with the first
+part of the second string. The last part of the second string
+overlaps 'mo' with the first part of the first string. The largest
+overlap is 'yzooo' whose length is 5.
+
+POINTS: 50
+
+PROBLEM NAME: echo
+
+INPUT FORMAT:
+
+* Lines 1..2: Each line has the text of a moo or its echo
+
+SAMPLE INPUT (file echo.in):
+
+abcxxxxabcxabcd
+abcdxabcxxxxabcx
+
+OUTPUT FORMAT:
+
+* Line 1: A single line with a single integer that is the length of
+        the longest overlap between the front of one string and end of
+        the other.
+
+SAMPLE OUTPUT (file echo.out):
+
+11
+
+OUTPUT DETAILS:
+
+'abcxxxxabcx' is a prefix of the first string and a suffix of the second
+string.
+
+**********************************************************************
+
+Problem 4: Papaya Jungle [80 points] [Rob Kolstad, 2009]
+
+Bessie has wandered off the farm into the adjoining farmer's land.
+He raises delicious papaya fruit, which is a delicacy for cows. The
+papaya jungle is partitioned into a grid of squares with R rows and
+C columns (1 <= R <= 40, 1 <= C <= 40), as is popular in Wisconsin.
+Bessie can travel from a given square to any existing adjacent
+square whose route is parallel to the X or Y axis.  So in the
+following diagram, if Bessie is at the square labeled "B", she can
+travel to any of the squares labeled "T":
+
+         .T.
+         TBT
+         .T.
+
+Bessie always starts out by munching the papayas in square
+(row=1,col=1).  After she's done with one square, Bessie always
+uses her trusty binoculars to count the low-hanging fruit in each
+of the adjacent squares. She then always moves to the square with
+the most visible uneaten fruit (a square that happily is always
+unique).
+
+Sooner or later, following this rule, Bessie always ends up in
+square (R,C) and eats the fruit there.
+
+Given the dimensions of the papaya jungle and the amount of fruit
+F_ij in each square (1 <= F_ij <= 100), determine the total number
+of fruit Bessie consumes for a given papaya jungle.
+
+POINTS: 80
+
+PROBLEM NAME: papaya
+
+INPUT FORMAT:
+
+* Line 1: Two space-separated integers: R and C
+
+* Lines 2..R+1: Line i+1 describes row i of the jungle with C
+        space-separated integers that tell how many fruit are in each
+        square: F_i1, F_i2, ..., F_iC
+
+SAMPLE INPUT (file papaya.in):
+
+3 4
+3 3 4 5
+4 5 3 2
+1 7 4 2
+
+INPUT DETAILS:
+
+Three rows; four columns. Bessie starts in upper left corner at the '3'.
+
+OUTPUT FORMAT:
+
+* Line 1: A single integer that is the total number of papayas that
+        Bessie eats by the time she finishes off the papayas at the
+        barn in the lower right corner at coordinate (R,C).
+
+SAMPLE OUTPUT (file papaya.out):
+
+39
+
+OUTPUT DETAILS:
+
+Bessie eats the papayas in the order given by the letters next to the
+numbers below:
+
+     (1,1) ---> (1,C)
+(1,1) 3a  3   4g  5h  (1,C)
+  |   4b  5c  3f  2i    |
+(R,1) 1   7d  4e  2j  (R,C)
+     (R,1) ---> (R,C)
+
+She declines to eat 4 of the papayas but consumes 39 (visiting all
+but two squares of the grid).
+
+**********************************************************************
+
+Problem 5: The Leisurely Stroll [100 points] [Rob Kolstad (traditional), 2009]
+
+Bessie looks out the barn door at the beautiful spring day and
+thinks to herself, "I'd really like to enjoy my walk out to the
+pastures for the tender spring grass." She knows that once she
+leaves the barn, she will traverse a path for a while, take one of
+two choices that lead to other paths, follow one of them, take one
+of two other choices, and continue on until the path leads to a
+verdant pasture.
+
+She decides to make the set of path choices that enables her to
+walk over the greatest number of cow paths on her way to breakfast.
+Given the description of these paths, determine how many cow paths
+she traverses, presuming that she commences choosing various paths
+as soon as she leaves the barn.
+
+The farm has P (1 <= P <= 1,000) pastures that are lead to by P-1
+choice-nodes (range 1..P-1) connected by paths. From the barn (which
+is node 1), only one set of path traversals exists to reach any
+choice-node or pasture.
+
+Consider this set of paths (lines), pastures ('%'), and the highlighted
+('#') route to a pasture on the right:
+
+                 %                             %
+                /                             /
+      2----%   7----8----%          2----%   7####8----%
+     / \      /      \             # #      #      #
+    1   5----6        9----%      1   5####6        9----%
+     \   \    \        \           \   \    \        #
+      \   %    %        %           \   %    %        %
+       \                             \
+        3-----%                       3-----%
+         \                             \
+          4----%                        4----%
+           \                             \
+            %                             %
+
+
+The pasture reached from choice-node 9 is one of two that enable
+Bessie to traverse seven different cowpaths on the way to breakfast.
+These are the 'furthest' pastures from node 1, the barn.
+
+Three integers describe each node: Cn, D1, and D2. Cn is the
+nodenumber (1 <= Cn <= P-1); D1 and D2 are the destinations from
+that node (0 <= D1 <= P-1; 0 <= D2 <= P-1). If D1 is 0, the node
+leads to a pasture in that direction; D2 has the same property.
+
+POINTS: 100
+
+PROBLEM NAME: stroll
+
+INPUT FORMAT:
+
+* Line 1: A single integer: P
+
+* Lines 2..P: Line i+1 contains three space-separated integeres that
+        describe a choice-node: Cn, D1, and D2
+
+SAMPLE INPUT (file stroll.in):
+
+10
+7 8 0
+5 0 6
+9 0 0
+6 0 7
+3 4 0
+2 5 0
+8 0 9
+4 0 0
+1 2 3
+
+INPUT DETAILS:
+
+This input describes the example farm layout in the task description.
+
+OUTPUT FORMAT:
+
+* Line 1: A single integer that is the largest number of paths Bessie
+        can traverse on the way to the furthest pasture.
+
+SAMPLE OUTPUT (file stroll.out):
+
+7
+
+OUTPUT DETAILS:
+
+1-2-5-6-7-8-9-P is one of the longest routes.
+
+**********************************************************************
+
+Problem 6: Invasion of the Milkweed [125 points] [Rob Kolstad, 2009]
+
+Farmer John has always done his best to keep the pastures full of
+luscious, delicious healthy grass for the cows. He has lost the
+battle, though, as the evil milkweed has attained a foothold in the
+northwest part of his farm.
+
+The pasture, as usual, is partitioned into a rectilinear grid of
+height Y (1 <= Y <= 100) and width X (1 <= X <= 100) with (1,1)
+being in the lower left corner (i.e., arranged as a normal X,Y
+coordinate grid). The milkweed has initially begun growing at square
+(Mx,My). Each week the milkweed propagates to all non-rocky squares
+that surround any square it already occupies, as many as eight more
+squares (both the rectilinear squares and the diagonals). After
+only one week in those squares, it is ready to move on to more
+squares.
+
+Bessie wants to enjoy all the grass she can before the pastures are
+taken over by milkweed. She wonders how long it can last. If the
+milkweed is in square (Mx,My) at time zero, at what time does it
+complete its invasion of the pasture (which, for the given input
+data, will always happen)?
+
+The pasture is described by a picture with '.'s for grass and '*'s
+for boulders, like this example with X=4 and Y=3:
+
+     ....
+     ..*.
+     .**.
+
+If the milkweed started in the lower left corner (row=1, column=1),
+then the map would progress like this:
+
+     ....  ....  MMM.  MMMM  MMMM  
+     ..*.  MM*.  MM*.  MM*M  MM*M  
+     M**.  M**.  M**.  M**.  M**M  
+week  0     1     2     3     4
+
+The milkweed has taken over the entire field after 4 weeks.
+
+POINTS: 125
+
+PROBLEM NAME: milkweed
+
+INPUT FORMAT:
+
+* Line 1: Four space-separated integers: X, Y, Mx, and My
+
+* Lines 2..Y+1: Line y+1 describes row (Y+2-y) of the field with X
+        characters ('.' for grass and '*' for a boulder)
+
+SAMPLE INPUT (file milkweed.in):
+
+4 3 1 1
+....
+..*.
+.**.
+
+OUTPUT FORMAT:
+
+* Line 1: A single integer that is the week number when the milkweed
+        takes over the last remaining non-boulder square of the
+        pasture.
+
+SAMPLE OUTPUT (file milkweed.out):
+
+4
+
+**********************************************************************
+
+Problem 7: Allowance [250 points] [Brian Dean, 2004]
+
+As a reward for record milk production, Farmer John has decided to
+start paying Bessie a small weekly allowance.
+
+FJ has a set of coins in N (1 <= N <= 20) different denominations,
+where each denomination of coin evenly divides the next-larger
+denomination.
+
+Using the given set of coins, he would like to pay Bessie at least
+some given amount of money C (1 <= C <= 100,000,000) every week.
+Please help him compute the maximum number of weeks he can pay
+Bessie.
+
+POINTS: 250
+
+PROBLEM NAME: allow
+
+INPUT FORMAT:
+
+* Line 1: Two space-separated integers: N and C
+
+* Lines 2..N+1: Each line corresponds to a denomination of coin and
+        contains two integers: the value V (1 <= V <= 100,000,000) of
+        the denomination, and the number of coins B (1 <= B <=
+        1,000,000) of this denomation in Farmer John's possession.
+
+SAMPLE INPUT (file allow.in):
+
+3 6
+10 1
+1 100
+5 120
+
+INPUT DETAILS:
+
+FJ would like to pay Bessie 6 cents per week.  He has 100 1-cent coins,
+120 5-cent coins, and 1 10-cent coin.
+
+OUTPUT FORMAT:
+
+* Line 1: A single integer that is the number of weeks Farmer John can
+        pay Bessie at least C allowance
+
+SAMPLE OUTPUT (file allow.out):
+
+111
+
+OUTPUT DETAILS:
+
+FJ can overpay Bessie with the one 10-cent coin for 1 week, then pay Bessie
+two 5-cent coins for 10 weeks and then pay Bessie one 1-cent coin and one
+5-cent coin for 100 weeks.
+
+**********************************************************************
+
+Problem 8: Bessie's Weight Problem [250 points] [Rob Kolstad (traditional), 2009]
+
+Bessie, like so many of her sisters, has put on a few too many
+pounds enjoying the delectable grass from Farmer John's pastures.
+FJ has put her on a strict diet of no more than H (5 <= H <= 45,000)
+kilograms of hay per day.
+
+Bessie can eat only complete bales of hay; once she starts she can't
+stop. She has a complete list of the N (1 <= N <= 500) haybales
+available to her for this evening's dinner and, of course, wants
+to maximize the total hay she consumes. She can eat each supplied
+bale only once, naturally (though duplicate weight valuess might
+appear in the input list; each of them can be eaten one time).
+
+Given the list of haybale weights W_i (1 <= W_i <= H), determine the
+maximum amount of hay Bessie can consume without exceeding her limit
+of H kilograms (remember: once she starts on a haybale, she eats
+it all).
+
+POINTS: 250
+
+PROBLEM NAME: diet
+
+INPUT FORMAT:
+
+* Line 1: Two space-separated integers: H and N
+
+* Lines 2..N+1: Line i+1 describes the weight of haybale i with a
+        single integer: W_i
+
+SAMPLE INPUT (file diet.in):
+
+56 4
+15
+19
+20
+21
+
+INPUT DETAILS:
+
+Four haybales of weight 15, 19, 20, and 21. Bessie can eat as many as she
+wishes without exceeding the limit of 56 altogether.
+
+OUTPUT FORMAT:
+
+* Line 1: A single integer that is the number of kilograms of hay that
+        Bessie can consume without going over her limit.
+
+SAMPLE OUTPUT (file diet.out):
+
+56
+
+OUTPUT DETAILS:
+
+Bessie can eat three bales (15, 20, and 21) and run right up to the limit
+of 56 kg.
+
+**********************************************************************
+
+Problem 9: Heat Wave [300 points] [Rob Kolstad (traditional), 2009]
+
+The good folks in Texas are having a heatwave this summer. Their
+Texas Longhorn cows make for good eating but are not so adept at
+creating creamy delicious dairy products. Farmer John is leading
+the charge to deliver plenty of ice cold nutritious milk to Texas
+so the Texans will not suffer the heat too much.
+
+FJ has studied the routes that can be used to move milk from Wisconsin
+to Texas. These routes have a total of T (1 <= T <= 2,500) towns
+conveniently numbered 1..T along the way (including the starting
+and ending towns). Each town (except the source and destination
+towns) is connected to at least two other towns by bidirectional
+roads that have some cost of traversal (owing to gasoline consumption,
+tolls, etc.). Consider this map of seven towns; town 5 is the
+source of the milk and town 4 is its destination (bracketed integers
+represent costs to traverse the route):
+
+                              [1]----1---[3]-
+                             /               \
+                      [3]---6---[4]---3--[3]--4
+                     /               /       /|
+                    5         --[3]--  --[2]- |
+                     \       /        /       |
+                      [5]---7---[2]--2---[3]---
+                            |       /
+                           [1]------
+
+Traversing 5-6-3-4 requires spending 3 (5->6) + 4 (6->3) + 3 (3->4)
+= 10 total expenses.
+
+Given a map of all the C (1 <= C <= 6,200) connections (described
+as two endpoints R1i and R2i (1 <= R1i <= T; 1 <= R2i <= T) and
+costs (1 <= Ci <= 1,000), find the smallest total expense to traverse
+from the starting town Ts (1 <= Ts <= T) to the destination town
+Te (1 <= Te <= T).
+
+POINTS: 300
+
+PROBLEM NAME: heatwv
+
+INPUT FORMAT:
+
+* Line 1: Four space-separated integers: T, C, Ts, and Te
+
+* Lines 2..C+1: Line i+1 describes road i with three space-separated
+        integers: R1i, R2i, and Ci
+
+SAMPLE INPUT (file heatwv.in):
+
+7 11 5 4
+2 4 2
+1 4 3
+7 2 2
+3 4 3
+5 7 5
+7 3 3
+6 1 1
+6 3 4
+2 4 3
+5 6 3
+7 2 1
+
+INPUT DETAILS:
+
+As in the sample map.
+
+OUTPUT FORMAT:
+
+* Line 1: A single integer that is the length of the shortest route
+        from Ts to Te. It is guaranteed that at least one route
+        exists.
+
+SAMPLE OUTPUT (file heatwv.out):
+
+7
+
+OUTPUT DETAILS:
+
+5->6->1->4 (3 + 1 + 3)
+
+**********************************************************************
+

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>RBTree1</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: RBTree1</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Key, <font color=#A000A0>typename</font> Element&gt;
+<font color=#A000A0>class</font> RBTree : <font color=#A000A0>public</font> BinarySearchTree&lt;Key, Element, RBItem&lt;Key,Element&gt; &gt; {
+<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local types</font>
+  <font color=#A000A0>typedef</font> RBItem&lt;Key, Element&gt; 		Item;		<font color=#0000FF>// a tree node item</font>
+  <font color=#A000A0>typedef</font> BinarySearchTree&lt;Key, Element, Item&gt;  BST;	<font color=#0000FF>// base search tree</font>
+  <font color=#A000A0>typedef</font> BST::BTPosition 		BTPosition;	<font color=#0000FF>// a tree position</font>
+<font color=#A000A0>public</font>: 						<font color=#0000FF>// public types</font>
+  <font color=#A000A0>typedef</font> BST::Position 		Position;	<font color=#0000FF>// a position</font>
+<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local utilities</font>
+  Color <font color=#000000>color</font>(<font color=#A000A0>const</font> BTPosition& p) <font color=#A000A0>const</font> {		<font color=#0000FF>// get position's color</font>
+    <font color=#00A000>if</font> (T.<font color=#000000>isExternal</font>(p)) <font color=#00A000>return</font> BLACK;			<font color=#0000FF>// externals are black</font>
+    <font color=#00A000>return</font> p.<font color=#000000>element</font>().<font color=#000000>color</font>();
+  }
+  <font color=#A000A0>bool</font> <font color=#000000>isRed</font>(<font color=#A000A0>const</font> BTPosition& p) <font color=#A000A0>const</font> 		<font color=#0000FF>// is p red?</font>
+    { <font color=#00A000>return</font> <font color=#000000>color</font>(p) == RED; }
+  <font color=#A000A0>bool</font> <font color=#000000>isBlack</font>(<font color=#A000A0>const</font> BTPosition& p) <font color=#A000A0>const</font> 		<font color=#0000FF>// is p black?</font>
+    { <font color=#00A000>return</font> <font color=#000000>color</font>(p) == BLACK; }
+  <font color=#A000A0>void</font> <font color=#000000>setRed</font>(<font color=#A000A0>const</font> BTPosition& p)			<font color=#0000FF>// make p red </font>
+    { <font color=#00A000>if</font> (T.<font color=#000000>isInternal</font>(p)) p.<font color=#000000>element</font>().<font color=#000000>setColor</font>(RED); }
+  <font color=#A000A0>void</font> <font color=#000000>setBlack</font>(<font color=#A000A0>const</font> BTPosition& p)			<font color=#0000FF>// make p black</font>
+    { <font color=#00A000>if</font> (T.<font color=#000000>isInternal</font>(p)) p.<font color=#000000>element</font>().<font color=#000000>setColor</font>(BLACK); }
+  <font color=#A000A0>void</font> <font color=#000000>setColor</font>(<font color=#A000A0>const</font> BTPosition& p, Color color)	<font color=#0000FF>// set p's color</font>
+    { <font color=#00A000>if</font> (T.<font color=#000000>isInternal</font>(p)) p.<font color=#000000>element</font>().<font color=#000000>setColor</font>(color); }
+  <font color=#A000A0>bool</font> <font color=#000000>hasTwoExternalChildren</font>(<font color=#A000A0>const</font> BTPosition& p) <font color=#A000A0>const</font> <font color=#0000FF>// 2 external children?</font>
+    { <font color=#00A000>return</font> (T.<font color=#000000>isExternal</font>(T.<font color=#000000>leftChild</font>(p)) &&
+    	      T.<font color=#000000>isExternal</font>(T.<font color=#000000>rightChild</font>(p))); }
+  <font color=#A000A0>bool</font> <font color=#000000>hasRedChild</font>(<font color=#A000A0>const</font> BTPosition& p) <font color=#A000A0>const</font> 		<font color=#0000FF>// does p have red child?</font>
+    { <font color=#00A000>return</font> (<font color=#000000>isRed</font>(T.<font color=#000000>leftChild</font>(p)) || <font color=#000000>isRed</font>(T.<font color=#000000>rightChild</font>(p))); }
+  <font color=#0000FF>// ... (other utilities omitted)</font>
+<font color=#A000A0>public</font>:
+  <font color=#000000>RBTree</font>() : <font color=#000000>BST</font>() { }					<font color=#0000FF>// constructor</font>
+  <font color=#0000FF>// ... (insert insertItem() and removeElement() here)</font>
+};
+</dl>
+</body></html>

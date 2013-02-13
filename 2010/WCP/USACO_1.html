@@ -1,0 +1,158 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html;charset=ISO-8859-1" http-equiv="Content-Type">
+  <title>USACO_1</title>
+</head>
+<body>
+<h3>Costume Party [Neal Wu, 2007]</h3>
+<br>
+It's Halloween! Farmer John is taking the cows to a costume party, but
+unfortunately he only has one costume. The costume fits precisely two
+cows with a length of S (1 &lt;= S &lt;= 1,000,000). FJ has N cows (2
+&lt;= N &lt;= 20,000) conveniently numbered 1...N; cow i has length Li
+(1 &lt;= Li &lt;= 1,000,000). Two cows can fit into the costume if the
+sum of their lengths is no greater than the length of the costume. FJ
+wants to know how many pairs of two distinct cows will fit into the
+costume.<br>
+<hr style="width: 100%; height: 2px;">&#1044;&#1072;&#1076;&#1077;&#1085;&#1080; &#1089;&#1072; n &#1077;&#1089;&#1090;&#1077;&#1089;&#1090;&#1074;&#1077;&#1085;&#1080; &#1095;&#1080;&#1089;&#1083;&#1072;. &#1044;&#1072;
+&#1089;&#1077; &#1085;&#1072;&#1084;&#1077;&#1088;&#1080; &#1073;&#1088;&#1086;&#1103; &#1085;&#1072; &#1076;&#1074;&#1086;&#1081;&#1082;&#1080;&#1090;&#1077; &#1095;&#1080;&#1089;&#1083;&#1072;, &#1095;&#1080;&#1103;&#1090;&#1086; &#1089;&#1091;&#1084;&#1072; &#1085;&#1077; &#1085;&#1072;&#1076;&#1074;&#1080;&#1096;&#1072;&#1074;&#1072; &#1087;&#1088;&#1077;&#1076;&#1074;&#1072;&#1088;&#1080;&#1090;&#1077;&#1083;&#1085;&#1086;
+&#1079;&#1072;&#1076;&#1072;&#1076;&#1077;&#1085;&#1086; &#1095;&#1080;&#1089;&#1083;&#1086;.<br>
+<hr style="width: 100%; height: 2px;"><br>
+<span style="font-weight: bold;">&#1044;&#1086;&#1084;&#1072;&#1096;&#1085;&#1086;: &#1044;&#1072; &#1089;&#1077; &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072; &#1092;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103; &#1086;&#1090; STL
+&#1079;&#1072; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086;&#1090;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1080; &#1076;&#1072; &#1089;&#1077; &#1089;&#1088;&#1072;&#1074;&#1085;&#1080; &#1077;&#1092;&#1077;&#1082;&#1090;&#1080;&#1074;&#1085;&#1086;&#1089;&#1090;&#1090;&#1072; &#1085;&#1072; &#1076;&#1074;&#1077;&#1090;&#1077; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;.</span><br>
+<br>
+<hr style="width: 100%; height: 2px;"><br>
+INPUT FORMAT:<br>
+* Line 1: Two space-separated integers: N and S<br>
+<br>
+* Lines 2..N+1: Line i+1 contains a single integer: Li<br>
+<br>
+SAMPLE INPUT (file costume.in):<br>
+<span style="font-family: monospace;">4 6</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">3</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">5</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">2</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">1</span><br>
+<br>
+OUTPUT FORMAT:<br>
+* Line 1: A single integer representing the number of pairs of cows FJ<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; can choose. Note that the
+order of the two cows does not<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; matter.<br>
+<br>
+SAMPLE OUTPUT (file costume.out):<br>
+<span style="font-family: monospace;">4</span><br>
+<br>
+OUTPUT DETAILS:<br>
+The four pairs are as follows: cow 1 and cow 3; cow 1 and cow 4; cow 2
+and cow 4; and finally cow 3 and cow 4.<br>
+<br>
+We first sort the heights, using an efficient sort, which takes <span
+ style="font-style: italic;">O</span>(N log
+N) time. Then, for each height k in the list, we wish to (efficiently)
+find the index of the largest height that, when added to k, produces a
+sum less than H. After we find this index, we can count the number of
+heights that, when added to k, satisfy the given property. The simplest
+way to find this is with a binary search, which is implemented in the
+solution below:<br>
+<br>
+<span style="font-family: monospace;">#include &lt;algorithm&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">#include &lt;cstdio&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">using namespace std;</span><br
+ style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">FILE *fout = fopen
+("costume.out", "w");</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">FILE *fin = fopen ("costume.in",
+"r");</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">const int MAXN = 20005;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">int N, H, total;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">int height [MAXN];</span><br
+ style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">// finds the index of the first
+position whose height is &lt;= value</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">inline int binsearch (int value)</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; int lo = 0, hi
+= N - 1, mid;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; while (lo &lt;
+hi)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; {</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;mid = (lo + hi + 1) &gt;&gt; 1;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;if (height [mid] &lt;= value)</span><span
+ style="font-family: monospace;"> lo = mid;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;else</span><span style="font-family: monospace;"> hi = mid - 1;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; return lo;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">}</span><br
+ style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">int main ()</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fscanf (fin,
+"%d %d", &amp;N, &amp;H);</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+0; i &lt; N; i++)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;fscanf (fin,
+"%d", height + i);</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; sort (height,
+height + N);</span><br style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; total = 0;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+0; i &lt; N; i++)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; {</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;// query the
+largest index satisfying the conditions</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;int ind = binsearch (H - height [i]);</span><br
+ style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;// only count
+if ind &gt; i</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;if (ind &gt; i)</span><span style="font-family: monospace;">
+total += ind - i;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;else break;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fprintf (fout,
+"%d\n", total);</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; return 0;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">}<br>
+</span>
+<hr style="width: 100%; height: 2px;"><br>
+</body>
+</html>

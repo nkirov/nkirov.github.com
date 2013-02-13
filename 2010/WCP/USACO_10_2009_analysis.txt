@@ -1,0 +1,518 @@
+USACO OCT09 Problem 'evenodd' Analysis
+by Fatih Gelgi
+
+The simple trick in this problems is to check whether a number is even or odd by only checking the last digit; not the entire number with modulo 2 operation.
+
+Thus, it is not necessary to read the input as a number (or convert it to a number) but just read it as characters (or string) then check if the last digit is even or odd. Below is Rob Kolstad's solution:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+main() {
+    FILE *fin = fopen ("evenodd.in", "r");
+    FILE *fout = fopen ("evenodd.out", "w");
+    int i, n, parity;
+    int c;
+    fscanf (fin, "%d", &n);
+    fgetc(fin);		/* gobble newline */
+    for (i = 0; i < n; i++) {
+	for (;;) {
+	    c = fgetc(fin);
+	    if (c == '\n') break;
+	    parity = c % 2;
+	}
+	if (parity == 0) fprintf (fout, "even\n");
+	else             fprintf (fout, "odd\n");
+    }
+    exit (0);
+}
+--------------------------------------------------------------
+USACO OCT09 Problem 'rplow' Analysis
+by Rob Kolstad
+
+This task was designed to use a two dimensional matrix. No special optimizations or clever coding were required.
+
+The program reads in the corners of the rectangles and uses a straightforward double-neested loop to mark 'plowed' parts of the field:
+
+    for (i = 0; i < n; i++) {
+	fscanf (fin, "%d%d%d%d", &llx, &lly, &urx, &ury);
+	for (x = llx; x <= urx; x++)
+	    for (y = lly; y <= ury; y++)
+		field[x][y] = 1;
+
+The program then counts the plowed squares and outputs them. My solution is below.
+
+#include <stdio.h>
+#include <stdlib.h>
+
+char field[250][250];
+
+main() {
+    FILE *fin = fopen ("rplow.in", "r");
+    FILE *fout = fopen ("rplow.out", "w");
+    int i, n, nx, ny, x, y, llx, lly, urx, ury, count;
+
+    fscanf (fin, "%d%d%d", &nx, &ny, &n);
+    for (i = 0; i < n; i++) {
+	fscanf (fin, "%d%d%d%d", &llx, &lly, &urx, &ury);
+	for (x = llx; x <= urx; x++)
+	    for (y = lly; y <= ury; y++)
+		field[x][y] = 1;
+    }
+    count = 0;
+    for (x = 1; x <= nx; x++)
+	for (y = 1; y <= ny; y++)
+	    if (field[x][y])
+		count++;
+    fprintf (fout, "%d\n", count);
+    exit (0);
+}
+-----------------------------------------------------
+USACO OCT09 Problem 'echo' Analysis
+by Rob Kolstad
+
+The goal here is clear: "determine the greatest number of characters of overlap between one string and the other".
+
+While there are several clever algorithms for this, a straighforward set of loops should work nicely for these relatively small strings.
+
+My solution below shows an 'overlap' routine with two inputs; calling it with line1,line2 and then line2,line1 covers both sets of possible overlap cases.
+
+The overlap function itself treats each input string as an array of characters. It starts at character 0 in input string l2 and tries to match all of l2 in input string l1. It then starts at character 1 of input string l2 and tries to match all of l1, and so on. A good match happens when the counter through string l2 encounters the end-of-string marker (a character with value 0) that matches an end-of-string marker in l1. If that happens, 'largest' is updated.
+
+Here's a simple solution:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+overlap (l1, l2)
+char *l1, *l2;
+{
+    int i, j, nmatch;
+    int largest = 0;
+    for (i = 0; l2[i]; i++) {	/* start place in l2 */
+	nmatch = 0;
+	for (j = 0; l1[j] && l2[j+i]; j++) {
+	    if (l1[j] != l2[j+i]) break;
+	    nmatch++;
+	}
+	if (l2[j+i] == '\0' && nmatch > largest)
+	    largest = nmatch;
+    }
+    return largest;
+}
+
+main() {
+    FILE *fin = fopen ("echo.in", "r");
+    FILE *fout = fopen ("echo.out", "w");
+    char line1[100];
+    char line2[100];
+    fscanf (fin, "%s %s", line1, line2);
+    int l1 = overlap(line1, line2);
+    int l2 = overlap(line2, line1);
+    fprintf (fout, "%d\n", l1 > l2 ? l1 : l2);
+    exit (0);
+}
+---------------------------------------------------------
+USACO OCT09 Problem 'papaya' Analysis
+by Rob Kolstad
+
+This is a simple "read the directions" problem with these components:
+
+    * There's a row,column grid
+    * Bessie starts at 1,1
+    * Bessie can travel from a square to any of *four* in-bound squares
+    * Bessie stops when she gets to r,c (according to the OUTPUT FORMAT)
+    * Bessie chooses the best square to go to -- and she eats the papayas there, thus making that square hold 0 
+
+That just leaves I/O as a 'tricky' part, but it's not so bad, reading row 1 first, row 2 second, etc.
+
+This program uses dr[] and dc[] as row/column incrementors so that a single loop can look at all the possible valid squares to eat:
+
+	for (i = 0; i < 4; i++) {
+	    int t = jungle[row+dr[i]][col+dc[i]];
+	    if (t > max)  {
+
+The rest of the code is just bookkeeping.
+
+Here is my solution:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+int jungle [40+2][40+2];	/* guard rows and columns of 0's */
+int dr[4] = {-1,  0, +1,  0};
+int dc[4] = { 0, +1,  0, -1};
+
+main() {
+    FILE *fin = fopen ("papaya.in", "r");
+    FILE *fout = fopen ("papaya.out", "w");
+    int i, r, c, C, R, eaten, nextrow, nextcol, row, col;
+    fscanf (fin, "%d%d", &R, &C);
+    for (r = 1; r <= R; r++)
+        for (c = 1; c <= C; c++)
+	    fscanf (fin, "%d", &jungle[r][c]);
+    row = 1; col = 1; eaten = jungle[row][col];
+    jungle[row][col] = 0;
+    while (row != R || col != C) {
+	/* find biggest tree nearby */
+	int max = 0;
+	for (i = 0; i < 4; i++) {
+	    int t = jungle[row+dr[i]][col+dc[i]];
+	    if (t > max)  {
+		nextrow = row+dr[i];
+		nextcol = col+dc[i];
+		max = t;
+	    }
+	}
+	row = nextrow; col = nextcol;
+	eaten += jungle[row][col];
+	jungle[row][col] = 0;		/* ate it */
+    }
+    fprintf (fout, "%d\n", eaten);
+    exit (0);
+}
+--------------------------------------------------------
+USACO OCT09 Problem 'stroll' Analysis
+by Fatih Gelgi
+
+In this problem, the pastures and choice nodes are structured as a 'binary tree'. Choice nodes are internal nodes where the root node is 1, and pastures are the 'leaves' of the binary tree. We can find the longest path from 1 using depth-first search (DFS) as explained in the training pages.
+
+Since DFS visits each node in the tree only once it requires O(P) running time. Similarly, we only keep the tree that requires O(P) memory.
+
+This is an absolutely classic recursive algorithm. Once the tree data structure is read in, the 'visit' routine is called with a node and (current) depth (1 initiall).
+
+The 'visit' routine finishes if we are visiting a pasture or, otherwise, continues to visit successively all the nodes accessible from the left node and then later the right node. It keeps global variable 'maxpath' updated as long paths are found.
+
+Understanding the 'visit' routine is one of the two most important items in moving from bronze to silver.
+
+#include <fstream>
+#define MAXP 1000
+
+using namespace std;
+
+int p, l[MAXP], r[MAXP],maxpath;
+
+
+// DFS: {x-visiting node, d-depth} -- recursive
+void visit(int x, int d) {
+    if (x==0) return;       // if the node is a pasture
+    if (maxpath < d) maxpath=d;  // update the longest path
+
+    visit (l[x],d+1);       // branch to left
+    visit (r[x],d+1);       // branch to right
+}
+
+int main () {
+	// read in the data:
+    ifstream f("stroll.in");
+    f >> p;
+    for (int i = 0; i < p; i++) {
+        int a, b, c;
+        f >> a >> b >> c;
+        l[a] = b;
+        r[a] = c;
+    }
+    f.close();
+
+	// find the longet path
+    visit (1,1);
+
+	// write the answer
+    ofstream f ("stroll.out");
+    f << maxpath << "\n";
+    f.close();
+}
+-----------------------------------------------------------
+USACO OCT09 Problem 'milkweed' Analysis
+by Fatih Gelgi
+
+The simple solution is the easiest possible implementation of a 'flood fill' algorithm as in the example in the question.
+
+Weekly milkweed propagation is simulated thusly: In each step, the entire pasture is scanned, and all the locations with grass neighboring to milkweed are transformed into milkweed seeds (designated as '@'). Then, a second scan changes all the seeds to milkweed ('M'). Why do we do this twice? Because if we changed squares directly to 'new' milkweed, we might propagate milkweed too far if the order of traversal of the matrix was to be 'unlucky'.
+
+We keep a single pasture that requires O(N^2) memory. In the worst case scenario, milkweed propagates one square each week, hence requires O(N^2) weeks to take over all the pasture. [The O(N^2) notation means that if N were to double, the 'Order' of the running time would change by N^2 = quadruple.]
+
+Since we scan the entire pasture (which is also O(N^2)) a maximum total of N^2 times, the algorithm has O(N^4) running time complexity which is sufficient for the problem.
+
+The implementation could be optimized by using a queue that keeps the neighbors of the milkweed on the pasture in each step. Then only these neighbor squares are visited in the next step. Since each location is visited only once, the running time reduces to O(N^2), a significant savings if N is large.
+
+This solution uses a dx/dy array so a single looop can look at neighboring squares:
+
+int dx[8] = {-1, -1,  0,  1,  1,  1,  0, -1};
+int dy[8] = { 0,  1,  1,  1,  0, -1, -1, -1};
+
+    for (i = 0; i < 8; i++) {
+	xx = x + dx[i];
+	yy = y + dy[i];
+
+Below is Rob Kolstad's solution without optimization:
+
+#include <stdio.h>
+#include <stdlib.h>
+
+char field[100+2][100+2];	/* auto-init to 0 */
+int dx[8] = {-1, -1,  0,  1,  1,  1,  0, -1};
+int dy[8] = { 0,  1,  1,  1,  0, -1, -1, -1};
+int nX, nY;
+
+propagate (x,y) {
+    int xx, yy, i, grew;
+    grew = 0;
+    for (i = 0; i < 8; i++) {
+	xx = x + dx[i];
+	yy = y + dy[i];
+	if (field[xx][yy] != '.')
+	    continue;
+	field[xx][yy] = '@';	/* future milkweed */
+	grew = 1;
+    }
+    return grew;
+}
+
+remapfield () {
+    int x, y;
+    for (x = 1; x <= nX; x++)
+	for (y = nY; y >= 1; y--)
+	    if (field[x][y] == '@')
+		field[x][y] = 'M';
+}
+
+main() {
+    FILE *fin = fopen ("milkweed.in", "r");
+    FILE *fout = fopen ("milkweed.out", "w");
+    int startx, starty, x, y, grew_weed;
+    int i, j, nweek;
+    fscanf (fin, "%d %d %d %d", &nX, &nY, &startx, &starty);
+    for (y = nY; y >= 1; y--) {
+	char line[1000];
+	fscanf (fin, "%s", line);
+		/* note guard boundary */
+	for (i = 0; i < nX; i++)
+	    field[i+1][y] = line[i];
+    }
+
+    field[startx][starty] = 'M';
+    
+    for (nweek = 0; ; nweek++) {
+	grew_weed = 0;
+	for (x = 1; x <= nX; x++)
+	    for (y = 1; y <= nY; y++)
+		if (field[x][y] == 'M')
+		    grew_weed |= propagate (x,y);
+        remapfield ();
+	if (!grew_weed)
+	    break;
+    }
+    fprintf (fout, "%d\n", nweek);
+    exit (0);
+}
+---------------------------------------------------
+USACO OCT09 Problem 'allow' Analysis
+by Bruce Merry
+
+The sake of explanation, suppose the coins are 1c, 5c, 10c, 50c and 100c. There are some observations that can be made (and obviously generalised to other sets of coins):
+
+   1. The order in which payments are made is arbitrary, so we can construct them in increasing order of amount. We also assume that each payment is minimal, in the sense that no coin could be removed from the payment without causing underpayment. We can in fact make a slightly stronger assumption: it is impossible to take left-over coins at the end, add them to some payment and then remove coins from that payment to reduce its amount without underpaying.
+   2. Any payment should be the salary rounded up to a multiple of one of the coin sizes. In any other payment, there is guaranteed to be a coin small enough to be removed without causing underpayment. By the previous observation, the payments are first exact, then rounded up to a multiple of 5c, then to a multiple of 10c and so on.
+   3. In most cases, rounding up before it is necessary is not a good idea e.g. switching from 33c to 35c requires more 5c pieces, by minimality the 1c coins can never be used again. Similarly, switching from 38c to 40c early is bad: the 5c pieces can never be used again, because we still have 3 1c coins that will be unused, but which could be added to any 40c payment involving 5c coins, from which a 5c coin could then be removed to give 38c. This would violate strong minimality.
+   4. There is never any point in using 5 10c coins in a payment if there is a 50c coin remaining. Even if the 50c is used later, it could be swapped with the 5 10c that are used now.
+
+Combining the observations and assumptions above yields the following algorithm to determine what to pay in the given week.
+
+   1. Check whether the total coins remaining are enough to cover the salary. If not, abort.
+   2. Start by trying to pay the minimum amount, using a greedy algorithm to allocate the coins.
+   3. If it is impossible to pay the minimum amount, round up to the next multiple of 5c and try again. Keep rounding up to a multiple of the next coin size until payment is possible.
+
+To speed things up, it is worth exploiting the fact that the set of coins used in one week is likely to the same the next week. Each time a new coin-set is built, some simple calculations show how many weeks it is valid for (i.e. until one of the coins runs out), and this number of weeks can be added straight on to the answer without going through the construction for every week.
+
+Here is the solution Croatian senior Jurica Cerovec:
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+
+using namespace std;
+
+ifstream in ("allow.in");
+ofstream out("allow.out");
+int n,c;
+vector <pair <int, int> > coins;
+
+int main() {
+    in >> n >> c;
+    coins.clear();
+    for (int i = 0; i<n; i++) {
+        int a, b;
+        in >> a >> b;
+        coins.push_back (make_pair (a, b));
+    }
+    sort (coins.begin(), coins.end());
+    bool moze=true;
+    int w=0;
+
+    while (moze) {
+          int suma = c;
+          moze = false;
+          for (int i = coins.size()-1; i >= 0; i--) {
+              while (coins[i].second>0 && suma-coins[i].first >= 0) {
+                    coins[i].second--;
+                    suma -= coins[i].first;
+              }
+          }
+          for (int i = 0; i < coins.size (); i++)
+              if (coins[i].second > 0 && suma > 0) {
+                 coins[i].second--;
+                 suma -= coins[i].first;
+                 break;
+              }
+          if (suma <= 0) moze=true;
+          if (moze) w++;
+    }
+    out << w << endl;
+    return 0;
+}
+---------------------------------------------------------
+USACO OCT09 Problem 'diet' Analysis
+by Fatih Gelgi and Rob Kolstad
+
+This problem is known as a 'knapsack problem'.
+
+While the standard solution is known as 'dynamic programming', the explication gains little from that particular name.
+
+The standard solution defines an array (named 'weight' below) whose contents are '1' only when it is possible to achieve the weight of that particular index (thus weight[12] means there is *some* (unspecified) way to achieve a weight of 12 units.
+
+There's always a way to achieve 0 units, so we mark weight[0] as 1.
+
+Then, for each bale weight that we encounter, we look at all the possible weights we have so far and add the new weight to each of them, marking the new locations with 1 (whether or not they are already 1).
+
+Consider the first bale weight 2:
+
+Original possible weights  1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+Adding in bale weight 2    1 0 * 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+
+If the next bale weighs 5, it can create two additional possible weights:
+
+Adding in bale weight 5    1 0 1 0 0 * 0 * 0 0 0 0 0 0 0 0 0 0 0 0
+
+Here's what happens when the next bale weighs 4:
+
+Adding in bale weight 4    1 0 1 0 * 1 * 1 0 * 0 * 0 0 0 0 0 0 0 0
+
+But it's tricky to add in a bale of weight 2 at this point:
+
+Adding in bale weight 4    1 * 1 * 1 * * * * 1 * 1 * 0 0 0 0 0 0 0
+
+Note that some 1's were overwritten (presumably with 1's). This is just one way of seeing that one must work backwards through the array when processing or one will accidentally propagate a 1 through the end of the array.
+
+Fatih's program below implements this clever O(N*h) algorithm.
+
+#include <fstream>
+
+#define MAXH 45000
+#define MAXN 500
+
+using namespace std;
+
+int h,n,bales[MAXN],weight[MAXH];
+
+// Knapsack
+int solve() {
+    int eat;
+    // add each haybale one by one
+    for (int i=0; i<n; i++) {
+        for (int j = h; j > bales[i]+1; j--)
+            if (weight[j-bales[i]]) weight[j] = 1;
+        weight[bales[i]] = 1;
+    }
+	// find best weight
+    for (eat = h; eat > 0 && !weight[eat]; eat--);
+    return eat;
+}
+
+int main() {
+	// input
+    ifstream f("diet.in");
+    f >> h >> n;
+    for (int i=0; i<n; i++) f >> bales[i];
+    f.close();
+
+	// output
+    ofstream f("diet.out");
+    f << solve() << "\n";
+    f.close();
+}
+------------------------------------------------
+USACO OCT09 Problem 'heatwv' Analysis
+by Fatih Gelgi
+
+This is a straightforward 'shortest path' problem solved Dijsktra's Algorithm on an adjacency matrix. A distance array of towns will help us to keep the distances from the starting town to the other towns during the search. The steps are as follows:
+
+   1. We first start at the departure town Ts where its distance is 0, and the rest of the towns are not reachable yet, i.e., the distances of all towns are infinite.
+   2. Update distances of the neighbor towns of the current town (dist[i] = min{dist[i],dist[current]+mat[current][i]} - i is neighbor of current).
+   3. Always choose the shortest unvisited town from the departure town (current = min_i{dist[i]} - where i is unvisited).
+   4. If the town is not the destination, return step 2. 
+
+In step 3, note that the shortest unvisited town has to be a neighbor of one of the explored towns since initially all towns are unreachable, later they become reachable when a neighbor town is visited in step 2. The algorithm with adjacency matrix requires O(T^2) running time since each node is visited once and all the neigbors of each node is explored using an adjacency matrix. Memory complexity is also O(T^2) since it requires adjacency matrix. The time and memory complexity can be reduced to O(C + T log T) by using a priority queue and an adjacency list however we don't need in this question.
+
+My solution is below:
+
+#include <fstream>
+
+#define MAXN 2500
+#define INF 1000000000
+
+using namespace std;
+
+short T,Ts,Te,mat[MAXN][MAXN];
+int dist[MAXN];
+bool used[MAXN];
+
+void readFile(char *inpFile) {
+    ifstream f(inpFile);
+    int a, b, c, d;
+
+    f >> T >> c >> Ts >> Te;
+    Ts--;
+    Te--;
+    for (int i = 0; i < c; i++) {
+        f >> a >> b >> d;
+        mat[--a][--b] = mat[b][a] = d;
+    }
+    f.close ();
+}
+
+// Dijkstra with adjacency matrix implementation
+void solve () {
+    /* initialize the distance list of the towns */
+    for (int i = 0; i < T; i++)
+        dist[i] = INF;
+    dist[Ts] = 0;     /* start from the departure town with 0 distance */
+
+    for ( ; ; ) {
+        /* choose the shortest path from the list among unexplored towns */
+        int min = -1;
+        for (int i = 0; i < T; i++)
+            if (!used[i] && (min<0 || dist[min] > dist[i]))
+                min = i;
+
+        used[min] = true;
+        if (min == Te)         /* done if destination town */
+	    break;
+
+        /* update path */
+        for (int i = 0; i < T; i++)
+            if (mat[min][i] && dist[i] > dist[min] + mat[min][i])
+                    dist[i] = dist[min] + mat[min][i];
+    }
+}
+
+int main() {
+    readFile ("heatwv.in");
+    solve ();
+    ofstream f ("heatwv.out);
+    f << dist[Te] << "\n";
+    f.close ();
+    return 0;
+}
+-------------------------------------------------

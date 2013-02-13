@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>BMmatch</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: BMmatch</font></h2>
+</center><br><dl><dd><pre>
+
+  						<font color=#0000FF>// Boyer-Moore algorithm</font>
+  <font color=#A000A0>int</font> <font color=#000000>BMmatch</font>(<font color=#A000A0>const</font> string& text, <font color=#A000A0>const</font> string& pattern) {
+    vector&lt;<font color=#A000A0>int</font>&gt; last = <font color=#000000>buildLastFunction</font>(pattern);
+    <font color=#A000A0>int</font> n = text.<font color=#000000>size</font>();
+    <font color=#A000A0>int</font> m = pattern.<font color=#000000>size</font>();
+    <font color=#A000A0>int</font> i = m - 1;
+    <font color=#00A000>if</font> (i &gt; n - 1)				<font color=#0000FF>// pattern longer than text?</font>
+      <font color=#00A000>return</font> -1;				<font color=#0000FF>// ...then no match</font>
+    <font color=#A000A0>int</font> j = m - 1;
+    <font color=#00A000>do</font> {
+      <font color=#00A000>if</font> (pattern[j] == text[i])
+        <font color=#00A000>if</font> (j == 0) <font color=#00A000>return</font> i;			<font color=#0000FF>// found a match</font>
+        <font color=#00A000>else</font> {					<font color=#0000FF>// looking-glass heuristic</font>
+          i--; j--;				<font color=#0000FF>// proceed right-to-left</font>
+        }
+      <font color=#00A000>else</font> {					<font color=#0000FF>// character jump heuristic</font>
+        i = i + m - <font color=#000000>min</font>(j, 1 + last[text[i]]);
+        j = m - 1;
+      }
+    } <font color=#00A000>while</font> (i &lt;= n - 1);
+    <font color=#00A000>return</font> -1;					<font color=#0000FF>// no match</font>
+  }
+						<font color=#0000FF>// construct function last</font>
+  vector&lt;<font color=#A000A0>int</font>&gt; <font color=#000000>buildLastFunction </font>(<font color=#A000A0>const</font> string& pattern) {
+    <font color=#A000A0>const</font> <font color=#A000A0>int</font> N_ASCII = 128;			<font color=#0000FF>// number of ASCII characters</font>
+    <font color=#A000A0>int</font> i;
+    vector&lt;<font color=#A000A0>int</font>&gt; <font color=#000000>last</font>(N_ASCII);			<font color=#0000FF>// assume ASCII character set</font>
+    <font color=#00A000>for</font> (i = 0; i &lt; N_ASCII; i++)		<font color=#0000FF>// initialize array</font>
+      last[i] = -1;
+    <font color=#00A000>for</font> (i = 0; i &lt; pattern.<font color=#000000>size</font>(); i++) {
+      last[pattern[i]] = i;			<font color=#0000FF>// (implicit cast to ASCII code)</font>
+    }
+    <font color=#00A000>return</font> last;
+  }
+</dl>
+</body></html>

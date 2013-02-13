@@ -1,0 +1,102 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Inheritance</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 11: Inheritance II</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To understand the difference between static and
+dynamic binding </font></li>
+  <li><font size="+1">To be able to implement dynamic binding with
+virtual functions</font></li>
+</ul>
+<h2>Polymorphism</h2>
+<ul>
+  <li><font size="+1">A base-class pointer can point to a derived class
+object. (The reverse is an error).</font></li>
+  <li><font size="+1">By creating a vector of pointers, we can hold a
+collection of both base-class and derived-class objects.
+    <blockquote>
+      <pre>vector&lt;Clock*&gt; clocks(3);<br>/* populate clocks */<br>clocks[0] = new Clock(true);<br>clocks[1] = new TravelClock(true, "Rome", 9);<br>clocks[2] = new TravelClock(false, "Tokyo", -7);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Pointers to the various clock objects all have
+the same size - the size of a memory address - even though the objects
+themselves may have different sizes.</font></li>
+  <li><font size="+1">Since every <tt>TravelClock</tt> is a special
+case of a <tt>Clock</tt>, the starting address of a <tt>TravelClock</tt>
+object is the starting address of a <tt>Clock</tt> object.</font></li>
+</ul>
+<blockquote><img src="images/polyvector.png"></blockquote>
+<ul>
+  <li><font size="+1">Unfortunately, the following code does still not
+work!
+    <blockquote>
+      <pre>cout &lt;&lt; clocks[i]-&gt;get_location() &lt;&lt; " time: "<br>   &lt;&lt; clocks[i]-&gt;get_hours() &lt;&lt; ":"<br>   &lt;&lt; setw(2) &lt;&lt; setfill('0')<br>   &lt;&lt; clocks[i]-&gt;get_minutes()<br>   &lt;&lt; setfill(' ') &lt;&lt; "\n";</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The output is still
+    <blockquote>
+      <pre>Local time is 21:15<br>Local time is 21:15<br>Local time is 9:15</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1"> Recall that both <tt>Clock</tt> and <tt>TravelClock</tt>
+have a <tt>get_location</tt> and a <tt>get_hours</tt> member function.</font></li>
+  <li><font size="+1">The compiler calls the <tt>Clock</tt> member
+function because the pointer is of type <tt>Clock*</tt>.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">You must alert the compiler that the function
+call needs to be preceded by the appropriate function selection, which
+can be a different one for every iteration in the loop.</font></li>
+  <li><font size="+1">Such a selection/call combination is called <i>dynamic
+binding</i>.</font></li>
+  <li><font size="+1">The traditional call, which always invokes the
+same function, is called <i>static binding</i>.</font></li>
+  <li><font size="+1">To tell the C++ compiler that a particular
+function needs to be bound dynamically, the function must be tagged as <tt>virtual</tt>.
+    <blockquote>
+      <pre>class Clock<br>{<br>public:<br>   Clock(bool use_military);<br>   virtual string get_location() const;<br>   virtual int get_hours() const;<br>   int get_minutes() const;<br>   bool is_military() const;<br>private:<br>   . . .<br>};</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Polymorphism (Syntax 11.3 Virtual Function Definition)</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 11.3 : Virtual Function
+Definition</font></p>
+      <pre><font size="+1">class <i>Class_name<br></i>{<br>   virtual<i> return_type function_name</i>(<i>parameter</i><sub>1</sub><i>, parameter</i><sub>2</sub><i>, ..., parameter</i><sub>n</sub>);<i><br>   </i>. . . <br>};</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">class Employee<br>{<br>public:<br>   virtual double get_salary();<br>   . . . <br>};</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a dynamically bound function
+that can be redefined in derived classes. When the function is called,
+the actual type of the implicit parameter determines which version of
+the function executes.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Polymorphism (<tt>clocks3.cpp</tt>)</h2>
+<iframe src="code/clocks3.cpp.html" height="80%" width="80%">Your
+browser does not support the &amp;amp;lt;iframe&amp;amp;gt; tag.</iframe>
+</body>
+</html>
