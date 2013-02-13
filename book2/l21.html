@@ -1,0 +1,366 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l21</title>
+</head>
+<body>
+
+<center>
+<h3>
+<b>21. Нова реализация на свързани списъци</b></h3></center>
+<img SRC="bullet.gif" height=18 width=20>&nbsp; Предефиниране на операции.
+<br>&nbsp;&nbsp;&nbsp; Даване на ново значение на операция се нарича предефиниране
+(operator overloading). Операциите се предефинират за аргумети - обекти
+от даден клас, като типът на поне един от аргументите на бинарна операция
+трябва да е клас.
+<br><b><tt><font color="#000099">// overload.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">/* Предефиниране на бинарна операция -
+с аргументи от клас Time и стойност от тип long */</font></tt></b>
+<br><b><tt><font color="#000099">long operator-(Time a, Time b)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: пресмята броя на секундите между
+два момента от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a, b - два момента
+от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: броя на секундите
+между a и b</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; return a.seconds_from(b);&nbsp;&nbsp;
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">/* Предефиниране на бинарна операция +
+с аргументи от клас Time и тип long и стойност от</font></tt></b>
+<br><b><tt><font color="#000099">клас Time */</font></tt></b>
+<br><b><tt><font color="#000099">Time operator+(Time a, long sec)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: пресмята момент от време, отдалечен
+на зададен брой секунди</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a - момент от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: броя на секундите</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; Time r = a;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; r.add_seconds(sec);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return r;&nbsp; }</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">/* Предефиниране на бинарна операция ==
+с аргументи от клас Time и стойност от тип bool */</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">bool operator==(Time a, Time b)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: сравнява два момента от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a, b - два момента
+от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: true - ако те са равни</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; return a.seconds_from(b) == 0;&nbsp;
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">/* Предефиниране на бинарна операция !=
+с аргументи от клас Time и стойност от тип bool */</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">bool operator!=(Time a, Time b)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: сравнява два момента от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a, b - два момента
+от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: true - ако те не са
+равни</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; return a.seconds_from(b) != 0;&nbsp;
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">/* Предефиниране на бинарна операция &lt;&lt;
+с аргументи от клас ostream и клас Time и стойност</font></tt></b>
+<br><b><tt><font color="#000099">от тип ostream */</font></tt></b>
+<br><b><tt><font color="#000099">ostream &amp;operator&lt;&lt;(ostream
+&amp;out, const Time &amp;a)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: отпечатва обект от тип Time</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: out - изходен поток</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+a - момент от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: out</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; out &lt;&lt; a.get_hours() &lt;&lt;
+":";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a.get_minutes() &lt;
+10) out &lt;&lt; "0";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; out &lt;&lt; a.get_minutes()
+&lt;&lt; ":";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a.get_seconds() &lt;
+10) out &lt;&lt; "0";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; out &lt;&lt; a.get_seconds();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return out;&nbsp;&nbsp;&nbsp;
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">/* Предефиниране на унарна операция - префиксна
+форма на ++ с аргумент от клас</font></tt></b>
+<br><b><tt><font color="#000099">Time и стойност от клас Time */</font></tt></b>
+<br><b><tt><font color="#000099">Time operator++(Time &amp;a)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: добавя към момент от време 1 секунда</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a - момент от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: новият момент от време
+и променя a</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{ a = a + 1; return a; }</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">/* Предефиниране на унарна операция - постфиксна
+форма на ++ с аргумент от клас</font></tt></b>
+<br><b><tt><font color="#000099">Time и стойност от клас Time */</font></tt></b>
+<br><b><tt><font color="#000099">Time operator++(Time &amp;a, int dummy)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: добавя към момент от време 1 минута</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a - момент от време</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: непромененият момент
+от време и променя a</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{ Time b = a;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; a = a + 60; return b;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; Time now;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Now it is
+" &lt;&lt; now &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time later = now + 1000;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "A thousand
+seconds later it is " &lt;&lt; later &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time now2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (now == now2)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"It still is " &lt;&lt; now2 &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (now != now2)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"It is already " &lt;&lt; now2 &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Another "
+&lt;&lt; later - now2 &lt;&lt; " seconds until "</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt; later &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; now = Time();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Now it is
+" &lt;&lt; now &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "One second
+later " &lt;&lt; (++now) &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The same time
+" &lt;&lt; (now++);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; " and 60 seconds
+later " &lt;&lt; now &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Now it is 11:42:51</font></tt></b>
+<br><b><tt><font color="#993300">A thousand seconds later it is 11:59:31</font></tt></b>
+<br><b><tt><font color="#993300">It still is 11:42:51</font></tt></b>
+<br><b><tt><font color="#993300">Another 1000 seconds until 11:59:31</font></tt></b>
+<br><b><tt><font color="#993300">Now it is 11:42:51</font></tt></b>
+<br><b><tt><font color="#993300">One second later 11:42:52</font></tt></b>
+<br><b><tt><font color="#993300">The same time 11:42:52 and 60 seconds
+later 11:43:52</font></tt></b></td>
+</tr>
+</table>
+
+<p>Предефиниране на операции като член-функции на клас.
+<br><b><tt><font color="#006600">bool operator!=(Iterator a, Iterator b);
+/* </font><font color="#000000">външна за класа функция */</font></tt></b>
+<br><b><tt><font color="#006600">bool Iterator::operator!=(Iterator b);&nbsp;&nbsp;
+/* </font><font color="#000000">член-функция */</font></tt></b><b><tt></tt></b>
+<p><b><tt><font color="#006600">string Iterator::operator*() const</font></tt></b>
+<br><b><tt><font color="#006600">{&nbsp; assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; return position->data;&nbsp;
+}</font></tt></b>
+<p><b><tt><font color="#006600">void Iterator::operator++(int dummy)</font></tt></b>
+<br><b><tt><font color="#006600">{&nbsp; assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; position = position->next;
+}</font></tt></b>
+<p><b><tt><font color="#006600">void Iterator::operator--(int dummy)</font></tt></b>
+<br><b><tt><font color="#006600">{&nbsp; if (position == NULL)&nbsp; position
+= last;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+position = position->previous;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; assert(position != NULL);&nbsp;&nbsp;
+}</font></tt></b>
+<p><b><tt><font color="#006600">bool Iterator::operator!=(Iterator b) const</font></tt></b>
+<br><b><tt><font color="#006600">{&nbsp; return position != b.position;&nbsp;&nbsp;
+}</font></tt></b>
+<p><b><tt><font color="#006600">bool Iterator::operator==(Iterator b) const</font></tt></b>
+<br><b><tt><font color="#006600">{&nbsp; return position == b.position;&nbsp;&nbsp;
+}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20>&nbsp; Шаблони.
+<br>&nbsp;&nbsp;&nbsp; Класът&nbsp; <b><tt><font color="#000099">List</font></tt></b>
+(вж 20. Реализация на свързани списъци) съхранява свързан списък от низове,
+но ние искаме да може да съхранява стойности от произволен тип, както може
+стандартният клас <b><tt>list</tt></b>. За тази цел дефинираме шаблон на
+клас, като задаваме формален параметър <b><tt><font color="#000099">T</font></tt></b>
+на шаблона с конструкцията
+<br><b><tt><font color="#000099">template&lt;typename T> class List;</font></tt></b>
+<br>и фактически параметър на шаблона по познатата схема
+<br><b><tt><font color="#000099">List&lt;string> staff;</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Ще пренапишем класовете, поддържащи свързан списък
+като използваме предефиниране на операции и шаблони.
+<br><b><tt><font color="#000099">// list3.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cassert></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">class List;</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">class Iterator;</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">class Link&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Link(T s);</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; T data;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T> *previous;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T> *next;</font></tt></b>
+<br><b><tt><font color="#000099">friend class List&lt;T>;</font></tt></b>
+<br><b><tt><font color="#000099">friend class Iterator&lt;T>;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">class List&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; List();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void push_back(T);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void insert(Iterator&lt;T>,
+T);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void erase(Iterator&lt;T>);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator&lt;T> begin();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator&lt;T> end();</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T> *first;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T> *last;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">class Iterator&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; T operator*() const;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void operator++(int);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void operator--(int);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; bool operator!=(Iterator&lt;T>)
+const;</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T> *position;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T> *last;</font></tt></b>
+<br><b><tt><font color="#000099">friend class List&lt;T>;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">Link&lt;T>::Link(T s)</font></tt></b>
+<br><b><tt><font color="#000099">{ data = s;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; previous = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; next = NULL; }</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">List&lt;T>::List()</font></tt></b>
+<br><b><tt><font color="#000099">{ first = NULL; last = NULL; }</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">void List&lt;T>::push_back(T s)</font></tt></b>
+<br><b><tt><font color="#000099">{ Link&lt;T> *newlink = new Link&lt;T>(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (last == NULL)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { first = newlink; last = newlink;
+}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { newlink->previous = last;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last->next = newlink;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last = newlink;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">void List&lt;T>::insert(Iterator&lt;T>
+iter, T s)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (iter.position == NULL)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { push_back(s); return; }</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp; Link&lt;T> *after = iter.position;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Link&lt;T> *before = after->previous;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Link&lt;T> *newlink = new Link&lt;T>(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; newlink->previous = before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; newlink->next = after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; after->previous = newlink;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (before == NULL) first = newlink;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+before->next = newlink;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">void List&lt;T>::erase(Iterator&lt;T>
+iter)</font></tt></b>
+<br><b><tt><font color="#000099">{ assert(iter.position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Link&lt;T> *remove = iter.position;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Link&lt;T> *before = remove->previous;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Link&lt;T> *after = remove->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (remove == first) first = after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+before->next = after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (remove == last) last = before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp; after->previous
+= before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; iter.position = after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; delete remove;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">Iterator&lt;T> List&lt;T>::begin()</font></tt></b>
+<br><b><tt><font color="#000099">{ Iterator&lt;T> iter;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; iter.position = first;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; iter.last = last;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return iter;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">Iterator&lt;T> List&lt;T>::end()</font></tt></b>
+<br><b><tt><font color="#000099">{ Iterator&lt;T> iter;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; iter.position = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; iter.last = last;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return iter;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">Iterator&lt;T>::Iterator()</font></tt></b>
+<br><b><tt><font color="#000099">{ position = NULL; last = NULL; }</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">T Iterator&lt;T>::operator*() const</font></tt></b>
+<br><b><tt><font color="#000099">{ assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return position->data;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">void Iterator&lt;T>::operator++(int dummy)</font></tt></b>
+<br><b><tt><font color="#000099">{ assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; position = position->next;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">void Iterator&lt;T>::operator--(int dummy)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (position == NULL)&nbsp; position
+= last;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+position = position->previous;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+<br><b><tt><font color="#000099">bool Iterator&lt;T>::operator!=(Iterator&lt;T>
+b) const</font></tt></b>
+<br><b><tt><font color="#000099">{ return position != b.position; }</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ List&lt;string> staff;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; staff.push_back("Cracker, Carl");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; staff.push_back("Hacker, Harry");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; staff.push_back("Lam, Larry");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; staff.push_back("Sandman, Susan");</font></tt></b>
+<p><b><tt><font color="#000099">/* добавя елемент на четвърто място */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Iterator&lt;string> pos;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pos = staff.begin();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pos++; pos++; pos++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; staff.insert(pos, "Reindeer, Rudolf");</font></tt></b>
+<p><b><tt><font color="#000099">/* отстранява втория елемент */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pos = staff.begin();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pos++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; staff.erase(pos);</font></tt></b>
+<p><b><tt><font color="#000099">/* отпечатва свързания списък */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (pos = staff.begin(); pos !=
+staff.end(); pos++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+*pos &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Cracker, Carl</font></tt></b>
+<br><b><tt><font color="#993300">Lam, Larry</font></tt></b>
+<br><b><tt><font color="#993300">Reindeer, Rudolf</font></tt></b>
+<br><b><tt><font color="#993300">Sandman, Susan</font></tt></b></td>
+</tr>
+</table>
+
+</body>
+</html>

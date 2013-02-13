@@ -1,0 +1,659 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>pp_l12</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<center>
+<p><b><font size=+1>12.&nbsp; Вектори</font></b></center>
+&nbsp;
+<div align=right>
+<br><b><i><font size=-1>"Ако се разделят компонентите на контравариантния</font></i></b>
+<br><b><i><font size=-1>вектор (dt, dx, dy, dz) на ds, се получава векторът
+..."</font></i></b>
+<br><b><i><font size=-1>Алберт Айнщайн</font></i></b></div>
+<img SRC="bullet.gif" height=18 width=20>&nbsp; Използване на вектори за
+съхраняване на данни.
+<br>* Векторът е множество от данни от един и същи тип и данните са номерирани
+с последователни неотрицателни цели числа.
+<br>&nbsp;&nbsp;&nbsp; Дефиниция на вектор с 10 елемента тип <b><tt>double:</tt></b>
+<br><b><tt><font color="#009900">&nbsp; vector&lt;double> salaries(10);</font></tt></b>
+<br>На елемента с индекс 4 се задава стойност 355.
+<br><b><tt><font color="#009900">&nbsp; salaries[4] = 355;</font></tt></b>
+<br>Елементите на вектора се номерират, започвайки от 0.
+<br><b><tt><font color="#009900">&nbsp; salaries[0] </font></tt></b><font color="#000000">-
+първи елемент</font>
+<br><b><tt><font color="#009900">&nbsp; salaries[1] </font></tt></b><font color="#000000">-
+втори елемент</font>
+<br><b><tt><font color="#009900">&nbsp; salaries[2] </font></tt></b><font color="#000000">-
+трети елемент</font>
+<br><b><tt><font color="#009900">&nbsp; salaries[3] </font></tt></b><font color="#000000">-
+четвърти елемент</font>
+<br><b><tt><font color="#009900">&nbsp; ...</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp; salaries[9] </font></tt></b><font color="#000000">-
+десети елемент</font>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Индекси на вектори.
+<br>* Граници на индексите са от <b><tt>0</tt></b> до размерността на вектора
+минус 1. Грешка&nbsp; "излизане извън границите на вектора" (или грешка
+при индексиране) се получава, когато индексираме елемент на вектор с число
+извън интервала [0, размерност-1]. Тази грешка не се открива нито от компилатора,
+нито от операционната система по време на изпълнение на програмата. Обикновено
+тя довежда до повреда на някакъв участък от паметта. Това е една от възможните
+грешки в една програма, която се открива много трудно.
+<br>* Член-функцията за получаване на размерността на вектора е <b><tt><font color="#000000">size()</font></tt></b>.
+Ето типичен цикъл за обхождане на елементите на вектора (в случая за отпечатването
+им) с използване на тази член-функция<b><tt><font color="#000000">.</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp; for (i=0; i &lt; salaries.size();
+i++) cout &lt;&lt; salaries[i];</font></tt></b>
+<br>* Може да се дефинира и вектор с 0 елементи:
+<br><b><tt><font color="#009900">&nbsp; vector&lt;double> salaries;</font></tt></b>
+<br>* Типът <b><tt><font color="#009900">vector</font></tt></b> е реализиран
+като клас в който са дефинирани член-функциите <b><tt><font color="#000000">push_back</font></tt></b>
+и <b><tt><font color="#000000">pop_back </font></tt></b>за увеличаване
+и намаляване на размера на вектора.
+<br><font color="#000000"><b><tt>&nbsp; salaries.push_back(елемент)- </tt></b>добавяне
+на елемент към вектора (след последния);</font>
+<br><font color="#000000"><b><tt>&nbsp; salaries.pop_back()- </tt></b>премахване
+на&nbsp; последния елемент на вектора.</font>
+<br>* Пример. Четат се заплати на служители, стойностите се записват във
+вектор и се чертае графика на заплатите:
+<br><b><tt><font color="#000099">// bargraph.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ vector&lt;double> salaries;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; bool more = true;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (more)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { double s =</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; cwin.get_double("Please
+enter a salary, 0 to quit: ");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (s == 0) more =
+false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else salaries.push_back(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double highest = salaries[0];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (i = 1; i &lt; salaries.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; if (salaries[i]
+> highest) highest = salaries[i];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cwin.coord(0, 0, highest, salaries.size());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (i = 0; i &lt; salaries.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {&nbsp; Point left(0, i);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; Point right(salaries[i],
+i);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; Line bar(left,
+right);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; Message label(left,
+salaries[i]);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+bar &lt;&lt; label;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Векторите като параметри
+и стойности на функции.
+<br>* Намиране на средно аритметично на елементите на вектор.
+<br><b><tt><font color="#000099">// average.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br>&nbsp;
+<p><b><tt><font color="#000099">/* </font><font color="#3333FF">v е параметър-променлива
+</font><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">double average(vector&lt;double> v)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (v.size() == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double sum = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++)&nbsp; sum = sum + v[i];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return sum / v.size();</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;double> salaries(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; double avgsal = average(salaries);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The average
+salary is " &lt;&lt; avgsal &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">The average salary is 55100</font></tt></b></td>
+</tr>
+</table>
+
+<p>*&nbsp; Промяна на стойностите на елементите на вектор. В примера заплатите
+се увеличават с 4.5 процента. Използва се параметър-псевдоним.
+<br><b><tt><font color="#000099">// upsalary.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">/* </font><font color="#3333FF">s е параметър-псевдоним
+</font><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">void raise_salaries(vector&lt;double>&amp;
+s, double p)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i=0; i&lt;s.size();
+i++) s[i] = s[i]*(1 + p/100);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;double> salaries(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; raise_salaries(salaries,
+4.5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; salaries.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout &lt;&lt; salaries[i] &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">36575</font></tt></b>
+<br><b><tt><font color="#660000">65835</font></tt></b>
+<br><b><tt><font color="#660000">50160</font></tt></b>
+<br><b><tt><font color="#660000">81510</font></tt></b>
+<br><b><tt><font color="#660000">53817.5</font></tt></b></td>
+</tr>
+</table>
+
+<p>* Вектор като връщана стойност на функция. Намиране на всички стойности,
+които попадат в определен интервал. Функцията връща стойност от тип <b><tt><font color="#000000">vector&lt;double>.</font></tt></b>
+<br><b><tt><font color="#000099">// between.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">/* </font><font color="#3333FF">връщаната
+стойност на функцията е от тип vector </font><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">vector&lt;double></font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+between(vector&lt;double> v, double low, double high)</font></tt></b>
+<br><b><tt><font color="#000099">{ vector&lt;double> result;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (i = 0; i &lt; v.size(); i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (low &lt;= v[i] and v[i] &lt;=
+high) result.push_back(v[i]);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return result;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;double> salaries(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;double> midrange_salaries</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+= between(salaries, 45000.0, 65000.0);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; midrange_salaries.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout &lt;&lt; midrange_salaries[i] &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">63000</font></tt></b>
+<br><b><tt><font color="#660000">48000</font></tt></b>
+<br><b><tt><font color="#660000">51500</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Прости алгоритми за вектори.
+<br>* Намиране на стойност. Функцията намира първата срещната стойност
+на елемент на вектора, която е по-голяма от зададено число.
+<br><b><tt><font color="#000099">// find.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">int find_first_greater(vector&lt;double>
+a, double t)</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ: намира
+първия елемент на вектора a,</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+чиято стойност е по-голяма от t</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a и число
+t</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА: индекса на намерения
+елемент или</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+-1, ако няма елемент, по-голям от t</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{ int i = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (i &lt; a.size())</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { if (a[i] > t) return i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else i++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return -1;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;double> salaries(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i = find_first_greater(salaries,
+50000);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (i > 0)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "The
+first salary above 50000 is at index " &lt;&lt; i</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt; " and is " &lt;&lt; salaries[i] &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">The first salary above 50000 is at index
+1 and is 63000</font></tt></b></td>
+</tr>
+</table>
+
+<p>* Броене. Намиране на броя на елементите на вектор, които удовлетворяват
+зададено условие.
+<br><b><tt><font color="#000099">// count.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">int count_greater(vector&lt;double> a,
+double t)</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ: намира
+броя на елементите на вектора a</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+със стойност по-голяма от t</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a и число
+t</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА: броя на намерените
+елементи, по-големи от t</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int count = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+(a[i] > t)&nbsp;&nbsp; count++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return count;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;double> salaries(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int count = count_greater(salaries,
+50000);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; count &lt;&lt;
+" salaries are above 50000\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099"></font></tt></b>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">3 salaries are above 50000</font></tt></b></td>
+</tr>
+</table>
+
+<p><font color="#000000">* Намиране на всички съответствия. Функцията връща
+вектор, съдържащ индексите на всички елементи, които удовлетворяват дадено
+условие.</font>
+<br><b><tt><font color="#000099">// matches.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">vector&lt;int> find_all_greater(vector&lt;double>
+a, double t)</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+намира елементите на вектора a</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+със стойност по-голяма от t</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a и число
+t</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp;&nbsp;&nbsp;
+вектор с индексите на намерените елементи,</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+по-големи от t</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;int> pos;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; if (a[i] > t)
+pos.push_back(i);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return pos;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;double> salaries(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;int> matches =
+find_all_greater(salaries, 50000);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int j;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "These are
+the salaries above 50000:\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (j = 0; j &lt; matches.size();
+j++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+salaries[matches[j]] &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099"></font></tt></b>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">These are the salaries above 50000:</font></tt></b>
+<br><b><tt><font color="#660000">63000</font></tt></b>
+<br><b><tt><font color="#660000">78000</font></tt></b>
+<br><b><tt><font color="#660000">51500</font></tt></b></td>
+</tr>
+</table>
+
+<br>&nbsp;
+<p><font color="#000000">* Отстраняване на елемент от вектор. Целта е да
+се изтрие един елемент на вектора и всички елементи след него да се преместят
+с една позиция назад - т.е. индексите на елементите след изтрития да се
+намалят с 1.</font>
+<br><b><tt><font color="#000099">// remove2.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void erase(vector&lt;string>&amp; a, int
+pos)</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ: отстранява
+елемент с индекс </font><font color="#000099">pos </font><font color="#3333FF">от
+вектор </font><font color="#000099">a</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a и индекс
+pos</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ЗАБЕЛЕЖКА: редът на оставащите
+елементи се запазва</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = pos; i &lt; a.size()-1;
+i++) a[i] = a[i+1];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; a.pop_back();</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void print(vector&lt;string> a)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"[" &lt;&lt; i &lt;&lt; "] " &lt;&lt; a[i] &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;string> staff(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[0] = "Cracker, Carl";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[1] = "Hacker, Harry";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[2] = "Lam, Larry";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[3] = "Reindeer, Rudolf";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[4] = "Sandman, Susan";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int pos;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Remove which
+element? ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> pos;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; erase(staff, pos);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">[0] Cracker, Carl</font></tt></b>
+<br><b><tt><font color="#660000">[1] Hacker, Harry</font></tt></b>
+<br><b><tt><font color="#660000">[2] Lam, Larry</font></tt></b>
+<br><b><tt><font color="#660000">[3] Reindeer, Rudolf</font></tt></b>
+<br><b><tt><font color="#660000">[4] Sandman, Susan</font></tt></b>
+<br><b><tt><font color="#660000">Remove which element? 2</font></tt></b>
+<br><b><tt><font color="#660000">[0] Cracker, Carl</font></tt></b>
+<br><b><tt><font color="#660000">[1] Hacker, Harry</font></tt></b>
+<br><b><tt><font color="#660000">[2] Reindeer, Rudolf</font></tt></b>
+<br><b><tt><font color="#660000">[3] Sandman, Susan</font></tt></b></td>
+</tr>
+</table>
+
+<p><font color="#000000">* Вмъкване на елемент на вектор. Целта е да се
+вмъкне нов елемент на вектора на зададена позиция и всички елементи след
+него да се преместят с една позиция напред - т.е. индексите на елементите
+след новия елемент да се увеличат с 1.</font>
+<br><b><tt><font color="#000099">// insert.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void insert(vector&lt;string>&amp; a, int
+pos, string s)</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ: вмъква
+елемент s с индекс pos във вектора a</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a, индекс
+pos и елемент s</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ЗАБЕЛЕЖКА: редът на останалите
+елементи се запазва</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int last = a.size() - 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; a.push_back(a[last]);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = last; i > pos; i--)
+a[i] = a[i - 1];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; a[pos] = s;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void print(vector&lt;string> a)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"[" &lt;&lt; i &lt;&lt; "] " &lt;&lt; a[i] &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;string> staff(5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[0] = "Cracker, Carl";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[1] = "Hacker, Harry";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[2] = "Lam, Larry";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[3] = "Reindeer, Rudolf";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[4] = "Sandman, Susan";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int pos;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Insert before
+which element? ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> pos;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; insert(staff, pos, "New,
+Nina");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">[0] Cracker, Carl</font></tt></b>
+<br><b><tt><font color="#990000">[1] Hacker, Harry</font></tt></b>
+<br><b><tt><font color="#990000">[2] Lam, Larry</font></tt></b>
+<br><b><tt><font color="#990000">[3] Reindeer, Rudolf</font></tt></b>
+<br><b><tt><font color="#990000">[4] Sandman, Susan</font></tt></b>
+<br><b><tt><font color="#990000">Insert before which element? 1</font></tt></b>
+<br><b><tt><font color="#990000">[0] Cracker, Carl</font></tt></b>
+<br><b><tt><font color="#990000">[1] New, Nina</font></tt></b>
+<br><b><tt><font color="#990000">[2] Hacker, Harry</font></tt></b>
+<br><b><tt><font color="#990000">[3] Lam, Larry</font></tt></b>
+<br><b><tt><font color="#990000">[4] Reindeer, Rudolf</font></tt></b>
+<br><b><tt><font color="#990000">[5] Sandman, Susan</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Успоредни вектори и вектор
+от обекти.
+<br>*&nbsp; Два вектора са успоредни, ако съществува логическа (смислова)
+връзка между елементите им с еднакви индекси.
+<br>*&nbsp; Задачата за най-добро отношение цена-качество на компютри (от
+11. Класове).
+<br><b><tt><font color="#000099">// plotdat1.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">трите
+вектора са успоредни</font><font color="#000099"> */</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;string> names;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;double> prices;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;int> scores;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string more;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; string n = cwin.get_string("Product
+name:");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; names.push_back(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+p = cwin.get_double("Price:");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prices.push_back(p);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s =
+cwin.get_int("Score:");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scores.push_back(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; more =
+cwin.get_string("More data? (y/n)");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; } while (more == "y");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double MAX_PRICE =
+10000;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double MAX_SCORE =
+100;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin.coord(0, 0, MAX_PRICE,
+MAX_SCORE);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; names.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; Message label(Point(prices[i],
+scores[i]), names[i]);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+label.get_start() &lt;&lt; label;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>* Успоредните вектори обикновено създават проблеми и трябва да се избягват.
+По-добро решение на задачата е с използване на вектор от обекти.
+<br><b><tt><font color="#000099">// plotdat2.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">class Product&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Product();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void read();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void get_price() const;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void plot() const;</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double price;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int score;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string name;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<br><b><tt><font color="#000099">Product::Product()</font></tt></b>
+<br><b><tt><font color="#000099">{ price = 1000; score = 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void Product::read()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; name = cwin.get_string("Product
+name:");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; price = cwin.get_double("Price:");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; score = cwin.get_int("Score:");</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void Product::plot() const</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; Message label(Point(price, score),
+name);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin &lt;&lt; label.get_start()
+&lt;&lt; label;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;Product> data;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string more;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; Product c;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c.read();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data.push_back(c);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; more =
+cwin.get_string("More data? (y/n)");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; } while (more == "y");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double MAX_PRICE =
+10000;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double MAX_SCORE =
+100;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin.coord(0, 0, MAX_PRICE,
+MAX_SCORE);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; data.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data[i].plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Векторите като данни на обект.
+<br>* Програма за чертаене на многоъгълници. Програмата чертае триъгълник
+със зададени координати на върховете му, правилен петоъгълник и накрая
+правилен <b><tt>n</tt></b>-ъгълник, като числото <b><tt>n</tt></b> се задава
+като вход.
+<br><b><tt><font color="#000099">// polygon.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">class Polygon {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Polygon();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void add_point(Point p);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void plot() const;</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;Point> corners;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<br><b><tt><font color="#000099">Polygon::Polygon()</font></tt></b>
+<br><b><tt><font color="#000099">{}</font></tt></b>
+<br><b><tt><font color="#000099">void Polygon::add_point(Point p)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; corners.push_back(p);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void Polygon::plot() const</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int n = corners.size();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; n; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+Line(corners[i], corners[(i + 1)%n]);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; Polygon triangle;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; triangle.add_point(Point(1,
+1));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; triangle.add_point(Point(3,
+4));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; triangle.add_point(Point(2,
+6));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; triangle.plot();</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; const double PI = 3.141592653589793;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Polygon pentagon;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (int i = 0; i &lt; 5;
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pentagon.add_point(Point(cos(2*PI*i/5),sin(2*PI*i/5)));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pentagon.plot();</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; Polygon n_gon;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int n = cwin.get_int("Enter
+n for a new n-gon: ");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (int i = 0; i &lt; n;
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; n_gon.add_point(Point(cos(2*PI*i/n),sin(2*PI*i/n)));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; n_gon.plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp; Многоъгълникът е представен
+като клас с данни вектор от точки и функции за обработка на тези данни.</font>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

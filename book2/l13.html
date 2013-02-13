@@ -1,0 +1,278 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l13</title>
+</head>
+<body>
+
+<center>
+<h3>
+<b><font size=+1>13.&nbsp; Масиви</font></b></h3></center>
+
+<div align=right><i>Бяла мъгла обгръща каменния масив в далечината,</i>
+<br><i>виденията изчезват, в гората една вейка си маха</i>
+<br><i>сама, като че ми се заканва нещо с пръст.</i>
+<br><i>Йордан Радичков, ПЕДЯ ЗЕМЯ</i></div>
+
+<p><br><img SRC="bullet.gif" height=18 width=20> Дефиниране и използване
+на масиви, масивите като параметри.
+<br>&nbsp;&nbsp;&nbsp; Масивите са елемент на езика С за съхраняване на
+елементи от един и същи тип.&nbsp; Използват се и в езика С++ като по-бърза
+и по-ефективна структура в сравнение с типа (шаблона) вектор (вж 12. Вектори).
+Затова пък масивите са по-неудобни за работа - например техният размер
+се задава при дефинирането и не може да се променя.
+<br>* Дефиниране и използване:
+<br>&nbsp;- дефиниция на вектор с 10 елемента тип <b><tt>double:</tt></b>
+<br><b><tt><font color="#009900">double salaries[10];</font></tt></b>
+<br>- на елементът с индекс 4 се задава стойност 355:
+<br><b><tt><font color="#009900">salaries[4] = 355;</font></tt></b>
+<br>- елементите на масива се номерират (индексират), започвайки от 0:
+<br><b><tt><font color="#009900">salaries[0] </font></tt></b><font color="#000000">-
+първи елемент</font>
+<br><b><tt><font color="#009900">salaries[1] </font></tt></b><font color="#000000">-
+втори елемент</font>
+<br><b><tt><font color="#009900">salaries[2] </font></tt></b><font color="#000000">-
+трети елемент</font>
+<br><b><tt><font color="#009900">salaries[3] </font></tt></b><font color="#000000">-
+четвърти елемент</font>
+<br><b><tt><font color="#009900">...</font></tt></b>
+<br><b><tt><font color="#009900">salaries[9] </font></tt></b><font color="#000000">-
+десети елемент</font>
+<p>* Задаване на стойности на елементите на масив.
+<br><b><tt><font color="#006600">const int SAL_MAXSIZE = 10;</font></tt></b>
+<br><b><tt><font color="#006600">double sal[SAL_MAXSIZE]; /* фиксираме
+дължината на масива */</font></tt></b>
+<br><b><tt><font color="#006600">int sal_size = 0;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* брой на използваните елементи на масива */</font></tt></b>
+<br><b><tt><font color="#006600">bool more = true;</font></tt></b>
+<br><b><tt><font color="#006600">/* необходими са 2 условия за прекратяване
+на цикъла - спиране на въвеждането или запълване на всички елементи на
+масива */</font></tt></b>
+<br><b><tt><font color="#006600">while (more and sal_size &lt; SAL_MAXSIZE)</font></tt></b>
+<br><b><tt><font color="#006600">{ cout &lt;&lt; "Enter salary or 0 to
+quit";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; cin >> x;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (cin.fail()) more = false</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; else</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; { sal[sal_size] = x; /* задаване
+на стойност на елемент на масива */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; sal_size++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* увеличаване с 1 на използваните елементи */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p>* Mасивите като параметри на функции.
+<br>&nbsp;&nbsp;&nbsp; За да се обозначи, че един формален параметър на
+функция е масив, след името му се пише []. Масивите винаги се предават
+чрез псевдоним (по адрес). За масив - входен параметър на функция обикновено
+се използва константен псевдоним.
+<br><b><tt><font color="#006600">double maximum(const double a[], int a_size)</font></tt></b>
+<br><b><tt><font color="#006600">{&nbsp; if (a_size == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; double highest = a[0];</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; for (i = 1; i &lt; a_size;
+i++)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (a[i]
+> highest) highest = a[i];</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; return highest;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Следващата програма чете заплати от стандартен вход
+и отпечатва максималната заплата.
+<br><b><tt><font color="#000099">// salarray.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void read_data(double a[], int a_maxsize,
+int&amp; a_size)</font></tt></b>
+<br><b><tt><font color="#000099">{ a_size = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (a_size &lt; a_maxsize and
+(cin >> x))</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { a[a_size] = x; a_size++; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">double maximum(const double a[], int a_size)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (a_size == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double highest = a[0];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (i = 1; i &lt; a_size; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; if (a[i] > highest)
+highest = a[i];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return highest;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ const int SALARIES_MAXSIZE = 100;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double salaries[SALARIES_MAXSIZE];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int salaries_size = 0;</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Please enter all
+salary data: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; read_data(salaries, SALARIES_MAXSIZE,
+salaries_size);</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp; if (salaries_size == SALARIES_MAXSIZE
+and not cin.fail())</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"Sorry - extra data ignored\n";</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp; double maxsal = maximum(salaries,
+salaries_size);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "The maximum salary
+is " &lt;&lt; maxsal &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Please enter all salary data: 200 240
+250 210 290 310 205 q</font></tt></b>
+<br><b><tt><font color="#993300">The maximum salary is 310</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Масиви от символи.
+<br>&nbsp;&nbsp;&nbsp; Съхраняването и обработката на низове в езика С
+(т.н. С-низове ) се извършва в масиви от символи. Всеки низ завършва със
+специален символ с ASCII код 0.
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">char greeting[6] = "Hello";</font></tt></b>
+<br><b><tt><font color="#006600">char greeting[] = "Hello";</font></tt></b>
+<br><b><tt><font color="#006600">char greeting[10] = "Hello";</font></tt></b></td>
+
+<td>
+<table BORDER CELLSPACING=0 CELLPADDING=3 COLS=7 WIDTH="40%" >
+<tr>
+<td><font color="#006600">Символ</font></td>
+
+<td><b><tt><font color="#006600">H</font></tt></b></td>
+
+<td><b><tt><font color="#006600">e</font></tt></b></td>
+
+<td><b><tt><font color="#006600">l</font></tt></b></td>
+
+<td><b><tt><font color="#006600">l</font></tt></b></td>
+
+<td><b><tt><font color="#006600">o</font></tt></b></td>
+
+<td><b><tt><font color="#006600">'\0'</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Индекс</td>
+
+<td>0</td>
+
+<td>1</td>
+
+<td>2</td>
+
+<td>3</td>
+
+<td>4</td>
+
+<td>5</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<p>Превръщането С-низ в типа <b><tt>string</tt></b> и обратно става по
+следния начин:
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">string s = "ABCD";</font></tt></b>
+<br><b><tt><font color="#006600">char c[] = s.str();</font></tt></b></td>
+
+<td><b><tt><font color="#006600">char c[] = "1234";</font></tt></b>
+<br><b><tt><font color="#006600">string s = static_cast&lt;string>(c);</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Пример с използване на функцията <b><tt>atoi</tt></b>
+от библиотеката
+<b><tt>cstdlib</tt></b> за превръщане на низ в число:
+<br><b><tt><font color="#006600">string year = "1999";</font></tt></b>
+<br><b><tt><font color="#006600">int y = atoi(year.c_str());</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Важно е да не се забравя символа за край на низ
+при използване на масиви от символи, защото много функции, които работят
+със С-низове и операцията изходен поток определят дължината на низа по
+този символ.
+<br>&nbsp;&nbsp;&nbsp; Използването на български букви в типа <b><tt><font color="#006600">string</font></tt></b>
+създава някои проблеми. Обикновено може да се работи нормално с член-функциите
+на класа, но не може да се извличат букви от низа, защото елементите на
+<b><tt><font color="#006600">string</font></tt></b>
+са от тип <b><tt><font color="#006600">char</font></tt></b>, който съхранява
+числа от -127 до 127. Решението е да се записват низове с български букви
+като С-низове с елементи от тип <b><tt><font color="#006600">unsigned char</font></tt></b>
+(числа от 0 до 255) по следния начин:
+<br><b><tt><font color="#006600">unsigned char s_bul[] = "АБВГ";</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Двумерни масиви.
+<br>&nbsp;&nbsp;&nbsp; За съхранение и обработка на матрици се използват
+двумерни масиви. При дефиниране на масива се задават броя на редовете и
+броя на стълбовете.
+<br><b><tt><font color="#000099">// matrix.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iomanip></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">const int BAL_ROWS = 6;</font></tt></b>
+<br><b><tt><font color="#000099">const int BAL_COLS = 5;</font></tt></b>
+<p><b><tt><font color="#000099">double future_value(double init_bal, double
+p, int nyear)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; double b = init_bal * pow(1 +
+p/12/100, 12*nyear);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return b;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">/* втората размерност на двумерния масив
+се задава като константа */</font></tt></b>
+<br><b><tt><font color="#000099">void print_table(const double table[][BAL_COLS],
+int table_rows)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int i, j;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; fixed &lt;&lt;
+setprecision(2);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; table_rows;
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; for (j = 0; j &lt;
+BAL_COLS; j++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout &lt;&lt; setw(10) &lt;&lt; table[i][j];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; double bal[BAL_ROWS][BAL_COLS];
+/* дефиниране на двумерен масив */</font></tt></b>
+<br><b><tt><font color="#000099">/* двоен цикъл за обхождане на елементите
+на двумерен масив */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (int i = 0; i &lt; BAL_ROWS;
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (int
+j = 0; j &lt; BAL_COLS; j++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+bal[i][j] = future_value(10000, 5+i*0.5, 5+j*5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; print_table(bal, BAL_ROWS);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">&nbsp; 12833.59&nbsp; 16470.09&nbsp; 21137.04&nbsp;
+27126.40&nbsp; 34812.90</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp; 13157.04&nbsp; 17310.76&nbsp; 22775.84&nbsp;
+29966.26&nbsp; 39426.72</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp; 13488.50&nbsp; 18193.97&nbsp; 24540.94&nbsp;
+33102.04&nbsp; 44649.70</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp; 13828.17&nbsp; 19121.84&nbsp; 26442.01&nbsp;
+36564.47&nbsp; 50561.98</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp; 14176.25&nbsp; 20096.61&nbsp; 28489.47&nbsp;
+40387.39&nbsp; 57254.18</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp; 14532.94&nbsp; 21120.65&nbsp; 30694.52&nbsp;
+44608.17&nbsp; 64828.80</font></tt></b></td>
+</tr>
+</table>
+
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

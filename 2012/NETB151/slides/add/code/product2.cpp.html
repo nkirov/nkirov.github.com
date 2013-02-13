@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <title>product2.htm</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  <meta name="generator" content="SynEdit HTML exporter">
+  <style type="text/css">
+<!--
+body { color: #000000; background-color: #FFFFFF; }
+.cpp1-assembler { color: #0000FF; }
+.cpp1-character { color: #000000; }
+.cpp1-comment { color: #0A246A; font-style: italic; }
+.cpp1-float { color: #800080; }
+.cpp1-hexadecimal { color: #800080; }
+.cpp1-identifier { color: #000000; }
+.cpp1-illegalchar { color: #000000; }
+.cpp1-number { color: #800080; }
+.cpp1-octal { color: #800080; }
+.cpp1-preprocessor { color: #008000; }
+.cpp1-reservedword { color: #000000; font-weight: bold; }
+.cpp1-space { background-color: #FFFFFF; color: #000000; }
+.cpp1-string { color: #FF0000; }
+.cpp1-symbol { color: #000000; }
+-->
+  </style>
+</head>
+<body>
+<pre><code><span
+ style="font-family: Courier New; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal; font-size-adjust: none; font-stretch: normal;"><span
+ class="cpp1-preprocessor">#include &lt;iostream&gt;<br>#include &lt;fstream&gt;<br>#include &lt;stdexcept&gt;<br>#include &lt;vector&gt;<br></span><span
+ class="cpp1-reservedword">using</span><span class="cpp1-space"> </span><span
+ class="cpp1-reservedword">namespace</span><span class="cpp1-space"> std;<br> <br></span><span
+ class="cpp1-reservedword">class</span><span class="cpp1-space"> Product {<br>   </span><span
+ class="cpp1-reservedword">public</span><span class="cpp1-symbol">:<br>       Product();<br>       </span><span
+ class="cpp1-reservedword">bool</span><span class="cpp1-space"> read(istream&amp; fs);<br>       </span><span
+ class="cpp1-reservedword">void</span><span class="cpp1-space"> print() </span><span
+ class="cpp1-reservedword">const</span><span class="cpp1-symbol">; <br>   </span><span
+ class="cpp1-reservedword">private</span><span class="cpp1-symbol">:<br>       string name;<br>       </span><span
+ class="cpp1-reservedword">double</span><span class="cpp1-space"> price;<br>       </span><span
+ class="cpp1-reservedword">int</span><span class="cpp1-space"> score;<br>};    <br><br>Product::Product()<br>{ price = </span><span
+ class="cpp1-number">0</span><span class="cpp1-symbol">;<br>  score = </span><span
+ class="cpp1-number">0</span><span class="cpp1-symbol">;                <br>}<br><br></span><span
+ class="cpp1-reservedword">bool</span><span class="cpp1-space"> Product::read(istream&amp; fs)<br>{  cout &lt;&lt; </span><span
+ class="cpp1-string">"Product: "</span><span class="cpp1-symbol">;<br>   getline(fs, name);<br>   </span><span
+ class="cpp1-reservedword">if</span><span class="cpp1-space"> (name == </span><span
+ class="cpp1-string">""</span><span class="cpp1-symbol">) </span><span
+ class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span
+ class="cpp1-reservedword">false</span><span class="cpp1-symbol">; </span><span
+ class="cpp1-comment">// end of file<br></span><span class="cpp1-space">   fs &gt;&gt; price &gt;&gt; score;<br>   </span><span
+ class="cpp1-reservedword">if</span><span class="cpp1-space"> (fs.fail())<br>      </span><span
+ class="cpp1-reservedword">throw</span><span class="cpp1-space"> runtime_error(</span><span
+ class="cpp1-string">"Error while reading product"</span><span
+ class="cpp1-symbol">);<br>   string remainder;<br>   getline(fs, remainder);   <br>   </span><span
+ class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span
+ class="cpp1-reservedword">true</span><span class="cpp1-symbol">;<br>}<br><br></span><span
+ class="cpp1-reservedword">void</span><span class="cpp1-space"> Product::print() </span><span
+ class="cpp1-reservedword">const<br></span><span class="cpp1-symbol">{ cout &lt;&lt; name &lt;&lt; </span><span
+ class="cpp1-string">" "</span><span class="cpp1-space"> &lt;&lt; price &lt;&lt; </span><span
+ class="cpp1-string">" "</span><span class="cpp1-space"> &lt;&lt; score &lt;&lt; endl;<br>} <br>  <br></span><span
+ class="cpp1-reservedword">void</span><span class="cpp1-space"> process_products(istream&amp; fs)<br>{  vector&lt;Product*&gt; products;<br>   </span><span
+ class="cpp1-reservedword">bool</span><span class="cpp1-space"> more = </span><span
+ class="cpp1-reservedword">true</span><span class="cpp1-symbol">;<br>   </span><span
+ class="cpp1-reservedword">while</span><span class="cpp1-space"> (more)<br>   {  Product* p = </span><span
+ class="cpp1-reservedword">new</span><span class="cpp1-space"> Product;<br>      </span><span
+ class="cpp1-reservedword">try<br></span><span class="cpp1-space">      {  </span><span
+ class="cpp1-reservedword">if</span><span class="cpp1-space"> (p-&gt;read(fs)) products.push_back(p);<br>         </span><span
+ class="cpp1-reservedword">else</span><span class="cpp1-space"> more = </span><span
+ class="cpp1-reservedword">false</span><span class="cpp1-symbol">;<br>      }   <br>      </span><span
+ class="cpp1-reservedword">catch</span><span class="cpp1-symbol">(runtime_error&amp; r)  </span><span
+ class="cpp1-comment">// runtime_error&amp; r)<br></span><span
+ class="cpp1-space">      {  cout &lt;&lt; </span><span
+ class="cpp1-string">"1. "</span><span class="cpp1-space"> &lt;&lt; r.what() &lt;&lt; endl;<br>         </span><span
+ class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span
+ class="cpp1-reservedword">int</span><span class="cpp1-space"> i = </span><span
+ class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; products.size(); i++)<br>                                </span><span
+ class="cpp1-reservedword">delete</span><span class="cpp1-space"> products[i];</span><span
+ class="cpp1-reservedword"><br>         throw; </span><span
+ class="cpp1-space"></span><span class="cpp1-reservedword"></span><span
+ class="cpp1-symbol">                                                                    <br>      }                     <br>    }     <br>   </span><span
+ class="cpp1-comment">/* processing products */</span><span
+ class="cpp1-space">       <br>   <br>   cout &lt;&lt; </span><span
+ class="cpp1-string">"Print:"</span><span class="cpp1-space"> &lt;&lt; endl;<br>   </span><span
+ class="cpp1-reservedword">for</span><span class="cpp1-space"> (</span><span
+ class="cpp1-reservedword">int</span><span class="cpp1-space"> i = </span><span
+ class="cpp1-number">0</span><span class="cpp1-symbol">; i &lt; products.size(); i++)<br>   {  products[i]-&gt;print();<br>      </span><span
+ class="cpp1-reservedword">delete</span><span class="cpp1-space"> products[i];<br>   }      <br>}<br><br> </span><span
+ class="cpp1-reservedword">int</span><span class="cpp1-space"> main()<br> {  </span><span
+ class="cpp1-reservedword">try<br></span><span class="cpp1-space">    {  process_products(cin);<br>    }<br>    </span><span
+ class="cpp1-reservedword">catch</span><span class="cpp1-symbol">(runtime_error&amp; r)  </span><span
+ class="cpp1-comment">// runtime_error&amp; r)<br></span><span
+ class="cpp1-space">    { cout &lt;&lt; </span><span class="cpp1-string">"2. "</span><span
+ class="cpp1-space"> &lt;&lt; r.what() &lt;&lt; endl;                <br>    }                        <br>   </span><span
+ class="cpp1-reservedword"></span><span class="cpp1-space"><br>    </span><span
+ class="cpp1-reservedword">return</span><span class="cpp1-space"> </span><span
+ class="cpp1-number">0</span><span class="cpp1-symbol">;<br> }</span></span><br></code></pre>
+</body>
+</html>

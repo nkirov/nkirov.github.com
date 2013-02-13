@@ -1,0 +1,815 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l15</title>
+</head>
+<body>
+
+<center>
+<h3>
+<b><font size=+1>&nbsp;15. Модули</font></b></h3></center>
+
+<div align=right><i>Програмата е съвкупност от отделно</i>
+<br><i>компилирани единици, свързани от линкера.</i>
+<br><i>Бьорн Строустроп</i></div>
+
+<p><br><img SRC="bullet.gif" height=18 width=20> Създаване на заглавни
+файлове.
+<br>* Стекът е линейна структура от данни, която позволява добавяне и отстраняване
+на елемент само от единия си край, наречен връх на стека. Нека функцията
+<b><tt><font color="#CC6600">push</font></tt></b>
+добавя елемент в стека
+<b><tt><font color="#CC6600">s</font></tt></b>,
+а функцията <b><tt><font color="#CC6600">pop</font></tt></b> изважда елемент
+от стека <b><tt><font color="#CC6600">s</font></tt></b>.
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td><font color="#000000">&nbsp;Изпълнение на функция</font></td>
+
+<td>Състояние на стека <b><tt><font color="#CC6600">s</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.push("Able")</font></tt></b></td>
+
+<td><b><tt><font color="#CC6600">"Able"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.push("Backer")</font></tt></b></td>
+
+<td><b><tt><font color="#CC6600">"Backer"</font></tt></b>
+<br><b><tt><font color="#CC6600">"Able"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.push("Charlie")</font></tt></b></td>
+
+<td><b><tt><font color="#CC6600">"Charlie"</font></tt></b>
+<br><b><tt><font color="#CC6600">"Backer"</font></tt></b>
+<br><b><tt><font color="#CC6600">"Able"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.pop() -> "Charlie"</font></tt></b></td>
+
+<td><b><tt><font color="#CC6600">"Backer"</font></tt></b>
+<br><b><tt><font color="#CC6600">"Able"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.push("Delta")</font></tt></b></td>
+
+<td><b><tt><font color="#CC6600">"Delta"</font></tt></b>
+<br><b><tt><font color="#CC6600">"Backer"</font></tt></b>
+<br><b><tt><font color="#CC6600">"Able"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.pop() -> "Delta"</font></tt></b></td>
+
+<td><b><tt><font color="#CC6600">"Backer"</font></tt></b>
+<br><b><tt><font color="#CC6600">"Able"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.pop() -> "Backer"</font></tt></b></td>
+
+<td><b><tt><font color="#CC6600">"Able"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC6600">s.pop() -> "Able"</font></tt></b></td>
+
+<td></td>
+</tr>
+</table>
+
+<p>* Създаване на клас за стек от низове.
+<br><b><tt><font color="#006600">class Stack&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">public:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;Stack();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;void push(string s); /* добавя нова
+стойност в стека */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;string pop();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* изважда стойност от стека */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;bool is_empty() const;</font></tt></b>
+<br><b><tt><font color="#006600">private:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;vector&lt;string> data; /* съхранява
+данните на стека */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;int top;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* сочи върха на стека */</font></tt></b>
+<br><b><tt><font color="#006600">};</font></tt></b>
+<p><b><tt><font color="#006600">Stack::Stack()</font></tt></b>
+<br><b><tt><font color="#006600">{ top = 0; }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* създава празен стек */</font></tt></b>
+<p><b><tt><font color="#006600">void Stack::push(string s)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (top &lt; data.size())</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data[top]
+= s;&nbsp;&nbsp;&nbsp;&nbsp; /* има празна позиция във вектора data */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; else data.push_back(s); /* векторът
+data увеличава размера си&nbsp; */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; top++;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">string Stack::pop()</font></tt></b>
+<br><b><tt><font color="#006600">{ assert(top > 0);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* стекът не е празен */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; top--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; return data[top];</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">bool Stack::is_empty() const</font></tt></b>
+<br><b><tt><font color="#006600">{ return top == 0; }</font></tt></b>
+<p>* Разделяне на информацията между <b><tt><font color="#006600">stack.h</font></tt></b>
+и <b><tt><font color="#006600">stack.cpp</font></tt></b>.
+<br>&nbsp;&nbsp;&nbsp; Заглавният файл
+<b><tt><font color="#006600">stack.h</font></tt></b>
+съдържа дефиницията на класа и се включва във всеки файл, който използва
+стек.
+<br><b><tt><font color="#006600">// </font><font color="#993300">stack.h</font></tt></b>
+<br><b><tt><font color="#006600">#ifndef STACK_H</font></tt></b>
+<br><b><tt><font color="#006600">#define STACK_H</font></tt></b>
+<br><b><tt><font color="#006600">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#006600">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#006600">using namespace std;</font></tt></b>
+<p><b><tt><font color="#006600">class Stack&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">public:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;Stack();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;void push(string );</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;string pop();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;bool is_empty() const;</font></tt></b>
+<br><b><tt><font color="#006600">private:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;vector&lt;string> data;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;int top;</font></tt></b>
+<br><b><tt><font color="#006600">};</font></tt></b>
+<br><b><tt><font color="#006600">#endif</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Може да се наложи един и същи заглавен файл да се
+включи два пъти в текста на една програма - тогава компилаторът ще даде
+синтактична грешка. За да се избегне тази ситуация се използва механизмът
+на предпазителите - чрез директивите на препроцесора <b><tt><font color="#006600">ifndef</font></tt><font color="#000000">,
+</font><tt><font color="#006600">define</font></tt></b>
+и <b><tt><font color="#006600">endif</font></tt></b>, както е показано
+на примера.
+<br>&nbsp;&nbsp;&nbsp; Дефинициите на член-функциите на класа <b><tt><font color="#006600">Stack</font></tt></b>
+са във файл <b><tt><font color="#993300">stack.cpp</font></tt></b>.
+<br><b><tt><font color="#006600">// </font><font color="#993300">stack.cpp</font></tt></b>
+<br><b><tt><font color="#006600">#include &lt;cassert></font></tt></b>
+<br><b><tt><font color="#006600">using namespace std;</font></tt></b>
+<br><b><tt><font color="#006600">#include "stack.h"</font></tt></b>
+<p><b><tt><font color="#006600">Stack::Stack()</font></tt></b>
+<br><b><tt><font color="#006600">{ top = 0; }</font></tt></b>
+<p><b><tt><font color="#006600">void Stack::push(string s)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (top &lt; data.size()) data[top]
+= s;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; else data.push_back(s);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; top++;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p><b><tt><font color="#006600">string Stack::pop()</font></tt></b>
+<br><b><tt><font color="#006600">{ assert(top > 0);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; top--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; return data[top];</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p><b><tt><font color="#006600">bool Stack::is_empty() const</font></tt></b>
+<br><b><tt><font color="#006600">{ return top == 0; }</font></tt></b>
+<br><b><tt><font color="#006600">// end </font><font color="#993300">stack.cpp</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Разделяне на програмата на
+няколко първични файла.
+<br>&nbsp;&nbsp;&nbsp; Пример. Да се напише програма, която да може да
+пресмята аритметични изрази.
+<br>&nbsp;&nbsp;&nbsp; Аритметичните изрази се пишат по правилата на езика
+С++ за действия с числа с плаваща точка и се задават като низове от входа
+на програмата. Добавена е операция степенуване "<b><tt>^</tt></b>". Например
+при вход на низа
+<center><b><tt>2*(1 + 2^2*3) + 2^10 =</tt></b></center>
+програмата трябва да изведе числото <b><tt>1050</tt></b>.
+<br>&nbsp;&nbsp;&nbsp; Алгоритъм за решаване на задчата.
+<br>&nbsp;&nbsp;&nbsp; Създават се два стека - стек за числата - <b><tt>num_s</tt></b>
+и стек за операциите - <b><tt>op_s</tt></b>. Четат се последователно елементи
+от низа и в зависимост от прочетения елемент се прави следното:
+<br>&nbsp;&nbsp;&nbsp; 1. Число - добавя се в <b><tt>num_s.</tt></b>
+<br>&nbsp;&nbsp;&nbsp; 2. <b><tt>(</tt></b> - добавя се в <b><tt>op_s.</tt></b>
+<br>&nbsp;&nbsp;&nbsp; 3. Аритметична операция - сравнява се приоритетът
+й с приоритета на операцията от <b><tt>op_s</tt></b>.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - Ако е с по-висок приоритет се добавя
+в <b><tt>op_s.</tt></b>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - В противен случай се извършва "пресмятане"
+и след това операцията се добавя в <b><tt>op_s</tt></b>.
+<br>&nbsp;&nbsp;&nbsp; "Пресмятане" наричаме изваждане на две числа от
+<b><tt>num_s</tt></b>
+и една операция от <b><tt>op_s</tt></b>; изпълнение на операцията с аргументи
+двете числа и добавяне на получения резултат в <b><tt>num_s</tt></b>.
+<br>&nbsp;&nbsp;&nbsp; 4. <b><tt>)</tt></b> - извършват се "пресмятания",
+докато в <b><tt>op_s</tt></b> се появи <b><tt>(</tt></b>.
+<br>&nbsp;&nbsp;&nbsp; 5.<b><tt> =</tt></b> - извършват се "пресмятания",
+докато има елементи в <b><tt>op_s</tt></b>.
+<br>Когато стекът <b><tt>op_s</tt></b> е празен, в <b><tt>num_s</tt></b>
+има единствено число - стойността на пресметнатия аритметичен израз.
+<br>&nbsp;&nbsp;&nbsp; В таблицата е реализиран описания алгоритъм за пресмятане
+на израза
+<br><b><tt>2*(1 + 2^2*3) + 2^10 =</tt></b>
+<center><table BORDER CELLSPACING=0 CELLPADDING=2 WIDTH="100%" >
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td>Елемент
+<br>от низа</td>
+
+<td><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td><b><tt><font color="#000000">*</font></tt></b></td>
+
+<td><b><tt><font color="#000000">(</font></tt></b></td>
+
+<td><b><tt><font color="#000000">1</font></tt></b></td>
+
+<td><b><tt><font color="#000000">+</font></tt></b></td>
+
+<td><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td><b><tt><font color="#000000">^</font></tt></b></td>
+
+<td><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td><b><tt><font color="#000000">*</font></tt></b></td>
+
+<td><b><tt><font color="#000000">3</font></tt></b></td>
+
+<td><b><tt><font color="#000000">)</font></tt></b></td>
+
+<td><b><tt><font color="#000000">+</font></tt></b></td>
+
+<td><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td><b><tt><font color="#000000">^</font></tt></b></td>
+
+<td><b><tt><font color="#000000">10</font></tt></b></td>
+
+<td><b><tt><font color="#000000">=</font></tt></b></td>
+</tr>
+
+<tr>
+<td ALIGN=CENTER VALIGN=CENTER>"пресмятане"</td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b><tt><font color="#000000">2^2</font></tt></b>
+<br><b><tt><font color="#000000">=4</font></tt></b></td>
+
+<td></td>
+
+<td><b><tt><font color="#000000">4*3</font></tt></b>
+<br><b><tt><font color="#000000">=12</font></tt></b>
+<br><b><tt><font color="#000000">1+12</font></tt></b>
+<br><b><tt><font color="#000000">=13</font></tt></b></td>
+
+<td><b><tt><font color="#000000">2*13</font></tt></b>
+<br><b><tt><font color="#000000">=26</font></tt></b></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b><tt><font color="#000000">2^10</font></tt></b>
+<br><b><tt><font color="#000000">=1024</font></tt></b>
+<br><b><tt><font color="#000000">26+1024</font></tt></b>
+<br><b><tt><font color="#000000">=1050</font></tt></b></td>
+</tr>
+
+<tr>
+<td ALIGN=CENTER VALIGN=CENTER><b><tt><font color="#000000">num_s</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">1</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">1</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">1</font></tt></b>
+<br><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">1</font></tt></b>
+<br><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">1</font></tt></b>
+<br><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">1</font></tt></b>
+<br><b><tt><font color="#000000">4</font></tt></b></td>
+
+<td><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">1</font></tt></b>
+<br><b><tt><font color="#000000">4</font></tt></b>
+<br><b><tt><font color="#000000">3</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">13</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">26</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">26</font></tt></b>
+<br><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">26</font></tt></b>
+<br><b><tt><font color="#000000">2</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">26</font></tt></b>
+<br><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">10</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">1050</font></tt></b></td>
+</tr>
+
+<tr>
+<td ALIGN=CENTER VALIGN=CENTER><b><tt><font color="#000000">op_s</font></tt></b></td>
+
+<td></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">*</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b>
+<br><b><tt><font color="#000000">+</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b>
+<br><b><tt><font color="#000000">+</font></tt></b></td>
+
+<td><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b>
+<br><b><tt><font color="#000000">+</font></tt></b>
+<br><b><tt><font color="#000000">^</font></tt></b></td>
+
+<td><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b>
+<br><b><tt><font color="#000000">+</font></tt></b>
+<br><b><tt><font color="#000000">^</font></tt></b></td>
+
+<td><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b>
+<br><b><tt><font color="#000000">+</font></tt></b>
+<br><b><tt><font color="#000000">*</font></tt></b></td>
+
+<td><b><tt><font color="#000000">*</font></tt></b>
+<br><b><tt><font color="#000000">(</font></tt></b>
+<br><b><tt><font color="#000000">+</font></tt></b>
+<br><b><tt><font color="#000000">*</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt>*&nbsp;</tt></b></td>
+
+<td VALIGN=TOP><b><tt>+</tt></b></td>
+
+<td VALIGN=TOP><b><tt>+</tt></b></td>
+
+<td VALIGN=TOP><b><tt>+</tt></b>
+<br><b><tt>^</tt></b></td>
+
+<td VALIGN=TOP><b><tt>+</tt></b>
+<br><b><tt>^</tt></b></td>
+
+<td></td>
+</tr>
+</table></center>
+
+<p>Текстът на програмата за пресмятане на аритметични изрази е разделен
+на няколко файла, връзките между които са описани в следната таблица:
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td>Файл (модул)</td>
+
+<td><b><tt>#include</tt></b></td>
+
+<td>компилация</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#000099">stack.h</font></tt></b></td>
+
+<td>-</td>
+
+<td>-</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#000099">stack.cpp</font></tt></b></td>
+
+<td><b><tt><font color="#000099">stack.h</font></tt></b></td>
+
+<td><b><tt><font color="#000099">stack.obj</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">error.h</font></tt></b></td>
+
+<td>-</td>
+
+<td>-</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">error.cpp</font></tt></b></td>
+
+<td><b><tt><font color="#993300">error.h</font></tt></b></td>
+
+<td><b><tt><font color="#993300">error.obj</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">input.h</font></tt></b></td>
+
+<td>-</td>
+
+<td>-</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">input.cpp</font></tt></b></td>
+
+<td><b><tt><font color="#993300">error.h</font></tt></b>
+<br><b><tt><font color="#993300">input.h</font></tt></b></td>
+
+<td><b><tt><font color="#993300">input.obj</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">eval.h</font></tt></b></td>
+
+<td><b><tt><font color="#000099">stack.h</font></tt></b></td>
+
+<td>-</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">eval.cpp</font></tt></b></td>
+
+<td><b><tt><font color="#000099">stack.h</font></tt></b>
+<br><b><tt><font color="#993300">error.h</font></tt></b>
+<br><b><tt><font color="#993300">eval.h</font></tt></b></td>
+
+<td><b><tt><font color="#993300">eval.obj</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">calc.cpp</font></tt></b></td>
+
+<td><b><tt><font color="#000099">stack.h</font></tt></b>
+<br><b><tt><font color="#000099">input.h</font></tt></b>
+<br><b><tt><font color="#000099">eval.h</font></tt></b>
+<br><b><tt><font color="#000099">error.h</font></tt></b></td>
+
+<td><b><tt><font color="#993300">calc.exe</font></tt></b></td>
+</tr>
+</table>
+
+<p><b><tt><font color="#993300">// error.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef ERROR_H</font></tt></b>
+<br><b><tt><font color="#000099">#define ERROR_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">void error(string );</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#993300">// input.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef INPUT_H</font></tt></b>
+<br><b><tt><font color="#000099">#define INPUT_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">bool is_operator(string);</font></tt></b>
+<br><b><tt><font color="#000099">string next_token();</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#993300">// eval.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef EVAL_H</font></tt></b>
+<br><b><tt><font color="#000099">#define EVAL_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include "stack.h"</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">int precedence(string);</font></tt></b>
+<br><b><tt><font color="#000099">void evaluate(Stack &amp;, string);</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#993300">// error.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void error(string message)</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "ERROR: " &lt;&lt; message
+&lt;&lt; ".\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; exit(1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#993300">// end error.cpp</font></tt></b>
+<p><b><tt><font color="#993300">// eval.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;sstream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "stack.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "eval.h"</font></tt></b>
+<p><b><tt><font color="#000099">int precedence(string s)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (s == "+" or s == "-")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (s == "*" or s == "/")
+return 2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (s == "^")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 3;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">double string_to_double(string s)</font></tt></b>
+<br><b><tt><font color="#000099">{ istringstream instr(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; instr >> x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return x;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">string double_to_string(double x)</font></tt></b>
+<br><b><tt><font color="#000099">{ ostringstream outstr;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; outstr &lt;&lt; x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return outstr.str();</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void evaluate(Stack &amp;num, string op)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (num.is_empty()) error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double y = string_to_double(num.pop());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (num.is_empty()) error("Syntax
+error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double x = string_to_double(num.pop());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double z;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (op == "^") z = pow(x, y);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (op == "*") z = x * y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (op == "/")</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { if (y == 0) error("Divide by
+0");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else z = x / y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (op == "+") z = x + y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (op == "-") z = x - y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; num.push(double_to_string(z));</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#993300">// end eval.cpp</font></tt></b>
+<p><b><tt><font color="#993300">// input.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cctype></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "input.h"</font></tt></b>
+<p><b><tt><font color="#000099">bool is_operator(string s)</font></tt></b>
+<br><b><tt><font color="#000099">{ return s == "+" or s == "-" or</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s == "*" or s == "/" or s == "^";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void skip_whitespace()</font></tt></b>
+<br><b><tt><font color="#000099">{ char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; do</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { cin.get(ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (cin.fail()) return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (isspace(ch));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cin.unget();</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">string next_number()</font></tt></b>
+<br><b><tt><font color="#000099">{ string r;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; bool more = true;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (more)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; cin.get(ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (cin.fail())&nbsp;
+more = false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (isdigit(ch))
+r = r + ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { cin.unget();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; more =
+false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return r;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">string next_token()</font></tt></b>
+<br><b><tt><font color="#000099">{ skip_whitespace();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cin.get(ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (cin.fail()) return "";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (isdigit(ch)) { cin.unget();
+return next_number(); }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { string token;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; token = token + ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (is_operator(token)
+or token == "(" or</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+token == ")" or token == "=") return token;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { string message =
+"Unexpected input ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; error(message
++ ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+"";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#993300">// end input.cpp</font></tt></b>
+<p><b><tt><font color="#993300">// calc.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "stack.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "input.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "eval.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ Stack numstack;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Stack opstack;</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp; while (true)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { string s = next_token();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (is_operator(s))</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { if (opstack.is_empty())
+opstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { string
+old_op = opstack.pop();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (precedence(s) > precedence(old_op)) opstack.push(old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else evaluate(numstack, old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+opstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (s == "(")
+opstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (s == ")")</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { bool more = true;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (more)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { if (opstack.is_empty())
+error("No matching (");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+string old_op = opstack.pop();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (old_op == "(") more = false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else evaluate(numstack, old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (s == "=")</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { while (not opstack.is_empty())</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { string
+old_op = opstack.pop();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (old_op == "(") error("No matching )");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else evaluate(numstack, old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (numstack.is_empty())
+error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+numstack.pop() &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (not
+numstack.is_empty()) error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (s == "") return
+0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else numstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#993300">// end calc.cpp</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">2*(1 + 2^2*3) + 2^10 =</font></tt></b>
+<br><b><tt><font color="#993300">1050</font></tt></b>
+<br><b><tt><font color="#006600">(25/5 + 5)*10 - 4*(5 - 4/(2^2)) - 50 =</font></tt></b>
+<br><b><tt><font color="#993300">34</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Проекти и <b><tt>make</tt></b>
+файлове.
+<br>&nbsp;&nbsp;&nbsp; Когато програмата е разделена на няколко модула,
+можем да компилираме всеки от тях отделно. Компилаторът създава обектни
+файлове за всеки модул. Свързващата програма (<b><tt>link</tt></b>) обработва
+всички модули и създава изпълним файл. В интегрирана среда за програмиране,
+обединяването на файловете от една програма става със създаване на проекти.
+<br>&nbsp;&nbsp;&nbsp; Например в среда на <b><tt>Dev-C++</tt></b> трябва
+да отворим нов проект и да добавим всички файлове от програмата. За програмата
+за пресмятане на&nbsp; аритметични изрази, това са файловете:
+<br><b><tt>&nbsp;&nbsp;&nbsp; calc.cpp</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp; stack.cpp</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp; error.cpp</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp; input.cpp</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp; eval.cpp</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Самият проект се записва във файла <b><tt>project.dev.</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Когато се работи с извикване на компилатора от командния
+ред (извън интегрирана среда),&nbsp; най-често се използва специален файл,
+наречен make-файл. Той е текстов файл и описва модулите на програмата и
+тяхното взаимодействие.
+<br>&nbsp;&nbsp;&nbsp; Например програманата среда <b><tt>Dev-C++</tt></b>
+създава такъв файл и по-долу е даден този файл&nbsp; за задачата за пресмятане
+на аритметични изрази (операционна система Windows 98).
+<p><b><tt>Makefile.win</tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=2 WIDTH="100%" >
+<tr>
+<td><b><tt># Project: Project1</tt></b>
+<br><b><tt># Makefile created by Dev-C++ 4.9.8.0</tt></b>
+<p><b><tt>CPP&nbsp; = g++.exe</tt></b>
+<br><b><tt>CC&nbsp;&nbsp; = gcc.exe</tt></b>
+<br><b><tt>WINDRES = windres.exe</tt></b>
+<br><b><tt>RES&nbsp; =&nbsp;</tt></b>
+<br><b><tt>OBJ&nbsp; = calc.o stack.o input.o eval.o error.o $(RES)</tt></b>
+<br><b><tt>LINKOBJ&nbsp; = calc.o stack.o input.o eval.o error.o $(RES)</tt></b>
+<br><b><tt>LIBS =&nbsp; -L"C:/DEV-CPP/lib"&nbsp;</tt></b>
+<br><b><tt>INCS =&nbsp; -I"C:/DEV-CPP/include"&nbsp;</tt></b>
+<br><b><tt>CXXINCS =&nbsp; -I"C:/DEV-CPP/include/c++"&nbsp; -I"C:/DEV-CPP/include/c++/mingw32"&nbsp;
+-I"C:/DEV-CPP/include/c++/backward"&nbsp; -I"C:/DEV-CPP/include"&nbsp;
+-I"C:/ccc2book"&nbsp;</tt></b>
+<br><b><tt>BIN&nbsp; = Pro.exe</tt></b>
+<br><b><tt>CXXFLAGS = $(CXXINCS)&nbsp;</tt></b>
+<br><b><tt>CFLAGS = $(INCS)&nbsp;</tt></b>
+<p><b><tt>.PHONY: all all-before all-after clean clean-custom</tt></b>
+<p><b><tt>all: all-before Pro.exe all-after</tt></b>
+<p><b><tt>clean: clean-custom</tt></b>
+<br><b><tt>&nbsp;rm -f $(OBJ) $(BIN)</tt></b>
+<p><b><tt>$(BIN): $(LINKOBJ)</tt></b>
+<br><b><tt>&nbsp;$(CPP) $(LINKOBJ) -o "Pro.exe" $(LIBS)</tt></b>
+<p><b><tt>calc.o: calc.cpp</tt></b>
+<br><b><tt>&nbsp;$(CPP) -c calc.cpp -o calc.o $(CXXFLAGS)</tt></b>
+<p><b><tt>stack.o: stack.cpp</tt></b>
+<br><b><tt>&nbsp;$(CPP) -c stack.cpp -o stack.o $(CXXFLAGS)</tt></b>
+<p><b><tt>input.o: input.cpp</tt></b>
+<br><b><tt>&nbsp;$(CPP) -c input.cpp -o input.o $(CXXFLAGS)</tt></b>
+<p><b><tt>eval.o: eval.cpp</tt></b>
+<br><b><tt>&nbsp;$(CPP) -c eval.cpp -o eval.o $(CXXFLAGS)</tt></b>
+<p><b><tt>error.o: error.cpp</tt></b>
+<br><b><tt>&nbsp;$(CPP) -c error.cpp -o error.o $(CXXFLAGS)</tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Поделяне на променливи и константи
+между модули.
+<br>&nbsp;&nbsp;&nbsp; Функции/класове се използват от няколко модула като
+се декларират/дефинират в заглавни файлове и тези файлове се включват с
+директивата на препроцесора
+<b><tt>#include</tt></b>. Такава техника се
+използва и за поделяне на константи и променливи, дефинирани в заглавни
+файлове. Когато константа или променлива е дефинирана в някой .<b><tt>cpp</tt></b>
+файл и трябва да се използва от други модули, тя се дефинира там като външен
+обект (с ключовата дума
+<b><tt>extern</tt></b>).
+<br>Пример.
+<br><b><tt><font color="#006600">// файл first.cpp</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">int global_size;</font></tt></b>
+<br><b><tt><font color="#006600">void f()</font></tt></b>
+<br><b><tt><font color="#006600">{ cout &lt;&lt; global_ size;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">// файл second.cpp</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">extern int global_size;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">int main()</font></tt></b>
+<br><b><tt><font color="#006600">{ global_size = 100;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><font color="#000000">Следва разделна компилация на двата файла (модула)
+и свързването им в една програма.</font>
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

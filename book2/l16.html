@@ -1,0 +1,798 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l16</title>
+</head>
+<body>
+
+<center>
+<h3>
+<b>16. Прости алгоритми за сортиране</b></h3></center>
+
+<div align=right><i>Писането на прости варианти на основни алгоритми</i>
+<br><i>ни помага да ги разберем по-добре и след това да използваме</i>
+<br><i>по-сложни варианти по-ефективно.</i>
+<br><i>Робърт Седжуик</i></div>
+&nbsp;&nbsp;&nbsp; Една от най-често срещаните задачи при обработка на
+големи еднотипни данни е сортирането - нареждане на данните "по големина".
+Такава подредба улеснява търсенето на определена данна в голям масив от
+данни (вж 17. Търсене, бързо сортиране).
+<p><img SRC="bullet.gif" height=18 width=20>&nbsp; Сортиране чрез селекция
+(пряка селекция).
+<br>&nbsp;&nbsp;&nbsp; Алгоритъмът се състои в следното: на всяка стъпка
+намираме най-малкия елемент (от ненаредената част на масива) и го поставяме
+на място (чрез размяна) в наредения масив.
+<br>Пример:
+<center><table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td ALIGN=CENTER VALIGN=CENTER>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=6 WIDTH="80%" >
+<tr>
+<td>0.ст.</td>
+
+<td>1.ст.</td>
+
+<td>2.ст.</td>
+
+<td>3.ст.</td>
+
+<td>4.ст.</td>
+
+<td>5.ст.</td>
+</tr>
+
+<tr>
+<td><b><font color="#000099">8</font></b></td>
+
+<td><font color="#993300">4*</font></td>
+
+<td><font color="#993300">4*</font></td>
+
+<td><font color="#993300">4*</font></td>
+
+<td><font color="#993300">4*</font></td>
+
+<td><font color="#993300">4*</font></td>
+</tr>
+
+<tr>
+<td>7</td>
+
+<td><b><font color="#000099">7</font></b></td>
+
+<td><font color="#993300">5*</font></td>
+
+<td><font color="#993300">5*</font></td>
+
+<td><font color="#993300">5*</font></td>
+
+<td><font color="#993300">5*</font></td>
+</tr>
+
+<tr>
+<td>5</td>
+
+<td><b><u>5</u></b></td>
+
+<td><b><u><font color="#000099">7</font></u></b></td>
+
+<td><font color="#993300">7*</font></td>
+
+<td><font color="#993300">7*</font></td>
+
+<td><font color="#993300">7*</font></td>
+</tr>
+
+<tr>
+<td>10</td>
+
+<td>10</td>
+
+<td>10</td>
+
+<td><b><font color="#000099">10</font></b></td>
+
+<td><font color="#993300">8*</font></td>
+
+<td><font color="#993300">8*</font></td>
+</tr>
+
+<tr>
+<td><b><u>4</u></b></td>
+
+<td>8</td>
+
+<td>8</td>
+
+<td><b><u>8</u></b></td>
+
+<td><b><font color="#000099">10</font></b></td>
+
+<td><font color="#993300">9*</font></td>
+</tr>
+
+<tr>
+<td>9</td>
+
+<td>9</td>
+
+<td>9</td>
+
+<td>9</td>
+
+<td><b><u>9</u></b></td>
+
+<td><font color="#993300">10*</font></td>
+</tr>
+</table>
+</td>
+
+<td><font color="#000099"><b>0</b> <b>- елемент за размяна</b></font>
+<br><b><u>0 - най-малък елемент</u></b>
+<br><font color="#993300">0* - елемент, който е вече е подреден</font></td>
+</tr>
+</table></center>
+
+<p><font color="#000000">&nbsp;&nbsp;&nbsp; Програмата ще реализираме със
+заглавни файлове и модули. Пряката селекция е в модула <b><tt>selsort</tt></b>
+(файлове <b><tt>selsort.h</tt></b> и <b><tt>selsort.cpp</tt></b>), функциите
+за генериране и отпечатване на вектор от цели чиса - в модула </font><b><tt><font color="#990000">utilv</font></tt></b><font color="#000000">
+(файлове <b><tt>utilv.h</tt></b>&nbsp; и <b><tt>utilv.cpp</tt></b>) и главна
+функция </font><b><tt><font color="#000099">main</font></tt></b><font color="#000000">
+във файла </font><b><tt><font color="#993300">sels_test.cpp</font></tt></b><font color="#000000">.</font>
+<p><b><tt><font color="#993300">// selsort.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef SELSORT_H</font></tt></b>
+<br><b><tt><font color="#000099">#define SELSORT_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">void selection_sort(vector&lt;int> &amp;);</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#993300">// selsort.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">#include "selsort.h"</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void swap(int &amp;x, int &amp;y)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int temp = x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; x = y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; y = temp;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int min_position(vector&lt;int> &amp;a,
+int from, int to)</font></tt></b>
+<br><b><tt><font color="#000099">{ int min_pos = from;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (int i = from + 1; i &lt;=
+to; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+(a[i] &lt; a[min_pos]) min_pos = i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return min_pos;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void selection_sort(vector&lt;int> &amp;a)</font></tt></b>
+<br><b><tt><font color="#000099">{ int next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (next = 0; next &lt; a.size()-1;
+next++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; int min_pos = min_position(a,
+next, a.size()-1);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (min_pos != next)
+swap(a[min_pos], a[next]);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">// end selsort.cpp</font></tt></b>
+<p><b><tt><font color="#000099">// </font><font color="#990000">utilv.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef UTILV_H</font></tt></b>
+<br><b><tt><font color="#000099">#define UTILV_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void print(vector&lt;int>);</font></tt></b>
+<br><b><tt><font color="#000099">void generate(vector&lt;int> &amp;);</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#000099">// </font><font color="#990000">utilv.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime></font></tt></b>
+<br><b><tt><font color="#000099">#include "utilv.h"</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void print(vector&lt;int> a)</font></tt></b>
+<br><b><tt><font color="#000099">{ int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (i = 0; i &lt; a.size(); i++)
+cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
+<br><b><tt><font color="#000099">{ int seed = static_cast&lt;int>(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
+<br><b><tt><font color="#000099">{ return a + rand() % (b - a + 1); }</font></tt></b>
+<p><b><tt><font color="#000099">void generate(vector&lt;int> &amp;a)</font></tt></b>
+<br><b><tt><font color="#000099">{ rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (i = 0; i &lt; v.size(); i++)
+v[i] = rand_int(1, 100);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">// end utilv.cpp</font></tt></b>
+<p><b><tt><font color="#993300">// sels_test.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">#include "selsort.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "utilv.h"</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Enter vector size: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; vector&lt;int> v(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; generate(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; print(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; selection_sort(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; print(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Enter vector size: </font><font color="#006600">10</font></tt></b>
+<br><b><tt><font color="#993300">92 11 61 53 25 18 100 8 17 79&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">8 11 17 18 25 53 61 79 92 100&nbsp;</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Измерване на времето за работа
+на алгоритъма за сортиране чрез&nbsp; селекция.
+<br>&nbsp;&nbsp;&nbsp; Времето за работа на една програма можем да измерим
+като използваме класа <b><tt><font color="#000099">Time</font></tt></b>,
+чийто конструктор без параметри конструира обект, съдържащ текущото време
+на компютъра.
+<p><b><tt><font color="#993300">// sorttime.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">#include "selsort.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "utilv.h"</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Enter vector size: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; vector&lt;int> v(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; generate(v);</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp; Time before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; selection_sort(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Time after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Elapsed time = "
+&lt;&lt; after.seconds_from(before)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+" seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Enter vector size: </font><font color="#006600">8000</font></tt></b>
+<br><b><tt><font color="#993300">Elapsed time = 54 seconds</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; С няколко изпълнения на програмата получаваме следната
+таблица:
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="40%" >
+<tr>
+<td><font color="#000000">Vector size</font></td>
+
+<td><font color="#000000">Elapsed time</font></td>
+</tr>
+
+<tr>
+<td>1000</td>
+
+<td>2</td>
+</tr>
+
+<tr>
+<td>2000</td>
+
+<td>4</td>
+</tr>
+
+<tr>
+<td>4000</td>
+
+<td>15</td>
+</tr>
+
+<tr>
+<td>8000</td>
+
+<td>54</td>
+</tr>
+</table>
+
+<p>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Анализ на ефективността на
+алгоритъма за сортиране чрез&nbsp; селекция.
+<br>&nbsp;&nbsp;&nbsp; Ще преброим обръщенията към елементите на масив
+с <i>n</i> елементи. На първата стъпка правим <i>n-</i>1 сравнения за да
+намерим най-малкия елемент на масива - следователно точно <i>n</i> обръщения.
+После още 2 за (евентуална) размяна на елементите. На втората стъпка правим
+същото, но вече за масив с <i>n-</i>1 елемента, и т.н. Следователно общият
+брой обръщения е:
+<center><i>n </i>+ 2 + <i>n -</i> 1 + 2 + ... + 2 + 2 = <i>n</i> + (<i>n-</i>1)
++ (<i>n-</i>2) + ... + 2 + (<i>n-</i>1)2 =
+<br><i>n</i>(<i>n</i>+1)/2 + 1 +2(<i>n</i>-1) = 0.5<i>n</i><sup>2</sup>
++ 2.5<i>n</i> - 3.</center>
+Казваме, че броят на обръщенията е от порядък на <i>n</i><sup>2</sup>,
+което означава, че ако увеличим елементите на масива <i>k</i> пъти, броят
+на обръщенията ще се увеличи <i>k</i><sup>2</sup>&nbsp; пъти. Предполагаме,
+че този брой е пропорционален на времето за изпълнение на програмата. Следователно,
+ако програмата е работила 10 секунди за масив от 3000 елемента, то за масив
+от 30000 елемента ще работи 10х10<sup>2</sup> = 1000 секунди > 12 минути.
+<br>&nbsp;&nbsp;&nbsp; Затова се казва, че сложността на алгоритъма за
+сортиране чрез селекция е от порядъка на <i>n</i><sup>2</sup> и се записва
+<i>O</i>(<i>n</i><sup>2</sup>)
+- чете се о-голямо от <i>n</i><sup>2</sup>.
+<br>
+<hr WIDTH="100%">
+<p><img SRC="bullet.gif" height=18 width=20> Сортиране чрез сливане.
+<br>&nbsp;&nbsp;&nbsp; Ако двете половини на вектор <b><tt>a</tt></b> са
+сортиране, то можем да слеем двете половинки в един сортиран вектор <b><tt>b</tt></b>.
+<br>&nbsp;
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td>Вектор <b><tt>a</tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="80%" >
+<tr>
+<td></td>
+
+<td>Стъпка</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>1*</td>
+</tr>
+
+<tr>
+<td>4</td>
+
+<td>2 3*</td>
+</tr>
+
+<tr>
+<td>8</td>
+
+<td>4*</td>
+</tr>
+
+<tr>
+<td>15</td>
+
+<td>6 7 8*</td>
+</tr>
+
+<tr>
+<td>19</td>
+
+<td>10*</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td>3</td>
+
+<td>1 2*</td>
+</tr>
+
+<tr>
+<td>9</td>
+
+<td>3 4 5*</td>
+</tr>
+
+<tr>
+<td>10</td>
+
+<td>6*</td>
+</tr>
+
+<tr>
+<td>11</td>
+
+<td>7*</td>
+</tr>
+
+<tr>
+<td>16</td>
+
+<td>8 9*</td>
+</tr>
+</table>
+</td>
+
+<td WIDTH="75%">Вектор <b><tt>b</tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=10 WIDTH="75%" >
+<tr>
+<td>1.ст.</td>
+
+<td>2.ст.</td>
+
+<td>3.ст.</td>
+
+<td>4.ст.</td>
+
+<td>5.ст.</td>
+
+<td>6.ст.</td>
+
+<td>7.ст.</td>
+
+<td>8.ст.</td>
+
+<td>9.ст.</td>
+
+<td>10.ст.</td>
+</tr>
+
+<tr>
+<td><b>2</b>&lt;3</td>
+
+<td>4><b>3</b></td>
+
+<td><b>4</b>&lt;9</td>
+
+<td><b>8</b>&lt;9</td>
+
+<td>15><b>9</b></td>
+
+<td>15><b>10</b></td>
+
+<td>15><b>11</b></td>
+
+<td><b>15</b>&lt;16</td>
+
+<td>19><b>16</b></td>
+
+<td><b>19</b></td>
+</tr>
+
+<tr>
+<td><b>2</b></td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+
+<td>2</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td><b>3</b></td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+
+<td>3</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td><b>4</b></td>
+
+<td>4</td>
+
+<td>4</td>
+
+<td>4</td>
+
+<td>4</td>
+
+<td>4</td>
+
+<td>4</td>
+
+<td>4</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b>8</b></td>
+
+<td>8</td>
+
+<td>8</td>
+
+<td>8</td>
+
+<td>8</td>
+
+<td>8</td>
+
+<td>8</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b>9</b></td>
+
+<td>9</td>
+
+<td>9</td>
+
+<td>9</td>
+
+<td>9</td>
+
+<td>9</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b>10</b></td>
+
+<td>10</td>
+
+<td>10</td>
+
+<td>10</td>
+
+<td>10</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b>11</b></td>
+
+<td>11</td>
+
+<td>11</td>
+
+<td>11</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b>15</b></td>
+
+<td>15</td>
+
+<td>15</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b>16</b></td>
+
+<td>16</td>
+</tr>
+
+<tr>
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td></td>
+
+<td><b>19</b></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<font color="#000000">&nbsp;&nbsp;&nbsp; Идеята на сортировката по този
+метод е рекурсивно извикване на функцията за сортиране за 2 пъти по-малко
+елементи до достигане на тривиалния случай - сортиране на един елемент.</font>
+<br><b><tt><font color="#993300">// mergesort.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">#include "utilv.h"</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void merge(vector&lt;int> &amp;a, int from,
+int mid, int to)</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: слива две съседни части на вектор</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a - вектора, чиито
+елемент си сливат</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+from, mid - начало и край на първата част</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+to - край на втората част</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{ int n = to - from + 1; /* размер на
+частта, която се слива */</font></tt></b>
+<br><b><tt><font color="#000099">/* двете половинки се сливат във временен
+вектор b */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; vector&lt;int> b(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int i1 = from;</font></tt></b>
+<br><b><tt><font color="#000099">/* следващият елемент от първата половина
+*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int i2 = mid + 1;</font></tt></b>
+<br><b><tt><font color="#000099">/* следващият елемент от втората половина
+*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int j = 0; /* следваща свободна
+позиция в b */</font></tt></b>
+<p><b><tt><font color="#000099">/* докато нито i1 нито i2 са преминали
+края, копираме по-малкия елемент в b */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (i1 &lt;= mid &amp;&amp;
+i2 &lt;= to)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { if (a[i1] &lt; a[i2]) { b[j]
+= a[i1];&nbsp;&nbsp; i1++; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{ b[j] = a[i2];&nbsp;&nbsp; i2++; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; j++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">/* само един от двата цикъла ще се изпълни
+*/</font></tt></b>
+<br><b><tt><font color="#000099">/* копиране на оставащите елементи от
+първата половина */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (i1 &lt;= mid) { b[j]
+= a[i1];&nbsp;&nbsp; i1++;&nbsp;&nbsp; j++; }</font></tt></b>
+<br><b><tt><font color="#000099">/* копиране на оставащите елементи от
+втората половина */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (i2 &lt;= to)&nbsp;
+{ b[j] = a[i2];&nbsp;&nbsp; i2++;&nbsp;&nbsp; j++;&nbsp;&nbsp; }</font></tt></b>
+<p><b><tt><font color="#000099">/* копиране обратно от временния вектор
+*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (j = 0; j &lt; n; j++)&nbsp;&nbsp;
+a[from + j] = b[j];</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void merge_sort(vector&lt;int> &amp;a,
+int from, int to)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (from == to) return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int mid = (from + to)/2;</font></tt></b>
+<br><b><tt><font color="#000099">/* сортиране на първата и втората половина
+*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; merge_sort(a, from, mid);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; merge_sort(a, mid+1, to);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; merge(a, from, mid, to);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ vector&lt;int> v(20);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; generate(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; print(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; merge_sort(v, 0, v.size()-1);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; print(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">29 59 16 5 28 38 33 37 32 48 10 92 80
+16 6 41 80 81 52 17&nbsp;</font></tt></b>
+<br><b><tt><font color="#660000">5 6 10 16 16 17 28 29 32 33 37 38 41 48
+52 59 80 80 81 92&nbsp;</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Анализ на алгоритъма за сортиране
+чрез сливане.
+<br>&nbsp;&nbsp;&nbsp; На всяка стъпка от сливането правим сравнение между
+един елемент от първата половина на <b><tt>a</tt></b> и един елемент от
+втората половина на <b><tt>a</tt></b> и записваме един елемент в <b><tt>b</tt></b>,
+т.е. правим 3 обръщения към елементи на масивите. За обратното копиране
+на <b><tt>b</tt></b> в <b><tt>a</tt></b> имаме още 2 обръщения. Или общо
+5<i>n</i> обръщения за вектор от <i>n</i> елемента. Нека <i>T</i>(<i>n</i>)
+е функцията, която задава броя на обръщенията. Тогава поради двете рекурсивни
+извиквания с два пъти по-малък вектор имаме:
+<center><i>T</i>(<i>n</i>) = <i>T</i>(<i>n/</i>2) + <i>T</i>(<i>n/</i>2)
++ 5<i>n</i>.</center>
+За да изразим явно <i>T</i>(<i>n</i>) използваме равенствата:
+<br><i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+T</i>(<i>n</i>) = 2<i>T</i>(<i>n/</i>2) + 5<i>n</i> = 4<i>T</i>(<i>n/</i>4)
++ 10<i>n</i> = 8<i>T</i>(<i>n/</i>8) + 15<i>n</i> = ... = 2<i><sup>k</sup>T</i>(<i>n/</i>2<i><sup>k</sup></i>)
++ 5<i>kn</i>
+<br>и за <i>n </i>= 2<i><sup>k</sup></i> получаваме<i> T</i>(<i>n</i>)
+= <i>nT</i>(1) + 5<i>n </i>log<sub>2</sub><i>n</i>, т.е. сложността на
+алгоритъма е <i>O</i>(<i>n </i>log <i>n</i>).
+<br>&nbsp;&nbsp;&nbsp; Тъи като <i>n </i>log<sub>2</sub><i>n &lt; n</i><sup>2</sup>&nbsp;
+за <i>n > </i>2, то алгоритъма за сортиране чрез сливане е по-добър (по-ефективен)
+от алгоритъма за сортиране чрез селекция. За сметка на това, този алгоритъм
+използва два пъти повече памет от пряката селекция.
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

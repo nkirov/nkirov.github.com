@@ -1,0 +1,380 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.8 [en] (Win95; U) [Netscape]">
+   <title>l18</title>
+</head>
+<body>
+
+<center>
+<h3>
+<b>18. Още за рекурсията</b></h3></center>
+
+<blockquote>
+<div align=right>&nbsp;<i>Леймър, е програмист, който пише програми</i>
+<br><i>в колонка и който, като чуе за рекурсия,</i>
+<br><i>получава леко разстройство.</i>
+<br><i>Преслав Наков, Панайот Добриков</i></div>
+</blockquote>
+<img SRC="bullet.gif" height=18 width=20> Непряка рекурсия.
+<br>&nbsp;&nbsp;&nbsp; Ако една функция <b><tt>f1</tt></b> вика друга функция
+<b><tt>f2</tt></b>,
+а втората функция <b><tt>f2</tt></b> вика първата <b><tt>f1</tt></b>, казваме,
+че има непряка рекурсия.
+<br>&nbsp;&nbsp;&nbsp;&nbsp; Пример. Хилбертови криви.
+<br>&nbsp;&nbsp;&nbsp; Хилбертова крива от 1-ви ред H<sub>1</sub> се получава
+като се чертае наляво - надолу - надясно единичната отсечка. H<sub>2</sub>
+се състои от 4 криви H<sub>1</sub> намалени наполовина, първата завъряна
+на +90, втората отместена на 1/2 наляво,&nbsp; третата отместена на 1/2
+надясно и четвъртата завъртяна на -90 градуса и отместена 1/2 надясно.
+По същия начин е получена и кривата от 3-ти ред H<sub>3</sub> от H<sub>2</sub>.
+Процесът може да продължи с получаване на H<sub>4</sub>, H<sub>5</sub>
+и т. н. Има 4 елемента A, B, C и D, от които се състои всяка крива. За
+да напишем рекурсията, нека предположим, че можем да чертаем тези елементи
+и отсечки като "костенурка-графика":
+<br><b><tt>- left </tt></b>- наляво;
+<br><b><tt>- down </tt></b>- надолу;
+<br><b><tt>- right </tt></b>- надясно;
+<br><b><tt>- up </tt></b>- нагоре
+<br>с дължини 1/n за кривата H<sub>n</sub>.
+<center><table COLS=3 WIDTH="100%" >
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="hilb1a.GIF" height=141 width=135></td>
+
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="hilb2a.GIF" height=203 width=203></td>
+
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="hilb3a.GIF" height=202 width=202></td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td ALIGN=CENTER VALIGN=CENTER>H<sub>1</sub></td>
+
+<td ALIGN=CENTER VALIGN=CENTER>H<sub>2</sub></td>
+
+<td ALIGN=CENTER VALIGN=CENTER>H<sub>3</sub></td>
+</tr>
+</table></center>
+
+<p>Получаваме следната схема на рекурсията:
+<br><b><tt>A: left,&nbsp; down, right -> D left&nbsp; A down&nbsp; A right
+B</tt></b>
+<br><b><tt>B: up,&nbsp;&nbsp;&nbsp; right,down&nbsp; -> C up&nbsp;&nbsp;&nbsp;
+B right B down&nbsp; A</tt></b>
+<br><b><tt>C: right, up,&nbsp;&nbsp; left&nbsp; -> B right C up&nbsp;&nbsp;&nbsp;
+C left&nbsp; D</tt></b>
+<br><b><tt>D: down, left,&nbsp; up&nbsp;&nbsp;&nbsp; -> A down&nbsp; D
+left&nbsp; D up&nbsp;&nbsp;&nbsp; C</tt></b>
+<br>Остава да се реализира "костенурка-графика", което може да се направи
+с познатата графична библиотека.
+<br>&nbsp;&nbsp;&nbsp; Програма за чертаене на Хилбертови криви.
+<br><b><tt><font color="#000099">// hilbert.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">int h = 512;&nbsp;&nbsp;&nbsp; /* дължината
+на "единичната" отсечка&nbsp;&nbsp; */</font></tt></b>
+<br><b><tt><font color="#000099">int xold, yold; /* текущи координати на
+"костенурката" */</font></tt></b>
+<br><b><tt><font color="#000099">int x, y;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* нови координати на "костенурката"&nbsp;&nbsp; */</font></tt></b>
+<p><b><tt><font color="#000099">void Hilbert();</font></tt></b>
+<br><b><tt><font color="#000099">void A(int i);</font></tt></b>
+<br><b><tt><font color="#000099">void B(int i);</font></tt></b>
+<br><b><tt><font color="#000099">void C(int i);</font></tt></b>
+<br><b><tt><font color="#000099">void D(int i);</font></tt></b>
+<p><b><tt><font color="#000099">void plot()</font></tt></b>
+<br><b><tt><font color="#000099">/* ЦЕЛ: реализира "костенурка-графика"
+-</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; чертае отсечка, свързваща
+точките (xold, yold) и (x,y)в</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{ Line l(Point(x,y), Point(xold, yold));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cwin &lt;&lt; l;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; xold = x;&nbsp; yold = y;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void Hilbert()</font></tt></b>
+<br><b><tt><font color="#000099">{ int i = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int x0 = h/2, y0 = h/2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; do</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { i++; h /= 2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; x0 += h/2; y0 += h/2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; xold = x = x0; yold
+= y = y0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; A(i);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (i &lt; 5);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void A(int i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (i == 0) return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; D(i-1); x -= h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; A(i-1); y -= h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; A(i-1); x += h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; B(i-1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void B(int i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (i == 0) return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; C(i-1); y += h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; B(i-1); x += h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; B(i-1); y -= h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; A(i-1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void C(int i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (i == 0) return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; B(i-1); x += h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; C(i-1); y += h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; C(i-1); x -= h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; D(i-1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void D(int i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (i == 0) return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; A(i-1); y -= h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; D(i-1); x -= h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; D(i-1); y += h; plot();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; C(i-1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cwin.coord(0, h, h, 0);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Hilbert();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLSPACING=0 COLS=2 WIDTH="100%" >
+<tr>
+<td><img SRC="hilb1.gif" height=240 width=320></td>
+
+<td><img SRC="hilb2.gif" height=240 width=320></td>
+</tr>
+
+<tr>
+<td><img SRC="hilb3.gif" height=240 width=320></td>
+
+<td><img SRC="hilb4.gif" height=240 width=320></td>
+</tr>
+
+<tr>
+<td><img SRC="hilb5.gif" height=240 width=320></td>
+
+<td><img SRC="hilb6.gif" height=240 width=320></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20> Ефективност на рекурсията.
+<br>* Числа на Фибоначи.
+<br>&nbsp;&nbsp;&nbsp; Рекурсията е мощен инструмент за реализиране на
+ефективни алгоритми. В някои случаи обаче, тя може да доведе до лошо работещи
+алгоритми. Такъв е случаят с алгоритъма за пресмятане на числата на Фибоначи&nbsp;<i>
+f<sub>i</sub></i>, които се дефинират рекурентно така:
+<center><i>f</i><sub>1 </sub>=&nbsp; <i>f</i><sub>2 </sub>= 1 и&nbsp;<i>
+f<sub>i </sub></i>=&nbsp; <i>f<sub>i </sub></i><sub>- 1 </sub>+&nbsp; <i>f<sub>i</sub></i><sub>
+- 2</sub> за&nbsp; <i>i</i> = 3, 4, ... .</center>
+Рекурсивна функция за пресмятане на <i>n</i>-тото число на Фибоначи се
+пише лесно точно по рекурентната формула. Ще измерваме и времето за работа
+на тази функция.
+<br><b><tt><font color="#993300">// fibtime.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (n &lt;= 2) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else return fib(n - 1) + fib(n
+- 2);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Time before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Time after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "fib(" &lt;&lt; n
+&lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Elapsed time = "
+&lt;&lt; after.seconds_from(before)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+" seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 COLS=1 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Enter n: </font><font color="#006600">30</font></tt></b>
+<br><b><tt><font color="#993300">fib(30) = 832040</font></tt></b>
+<br><b><tt><font color="#993300">Elapsed time = 2 seconds</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Поставяме трасиращи печати във функцията, за да видим
+колко пъти се извиква функцията.
+<br><b><tt><font color="#993300">// fibtrace.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Entering fib: n = " &lt;&lt;
+n &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; long f;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (n &lt;= 2) f = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else f = fib(n - 1) + fib(n - 2);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Exiting fib: n =
+" &lt;&lt; n</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+" return value = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return f;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "fib(" &lt;&lt; n
+&lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 COLS=1 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Enter n: </font><font color="#006600">5</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 5</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 4</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 3</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 2</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 2 return value = 1</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 1</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 1 return value = 1</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 3 return value = 2</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 2</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 2 return value = 1</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 4 return value = 3</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 3</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 2</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 2 return value = 1</font></tt></b>
+<br><b><tt><font color="#993300">Entering fib: n = 1</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 1 return value = 1</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 3 return value = 2</font></tt></b>
+<br><b><tt><font color="#993300">Exiting fib: n = 5 return value = 5</font></tt></b>
+<br><b><tt><font color="#993300">fib(5) = 5</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Този алгоритъмът за пресмятане на&nbsp; <i>n</i>-тото
+число на Фибоначи е неефективен, защото фунцията се извиква многократно
+с една и съща стойност на входния си параметър. За конкретния пример за
+да се пресметне <b><tt><font color="#993300">fib(5)-</font></tt></b> <b><tt><font color="#993300">fib(1)</font></tt></b>
+се вика 2 пъти, <b><tt><font color="#993300">fib(2)</font></tt></b> - 3
+пъти, <b><tt><font color="#993300">fib(3)</font></tt></b> - 2 пъти и <b><tt><font color="#993300">fib(4)</font></tt></b>
+- веднъж. Сложността на този алгоритъм е <i>O</i>(<i>q<sup>n</sup></i>),
+където <i>q > </i>1.
+<br>&nbsp;&nbsp;&nbsp; Не е трудно да се реализира итеративен алгоритъм
+за решаване на същата задача.
+<br><b><tt><font color="#993300">// fibloop.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (n &lt;= 2) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; long fold = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; long fold2 = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; long fnew;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (int i = 3; i &lt;= n; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { fnew = fold + fold2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; fold2 = fold;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; fold = fnew;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return fnew;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Time before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Time after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "fib(" &lt;&lt; n
+&lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Elapsed time = "
+&lt;&lt; after.seconds_from(before) &lt;&lt; " seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 COLS=1 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Enter n: </font><font color="#006600">45</font></tt></b>
+<br><b><tt><font color="#993300">fib(45) = 1134903170</font></tt></b>
+<br><b><tt><font color="#993300">Elapsed time = 0 seconds</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; В таблицата са дадени времената за работа на двата
+алгоритъма.
+<br>&nbsp;
+<center><table BORDER CELLSPACING=0 CELLPADDING=4 COLS=4 WIDTH="60%" >
+<tr>
+<td><b><tt>n</tt></b></td>
+
+<td><b><tt>fib(n)</tt></b></td>
+
+<td><b><tt>rec sec</tt></b></td>
+
+<td><b><tt>loop sec</tt></b></td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td><b><tt>30</tt></b></td>
+
+<td><b><tt>832040</tt></b></td>
+
+<td><b><tt>2</tt></b></td>
+
+<td><b><tt>&lt; 1</tt></b></td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td><b><tt>32</tt></b></td>
+
+<td><b><tt>2178309</tt></b></td>
+
+<td><b><tt>3</tt></b></td>
+
+<td><b><tt>&lt; 1</tt></b></td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td><b><tt>34</tt></b></td>
+
+<td><b><tt>5702887</tt></b></td>
+
+<td><b><tt>8</tt></b></td>
+
+<td><b><tt>&lt; 1</tt></b></td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td><b><tt>36</tt></b></td>
+
+<td><b><tt>14930352</tt></b></td>
+
+<td><b><tt>22</tt></b></td>
+
+<td><b><tt>&lt; 1</tt></b></td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td><b><tt>45</tt></b></td>
+
+<td><b><tt><font color="#000000">1134903170</font></tt></b></td>
+
+<td><b><tt>-</tt></b></td>
+
+<td><b><tt>&lt; 1</tt></b></td>
+</tr>
+</table></center>
+
+<p><font color="#000000">&nbsp;Нерекурсивният вариант </font>за пресмятане
+на&nbsp; <i>n</i>-тото число на Фибоначи <font color="#000000">е по-ефективен.</font>
+<p><font color="#000000">* За пресмятане на&nbsp; <i>n</i>! и двата варианта
+- рекурсивния и итерационния - са еднакво ефективни.</font>
+<br><font color="#000000">* Двоичното търсене може да се направи нерекурсивно
+- двата варианта са приблизително еднакво ефективни..</font>
+<br><font color="#000000">* Сортиране чрез сливане е трудно да се направи
+нерекурсивно.</font>
+<br><font color="#000000">* Бързата сортировка може да си направи нерекурсивна.</font>
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

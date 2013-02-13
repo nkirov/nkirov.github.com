@@ -1,0 +1,819 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <font>
+  <title>Object Oriented Design</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  </font>
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 13: Object Oriented Design</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To learn about relationships between classes</font></li>
+  <li><font size="+1">To learn how to discover classes and member
+functions</font></li>
+  <li><font size="+1">To learn the CRC card method</font></li>
+  <li><font size="+1">To gain an understanding of UML class diagrams</font></li>
+  <li><font size="+1">To learn how to use object-oriented design to
+build complex programs</font></li>
+  <li><font size="+1">To study an example of the object-oriented design
+process</font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Relationships between Classes</h2>
+<ul>
+  <li><font size="+1">When designing a program, it is useful to
+document the relationships between classes.</font>
+    <ul>
+      <li><font size="+1">For classes with common behavior, you can
+save effort by placing the common behavior in a <span
+ style="font-style: italic;">base class</span>.</font></li>
+      <li><font size="+1">For classes that are <span
+ style="font-style: italic;">not related</span> to each
+other, you can assign different programers to implement each of them.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">The inheritance relationship is a very important
+relationship between classes - a more general class (the base class)
+and a more specialized class (the derived class).<br>
+    </font></li>
+  <li><font size="+1">This relationship is often described as the<i>
+is-a </i>relationship.</font>
+    <ul>
+      <li><font size="+1">Every truck is a vehicle.</font></li>
+      <li><font size="+1">Every square is a rectangle.</font></li>
+      <li><font size="+1">Every manager is an employee.<br>
+        </font></li>
+    </ul>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">Inheritance, although useful, can be over-used.</font></li>
+  <li><font size="+1">Should a class <tt>Tire</tt> be derived from a <tt>Circle</tt>
+class?</font></li>
+  <li><font size="+1">Conceptually, the arrangement <span
+ style="font-style: italic;">does not </span>make
+sense. It is not true that every tire is a circle. Tires are car parts,
+whereas circles are geometric objects. <br>
+    </font></li>
+  <li><font size="+1">A tire <i>has a</i> circle as it's boundary.
+    <blockquote>
+      <pre>class Tire  { <br>...<br>private:<br>   string rating;<br>   Circle boundary;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The term for this relationship is <span
+ style="font-style: italic;">association</span>.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">Every car <span style="font-style: italic;">is a</span>
+vehicle. Every car <span style="font-style: italic;">has</span> a tire
+(several tires, actually).
+    <blockquote>
+      <pre>class Car : public Vehicle {<br>   ...<br>private:<br>   vector&lt;Tire&gt; tires;<br>};</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">In UML notation, association is denoted by a
+solid line with an arrow at the tip.
+    <blockquote><img src="images/UML.png"></blockquote>
+    </font> </li>
+</ul>
+<ul>
+  <li><font size="+1">A class is associated with another if you can <span
+ style="font-style: italic;">navigate</span> from objects of
+one class to objects of the other class.</font></li>
+  <li><font size="+1">Example: You can navigate from a <tt>Car</tt>
+object to the <tt>Tire</tt> object, so these classes are <span
+ style="font-style: italic;">associated</span>.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">A class <i>depends</i> on another class if one
+of its member functions uses an object of the other class in some way.
+    <blockquote>
+      <pre>class Coin { <br>public: <br>   Coin(double v, string n);<br>   double get_value() const;<br>private:<br>   ...<br>};<br><br>class Purse { <br>public:<br>   Purse();<br>   void add(Coin c);<br>   double get_total() const;<br>private:<br>   ...<br>};<br></pre>
+    </blockquote>
+    <blockquote><img src="images/coupling.png"></blockquote>
+    </font></li>
+  <li><font size="+1">The <span style="font-style: italic;">association</span>
+relationship is related to the <span style="font-style: italic;">dependency
+    </span>relationship.
+Association is a stronger form of dependency.</font></li>
+  <li><font size="+1">If a class is associated with another, it also
+depends on the other class.</font></li>
+  <li><font size="+1">If a class depends on another, it comes in
+contact with objects of the other class in some way, not necessarily
+through navigation.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">In the field of software engineering, the Unified
+Modeling
+Language (UML) is a standardized specification language for object
+modeling. UML is a general-purpose modeling language that includes a
+graphical notation used to create an <span style="font-style: italic;">abstract
+model</span> of a system,
+referred to as a UML model.</font></li>
+  <li><font size="+1">The arrows in the UML notations can get
+confusing; the table shows the relationships symbols used in the book.
+    <blockquote><img src="images/UML_table.png"></blockquote>
+    </font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Implementing Associations</h2>
+<ul>
+  <li><font size="+1">Associations between classes are usually
+implemented in data fields. </font></li>
+  <li><font size="+1">You need to make two important choices:</font>
+    <ul>
+      <li><font size="+1">Do you store a single object, or a vector of
+objects?</font></li>
+      <li><font size="+1">Should you store objects or pointers?</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">First decide what the multiplicity of the
+association is:</font>
+    <ul>
+      <li><font size="+1">1 : many (ex. every company has many
+employees)</font></li>
+      <li><font size="+1">1 : 1 (ex. every bank account has one owner)</font></li>
+      <li><font size="+1">1 : 0 or 1 (every department has 0 or 1
+receptionist)</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">For a "1 : many" relationship, you need to use a
+vector (or some other data structure).</font></li>
+</ul>
+<ul>
+  <li><font size="+1">You use pointers in three circumstances.</font>
+    <ul>
+      <li><font size="+1">For a "1 : 0 or 1" relationship</font></li>
+      <li><font size="+1">For object sharing</font></li>
+      <li><font size="+1">For polymorphism, to refer to an object that
+may belong to a base class or a derived class.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Examples:</font>
+    <ul>
+      <li><font size="+1">Since multiple bank accounts could share the
+same owner, it makes sense to use a pointer.
+        <blockquote>
+          <pre>class Bank Account {<br>   ...<br>private:<br>   Person* owner;<br>};</pre>
+        </blockquote>
+        </font></li>
+      <li><font size="+1">A vehicle has multiple tires, but a tire can
+only be part of a single vehicle.
+        <blockquote>
+          <pre>class Vehicle {<br>   ...<br>private:<br>   vector&lt;Tire&gt; tires;<br>};</pre>
+        </blockquote>
+        </font></li>
+    </ul>
+  </li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Example: An Educational Game (Requirements)</h2>
+<ul>
+  <li><font size="+1">You task is to write a game program that teaches
+your baby sister how to read the clock.</font></li>
+  <li><font size="+1">The game must:</font>
+    <ul>
+      <li><font size="+1">Randomly generate a time.</font></li>
+      <li><font size="+1">Draw a clock face with that time.</font></li>
+      <li><font size="+1">Ask the player to type in the time.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">The player gets two tries to guess the time
+before the game displays the answer.</font></li>
+  <li><font size="+1">The score increases by one point each time the
+player guess the time correctly.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">The game has four difficulty levels:</font>
+    <ul>
+      <li><font size="+1">Level 1: full hours.</font></li>
+      <li><font size="+1">Level 2: 15 minutes intervals</font></li>
+      <li><font size="+1">Level 3: 5 minute intervals</font></li>
+      <li><font size="+1">Level 4: all possible times (1 minute
+intervals)</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">When the player scores 5 points the game
+automatically advances to the next level.</font></li>
+  <li><font size="+1">The game begins by asking for player's name and
+starting level.</font></li>
+  <li><font size="+1">After every round the player is asked whether she
+wants to play more.</font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>CRC Cards</h2>
+<ul>
+  <li><font size="+1">In the design phase of software development, your
+task is to discover structures that make it possible to implement a set
+of tasks on a computer.</font>
+    <ul>
+      <li><font size="+1">Discover classes.</font></li>
+      <li><font size="+1">Determine the responsibilities of each class.</font></li>
+      <li><font size="+1">Describe the relationships between the
+classes.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">A simple rule for finding classes is to look for
+nouns in the task description.</font></li>
+  <li><font size="+1">First we list the nouns:
+    <blockquote><font size="+1">
+      <table border="0" cellpadding="6">
+        <tbody>
+          <tr align="left">
+            <td width="125"><font size="+1">Player</font></td>
+            <td width="125"><font size="+1">Clock</font></td>
+            <td width="125"><font size="+1">Time</font></td>
+          </tr>
+          <tr align="left">
+            <td width="125"><font size="+1">Level</font></td>
+            <td width="125"><font size="+1">Game </font></td>
+            <td width="125"><font size="+1">Round</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </font></blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">Once a set of classes had been identified, you
+need to define the behavior (member functions) for each classes.</font></li>
+  <li><font size="+1">A simple rule for finding member functions is to
+look for verbs in the task description, and then match the verbs to the
+appropriate objects.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">In the CRC card method, you create an index card
+for each class.</font></li>
+  <li><font size="+1">CRC stands for "classes", "responsibilities",
+"collaborators."</font></li>
+  <li><font size="+1">As you think about the verbs in the task
+description, pick the card of the class that you think should be
+responsible, and write that responsibility on the left-hand side of the
+card.</font></li>
+  <li><font size="+1">For each responsibility, you record on the
+right-hand side of the card which other classes (the collaborators) are
+needed to fulfill it.</font></li>
+</ul>
+<font size="+1">
+<blockquote><font size="+1"><font size="+1">
+  <table bgcolor="black" border="1" cellpadding="6">
+    <tbody>
+      <tr>
+        <td bgcolor="#ffffff" width="600">
+        <div align="center"><font color="#0000ff" size="+1">Clock</font></div>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" height="45" width="600">
+        <table border="0" cellpadding="6" width="590">
+          <tbody>
+            <tr>
+              <td width="250"><font size="+1"><i>draw</i></font></td>
+              <td width="176"><font size="+1"><tt>Time</tt></font></td>
+            </tr>
+          </tbody>
+        </table>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" width="600">
+        <table border="0" cellpadding="6" width="590">
+          <tbody>
+            <tr>
+              <td width="250"><i><font size="+1">set time</font></i></td>
+              <td width="176"><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" width="600">
+        <table border="0" cellpadding="6" width="590">
+          <tbody>
+            <tr>
+              <td width="250">&nbsp; </td>
+              <td width="176"><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        </td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" width="600">&nbsp;</td>
+      </tr>
+      <tr>
+        <td bgcolor="#ffffff" width="600">&nbsp;</td>
+      </tr>
+    </tbody>
+  </table>
+  </font></font></blockquote>
+</font>
+<ul>
+  <li><font size="+1">As you list responsibilities and collaborators,
+think about the member functions the collaborators might need to help
+with the task.</font></li>
+  <li><font size="+1">Responsibilities that you list on the CRC card
+are on a high level, and may need two or more member functions for
+carrying out.</font></li>
+  <li><font size="+1">The CRC method is an informal process:</font>
+    <ul>
+      <li><font size="+1">Be creative and discover the classes and
+their responsibilities.</font></li>
+      <li><font size="+1">Cross out, move, or split responsibilities.</font></li>
+      <li><font size="+1">Rip cards up if they become too messy.</font></li>
+    </ul>
+  </li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Example: An Educational Game (CRC Cards)</h2>
+<ul>
+  <li><font size="+1">First we list the nouns:
+    <blockquote><font size="+1">
+      <table border="0" cellpadding="6">
+        <tbody>
+          <tr align="left">
+            <td width="125"><font size="+1">Player</font></td>
+            <td width="125"><font size="+1">Clock</font></td>
+            <td width="125"><font size="+1">Time</font></td>
+          </tr>
+          <tr align="left">
+            <td width="125"><font size="+1">Level</font></td>
+            <td width="125"><font size="+1">Game </font></td>
+            <td width="125"><font size="+1">Round</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </font></blockquote>
+    </font></li>
+  <li><font size="+1">Level is just an integer between 1 and 4; it
+doesn't need a class.</font></li>
+  <li><font size="+1">Start with a simple class: the <tt>Clock</tt>
+class.</font></li>
+  <li><font size="+1">When a clock draws itself, it must draw the hands
+to show the current time.</font></li>
+  <li><font size="+1">To get the current time, it must collaborate with
+the <tt>Time</tt> class.</font></li>
+  <li><font size="+1">How does the clock know what time it is? You need
+to tell it:
+    <blockquote><font size="+1"><font size="+1">
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <div align="center"><font color="#0000ff" size="+1">Clock</font></div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" height="45" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><font size="+1"><i>draw</i></font></td>
+                  <td width="176"><font size="+1"><tt>Time</tt></font></td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><i><font size="+1">set time</font></i></td>
+                  <td width="176"><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250">&nbsp; </td>
+                  <td width="176"><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      </font></font></blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">The <tt>Time</tt> class must be able to get the
+hours and minutes of a given time and check when two times are the same.</font>
+    <blockquote><font size="+1"><font size="+1"><font size="+1">
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <div align="center"><font color="#0000ff" size="+1">Time</font></div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" height="45" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><font size="+1"><i>get hours and
+minutes</i></font></td>
+                  <td width="176"><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><i><font size="+1">check if equal to
+another </font></i><font size="+1"><tt>Time</tt></font><i><font
+ size="+1"> object </font></i></td>
+                  <td width="176"><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250">&nbsp; </td>
+                  <td width="176"><br>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+      </font></font></font> </blockquote>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">A player has a name, a level, and a score.</font></li>
+  <li><font size="+1">When the player gets a correct answer, the score
+must be incremented.</font></li>
+  <li><font size="+1">After five score increments, the level is
+incremented - we will let the increment score function take care of
+that, but we must be able to find out what the level is.</font>
+    <blockquote>
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <div align="center"><font color="#0000ff" size="+1">Player</font></div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" height="45" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><font size="+1"><i>increment score</i></font></td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><font size="+1"><i>get level</i></font></td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250">&nbsp; </td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+  </li>
+  <li><font size="+1">A good plan is to introduce a class that
+represents the entire program:
+    <blockquote>
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <div align="center"><font color="#0000ff" size="+1">Game</font></div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" height="45" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><font size="+1"><i>play</i></font></td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><br>
+                  </td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250">&nbsp; </td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">What does it mean to play a game?
+    <blockquote>
+      <pre><i>read player information</i><br>do<br>{  <i>play a round<br>   ask whether player wants to play again</i><br>}<br>while (<i>player wants to play again</i>);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">New actions are added to the game class based on
+this pseudocode.</font>
+    <blockquote>
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <div align="center"><font color="#0000ff" size="+1">Game</font></div>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" height="45" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><font size="+1"><i>play</i></font></td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250"><font size="+1"><i>read player
+information</i></font></td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">
+            <table border="0" cellpadding="6" width="590">
+              <tbody>
+                <tr>
+                  <td width="250">&nbsp; </td>
+                  <td width="176">&nbsp;</td>
+                </tr>
+              </tbody>
+            </table>
+            </td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+          <tr>
+            <td bgcolor="#ffffff" width="600">&nbsp;</td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">Whose responsibility is it to play a round?</font>
+    <ul>
+      <li><font size="+1">The <tt>Game</tt> class or<br>
+        </font></li>
+      <li><font size="+1">The <tt>Player</tt> class</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">It probably doesn't matter, so we will choose the
+    </font><font size="+1"><span style="font-family: monospace;">Game </span></font><font
+ size="+1">class.</font></li>
+  <li><font size="+1">What happens in a round?</font>
+    <ul>
+      <li><font size="+1">Make a time (uses </font><font size="+1"><span
+ style="font-family: monospace;">Time</span></font><font size="+1">
+class).</font></li>
+      <li><font size="+1">Draw a clock (uses </font><font size="+1"><span
+ style="font-family: monospace;">Clock</span></font><font size="+1">
+class).</font></li>
+      <li><font size="+1">Ask for input (uses </font><font size="+1"><span
+ style="font-family: monospace;">Player</span></font><font size="+1">
+class).</font></li>
+      <li><font size="+1">Check input (uses </font><font size="+1"><span
+ style="font-family: monospace;">Clock</span></font><font size="+1">
+class)</font></li>
+      <li><font size="+1">Ask again or increment score (uses </font><font
+ size="+1"><span style="font-family: monospace;">Player </span></font><font
+ size="+1">class).</font> </li>
+    </ul>
+  </li>
+  <blockquote>
+    <p>
+    <table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr>
+          <td bgcolor="#ffffff" width="600">
+          <div align="center"><font color="#0000ff" size="+1">Game</font></div>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#ffffff" height="45" width="600">
+          <table border="0" cellpadding="6" width="590">
+            <tbody>
+              <tr>
+                <td width="250"><font size="+1"><i>play</i></font></td>
+                <td width="176"><font size="+1"><tt>Player</tt></font></td>
+              </tr>
+            </tbody>
+          </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#ffffff" width="600">
+          <table border="0" cellpadding="6" width="590">
+            <tbody>
+              <tr>
+                <td width="250"><font size="+1"><i>read player
+information</i></font></td>
+                <td width="176"><font size="+1"><tt>Clock</tt></font></td>
+              </tr>
+            </tbody>
+          </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#ffffff" width="600">
+          <table border="0" cellpadding="6" width="590">
+            <tbody>
+              <tr>
+                <td width="250"><i><font size="+1">play round</font></i></td>
+                <td width="176"><font size="+1"><tt>Time</tt></font></td>
+              </tr>
+            </tbody>
+          </table>
+          </td>
+        </tr>
+        <tr>
+          <td bgcolor="#ffffff" width="600">&nbsp;</td>
+        </tr>
+        <tr>
+          <td bgcolor="#ffffff" width="600">&nbsp;</td>
+        </tr>
+      </tbody>
+    </table>
+    </p>
+  </blockquote>
+  <li><font size="+1">There is no need for Round and Level classes, so
+do not implement them.</font></li>
+</ul>
+<h2>Example: An Educational Game (UML Diagram)</h2>
+<ul>
+  <li><font size="+1">The collaborator columns of the CRC cards
+indicate part of the relationship between class, but which are <span
+ style="font-style: italic;">dependencies</span> and which are <span
+ style="font-style: italic;">associations</span>?</font></li>
+  <li><font size="+1">Since the same player must be manipulated for
+several rounds, you can't just construct local player objects.</font></li>
+  <li><font size="+1">The <tt>Game</tt> object must have a data field
+of type </font><font size="+1"><span style="font-family: monospace;">Player</span></font><font
+ size="+1"> and a have the play round function modify its state (</font><font
+ style="font-style: italic;" size="+1">association</font><font size="+1">)</font>.</li>
+  <li><font size="+1">The <tt>Clock</tt> and <tt>Time</tt> classes to
+not need to be associated with the <tt>Game</tt> class (</font><font
+ style="font-style: italic;" size="+1">dependencies</font><font
+ size="+1">).</font></li>
+  <li><font size="+1">The set time functions from the <tt>Clock</tt>
+class suggests that the <tt>Time</tt> class is <span
+ style="font-style: italic;">associated</span> with the <tt>Clock</tt>
+class.</font></li>
+</ul>
+<blockquote><img src="images/clock_UML.png"></blockquote>
+<h2>Example: An Educational Game (Class and Function Comments)</h2>
+<ul>
+  <li><font size="+1">The <tt>Clock</tt> class: </font>
+    <blockquote>
+      <pre><font size="+1">class Clock {<br>public:<br>   /**<br>      Sets current time.<br>      @param t the time to set<br>   */<br>   void set_time(Time t);<br><br>   /**<br>      Draws the clock face, with tick marks and hands.<br>   */<br>   void draw() const;<br>};</font></pre>
+    </blockquote>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">The <tt>Player</tt> class:
+    <blockquote>
+      <pre>class Player {<br>public:<br>   /** <br>      Increments the score. Moves to next level if<br>      current level complete.<br>   */<br>   void increment_score();<br><br>   /**<br>      Gets the current level.<br>      @return the level<br>   */<br>   int get_level() const;<br>};</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">The <tt>Game</tt> class:
+    <blockquote>
+      <pre>class Game {<br>public:<br>   /**<br>      Plays the game while the player wants to continue<br>   */<br>   void play();<br>   <br>   /** <br>      Reads player name and level.<br>   */<br>   void read_player_information();<br><br>   /**<br>      Plays a round, with up to two guesses.<br>   */<br>   void play_round();<br>};</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">Before reinventing the wheel, determine if you
+can use the <tt>Time</tt> class that is part of the book before
+designing a new class.</font></li>
+  <li><font size="+1">To use the <tt>Time</tt> class from the book,
+you must set seconds to zero. (Seconds has no use in our game).</font></li>
+  <li><font size="+1">To see whether two times are identical, check
+whether there are zero seconds from the first time to the second time.
+    <blockquote>
+      <pre>time1.seconds_from(time2) == 0</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Example: An Educational Game (<a href="../../sources/ch13/clock.cpp"><tt>clock.cpp</tt></a>)</h2>
+<iframe src="code/clock.cpp.html" height="80%" width="80%">Your browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+</body>
+</html>

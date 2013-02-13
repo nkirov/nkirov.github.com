@@ -1,0 +1,416 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l19</title>
+</head>
+<body>
+
+<center>
+<h3>
+<b>19. Въведение в структурите от данни</b></h3></center>
+
+<div align=right><i>I think a better way of approaching C++ is to use</i>
+<br><i>some of the standard library facilities.</i>
+<br><i>Bjarne Stroustrup</i></div>
+
+<p><br><img SRC="bullet.gif" height=18 width=20>&nbsp; Свързани списъци.
+<br>&nbsp;&nbsp;&nbsp; Всяка стойност се съхранява в отделен блок от паметта,
+заедно с местоположението на съседните блокове в последователността. Този
+начин на съхранение позволява лесно да се вмъкне или отстрани елемент,
+без да се местят другите елементи. Както знаем, това е невъзможно, ако
+се използва вектор (вж 12.&nbsp; Вектори).&nbsp; В стандартната библиотека
+шаблони (STL) на С++ има реализация на линейната структура свързан списък
+- шаблонът <b><tt><font color="#000099">list</font></tt></b>. Във всеки
+елемент на свързания списък се съхранява данна и две връзки - съм следващия
+елемент ат списъка и към предишнея елемент от списъка.
+<center>
+<p><img SRC="list1.GIF" height=98 width=628></center>
+
+<p>Вмъкването и изтриването на елемент от свързания списък става лесно
+- променят се стойностите на няколко връзки.
+<center>
+<p><img SRC="list2.GIF" height=226 width=637>
+<p><img SRC="list3.GIF" height=169 width=637></center>
+
+<p><b><tt><font color="#000099">// list1.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;list></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; list&lt;string> staff;&nbsp;&nbsp;&nbsp;&nbsp;
+</font><font color="#000000">/* шаблон за списък */</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Cracker,
+Carl");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Hacker,
+Harry");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Lam, Larry");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Sandman,
+Susan");</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; list&lt;string>::iterator
+pos;</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><tt><font color="#000000">/*
+итератор на списък */</font></tt></b>
+<p><b><tt><font color="#000099">/* добавя елемент на четвърто място */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.insert(pos, "Reindeer,
+Rudolf");</font></tt></b>
+<p><b><tt><font color="#000099">/* отстранява втория елемент */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.erase(pos);</font></tt></b>
+<p><b><tt><font color="#000099">/* добавя елемент на последно място */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.end();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.insert(pos, "Zeider,
+Zeev");</font></tt></b>
+<p><b><tt><font color="#000000">/* обхождане на списък */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (pos = staff.begin();
+pos != staff.end(); pos++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+*pos &lt;&lt; "\n";</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><tt><font color="#000000">/*
+извежда съдържание на текущата позиция */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Cracker, Carl</font></tt></b>
+<br><b><tt><font color="#993300">Lam, Larry</font></tt></b>
+<br><b><tt><font color="#993300">Reindeer, Rudolf</font></tt></b>
+<br><b><tt><font color="#993300">Sandman, Susan</font></tt></b>
+<br><b><tt><font color="#993300">Zeider, Zeev</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20>&nbsp; Указатели и динамична
+памет.
+<br>** Дялове в оперативната памет при изпълнение на програма на С++.
+<br>&nbsp;
+<center><table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td>CODE
+<br>транслираната програма
+<br>(от exe файла)</td>
+</tr>
+
+<tr>
+<td>DATA
+<br>глобални данни</td>
+</tr>
+
+<tr>
+<td>STACK
+<br>локални променливи и константи
+<br>имена на извикани функции</td>
+</tr>
+
+<tr>
+<td>Динамична памет</td>
+</tr>
+</table></center>
+
+<p>** Тип указател - съхранява адрес от оперативната памет на компютъра.
+<br>- дефиниране на променлива тип указател:
+<br>синтаксис: <b><tt>име на тип <font color="#009900">* </font>име на
+променлива</tt></b>
+<br><b><tt><font color="#009900">Employee *boss;</font></tt></b>
+<br><b><tt><font color="#009900">int *pn;</font></tt></b>
+<p>- запазване на място в динамичната памет - унарна операция <b><tt><font color="#009900">new</font></tt></b>:
+<br>синтаксис:
+<br><b><tt><font color="#009900">new</font> име на тип<font color="#006600">
+</font></tt></b>-
+запазва място за една променлива от зададения тип
+<br><b><tt><font color="#009900">new</font> име на тип<font color="#006600">(</font>стойност<font color="#006600">)</font></tt></b>-
+запазва място за една променлива от зададения тип и я инициалира със зададената
+стойност
+<br><b><tt><font color="#009900">new </font>име на тип<font color="#009900">[</font>число<font color="#009900">]</font></tt></b>-
+запазва място за няколко променливи (колкото е числото) от зададения тип.
+<p>- дефиниране на променлива тип указател и задаване на начална стойност
+на указателя:
+<br><b><tt><font color="#009900">int *pn = new int;</font></tt></b>
+<br><b><tt><font color="#009900">int *arr = new int[100];</font></tt></b>
+<p>- дефиниране на променлива тип указател (<b><tt><font color="#009900">boss</font></tt></b>),
+задаване на начална стойност на указателя (операция <b><tt><font color="#009900">new</font></tt></b>)
+и задаване на начална стойност на сочения от него обект:
+<br><b><tt><font color="#009900">Employee *boss = new Employ("John", 3200);</font></tt></b>
+<br><b><tt><font color="#009900">int *pn = new int(10);</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td VALIGN=TOP>STACK
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=2 >
+<tr>
+<td>Име:</td>
+
+<td><b><tt><font color="#009900">boss</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Тип:</td>
+
+<td><b><tt><font color="#009900">Employee* </font></tt></b><font color="#000000">(указател)</font></td>
+</tr>
+
+<tr>
+<td>Стойност:</td>
+
+<td>адрес XXX</td>
+</tr>
+</table>
+
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=2 >
+<tr>
+<td>Име:</td>
+
+<td><b><tt><font color="#009900">pn</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Тип:</td>
+
+<td><b><tt><font color="#009900">int* </font></tt></b><font color="#000000">(указател)</font></td>
+</tr>
+
+<tr>
+<td>Стойност:</td>
+
+<td>адрес YYY</td>
+</tr>
+</table>
+</td>
+
+<td>Динамична памет&nbsp;
+<p>адрес XXX
+<table BORDER CELLSPACING=0 CELLPADDING=2 >
+<tr>
+<td>Име:</td>
+
+<td><b><tt><font color="#009900">*boss </font></tt></b><font color="#000000">(временно!)</font></td>
+</tr>
+
+<tr>
+<td>Тип:</td>
+
+<td><b><tt><font color="#009900">Employee</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Стойност:</td>
+
+<td>
+<center><table BORDER CELLSPACING=0 CELLPADDING=2 >
+<tr>
+<td><b><tt><font color="#009900">"John"</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#009900">3200</font></tt></b></td>
+</tr>
+</table></center>
+</td>
+</tr>
+</table>
+
+<p>адрес YYY
+<table BORDER CELLSPACING=0 CELLPADDING=2 >
+<tr>
+<td>Име:</td>
+
+<td><b><tt><font color="#009900">*pn </font></tt></b><font color="#000000">(временно!)</font></td>
+</tr>
+
+<tr>
+<td>Тип:</td>
+
+<td><b><tt><font color="#009900">int</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Стойност:</td>
+
+<td><b><tt><font color="#009900">10</font></tt></b></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<p>- стойност на указател - унарна операция <b><tt><font color="#009900">*</font></tt></b>:
+<br>синтаксис: <b><tt><font color="#009900">*</font><font color="#000000">указател</font></tt></b>
+<br><b><tt><font color="#009900">Employee harry("Harry", 1500);</font></tt></b>
+<br><b><tt><font color="#009900">*boss = harry;</font></tt></b>
+<br><b><tt><font color="#009900">*pn = 12;</font></tt></b>
+<br><b><tt><font color="#009900">cout &lt;&lt; *pn;</font></tt></b>
+<p>- операция стрелка <b><tt><font color="#009900">-></font></tt></b>:
+<br>синтаксис:<b><tt> указател към клас <font color="#009900">-></font>
+член на класа</tt></b>
+<br><b><tt><font color="#009900">cout &lt;&lt; (*boss).get_salary();</font></tt></b>
+<br><b><tt><font color="#009900">cout &lt;&lt; boss->get_salary();</font></tt></b>
+<p>- освобождаване на памет (унищожаване на обекта) - операция <b><tt><font color="#009900">delete.</font></tt></b>
+<br>синтаксис: <b><tt><font color="#009900">delete </font><font color="#000000">указател</font></tt></b>
+<br><b><tt><font color="#009900">delete boss;</font></tt></b>
+<br><b><tt><font color="#009900">delete pn;</font></tt></b>
+<p><font color="#000000">- невалидни указатели.</font>
+<br><b><tt><font color="#006600">int *pk = new int(10);</font></tt></b>
+<br><b><tt><font color="#006600">cout &lt;&lt; *pk;</font></tt></b>
+<br><b><tt><font color="#006600">delete pk;</font></tt></b>
+<br><b><tt><font color="#006600">*pk = 100; /* невалиден указател */</font></tt></b>
+<br><font color="#000000">Опасна грешка! Опит за работа със стойност на
+указател след освобождаване на заетата памет.</font>
+<p>- операция адрес на променлива <b><tt>&amp;.</tt></b>
+<br>синтаксис: <b><tt><font color="#006600">&amp;</font> име на променлива</tt></b>
+<table COLS=3 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">int k = 10;</font></tt></b>
+<br><b><tt><font color="#006600">int *pk = &amp;k;</font></tt></b>
+<br><b><tt><font color="#006600">cout &lt;&lt; k;</font></tt></b>
+<br><b><tt><font color="#006600">cout &lt;&lt; (*pk);</font></tt></b></td>
+
+<td ALIGN=CENTER VALIGN=CENTER>STACK
+<br>Адрес <b><tt>XXX</tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=2 >
+<tr>
+<td>Име:</td>
+
+<td><b><tt><font color="#009900">k</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Тип:</td>
+
+<td><b><tt><font color="#006600">int</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Стойност:</td>
+
+<td><b><tt><font color="#006600">10</font></tt></b></td>
+</tr>
+</table>
+</td>
+
+<td>STACK
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=2 >
+<tr>
+<td>Име:</td>
+
+<td><b><tt><font color="#009900">pk</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Тип:</td>
+
+<td><b><tt><font color="#006600">int* </font></tt></b><font color="#000000">(указател)</font></td>
+</tr>
+
+<tr>
+<td>Стойност:</td>
+
+<td>Адрес <b><tt>XXX</tt></b></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<p>- променливи-псевдоними.
+<br><b><tt><font color="#006600">int k = 10;</font></tt></b>
+<br><b><tt><font color="#006600">int &amp;ak = k; /* дефиниране на променлива-псевдоним
+*/</font></tt></b>
+<br><b><tt><font color="#006600">if ( ak == k ) cout &lt;&lt; "YES, of
+course";</font></tt></b>
+<p>** Указатели и масиви, адресна аритметика.
+<br>&nbsp;&nbsp;&nbsp; Името на масив е константен указател.
+<br><b><tt><font color="#006600">int a[3] = {10, 20, 30};</font></tt></b>
+<br><b><tt><font color="#006600">int *pa = a;</font></tt></b>
+<br><b><tt><font color="#006600">/* отпечатва 3 пъти стойността на a[0]
+*/</font></tt></b>
+<br><b><tt><font color="#006600">cout &lt;&lt; a[0] &lt;&lt;" "&lt;&lt;
+pa[0] &lt;&lt;" "&lt;&lt; *pa;</font></tt></b>
+<br><b><tt><font color="#006600">/* отпечатва 4 пъти стойността на a[1]
+*/</font></tt></b>
+<br><b><tt><font color="#006600">cout &lt;&lt; a[1] &lt;&lt;" "&lt;&lt;
+pa[1] &lt;&lt;" "&lt;&lt; *(pa+1) &lt;&lt;" "&lt;&lt;(pa+1)[0];</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=2 COLS=4 >
+<tr>
+<td>Адрес</td>
+
+<td><b><tt><font color="#006600">pa или a</font></tt></b></td>
+
+<td><b><tt><font color="#006600">pa+1 или a+1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">pa+2 или a+2</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Стойност</td>
+
+<td><b><tt><font color="#CC0000">10</font></tt></b></td>
+
+<td><b><tt><font color="#CC0000">20</font></tt></b></td>
+
+<td><b><tt><font color="#CC0000">30</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Индекс</td>
+
+<td><b><tt><font color="#006600">0</font></tt></b></td>
+
+<td><b><tt><font color="#006600">1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">2</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Достъп 1</td>
+
+<td><b><tt><font color="#006600">a[0]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">a[1]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">a[2]</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Достъп 2</td>
+
+<td><b><tt><font color="#006600">*pa</font></tt></b></td>
+
+<td><b><tt><font color="#006600">*(pa+1)</font></tt></b></td>
+
+<td><b><tt><font color="#006600">*(pa+2)</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Достъп 3</td>
+
+<td><b><tt><font color="#006600">pa[0]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">(pa+1)[0]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">(pa+1)[1]</font></tt></b></td>
+</tr>
+
+<tr>
+<td>Достъп 4</td>
+
+<td><b><tt><font color="#006600">*a</font></tt></b></td>
+
+<td><b><tt><font color="#006600">*(a+1)</font></tt></b></td>
+
+<td><b><tt><font color="#006600">*(a+2)</font></tt></b></td>
+</tr>
+</table>
+
+<p>
+<hr WIDTH="100%">
+</body>
+</html>
