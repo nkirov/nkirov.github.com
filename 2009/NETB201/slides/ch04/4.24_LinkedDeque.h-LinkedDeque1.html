@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>LinkedDeque1</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: LinkedDeque1</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;
+<font color=#A000A0>class</font> LinkedDeque {
+<font color=#A000A0>protected</font>:                                      <font color=#0000FF>// local node structure</font>
+  <font color=#0000FF>// ... (insert Node here)</font>
+<font color=#A000A0>private</font>:                                        <font color=#0000FF>// member data</font>
+  NodePtr header;				<font color=#0000FF>// pointer to header sentinel</font>
+  NodePtr trailer;				<font color=#0000FF>// pointer to trailer sentinel</font>
+  <font color=#A000A0>int</font> sz;					<font color=#0000FF>// number of elements</font>
+<font color=#A000A0>public</font>:
+  <font color=#000000>LinkedDeque</font>() {				<font color=#0000FF>// default constructor</font>
+    header = <font color=#A000A0>new</font> Node;
+    trailer = <font color=#A000A0>new</font> Node;
+    header-&gt;next = trailer;			<font color=#0000FF>// trailer follows header</font>
+    trailer-&gt;prev = header;			<font color=#0000FF>// header precedes trailer</font>
+    sz = 0;
+  }
+  <font color=#0000FF>// ...					// return first element</font>
+  Object& <font color=#000000>first</font>() <font color=#00A000>throw</font>(DequeEmptyException) {
+    <font color=#00A000>if</font> (<font color=#000000>isEmpty</font>())
+      <font color=#00A000>throw</font> <font color=#000000>DequeEmptyException</font>(<font color=#0000FF>"First of empty deque"</font>);
+    <font color=#00A000>return</font> header-&gt;next-&gt;element;
+  }
+  <font color=#A000A0>void</font> <font color=#000000>insertFirst</font>(<font color=#A000A0>const</font> Object& e) {		<font color=#0000FF>// insert new node at head</font>
+    NodePtr oldFirst = header-&gt;next;		<font color=#0000FF>// old first node</font>
+    NodePtr t = <font color=#A000A0>new</font> <font color=#000000>Node</font>(e, header, oldFirst);	<font color=#0000FF>// new node to insert</font>
+    oldFirst-&gt;prev = t;
+    header-&gt;next = t;
+    sz++;
+  }
+  <font color=#A000A0>void</font> <font color=#000000>removeLast</font>() {				<font color=#0000FF>// remove node at tail</font>
+    <font color=#00A000>if</font> (<font color=#000000>isEmpty</font>())
+      <font color=#00A000>throw</font> <font color=#000000>DequeEmptyException</font>(<font color=#0000FF>"Remove on empty deque"</font>);
+    NodePtr old = trailer-&gt;prev;		<font color=#0000FF>// node to remove</font>
+    NodePtr newLast = old-&gt;prev;		<font color=#0000FF>// new last node</font>
+    trailer-&gt;prev = newLast;
+    newLast-&gt;next = trailer;
+    sz--;
+    <font color=#A000A0>delete</font> old;
+  }
+  <font color=#0000FF>// ... (many functions omitted)</font>
+};
+</dl>
+</body></html>

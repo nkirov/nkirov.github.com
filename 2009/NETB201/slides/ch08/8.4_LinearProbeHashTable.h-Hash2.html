@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>Hash2</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: Hash2</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Key, <font color=#A000A0>typename</font> Element, <font color=#A000A0>typename</font> HashCmp&gt;
+LinearProbeHashTable&lt;Key, Element, HashCmp&gt;::EntryPtr
+LinearProbeHashTable&lt;Key, Element, HashCmp&gt;::
+<font color=#000000>finder</font>(<font color=#A000A0>const</font> Key& key) <font color=#A000A0>const</font> { 				<font color=#0000FF>// search utility</font>
+  <font color=#A000A0>int</font> i = hash.<font color=#000000>hashValue</font>(key) % N;			<font color=#0000FF>// get hash index</font>
+  <font color=#A000A0>int</font> start = i;					<font color=#0000FF>// starting point</font>
+  <font color=#00A000>do</font> {
+    <font color=#00A000>if</font> (A[i].status == EMPTY) <font color=#00A000>return</font> NULL;		<font color=#0000FF>// item is not found</font>
+    <font color=#00A000>if</font> (A[i].status == USED &&
+    	  hash.<font color=#000000>isEqualTo</font>(A[i].<font color=#000000>key</font>(), key))		<font color=#0000FF>// found it</font>
+      <font color=#00A000>return</font> &A[i];					<font color=#0000FF>// return with success</font>
+    i = (i + 1) % N;					<font color=#0000FF>// try next slot</font>
+  } <font color=#00A000>while</font> (i != start);					<font color=#0000FF>// until back to start</font>
+  <font color=#00A000>return</font> NULL;						<font color=#0000FF>// return with failure</font>
+}
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Key, <font color=#A000A0>typename</font> Element, <font color=#A000A0>typename</font> HashCmp&gt;
+LinearProbeHashTable&lt;Key, Element, HashCmp&gt;::EntryPtr
+LinearProbeHashTable&lt;Key, Element, HashCmp&gt;::
+<font color=#000000>inserter</font>(<font color=#A000A0>const</font> Key& key, <font color=#A000A0>const</font> Element& element) {	<font color=#0000FF>// insert utility</font>
+  <font color=#A000A0>int</font> i = hash.<font color=#000000>hashValue</font>(key) % N;			<font color=#0000FF>// get hash index</font>
+  <font color=#A000A0>int</font> start = i;					<font color=#0000FF>// starting point</font>
+  <font color=#00A000>do</font> {
+    <font color=#00A000>if</font> (A[i].status != USED) {				<font color=#0000FF>// slot is available?</font>
+      A[i] = <font color=#000000>HashEntry</font>(key, element, USED);		<font color=#0000FF>// store it here</font>
+      n++;						<font color=#0000FF>// increase size</font>
+      <font color=#00A000>return</font> &A[i];					<font color=#0000FF>// return with success</font>
+    }
+    i = (i + 1) % N;					<font color=#0000FF>// try next slot</font>
+  } <font color=#00A000>while</font> (i != start);					<font color=#0000FF>// until back to start</font>
+  <font color=#00A000>return</font> NULL;						<font color=#0000FF>// return with failure</font>
+}
+</dl>
+</body></html>

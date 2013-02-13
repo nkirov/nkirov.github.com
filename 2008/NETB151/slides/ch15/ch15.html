@@ -1,0 +1,674 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Sorting and Searching</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 15: Sorting and Searching</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To compare the selection sort and merge sort
+algorithms</font></li>
+  <li><font size="+1">To study the linear search and binary search
+algorithms</font></li>
+  <li><font size="+1">To appreciate that algorithms for the same task
+can differ widely in performance</font></li>
+  <li><font size="+1">To understand the big-Oh notation</font></li>
+  <li><font size="+1">To learn how to estimate and compare the
+performance of algorithms </font></li>
+  <li><font size="+1">To learn how to measure the running time of a
+program.</font><font size="+1"> </font></li>
+</ul>
+<h2>Selection Sort</h2>
+<ul>
+  <li><font size="+1">Selection sort is based upon finding the minimum
+value in a range of indexes and placing that value at the front of the
+vector.</font></li>
+  <li><font size="+1"><span style="color: rgb(0, 153, 0);">Example: </span>Suppose
+we start with the following
+vector.
+    <blockquote>
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr bgcolor="#ffffff">
+            <td style="font-weight: bold;" width="40">
+            <div align="center"><tt><font size="+1">11</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">9</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">17</font></tt></div>
+            </td>
+            <td style="font-weight: bold; text-decoration: underline;"
+ width="40">
+            <div align="center"><tt><font size="+1">5</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">12</font></tt></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The smallest element is 5, so we place it in the
+first location in the array. However we cannot lose the 11, so these
+two elements are <i>swapped</i>.
+    <blockquote><font size="+1">
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr bgcolor="#ffffff">
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">5</font></tt></div>
+            </td>
+            <td style="font-weight: bold; text-decoration: underline;"
+ width="40">
+            <div align="center"><tt><font size="+1">9</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">17</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">11</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">12</font></tt></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </font></blockquote>
+    </font></li>
+  <li><font size="+1">Now take the minimum of the remaining entries
+a[1] ... a[4]. That value is in the correct place, so no swapping is
+done.
+    <blockquote><font size="+1"><font size="+1">
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr bgcolor="#ffffff">
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">5</font></tt></div>
+            </td>
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">9</font></tt></div>
+            </td>
+            <td style="font-weight: bold;" width="40">
+            <div align="center"><tt><font size="+1">17</font></tt></div>
+            </td>
+            <td style="font-weight: bold; text-decoration: underline;"
+ width="40">
+            <div align="center"><tt><font size="+1">11</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">12</font></tt></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </font></font></blockquote>
+    </font></li>
+  <li><font size="+1">Repeat the process over the unsorted region.
+    <blockquote><font size="+1"><font size="+1">
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr bgcolor="#ffffff">
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">5</font></tt></div>
+            </td>
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">9</font></tt></div>
+            </td>
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">11</font></tt></div>
+            </td>
+            <td style="font-weight: bold;" width="40">
+            <div align="center"><tt><font size="+1">17</font></tt></div>
+            </td>
+            <td style="font-weight: bold; text-decoration: underline;"
+ width="40">
+            <div align="center"><tt><font size="+1">12</font></tt></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </font></font></blockquote>
+    </font></li>
+  <li><font size="+1">Continue until the unprocessed region has length
+1. You are done.
+    <blockquote><font size="+1"><font size="+1"><font size="+1">
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr bgcolor="#ffffff">
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">5</font></tt></div>
+            </td>
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">9</font></tt></div>
+            </td>
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">11</font></tt></div>
+            </td>
+            <td bgcolor="#00ffff" width="40">
+            <div align="center"><tt><font size="+1">12</font></tt></div>
+            </td>
+            <td width="40">
+            <div align="center"><tt><font size="+1">17</font></tt></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      </font></font></font></blockquote>
+    </font></li>
+</ul>
+<h2>Selection Sort (<a href="../../sources/ch15/selsort.cpp"><tt>selsort.cpp</tt></a>)</h2>
+<iframe src="code/selsort.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Profiling the Selection Sort Algorithm</h2>
+<ul>
+  <li><font size="+1">To measure the performance of a program, one
+could simply run it and measure how long it takes by using a stopwatch.
+    </font></li>
+  <li><font size="+1">Recall that default construction for the <tt>Time</tt>
+class initializes the object to the current time.
+    <blockquote>
+      <pre>Time now</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">We can use <tt>Time</tt> objects to measure the
+performance of the sorting algorithm. </font>
+    <blockquote>
+      <pre><font size="+1">Time before;<br>selection_sort(v);<br>Time after;<br><br>cout &lt;&lt; "Elapsed time = " &lt;&lt; after.seconds_from(before)<br>     &lt;&lt; " seconds\n";<br></font></pre>
+    </blockquote>
+  </li>
+</ul>
+<ul>
+  <li><a href="../../sources/ch15/sorttime.cpp"><big><span
+ style="font-family: monospace;">sorttime.cpp</span></big></a><br>
+  </li>
+  <li><font size="+1">Here are results obtained on a Pentium III
+processor with a clock speed of 750 MHz running Linux.
+    <table border="0" cellpadding="6">
+      <tbody>
+        <tr>
+          <td><img src="images/selection_times.png"></td>
+          <td width="10%">&nbsp;</td>
+          <td><img src="images/selection_graph.png"></td>
+        </tr>
+      </tbody>
+    </table>
+    </font> </li>
+  <li><font size="+1">Actually numbers will look different, but the
+relationship between the numbers will be the same. Doubling the size of
+the data more than doubles the time needed to sort it. </font><font
+ size="+1">
+    <table style="text-align: left; width: 328px; height: 144px;"
+ border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">n</span><br>
+          </big></td>
+          <td style="vertical-align: top;"><big>seconds<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>8000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>3<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>16000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>13<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>32000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>55<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>64000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>220<br>
+          </big></td>
+        </tr>
+      </tbody>
+    </table>
+    </font></li>
+</ul>
+<h2>Analyzing the Performance of the Selection Sort Algorithm</h2>
+<ul>
+  <li><font size="+1">To analyze the selection sort algorithm, we will
+count how often an array element is <i>visited</i>.</font> </li>
+  <li><font size="+1">For a vector with <i>n</i> elements, we must
+visit all <i>n</i> of them to find the smallest one. Then visit two
+elements to swap them.</font> </li>
+  <li><font size="+1">In the next step, we visit <i>n</i> - 1 elements
+to find the minimum, plus two elements to swap.</font></li>
+  <li><font size="+1">In the next step, we visit (<i>n</i> - 2) + 2
+elements.</font> </li>
+  <li><font size="+1">The total elements visited is
+    <blockquote><img src="images/selection_computation.png"></blockquote>
+because
+    <blockquote><img src="images/sumation_formula.png"></blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">The formula for the number of visits in the
+selection sort algorithm is (1/2)&nbsp;<i>n</i><sup>2</sup>&nbsp;+&nbsp;(5/2)&nbsp;<i>n</i>&nbsp;-&nbsp;3.</font>
+  </li>
+  <li><font size="+1">For large values of <i>n</i>, the latter terms
+in the formula have no significant contribution, so we just ignore
+them.
+    <blockquote>
+      <table border="1" cellpadding="6">
+        <tbody>
+          <tr>
+            <td width="90">
+            <div align="center"><font size="+1"><i>n</i></font></div>
+            </td>
+            <td width="90">
+            <div align="center"><font size="+1">(1/2) <i>n</i><sup>2</sup></font></div>
+            </td>
+            <td width="90">
+            <div align="center"><font size="+1">(5/2) <i>n</i> - 3</font></div>
+            </td>
+          </tr>
+          <tr>
+            <td width="90">
+            <div align="center"><font size="+1">1000</font></div>
+            </td>
+            <td width="90">
+            <div align="center"><font size="+1">500 000</font></div>
+            </td>
+            <td width="90">
+            <div align="center"><font size="+1">2 497</font></div>
+            </td>
+          </tr>
+          <tr>
+            <td width="90">
+            <div align="center"><font size="+1">2000</font></div>
+            </td>
+            <td width="90">
+            <div align="center"><font size="+1">2 000 000</font></div>
+            </td>
+            <td width="90">
+            <div align="center"><font size="+1">4 997</font></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">When comparing the ratios of counts for different
+values of <i>n</i>, the coefficient 1/2 cancels out.</font> </li>
+  <li><font size="+1">We simply say "The number of visits is of order <i>n</i><sup>2</sup>"
+and use <i>big-Oh notation</i>: The number of visits is <i>O</i>(<i>n</i><sup>2</sup>).</font>
+  </li>
+  <li><font size="+1">For selection sort, <span
+ style="font-style: italic;">doubling</span> the number of
+elements increases the time needed for sorting <span
+ style="font-style: italic;">fourfold</span>.</font></li>
+  <li><font size="+1">If a 1000 element vector takes 11 seconds, a
+100 000 element vector will require 11 x 100<sup>2</sup> = 110 000 sec
+= over 30 hours!</font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Merge Sort</h2>
+<ul>
+  <li><font size="+1">Suppose you have a vector of 10 integers, with
+the first and second half already sorted:
+    <blockquote><img src="images/sorted_halves.png"></blockquote>
+    </font></li>
+  <li><font size="+1">It is an easy matter to merge the two sorted
+halves by taking a new element form either the first or second
+subvector and choosing the smaller of the elements each time: </font>
+    <p><font size="+1"><img src="images/merge.png"></font></p>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">The computer keeps dividing the vector into
+smaller and smaller subvectors, sorting each half and merging them back
+together.
+    <blockquote>
+      <pre>void merge_sort(vector&lt;int&gt;&amp; a, int from, int to)<br>{  if (from == to) return;<br>   int mid = (from + to) / 2;<br>   /* sort the first and second half */<br>   merge_sort(a, from, mid);<br>   merge_sort(a, mid + 1, to);<br>   merge(a, from, mid, to);<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The merge procedure then merges the two sorted
+halves of the vector.</font></li>
+</ul>
+<h2>
+<p>Merge Sort (<a href="../../sources/ch15/mergsort.cpp"><tt>mergsort.cpp</tt></a>)
+</p>
+</h2>
+<iframe src="code/mergsort.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Analyzing the Merge Sort Algorithm</h2>
+<ul>
+  <li><a href="../../sources/ch15/mergtime.cpp"><big><span
+ style="font-family: monospace;">mergetime.cpp</span></big></a><br>
+  </li>
+  <li><font size="+1">Despite appearing to be a much more complicated
+algorithm, merge sort performs much better than selection sort. </font>
+    <p>
+    <table border="0" cellpadding="6">
+      <tbody>
+        <tr>
+          <td width="244"><img src="images/merge_times.png"></td>
+          <td width="10%">&nbsp;</td>
+          <td width="446"><img src="images/merge_graph.png"></td>
+        </tr>
+      </tbody>
+    </table>
+    </p>
+  </li>
+  <li><font size="+1">Note that the graph does not have a parabolic
+shape; instead it appears as if running time grows approximately
+linearly with the size of the array.
+    <table style="width: 380px; height: 128px;" border="1"
+ cellpadding="1" cellspacing="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>n<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>seconds<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>160000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>1<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td><big>320000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>2<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>640000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>4<br>
+          </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>1280000<br>
+          </big></td>
+          <td style="vertical-align: top;"><big>9<br>
+          </big></td>
+        </tr>
+      </tbody>
+    </table>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">To understand why the merge sort algorithm is
+such a tremendous improvement, estimate the number of array element
+visits.</font></li>
+  <li><font size="+1">First we consider the merge process. For a vector
+of <i>n</i> elements,</font>
+    <ul>
+      <li><font size="+1">We must visit the first two elements of the
+halves and decide which is smaller (2 visits)</font></li>
+      <li><font size="+1">We must copy the smaller element to it's
+place in the sorted vector (1 visit)</font></li>
+      <li><font size="+1">We must copy the sort vector back into the
+original vector (2 visits)</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">So the merge process takes 5<i>n</i> visits.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">To analyze the full algorithm, let <i>T</i>(<i>n</i>)
+denote the number of visits required to sort a range of <i>n</i>
+elements through the merge sort process.</font></li>
+  <li><font size="+1">For each of calculation we will assume <i>n</i>
+= 2<sup><i>m</i></sup>.</font></li>
+  <li><font size="+1">Because sorting each half will take <i>T</i>(<i>n</i>/2)
+visits, we have:
+    <blockquote><img src="images/merge_equation1.png"></blockquote>
+    </font></li>
+  <li><font size="+1">A similar analysis yields:
+    <blockquote><img src="images/merge_equation2.png"></blockquote>
+    </font></li>
+  <li><font size="+1">Putting these two results together gives us
+    <blockquote><img src="images/merge_equation3.png"></blockquote>
+    </font></li>
+  <li><font size="+1">Repeating the process gives us:
+    <blockquote><img src="images/merge_equation4.png"></blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li><font size="+1">This analysis generalizes to the formula
+    <blockquote><img src="images/merge_equation5.png"></blockquote>
+    </font></li>
+  <li><font size="+1">Since we assumed <i>n</i> = 2<sup><i>m</i></sup>
+we have
+    <blockquote><img src="images/merge_equation_solved.png"></blockquote>
+    </font></li>
+  <li><font size="+1">To establish growth order, we drop the lower
+order term and the constant factor.</font></li>
+  <li><font size="+1">The change of base formula for logarithms allows
+us to drop the base of the logarithm.
+    <blockquote><img src="images/log_change_of_base.png"></blockquote>
+    </font></li>
+  <li><font size="+1">Hence merge sort is an <i>O</i>(<i>n</i> log <i>n</i>)
+algorithm.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">How does <i>O</i>(<i>n</i><sup>2</sup>) compare
+to <i>O</i>(<i>n</i> log <i>n</i>)?</font></li>
+  <li><font size="+1">Recall that it takes 100<sup>2</sup> = 10 000
+times longer to sort 1 000 000 records than it takes to sort 10 000
+records with the <i>O</i>(<i>n</i><sup>2</sup>) algorithm.</font></li>
+  <li><font size="+1">With the <i>O</i>(<i>n</i> log <i>n</i>)
+algorithm, the ratio is
+    <blockquote><img src="images/n_log_n_ratio.png"></blockquote>
+    </font></li>
+  <li><font size="+1">If it takes 4 seconds to sort 10 000 records for
+both sorts (merge sort is really faster, of course) then</font>
+    <ul>
+      <li><font size="+1">it will take 10 minutes to <span
+ style="font-style: italic;">merge</span> sort
+1 000 000 records</font></li>
+      <li><font size="+1">it will take 11 hours to <span
+ style="font-style: italic;">selection</span> sort
+1 000 000 records</font></li>
+    </ul>
+  </li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Searching</h2>
+<ul>
+  <li><font size="+1">If you want to find a number in a sequence of
+values that occur in arbitrary order, you must look through all
+elements until you have found a match or until you reach the end.</font></li>
+  <li><font size="+1">This is called a <i>linear</i> or <i>sequential</i>
+search.</font></li>
+  <li><font size="+1">There is nothing you can do to speed up the
+search, the algorithm is <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span>).<br>
+    </font></li>
+  <li><font size="+1">The procedure returns the index of the match, or
+a -1 if the value cannot be found.</font></li>
+</ul>
+<h2>Searching (<a href="../../sources/ch15/lsearch.cpp"><tt>lsearch.cpp</tt></a>)</h2>
+<iframe src="code/lsearch.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Binary Search</h2>
+<ul>
+  <li><font size="+1">Now search for an item in a data sequence that
+has been previously <span style="font-style: italic;">sorted</span>. </font></li>
+  <li><font size="+1">Rather than a linear search, we will do a <i>binary</i>
+search.</font></li>
+  <li><font size="+1">The search is called binary because the size of
+the search area is cut in half in each step.</font></li>
+  <li><font size="+1">The cutting in half works only because the
+sequence of values has been sorted.</font></li>
+</ul>
+<ul>
+  <li><font size="+1">Suppose we want to search the following data for
+123. </font>
+    <p><font size="+1">
+    <table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr bgcolor="#00ffff">
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[0]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[1]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[2]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[3]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[4]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[5]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[6]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[7]</font></tt></div>
+          </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+          <td width="50">
+          <div align="center"><font size="+1"><tt>14</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>43</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>76</tt></font></div>
+          </td>
+          <td style="text-decoration: underline;" width="50">
+          <div align="center"><font size="+1"><tt>100</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>115</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>290</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>400</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>511</tt></font></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </font> </p>
+  </li>
+  <li><font size="+1">The last point in the first half of the data set,
+    <tt>v[3]</tt>, is 100. That means we should look in the second half
+for a match. </font>
+    <p><font size="+1">
+    <table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr bgcolor="#00ffff">
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[4]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[5]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[6]</font></tt></div>
+          </td>
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[7]</font></tt></div>
+          </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+          <td width="50">
+          <div align="center"><font size="+1"><tt>115</tt></font></div>
+          </td>
+          <td style="text-decoration: underline;" width="50">
+          <div align="center"><font size="+1"><tt>290</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>400</tt></font></div>
+          </td>
+          <td width="50">
+          <div align="center"><font size="+1"><tt>511</tt></font></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </font> </p>
+  </li>
+  <li><font size="+1">The last value in the first half of this sequence
+is 290; hence, the value must be located in the sequence
+    <table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr bgcolor="#00ffff">
+          <td width="50">
+          <div align="center"><tt><font size="+1">v[5]</font></tt></div>
+          </td>
+        </tr>
+        <tr style="text-decoration: underline;" bgcolor="#ffffff">
+          <td width="50">
+          <div align="center"><font size="+1"><tt>115</tt></font></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    </font> </li>
+  <li><font size="+1">Since there is only one element, the search
+easily shows that there is no match.</font></li>
+</ul>
+<h2>Binary Search (<a href="../../sources/ch15/bsearch.cpp"><tt>bsearch.cpp</tt></a>)</h2>
+<iframe src="code/bsearch.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">Binary search is a <i>O</i>(log <i>n</i>)
+algorithm. </font></li>
+  <li><font size="+1">Suppose <i>n</i> = 100, after each search the
+size of the search range is cut in half to 50, 25, 12, 6, 3, and 1.</font>
+    <ul>
+      <li><font size="+1">After seven comparisons we are done.</font></li>
+      <li><font size="+1">log<sub>2</sub>100 is about 6.64386, note
+that 2<sup>7</sup> = 128.</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Since binary search is so much faster, is it
+worthwhile to always sort data before searching?</font>
+    <ul>
+      <li><font size="+1">An <i>O</i>(<i>n</i>) search is less work
+that a <i>O</i>(<i>n</i> log <i>n</i>) sort, so it's not worth it if
+you only have to perform one search.</font></li>
+      <li><font size="+1">Sorting first might be worth it if you
+perform a number of searches of the same vector.</font></li>
+    </ul>
+  </li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+</body>
+</html>

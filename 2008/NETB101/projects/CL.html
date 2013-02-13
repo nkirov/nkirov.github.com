@@ -1,0 +1,549 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+ <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+ <title>NETB131_example</title>
+</head>
+<body alink="#00FF00">
+<h1><b>NETB131 </b><b>Programming </b><b>Project <br>
+Programming language Common Lisp<br>
+An overview<br>
+<br>
+</b>Dimitar Ivanov Savov, F40164<br>
+</h1>
+<br>
+<h2>Navigation</h2>
+<ol>
+<li><a href="#1">History and special features</a></li>
+<li> <a href="#2">"Hello World!" Program and comment opertator ";"</a></li>
+<li> <a href="#3">Fundamental data types and Assignment operator</a></li>
+ <ol>
+ <li><a href="#3.1">Variable enviroments</a></li>
+ <li><a href="#3.2">Assignment</a></li>
+ <li><a href="#3.3">Sequences</a></li>
+ </ol>
+<li><a href="#4">Basic Control Flow (conditional and loop statements)</a></li>
+ <ol>
+ <li><a href="#4.1">Conditional operators</a></li>
+ <li><a href="#4.2">Loop operators</a></li>
+ </ol>
+<li><a href="#5">Functions</a></li>
+ <ol>
+ <li><a href="#5.1">Constructors</a></li>
+ <li><a href="#5.2">Operators</a></li>
+ <li><a href="#5.3">Mapping functions</a></li>
+ <li><a href="#5.4">Utility functions</a></li>
+ <li><a href="#5.5">Input/Output</a></li>
+ </ol>
+<li><a href="#6">Arrays</a></li>
+ <ol>
+ <li><a href="#6.1">Constructors</a></li>
+ <li><a href="#6.2">Selectors</a></li>
+ </ol>
+<li><a href="#7">Compilers</a></li>
+<li><a href="#8">Projects and Software in Common Lisp</a></li>
+<li><a href="#9">External links</a></li>
+<li><a href="#10">Tutorials</a></li>
+</ol>
+
+
+<h2><a name="1"></a> 1. History and Special Features</h2><br>
+Common Lisp, commonly abbreviated CL, is a dialect of the Lisp programming language, published in ANSI standard X3.226-1994. Developed to standardize the divergent variants of Lisp which predated it, it is not an implementation but rather a language specification. Several implementations of the Common Lisp standard are available, including commercial products and open source software
+<br>
+<br>
+<h2><a name="2"></a>2. "Hello World" Program and comment operator ";"</h2><br>
+<blockquote>
+(print "Hello World!")
+;;Hello World!
+<br>
+Note: Common Lisp ignores the comment operator (;) and everything after it on the line
+<br>
+</blockquote>
+<h2><a name="3"></a>3. Fundamental data dypes and Assignment operator</h2><br>
+Common Lisp has many data types, more than many other languages.<br><br>
+
+
+<h3><a name="3.1"></a>3.1Variable Environments</h3>
+<br>
+<blockquote>
+(let ( {symbol | (symbol form)}*) <r>special form</r><br>
+[(declare (special variables))]<br>
+forms)<br>
+</blockquote>
+Establishes each symbol as the name of a variable. The scope of each
+of these variables is limited to the let form, unless it is named in the declaration, in which case that variable has dynamic scope. If a form is given with a symbol, the value of the form becomes the initial value of
+the variable named by the symbol. These forms are evaluated in order,
+but the assignment of their values to their variables is done in parallel.
+A variable without an initialization form is initialized to NIL. Variables
+named in the declaration that are not established by this let form are
+special variables established elsewhere that will be used in the forms of
+this let. After the establishment and initialization of all the variables,
+the forms are evaluated in order, and the value of the last one becomes
+the value of the let form.<br>
+<blockquote>
+(let* ( {symbol | (symbol form)}*)   special form<br>
+[(declare (special variables))]<br>
+forms)
+</blockquote>
+<br>
+Exactly like let except that the assigning of initial values to the variables
+is done in order so that one variable may be used in the initialization
+form of a later variable.
+<h3><a name="3.2"></a> 3.2Assignment </h3>
+<br>
+<blockquote>
+(psetf {place form}*) ;;macro
+</blockquote>
+Just like setf, except evaluates all the forms first, then assigns the
+values to the corresponding places in parallel. Returns NIL.
+<br>
+<blockquote>
+(psetq {symbol form}*) ;;macro
+</blockquote>
+<br>
+Just like setq, except evaluates all the forms first, then assigns the
+values to the corresponding variables in parallel. Returns NIL.
+<br>
+<blockquote>
+(set symbol form) ;;function
+</blockquote>
+<br>
+Binds the special (dynamic) variable named symbol to the value of form.
+<br>
+<blockquote>
+(setf {place form}*) ;;macro
+</blockquote>
+<br>
+Evaluates the first form and stores its value in the generalized variable
+specified by the first place, then goes on to the next place form pair,
+and so on. Returns the value of the last form.
+<br>
+<blockquote>
+(setq {symbol form}*) ;;special form
+</blockquote>
+<br>
+Evaluates the first form and stores its value in the variable named by the
+first symbol (which is not evaluated), then goes on to the next symbol
+form pair, and so on. Returns the value of the last form.
+<br>
+<br>
+<h3><a name="3.3"></a>3.3Sequences</h3>
+<br>
+<blockquote>
+(prog1 forms) ;;macro
+</blockquote>
+The forms are evaluated in order and the value of the first is returned.<br>
+
+<blockquote>
+(prog2 forms) ;;macro
+</blockquote>
+<br>
+The forms are evaluated in order and the value of the second is returned.<br>
+<blockquote>
+(progn [forms]) ;;special form
+
+</blockquote>
+<br>
+The forms are evaluated in order and the value of the last is returned.<br>
+<h3><a name="3.4"></a>3.4Exits</h3>
+
+<blockquote>
+(return [form]) ;;macro
+</blockquote>
+<br>
+form is evaluated and exit is made from the lexically innermost dolist,
+dotimes, or loop form. The value of form is returned by that form. If
+form is omitted, NIL is returned.<br>
+<br>
+<br>
+<h2><a name="4"></a>4. Basic Control Flow (conditional and loop statements)</h2>
+<h3><a name="4.1"></a>4.1Conditional operators</h3>
+<blockquote>
+(case form ;;macro<br>
+((objects1) forms1)<br>
+...<br>
+((objectsn) formsn))
+</blockquote>
+<br>
+form is evaluated. If its value is among the objectsi, then the formsi are
+evaluated and the value of the last formsi is returned as the value of the
+call to case. The objectsi are not evaluated. If the value of form is not
+among any of the objectsi, NIL is returned unless either t or otherwise
+appears instead of (objectsn), in which case the formsn are evaluated
+and the value of the last formsn is returned. If objectsi consists of only
+one object, that object may appear without the surrounding parentheses
+as long as it is not nil, t, otherwise, or a cons. It is an error for one
+object to appear among more than one objectsi.
+<br>
+<blockquote>
+(cond (test1 [forms1]) ... (testn [formsn])) ;;special form<br>
+</blockquote>
+<br>
+Evaluates the testi in order until one of them, testj say, evaluates to
+True. Then evaluates formsj and returns the value of the last one. If
+there are no formsj, the value of testj is returned. If no testi evaluates
+to True, NIL is returned.<br>
+<blockquote>
+(if test then [else]) ;;special form<br>
+</blockquote>
+If test evaluates to True, evaluates and returns the value of then; otherwise,
+if else is present, evaluates and returns the value of else; otherwise,
+returns NIL.
+<blockquote>
+(typecase form (type1 forms1) ... (typen formsn)) ;;macro
+<br>
+</blockquote>
+form is evaluated. formsi are evaluated for the lowest i for which the
+value of form is of type typei and the value of the last formsi is returned
+as the value of the call to typecase. The typei are not evaluated. If
+the value of form is not any of the typei, NIL is returned unless either
+t or otherwise appears instead of (typen), in which case the formsn
+are evaluated and the value of the last formsn is returned.
+<br>
+<blockquote>
+(unless test forms) ;;macro
+<br>
+</blockquote>
+Evaluates test. If the value is NIL, evaluates the forms in order and
+returns the value of the last one. Otherwise, does not evaluate the
+forms and returns NIL.
+<br>
+<blockquote>
+(when test forms) ;;macro
+<br>
+</blockquote>
+Evaluates test. If the value is NIL, does not evaluate the forms and
+returns NIL. Otherwise, evaluates the forms in order and returns the
+value of the last one.
+<br>
+<br>
+<h3><a name="4.2"></a>4.2Loop operators</h3>
+
+In these three macros, a statement is a non-atomic (that is, a list) form.<br>
+<blockquote>
+(dolist (symbol list-form [result-form]) statements) ;;macro
+<br>
+</blockquote>
+<br>
+Evaluates statements repeatedly with symbol successively bound to the
+members of the value of list-form (which must evaluate to a list). Then
+evaluates result-form, and returns that value. If result-form is omitted,
+dolist returns NIL. Premature exit may be made with an explicit
+return form.<br>
+<blockquote>
+(dotimes (symbol form resultform) statements) ;;macro
+<br>
+</blockquote>
+<br>
+Evaluates statements repeatedly with symbol successively bound to the
+integers zero, 1, and so on, up to, but not including, the value of form,
+which should evaluate to an integer. Then resultform is evaluated and
+its value is returned. If form evaluates to zero or to a negative integer,
+the statements are not evaluated at all. Premature exit may be made
+with an explicit return form.<br>
+<blockquote>
+(loop statements) ;;macro
+<br>
+</blockquote>
+<br>
+The statements are evaluated in order repeatedly forever. The only way
+to exit a loop is to evaluate a return that is lexically within the loop
+form.
+<br>
+<br>
+
+
+
+<h2><a name="5"></a>5. Functions</h2><br>
+<br>
+In common lisp functions are divided into types as follows :
+<br>
+<h3><a name="5.1"></a>5.1Constructors</h3>
+<br>
+<blockquote>
+(function fn) ;;special form
+</blockquote>
+If fn is a symbol, returns the function named by that symbol. If fn is
+a lambda expression, returns the functional closure of that expression.
+An alternate printed representation of (function fn) is #’fn.
+<br>
+<h3><a name="5.2"></a>5.2Operators</h3>
+<br>
+<blockquote>
+(apply function [forms1] ([forms2])) ;;function
+</blockquote>
+A list of forms1 is appended to the list of forms2, and the function is
+applied to that list of argument forms. If a symbol is given instead of a
+function, the function the symbol names is used.
+<br>
+<blockquote>
+(funcall function [forms]) function
+</blockquote>
+Applies the function to the argument forms. function may only be a
+function; it can’t be a macro or a special form.
+<br>
+<br>
+<h3><a name="5.3"></a>5.3Mapping Functions</h3>
+<br>
+<blockquote>
+(mapc function lists) ;;function
+<br>
+</blockquote>
+<br>
+There must be the same number of lists as the number of arguments
+function takes. function is applied to the first member of each of the
+lists, the second member, and so on, until the shortest list is exhausted.
+The first of the lists is returned.
+<br>
+<blockquote>
+(mapcan function lists) ;;function
+<br>
+</blockquote>
+function must return a list, and there must be the same number of lists
+as the number of arguments function takes. function is applied to the
+first member of each of the lists, the second member, and so on, until
+the shortest list is exhausted. The nconc of the values is returned.
+<br>
+<blockquote>
+(mapcar function lists) ;;function
+<br>
+</blockquote>
+There must be the same number of lists as the number of arguments
+function takes. function is applied to the first member of each of the
+lists, the second member, and so on, until the shortest list is exhausted.
+A list of the values is returned.
+<br>
+<br>
+
+<h3><a name="5.4"></a>5.4Utility Functions</h3>
+<br>
+<blockquote>
+(assert assertion [(variables1) [string variables2]]) ;;macro
+<br>
+</blockquote>
+If the form assertion evaluates to True, returns NIL. Otherwise, an
+error is forced and Lisp prints an error message and gives the user the
+choice of aborting the computation or replacing the current values of
+the variables listed as variables1. If the user chooses to replace the
+current values, the assert form is retried with the new values. The
+error message is formed, in part, by applying format to string and
+variables2.<br>
+<blockquote>
+(check-type variable type-specifier) ;;macro
+<br>
+</blockquote>
+<br>
+If the variable is of the type specified by the type-specifier, returns NIL.
+Otherwise, an error is forced and Lisp prints an error message and gives
+the user the choice of aborting the computation or replacing the current
+value of variable. If the user chooses the latter, the check-type form
+is retried with the new value.
+<br>
+<blockquote>
+(deftype symbol () doc-string ’(satisfies function)) ;;macro
+<br>
+</blockquote>
+<br>
+Defines symbol to be the name of Common Lisp type consisting of
+all those objects that satisfy the predicate function, which must be
+a function of one argument. doc-string is retrievable from symbol by
+documentation. The form (satisfies function) may be replaced by
+any type-specifier that might be used in check-type (see above), in
+which case the type named by symbol is the type specified by typespecifier.
+<br>
+<blockquote>
+(time form) ;;macro
+<br>
+</blockquote>
+Evaluates form and prints how long it took to do the evaluation. Returns
+the value of form.
+<br>
+<blockquote>
+(trace [function-names]) ;;macro
+<br>
+</blockquote>
+
+Turns on tracing of the specified functions (function-names are not evaluated.)
+With no arguments, returns a list of all functions being traced.
+<br>
+<blockquote>
+(untrace [function-names]) ;;macro
+<br>
+</blockquote>
+Turns off tracing of the specified functions (function-names are not evaluated.)
+With no arguments, turns off all tracing.
+
+<br>
+<br>
+
+<h3><a name="5.5"></a>5.5Input/Output</h3>
+<br>
+<blockquote>
+(format stream control-string arguments) ;;function
+<br>
+</blockquote>
+<br>
+Produces a printed representation of its arguments, as specified by the
+control-string. If stream is nil, this printed representation is returned
+as a string. If stream is t, the printed representation is printed to the
+standard output file (usually the terminal). control-string is a string
+of characters that get printed as they appear in the string, intermixed
+with format directives. Some format directives consume arguments and
+specify how these arguments are printed. Other format directives do
+not consume arguments, but control the printing in other ways. Nonconsuming
+directives include
+<br>
+<br>
+<blockquote>
+~% Causes a newline to be printed.
+~& Causes a newline to be printed unless printing is already at the
+beginning of a new line
+~~ Causes the character ~ to be printed.
+~#\newline A ~ appearing in the control-string right before the end
+of a line causes the end-of-line and all subsequent blanks to be
+ignored. It is a way of splitting a long control-string over several
+lines.
+</blockquote>
+<br>
+Some consuming format directives are
+<br>
+<blockquote>
+~a or ~A Consumes one argument and prints it without escape characters,
+as princ would
+~s or ~S Consumes one argument and prints it with escape characters,
+as prin1 would
+~{str~} Consumes one argument, which must be a list, and prints the
+members of the list according to the control string str as if they
+were arguments to an embedded call of format. If str doesn’t
+consume all the members of the list, it is used again on the next
+group, and so on.
+~#[str1~:;str2~] Uses the control string str1 if there is no argument
+left or the control string str2 if there is any argument left. If
+this directive is embedded in the ~ {str ~ } directive, the notion of
+“argument” is replaced by “member” of the list.
+<br>
+</blockquote>
+<br>
+<blockquote>
+(fresh-line [stream]) ;;function
+<br>
+</blockquote>
+Outputs a newline to stream, which defaults to standard output and
+returns T, but only if output is not already positioned at the beginning
+of a new line. In that case, it does nothing and returns NIL.
+<br>
+<blockquote>
+(pprint object [stream]) ;;function
+</blockquote>
+Prints a newline and then prints the object using escape characters
+as appropriate and in a “pretty” indented format. Returns no value.
+Printing is done into stream, which defaults to the standard output.
+<br>
+<blockquote>
+(prin1 object [stream]) ;;function
+</blockquote>
+Prints the object using escape characters as appropriate. Returns object.
+Printing is done into stream, which defaults to the standard output.
+<br>
+<blockquote>
+(princ object [stream]) ;;function
+</blockquote>
+Prints the object without using escape characters. Returns object. Printing
+is done into stream, which defaults to the standard output.
+<br>
+<blockquote>
+(print object [stream]) ;;function
+</blockquote>
+Prints the object using escape characters as appropriate, preceded by
+a newline and followed by a space. Returns object. Printing is done
+into stream, which defaults to the standard output.
+<br>
+<blockquote>
+(read [stream]) ;;function
+</blockquote>
+Reads one S-expression from the input stream, which defaults to standard
+input, and returns the object represented by that S-expression.
+<br>
+<blockquote>
+(terpri [stream]) ;;function
+</blockquote>
+Outputs a newline to stream, which defaults to standard output and
+returns NIL.
+<br>
+<br>
+<h2><a name="6"></a>6. Arrays - syntax, definition, example</h2>
+In common lisp arrays have two major sections:
+<h3><a name="6.1"></a>6.1Constructors</h3>
+<br>
+<blockquote>
+(make-array n) ;;function
+</blockquote>
+Creates and returns an array of n elements, indexed from 0 to n &#8722; 1.
+Each element can be any Common Lisp object.
+<h3><a name="6.2"></a>6.2Selectors</h3>
+<br>
+<blockquote>
+(aref array i) ;;function
+</blockquote>
+Returns the ith element of array. i must be a nonnegative integer less
+than the number of elements of array. Indexing is zero-based. That is,
+the first element of array is retrieved with (aref array 0). Forms a
+generalized variable recognizable by setf.
+<br>
+<br>
+
+<h2><a name="7"></a>7. Compilers</h2><br>
+<ul>
+ <li><A title="CMUCL" href="http://www.cons.org/cmucl/">CMUCL Common Lisp</A> Project's Lisp compiler.</li>
+ <li><a href="http://www.gnu.org/software/gcl/gcl.html">GNU Common Lisp</a> The official GNU compiler.<br>
+ </li>
+</ul>
+<h2><a name="8"></a>8. Projects and Software in Common Lisp</h2><br>
+<p>Common Lisp is used in many successful commercial applications, the most   famous (no doubt due to Paul Graham's promotion) was the Yahoo! Store web-commerce site, which later was rewritten in C++ and Perl.Other notable   examples include:</p>
+<UL>
+ <LI>BioBike Bioinformatics workflow development environments implemented entirely in Common Lisp. Its  distinguishing feature is through-the-browser programmability.
+ <LI>Genworks International's General-purpose Declarative Language (GDL), a development tool for creating  web-based engineering, design, and business applications.
+ <LI>Igor Engraver: a 1st-Class Music notation and engraving program written in Common Lisp.
+ <LI>Jak and Daxter video games for Playstation2
+ <LI>Knowledge Technologies International's ICAD mechanical design software.
+</UL>
+<p>As well, Common Lisp is used by many government and non-profit institutions.   Examples of its use in NASA include:</p>
+<UL>
+ <LI><A title="http://ic.arc.nasa.gov/projects/remote-agent/" href="http://ic.arc.nasa.gov/projects/remote-agent/" rel="nofollow">Remote   Agent</A>, winner of the 1999 NASA Software of the Year Award.
+ <LI><A title="http://www.stsci.edu/resources/software_hardware/spike/" href="http://www.stsci.edu/resources/software_hardware/spike/" rel="nofollow">SPIKE</A>, the Hubble Space Telescope planning and   scheduling system. </LI>
+</UL>
+<h2><a name="9"></a>9. External Links</h2><br>
+<DIV><DIV></DIV>
+</DIV>
+<UL>
+ <LI>The <A title="http://www.cliki.net/" href="http://www.cliki.net/" rel="nofollow">CLiki</A>, a Wiki for free software Common Lisp   systems running on Unix-like systems.
+ <LI><A title="http://www.common-lisp.net/" href="http://www.common-lisp.net/" rel="nofollow">Common Lisp software   repository</A>.
+ <LI><A title="http://www.cl-user.net/" href="http://www.cl-user.net/" rel="nofollow">The Common Lisp directory -   information repository for all things Common Lisp</A>.
+ <LI><A title="http://www.lisp.org/" href="http://www.lisp.org/" rel="nofollow">The Association of Lisp Users</A>.
+ <LI><A title="http://www.computer-books.us/lisp.php" href="http://www.computer-books.us/lisp.php" rel="nofollow">Computer-Books.us</A> A collection of Lisp books available for downloading.
+ <LI><A title="http://www.flownet.com/gat/jpl-lisp.html" href="http://www.flownet.com/gat/jpl-lisp.html" rel="nofollow">Lisping at JPL</A>
+ <LI><A title="http://cl-cookbook.sourceforge.net/" href="http://cl-cookbook.sourceforge.net/" rel="nofollow">The Common Lisp   Cookbook</A>, a collection of useful programming methods.
+ <LI><A title="http://www.defmacro.org/ramblings/lisp.html" href="http://www.defmacro.org/ramblings/lisp.html" rel="nofollow">The Nature of   Lisp</A> Essay that examines Lisp by comparison with XML.
+ <LI><A title="http://www.norvig.com/" href="http://www.norvig.com/" rel="nofollow">Peter Norvig's page</A> containing   many interesting resources about Common Lisp.
+ <LI><A title="http://lispdoc.com/" href="http://lispdoc.com/" rel="nofollow">lispdoc</A> Searchable documentation for   Common Lisp and some of its libraries.
+ <LI><A title="http://common-lisp.net/~dlw/LispSurvey.html" href="http://common-lisp.net/~dlw/LispSurvey.html" rel="nofollow">Common Lisp   Implementations: A Survey</A> Survey of maintained Common Lisp implementations.</LI>
+</UL>
+<br>
+<br>
+<H3><a name="10"></a>   10.Tutorials</H3>
+<UL>
+ <LI><A title="http://www.gigamonkeys.com/book/" href="http://www.gigamonkeys.com/book/" rel="nofollow">Practical Common Lisp</A> an online book by Peter Seibel.
+ <LI><A title="http://mypage.iu.edu/~colallen/lp/" href="http://mypage.iu.edu/~colallen/lp/" rel="nofollow">Lisp Primer</A> by Colin   Allen and Maneesh Dhagat.
+ <LI><A title="http://www.geocities.com/fhzeya20042000/lisp.htm" href="http://www.geocities.com/fhzeya20042000/lisp.htm" rel="nofollow">Lisp   tutorial by Faiz ul haque Zeya</A>
+ <LI><A title="http://www.unmutual.info/startingwithcl.html" href="http://www.unmutual.info/startingwithcl.html" rel="nofollow">A quick guide   to starting with Common Lisp</A>.
+ <LI><A title="http://www-2.cs.cmu.edu/afs/cs.cmu.edu/user/dst/www/LispBook/index.html" href="http://www-2.cs.cmu.edu/afs/cs.cmu.edu/user/dst/www/LispBook/index.html" rel="nofollow">Common Lisp: A Gentle Introduction to Symbolic Computation</A> by David S. Touretzky, available online and aimed at beginners.
+ <LI><A title="http://www.lisperati.com/casting.html" href="http://www.lisperati.com/casting.html" rel="nofollow">Casting SPELs in   Lisp</A> A cartoon introduction to Common Lisp.
+ <LI><A title="http://paulgraham.com/onlisptext.html" href="http://paulgraham.com/onlisptext.html" rel="nofollow">On Lisp</A> free   downloadable version of the book by Paul Graham. </LI>
+</UL>
+<DIV></DIV>
+<br>
+<i><br>
+</i>
+</body>
+</html>

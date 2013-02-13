@@ -1,0 +1,346 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>NETB131 Programming Project</title>
+</head>
+<body>
+<b>NETB131 </b><b>Programming </b><b>Project <br>
+Programming language Prolog<br>
+An overview<br>
+<br>
+<br>
+</b>Plamen Georgiev Barzakov, F39984<br>
+<br>
+<span style="font-weight: bold;">1. History and Special Features</span><br>
+<br>
+The name Prolog is chosen by Philippe Roussel as an abbreviation for
+"PROgramming LOGique". It is created in 1972 by him and Alain
+Colmerauer, colaborating with Rober Kowalski of the
+University of&nbsp; Edinburgh. Kowalski contributed the theoretical
+framework on which Prolog is founded while Colmerauer's research at
+that time provided means to formalize the language itself. The first
+Prolog interpreters was not as fast as Lisp systems but this
+changed in mid 1970's when David H.D. Warren and his colleagues
+developed an efficient implementation of Prolog. The
+compiler, which was almost entirely written in Prolog, translated
+Prolog clauses into instructions of abstract machine that is now known
+as Warren Abstract Machine (WAM). However, the Western computer science
+and artificial intelligence community was
+still ignorant or, at best, indifferent to logic programming. Prolog is
+a programming language with precise operational
+meaning that borrows its basic concepts from logic programming. The
+Prolog programs are instructions for execution on a computer. These
+instructions can almost always be read as logical statements and,
+most important, the result of a computation of a Prolog program is a
+logical consequence of the axioms in it. Note, that
+effective Prolog programming requires an understanding of the theory
+of logic programming.<br>
+<br>
+<span style="font-weight: bold;">2. "Hello World" Program<br>
+<br>
+</span><span style="font-family: monospace;"></span><span
+ style="color: rgb(0, 102, 0);">hello :-
+display('Hello World!') , nl .</span><br>
+<font><font face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></font><font><font
+ face="Verdana, Arial, Helvetica, sans-serif" size="2"></font></font><br
+ style="font-weight: bold;">
+<span style="font-weight: bold;">3. Fundamental Data Types (integer,
+floating point, string) and
+Assignment Operator Definitions:<br>
+<br>
+</span>Simple types are implementation dependant in Prolog, however
+most implementations provide&nbsp; these simple types:<br>
+<br>
+<span style="color: rgb(0, 102, 0);">boolean</span> - true, fail<br>
+<br>
+<span style="color: rgb(0, 102, 0);">integer</span> - integers<br>
+<br>
+<span style="color: rgb(0, 102, 0);">real</span> - floating point
+numbers<br>
+<br>
+<span style="color: rgb(0, 102, 0);">variable</span> - variables<br>
+<br>
+<span style="color: rgb(0, 102, 0);">atom</span> - character sequences<span
+ style="font-weight: bold;"></span><br>
+<br>
+The assignment operator creates a copy of its right operand and assigns
+it to the left operand. If the right operand contains a variable then
+the value of that variable is copied, not a reference to the variable.
+If the right operand contains an empty variable an exception is thrown.<br>
+<br>
+<span style="font-weight: bold;">Examples:</span><br>
+<br>
+<span style="color: rgb(0, 102, 0);">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; A := [B], B=c. &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <span
+ style="color: rgb(0, 0, 0);">The variable A will have the value [B]<br>
+</span>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; B=[b],
+A := [a|B].<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+A will be the list [a, b]<br>
+</span>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; B=a, B
+:= [x|B].<span style="color: rgb(0, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+B will have the value [x | a]</span></span><br>
+<br>
+<span style="font-weight: bold;">4. Basic Control Flow (conditional and
+loop statements)</span><br>
+<br>
+<p>
+A Prolog program is constructed from a number of <i>clauses</i>, the
+general form of which is
+</p>
+<ul style="color: rgb(0, 102, 0);">
+&nbsp;&nbsp;&nbsp; &lt;head&gt; <b>:-</b> &lt;body&gt;<b>.</b>
+</ul>
+There are three forms of clauses based on this general pattern:
+<ol>
+  <li><span style="font-weight: bold;">facts </span>(<i>hypotheses,
+unit clauses</i>) <tt>&nbsp;&nbsp;&nbsp;&nbsp;</tt>
+&lt;head&gt;<b>.</b><br>
+Example:&nbsp;&nbsp;<font style="color: rgb(0, 0, 0);" color="#008000">
+    <pre><span style="color: rgb(0, 102, 0);">      father( john, mary ).</span></pre>
+    </font><font style="color: rgb(0, 0, 0);" color="#008000"> </font>
+    <p> </p>
+  </li>
+  <li><span style="font-weight: bold;">rules </span>(conditions, <i>inferences</i>)
+    <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt>
+&lt;head&gt; <b>:-</b> &lt;body&gt;<b>.</b><br>
+Example: <font style="color: rgb(0, 0, 0);" color="#008000">
+    <pre><span style="color: rgb(0, 102, 0);">      sister( X, Y ) :-</span><br
+ style="color: rgb(0, 102, 0);"><span style="color: rgb(0, 102, 0);">      female( X ),</span><br
+ style="color: rgb(0, 102, 0);"><span style="color: rgb(0, 102, 0);">      parents( X, Ma, Pa ),</span><br
+ style="color: rgb(0, 102, 0);"><span style="color: rgb(0, 102, 0);">      parents( Y, Ma, Pa ).</span><br></pre>
+    </font>
+    <p style="color: rgb(0, 0, 0);"> </p>
+  </li>
+  <li><span style="font-weight: bold;">questions </span>(<i>goals</i>)
+    <tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</tt>
+    <b>?-</b> &lt;body&gt;<b>.</b><br>
+Example: <font color="#008000">
+    <pre> <span style="color: rgb(0, 0, 0);">     <span
+ style="color: rgb(0, 102, 0);">?- sister( alice, victoria ).</span></span><br></pre>
+    </font></li>
+</ol>
+<i><br>
+&nbsp;&nbsp;&nbsp; Horn clauses</i>: Prolog allows at most one atomic
+expression (<i>predication</i>) in the head of a clause, but any number
+in the body.
+<ul>
+  <li>
+    <p> </p>
+    <ul>
+      <li>Conjunction (<font size="+1">^</font>, <tt>and</tt>) is
+expressed by separating predications with '<b>,</b>'.
+        <p> </p>
+      </li>
+      <li>Disjunction (V, <tt>or</tt>) is expressed by multiple
+clauses.
+        <p> </p>
+      </li>
+      <li>A goal is essentially a headless clause, but the symbol <b>?-</b>
+is more suggestive of a question than a leading <b>:-</b> would be. </li>
+    </ul>
+  </li>
+  <li>
+    <p>Interpreted environment -- A user enters clauses into the Prolog
+environment and they are interpreted.</p>
+    <p> </p>
+    <ul>
+      <li>If asked for confirmation of a fact such as<font
+ color="#008000">
+        <pre>  <span style="color: rgb(0, 102, 0);">?- sister( alice, victoria ).</span><br></pre>
+        </font> the system responds <tt>yes</tt> or <tt>no</tt>.</li>
+      <li><i>Closed world assumption</i> -- <tt>no</tt> means the goal
+could not be proved on the basis of the rules and facts provided.
+        <p> </p>
+      </li>
+      <li>If a goal contains variable(s), the system responds with one
+possible set of bindings. The user enters '<b>;</b>' to prompt for
+another solution (set of bindings).</li>
+    </ul>
+  </li>
+</ul>
+<span style="font-weight: bold;">Prolog loops:<br>
+<br>
+</span>Using the 'member' predicate we can abbreviate
+<pre> 	<span style="color: rgb(0, 102, 0);">X=1;X=2;X=3....</span></pre>
+and so we can solve simple word problems by writing searches:
+What digit has a square of 9?
+<pre> 	<span style="color: rgb(0, 102, 0);">member(X,[1,2,3,4,5,6,7,8,9,0]), X*X =:= 9.</span></pre>
+<p>What digit has a square of 3?
+</p>
+<pre> 	<span style="color: rgb(0, 102, 0);">member(X,[1,2,3,4,5,6,7,8,9,0]), X^2 =:= 3.</span></pre>
+<p>How about looking for a solution of an equation:
+</p>
+<pre> 	<span style="color: rgb(0, 102, 0);">member(X,[1,2,3,4,5,6,7,8,9,0]), X^2-11*X+28=:=0.</span></pre>
+<p>You can also search for two digits:
+</p>
+<pre>  	<span style="color: rgb(0, 102, 0);">member(X,[1,2,3,4,5,6,7,8,9,0]),member(Y,[1,2,3,4,5,6,7,8,9,0]), X^2+Y^2 =:= 10 *X+1.</span></pre>
+<span style="font-weight: bold;"><br>
+&nbsp;&nbsp;&nbsp; Task: Input an integer number n and output the sum:
+1+2</span><sup style="font-weight: bold;">2</sup><span
+ style="font-weight: bold;">+3</span><sup style="font-weight: bold;">2</sup><span
+ style="font-weight: bold;">+...+n</span><sup style="font-weight: bold;">2</sup><span
+ style="font-weight: bold;">. Use input validation
+for n to be positive.<br>
+<br>
+</span>
+<pre style="color: rgb(0, 102, 0);">  	% s(N,SN) - given a positive non zero integer number N, SN=1+2+...+N</pre>
+<pre style="color: rgb(0, 102, 0);">  	s(1,1).</pre>
+<pre style="color: rgb(0, 102, 0);">  	s(N,SN ) :-  N &gt; 1, N1 is N-1, s(N1, SN1), SN is SN1 + N ^ 2.</pre>
+<pre style="color: rgb(0, 102, 0);">  	s(N, _ ) :-  N &lt; 1, print('Error in s1'), nl, fail.</pre>
+<br>
+<br>
+<br>
+<span style="font-weight: bold;">5. Functions - syntax, writing and
+using functions, example</span>
+<br>
+Prolog does not provide for a function type therefore, functions must
+be defined as relations. That is, both the arguments to the function
+and
+the result of the function must be parameters to the relation. This
+means
+that composition of two functions cannot be constructed. As an example,
+here is the factorial function defined as relation in Prolog. Note that
+the definition requires two rules, one for the base case and one for
+the
+inductive case.<span style="font-family: monospace;"></span><br>
+<span style="font-family: monospace;"></span>
+<br>
+<span style="font-weight: bold;">Example:</span><br>
+<br>
+<span style="color: rgb(0, 102, 0);">&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+&nbsp;&nbsp; &nbsp; fac(0,1).</span><br style="color: rgb(0, 102, 0);">
+<span style="color: rgb(0, 102, 0);">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; fac(N,F) :- N &gt; 0, M is N - 1,</span><br
+ style="color: rgb(0, 102, 0);">
+<span style="color: rgb(0, 102, 0);">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; fac(M,Fm), F is N * Fm.</span><br>
+<br>
+The second rule states that if <tt>N</tt> &gt; 0, <tt>M = N - 1</tt>,
+<tt>Fm</tt> is <tt>(N-1)!</tt>, and <tt>F = N * Fm</tt>, then <tt>F</tt>is
+<tt>N!</tt>. Notice how `<tt>is</tt>' is used. In this example it
+resemblesan assignment operator however, it may not be used <br>
+to reassign a variable to a new value. In the logical sense, the order
+of the clauses in the body of a rule are irrelevant however, the order
+may matter in a practical sense. <tt>M</tt> must not be a variable in
+the recursive call otherwise an infinite loop will result. Much of the
+clumsiness of this definition comes from the fact that <tt>fac</tt> is
+defined as a relation and thus it cannotbe used in an expression.
+Relations are commonly defined using multiple rules and the order of
+the rules may determine the result. In this case the rule order is
+irrelevant since, for each value of <tt>N</tt> only one rule is
+applicable.<br>
+<br>
+<span style="font-family: monospace;"><span style="font-weight: bold;"></span></span><span
+ style="font-weight: bold;"></span><br>
+<span style="font-weight: bold;"></span><span style="font-weight: bold;">6.
+Arrays - syntax,
+definition, example</span><br>
+<br>
+In Prolog the distinction between programs and data are blurred. Facts
+and rules are used as data and data is often passed in the arguments to
+the predicates. Lists are the most common data structure
+in Prolog. They are much like the array in that they are a sequential
+list of elements, and much like the stack in that you can
+only access the list of elements sequentially, that is, from one end
+only and not in random order. In addition to lists Prolog permits
+arbitrary patterns as data. The patterns can be used to represent
+tuples. Prolog does not provide an array type. But arrays may be
+represented as a list and multidimensional arrays as a list(s) of
+lists. An alternate representation is to represent an array as a set of
+facts
+in a the database.<br>
+<br>
+Here is the syntax of an array in Prolog:<br>
+<br>
+<span style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+REPRESENTATION</span><br style="font-style: italic;">
+<span style="font-style: italic;">TYPE&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+[ comma separated sequence of items
+]&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sequence
+of items</span><br style="font-style: italic;">
+<span style="font-style: italic;">list&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+pattern</span><br>
+<br>
+<br>
+<p>A list is designated in Prolog by square brackets ([ ]+). An example
+of a list is </p>
+<blockquote>
+  <pre><span style="color: rgb(0, 102, 0);">[dog,cat,mouse]</span><br></pre>
+</blockquote>
+<p>This says that the list contains the elements <tt>dog</tt>, {\tt
+cat,
+and <tt>mouse</tt>, in that order. Elements in a Prolog list are
+ordered,
+even though there are no indexes. Records or tuples are represented as
+patterns. <br>
+</p>
+<p>&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">Example:</span>
+</p>
+<blockquote>
+  <pre><span style="color: rgb(0, 102, 0);">book(author(aaby,anthony),title(lab</span><sub
+ style="color: rgb(0, 102, 0);">m</sub><span
+ style="color: rgb(0, 102, 0);">anual),data(1991))</span><br></pre>
+</blockquote>
+<p>The elements of a tuple are accessed by pattern matching.</p>
+<p>&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">Example:</span><br>
+</p>
+<blockquote style="color: rgb(0, 102, 0);">
+  <pre>book(Title,Author,Publisher,Date).<br>author(LastName,FirstName,MI).<br>publisher(Company,City).<br></pre>
+</blockquote>
+<blockquote>
+  <pre><span style="color: rgb(0, 102, 0);">book(T,A,publisher(C,rome),Date</span><br></pre>
+</blockquote>
+<span style="font-weight: bold;"><span style="font-weight: bold;"></span></span><br>
+<span style="font-weight: bold;">7. Prolog Compilers</span><br>
+<br>
+&nbsp;&nbsp;&nbsp; <a
+ href="http://www.cs.bham.ac.uk/research/poplog/freepoplog.html"
+ rel="nofollow">Poplog</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.cs.tcd.ie/open-prolog/">Open
+Prolog</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a
+ href="http://clip.dia.fi.upm.es/Software/Ciao/">Ciao Prolog</a><br>
+&nbsp;&nbsp;&nbsp;&nbsp;<a href="http://www.gprolog.org/">GNU Prolog</a><span
+ style="text-decoration: underline;"></span><br>
+<br>
+<span style="font-weight: bold;">8. Projects and Software in Prolog<br>
+<br>
+</span>&nbsp;&nbsp;&nbsp; LPA Prolog for Windows - World class Prolog
+tools
+for Windows and the Web <br>
+&nbsp;&nbsp;&nbsp; Amzi! Prolog + Logic Server - Embeddable, extendable
+Prolog for programmers to build high-performance rule-based systems.<br>
+<br>
+<br>
+<span style="font-weight: bold;">9. Standard</span><br>
+<a href="http://www.sju.edu/%7Ejhodgson/wg17/wg17web.html"><span
+ style="color: rgb(0, 0, 0);">ISO</span><span
+ style="color: rgb(0, 0, 0);">/</span><span style="color: rgb(0, 0, 0);">IEC
+</span><span style="color: rgb(0, 0, 0);">JTC1</span><span
+ style="color: rgb(0, 0, 0);">/</span><span style="color: rgb(0, 0, 0);">SC22</span><span
+ style="color: rgb(0, 0, 0);">/</span><span style="color: rgb(0, 0, 0);">WG17</span></a>
+is
+the international standardization working group for the programming
+language
+Prolog.<a href="ftp://ai.uga.edu/pub/prolog.standard/"></a><br>
+<br>
+<span style="font-weight: bold;">10. References</span><br>
+<dl>
+  <dt>[1] <a href="http://en.wikipedia.org/wiki/Prolog">Wikipedia</a> </dt>
+  <dt>[2] <a
+ href="http://www.csupomona.edu/%7Ejrfisher/www/prolog_tutorial/contents.html">Prolog
+Tutorial</a> </dt>
+  <dt>[3] <a
+ href="http://www.augustana.ab.ca/%7Emohrj/courses/common/csc370/lecture_notes/prolog2.html">Computing
+Science 370</a> </dt>
+  <dt>[4] <a
+ href="http://www.cs.nuim.ie/%7Ejpower/Courses/PROLOG/list-intro.html">Prolog
+Tutorial by James Power</a></dt>
+</dl>
+<a href="http://www.math.udel.edu/%7Erstevens/"></a><br>
+&nbsp;&nbsp;&nbsp; <br>
+</body>
+</html>

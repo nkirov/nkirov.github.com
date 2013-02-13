@@ -1,0 +1,378 @@
+<html><head><title>NETB131 Project - LUA</title>
+
+
+
+
+
+<style type="text/css">
+
+body {
+	font-family: tahoma, arial, helvetica, sans-serif;
+	font-size: 8pt;
+	
+	color: #000000;
+	margin-top: 0px;
+	margin-bottom: 0px;
+	padding-top: 0px;
+	padding-bottom: 8px;
+}
+
+table {
+  border-collapse: collapse;
+  border: none;
+  background-color: #E6E6FA; 
+}
+
+
+h1 {
+  font-size: 12pt;
+}
+
+
+h3 {
+  font-size: 10pt;
+  margin-bottom: 6px;
+}
+
+
+
+a:link, a:visited {
+  text-decoration: underline;
+  color: #000000;
+}
+
+a:hover {
+  color: #FF0000;
+}
+
+
+li {
+  margin-top: 6pt;
+  margin-bottom: 6pt;
+}
+
+ul {
+  margin-left: 16pt;
+  margin-top: 0px;
+  margin-bottom: 0px;
+}
+
+.gl {
+	font-style: italic; 
+	color: rgb(0, 153, 0);
+	font-family: monospace;
+}
+
+</style></head><body>
+
+<center>
+<b><h1>
+NETB131 Programming Project <br>
+Programming language Lua<br>
+An overview</h1>
+<br>
+Marin Ralinov Ralinov, F38714<br></b>
+</center>
+<br><br>
+<h3>1. History and Special Features</h3>
+Lua was created in 1993 by Roberto Ierusalimschy, Luiz Henrique de
+Figueiredo, and Waldemar Celes, members of the Computer Graphics
+Technology Group at PUC-Rio, the Pontifical University of Rio de
+Janeiro, in Brazil. Versions of Lua prior to version 5.0 were released
+under a license similar to the BSD license. From version 5.0 onwards,
+Lua has been licensed under the MIT License.
+Some of its closest relatives include Icon for its design and Python
+for its ease of use by non-programmers. In an article published in Dr.
+Dobb's Journal, Lua's creators also state that Lisp and Scheme with
+their single, ubiquitous data structure mechanism (the list) were a
+major influence on their decision to develop the table as the primary
+data structure of Lua.
+<br>
+<br>
+
+Lua has been used the most in video game development.<br>
+
+<br>Lua is commonly described as a "multi-paradigm" language, providing
+a small set of general features that can be extended to fit different
+problem types, rather than providing a more complex and rigid
+specification to match a single paradigm. Lua, for instance, does not
+contain explicit support for inheritance, but allows it to be
+implemented relatively easily with metatables. Similarly, Lua allows
+programmers to implement namespaces, classes, and other related
+features using its single table implementation; first class functions
+allow the employment of many powerful techniques from functional
+programming; and full lexical scoping allows fine-grained information
+hiding to enforce the principle of least privilege.
+In general, Lua strives to provide flexible meta-features that can be
+extended as needed, rather than supply a feature-set specific to one
+programming paradigm. As a result, the base language is light - in
+fact, the full reference interpreter is only about 150kB compiled - and
+easily adaptable to a broad range of applications.
+Lua is a dynamically typed language intended for use as an extension or
+scripting language, and is compact enough to fit on a variety of host
+platforms. It supports only a small number of atomic data structures
+such as boolean values, numbers (double-precision floating point by
+default), and strings. Typical data structures such as arrays, sets,
+hash tables, lists, and records can be represented using Lua's single
+native data structure, the table, which is essentially a heterogeneous
+map.
+Lua has no built-in support for namespaces and object-oriented
+programming. Instead, metatable and metamethods are used to extend the
+language to support both programming paradigms in an elegant and
+straight-forward manner.
+Lua implements a small set of advanced features such as higher-order
+functions, garbage collection, first-class functions, closures, proper
+tail calls, coercion (automatic conversion between string and number
+values at run time), coroutines (cooperative multitasking) and dynamic
+module loading.
+By including only a minimum set of data types, Lua attempts to strike a
+balance between power and size.
+<br>
+<br><br>
+<h3>2. "Hello World" Program</h3>
+<br><blockquote><table border="1" cellpadding="10" cellspacing="0"><tbody><tr><td style="border: 1px dashed black;"><tt><nobr><br>
+<b>print</b> "Hello World!"<br>
+<br>
+</nobr></tt></td></tr></tbody></table></blockquote><br>
+<h3>3. Fundamental Data Types (integer, floating point, string) and
+Assignment Operator</h3>Lua
+is a dynamically typed language. This means that variables do not have
+types; only values do. There are no type definitions in the language.
+All values carry their own type.<br>
+All values in Lua are first-class values. This means that all values
+can be stored in variables, passed as arguments to other functions, and
+returned as results.
+<br>
+<br>
+
+
+
+
+
+There are eight basic types in Lua: nil, boolean, number, string, function, userdata, thread, and table. <br>Nil
+is the type of the value nil, whose main property is to be different
+from any other value; it usually represents the absence of a useful
+value.<br> Boolean is the type of the values false and true. Both nil and false make a condition false; any other value makes it true. <br>
+Number represents real (double-precision floating-point) numbers. (It
+is easy to build Lua interpreters that use other internal
+representations for numbers, such as single-precision float or long
+integers; see file luaconf.h.) <br>
+String represents arrays of characters. Lua is 8-bit clean: strings may
+contain any 8-bit character, including embedded zeros ('\0'). <br><br>
+
+
+
+The type function gives the type name of a given value:<br><br>
+
+
+<br><blockquote><table border="1" cellpadding="10" cellspacing="0"><tbody><tr><td style="border: 1px dashed black;"><tt><nobr><br>
+print(type("Hello world")) &nbsp;--&gt; string<br>
+print(type(10.4*3)) &nbsp; &nbsp; &nbsp; &nbsp; --&gt; number<br>
+print(type(print)) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;--&gt; function<br>
+print(type(type)) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; --&gt; function<br>
+print(type(true)) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; --&gt; boolean<br>
+print(type(nil)) &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;--&gt; nil<br>
+print(type(type(X))) &nbsp; &nbsp; &nbsp; &nbsp;--&gt; string<br>
+<br>
+</nobr></tt></td></tr></tbody></table></blockquote><br>
+The last example will result in "string" no matter the value of X, because the result of type is always a string.
+
+
+<br><br><br>
+
+
+<b>Assign Operator:</b><br>
+<blockquote>
+<strong>=</strong> operator assigns the value of the expression on the <i>right</i> to the variable on the <i>left</i>.
+<br><br>
+    total = pennies * 0.01<br>
+    total = count * 0.05 + total
+
+</blockquote>
+
+
+<br><br><br>
+
+
+<h3>4. Basic Control Flow (conditional and loop statements)</h3>
+&nbsp;&nbsp;&nbsp; <b>Conditional operator:</b>
+<blockquote>
+<pre><span style="font-weight: bold;">if</span> <span class="gl">condition</span><span style="font-weight: bold;"> then </span><span class="gl">operator</span>
+// optional<br><span style="font-weight: bold;">else</span> <span class="gl">operator</span>
+</pre>
+</blockquote>
+&nbsp;&nbsp;&nbsp; <b>Loop operator:</b>
+<blockquote>
+ <pre><span style="font-weight: bold;">while</span> <span class="gl">condition</span> <span style="font-weight: bold;">do</span> 
+<span style="color: rgb(0, 153, 0); font-style: italic;">operator</span>
+<span style="font-weight: bold;">end</span>
+</pre>
+</blockquote>
+<b>Task:</b> Input an integer number n and output the sum:
+1+2<sup>2</sup>+3<sup>2</sup>+...+n<sup>2</sup>. Use input validation
+for n to be positive.<br>
+
+<br><blockquote><table border="1" cellpadding="10" cellspacing="0"><tbody><tr><td style="border: 1px dashed black;"><tt><nobr><br>
+n = io.read()<br>
+n = tonumber(n)<br>
+<br>
+<b>if</b> (n &gt; 0) <b>then</b> <br>
+sum = 0<br>
+i = 0<br>
+<b>while</b><br>
+(i &lt;= n)<br>
+<b>do</b> <br>
+sum = sum + (i * i)<br>
+i = i + 1<br>
+<b>end</b><br>
+print(sum)<br>
+<b>end</b><br>
+<br>
+</nobr></tt></td></tr></tbody></table></blockquote><br>
+
+<h3>5. Functions - syntax, writing and using functions, example</h3>
+<b>The following is function's format:</b>
+<blockquote>
+  <pre><b>function</b><span class="gl"> name</span> ( <span class="gl">parameter1</span>, <span class="gl">parameter2</span>, ...) <br> <span class="gl">statements <br></span><b>end</b></pre>
+</blockquote>
+<b>where:</b>
+<ul>
+  <li><span class="gl">
+      function</span> states that we are declaring a function</li>
+  <li><span class="gl">name</span>
+is the identifier by which it will be possible to call
+the
+function</li>
+  <li><span class="gl">parameters</span>
+(as many as needed): Each parameter consists of an identifier which can be from any 
+      data type, because of the language structure. They allow to pass arguments to the function
+when it is called. The different parameters are separated by commas.</li>
+  <li><span class="gl">statementsts</span>
+is the function's body. It is a block of
+statements
+<b>not</b> surrounded by braces <span style="font-family: monospace;">{ } </span>like 
+      most other programming languages as C++ for example </li>
+        <li><span class="gl">
+            end</span>&nbsp; end of the function declaration. Everything after this word is 
+            not part of the function. It acts as the closing brace in C++.</li>
+</ul>
+<b>&nbsp;&nbsp;&nbsp;&nbsp;Function example:</b><br><br>
+
+<br><blockquote><table border="1" cellpadding="10" cellspacing="0"><tbody><tr><td style="border: 1px dashed black;"><tt><nobr><br>
+<font color="red">// function definition</font><br>
+<b>function</b> addition (a, b) <br>
+ r = a + b<br>
+ <b>return</b> r<br>
+<b>end</b><br>
+<br>
+<font color="red">// invoking the function</font><br>
+ z = addition (5,3); <br>
+ print ("The result is " .. z);<br>
+<br>
+</nobr></tt></td></tr></tbody></table></blockquote><br>
+
+<h3>6. Arrays - syntax, definition, example</h3>
+<b>Arrays in LUA are declared by the following way:</b><br>
+<blockquote>
+<pre><span class="gl">name =</span> {}</pre></blockquote>
+<br>
+<b>and they are accessed like:</b><br>
+<blockquote>
+  <pre><span class="gl">name</span>[<span class="gl">position</span>];</pre>
+</blockquote>
+<b>where:</b>
+<ul>
+  <li><span class="gl">name</span>
+is the identifier by which it will be possible to access the array
+elements</li>
+  <li><span class="gl">position</span>
+is a number representing the position of the accessed element of the array</li>
+</ul>
+
+<br>
+
+<b>&nbsp;&nbsp;&nbsp;&nbsp;Array example:</b><br>
+
+<br><blockquote><table border="1" cellpadding="10" cellspacing="0"><tbody><tr><td style="border: 1px dashed black;"><tt><nobr><br>
+ <font color="red">//we declare the array and the variable for the loop</font><br>
+ a = {}<br>
+ i = 0<br>
+<b>for</b> i = 1, 10 <b>do</b><br>
+ a[i] = i*i<br>
+<b>end</b><br>
+<br>
+</nobr></tt></td></tr></tbody></table></blockquote><br><b>Note:</b> <i>Arrays in Lua are indexed from 1 instead from 0, unlike in most programming languages.</i><br><br>
+
+
+<h3>7. Compilers</h3>
+Since Lua is an extension programming language it doesn't have it's own
+compiler - the code written in Lua could be compiled in many other
+languages such as C, C++, Python, Ruby, Java, etc. by including the Lua
+libraries...<br>
+You can download an interpretter from the official site to test the
+functions that come with the language, but you still can't make an
+exeutable file with it (at least not under Windows - in Linux you can
+do it in a way similar to the bash executable scripts).
+<br><br><br>
+
+<h3>8. Projects and Software Written in Lua</h3>
+<ul>
+<li>SimCity 4
+</li><li>World of Warcraft
+</li><li>Adobe Photoshop Lightroom
+</li><li>Warhammer Online: Age of Reckoning
+</li><li>CryENGINE2
+</li><li>Metaplace
+</li><li>FarCry
+</li><li>Supreme Commander
+</li><li>Squeezebox Jive Platform
+</li><li>Garry's Mod
+</li><li>LuaTeX
+</li><li>MySQL Proxy
+</li><li>Nmap
+</li><li>pbLua for the LEGO Mindstorms NXT
+</li><li>There
+</li><li>Lua Player
+</li><li>Space Shuttle Hazardous Gas Detection System
+</li><li>Psychonauts
+</li><li>Heroes of Might and Magic V
+</li><li>S.T.A.L.K.E.R.: Shadow of Chernobyl
+</li><li>Barracuda Embedded Web Server
+</li><li>Wireshark - The world's most popular network protocol analyzer
+</li><li>Hercule - Olivetti printer firmware
+</li><li>Giggle
+</li><li>Impossible Creatures
+</li><li>Digital Fusion
+</li><li>ToME
+</li><li>Publique!
+</li><li>Tecgraf
+</li><li>Multi Theft Auto: San Andreas
+</li><li>Setup Factory 7.0
+</li><li>SciTE
+</li><li>AutoPlay Media Studio 5.0
+</li><li>Homeworld 2
+</li><li>SpellForce - The Order Of Dawn
+</li><li>GUPPY - genetic sequence visualization
+</li><li>tomsrtbt - "The most Linux on one floppy disk"
+</li><li>Soul Ride
+</li><li>Crazy Ivan Robot
+</li></ul>
+<br>
+Detailed info about the use of Lua in every mentioned project could be found <a href="http://www.lua.org/uses.html"><b>here</b></a>.
+<br><br>
+
+
+
+<h3>9. Standard</h3>
+The latest version of  Lua is <b>5.1.2</b> and was released at 02 Apr 2007.<br>
+Information about the older versions could be found <a href="http://www.lua.org/versions.html"><b>here</b></a>.
+<br><br>
+
+
+
+<h3>10. References</h3>
+[1] <a href="http://www.lua.org/">Lua.org</a>, <a href="http://www.lua.org/manual/5.1/">Lua 5.1 Reference Manual</a><br>
+
+[2] <a href="http://en.wikipedia.org/wiki/Lua_%28programming_language%29">Lua in Wikipedia</a><br>
+[3] <a href="http://www.lua.org/pil/">Programming in Lua E-Book</a><br><br>
+</body></html>

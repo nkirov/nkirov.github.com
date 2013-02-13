@@ -1,0 +1,474 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>Advanced C++ Topics</title>
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1"></head>
+
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 17: Advanced C++ Topics I<br>
+</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To learn about operator overloading</font></li>
+  <li><font size="+1">To learn how to automatically manage dynamic
+memory</font></li>
+</ul>
+<h2>Operator Overloading</h2>
+<ul>
+  <li><font size="+1">Many classes use operators such as <tt>++</tt>, <tt>*</tt>
+and <tt>==.</tt> </font></li>
+  <li><font size="+1">Giving a new meaning to an operator is called <i>operator
+overloading</i>.</font></li>
+</ul>
+<h3>Operator Functions</h3>
+<ul>
+  <li><font size="+1">You can overload an operator by defining a
+function whose name is operator followed by the operator symbol.</font></li>
+  <li><font size="+1">For example, you can define the <i>difference</i>
+between two <tt>Time</tt> objects as the number of seconds between
+them.
+    </font><blockquote>
+<font size="+1">      </font><pre><span style="color: rgb(51, 51, 255);"><font size="+1">int</font></span><font size="+1"> <span style="color: rgb(51, 51, 255);">operator</span>-(Time a, Time b)<br>{ <span style="color: rgb(102, 0, 204);">return</span> a.seconds_from(b);<br>}</font></pre>
+<font size="+1">    </font></blockquote>
+<font size="+1">    </font></li>
+  <li><font size="+1">The </font><font size="+1"><span style="font-family: monospace;">operator-</span></font><font size="+1">
+function is a nonmember function with two parameters.<br>
+    </font></li>
+  <li><font size="+1">Now you can use the <tt>-</tt> operator instead
+of calling <tt>seconds_from</tt>.
+    <blockquote>
+      <pre>Time now;<br>Time morning(9, 0, 0);<br><span style="color: rgb(51, 51, 255);">long</span> seconds_elapsed = now - morning;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The last statement is equivalent to
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">long</span> seconds_elapsed = <span style="color: rgb(51, 51, 255);">operator</span>-(now, morning);</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Syntax 17.1: Overloading Operator Definition</h2>
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.1 : Overloading
+Operator Definition</font></p>
+      <pre><font size="+1"><i style="color: rgb(0, 153, 0);">return_type</i> operator<i style="color: rgb(0, 153, 0);">operator_symbol</i>(<i style="color: rgb(0, 153, 0);">parameters</i>)<br>{</font><i><font size="+1"><br></font></i><font size="+1">   <i style="color: rgb(0, 153, 0);">statements</i><br>}</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font size="+1"> </font></td>
+            <td>
+            <pre><font size="+1"><span style="color: rgb(51, 51, 255);">int</span> <span style="color: rgb(51, 51, 255);">operator</span>-(Time a, Time b)<br>{<br>   <span style="color: rgb(51, 51, 255);">return</span> a.seconds_from(b)<br>}</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font size="+1"> </font></td>
+            <td><font size="+1">Supply the implementation of an
+overloaded operator.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<ul>
+  <li><font size="+1">Does it make sense to add two times?
+    <blockquote>
+      <pre><i>some_return_type</i> <span style="color: rgb(51, 51, 255);">operator</span>+(Time a, Time b);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">A <tt>Time</tt> objects represent a point in
+time, not a duration: what does 3 P.M. + 3 P.M. mean? It does not make
+any sense to add two points in time!<br>
+    </font></li>
+  <li><font size="+1">It does make sense to add a number of seconds to
+a <tt>Time</tt> object, resulting in a new <tt>Time</tt> object.
+    </font><blockquote>
+<font size="+1">      </font><pre><font size="+1">Time <span style="color: rgb(51, 51, 255);">operator</span>+(Time a, <span style="color: rgb(51, 51, 255);">int</span> sec)<br>{  Time r = a;<br>   r.add_seconds(sec);<br>   <span style="color: rgb(51, 51, 255);">return</span> r;<br>}</font></pre>
+<font size="+1">    </font></blockquote>
+<font size="+1">    </font></li>
+  <li><font size="+1">For example
+    <blockquote>
+      <pre>Time now;<br>Time later = now + 60; /* 60 seconds later */<br></pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h3>Overloading Comparison Operations</h3>
+<li><font size="+1">A commonly overloaded operator is the <tt>==</tt>
+operator, to compare two values. </font>
+  <blockquote><font size="+1"> </font>
+    <pre><font size="+1"><span style="color: rgb(51, 51, 255);">bool</span> <span style="color: rgb(51, 51, 255);">operator</span>==(Time a, Time b)<br>{  <span style="color: rgb(51, 51, 255);">return</span> a.seconds_from(b) == 0;<br>}</font></pre>
+    <font size="+1"> </font></blockquote>
+  <font size="+1"> </font></li>
+<li><font size="+1">For completeness, it is a good idea to also
+define a <tt>!=</tt> operator.
+  <blockquote>
+    <pre><span style="color: rgb(51, 51, 255);">bool</span> <span style="color: rgb(51, 51, 255);">operator</span>!=(Time a, Time b)<br>{  <span style="color: rgb(51, 51, 255);">return</span> a.seconds_from(b) != 0;<br>}</pre>
+  </blockquote>
+  </font></li>
+<li><font size="+1">You may also find it useful to define a <tt>&lt;</tt>
+operator.
+  </font><blockquote>
+<font size="+1">    </font><pre><span style="color: rgb(51, 51, 255);"><font size="+1">bool</font></span><font size="+1"> <span style="color: rgb(51, 51, 255);">operator</span>&lt;(Time a, Time b)<br>{  <span style="color: rgb(51, 51, 255);">return</span> a.seconds_from(b) &lt; 0;<br>}</font></pre>
+<font size="+1">  </font></blockquote>
+<font size="+1">  </font></li>
+<h3>Input and Output</h3>
+<ul>
+  <li><font size="+1">For many classes, you want to print the object
+with the familiar <tt>&lt;&lt;</tt> notation.</font></li>
+  <li><font size="+1">The output operator takes a parameter of type <tt>ostream&amp;</tt>
+(reference, because printing modifies the stream) and the object to be
+printed.
+    <blockquote>
+      <pre>ostream&amp; <span style="color: rgb(51, 51, 255);">operator</span>&lt;&lt;(ostream&amp; out, Time a)<br>{  out &lt;&lt; a.get_hours() &lt;&lt; ":";<br>   if (a.get_minutes() &lt; 10) out &lt;&lt; "0";<br>   out &lt;&lt; a.get_minutes() &lt;&lt; ":";<br>   if (a.get_seconds() &lt; 10) out &lt;&lt; "0";<br>   out &lt;&lt; a.get_seconds();<br>   <span style="color: rgb(51, 51, 255);">return</span> out;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The<tt> &lt;&lt;</tt> operator returns the out
+stream to enable chaining of the <tt>&lt;&lt;</tt> operator. </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1">cout &lt;&lt; now &lt;&lt; "\n";</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1">really means </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1">(cout &lt;&lt; now) &lt;&lt; "\n";</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1">that is </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">operator</span>&lt;&lt;(cout, now) &lt;&lt; "\n";</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+  <li><font size="+1">The call to <tt><span style="color: rgb(51, 51, 255);">operator</span>&lt;&lt;(cout, now)</tt>
+returns <tt>cout</tt>, then <tt>cout &lt;&lt; "\n"</tt> prints a new
+line.</font> </li>
+</ul>
+<ul>
+  <li><font size="+1">You can also overload the input operator to read
+in other types of objects.
+    <blockquote>
+      <pre>istream&amp; <span style="color: rgb(51, 51, 255);">operator</span>&gt;&gt;(istream&amp; in, Time&amp; a)<br>{  <span style="color: rgb(51, 51, 255);">int</span> hours;<br>   <span style="color: rgb(51, 51, 255);">int</span> minutes;<br>   <span style="color: rgb(51, 51, 255);">int</span> seconds;<br>   in &gt;&gt; hours &gt;&gt; minutes &gt;&gt; seconds;<br>   a = Time(hours, minutes, seconds);<br>   <span style="color: rgb(51, 51, 255);">return</span> in;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Note that the <tt>&gt;&gt;</tt> operator returns
+the input stream just like the <tt>&lt;&lt;</tt> operator.</font></li>
+  <li><font size="+1">Unlike the <tt>&lt;&lt;</tt> operator, the <tt>&gt;&gt;</tt>
+operator must have a parameter of <tt>Time&amp;</tt>.</font></li>
+  <li><font size="+1">It is easy to go overboard overloading operators!
+Using inappropriate operators can make programs more difficult to read.</font>
+    <ul>
+      <li><font size="+1">Does it make sense to overload <tt>*</tt>, <tt>/</tt>
+or <tt>%</tt> for Time objects?</font></li>
+    </ul>
+  </li>
+</ul>
+<h2>Operator Overloading (<tt>overload.cpp</tt>)</h2>
+<iframe src="ch17-1_files/overload.htm" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<h3>Overloading Increment and Decrement Operators</h3>
+<ul>
+  <li><font size="+1">There are actually two forms of the <tt>++</tt>
+and <tt>--</tt> operators.</font>
+    <ul>
+      <li><font size="+1">A prefix form:
+        <blockquote>
+          <pre>++x;</pre>
+        </blockquote>
+        </font></li>
+      <li><font size="+1">A postfix form:
+        <blockquote>
+          <pre>x++;</pre>
+        </blockquote>
+        </font></li>
+    </ul>
+  </li>
+  <li><font size="+1">Recall that <tt>++x</tt> evaluates to <tt>x</tt>
+after the increment, and <tt>x++</tt> evaluates to <tt>x</tt> before
+the increment.
+    </font><blockquote>
+<font size="+1">      </font><pre><span style="color: rgb(51, 51, 255);"><font size="+1">int</font></span><font size="+1"> i = 0;<br><span style="color: rgb(51, 51, 255);">int</span> j = 0;<br><span style="color: rgb(51, 51, 255);">vector</span>&lt;<span style="color: rgb(51, 51, 255);">double</span>&gt; s(2);<br>s[0]=10;<br>s[1]=20;<br><span style="color: rgb(51, 51, 255);">double</span> a = s[i++]; /* a is s[0], i is 1 */<br><span style="color: rgb(51, 51, 255);">double</span> b = s[++j]; /* b is s[1], j is 1 */</font></pre>
+<font size="+1">    </font></blockquote>
+<font size="+1">    </font></li>
+  <li><font size="+1">In order for the compiler to distinguish between
+the two versions, the operators must have two different parameter
+lists.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">void</span> <span style="color: rgb(51, 51, 255);">operator</span>++(Time&amp; a) /* prefix operator */<br>{  a.add_seconds(1);<br>}</pre>
+    </blockquote>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">void</span> <span style="color: rgb(51, 51, 255);">operator</span>++(Time&amp; a, <span style="color: rgb(51, 51, 255);">int</span> dummy) /* postfix operator */<br>{ a.add_seconds(1);<br>}</pre>
+    </blockquote>
+    </font></li>
+  <font size="+1"> <li><font size="+1">The <tt>int dummy</tt>
+parameter is not used
+inside the function, it merely serves to differentiate the two <tt>operator++</tt>
+functions.</font></li>
+  </font>
+</ul>
+<h3><font size="+1">Operator Members</font></h3>
+<ul>
+  <font size="+1"> <li><font size="+1">Some operators must access the
+internals of the
+class and must be member functions.</font></li>
+  <li><font size="+1">Member functions use the implicit parameter as
+the left operand.</font></li>
+  <li><font size="+1">A non member operator:
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">bool</span> <span style="color: rgb(51, 51, 255);">operator</span>==(Time a, Time b); /* a == b means <span style="color: rgb(51, 51, 255);">operator</span>==(a,b) */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The same operator as a member function.</font><font size="+1">
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">bool</span> Time::<span style="color: rgb(51, 51, 255);">operator</span>==(Time b) <span style="color: rgb(51, 51, 255);">const</span> /* a == b means a.<span style="color: rgb(51, 51, 255);">operator</span>==(b) */<br>{  <span style="color: rgb(51, 51, 255);">return</span> <span style="color: rgb(51, 51, 255);"></span>seconds_from(b) == 0;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Also note that the <tt>!=</tt> operator uses the
+    <tt>==</tt> operator. </font><font size="+1"><font size="+1">Each
+member function has a special parameter variable, called </font><font style="color: rgb(51, 51, 255);" size="+1"><span style="font-family: monospace;">this</span></font><font size="+1">,
+which is a <span style="font-style: italic;">pointer</span> to the
+implicit parameter.</font></font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">bool</span> Time::<span style="color: rgb(51, 51, 255);">operator</span>!=(Time b) <span style="color: rgb(51, 51, 255);">const</span><br>{ <span style="color: rgb(51, 51, 255);">return</span> !(*<span style="color: rgb(51, 51, 255);">this</span> == b); /* calls <span style="color: rgb(51, 51, 255);">operator</span>== */<br>}</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+  <li><font size="+1">If the operator is unary, then the member
+function has no explicit parameter</font> </li>
+  </font>
+  <blockquote>
+    <pre><font size="+1">Time Time::<span style="color: rgb(51, 51, 255);">operator</span>++() /* prefix operator */</font><br><font size="+1">{ *<span style="color: rgb(51, 51, 255);">this</span> = *<span style="color: rgb(51, 51, 255);">this</span> + 1; /* calls <span style="color: rgb(51, 51, 255);">operator</span>+ */<br> <span style="color: rgb(51, 51, 255);"> return</span> *<span style="color: rgb(51, 51, 255);">this</span>;<br>}</font></pre>
+  </blockquote>
+  <font size="+1"> <li><font size="+1">Note the parameter in the
+postfix version of the <tt>++</tt>
+operator.
+    </font><blockquote>
+<font size="+1">      </font><pre><span style="color: rgb(0, 0, 0);"><font size="+1">Time</font></span><font size="+1"> Time::<span style="color: rgb(51, 51, 255);">operator</span>++(<span style="color: rgb(51, 51, 255);">int</span> dummy) /* postfix operator */<br>{  Time t = *<span style="color: rgb(51, 51, 255);">this</span>; <br>   <span style="color: rgb(51, 51, 255);"><span style="color: rgb(0, 0, 0);">*</span>this</span> = *<span style="color: rgb(51, 51, 255);">this</span> + 1; /* calls <span style="color: rgb(51, 51, 255);">operator</span>+ */<br>   <span style="color: rgb(51, 51, 255);">return</span> t;<br>}</font></pre>
+<font size="+1">    </font></blockquote>
+<font size="+1">    </font></li>
+  </font>
+</ul>
+<h2>Operator Overloading (<tt>overload1.cpp</tt>)</h2>
+<iframe src="ch17-1_files/overload1.htm" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2><font size="+1">Automatic Memory Management</font></h2>
+<ul>
+  <font size="+1"> <li><font size="+1">For this discussion, we will
+use a modification
+of the Department class that was introduced earlier.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">class</span> Department {<br>   ...<br><span style="color: rgb(51, 51, 255);">private:</span><br>   string name;<br>   Employee* receptionist;<br>};<br><br>Department::Department(string n, Employee e)<br>{  name = n;<br>   receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */<br>Department::Department(string n)<br>{  name = n;<br>   receptionist = NULL;<br>}</pre>
+    </blockquote>
+    </font></li>
+  </font>
+</ul>
+<h3>Destructors</h3>
+<ul>
+  <font size="+1"> <li><font size="+1">A <tt>Department</tt> object
+contains a pointer
+to an <tt>Employee</tt> object.</font></li>
+  <li><font size="+1">When the <tt>Department</tt> object is destroyed
+(goes out of scope, for example) the <tt>Employee</tt> object is
+leaked.</font></li>
+  <li><font size="+1">In C++, you can define a <i>destructor</i>, a
+function that is called when an object is about to go out of scope.</font></li>
+  <li><font size="+1">The destructor for the <tt>Department</tt> class
+should delete the receptionist pointer. </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1">Department::~Department()<br>{  <span style="color: rgb(51, 51, 255);">delete</span> receptionist;<br>}</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+  <li><font size="+1">Note that calling delete on a <tt>NULL</tt>
+pointer is safe, so you don't need a special case for that situation.</font></li>
+  </font>
+</ul>
+<h2><font size="+1">Syntax 17.2: Destructor Definition</font></h2>
+<p>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 17.2 : Destructor
+Definition</font></p>
+      <pre><font size="+1"><i>Class_name</i>::~<i>Class_name</i>()<br>{</font><i><font size="+1"><br></font></i><font size="+1">   <i>statements</i><br>}</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">Department::~Department()<br>{<br>   <span style="color: rgb(51, 51, 255);">delete</span> receptionist;<br>}</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font size="+1"> </font></td>
+            <td><font size="+1">Supply the implementation of a
+destructor that is invoked whenever and object goes out of scope.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<ul>
+  <font size="+1"> <li><font size="+1">The destructor is automatically
+invoked (not
+called directly). </font>
+    <blockquote><font size="+1"> </font>
+      <pre><font size="+1">{  Department dept;<br>   ...<br>} // dept.~Department() automatically invoked here<br><br>...<br>Department* p = <span style="color: rgb(51, 51, 255);">new</span> Department(...);<br>...<br><span style="color: rgb(51, 51, 255);">delete</span> p; // p-&gt;~Department() automatically invoked here</font></pre>
+      <font size="+1"> </font></blockquote>
+    <font size="+1"> </font></li>
+  <li><font size="+1">A class can only have <span style="font-style: italic;">one</span> destructor with <span style="font-style: italic;">no</span>
+parameters. </font></li>
+  <li><font size="+1">You should always supply a destructor when some
+amount of clean up is required when an object goes out of scope.</font>
+    <ul>
+      <li><font size="+1">Recycling dynamic memory (as shown here).</font>
+      </li>
+    </ul>
+  </li>
+  </font>
+  <ul>
+    <font size="+1"> <li><font size="+1">Close a file.</font></li>
+    <li><font size="+1">Relinquish some other resource.</font></li>
+    </font>
+  </ul>
+</ul>
+<h3>Overloading the Assignment Operator</h3>
+<ul>
+  <font size="+1"> <li><font size="+1">Consider the following
+declarations. </font>
+    <blockquote>
+      <pre><font size="+1">Department qc("Qualitiy Control", Employee("Tester, Tina", 50000));<br>Department dept("Shipping", Employee("Hacker, Harry", 35000));</font></pre>
+    </blockquote>
+  </li>
+  <li><font size="+1">Suppose we assign one department to the other. </font>
+    <blockquote>
+      <pre><font size="+1">dept = qc;</font></pre>
+    </blockquote>
+  </li>
+  <li><font size="+1">This assignment causes a memory leak! (See
+following picture).</font></li>
+  <li><font size="+1">When one object goes out of scope (and the other
+doesn't) the <tt>Employee</tt> is destroyed, causing a dangling
+pointer.</font></li>
+  </font>
+</ul>
+<blockquote><font size="+1"><img src="ch17-1_files/department_assignment.png"></font></blockquote>
+<ul>
+  <font size="+1"> <li><font size="+1">The remedy is to overload the <tt><span style="color: rgb(51, 51, 255);">operator</span>=</tt>
+to make the assignment safe by deleting the only <tt>Employee</tt>
+object, and making a copy of the new <tt>Employee</tt> object.
+    <blockquote>
+      <pre>Department&amp; Department::<span style="color: rgb(51, 51, 255);">operator</span>=(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  <span style="color: rgb(51, 51, 255);">if</span> (<span style="color: rgb(51, 51, 255);">this</span> != &amp;b)<br>   {  name = b.name;<br>      <span style="color: rgb(51, 51, 255);">delete</span> receptionist;<br>      <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == NULL)<br>         receptionist == NULL;<br>      <span style="color: rgb(51, 51, 255);">else</span><br>         receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>            b.receptionist-&gt;get_salary());<br>    }<br>    return *<span style="color: rgb(51, 51, 255);">this</span>;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Unlike most other operators, the <tt><span style="color: rgb(51, 51, 255);">operator</span>=</tt> <span style="font-style: italic;">must</span> be a member function.</font></li>
+  <li><font size="+1">Special care must be taken to avoid a destructive
+"self-assignment."</font></li>
+  <li><font size="+1">A return by reference is required to handle
+chaining of assignments, such as
+    <blockquote>
+      <pre>z = y = x;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You should always overload the = operator if your
+class has data fields that are pointers, and a simple copy of objects
+leads to dangerous shared pointers.</font></li>
+  </font>
+</ul>
+<h3>Copy Constructor</h3>
+<ul>
+  <font size="+1"> <li><font size="+1">The purpose of <tt><span style="color: rgb(51, 51, 255);">operator</span>=</tt>
+is to set an <span style="font-style: italic;">existing</span> object
+equal to
+another object.</font></li>
+  <li><font size="+1">Use of <tt>=</tt> for construction is not always
+appropriate.</font></li>
+  <li><font size="+1">Example: Here, the pointer <tt>dept.receptionist</tt>
+is set to a random value. The operator will try to delete the
+receptionist causing an error.
+    <blockquote>
+      <pre>Department dept = qc; /* is not the assignment operator! */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The copy constructor defines how to construct an
+object of a class as a copy of another object of the same class.
+    <blockquote>
+      <pre>Department dept(qc);</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">If you don't define a copy constructor, then the
+compiler provides a version that simply copies the corresponding data
+fields of the existing object.</font></li>
+  <li><font size="+1">This version of the copy constructor is still
+inappropriate, leading to the same kind of errors as the default
+version of the assignment operator.</font></li>
+  </font>
+</ul>
+<ul>
+  <font size="+1"> <li><font size="+1">Here is a valid copy
+constructor for the <tt>Department</tt>
+class.
+    <blockquote>
+      <pre>Department::Department(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  name = b.name;<br>   <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == NULL)<br>      receptionist = NULL;<br>   <span style="color: rgb(51, 51, 255);">else</span><br>      receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         b.receptionist-&gt;get_salary());<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The parameter must be <tt style="color: rgb(51, 51, 255);">const</tt> reference
+because pass by value invokes the copy constructor!</font></li>
+  </font>
+</ul>
+<h3>The Big Three
+</h3>
+<ul>
+  <font size="+1"> <li><font size="+1">The assignment operator, copy
+constructor, and
+destructor are collectively called the "big three."</font></li>
+  <li><font size="+1">You must implement all three for any class that
+manages heap memory.</font></li>
+  <li><font size="+1">Each function has the following logic.</font>
+    <ul>
+      <li><font size="+1"><b>Destructor</b>: <i><br>
+        </i></font>
+        <ul>
+          <li><font size="+1"><i>Free all dynamic memory that the
+object manages.</i></font></li>
+        </ul>
+      </li>
+      <li><font size="+1"><b>Copy Constructor</b>: <br>
+        </font>
+        <ul>
+          <li><font size="+1"><i>Initialize the object as a copy of the
+explicit parameter
+object.</i></font></li>
+        </ul>
+      </li>
+      <li><font size="+1"><b>Assignment Operator</b>: <br>
+        </font>
+        <ul>
+          <li><font size="+1"><i>Check whether</i> <tt><span style="color: rgb(51, 51, 255);">this</span> == &amp;b</tt>. <i>If so
+do
+nothing.</i></font></li>
+          <li><font size="+1"><i>Free the dynamic memory of the object
+that is no longer needed.</i></font></li>
+          <li><font size="+1"><i>Set the object as a copy of the
+explicit parameter object.</i></font></li>
+          <li><font size="+1"><i>Return</i> <tt>*<span style="color: rgb(51, 51, 255);">this</span></tt>.</font></li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  </font>
+</ul>
+<h2><font size="+1">Automatic Memory Management (<tt>department.cpp</tt>)</font></h2>
+<iframe src="ch17-1_files/department.htm" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr>
+</body></html>

@@ -1,0 +1,139 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1251">
+  <meta name="GENERATOR"
+ content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+  <title>p03</title>
+</head>
+<body>
+<h3>3. Цели числа - представяне в десетична и
+двоична бройни системи.
+Прости
+числа. Мерсенови и съвършенни числа</h3>
+Проверка дали дадено число е просто [стр. 41] - 2 варианта;
+<br>
+Теорема на Оперман - съществува просто число между <i>n</i><sup>2</sup>
+и (<i>n+</i>1)<sup>2</sup> [стр. 41] ;
+<p>Определяне дали едно число е просто; Решето на Ератостен [стр. 42] -
+3 варианта;
+</p>
+<p>Да се напише програма за намиране на простите числа
+в
+зададен интервал [<i>a</i>,<i>b</i>] като се използва, че 2.3.5 = 30 и
+че
+кандидатите за прости числа от вида 30<i>k + r </i>са само 8 (за
+дадено <i>k)</i>.
+</p>
+Сайт за прости числа <a
+ href="http://www.rsok.com/%7Ejrm/printprimes.html">Some
+Prime Numbers</a>.<br>
+<br>
+<span style="font-weight: bold;">Хипотези на Голдбах </span>[1.1.3]
+<br>
+1. Всяко цяло четно число може да се представи като сума на две прости
+числа.
+<br>
+2. Всяко цяло число &gt; 17 може да се представи като сума на 3
+различни прости числа.
+<br>
+&nbsp;&nbsp; 8849+8861+9769=27479
+<br>
+&nbsp;&nbsp; 9973+2+3=9978
+<br>
+Едно просто число се нарича <span style="font-style: italic;">Мерсеново</span>,
+ако може да се представи във вида: 2<sup><span
+ style="font-style: italic;">p</span></sup>- 1, където <span
+ style="font-style: italic;">p</span> е просто [1.1.4, стр. 47].<br>
+Едно число се нарича <span style="font-style: italic;">съвършено</span>,
+ако е равно на сумата от всички свои делители [1.1.4, стр. 48].
+<br>
+Теорема (Ойлер). Ако 2<sup><span style="font-style: italic;">p</span></sup>-1
+е просто, то 2<sup><span style="font-style: italic;">p</span>-1</sup>(2<sup><span
+ style="font-style: italic;">p</span></sup>- 1) е съвършено.<br>
+<br>
+6, 28, 496, 8128, 33550336, ...
+<br>
+Аритметика за големи числа. <br>
+Пример: Сума на две числа,
+записани като C-низове.<br>
+<br>
+<big><span style="font-family: monospace;">// sum_str.cpp</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">#include &lt;iostream&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">using std::cout;<br>
+<br style="font-family: monospace;">
+</span><span style="font-family: monospace;">#include &lt;cstring&gt;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">using std::strlen;<br>
+<br style="font-family: monospace;">
+</span><span style="font-family: monospace;">#define M 100</span><br
+ style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">char *summa(char *a, char *b)</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;char *c = new char[M];</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;int lena = strlen(a);</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;int lenb = strlen(b);</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;int lenc =
+lena&gt;lenb?lena:lenb+1;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;int k;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;for (k = 0; k &lt; lenc;
+k++)
+c[k]='0';</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;c[lenc] = '\0';</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;int i, j, carry=0, d;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;for (i=lena-1, j=lenb-1,
+k=lenc-1; k&gt;=0; i--, j--, k--)</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;{</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; int aa =
+(i&gt;=0)?int(a[i]-'0'):0;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; int bb =
+(j&gt;=0)?int(b[j]-'0'):0;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; d = aa + bb + carry;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; carry = (d&gt;9)?1:0;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp; c[k] = '0'+ d%10;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;}</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;if (c[0]=='0')</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;&nbsp; for (k=0; k&lt;lenc;
+k++) c[k]=c[k+1];</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;return c;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">}</span><br
+ style="font-family: monospace;">
+<br style="font-family: monospace;">
+<span style="font-family: monospace;">int main()</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;char a[M] =
+"11111111111111111111";</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;char b[M] =
+"29999191919191";</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;cout &lt;&lt; a &lt;&lt; "
++ " &lt;&lt; b &lt;&lt; " = " &lt;&lt; summa(a,b) &lt;&lt; "\n";</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">&nbsp;return 0;</span><br
+ style="font-family: monospace;">
+<span style="font-family: monospace;">}</span></big><br>
+<br>
+<hr width="100%">
+</body>
+</html>

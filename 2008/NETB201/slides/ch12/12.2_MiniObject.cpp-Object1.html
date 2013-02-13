@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>Object1</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: Object1</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>class</font> Object {						<font color=#0000FF>// generic object</font>
+<font color=#A000A0>public</font>:
+  <font color=#A000A0>virtual</font> ~<font color=#000000>Object</font>() { }					<font color=#0000FF>// virtual destructor</font>
+  <font color=#A000A0>int</font>      <font color=#000000>intValue</font>()    <font color=#A000A0>const</font> <font color=#00A000>throw</font>(BadCastException);	<font color=#0000FF>// get integer value</font>
+  string   <font color=#000000>stringValue</font>() <font color=#A000A0>const</font> <font color=#00A000>throw</font>(BadCastException);	<font color=#0000FF>// get string value</font>
+};
+
+<font color=#A000A0>class</font> Integer : <font color=#A000A0>public</font> Object {				<font color=#0000FF>// integer object</font>
+<font color=#A000A0>private</font>:
+  <font color=#A000A0>int</font> value;						<font color=#0000FF>// integer value</font>
+<font color=#A000A0>public</font>:
+  <font color=#000000>Integer</font>(<font color=#A000A0>int</font> v = 0) { value = v; }			<font color=#0000FF>// constructor</font>
+  <font color=#A000A0>int</font> <font color=#000000>getValue</font>() <font color=#A000A0>const</font> { <font color=#00A000>return</font> value; }		<font color=#0000FF>// get the value</font>
+};
+
+<font color=#A000A0>class</font> String : <font color=#A000A0>public</font> Object {				<font color=#0000FF>// string object</font>
+<font color=#A000A0>private</font>:
+  string value;						<font color=#0000FF>// string value</font>
+<font color=#A000A0>public</font>:
+  <font color=#000000>String</font>(<font color=#A000A0>const</font> string& v = <font color=#0000FF>""</font>) { value = v; }		<font color=#0000FF>// constructor</font>
+  string <font color=#000000>getValue</font>() <font color=#A000A0>const</font> { <font color=#00A000>return</font> value; }		<font color=#0000FF>// get the value</font>
+};
+							<font color=#0000FF>// get Integer's value</font>
+<font color=#A000A0>int</font> Object::<font color=#000000>intValue</font>() <font color=#A000A0>const</font> <font color=#00A000>throw</font>(BadCastException)
+{
+  <font color=#A000A0>const</font> Integer* p = <font color=#A000A0>dynamic_cast</font>&lt;<font color=#A000A0>const</font> Integer*&gt;(<font color=#A000A0>this</font>);
+  <font color=#00A000>if</font> (p == NULL) <font color=#00A000>throw</font> <font color=#000000>BadCastException</font>(<font color=#0000FF>"intValue() from non-Integer"</font>);
+  <font color=#00A000>return</font> p-&gt;<font color=#000000>getValue</font>();
+}
+							<font color=#0000FF>// get String's value</font>
+string Object::<font color=#000000>stringValue</font>() <font color=#A000A0>const</font> <font color=#00A000>throw</font>(BadCastException)
+{
+  <font color=#A000A0>const</font> String* p = <font color=#A000A0>dynamic_cast</font>&lt;<font color=#A000A0>const</font> String*&gt;(<font color=#A000A0>this</font>);
+  <font color=#00A000>if</font> (p == NULL) <font color=#00A000>throw</font> <font color=#000000>BadCastException</font>(<font color=#0000FF>"stringValue() from non-String"</font>);
+  <font color=#00A000>return</font> p-&gt;<font color=#000000>getValue</font>();
+}
+</dl>
+</body></html>

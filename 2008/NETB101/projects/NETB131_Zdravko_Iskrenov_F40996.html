@@ -1,0 +1,403 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+<meta content="text/html; charset=ISO-8859-1" http-equiv="content-type"><title>NETB131 Zdravko Iskrenov</title>
+
+</head>
+<body>
+<b>NETB131 </b><b>Programming </b><b>Project
+<br>
+Programming language D<br>
+An overview<br>
+<br>
+</b>Zdravko Sashkov Iskrenov, F40996<br>
+<br>
+1. History and Special Features<br>
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;The <b>D programming
+language</b>, also known simply as <b>D</b>, is an
+object-oriented, imperative, multiparadigm system programming language
+by Walter Bright of <a href="http://www.digitalmars.com" title="Digital Mars">Digital Mars</a> and . It
+originated as a re-engineering of C++,
+but even though it is predominantly influenced by that language, it is
+not a variant of C++. D has redesigned some C++ features and has been
+influenced by concepts used in other programming languages, such as
+Java, C# and Eiffel. A stable version, <a href="http://www.digitalmars.com/d/1.0/index.html">1.0</a>,
+was released on January 2, 2007. An experimental version, <a href="http://www.digitalmars.com/d/index.html" title="">2.0</a>,
+was released on June 17, 2007.<br>
+<p>D is being designed with lessons learned from practical C++
+usage
+rather than from a theoretical perspective. Even though it uses many
+C/C++ concepts it also discards some, and as such is not strictly
+backward compatible with C/C++ source code. It adds to the
+functionality of C++ by also implementing design by contract, unit
+testing, true modules, automatic memory management (garbage
+collection), first class arrays, associative arrays, dynamic arrays,
+array slicing, nested functions, inner classes, closures, anonymous
+functions, compile time function execution, lazy evaluation and has a
+reengineered template syntax. D retains C++'s ability to do low-level
+coding, and adds to it with support for an integrated inline assembler.
+C++ multiple inheritance is replaced by Java style single inheritance
+with interfaces and mixins. D's declaration, statement and expression
+syntax closely matches that of C++.</p>
+<p>The inline assembler typifies the differences between D and
+application languages like Java and C#. An inline assembler lets
+programmers enter machine-specific assembly code in with standard D
+code&#8212;a technique often used by system programmers to access the
+low-level features of the processor needed to run programs that
+interface directly with the underlying hardware, such as operating
+systems and device drivers.</p>
+<p>D has built-in support for documentation comments, but so far
+only the compiler supplied by Digital Mars implements a documentation
+generator.<br>
+D supports three main programming paradigms&#8212;<span style="font-weight: bold;">imperative</span>, <span style="font-weight: bold;">object-oriented</span>, and
+<span style="font-weight: bold;">metaprogramming</span>.<br>
+</p>
+<span style="font-weight: bold;">Imperative</span>
+programming is almost identical to C. Functions, data,
+statements, declarations and expressions work just as C, and the C
+runtime library can be accessed directly.<br style="font-weight: bold;">
+<span style="font-weight: bold;">Object-oriented</span>
+programming in D is based on a single inheritance hierarchy, with
+all classes derived from class Object. Multiple inheritance is possible
+from interfaces (interfaces are a lot like C++ abstract classes).<br>
+<span style="font-weight: bold;">Metaprogramming</span>
+is supported by a combination of templates, compile time function
+execution, tuples, and string mixins.<br>
+<br>
+<br>
+2. "Hello World" Program<br>
+<span style="font-family: monospace;"><br>
+</span>
+<table style="text-align: left; background-color: rgb(231, 231, 232); width: 291px; height: 124px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span style="font-family: monospace; color: rgb(0, 0, 102);"><span style="color: blue;">import</span> std.stdio;</span><br style="font-family: monospace; color: rgb(0, 0, 102);">
+<br style="font-family: monospace; color: rgb(0, 0, 102);">
+<span style="font-family: monospace; color: rgb(0, 0, 102);"><span style="color: blue;">void</span>
+main()</span><br style="font-family: monospace; color: rgb(0, 0, 102);">
+<span style="font-family: monospace; color: rgb(0, 0, 102);">{</span><br style="font-family: monospace; color: rgb(0, 0, 102);">
+<span style="font-family: monospace; color: rgb(0, 0, 102);">&nbsp;&nbsp;&nbsp;
+writefln(<span style="color: red;">"Hello World!</span>");</span><br style="font-family: monospace; color: rgb(0, 0, 102);">
+<span style="font-family: monospace; color: rgb(0, 0, 102);">}</span>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: monospace;"><br>
+<br>
+</span><span style="font-family: monospace;"></span>3.
+Fundamental Data Types (integer, floating point,
+string) and
+Assignment Operator<br>
+Definitions:<br>
+<br>
+<span class="pagetitle">Integer data types<br>
+<br>
+</span><span class="pagetitle"><span style="font-style: italic;">Integer</span> data types</span>
+All integer types represent a signed or unsigned number with 2^x bit
+(with 2 &lt; x &lt; 8).<br>
+The default initialised value is always zero.<br>
+<br>
+Example:<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); width: 291px; height: 124px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);">
+<pre><span style="color: blue;" class="type">byte</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;"> </span>b</span><span style="color: rgb(0, 0, 102);" class="operator">;</span> <span class="linecomment"><span style="color: green;">// signed 8 bits [-128 .. +127] is zero.</span><br></span><span style="color: blue;" class="type">short</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;"> </span>s </span><span style="color: rgb(0, 0, 102);" class="operator">=</span><span style="color: rgb(0, 0, 102);"> 5</span><span style="color: rgb(0, 0, 102);" class="operator">;</span> <span class="linecomment"><span style="color: green;">// signed 16 bits [-32768.. +32767] is five.</span><br></span><span style="color: blue;" class="type">int</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;"> </span>i</span><span style="color: rgb(0, 0, 102);" class="operator">;</span><span> </span><span class="linecomment"><span style="color: green;">// signed 32 [-4294967296 .. +4294967295]</span><br></span><span style="color: blue;" class="type">long</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;"> </span>l</span><span style="color: rgb(0, 0, 102);" class="operator">;</span> <span class="linecomment"><span style="color: green;">// signed 64 [-1.8e19 .. +1.8e19]</span><br></span><span style="color: blue;" class="type">cent</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;"> </span>c</span><span style="color: rgb(0, 0, 102);" class="operator">;</span> <span style="color: green;" class="linecomment">// signed 128 [-1,7e+38 .. +1,7e+38] is also zero.<br></span><br><span style="color: blue;" class="type">ubyte</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;"> </span>b </span><span style="color: rgb(0, 0, 102);" class="operator">=</span><span style="color: rgb(0, 0, 102);"> </span><span style="color: rgb(0, 0, 102);" class="operator">-</span><span style="color: rgb(0, 0, 102);">1</span> <span class="linecomment"><span style="color: green;">// unsigned 8 bits [0 .. +255] is 255!</span><br></span><span style="color: blue;" class="type">ushort</span><span style="color: rgb(0, 0, 102);" class="operator">;</span><br><span style="color: blue;" class="type">uint</span><span style="color: rgb(0, 0, 102);" class="operator">;</span><br><span style="color: blue;" class="type">ulong</span><span style="color: rgb(0, 0, 102);" class="operator">;</span> <span class="linecomment"><span style="color: green;">// unsigned 64 [0 .. 18446744073709551616]</span><br></span><span style="color: blue;" class="type">ucent</span><span style="color: rgb(0, 0, 102);" class="operator">;</span> <span style="color: green;" class="linecomment">// unsigned 128 [0 .. 3,4e+38]</span></pre>
+<span style="font-family: monospace; color: rgb(0, 0, 102);"></span></blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<span class="pagetitle"><br>
+Floatingpoint data types</span><br>
+<span class="pagetitle"></span><br>
+All floatingpoint data types can be used for signed
+numbers.<br>
+The default initialisied value is NaN, NaN * 1.0i (for imaginary) or
+NaN+NaN * 1.0i (for complex)<br>
+<br>
+<i>Note: Real implementation on Intel CPUs is 80 bits.</i><br>
+<br style="font-family: monospace;">
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; height: 209px; width: 447px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span style="color: blue;"></span><span style="color: blue;" class="type">float</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;">
+</span>f</span><span style="color: rgb(0, 0, 102);" class="operator">;</span><span style="color: rgb(0, 0, 102);"> <span style="color: green;">// 32 bit floating point</span></span><br>
+<pre style="color: rgb(0, 0, 102);"><span class="linecomment"></span><span style="color: blue;" class="type">double</span><span style="color: blue;"> </span>d<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// 64 bit floating point</span><br></span><span style="color: blue;" class="type">real</span><span style="color: blue;"> </span>r<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// largest hardware implemented floating point</span><br></span><br><span style="color: blue;" class="type">ifloat</span> <span class="keyword">if</span><span class="operator">;</span> <span class="linecomment"><span style="color: green;">//imaginary float</span><br></span><span style="color: blue;" class="type">idouble</span><span style="color: blue;"> </span>id<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// imaginary double</span><br></span><span style="color: blue;" class="type">ireal</span><span style="color: blue;"> </span>ir<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// imaginary real</span><br></span><br><span style="color: blue;" class="type">cfloat</span><span style="color: blue;"> </span>cf<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// complex number of two float values</span><br></span><span style="color: blue;" class="type">cdouble</span><span style="color: blue;"> </span>cd<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// complex double</span><br></span><span style="color: blue;" class="type">creal</span><span style="color: blue;"> </span>cr<span class="operator">;</span> <span style="color: green;" class="linecomment">// complex real</span></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<pre style="color: rgb(0, 0, 102);"><span class="type"><br></span><span class="linecomment"></span></pre>
+<span class="pagetitle">Character data types<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 444px; height: 96px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span style="color: blue;"></span><span style="color: blue;" class="type">char</span><span style="color: rgb(0, 0, 102);"><span style="color: blue;">
+</span>ch</span><span style="color: rgb(0, 0, 102);" class="operator">;</span><span style="color: rgb(0, 0, 102);">&nbsp;<span style="color: green;">// unsigned 8 bit UTF-8</span></span>
+<pre style="color: rgb(0, 0, 102);"><span class="linecomment"></span><span style="color: blue;" class="type">wchar</span><span style="color: blue;"> </span>wch<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// unsigned 16 bit UTF-16</span><br></span><span style="color: blue;" class="type">dchar</span><span style="color: blue;"> </span>dch<span class="operator">;</span> <span class="linecomment"><span style="color: green;">// unsigned 32 bit UTF-32</span></span><span style="color: green;" class="linecomment"></span></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+</span><span style="font-family: monospace;">
+</span><span style="font-family: monospace;"> If you
+want to use strings,
+create an </span><a style="font-family: monospace;" href="http://www.quit-clan.de/docwiki/view.php?pageid=123">array</a><span style="font-family: monospace;"> of char.</span><br>
+<br>
+<br>
+Assignment Operator<br>
+The <span style="font-weight: bold;">=</span>
+operator assigns the value
+of the
+expression on the <i>right</i> to the variable on the <i>left</i>.<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 444px; height: 62px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span style="color: blue;"></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(0, 0, 102);">total </span><span style="color: rgb(0, 0, 102);" class="operator">=</span><span style="color: rgb(0, 0, 102);"> pennies * 0.8;</span><span style="color: blue;" class="type"></span><span class="linecomment"><span style="color: green;"></span></span><br><span style="color: green;" class="linecomment"></span><span style="color: rgb(0, 0, 102);">total = count * 0.2 + pennies</span><span class="operator"></span><span class="linecomment"><span style="color: green;"></span></span></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<br>
+4. Basic Control Flow (conditional and loop statements)<br>
+<br>
+&nbsp;&nbsp;&nbsp; Conditional operator:<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 444px; height: 107px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span style="color: blue;"></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(255, 102, 0);" class="keyword">if</span> <span class="operator">(</span> <span style="color: green;" class="comment">/* boolean expression*/</span> <span class="operator">)</span><br> statement<span class="operator">;</span><br><span class="linecomment"><span style="color: green;">// Optional:</span><br></span><span style="color: rgb(255, 102, 0);" class="keyword">else</span><br> statement<span class="operator">;</span><span class="linecomment"><span style="color: green;"></span></span></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: monospace;"><br>
+<br>
+</span>"If" executes the next statement only if the boolean
+expression
+evaluates to "true". If there is an "else" block, it gets executed if
+the expression evaluates to "false".<br>
+The statements that
+are executed are often block statements.<br style="font-family: monospace;">
+<br>
+Example:<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 116px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(255, 102, 0);" class="keyword">if</span> <span class="operator">(</span>i <span class="operator">=</span><span class="operator">=</span> 4<span class="operator">)</span><br><span class="block">{</span><br> writef<span class="operator">(</span><span class="string">"<span style="color: red;">i is equal to 4</span>"</span><span class="operator">)</span><span class="operator">;</span><br><span class="block">}</span> <span style="color: rgb(255, 102, 0);" class="keyword">else</span> <span class="block">{</span><br> writef<span class="operator">(</span><span class="string">"<span style="color: red;">i is not equal to 4</span>"</span><span class="operator">)</span><span class="operator">;</span><br><span class="block">}</span><span style="color: rgb(0, 0, 102);"></span><br></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<span style="font-family: monospace;"><br>
+</span>&nbsp;&nbsp;&nbsp; Loop operator:<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 89px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(255, 102, 0);" class="keyword">while</span> <span class="operator">(</span> <span style="color: green;" class="comment">/* boolean expression */</span> <span class="operator">)</span><br><span class="block">{</span><br> statement<span class="operator">;</span><span class="operator"></span><br><span style="color: green;"></span><span class="linecomment"><span style="color: green;"></span></span><span class="block">}</span><span class="block"></span><span style="color: rgb(0, 0, 102);"></span><br></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<br>
+or:<br>
+<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 116px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(255, 102, 0);" class="keyword">while</span> <span class="operator">(</span> <span style="color: green;" class="comment">/* boolean expression */</span> <span class="operator">)</span><br><span class="block">{</span><br> statement1<span class="operator">;</span><br> statement2<span class="operator">;</span><br><span style="color: green;"> </span><span class="linecomment"><span style="color: green;">// ...</span><br></span><span class="block">}</span></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<span style="font-family: monospace;"><br>
+<br>
+</span>Example:<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 117px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: blue;" class="type">int</span><span style="color: blue;"> </span>i <span class="operator">=</span> 0<span class="operator">;</span><br><span style="color: rgb(255, 102, 0);" class="keyword">while</span> <span class="operator">(</span>i <span class="operator">&lt;</span> 4<span class="operator">)</span><br><span class="block">{</span><br> writefln<span class="operator">(</span><span class="string">"i = %d"</span><span class="operator">,</span> i<span class="operator">)</span><span class="operator">;</span><br> i<span class="operator">+</span><span class="operator">+</span><span class="operator">;</span><br><span class="block">}</span><span class="block"></span></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+Output:<br>
+<br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 78px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(255, 102, 0);" class="keyword"></span><span style="color: black;">i = 0</span><br style="color: black;"><span style="color: black;">i = 1</span><br style="color: black;"><span style="color: black;">i = 2</span><br style="color: black;"><span style="color: black;">i = 3</span></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<span style="font-family: monospace;"><br>
+</span><span style="font-weight: bold;"><br>
+<br>
+</span>&nbsp;&nbsp;&nbsp; Task: Input an integer
+number n and
+output the sum:
+1+2<sup>2</sup>+3<sup>2</sup>+...+n<sup>2</sup>.
+Use input validation
+for n to be positive.<span style="font-weight: bold;"><br>
+</span><br>
+<table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 78px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(255, 102, 0);" class="keyword"></span><span style="color: black;"></span><span style="color: black;"></span><span style="color: blue;">import</span> std.stdio;<br><span style="color: blue;">import</span> std.stream;<br><br><span style="color: blue;">int</span> main() <br>{<br> <span style="color: blue;">int</span> n;<br> scanf("%lf", &amp;n);<br> <span style="color: rgb(255, 102, 0);" class="keyword">if</span> (n &lt; 0) return 1;<br> <span style="color: blue;">int</span> sum = 0;<br> <span style="color: blue;">int</span> i = 0;<br> <span style="color: rgb(255, 102, 0);" class="keyword">while</span> (i &lt;= n) sum += i*i;<br> writefln(sum);<br> <span style="color: blue;">return</span> 0;<br>}</pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table>
+<br>
+<span style="font-family: monospace;"><br>
+</span>5. Functions - syntax, writing and using functions, example<br>
+The following is function's format:
+<blockquote>
+<pre><span style="font-style: italic; color: rgb(0, 153, 0);">type name</span> ( <span style="font-style: italic; color: rgb(0, 153, 0);">parameter1</span>, <span style="font-style: italic; color: rgb(0, 153, 0);">parameter2</span>, ...) { <span style="font-style: italic; color: rgb(0, 153, 0);">statements</span> }</pre>
+</blockquote>
+where:
+<ul>
+<li><span style="font-style: italic; color: rgb(0, 153, 0); font-family: monospace;">type</span>
+is the data type specifier of the data returned by the
+function</li>
+<li><span style="color: rgb(0, 153, 0); font-style: italic; font-family: monospace;">name</span>
+is the identifier by which it will be possible to call
+the
+function</li>
+<li><span style="font-style: italic; color: rgb(0, 153, 0); font-family: monospace;">parameters</span>
+(as many as needed): Each parameter consists of a
+data
+type specifier followed by an identifier, like any regular variable
+declaration (for example: int x) and which acts within the function as
+a regular local variable. They allow to pass arguments to the function
+when it is called. The different parameters are separated by commas.</li>
+<li><span style="font-style: italic; color: rgb(0, 153, 0); font-family: monospace;">statements</span>
+is the function's body. It is a block of
+statements
+surrounded by braces <span style="font-family: monospace;">{
+}</span>.</li>
+</ul>
+Example:<br>
+<blockquote>
+<pre><table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 117px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: blue;" class="type"></span><span class="block"></span><span class="block"></span><span style="color: blue;">import</span> std.stdio;<br><br><span style="color: blue;">uint</span> squareIt(<span style="color: blue;">uint</span> x) {<br> <span style="color: blue;">return</span> x * x;<br>}<br><br><span style="color: blue;">void</span> main() {<br> <span style="color: blue;">uint</span> i;<br> writefln(i, "\t(initial value)");<br><br> i = squareIt(3);<br> writefln(i, "\t(3 * 3)");<br><br> i = squareIt(4);<br> writefln(i, "\t(4 * 4)");<br><br> i = squareIt(5);<br> writefln(i, "\t(5 * 5)");<br>}<br></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table><br><br><br></pre>
+</blockquote>
+6. Arrays - syntax, definition, example
+<blockquote>
+<pre><span style="font-style: italic; color: rgb(0, 153, 0);">type</span> <span style="font-style: italic; color: rgb(0, 153, 0);">name</span>[<span style="font-style: italic; color: rgb(0, 153, 0);">size</span>];</pre>
+</blockquote>
+<ul>
+<li><span style="font-style: italic; color: rgb(0, 153, 0); font-family: monospace;">type</span>
+is the data type specifier of the elements in the array</li>
+<li><span style="color: rgb(0, 153, 0); font-style: italic; font-family: monospace;">name</span>
+is the identifier by which it will be possible to access the array
+elements</li>
+<li><span style="font-style: italic; color: rgb(0, 153, 0); font-family: monospace;">size</span>
+is an integer constant. It is the number of elements of the array</li>
+<br>
+Example:
+</ul>
+<blockquote>
+<pre><table style="text-align: left; background-color: rgb(231, 231, 232); font-family: monospace; width: 441px; height: 78px;" border="1" cellpadding="0" cellspacing="0">
+<tbody>
+<tr>
+<td>
+<blockquote style="background-color: rgb(231, 231, 232);"><span class="linecomment"><span style="color: green;"></span></span>
+<pre style="color: rgb(0, 0, 102);"><span style="color: rgb(255, 102, 0);" class="keyword"></span><span style="color: black;"></span><span style="color: black;"></span><span style="color: blue;">import</span> std.stdio;<br><br><span style="color: blue;">void</span> main()<br>{<br> <span style="color: green;">/* </span><br style="color: green;"><span style="color: green;"> Believe it or not, but these two arrays </span><br style="color: green;"><span style="color: green;"> have the same dimensions. </span><br style="color: green;"><span style="color: green;"> */</span><br><br> <span style="color: blue;">int</span>[20][2] whatever;<br> <span style="color: blue;">int</span> whatever2[2][20];<br><br> whatever[0][19] = 2;<br> whatever2[0][19] = 2;<br>}<br></pre>
+</blockquote>
+</td>
+</tr>
+</tbody>
+</table><br><br></pre>
+</blockquote>
+7. Compilers<br>
+<ul>
+<li> <a href="http://www.digitalmars.com/d/dcompiler.html">Compiler
+for D Programming Language</a></li>
+<li><a href="http://dgcc.sourceforge.net/#download"><span class="xtitle">
+GDC - D Programming Language for GCC</span></a><br>
+</li>
+</ul>
+8. Projects and Software in D<br>
+<br>
+<li>Application software</li>
+<li><a href="http://www.dsource.org/projects/">A
+list of some projects written in D language</a></li>
+<br>
+9. Standard<br>
+&nbsp;&nbsp;&nbsp; &nbsp;D has redesigned some C++
+features and has been influenced by concepts used in other programming
+languages, such as Java, C# and Eiffel so&nbsp;&nbsp;&nbsp;
+&nbsp; &nbsp; &nbsp; &nbsp;any standard applied to
+those languages can be used when coding in D language.<br>
+<br>
+<br>
+10. References<br>
+[1]&nbsp;<a href="http://www.quit-clan.de/docwiki/"><span class="doctitle"><span class="special">D</span>
+Documentation</span></a><br>
+[2] <a href="http://www.dsource.org">DSource, an open
+source community for the D Programming Language</a><br>
+[3] <a href="http://en.wikipedia.org/wiki/D_programming_language">Wikipedia
+- D (programming language)</a><br>
+[4]&nbsp;<a href="http://www.digitalmars.com">Digital
+Mars</a>
+<hr style="width: 100%; height: 2px;"><i><br>
+<span style="color: rgb(0, 153, 0);" lang="DE"></span>
+</i>
+</body></html>

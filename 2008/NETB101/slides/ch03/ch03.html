@@ -1,0 +1,734 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <font>
+  <title>Objects</title>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=iso-8859-1">
+  </font>
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 3: Objects</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To become familiar with objects</font></li>
+  <li><font size="+1">To learn about the properties of several sample
+classes that were designed for this book</font></li>
+  <li><font size="+1">To be able to construct objects and supply
+initial values</font></li>
+  <li><font size="+1">To understand member functions and the dot
+notation</font></li>
+  <li><font size="+1">To be able to modify and query the state of an
+object through member functions</font></li>
+  <li><font size="+1">To write simple graphics programs containing
+points, lines, circles and text</font></li>
+  <li><font size="+1">To be able to select appropriate coordinate
+systems</font></li>
+  <li><font size="+1">To learn how to process user input and mouse
+clicks in graphic programs </font></li>
+  <li><font size="+1">To develop test cases that validate the
+correctness of your program</font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>Constructing Objects</h2>
+<ul>
+  <li><font size="+1">An <i>object</i> is a value that can be created,
+stored and manipulated in a programming language.</font></li>
+</ul>
+<pre><font size="+1">	string greeting = "Hello";<br>	cout &lt;&lt; greeting.substr(0,4);<br></font></pre>
+<ul>
+  <li><font size="+1">Every object in C++ must belong to a <i>class</i>.</font></li>
+  <li><font size="+1">A class is a data type (like <tt>int</tt> or <tt>double</tt>)
+that is <i>programmer defined</i>, whereas </font><font size="+1"><span
+ style="font-family: monospace;">int</span></font><font size="+1"> and </font><font
+ size="+1"><span style="font-family: monospace;">double</span></font><font
+ size="+1"> are defined by the designers of the C++ language.<br>
+    </font></li>
+  <li><font size="+1">We will learn to work with the class <tt>Time</tt>,
+the class <tt>Employee</tt>,
+and 4 shape classes.</font>
+    <ul>
+      <li><font size="+1">Remember, these are programmer defined and
+not part of standard C++.</font></li>
+    </ul>
+  </li>
+</ul>
+<ul>
+  <li><font size="+1">To use the <tt>Time</tt> class we must
+include
+the file that contains its definition:</font>
+    <pre><font size="+1">#include "ccc_time.h"</font></pre>
+  </li>
+  <ul>
+    <li><font size="+1">We use <tt>" "</tt> instead of <tt>&lt; &gt;</tt>
+because the file is not a standard (system) header. </font></li>
+    <li><font size="+1">The name stands for <u><i>C</i></u><i>omputing
+      <u>C</u>oncepts with <u>C</u>++ Essentials</i>.</font></li>
+  </ul>
+</ul>
+<ul>
+  <li><font size="+1">Creating any object is called <i>construction</i>.</font></li>
+  <li><font size="+1">We can construct an object just like we create
+any variable.
+    <blockquote>
+      <pre>Time sometime; </pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">We initialize an object by passing <span
+ style="font-style: italic;">construction
+parameters</span> when the object is created. </font> <font><font
+ size="+1">
+    <blockquote>
+      <pre>Time day_end = Time(23, 59, 59); /* the last second of the day */</pre>
+    </blockquote>
+    </font></font><font size="+1">&nbsp; The shorthand in this very
+common situation is:</font> <font size="+1">
+    <blockquote>
+      <pre>Time day_end(23, 59, 59); /* the last second of the day */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Creating objects without parameters is called <span
+ style="font-style: italic;">default construction</span>. No
+parameters means not parenthesis! The </font><font size="+1"><span
+ style="font-family: monospace;">Time</span></font><font size="+1">
+class creates an object with the current time.
+    <blockquote>
+      <pre>Time now; /* the time this object is created */<br>Time later(); /* <span
+ style="font-weight: bold; color: rgb(204, 0, 0);">NO!</span> */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">An object can be created anytime by supplying the
+class name with (or without) parameters. The assignment operator
+changes the value of </font><font size="+1">the </font><font size="+1">object
+    </font><font size="+1">variable</font><font size="+1">.
+    <blockquote>
+      <pre>sometime = Time(12, 5, 18); /* we already declared sometime */</pre>
+    </blockquote>
+    </font> </li>
+</ul>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font size="+1">Syntax 3.1: Constant Object
+Construction</font></p>
+      <pre><font size="+1"><i>Class_name</i>(<i>construction parameters</i>);</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">Time(19, 0, 0);</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Construct a new object for use in an
+expression.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span style="font-weight: bold;"><br>
+</span>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font size="+1">Syntax 3.2: </font><font size="+1">Object </font><font
+ size="+1">Variable </font><font size="+1">Definition</font></p>
+      <pre><font size="+1"><i>Class_name</i> <i>variable_name</i>(<i>construction parameters</i>);</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top"><font color="#00ffff" size="+1">Example:</font><font
+ size="+1"> </font></td>
+            <td>
+            <pre><font size="+1">Time homework_due(19, 0, 0);</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font><font
+ size="+1"> </font></td>
+            <td><font size="+1">Define a new object variable and supply
+parameter values for initialization.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h2>Using Objects</h2>
+<ul>
+  <li><font size="+1">A function applied to an object with the dot
+notation is called a <i>member function</i>.</font></li>
+  <li><font size="+1">The Time class has several member functions used
+to find the state of the object:
+    <blockquote>
+      <pre>now.get_seconds(); /* returns the seconds value of now */<br>now.get_minutes(); /* returns the minutes value of now */<br>now.get_hours(); /* returns the hours value of now */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">You can add a certain number of seconds to the
+time:
+    <blockquote>
+      <pre>now.add_seconds(1000); /* add 1000 seconds to the time stored in now */</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Using Objects (<a href="../../sources/ch3/time1.cpp"><tt>time1.cpp</tt></a>)</h2>
+<iframe src="code/time1.cpp.html" height="70%" width="80%">Your browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">The </font><font size="+1"><span
+ style="font-family: monospace;">Time</span></font><font size="+1">
+class <i>does not have</i> any member
+functions used to set the state of the object to avoid abuse:
+    <blockquote>
+      <pre>now.set_hours(2); /* <span
+ style="font-weight: bold; color: rgb(204, 0, 0);">NO!</span> Not a supported member function */<br>now.set_hours(9999); /* <span
+ style="font-family: mon;"><span style="font-weight: bold;"><span
+ style="color: rgb(204, 0, 0);">NO!</span> </span></span>Doesn't make sense */<br></pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The </font><font size="+1"><span
+ style="font-family: monospace;">Time</span></font><font size="+1">
+class does provide other member
+functions to facilitate other actions:
+    <blockquote>
+      <pre>now.add_seconds(1000); /* Changes now to move by 1000 seconds */<br>now.seconds_from(day_end); /* Computes number of seconds between now and day_end */</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Using Objects (<a href="../../sources/ch3/time2.cpp"><tt>time2.cpp</tt></a>)</h2>
+<iframe src="code/time2.cpp.html" height="70%" width="80%">Your browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Real-Life Objects</h2>
+<ul>
+  <li><font size="+1">Object-oriented programming allows us to easily
+model entities from real life.</font></li>
+  <li><font size="+1">As an example, the text provides a simple </font><font
+ size="+1"><span style="font-family: monospace;">Employee</span></font><font
+ size="+1"> class:</font>
+    <ul>
+      <li><font size="+1">All employees have names and salaries which
+are set at construction.
+        <blockquote>
+          <pre>Employee harry("Hacker, Harry", 45000.00);</pre>
+        </blockquote>
+        </font></li>
+      <li><font size="+1">Both attributes can be queried.
+        <blockquote>
+          <pre>cout &lt;&lt; "Name: " &lt;&lt; harry.get_name() &lt;&lt; "\n";<br>cout &lt;&lt; "Salary: " &lt;&lt; harry.get_salary() &lt;&lt; "\n";</pre>
+        </blockquote>
+        </font></li>
+      <li><font size="+1">Only salary can be set.
+        <blockquote>
+          <pre>harry.set_salary(new_salary);</pre>
+        </blockquote>
+        </font></li>
+    </ul>
+  </li>
+</ul>
+<h2>Real-Life Objects (<a href="../../sources/ch3/employee.cpp"><tt>employee.cpp</tt></a>)</h2>
+<iframe src="code/employee.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Displaying Graphical Shapes</h2>
+<ul>
+  <li><font size="+1"><i>Console applications</i> read input from the
+keyboard (using <tt>cin</tt>) and display text output on the screen
+(using <tt>cout</tt>).</font></li>
+  <li><font size="+1"><i>Graphics applications</i> read keystrokes and
+mouse clicks and display graphical shapes such as lines and circles
+through a window object called <tt>cwin</tt>.
+    <blockquote>
+      <pre>Circle c;<br>...<br>cout &lt;&lt; c; /* <span
+ style="font-weight: bold; color: rgb(204, 0, 0);">NO!</span> Won't display the circle */<br>cwin &lt;&lt; c; /* The circle will appear in the graphics window */</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To use graphics program you must include the
+header <tt>ccc_win.h</tt>.</font></li>
+  <li><font size="+1">This graphics package was created for use in the
+textbook (it's not part of standard C++).</font></li>
+</ul>
+<h2>Graphics Structures (Points)</h2>
+<ul>
+  <li><font size="+1">A <i>point</i> has an <i>x</i>- and <i>y</i>-coordinate.
+    <blockquote>
+      <pre>cwin &lt;&lt; Point(1,3);</pre>
+    </blockquote>
+    </font>
+    <blockquote>
+      <p><img src="images/point.png"> </p>
+    </blockquote>
+  </li>
+</ul>
+<h2>Graphics Structures (Circles)</h2>
+<ul>
+  <li><font size="+1">A <i>circle</i> is defined by a center point and
+a radius.
+    <blockquote>
+      <pre>Point p(1,3);<br>cwin &lt;&lt; p &lt;&lt; Circle(p,2.5);</pre>
+    </blockquote>
+    </font>
+    <blockquote>
+      <p><img src="images/circle.png"> </p>
+    </blockquote>
+  </li>
+</ul>
+<h2>Graphics Structures (Lines)</h2>
+<ul>
+  <li><font size="+1">Two points can be joined by a <i>line</i>.</font>
+    <blockquote>
+      <pre><font size="+1">Point p(1,3);<br>Point q(4,7);<br>Line s(p,q);<br>cwin &lt;&lt; s;</font></pre>
+    </blockquote>
+    <blockquote>
+      <p><img src="images/line.png"></p>
+    </blockquote>
+  </li>
+</ul>
+<h2>Graphics Structures (Messages)</h2>
+<ul>
+  <li><font size="+1">You can display text anywhere you like using <tt>Message</tt>
+objects.</font> </li>
+  <li><font size="+1">You point parameter specifies the <i>upper left
+corner</i> of the message.</font>
+    <blockquote>
+      <pre><font size="+1">Point p(1,3);<br>Message greeting(p, "Hello, Window!");<br>cwin &lt;&lt; greeting;</font></pre>
+    </blockquote>
+    <blockquote>
+      <p><img src="images/hellowin.png"></p>
+    </blockquote>
+  </li>
+</ul>
+<h2>Graphics Structures (<tt>move</tt>)</h2>
+<ul>
+  <li><font size="+1">All graphical classes (points, circles, lines,
+messages) implement the <tt>move()</tt> member function. </font></li>
+  <li><font size="+1"><tt>obj.move(dx, dy)</tt> changes the position of
+the object, moving the entire object by <tt>dx</tt> units in the <i>x</i>-direction
+and <tt>dy</tt> units in the <i>y</i>-direction. </font></li>
+  <li><font size="+1">Either or both of <tt>dx</tt> and <tt>dy</tt>
+can be zero or negative.</font></li>
+</ul>
+<h2>Graphics Structures (<a href="../../sources/ch3/square.cpp"><tt>square.cpp</tt></a>)</h2>
+<iframe src="code/square.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag</iframe>
+<blockquote>
+  <p><img src="images/square.png" height="512" width="482"></p>
+</blockquote>
+<h2>Graphics Structures (Summary)</h2>
+<table border="0" cellpadding="4" width="100%">
+  <tbody>
+    <tr>
+      <td align="left" valign="top" width="50%">
+      <table bgcolor="#000000" border="1" cellpadding="10">
+        <tbody>
+          <tr bgcolor="#00ffff">
+            <td>
+            <div align="center"><b>Name</b></div>
+            </td>
+            <td>
+            <div align="center"><b>Purpose</b></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>Point(x,y)</tt></td>
+            <td>Constructs a point at location (x, y)</td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>p.get_x()</tt></td>
+            <td>Returns the <i>x</i>-coordinate of a point <tt>p</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>p.get_y()</tt></td>
+            <td>Returns the <i>y</i>-coordinate of a point<tt> p</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>p.move(dx,dy)</tt></td>
+            <td>Moves point by (<tt>dx</tt>, <tt>dy</tt>)</td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+      <td align="left" valign="top" width="50%">
+      <table bgcolor="#000000" border="1" cellpadding="4">
+        <tbody>
+          <tr bgcolor="#00ffff">
+            <td>
+            <div align="center"><b>Name</b></div>
+            </td>
+            <td>
+            <div align="center"><b>Purpose</b></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>Circle(p,r)</tt></td>
+            <td>Constructs a circle with center <tt>p</tt> and radius <tt>r</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>c.get_center()</tt></td>
+            <td>Returns the center point of a circle <tt>c</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>c.get_radius()</tt></td>
+            <td>Returns the radius of a circle <tt>c</tt>.</td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>c.move(dx,dy)</tt></td>
+            <td>Moves circle <tt>c</tt> by (<tt>dx</tt>, <tt>dy</tt>)</td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+    <tr>
+      <td align="left" valign="top">
+      <table style="width: 390px; height: 164px;" bgcolor="#000000"
+ border="1" cellpadding="4">
+        <tbody>
+          <tr bgcolor="#00ffff">
+            <td>
+            <div align="center"><b>Name</b></div>
+            </td>
+            <td>
+            <div align="center"><b>Purpose</b></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>Line(p,q)</tt></td>
+            <td>Constructs a line joining points <tt>p</tt> and <tt>q</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>l.get_start()</tt></td>
+            <td>Returns the starting point of line <tt>l</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>l.get_end()</tt></td>
+            <td>Returns the end point of line <tt>l</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>l.move(dx,dy)</tt></td>
+            <td>Moves line <tt>l</tt> by (<tt>dx</tt>, <tt>dy</tt>)</td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+      <td align="left" valign="top">
+      <table bgcolor="#000000" border="1" cellpadding="4">
+        <tbody>
+          <tr bgcolor="#00ffff">
+            <td>
+            <div align="center"><b>Name</b></div>
+            </td>
+            <td>
+            <div align="center"><b>Purpose</b></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>Message(p,s)</tt></td>
+            <td>Constructs a message with starting point <tt>p</tt>
+and text string <tt>s</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>Message(p,x)</tt></td>
+            <td>Constructs a message with starting point <tt>p</tt>
+and label equal to the number <tt>x</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>m.get_start()</tt></td>
+            <td>Returns the starting point of message <tt>m</tt>.</td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>m.get_text()</tt></td>
+            <td>Gets the text string message <tt>m</tt></td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td><tt>m.move(dx,dy)</tt></td>
+            <td>Moves message <tt>m</tt> by (<tt>dx</tt>, <tt>dy</tt>)</td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Choosing a Coordinate System</h2>
+<ul>
+  <li><font size="+1">The default coordinate system for the book's
+graphics classes:</font>
+    <ul>
+      <li><font size="+1">The origin (0, 0) is at the center.</font></li>
+      <li><font size="+1"><i>x</i>- and <i>y</i>- axis range from <span
+ style="font-style: italic;">-</span>10.0 to 10.0</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">The user can reset the coordinate system:
+    <blockquote>
+      <pre>cwin.coord(x_left, y_top, x_right, y_bottom)</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Example: For the following data, the <i>x</i>-axis
+should range from 1 to 12,
+and the <i>y</i>-axis should range from 11 to 33:
+    <p align="center"><tt>cwin.coord(1, 11, 12, 33);</tt></p>
+    </font>
+    <blockquote>
+      <table bgcolor="#000000" border="1" cellpadding="4">
+        <tbody>
+          <tr bgcolor="#00ffff">
+            <td width="75">
+            <div align="center"><font size="+1"><b>Month</b></font></div>
+            </td>
+            <td width="133">
+            <div align="center"><b><font size="+1">Average Temperature</font></b></div>
+            </td>
+            <td width="75">
+            <div align="center"><b><font size="+1">Month</font></b></div>
+            </td>
+            <td width="133">
+            <div align="center"><b><font size="+1">Average Temperature</font></b></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td height="26" width="75">
+            <div align="center"><font size="+1">January</font></div>
+            </td>
+            <td height="26" width="133">
+            <div align="center"><font size="+1">11</font></div>
+            </td>
+            <td height="26" width="75">
+            <div align="center"><font size="+1">July</font></div>
+            </td>
+            <td height="26" width="133">
+            <div align="center"><font size="+1">33</font></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td width="75">
+            <div align="center"><font size="+1">February</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">13</font></div>
+            </td>
+            <td width="75">
+            <div align="center"><font size="+1">August</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">32</font></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td width="75">
+            <div align="center"><font size="+1">March</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">16</font></div>
+            </td>
+            <td width="75">
+            <div align="center"><font size="+1">September</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">29</font></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td width="75">
+            <div align="center"><font size="+1">April</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">20</font></div>
+            </td>
+            <td width="75">
+            <div align="center"><font size="+1">October</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">23</font></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td width="75">
+            <div align="center"><font size="+1">May</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">25</font></div>
+            </td>
+            <td width="75">
+            <div align="center"><font size="+1">November</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">16</font></div>
+            </td>
+          </tr>
+          <tr bgcolor="#ffffff">
+            <td width="75">
+            <div align="center"><font size="+1">June</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">31</font></div>
+            </td>
+            <td width="75">
+            <div align="center"><font size="+1">December</font></div>
+            </td>
+            <td width="133">
+            <div align="center"><font size="+1">12</font></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </blockquote>
+    <p><font size="+1">Output is now in terms of the new coordinate
+system: </font> </p>
+    <blockquote>
+      <pre><font size="+1">cwin &lt;&lt; Point(1, 11);<br>cwin &lt;&lt; Point(2, 13);<br>/* etc. */</font></pre>
+    </blockquote>
+  </li>
+</ul>
+<h2>Getting Input from the Graphics Window</h2>
+<ul>
+  <li><font size="+1">You cannot use <tt>cin</tt> to get input from a
+graphics window.</font></li>
+  <li><font size="+1">To read text input from a graphics window, use
+the <tt>get_string()</tt> method.
+    <blockquote>
+      <pre>string <i>response</i> = cwin.get_string(<i>prompt</i>);</pre>
+    </blockquote>
+Example:
+    <blockquote>
+      <pre>string name = cwin.get_string("Please type your name:");</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The prompt and input occurs in an input area at
+either the top or bottom of the graphics window (depending on your
+system).</font> </li>
+  <li><font size="+1">To read numerical data input from a graphics
+window, use the <tt>get_int()</tt> or <tt>get_double()</tt> method. </font>
+    <blockquote>
+      <pre><font size="+1">int</font><font size="+1"> age = cwin.get_int("Please enter your age:");</font></pre>
+    </blockquote>
+  </li>
+  <li><font size="+1">To prompt the user for a mouse input, use the <tt>get_mouse()</tt>
+method. </font>
+    <blockquote>
+      <pre><font size="+1">Point center = cwin.get_mouse("Enter center of circle:");</font></pre>
+    </blockquote>
+  </li>
+</ul>
+<h2>Getting Input from the Graphics Window (<a
+ href="../../sources/ch3/click.cpp"><tt>click.cpp</tt></a>)</h2>
+<iframe src="code/click.cpp.html" height="70%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<p>
+<table bgcolor="#000000" border="1" cellpadding="4">
+  <tbody>
+    <tr bgcolor="#00ffff">
+      <td>
+      <div align="center"><b>Name</b></div>
+      </td>
+      <td>
+      <div align="center"><b>Purpose</b></div>
+      </td>
+    </tr>
+    <tr bgcolor="#ffffff">
+      <td><tt>cwin &lt;&lt; x</tt></td>
+      <td>Display the object <span style="font-family: monospace;">x</span>
+(a point, circle, line, message)</td>
+    </tr>
+    <tr bgcolor="#ffffff">
+      <td><tt>cwin.cord(x1,y1,x2,y2)</tt></td>
+      <td>Set the coordinate system. <span
+ style="font-family: monospace;">(x1,y1)</span> is the top left
+corner, <span style="font-family: monospace;">(x2,y2)</span> is the
+bottom right corner <br>
+      </td>
+    </tr>
+    <tr bgcolor="#ffffff">
+      <td><tt>cwin.get_string(p)</tt></td>
+      <td>Displays prompt <span style="font-family: monospace;">p</span>
+and returns the entered string.</td>
+    </tr>
+    <tr bgcolor="#ffffff">
+      <td><tt>cwin.get_int(p)</tt></td>
+      <td>Displays prompt <span style="font-family: monospace;">p</span>
+and returns the entered integer.</td>
+    </tr>
+    <tr bgcolor="#ffffff">
+      <td><tt>cwin.get_double(p)</tt></td>
+      <td>Displays prompt <span style="font-family: monospace;">p</span>
+and returns the entered floating-point value.</td>
+    </tr>
+    <tr bgcolor="#ffffff">
+      <td><tt>cwin.get_mouse(p)</tt></td>
+      <td>Displays prompt <span style="font-family: monospace;">p</span>
+and returns the mouse click point. </td>
+    </tr>
+    <tr bgcolor="#ffffff">
+      <td><tt>cwin.clear()</tt></td>
+      <td>Clears window.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h2>Comparing Visual and Numerical Information</h2>
+<ul>
+  <li> <font size="+1">Look at the same problem both visually and
+numerically.</font></li>
+  <li> <font size="+1">Example: Determine the intersection between a
+line and a
+circle </font><font size="+1">(with center (0,0));</font><font
+ size="+1"> the user specifies a radius and a
+distance between the horizontal line and the <span
+ style="font-style: italic;">x</span>-axis.</font></li>
+  <ul>
+    <li><font size="+1">Plot the line and the circle </font><font
+ size="+1">(centered on the screen) </font><font size="+1">.</font></li>
+  </ul>
+  <li><font size="+1">We would like to know the exact coordinates of
+the intersection points.</font></li>
+  <ul>
+    <li><font size="+1">Calculate the coordinates</font></li>
+    <li><font size="+1">Plot both points and label them with numerical
+values.</font></li>
+  </ul>
+  <li><font size="+1">If you do it right, these two points will show up
+right on top of the actual intersections in the picture.</font></li>
+</ul>
+<h2>Comparing Visual and Numerical Information (<a
+ href="../../sources/ch3/intsect2.cpp"><tt>intsect2.cpp</tt></a>)</h2>
+<iframe src="code/intsect2.cpp.html" height="90%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">If line doesn't meet the circle, then the program
+will attempt to
+compute a square root of a
+negative number, and it will terminate with "Run-time error - math
+error".</font></li>
+  <li><font size="+1">The protection against this
+situation will be the topic of the next lecture.</font></li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+</body>
+</html>

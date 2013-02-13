@@ -1,0 +1,1179 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=ISO-8859-1"
+ http-equiv="content-type">
+  <title>Chapter 8</title>
+</head>
+<body>
+<h2>Chapter 8: Dictionaries</h2>
+<ul>
+  <li><big>The primary use of a dictionary is to store
+elements so
+that they can be located quickly using keys.</big></li>
+  <li><big>Like a priority queue, a dictionary is a
+container of <span style="font-style: italic;">key-element pairs</span>.
+    </big></li>
+  <li><big>Nevertheless, although a total order relation on
+the keys is always
+required for a priority queue, it is optional for a dictionary. </big></li>
+  <li><big>Indeed,
+the simplest form of a dictionary assumes only that we can determine
+whether <span style="font-style: italic;">two keys are equal</span>.</big></li>
+  <li><big>When the total order relation on the keys is
+defined, then we can talk
+about an <span style="font-style: italic;">ordered dictionary</span>,
+and we specify additional ADT functions that refer to the ordering of
+the keys.</big></li>
+</ul>
+<h3>8.1 The Dictionary Abstract Data Type</h3>
+<ul>
+  <li><big>A dictionary ADT stores
+key-element pairs (<span style="font-style: italic;">k</span>,<span
+ style="font-style: italic;">e</span>)
+which we call <span style="font-style: italic;">items</span>, where <span
+ style="font-style: italic;">k</span> is the key and <span
+ style="font-style: italic;">e</span> is the element. </big></li>
+  <li><big>In an <span style="font-style: italic;">unordered
+dictionary</span> we can use an
+equality tester object to test
+whether two keys, <span style="font-style: italic;">k</span><sub>1</sub>
+and <span style="font-style: italic;">k</span><sub>2</sub>, are equal
+with function <span style="font-family: monospace;">isEqualTo(</span><span
+ style="font-style: italic;">k</span><sub>1</sub>, <span
+ style="font-style: italic;">k</span><sub>2</sub>).</big></li>
+</ul>
+<big><span style="font-weight: bold;">8.1.1 The
+Dictionary ADT</span><br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a> 2]<br>
+</big>
+<ul>
+  <li><big>The dictionary ADT models a searchable collection
+of key-element items</big></li>
+  <li><big>The main operations of a dictionary are
+searching, inserting, and deleting items</big></li>
+  <li><big>Multiple items with the same key are allowed</big></li>
+  <li><big>Applications:</big></li>
+  <ul>
+    <li><big>address book</big></li>
+    <li><big>credit card authorization</big></li>
+    <li><big>mapping host names (e.g., <span
+ style="font-family: monospace;">www.nbu.bg</span>)
+to internet
+addresses (e.g., <span style="font-family: monospace;">193.19.172.24</span>)</big></li>
+  </ul>
+  <li><big>As an ADT, a dictionary <span style="font-style: italic;">D</span>
+supports the following functions:</big></li>
+</ul>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big>Function<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Input<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Output<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Description<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>size()<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Integer<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Return the
+number of items in <span style="font-style: italic;">D.</span><br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>isEmpty()<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Boolean<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Test whether <span
+ style="font-style: italic;">D</span> is empty.<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>elements()<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Iterator of
+objects (elements)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Returns the
+elements stored in <span style="font-style: italic;">D</span>.<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>keys()<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Iterator of
+objects (keys)</big></td>
+      <td style="vertical-align: top;"><big>Returns the
+keys
+stored in <span style="font-style: italic;">D</span>.</big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>find(k)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Object (key)</big></td>
+      <td style="vertical-align: top;"><big>Position<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>If <span
+ style="font-style: italic;">D</span> contain an item with key equal to
+      <span style="font-family: monospace;">k</span>, then return the
+position of such an item. If not, a null position is returned.<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>findAll(k)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Object (key)</big></td>
+      <td style="vertical-align: top;"><big>Iterator of
+Positions</big></td>
+      <td style="vertical-align: top;"><big>Return an
+iterator of positions
+for all items whose key equals <span style="font-family: monospace;">k</span>.<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>insertItem(k,e)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Objects <span
+ style="font-family: monospace;">k</span> (key) and<span
+ style="font-family: monospace;"> e</span><span
+ style="font-family: monospace;"></span> (element) </big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Insert an item
+with element <span style="font-family: monospace;">e</span> and key <span
+ style="font-family: monospace;">k</span> into <span
+ style="font-style: italic;">D</span>.<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>removeElement(k)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Object (key)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Remove an item
+with key equal to <span style="font-family: monospace;">k</span> from <span
+ style="font-style: italic;">D</span>. An error condition occurs if <span
+ style="font-style: italic;">D</span> has no such item.<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>removeAllElements(k)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Object (key)</big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Remove the
+items
+with key equal
+to <span style="font-family: monospace;">k</span> from <span
+ style="font-style: italic;">D</span>.</big></td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li><big>Remarks: <br>
+    </big></li>
+  <ul>
+    <li><big>The way the items of a
+dictionary are stored is implementation dependent.</big></li>
+    <li><big>The notation <span style="font-family: monospace;">p(x)</span>
+indicates the position of
+the item storing element <span style="font-family: monospace;">x</span>.</big></li>
+  </ul>
+  <li><big>Example:</big></li>
+</ul>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big>Operation<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Output<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Dictionary<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>insertItem(5,A)<br>
+insertItem(7,B)<br>
+insertItem(2,C)<br>
+insertItem(8,D)<br>
+insertItem(2,E)<br>
+find(7)<br>
+find(4)<br>
+find(2)<br>
+findAll(2)<br>
+size()<br>
+removeElement(5)<br>
+removeElement(5)<br>
+removeAllElements(2)<br>
+find(2)<br>
+findAll(2)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-family: monospace;"></span><span
+ style="font-family: monospace;">-</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">-</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">-</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">-<br>
+-<br style="font-family: monospace;">
+      </span><span style="font-family: monospace;">p(B)<br>
+"null"<br>
+p(C) or p(E)<br>
+p(C),p(E)<br>
+5<br>
+-<br>
+"error"<br>
+-<br>
+"null"<br>
+"empty iterator"<br>
+      </span> </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-family: monospace;">{(5,A)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}<br>
+      </span><span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+      </span><span style="font-family: monospace;">{(7,B),(8,D)}</span>
+      </big></td>
+    </tr>
+  </tbody>
+</table>
+<ul>
+  <li><big>Position class provides:</big></li>
+</ul>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="0">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big>Operation<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Input<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Output<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Description</big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>element()</big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Object
+(element)</big></td>
+      <td style="vertical-align: top;"><big>Return a
+reference to the
+element of the associated item.<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>key()</big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Object (key)</big></td>
+      <td style="vertical-align: top;"><big>Return a
+constant reference to
+the key of the associated item.</big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>isNull()</big></td>
+      <td style="vertical-align: top;"><big>-<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Boolean<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Determine if
+this is a null
+position.<br>
+      </big></td>
+    </tr>
+  </tbody>
+</table>
+<big><br>
+<span style="font-weight: bold;">8.1.2 Log Files</span><br>
+</big>
+<ul>
+  <li><big>A simple way of realizing a
+dictionary is to use an
+unordered vector,
+list, or general sequence to store the key-element pairs. </big></li>
+  <li><big>Such an
+implementation is called a <span style="font-style: italic;">log file</span>.</big></li>
+</ul>
+<big>[<a href="HashTables-slides.pdf">HashTables.pdf</a>
+3]<br>
+</big>
+<ul>
+  <li><big>A log file is a dictionary implemented by means
+of an <span style="font-style: italic;">unsorted sequence</span></big></li>
+  <ul>
+    <li><big>We store the items of the dictionary in a
+sequence (based on a doubly-linked lists or a circular array), in
+arbitrary order</big></li>
+  </ul>
+  <li><big>Performance:</big></li>
+  <ul>
+    <li><big><span style="font-family: monospace;">insertItem</span>
+takes <span style="font-style: italic;">O</span>(1) time
+since we can insert
+the new item <span style="font-style: italic;">at the beginning</span>
+or at the end of the sequence</big></li>
+    <li><big><span style="font-family: monospace;">find</span>
+and <span style="font-family: monospace;">removeElement</span> take <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)
+time
+since in
+the worst case (the item is not found) we<span
+ style="font-style: italic;"> traverse</span> the entire sequence
+to look for an item with the given key</big></li>
+  </ul>
+  <li><big>The log file is effective only for dictionaries
+of small size or for dictionaries on which insertions are the most
+common operations, while searches and removals are rarely performed
+(e.g., historical record of logins to a workstation)</big></li>
+</ul>
+<hr style="width: 100%; height: 1px;">
+<h3>8.2 Hash Tables</h3>
+<ul>
+  <li><big>One of the most efficient ways to
+implement a
+dictionary is to use a <span style="font-style: italic;">hash table</span>.
+    </big></li>
+  <li><big>Although hash tables
+have high <span style="font-style: italic;">worst-case</span> running
+times for dictionary ADT operations, we
+will see that their <span style="font-style: italic;">expected-case</span>
+running time are excellent. </big></li>
+  <li><big>Letting <span style="font-style: italic;">n</span> denote
+the
+number of items, the
+worst-case running times are <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span>), but the expected-case times are
+only <span style="font-style: italic;">O</span>(1).</big></li>
+</ul>
+<big><span style="font-weight: bold;">8.2.1 Bucket Arrays</span><br>
+</big>
+<ul>
+  <li><big>A <span style="font-style: italic;">bucked array</span> for
+a
+hash table is an array <span style="font-style: italic;">A</span> of
+size <span style="font-style: italic;">N</span>, where each cell of <span
+ style="font-style: italic;">A</span> is thought of as a "bucket" (that
+is, a container of key-element pairs) and the integer <span
+ style="font-style: italic;">N</span> denotes the <span
+ style="font-style: italic;">capacity</span> of the array. </big></li>
+  <li><big>If the keys
+are integers well distributed in the range [0, <span
+ style="font-style: italic;">N</span> <span style="font-style: italic;">-</span>
+1], this bucket array
+is all that
+is needed &#8722; an element <span style="font-style: italic;">e</span> with
+a key <span style="font-style: italic;">k</span> is simply inserted
+into the bucket <span style="font-style: italic;">A</span>[<span
+ style="font-style: italic;">k</span>].</big></li>
+  <li><big>If keys are not unique, then two different elements may be
+mapped to
+the same bucket in <span style="font-style: italic;">A</span>. In this
+case, we say that a <span style="font-style: italic;">collision</span>
+has occurs.</big></li>
+</ul>
+<big>Analysis of the
+Bucket
+Array Structure<br>
+</big>
+<ul>
+  <li><big>Achivment: <span style="font-style: italic;">O</span>(1)
+for all
+functions </big></li>
+  <li><big>Drawback 1: it uses space Theta(<span
+ style="font-style: italic;">N</span>),
+wasteful when <span style="font-style: italic;">N</span> is large
+relative to <span style="font-style: italic;">n</span></big></li>
+  <li><big>Drawback 2: keys are integers
+in [0, <span style="font-style: italic;">N -</span> 1], which is often
+not the case<span style="font-style: italic;"></span></big></li>
+</ul>
+<big><span style="font-weight: bold;">8.2.2 Hash
+Functions</span><br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a> 4-6]
+</big>
+<ul>
+  <li><big>A <span style="font-style: italic;">hash function</span> <span
+ style="font-style: italic;">h</span>
+maps keys of a given type to
+integers in a fixed interval [0, <span style="font-style: italic;">N</span>
+&#8722; 1]</big></li>
+  <li><big>Example: <span style="font-style: italic;">h</span>(<span
+ style="font-style: italic;">x</span>) = <span
+ style="font-style: italic;">x</span> mod <span
+ style="font-style: italic;">N</span> is a hash function for
+integer keys</big></li>
+  <li><big>The integer <span style="font-style: italic;">h</span>(<span
+ style="font-style: italic;">x</span>) is called the <span
+ style="font-style: italic;">hash value</span> of key <span
+ style="font-style: italic;">x</span></big></li>
+  <li><big>A <span style="font-style: italic;">hash table</span>
+for a given key type consists of</big></li>
+  <ul>
+    <li><big>Hash function <span style="font-style: italic;">h</span></big></li>
+    <li><big>Array (called table) of size <span
+ style="font-style: italic;">N</span></big></li>
+  </ul>
+  <li><big>When implementing a dictionary with a hash table,
+the goal is to store item (<span style="font-style: italic;">k</span>, <span
+ style="font-style: italic;">e</span>) at index <span
+ style="font-style: italic;">i</span> =&nbsp; <span
+ style="font-style: italic;">h</span>(<span style="font-style: italic;">k</span>)</big></li>
+  <li><big>Example:</big></li>
+</ul>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big><img
+ style="width: 286px; height: 298px;" alt="" src="pic1.jpg"><br>
+      </big></td>
+      <td style="text-align: left; vertical-align: middle;">
+      <ul>
+        <li><big>We design a hash table for a dictionary storing items
+(SSN, Name), where SSN (social security number) is a nine-digit
+positive integer</big></li>
+        <li><big>Our hash table uses an array of size <span
+ style="font-style: italic;">N</span> = 10 000 and the hash function <span
+ style="font-style: italic;">h</span>(<span style="font-style: italic;">x</span>)
+= last four digits of <span style="font-style: italic;">x</span></big></li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big><br>
+</big>
+<ul>
+  <li><big>A hash function is usually specified as the
+composition of two functions:</big></li>
+  <ul>
+    <li><big>Hash code map: <span style="font-style: italic;">h</span><sub>1</sub>:
+keys &#8594; integers</big></li>
+    <li><big>Compression map: <span style="font-style: italic;">h</span><sub>2</sub>:
+integers &#8594; [0, <span style="font-style: italic;">N</span> &#8722; 1]</big></li>
+  </ul>
+  <li><big>The <span style="font-style: italic;">hash code</span>
+map is applied first, and the <span style="font-style: italic;">compression
+map</span> is applied
+next on the result, i.e., <span style="font-style: italic;">h</span>(<span
+ style="font-style: italic;">x</span>)
+= <span style="font-style: italic;">h</span><sub>2</sub>(<span
+ style="font-style: italic;">h</span><sub>1</sub>(<span
+ style="font-style: italic;">x</span>))</big></li>
+  <li><big>The goal of the hash function is to &#8220;disperse&#8221;
+the keys in an apparently random way</big></li>
+  <li><big>The hash function is "good" if it maps
+the keys in out dictionary to minimize collisions as much as possible.</big></li>
+  <li><big>Also it should be fast and easy to compute.</big></li>
+</ul>
+<big><span style="font-weight: bold;">8.2.3 Hash Codes</span><br>
+</big>
+<ul>
+  <li><big>The integer assigned to a key <span
+ style="font-style: italic;">k</span>
+is called the <span style="font-style: italic;">hash code</span> or <span
+ style="font-style: italic;">hash value</span> for <span
+ style="font-style: italic;">k</span>.</big></li>
+</ul>
+<big>Hash
+Codes in C++<br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a>
+7]<br>
+</big>
+<ul>
+  <li><big>Memory address:</big></li>
+  <ul>
+    <li><big>We reinterpret the memory address of the key
+object as an integer</big></li>
+    <li><big>Good in general, except for numeric and string
+keys</big></li>
+  </ul>
+  <li><big>Integer cast:</big></li>
+  <ul>
+    <li><big>We reinterpret the bits of the key as an integer</big></li>
+    <li><big>Suitable for keys of length less than or equal
+to the number of bits of the integer type (e.g., char, short, int and
+float on many machines)</big></li>
+  </ul>
+  <li><big>Component sum:</big></li>
+  <ul>
+    <li><big>We partition the bits of the key into
+components
+of fixed length (e.g., 16 or 32 bits) and we sum the components
+(ignoring overflows)</big></li>
+    <li><big>Suitable for numeric keys of fixed length
+greater than or equal to
+the number of bits of the integer type (e.g., long and double on many
+machines)</big></li>
+  </ul>
+</ul>
+<big>A
+Small C++ Example<br>
+64-bit integer if we have 32-bit integer hash function<br>
+</big>
+<pre><big>int hashCode(int x)<br>{ return x; }<br><br>int hashCode(long x)<br>{  typedef unsigned long ulong;<br>   return hashCode(static_cast&lt;int&gt;(static_cast&lt;ulong&gt;(x) &gt;&gt; 32) <br>          + static_cast&lt;int&gt;(x));<br>}</big></pre>
+<big>Polynomial
+Hash Codes<span style="font-weight: bold;"><br>
+</span>[<a href="HashTables-slides.pdf">HashTables.pdf</a>
+8]<br>
+</big>
+<ul>
+  <li><big>Polynomial accumulation:</big></li>
+  <ul>
+    <li><big>We partition the bits of the key into a
+sequence of components of fixed length (e.g., 8, 16 or 32 bits) <span
+ style="font-style: italic;">a</span><sub>0</sub> <span
+ style="font-style: italic;">a</span><sub>1</sub>&#8230; <span
+ style="font-style: italic;">a</span><sub><span
+ style="font-style: italic;">n</span>&#8722;1</sub></big></li>
+    <li><big>We evaluate the polynomial<br>
+      <span style="font-style: italic;">p</span>(<span
+ style="font-style: italic;">z</span>)
+=<span style="font-style: italic;"> a</span><sub>0</sub> +<span
+ style="font-style: italic;"> a</span><sub>1</sub><span
+ style="font-style: italic;">z</span> + <span
+ style="font-style: italic;">a</span><sub>2</sub> <span
+ style="font-style: italic;">z</span><sup><sub>2</sub></sup> + &#8230; + <span
+ style="font-style: italic;">a<sub>n</sub></span><sub>&#8722;1</sub><span
+ style="font-style: italic;">z<sup><sub>n</sub></sup></span><sup><sub>&#8722;1</sub></sup><br>
+at a
+fixed value <span style="font-style: italic;">z</span>, ignoring
+overflows</big></li>
+    <li><big>Especially suitable for strings (e.g., the
+choice <span style="font-style: italic;">z</span> = 33 gives at most 6
+collisions on a set of 50 000 English words)</big></li>
+  </ul>
+  <li><big>Polynomial <span style="font-style: italic;">p</span>(<span
+ style="font-style: italic;">z</span>) can be evaluated in <span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)
+time using
+Horner&#8217;s rule:</big></li>
+  <ul>
+    <li><big>The following polynomials are successively
+computed, each from the previous one in <span
+ style="font-style: italic;">O</span>(1) time<br>
+      <span style="font-style: italic;">p</span><sub>0</sub>(<span
+ style="font-style: italic;">z</span>) = <span
+ style="font-style: italic;">a<sub>n</sub></span><sub>&#8722;1,&nbsp;</sub><span
+ style="font-style: italic;"> p</span><sub><span
+ style="font-style: italic;">i</span></sub>(<span
+ style="font-style: italic;">z</span>) = <span
+ style="font-style: italic;">a<sub>n&#8722;i&#8722;</sub></span><sub>1</sub>
++ <span style="font-style: italic;">zp<sub>i&#8722;</sub></span><sub>1</sub>(<span
+ style="font-style: italic;">z</span>) (<span
+ style="font-style: italic;">i</span> = 1, 2, &#8230;, <span
+ style="font-style: italic;">n &#8722;</span> 1)</big></li>
+  </ul>
+  <li><big>We have <span style="font-style: italic;">p</span>(<span
+ style="font-style: italic;">z</span>) =<span
+ style="font-style: italic;"> p<sub>n</sub></span><sub>&#8722;1</sub>(<span
+ style="font-style: italic;">z</span>)</big></li>
+</ul>
+<big>
+Cyclic Shift Hash Codes<br>
+</big>
+<blockquote>
+  <pre><big>int hashCode(const char* p, int len) // hash a character array<br>{ unsigned int h = 0;<br>  for (int i = 0; i &lt; len; i++)<len
+ ;="" i=""><br>  { h = (h &lt;&lt; 5)|(h &gt;&gt; 27);          // 5-bit cyclic shift<br>    h += (unsigned int)p[i];         // add in next character<br>  }<br>  return hashCode(int(h));<br>}<br></len></big></pre>
+</blockquote>
+<big>Experimental
+Results<br>
+25000 English words<span style="font-weight: bold;"><br>
+</span></big>
+<table style="text-align: left; width: 687px; height: 144px;" border="1"
+ cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big>Shift<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Collisions
+Total<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Collisions Max<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>0<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>23739<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>86<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>1<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>10517<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>21<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>5<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>4<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>2<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>6<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>6<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>2<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top;"><big>11<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>453<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>4<br>
+      </big></td>
+    </tr>
+  </tbody>
+</table>
+<big><br>
+Hashing Floating-Point
+Quantities
+<br>
+</big>
+<blockquote>
+  <pre><big>int hashCode(const double&amp; x)       // hash a double<br>{ int len = sizeof(x);<br>  const char* p = reinterpret_cast&lt;const char *&gt;(&amp;x);<len
+ ;="" i=""><br>  return hashCode(p, len);<br>}<br></len></big></pre>
+</blockquote>
+<h4><big> 8.2.4 Compression Maps</big></h4>
+<ul>
+  <li><big>The hash code for a key <span style="font-style: italic;">k</span>
+will typically not be suitable
+for immediate use with a bucket array, because the range of possible
+hash codes for our keys will typically exceed the range of legal
+indices of our bucket array <span style="font-style: italic;">A</span>.</big></li>
+</ul>
+<big><span style="font-weight: bold;">The Division Method</span><br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a> 9]<br>
+</big>
+<ul>
+  <li><big><span style="font-style: italic;">h</span><sub>2</sub>(<span
+ style="font-style: italic;">y</span>) = | <span
+ style="font-style: italic;">y</span>| mod <span
+ style="font-style: italic;">N</span></big></li>
+  <li><big>The size <span style="font-style: italic;">N</span>
+of the hash table is usually chosen to be a <span
+ style="font-style: italic;">prime number</span><br>
+    </big></li>
+  <li><big>The reason has to do with number theory and is
+beyond the scope of this course</big></li>
+</ul>
+<big><span style="font-weight: bold;">
+The MAD Method</span><br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a> 9]<br>
+Multiply, Add and Divide (MAD):<br>
+</big>
+<ul>
+  <li><big><span style="font-style: italic;">h</span><sub>2</sub>(<span
+ style="font-style: italic;">y</span>) = <span
+ style="font-style: italic;">|ay</span> + <span
+ style="font-style: italic;">b</span>| mod <span
+ style="font-style: italic;">N</span></big></li>
+  <li><big><span style="font-style: italic;">a</span> and <span
+ style="font-style: italic;">b</span> are nonnegative integers such
+that <span style="font-style: italic;">a</span> mod <span
+ style="font-style: italic;">N</span> &#8800; 0</big></li>
+  <li><big>Otherwise, every integer would map to the same
+value <span style="font-style: italic;">b</span></big></li>
+</ul>
+<big><span style="font-weight: bold;">8.2.5
+Collision-Handling
+Schemes</span><br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a>
+10]<br>
+</big>
+<ul>
+  <li><big><span style="font-style: italic;">Collisions </span>occur
+when different elements are
+mapped to the same cell</big></li>
+</ul>
+<big><span style="font-weight: bold;">Separate
+Chaining<br>
+</span></big>
+<ul>
+  <li><big>Chaining: let each cell in the table point to a
+linked list of elements that map there</big></li>
+  <li><big>Chaining is simple, but requires additional
+memory outside the table</big></li>
+</ul>
+<big><span style="font-weight: bold;"><img
+ style="width: 394px; height: 163px;" alt="" src="pic2.jpg"><br>
+</span><span style="font-weight: bold;">Open
+Addressing<br>
+</span>Open addressing: the colliding item is placed in a <span
+ style="font-style: italic;">different
+cell </span>of the table<br>
+<br style="font-weight: bold;">
+<span style="font-weight: bold;">Linear
+Probing</span><br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a> 11-13]<br>
+</big>
+<ul>
+  <li><big>Linear probing handles collisions by placing the colliding
+item in <span style="font-style: italic;">the next</span> (circularly)
+available table cell</big></li>
+  <li><big>Each table cell inspected is referred to as a &#8220;probe&#8221;</big></li>
+  <li><big>Colliding items lump together, causing future collisions to
+cause a longer sequence of probes</big></li>
+  <li><big>Example:<br>
+    </big></li>
+</ul>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big><img
+ style="width: 379px; height: 178px;" alt="" src="pic3.jpg"><br>
+      </big></td>
+      <td>
+      <ul>
+        <li><big><span style="font-style: italic;">h</span>(<span
+ style="font-style: italic;">x</span>) = <span
+ style="font-style: italic;">x</span> mod 13</big></li>
+        <li><big>Insert keys 18,
+41, 22, 44, 59, 32, 31, 73, in this order</big></li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big><span style="font-weight: bold;"><br>
+Search with Linear Probing<br>
+</span></big>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: middle;">
+      <ul>
+        <li><big>Consider a hash table <span
+ style="font-style: italic;">A</span> that uses linear probing</big></li>
+        <li><big><span style="font-family: monospace;">find</span>(<span
+ style="font-style: italic;">k</span>)</big></li>
+        <ul>
+          <li><big>We start at cell <span style="font-style: italic;">h</span>(<span
+ style="font-style: italic;">k</span>)</big></li>
+          <li><big>We probe consecutive locations until one of the
+following occurs:</big></li>
+          <ul>
+            <li><big>An item with key <span style="font-style: italic;">k</span>
+is found, or</big></li>
+            <li><big>An <span style="font-style: italic;">empty</span>
+cell is found, or</big></li>
+            <li><big><span style="font-style: italic;">N</span> cells
+have been unsuccessfully probed</big></li>
+          </ul>
+        </ul>
+      </ul>
+      </td>
+      <td style="vertical-align: top; white-space: nowrap;"><big>Algorithm
+      <span style="color: rgb(204, 0, 0);"><span
+ style="font-style: italic;">find</span>(<span
+ style="font-style: italic;">k</span>)</span><br>
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp; i</span> &#8592;<span
+ style="font-style: italic;"> h</span>(<span style="font-style: italic;">k</span>)</span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp; p</span> &#8592; 0</span><br>
+&nbsp;&nbsp; repeat<br>
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c</span> &#8592; <span
+ style="font-style: italic;">A</span>[<span style="font-style: italic;">i</span>]</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if<span style="color: rgb(51, 102, 102);">
+      <span style="font-style: italic;">c</span> = &#8709;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
+ style="color: rgb(51, 102, 102);"><span style="font-style: italic;">Position</span>(<span
+ style="font-style: italic;">null</span></span>)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if <span
+ style="color: rgb(51, 102, 102);"><span style="font-style: italic;">c.key</span>()
+= <span style="font-style: italic;">k</span></span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
+ style="color: rgb(51, 102, 102);"><span style="font-style: italic;">Position</span>(<span
+ style="font-style: italic;">c</span>)</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i</span> &#8592; (<span style="font-style: italic;">i +</span> 1) mod <span
+ style="font-style: italic;">N</span></span><br
+ style="color: rgb(51, 102, 102);">
+      <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+p</span> &#8592; <span style="font-style: italic;">p +</span> 1</span><br>
+&nbsp;&nbsp; until <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">p</span> = <span
+ style="font-style: italic;">N</span></span><br>
+&nbsp;&nbsp; return <span style="color: rgb(51, 102, 102);"><span
+ style="font-style: italic;">Position</span>(<span
+ style="font-style: italic;">null</span>)</span><br>
+      </big></td>
+    </tr>
+  </tbody>
+</table>
+<big><span style="font-weight: bold;"><br>
+Updates with Linear Probing<br>
+</span></big>
+<ul>
+  <li><big>To handle insertions and deletions, we introduce a special
+object, called AVAILABLE, which replaces deleted elements</big></li>
+  <li><big><span style="font-family: monospace;">removeElement</span>(<span
+ style="font-style: italic;">k</span>)</big></li>
+  <ul>
+    <li><big>We search for an item with key <span
+ style="font-style: italic;">k</span></big></li>
+    <li><big>If such an item (<span style="font-style: italic;">k</span>,
+      <span style="font-style: italic;">e</span>) is found, we replace
+it with the
+special item AVAILABLE and we return the position of this
+item</big></li>
+    <li><big>Else, we return a null position</big></li>
+  </ul>
+  <li><big><span style="font-family: monospace;">insertItem</span>(<span
+ style="font-style: italic;">k</span>, <span
+ style="font-style: italic;">e</span>)</big></li>
+  <ul>
+    <li><big>We throw an exception if the table is full</big></li>
+    <li><big>We start at cell <span style="font-style: italic;">h</span>(<span
+ style="font-style: italic;">k</span>) </big></li>
+    <li><big>We probe consecutive cells until one of the following
+occurs:</big></li>
+    <ul>
+      <li><big>A cell <span style="font-style: italic;">i</span> is
+found that is either empty or stores
+AVAILABLE, or</big></li>
+      <li><big><span style="font-style: italic;">N</span> cells have
+been unsuccessfully probed</big></li>
+    </ul>
+    <li><big>We store item (<span style="font-style: italic;">k</span>,
+      <span style="font-style: italic;">e</span>) in cell <span
+ style="font-style: italic;">i</span></big></li>
+  </ul>
+</ul>
+<big><span style="font-weight: bold;">
+</span><span style="font-weight: bold;">Double Hashing</span><br>
+[<a href="HashTables-slides.pdf">HashTables.pdf</a> 14-15]<br>
+</big>
+<ul>
+  <li><big>Double hashing uses a secondary hash function <span
+ style="font-style: italic;">d</span>(<span style="font-style: italic;">k</span>)
+and handles collisions by placing an item in the first available cell
+of the series (<span style="font-style: italic;">i+ jd</span>(<span
+ style="font-style: italic;">k</span>)) mod <span
+ style="font-style: italic;">N</span> for <span
+ style="font-style: italic;">j </span>= 0, 1, &#8230; , <span
+ style="font-style: italic;">N</span> &#8722;1</big></li>
+  <li><big>The secondary hash function <span
+ style="font-style: italic;">d</span>(<span style="font-style: italic;">k</span>)
+cannot
+have zero values</big></li>
+  <li><big>The table size <span style="font-style: italic;">N</span>
+must be a prime to allow probing of all the cells</big></li>
+  <li><big>Common choice of compression map for the secondary hash
+function: <span style="font-style: italic;">d</span><sub>2</sub>(<span
+ style="font-style: italic;">k</span>) = <span
+ style="font-style: italic;">q &#8722; k</span> mod <span
+ style="font-style: italic;">q</span> where</big></li>
+  <ul>
+    <li><big><span style="font-style: italic;">q</span> &lt; <span
+ style="font-style: italic;">N</span></big></li>
+    <li><big><span style="font-style: italic;">q</span> is a prime
+number<br>
+      </big></li>
+  </ul>
+  <li><big>The possible values for <span style="font-style: italic;">d</span><sub>2</sub>(<span
+ style="font-style: italic;">k</span>) are 1, 2, &#8230; , <span
+ style="font-style: italic;">q</span></big></li>
+  <li><big>Example</big></li>
+</ul>
+<big><br>
+</big>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big><img
+ style="width: 379px; height: 413px;" alt="" src="pic4.jpg"><br>
+      </big></td>
+      <td style="vertical-align: middle;">
+      <ul>
+        <li><big>Consider a hash table storing integer keys that
+handles collision with double hashing</big></li>
+        <ul>
+          <li><big><span style="font-style: italic;">N</span> = 13</big></li>
+          <li><big><span style="font-style: italic;">h</span>(<span
+ style="font-style: italic;">k</span>) = <span
+ style="font-style: italic;">k</span> mod 13</big></li>
+          <li><big><span style="font-style: italic;">d</span>(<span
+ style="font-style: italic;">k</span>) = 7 &#8722; <span
+ style="font-style: italic;">k</span> mod 7</big></li>
+        </ul>
+        <li><big>Insert keys 18, 41, 22, 44, 59, 32, 31, 73, in this
+order</big></li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big><span style="font-weight: bold;"><span style="font-weight: bold;"></span></span><span
+ style="font-weight: bold;"></span></big>
+<h4><big> 8.2.7 A C++ Hash
+Table Implementation</big></h4>
+<big><a href="8.1_LinearProbeHashTable.h-HashEntry.html">html-8.1</a>
+(HashEntry)<br>
+<a href="8.2_LinearProbeHashTable.h-Position.html">html-8.2</a></big>
+<big>(Position)<br>
+<a href="8.3_LinearProbeHashTable.h-Hash1.html">html-8.3</a></big>
+<big> (Hash1)<br>
+<a href="8.4_LinearProbeHashTable.h-Hash2.html">html-8.</a></big>
+<big><a href="8.4_LinearProbeHashTable.h-Hash2.html">4</a> (Hash2)<br>
+<br>
+<a style="font-family: monospace;" href="hash.cpp">hash.cpp</a></big><span
+ style="font-family: monospace;">
+</span><big><span style="font-weight: bold;"><br>
+<hr style="width: 100%; height: 2px;">
+<h3>8.3 Ordered Dictionaries</h3>
+</span>In an ordered dictionary, we wish to perform the usual
+dictionary operations, but also maintain an order relation for the keys
+in our dictionary.<br>
+<br>
+<span style="font-weight: bold;">8.3.1 The Ordered Dictionary
+ADT</span></big><span style="font-weight: bold;">
+</span><big><span style="font-weight: bold;"></span><br>
+An ordered dictionary supports the following
+functions
+beyond those included in the general dictionary ADT (<a href="#8.1.1">8.1.1</a>):<br>
+</big>
+<ul>
+  <li><big><span style="font-family: monospace;">closestBefore(k)</span>
+-
+Return a position of an item with the largest key less than or equal to
+    <span style="font-family: monospace;">k.</span></big></li>
+  <li><big><span style="font-family: monospace;">closestAfter(k)</span>
+- Return a position of an item with
+the smallest key greater than or equal to <span
+ style="font-family: monospace;">k.</span></big></li>
+</ul>
+<big><span style="font-weight: bold;">8.3.2 Look-Up Tables</span><br>
+[<a href="Dictionaries-slides.pdf">Dictionary.pdf</a>
+6]<br>
+</big>
+<ul>
+  <li><big>A lookup table is a dictionary implemented by
+means of a <span style="font-style: italic;">sorted sequence</span></big></li>
+  <ul>
+    <li><big>We store the items of the dictionary in an
+array-based sequence, sorted by key</big></li>
+    <li><big>We use an external comparator for the keys</big></li>
+  </ul>
+  <li><big>Performance:</big></li>
+  <ul>
+    <li><big><span style="font-family: monospace;">find</span> takes <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) time, using binary search</big></li>
+    <li><big><span style="font-family: monospace;">insertItem</span>
+takes <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span>)
+time since in the worst
+case we have to shift <span style="font-style: italic;">n</span>/2
+items to make room for the new item</big></li>
+    <li><big><span style="font-family: monospace;">removeElement</span>
+takes <span style="font-style: italic;">O</span>(<span
+ style="font-style: italic;">n</span>) time since in the worst
+case we have to shift <span style="font-style: italic;">n</span>/2
+items to compact the items after the removal</big></li>
+  </ul>
+  <li><big>The lookup table is effective only for
+dictionaries of small size or for dictionaries on which searches are
+the most common operations, while insertions and removals are rarely
+performed (e.g., credit card authorizations)</big></li>
+</ul>
+<big><span style="font-weight: bold;">8.3.3 Binary
+Search
+</span><br>
+[<a href="Dictionaries-slides.pdf">Dictionary.pdf</a>
+5]<br>
+</big>
+<ul>
+  <li><big>Binary search performs operation <span
+ style="font-family: monospace;">find</span>(<span
+ style="font-style: italic;">k</span>) on a
+dictionary implemented by means of an array-based sequence, sorted by
+key</big></li>
+  <ul>
+    <li><big>similar to the high-low game</big></li>
+    <li><big>at each step, the number of candidate items is
+halved</big></li>
+    <li><big>terminates after a logarithmic number of steps</big></li>
+  </ul>
+  <li><big>Example: <span style="font-family: monospace;">find</span>(7)</big></li>
+</ul>
+<big><img style="width: 718px; height: 225px;" alt="" src="pic5.jpg"><br>
+<a style="font-family: monospace;" href="bsearch.cpp">bsearch.cpp</a><br>
+<br>
+<span style="font-weight: bold;">Analysis
+of Binary Search</span></big>
+<big><br>
+</big>
+<ul>
+  <li><big>The running time is proportional to the number <span
+ style="font-style: italic;">k</span> of recursive calls. </big></li>
+  <li><big>The number of
+remaining candidates is reduced by at least one half with each
+recursive call. </big></li>
+  <li><big>In the worst case (unsuccessful search), the
+recursive
+call stops when there are no more candidates, i.e. <span
+ style="font-style: italic;">n</span>/2<sup><span
+ style="font-style: italic;">k</span></sup> = 1, <span
+ style="font-style: italic;">k</span> = log <span
+ style="font-style: italic;">n</span> and we obtain <span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>) running time.</big></li>
+</ul>
+<big><span style="font-weight: bold;"></span>
+<span style="font-weight: bold;">Comparing Simple Ordered Dictionary
+Implementations</span></big>
+<big><br>
+<br>
+</big>
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
+ cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><big>Function<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Log File<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Look-Up Table<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>size(),
+isEmpty()<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(1)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(1)<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>keys(),
+elements()<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>find(key)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n</span>)<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>findAll(key)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Theta(<span
+ style="font-style: italic;">n</span>)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(log <span
+ style="font-style: italic;">n + s</span>)<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>insertItem(key,
+element)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(1)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>removeElement(key)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </big></td>
+    </tr>
+    <tr>
+      <td style="vertical-align: top; font-family: monospace;"><big>removeAllElements()<br>
+      </big></td>
+      <td style="vertical-align: top;"><big>Theta(<span
+ style="font-style: italic;">n</span>)</big></td>
+      <td style="vertical-align: top;"><big><span
+ style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      </big></td>
+    </tr>
+  </tbody>
+</table>
+<hr style="width: 100%; height: 2px;">
+</body>
+</html>

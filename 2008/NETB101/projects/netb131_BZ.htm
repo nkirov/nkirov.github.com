@@ -1,0 +1,178 @@
+<html>
+<head>
+<title>Programming language Fortran F39703 NETB131</title>
+<meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+
+<style type="text/css">
+<!--
+.txt {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #000000;
+	}
+.punta {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	color: #000066;
+	
+}
+.syntax {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10pt;
+	font-style: italic;
+	color: #006600;
+}
+-->
+</style>
+</head>
+<body>
+
+<span class="txt">
+NETB131 Programming Project <br>
+<br>
+Programming language Fortran <br>
+<br>
+An overview<br>
+<br>
+Божидар Златев, F39703<br>
+<br>
+1. History and Special Features<br>
+<br>
+Fortran is a general-purpose, procedural, imperative programming language. Originally developed by IBM in the 1950s for scientific and engineering applications.<br>
+Fortran (derived from The IBM Mathematical Formula Translating System) encompasses a lineage of versions, each of which evolved to add extensions to the language while retaining compatibility with  previous versions. Successive versions have added support for processing of character-based data (FORTRAN 77), array programming, module-based programming and object-based programming (Fortran 90 /  95), and object-oriented and generic programming (Fortran 2003).<br>
+<br>
+2. "Hello World" Program<br>
+<br>
+Fortran 90 used for all examples</span>
+<blockquote><span class="punta">
+<strong>PROGRAM</strong> HelloWorld <br>
+<strong>PRINT</strong> *, "Hello World!" <br>
+<strong>END PROGRAM</strong></span></blockquote>
+
+<span class="txt">
+3. Fundamental Data Types (integer, floating point, string) and Assignment Operator<br>
+<br>
+The general form of a variable declaration is: <br></span>
+   <span class="syntax">type [,attributes...] :: variable list <br> </span>
+   <blockquote><span class="punta">
+   <strong>INTEGER </strong>:: age = 25 <br>
+   <strong>REAL</strong> :: weight = 75.553 <br>
+   <strong>CHARACTER</strong> (<strong>LEN</strong>=30) name <br>
+   name = "Bozhidar Zlatev"</span></blockquote>
+
+<span class="txt">Operators of equal precedence are evaluated working from left to right across the expression, e.g. </span>
+<blockquote><span class="punta">
+	area = pi*radius**2   ! pi*radius*radius</span></blockquote>
+
+<span class="txt">4. Basic Control Flow (conditional and loop statements)<br>
+Task: Input an integer number n and output the sum: 1+2<sup>2</sup>+3<sup>2</sup>+...+n<sup>2</sup>. Use input validation for n to be positive.<br>
+<br>
+Conditional Statement:</span><blockquote><span class="punta">
+[<span class="syntax">name:</span>] <strong>IF</strong> (<span class="syntax">expression1</span>) <strong>THEN</strong><br>
+      <span class="syntax">block1</span><br>
+   <strong>ELSEIF</strong> (<span class="syntax">expression2</span>) <strong>THEN</strong> [<span class="syntax">name</span>]<br>
+      <span class="syntax">block2</span><br>
+         ...<br>
+   [<strong>ELSE</strong> [<span class="syntax">name</span>]<br>
+      <span class="syntax">block</span>]<br>
+   <strong>ENDIF</strong> [<span class="syntax">name</span>]</span></blockquote>
+
+<span class="txt">Loop Operator:<br>
+The DO construct has the general form:</span>
+<blockquote><span class="punta">
+[<span class="syntax">name:</span><span class="punta">]<strong> DO</strong> [</span><span class="syntax">control clause</span>]<br>
+      <span class="syntax">block</span><br><span class="punta">
+   <strong>END DO</strong> [</span><span class="syntax">name</span>]</span></blockquote>
+
+<blockquote><span class="punta">
+<strong>PROGRAM</strong> sum_of_squares<br>
+<strong>IMPLICIT NONE</strong><br>
+<strong>INTEGER</strong> :: n, count, sum<br>
+<strong>PRINT</strong> *, "Enter a positive integer: "<br>
+<strong>READ</strong> *, n<br>
+<strong>IF</strong> (n<=0) <strong>THEN</strong> <br>
+<strong>PRINT</strong> *<br>
+<strong>PRINT</strong> *, "n should be positive! "<br>
+<strong>STOP</strong><br>
+<strong>ENDIF</strong><br>
+sum = n*n<br>
+<strong>DO</strong> count = n-1 , 0, -1<br>
+sum = sum + count*count<br>
+<strong>END</strong> DO<br>
+<strong>PRINT</strong> *<br>
+<strong>PRINT</strong> *, "The sum of the squares is: " , sum<br>
+<strong>END</strong></span></blockquote>
+<span class="txt">5. Functions - syntax, writing and using functions, example<br></span>
+<br>
+<span class="syntax">function name [(argument list)] [specification statements] [executable statements] ... END function [name] </span><br>
+<br>
+<li><span class="syntax">specification statements </span><span class="txt">specify the data type of arguments and return value</span></li>
+<li><span class="syntax">name</span><span class="txt"> is the identifier by which it will be possible to call the function.</span></li>
+<li><span class="txt">An </span><span class="syntax">argument list </span><span class="txt">is simply a number of variables or expressions (or even procedure names). The argument(s) in a referencing statement are called actual arguments; those in the corresponding procedure statement are called dummy arguments. When afunction is referenced, data is copied from the actual to the dummy argument(s), and is copied back from dummy to actual argument(s) on return.  By altering the value of a dummy argument, a function can change the value of an actual argument.</span></li>
+<li><span class="syntax">executable statements</span> <span class="txt">are a part of the function's body. The body consist of the specification and executable statements and is enclosed between the function declaration and function end.</span></li>
+<li><span class="syntax">END</span> <span class="txt">is used to signify an end to a block such as function, loop, conditional...</span><br></li>
+<blockquote><span class="punta">>
+!function example<br>
+<strong>PROGRAM</strong> function_addition<br>
+<strong>IMPLICIT NONE</strong><BR>
+<strong>INTEGER</strong> :: a, b, z<br>
+a =10<br>
+b=15<br>
+z= addition (a,b)<br>
+<strong>PRINT</strong> *, "The result is ", result<br>
+<br>
+   <strong>FUNCTION</strong> addition (a,b)<br>
+      <strong>INTEGER</strong> :: addition<br>
+      <strong>INTEGER</strong> :: a, b<br>
+      addition = a + b<br>
+   <strong>END FUNCTION </strong>addition<br>
+<strong>END</strong></span></blockquote>
+<span class="txt">6. Arrays - syntax, definition, example<br>
+<br>
+Alternate and equivalent forms used to declare an array are as follows: </span><br>
+
+	<span class="syntax">type, DIMENSION(bound) [, attribute] :: name <br>
+	type [, attribute] :: name (bound)</span><br>
+	<br>
+	<li><span class="syntax">type</span> <span class="txt">is the data type specifier of the elements in the array </span></li>
+	<li><span class="syntax">name</span> <span class="txt">is the identifier by which it will be possible to access the array elements </span></li>
+	<li><span class="syntax">(bound)/DIMENSION(bound)</span> <span class="txt">is an integer constant. It is the number of elements of the array </span></li>
+<blockquote><span class="punta">
+	!array example<br>
+	<strong>PROGRAM</strong> array <br>
+	<strong>IMPLICIT NONE</strong><br>
+	<strong>INTEGER, DIMENSION </strong>(10) :: array<br>
+	<strong>DO </strong>number = 1, 10<br>
+      	array (number) = number * number<br>
+	<strong>END DO</strong><br>
+	<strong>END</strong></span></blockquote>
+<span class="txt">7. Compilers<br></span>
+  <br>
+  <li><span class="txt"><a href="http://www.intel.com/cd/software/products/asmo-na/eng/282048.htm">Intel® Fortran Compilers for Linux, Windows, Mac OS X and NetBSD</a></span></li>
+  <li><span class="txt"><a href="http://www.polyhedron.com">Polyhedron:  http://www.polyhedron.com/</a></span></li>
+  <li><span class="txt"><a href="http://www.lahey.com/linux.htm">Lahey:  http://www.lahey.com/linux.htm</a></span></li>
+  <li><span class="txt"><a href="http://www.absoft.com">Absoft Pro Fortran:  http://www.absoft.com/ </a></span></li>
+  <br>
+ <span class="txt">8. Projects and Software in Fortran<br>
+  <br>
+  Fortran has been in continual use for over half a century in computationally intensive areas such as climate modeling, Finite Element Analysis, computational fluid dynamics (CFD), computational  physics, financial computing, and computational chemistry.<br>
+  <br>
+  9. Standards <br>
+  <br>
+"Core" language standards<br>
+  ANSI X3.9-1966. USA Standard FORTRAN, informally known as FORTRAN 66, American National Standards Institute.  <br>
+  ANSI X3.9-1978. American National Standard – Programming Language FORTRAN, also known as ISO 1539-1980, informally known as FORTRAN 77, American National Standards Institute.  <br>
+  ANSI X3.198-1992 (R1997). American National Standard – Programming Language Fortran Extended, informally known as Fortran 90, American National Standards Institute.  <br>
+  ISO/IEC 1539-1:1997. Information technology – Programming languages – Fortran – Part 1: Base language, informally known as Fortran 95. There are a further two parts to this standard. Part 1 has  been formally adopted by ANSI.  <br>
+  ISO/IEC 1539-1:2004. Information technology – Programming languages – Fortran – Part 1: Base language, informally known as Fortran 2003.  <br>
+  <br>
+  <br>
+  10. References</span>
+<ol><span class="txt">
+<li>Chapman, Stephen J. (2003). Fortran 90/95 for Scientists and Engineers, 2nd ed., McGraw-Hill. ISBN 0-07-282575-8. </li>
+<li><a href="http://en.wikipedia.org/wiki/Fortran">Wikipedia: Fortran</a></li>
+<li><a href="http://www.qmw.ac.uk/%7Ecgaa260/BUILDING/INTR_F90/OUTLINE.HTM">John Steel, Queen Mary and Westfield College Introduction to Fortran 90</a></li>
+<li><a href="http://www.cisl.ucar.edu/tcg/consweb/Fortran90/F90Tutorial/tutorial.html">A Fortran 90 Tutorial Zane Dodson University of New Mexico</a></li>
+</span></ol>
+</body>
+</html>

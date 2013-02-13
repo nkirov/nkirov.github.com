@@ -1,0 +1,237 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1251">
+  <meta name="GENERATOR"
+ content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+  <title>lecture</title>
+</head>
+<body>
+<h3 style="font-weight: normal;">4.&nbsp; Рекурсия и итерация:
+факториел;
+редица на Фибоначи;
+най-голям общ
+делител; най-малко общо кратно</h3>
+<p>**&nbsp; Най-голям общ делител [1.2.3]
+<br>
+* Алгоритъм на Евклид за намиране на най-голям общ делител <br>
+&nbsp;<b><tt><font color="#000099">// gcd.cpp</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;iostream&gt; <br>
+using namespace std;</font></tt></b>
+<br>
+</p>
+<p><b><tt><font color="#000099">unsigned gcd1(unsigned a, unsigned b)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned swap;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; while (b &gt; 0) { swap = b; b =
+a%b;
+a = swap;
+}</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; return a;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">unsigned gcd2(unsigned a, unsigned b)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ return (0 == b) ? a : gcd2(b, a%b); }</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ const unsigned a = 1, b = 125;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; cout &lt;&lt; gcd1(a, b) &lt;&lt;
+endl;</font></tt></b> <br>
+<b><tt><font color="#000099">&nbsp; cout &lt;&lt; gcd2(a, b) &lt;&lt;
+endl;</font></tt></b> <br>
+<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+* Да се напише метода само с изваждане.<br>
+</p>
+<hr width="100%"><font style="color: rgb(0, 0, 0);" color="#000099">**&nbsp;
+Връщане от рекурсия и използване на променливите </font><font
+ style="color: rgb(0, 0, 0);" color="#000099">[1.2.5]</font><br>
+<font style="color: rgb(0, 0, 0);" color="#000099">* Рекурсивно
+отпечатване на цифрите на
+число </font><br>
+<b><tt><font color="#000099">// digit2.cpp</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include &lt;iostream&gt;<br>
+using std::cout;<br>
+</font></tt></b>
+<p><b><tt><font color="#000099">void printN(unsigned n)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ if (n &gt;= 10) printN(n/10);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; cout &lt;&lt; n%10;;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ unsigned m = 1234;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; printN(m);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b> <br>
+</p>
+<p><font style="color: rgb(0, 0, 0);" color="#000099">* Пресмятане на
+<span style="font-style: italic;">n</span>! и изследване на
+ефективността на реализациите [1.2.5]</font>
+</p>
+<b><tt><font color="#000099">/* Два варианта за пресмятане на n!
+[1.2.5]
+*/</font></tt></b>
+<br>
+<b><tt><font color="#000099">// fact.cpp</font></tt></b><br>
+<b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br>
+<br>
+<b><tt><font color="#000099">unsigned long fact1(unsigned i)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ if (1 == i) return 1;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; return i * fact1(i - 1);</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<br>
+<b><tt><font color="#000099">unsigned i;</font></tt></b>
+<br>
+<b><tt><font color="#000099">unsigned long fact2()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ <br>
+&nbsp;&nbsp;&nbsp; if (1 == i) return 1;</font></tt></b>
+<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <b><tt><font color="#000099">return
+i-- * fact2(); // --i*fact();</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<br>
+<b><tt><font color="#000099">const unsigned n = 6;</font></tt></b><br>
+<b><tt><font color="#000099">int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ <br>
+</font></tt></b><b><tt><font color="#000099">&nbsp; std::cout &lt;&lt;
+"fact1: " &lt;&lt; n &lt;&lt; "! = " &lt;&lt;
+fact1(n) &lt;&lt; endl;<br>
+&nbsp; </font></tt></b><b><tt><font color="#000099">i=n; // i=n+1;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; std::cout &lt;&lt; "fact2: "
+&lt;&lt; n &lt;&lt; "! = " &lt;&lt;
+fact2(n) &lt;&lt; endl;</font></tt></b><br>
+<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr width="100%">
+<font style="color: rgb(0, 0, 0);" color="#000099">** Рекурсия и
+използване
+на глобални променливи </font><font style="color: rgb(0, 0, 0);"
+ color="#000099"> [1.2.5]<br>
+* За дадено естествено число<span style="font-style: italic;"> n</span>
+(<span style="font-style: italic;">n</span> &lt; 9) да се отпечатат в
+нарастващ и намаляващ ред числата 10<sup><span
+ style="font-style: italic;">k</span></sup></font><font
+ style="color: rgb(0, 0, 0);" color="#000099"> (0 &lt; <span
+ style="font-style: italic;">k</span> &lt; <span
+ style="font-style: italic;">n</span>). </font><font
+ style="color: rgb(0, 0, 0);" color="#000099"><sup><span
+ style="font-style: italic;"></span></sup><br>
+</font><b><tt><font color="#000099">// print0.cpp</font></tt></b>
+<br>
+<b><tt><font color="#000099">#include&nbsp; &lt;iostream&gt;</font></tt></b>
+<br>
+<b><tt><font color="#000099">using std::cout;<br>
+</font></tt></b><b><tt><font color="#000099">using std::cin;<br>
+</font></tt></b><b><tt><font color="#000099">using std::endl;</font></tt></b><br>
+<br>
+<b><tt><font color="#000099">const unsigned n = 6;</font></tt></b>&nbsp;
+<br>
+<br>
+<b><tt><font color="#000099">void printRed1(unsigned k, unsigned long
+res)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{ cout &lt;&lt; res &lt;&lt; " ";</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; if (k &lt; n) printRed1(k + 1,
+res*10);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; cout &lt;&lt; res &lt;&lt; " ";</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">unsigned k = 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">void printRed2(unsigned long res)</font></tt></b>
+<br>
+<b><tt><font color="#000099">{</font></tt></b>&nbsp;
+<b><tt><font color="#000099">k++;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; cout &lt;&lt; res &lt;&lt; " ";</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; if (k &lt; n) printRed2(res*10);</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; cout &lt;&lt; res &lt;&lt; " ";</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">unsigned long res = 1;</font></tt></b>
+<br>
+<b><tt><font color="#000099">void printRed3()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{</font></tt></b>&nbsp;
+<b><tt><font color="#000099">k++;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; res *= 10;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; </font></tt></b><b><tt><font
+ color="#000099">cout &lt;&lt; res &lt;&lt; " ";</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; if (k &lt; n) printRed3();</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; </font></tt></b><b><tt><font
+ color="#000099">cout &lt;&lt; res &lt;&lt; " ";</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp; res /= 10;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+<b><tt><font color="#000099"><br>
+int main()</font></tt></b>
+<br>
+<b><tt><font color="#000099">{</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;printRed1(1,10);</font></tt></b>
+&nbsp;
+<b><tt><font color="#000099">cout &lt;&lt; endl;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;printRed2(10);</font></tt></b>
+&nbsp; &nbsp;&nbsp;
+<b><tt><font color="#000099"></font></tt></b><b><tt><font
+ color="#000099">cout &lt;&lt; endl;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;k = 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;printRed3();</font></tt></b>
+&nbsp; &nbsp; &nbsp; &nbsp;&nbsp; <b><tt><font color="#000099">cout
+&lt;&lt; endl;</font></tt></b>
+<br>
+<b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br>
+<b><tt><font color="#000099">}</font></tt></b>
+<br>
+</p>
+<hr width="100%"><a href="../NETB151/slides/ch14/ch14.html">Редица на
+Фибоначи</a><br>
+<p>0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...</p>
+<hr width="100%">
+</body>
+</html>

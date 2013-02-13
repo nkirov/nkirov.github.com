@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>NodeSequence2</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: NodeSequence2</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;
+NodeSequence&lt;Object&gt;::Position NodeSequence&lt;Object&gt;::
+<font color=#000000>atRank</font>(<font color=#A000A0>int</font> rank) <font color=#A000A0>const</font> 					<font color=#0000FF>// position of rank</font>
+    <font color=#00A000>throw</font>(BoundaryViolationException) {
+  NodePtr v;
+  <font color=#000000>checkRank</font>(rank);
+  <font color=#00A000>if</font> (rank &lt;= <font color=#000000>size</font>()/2) {				<font color=#0000FF>// scan forward from head</font>
+    v = header-&gt;next;
+    <font color=#00A000>for</font> (<font color=#A000A0>int</font> i = 0; i &lt; rank; i++)
+      v = v-&gt;next;
+  }
+  <font color=#00A000>else</font> {						<font color=#0000FF>// scan back from tail</font>
+    v = trailer-&gt;prev;
+    <font color=#00A000>for</font> (<font color=#A000A0>int</font> i = 1; i &lt; <font color=#000000>size</font>()-rank; i++)
+      v = v-&gt;prev;
+  }
+  <font color=#00A000>return</font> <font color=#000000>Position</font>(v);
+}
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;
+<font color=#A000A0>int</font> NodeSequence&lt;Object&gt;::
+<font color=#000000>rankOf</font>(<font color=#A000A0>const</font> Position &p) <font color=#A000A0>const</font> 			<font color=#0000FF>// get rank of position</font>
+    <font color=#00A000>throw</font>(InvalidPositionException) {
+  NodePtr v = <font color=#000000>first</font>();
+  <font color=#A000A0>int</font> i = 0;
+  <font color=#00A000>while</font> (v != trailer) {				<font color=#0000FF>// search for p.node</font>
+    <font color=#00A000>if</font> (p.node == v) <font color=#00A000>return</font> i;				<font color=#0000FF>// found it here</font>
+    v = v-&gt;next;					<font color=#0000FF>// else advance</font>
+    i++;
+  }							<font color=#0000FF>// did not find it?</font>
+  <font color=#00A000>throw</font> <font color=#000000>InvalidPositionException</font>(<font color=#0000FF>"Position not found"</font>);
+}
+</dl>
+</body></html>

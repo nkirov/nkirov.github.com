@@ -1,0 +1,711 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+  <meta http-equiv="Content-Type"
+ content="text/html; charset=windows-1251">
+  <meta name="Author" content="Nikolay Kirov">
+  <meta name="GENERATOR"
+ content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+  <title>l08</title>
+</head>
+<body>
+<h2>11. Разделяй и владей <br>
+</h2>
+<h3>11.1 Н<b>амиране на <i>k</i>-тия по големина елемент
+[7.1]</b>
+</h3>
+<p><big><font color="#000000">* Принципи на "разделяй и владей":
+разбиване
+на
+изходната задача на няколко подзадачи (разделяй), решаване на
+подзадачите
+и конструиране на решение на изходната задача (владей).</font>
+</big></p>
+<p><big><font color="#000000">* Пример с двоично търсене.</font>
+</big></p>
+<p><big><font color="#000000">* Намиране на максимален елемент (първия
+по
+големина)
+- <i>n - </i>1 сравнения, <i>n </i>присвоявания в най-лошия случай,
+1 присвояване
+в най-добрия случай, средния брой присвоявания е от порядък <i>O</i>(log
+<i>n</i>).</font>
+</big></p>
+<p><big><font color="#000000">* Едновременно намиране на минимален и
+максимален
+елемент (първия и последния по големина) - 3<i>n</i>/2 сравнения !
+Сравняваме
+2 съседни елемента, по-големия го сравняване за max, а по-малкия - за
+min.</font>
+</big></p>
+<p><big><font color="#000000">* Пълно сортиране - най-добрите алгоритми
+са <i>O</i>(<i>n</i>
+log <i>n</i>).</font>
+</big></p>
+<p><big><font color="#000000">* Бързо сортиране с разделяне на дялове
+(Хоор,
+"разделяй и владей") - <i>O</i>(<i>n</i><sup>2</sup>) в най-лошия
+случай,
+<i>O</i>(<i>n</i>)
+в най-добрия случай, <i>O</i>(<i>n</i> log <i>n</i>) средно.
+Сложността
+зависи от избора на елемент за разделяне на дялове.</font>
+</big></p>
+<p><big><font color="#000000">* Когато търсим </font><i>k</i>-тия по
+големина
+елемент няма нужда да обработваме и двата дяла - отново <font
+ color="#000000"><i>O</i>(<i>n</i><sup>2</sup>)
+в най-лошия случай</font>.
+</big></p>
+<p><big>* Метод на Блум, Флойд, Прат, Ривест и Тарджан.
+<br>
+&nbsp;&nbsp; - Нека имаме метод M за намиране на <i>k</i>-тия по
+големина елемент с 28<i>n</i> сравнения.
+<br>
+&nbsp;&nbsp; - За <span style="font-style: italic;">n</span> &lt;= 55
+прилагаме метода на мехурчето, 28<span style="font-style: italic;">n</span>
+&gt; <span style="font-style: italic;">n</span>(<span
+ style="font-style: italic;">n</span>-1)/2<br>
+&nbsp;&nbsp; - Медиана - елемент на масив, който се намира на позиция
+<i>n</i>/2
+в сортирания масив.
+<br>
+&nbsp;&nbsp; - Търсене на медиана на медианите:
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Разделяме масива на групи
+по 7 елемента.
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Сортираме всяка група
+и намираме медианата й (третия елемент) чрез сортиране по метода на
+мехурчето
+(или друг квадратичен метод).
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3. Намираме медианата на
+медианите по метод M (рекурсивно!).
+<br>
+&nbsp;&nbsp;&nbsp; - Разделянато на дялове извършваме с така намерената
+медиана на медианите.
+<br>
+&nbsp;&nbsp;&nbsp; - Оценка на метода<b><tt> </tt></b>(7(7-1)/2)(<i>n</i>/7)
++ 28(<i>n</i>/7) + 28(5<i>n</i>/7) = 3<i>n +&nbsp; </i>4<i>n +</i> 20<i>n
+= </i>27<i>n </i>(при всяко рекурсивно извикване областта намалява с
+поне
+2<i>n</i>/7 елемента), т.е. предположението за 28<i>n</i> сравнения е
+вярно.
+</big></p>
+<p><big>* Метод на Дур и <a href="http://www.math.tau.ac.il/%7Ezwick/">Цвик</a>
+[1995] - 2.95<i>n</i> сравнения, [2001]
+- (2+epsilon).n сравнения.
+</big></p>
+<p><big>Допълнителна литература: Лендерт Амерал, 3.12.</big><br>
+</p>
+<hr style="width: 100%; height: 2px;">
+<h3>11.2. Бързо умножение на дълги числа [7.7]&nbsp;</h3>
+<p><big><font color="#000000">* Класическият алгоритъм за умножение на
+цели
+числа има сложност <i>O</i>(<i>n</i><sup>2</sup>).</font>
+</big></p>
+<p><big><font color="#000000">* Алгоритъм за умножение на две <i>n</i>-цифрени
+числа <i>X</i> и <i>Y</i>, като <i>n</i> е степен на 2.</font>
+</big></p>
+<center><big><font color="#000000"><i>X = </i>2<sup><i>n</i>/2</sup> <i>A
++
+B</i>,&nbsp;&nbsp;&nbsp; <i>Y = </i>2<sup><i>n</i>/2</sup> <i>C + D</i></font>
+<br>
+<font color="#000000"><i>XY = </i>2<i><sup>n</sup></i> <i>AC + </i>2<sup><i>n</i>/2</sup>
+[(<i>A - B</i>)(<i>D - C</i>) <i>+ AC + BD</i>]<i> + BD</i></font></big></center>
+<big>Числата <i>A, B, C</i> и <i>D</i> са <i>n</i>/2 цифрени числа
+(разделяй)
+- може да се използва рекурсия, като тривиалният случай е (директно)
+умножение
+на едноцифрени числа.
+</big>
+<p><big>* Тази формула изисква 3 умножения, 6 събирания и 2
+премествания
+вляво
+(умножения на степени на 2). От рекурентната формула
+</big></p>
+<center><big><i>T</i>(1) = 1,&nbsp; <i>T</i>(<i>n</i>) = 3<i>T</i>(<i>n</i>/2)
++ <i>cn</i>, <i>n &gt;</i> 0</big></center>
+<big>получаваме, че сложността на алгоритъма е <font color="#000000"><i>O</i>(<i>n<sup>r</sup></i>),
+<i>r
+= </i>log<sub>2</sub>3. Тъй като log<sub>2</sub>3 &lt; 2, то този
+алгоритъм
+е по-добър от класическия.</font></big>
+<p><big><font color="#000000">* Пример 1: 15 x 8 = 120,&nbsp; <i>X</i>
+= 15
+= 1111<sub>2</sub></font>,&nbsp;<i> Y</i> = 8 = 1000<sub><font
+ color="#000000">2</font></sub>,
+<i>n</i>
+= 4 = 2<sup>2</sup>
+<br>
+<i>&nbsp;A = </i>11, <i>B =</i> 11, <i>C =</i> 10, <i>D =</i> 00
+<br>
+<font color="#000000">&nbsp;<i>AC = </i>110,&nbsp;<i> </i>(<i>A - B</i>)(<i>D
+- C</i>) = 0.10 = 0, <i>BD = </i>0</font>
+<br>
+<font color="#000000"><i>&nbsp;XY =</i> 110 &lt;&lt; 4 + 110 &lt;&lt;
+2 = 1100000 + 11000 = 1111000<sub>2</sub> = 8+16+32+64 = 120<sub>10</sub></font>
+</big></p>
+<p><big>* Когато числата са с различен брой цифри и/или този брой не е
+степен
+на 2, допълваме отляво с незначещи нули и използваме горния алгоритъм.
+</big></p>
+<p><big>* Пример 2. 50 x 25 = 1250, <font color="#000000"><i>X</i> =
+50 =
+110010<sub>2</sub></font>,&nbsp;<i>
+Y</i> = 25 = 11001<sub><font color="#000000">2</font></sub>, <i>n</i>
+=
+8 = 2<sup>4</sup> с допълване до най-близката степен на 2.
+<br>
+<i>&nbsp;A = </i>0011 (3), <i>B =</i> 0010 (2), <i>C =</i> 0001 (1),
+<i>D
+=</i> 1001 (9)
+<br>
+<font color="#000000">&nbsp;<i>AC = </i>0011 (3),&nbsp;<i> </i>(<i>A
+- B</i>)(<i>D - C</i>) = 0001.1000 = 1000 (8), <i>BD = </i>10010 (18)</font>
+<br>
+<font color="#000000"><i>&nbsp;XY =</i> 3.256 + (8 + 3 + 18).16 + 18
+=</font>
+<br>
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+11 &lt;&lt; 8 + 11101 &lt;&lt; 4 = 11 0000 0000 + 1 1101 0000 + 10010 =
+10011100010<sub>2</sub> =</font>
+<br>
+<font color="#000000">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+2+32+64+128+1024 = 1250<sub>10</sub></font>
+<br>
+* Подзадачи:
+<br>
+&nbsp; - представяне на дълги числа (низ или вътрешно);
+<br>
+&nbsp; - брой на битовете на цяло число;
+<br>
+&nbsp; - разделяне на десните от левите битове на числото;
+<br>
+&nbsp; - сума и разлика на две числа.
+<br>
+</big></p>
+<hr width="100%">
+<h3 style="font-weight: bold;">11.3 Циклично преместване на елементите
+на масив
+[7.10]</h3>
+<p><big>* Пример за циклично преместване на <i>k</i> позиции
+елементите на
+масив
+<i>m</i>
+от <i>n</i> елемента.
+<br>
+<i>n = </i>6, <i>k = </i>2&nbsp;&nbsp; 0 1 2 3 4 5&nbsp;&nbsp; <b><tt>-&gt;</tt></b>&nbsp;
+2 3 4 5 0 1
+</big></p>
+<p><big>* Алгоритъм 1:
+<br>
+- копираме първите <i>k</i> елемента на <i>m</i> в друг масив <i>x</i>;
+<br>
+- преместваме <i>n-k</i> елемента на <i>m </i>на <i>k</i> позиции
+вляво;
+<br>
+- копираме елементите на <i>x </i>обратно в <i>m</i> на последните
+<i>k</i>
+позиции.
+<br>
+Сложност <i>O</i>(<i>n</i>), допълнителна памет <i>k</i> елемента.
+</big></p>
+<p><big>* Алгоритъм 2:
+<br>
+Описания алгоритъм за <i>k = </i>1. За да осъществим циклично
+преместване
+с <i>k</i> елемента, е необходимо да приложим този алгоритъм&nbsp; <i>k</i>
+пъти.
+<br>
+Сложност <i>O</i>(<i>n</i><sup>2</sup>), допълнителна памет
+1 елемент.
+</big></p>
+<p><big>* Алгоритъм 3:
+<br>
+- копираме <b><tt>m[0]</tt></b> в <b><tt>x</tt></b>;
+<br>
+- преместваме <b><tt>m[k]</tt></b> в <b><tt>m[0], </tt></b>преместваме
+<b><tt>m[2k%n]</tt></b>
+в <b><tt>m[k], </tt></b>преместваме <b><tt>m[3k%n]</tt></b> в <b><tt>m[2k%n]
+</tt></b>и
+т.н. докато стигнем последния непреместен елемент, който го заменяме с
+<b><tt>x</tt></b>
+(Пример А). Ако достигнем до преместен елемент, спираме и започваме
+отначало
+по същия начин, като заменяме <b><tt>k</tt></b> с
+<b><tt>k+1 </tt></b>(Пример
+Б).
+<br>
+&nbsp;
+</big>
+<table border="1" cellpadding="4" cellspacing="0" cols="2" width="100%">
+  <tbody>
+    <tr>
+      <td><big>Пример А&nbsp;&nbsp;&nbsp; <i>n = </i>11, <i>k = </i>3:&nbsp;
+      <br>
+      <span style="font-family: monospace;">0 1 2 3 4 5 6 7 8 9
+10&nbsp; </span><b style="font-family: monospace;">-&gt;</b><span
+ style="font-family: monospace;">&nbsp; 3 4 5 6 7 8 9
+10 0 1 2 </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m01: 0 1 2 3 4 5 6 7 8 9 10
+| x: </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m02: 0 1 2 <span
+ style="color: rgb(204, 0, 0);">3</span> 4 5 6 7 8 9 10 | x: <span
+ style="color: rgb(51, 51, 255);">0</span> </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m03: </span><b
+ style="font-family: monospace;"><u>3</u></b><span
+ style="font-family: monospace;"> 1 2 <span
+ style="color: rgb(51, 51, 255);">3</span> 4 5 <span
+ style="color: rgb(204, 0, 0);">6</span> 7 8 9 10 | x: 0;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m04: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> 1 2 </span><b
+ style="font-family: monospace;"><u>6</u></b><span
+ style="font-family: monospace;"> 4 5 <span
+ style="color: rgb(0, 0, 153);">6</span> 7 8 <span
+ style="color: rgb(204, 0, 0);">9</span> 10 | x: 0;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m05: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">1</span>
+2 </span><b style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> 4 5 </span><b
+ style="font-family: monospace;"><u>9</u></b><span
+ style="font-family: monospace;"> 7 8 <span
+ style="color: rgb(0, 0, 153);">9</span> 10 | x: 0;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m06: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> <span style="color: rgb(0, 0, 153);">1</span>
+2 </span><b style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">4</span>
+5 </span><b style="font-family: monospace;">9</b><span
+ style="font-family: monospace;"> 7 8 </span><b
+ style="font-family: monospace;"><u>1</u></b><span
+ style="font-family: monospace;"> 10 | x: 0;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m07: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>4</u></b><span
+ style="font-family: monospace;"> 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> <span style="color: rgb(0, 0, 153);">4</span>
+5 </span><b style="font-family: monospace;">9</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">7</span>
+8 </span><b style="font-family: monospace;">1</b><span
+ style="font-family: monospace;"> 10
+| x: 0;&nbsp; </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m08: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>7</u></b><span
+ style="font-family: monospace;"> 5 </span><b
+ style="font-family: monospace;">9</b><span
+ style="font-family: monospace;"> <span style="color: rgb(0, 0, 153);">7</span>
+8 </span><b style="font-family: monospace;">1</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">10</span>
+| x: 0;&nbsp; </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m09: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> 5 </span><b
+ style="font-family: monospace;">9</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>10</u></b><span
+ style="font-family: monospace;">
+8 </span><b style="font-family: monospace;">1</b><span
+ style="font-family: monospace;"> <span style="color: rgb(0, 0, 153);">10</span>
+| x: 0;&nbsp; </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m10: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> <span style="color: rgb(0, 0, 153);">2</span>
+      </span><b style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> <span style="color: rgb(153, 0, 0);">5</span>
+      </span><b style="font-family: monospace;">9</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">10</b><span
+ style="font-family: monospace;"> 8 </span><b
+ style="font-family: monospace;">1 <u>2</u></b><span
+ style="font-family: monospace;">
+| x: 0;&nbsp; </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m11: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>5</u></b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> <span style="color: rgb(0, 0, 153);">5</span>
+      </span><b style="font-family: monospace;">9</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">10</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">8</span>
+      </span><b style="font-family: monospace;">1</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">2</b><span
+ style="font-family: monospace;"> | x: 0;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m12: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">5</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>8</u></b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">9
+10</b><span style="font-family: monospace;"> <span
+ style="color: rgb(0, 0, 153);">8</span> </span><b
+ style="font-family: monospace;">1</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">2</b><span
+ style="font-family: monospace;"> | x: <span
+ style="color: rgb(153, 0, 0);">0</span>;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m13: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">5</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">8</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">9</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">10 <u>0</u>
+1</b><span style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">2</b><span
+ style="font-family: monospace;"> | x: <span
+ style="color: rgb(51, 51, 255);">0</span>;</span>&nbsp;</big></td>
+      <td valign="top"><big>Пример Б&nbsp;&nbsp; <i>n = </i>9, <i>k
+= </i>3:&nbsp; <br>
+      <span style="font-family: monospace;">0 1 2 3 4 5 6 7 8&nbsp; </span><b
+ style="font-family: monospace;">-&gt;</b><span
+ style="font-family: monospace;">&nbsp; 3 4 5 6 7 8 0 1 2 </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m01: 0 1 2 3 4 5 6 7 8 | x:
+      </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m02: </span><b
+ style="font-family: monospace;"><u>3</u></b><span
+ style="font-family: monospace;"> 1 2 <span
+ style="color: rgb(51, 51, 255);">3</span> 4 5 <span
+ style="color: rgb(255, 0, 0);">6</span> 7 8 | x: <span
+ style="color: rgb(51, 51, 255);">0</span>;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m03: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> 1 2 </span><b
+ style="font-family: monospace;"><u>6</u></b><span
+ style="font-family: monospace;"> 4 5 <span
+ style="color: rgb(51, 51, 255);">6</span> 7 8 | x: <span
+ style="color: rgb(204, 0, 0);">0</span>;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m04: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">1</span>
+2 </span><b style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> 4 5 </span><b
+ style="font-family: monospace;"><u>0</u></b><span
+ style="font-family: monospace;"> 7 8 | x: <span
+ style="color: rgb(51, 51, 255);">0</span>;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m05: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> 1 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">4</span>
+5 </span><b style="font-family: monospace;">0</b><span
+ style="font-family: monospace;"> 7 8 | x: 1;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m06: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>4</u></b><span
+ style="font-family: monospace;"> 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> <span
+ style="color: rgb(51, 51, 255);">4</span> 5 </span><b
+ style="font-family: monospace;">0</b><span
+ style="font-family: monospace;"> <span style="color: rgb(255, 0, 0);">7</span>
+8 | x: 1;&nbsp; </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m07: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>7</u></b><span
+ style="font-family: monospace;"> 5 </span><b
+ style="font-family: monospace;">0</b><span
+ style="font-family: monospace;"> <span
+ style="color: rgb(51, 51, 255);">7</span> 8 | x: <span
+ style="color: rgb(204, 0, 0);">1</span>;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m08: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> 5 </span><b
+ style="font-family: monospace;">0</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>1</u></b><span
+ style="font-family: monospace;">
+8 | x: <span style="color: rgb(51, 51, 255);">1</span>;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m09: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> 2 </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">5</span>
+      </span><b style="font-family: monospace;">0</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">1</b><span
+ style="font-family: monospace;"> 8 | x:
+2;&nbsp; </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m10: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>5</u></b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> <span
+ style="color: rgb(51, 51, 255);">5</span> </span><b
+ style="font-family: monospace;">0</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">1</b><span
+ style="font-family: monospace;"> <span style="color: rgb(204, 0, 0);">8</span>
+| x: 2;&nbsp; </span><br style="font-family: monospace;">
+      <span style="font-family: monospace;">m11: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">5</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;"><u>8</u></b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">0
+1</b><span style="font-family: monospace;"> <span
+ style="color: rgb(51, 51, 255);">8</span> | x: <span
+ style="color: rgb(204, 0, 0);">2</span>;&nbsp; </span><br
+ style="font-family: monospace;">
+      <span style="font-family: monospace;">m12: </span><b
+ style="font-family: monospace;">3</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">4</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">5</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">6</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">7</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">8</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">0</b><span
+ style="font-family: monospace;"> </span><b
+ style="font-family: monospace;">1 <u>2</u></b><span
+ style="font-family: monospace;">
+| x: <span style="color: rgb(51, 51, 255);">2</span>;&nbsp;</span></big></td>
+    </tr>
+  </tbody>
+</table>
+</p>
+<p><big>Сложност <i>O</i>(<i>n</i>), допълнителна памет 1 елемент.
+</big></p>
+<p><big>* Алгоритъм 4 (разделяй и владей):
+<br>
+- разделяме масива на 2 части: A - първите <i>k</i> елемента и B -
+последните <i>n - k</i> елемента;
+<br>
+- разделяме масива B на 2 части, Br - последните <i>k</i> елемента,
+Bl - останалите елементи;
+<br>
+- разменяме местата на елементите на A и Br;
+<br>
+- прилагаме същия алгоритъм за масива B.
+</big></p>
+<p><big>Пример.
+<br>
+<i>n = </i>11, <i>k = </i>3:
+<br>
+0 1 2 3 4 5 6 7 8 9 10&nbsp; <b><tt>-&gt;</tt></b>&nbsp; 3 4 5 6 7 8 9
+10 0 1 2
+<br>
+[0 1 2 3 4 5 6 7 8 9 10]
+<br>
+A = [0 1 2], Bl = [3 4 5 6 7], Br = [8 9 10]
+<br>
+[8 9 10 3 4 5 6 7 0 1 2 ]
+</big></p>
+<p><big>[8 9 10 3 4 5 6 7 ]&nbsp; [0 1 2]
+<br>
+A = [8 9 10], Bl =[3 4], Br = [5 6 7]
+<br>
+[5 6 7 3 4 8 9 10]
+</big></p>
+<p><big>[5 6 7 3 4]&nbsp; [8 9 10 0 1 2]
+<br>
+A = [5 6 7], Bl = [], Br = [3 4 5]
+<br>
+[ 3 4 5 6 7]
+</big></p>
+<p><big>[3 4 5 6 7 8 9 10 0 1 2]
+</big></p>
+<p><big>Сложност <i>O</i>(<i>n</i>), допълнителна памет - константа.
+</big></p>
+<p><big>* Алгоритъм 5 (Кърниган и Плоджер):
+</big></p>
+<center><big><i>BA</i> = (<i>A<sup>R</sup> B<sup>R</sup></i>)<i><sup>R</sup></i></big></center>
+<big>Тук с <i>A<sup>R</sup></i> е означен масив, получен от елементите
+на <i>A
+</i>в
+обратен ред. С 3 извиквания на функция <b><tt>reverse</tt></b> за
+обръщане
+на елементите на масив в обратен ред решаваме задачата за циклично
+преместване
+на елементите на масив.
+</big>
+<p><big>Пример.
+<br>
+<i>n = </i>11, <i>k = </i>3:
+<br>
+0 1 2 3 4 5 6 7 8 9 10&nbsp; <span style="font-family: monospace;">-&gt;</span>&nbsp;
+3 4 5 6 7 8 9 10 0 1 2
+</big></p>
+<p><big><i>A</i> = [0 1 2], <i>B</i> = [3 4 5 6 7 8 9 10], <i>AB</i>
+= [0
+1
+2 3 4 5 6 7 8 9 10]
+<br>
+<i>A<sup>R </sup></i>= [2 1 0],&nbsp; <i>B<sup>R </sup></i>= [10 9
+8 7 6 5 4 3],&nbsp; <i>A<sup>R</sup> B<sup>R </sup></i>= [2 1 0 10 9
+8
+7 6 5 4 3]
+<br>
+(<i>A<sup>R</sup> B<sup>R</sup></i>)<i><sup>R </sup></i>= [3 4 5 6
+7 8 9 10 0 1 2]
+</big></p>
+<p style="font-family: monospace;"><big><font color="#000099">//
+shift3.c</font>
+<br>
+<font color="#000099">#include &lt;stdio.h&gt;</font>
+<br>
+<font color="#000099">#define N 11</font>
+</big></p>
+<p style="font-family: monospace;"><big><font color="#000099">int m[N];</font>
+</big></p>
+<p style="font-family: monospace;"><big><font color="#000099">void
+reverse(unsigned a, unsigned b)</font>
+<br>
+<font color="#000099">{ unsigned i, j, k, c;</font>
+<br>
+<font color="#000099">&nbsp; int tmp;</font>
+<br>
+<font color="#000099">&nbsp; for (c=(b-a)/2, k=a, j=b, i=0;
+i&lt;c; i++, j--, k++)</font>
+<br>
+<font color="#000099">&nbsp; { tmp = m[k];</font>
+<br>
+<font color="#000099">&nbsp;&nbsp;&nbsp; m[k] = m[j];</font>
+<br>
+<font color="#000099">&nbsp;&nbsp;&nbsp; m[j] = tmp;</font>
+<br>
+<font color="#000099">&nbsp; }</font>
+<br>
+<font color="#000099">}</font>
+</big></p>
+<p style="font-family: monospace;"><big><font color="#000099">void
+shift3(unsigned k)</font>
+<br>
+<font color="#000099">{ reverse(0, k-1);</font>
+<br>
+<font color="#000099">&nbsp; reverse(k, N-1);</font>
+<br>
+<font color="#000099">&nbsp; reverse(0, N-1);</font>
+<br>
+<font color="#000099">}</font>
+</big></p>
+<p><big><span style="font-family: monospace;"><font color="#000099">int
+main()</font></span><span style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">{</font></span><span
+ style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">&nbsp;int i;</font></span><span
+ style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">&nbsp;for
+(i=0; i&lt;N; i++) m[i]=i;</font></span><span
+ style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">&nbsp;shift3(3);</font></span><span
+ style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">&nbsp;for
+(i=0; i&lt;N; i++) printf("%d
+", m[i]);</font></span><span style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">&nbsp;printf("\n");</font></span><span
+ style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">&nbsp;return
+0;</font></span><span style="font-family: monospace;">
+</span><br style="font-family: monospace;">
+<span style="font-family: monospace;"><font color="#000099">}</font></span><span
+ style="font-family: monospace;">
+</span><br>
+Сложност <i>O</i>(<i>n</i>), допълнителна памет - константа.
+</big><br>
+</p>
+<hr width="100%">
+</body>
+</html>

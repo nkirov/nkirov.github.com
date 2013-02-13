@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>Merger1</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: Merger1</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object, <font color=#A000A0>typename</font> Sequence&gt;
+<font color=#A000A0>class</font> Merger {						<font color=#0000FF>// generic Merger</font>
+<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local types</font>
+  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Sequence::ObjectIterator ObjectIterator;
+<font color=#A000A0>private</font>: 						<font color=#0000FF>// member data</font>
+  ObjectIterator iterA, iterB;				<font color=#0000FF>// iterators for A and B</font>
+  Object a, b; 	                			<font color=#0000FF>// current objects</font>
+<font color=#A000A0>public</font>:
+  <font color=#000000>Merger</font>() { }						<font color=#0000FF>// constructor</font>
+							<font color=#0000FF>// generic merge function</font>
+  <font color=#A000A0>void</font> <font color=#000000>merger</font>(<font color=#A000A0>const</font> Sequence& A, <font color=#A000A0>const</font> Sequence& B, Sequence& C);
+<font color=#A000A0>protected</font>: 						<font color=#0000FF>// overridden functions</font>
+  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>aIsLess</font>(<font color=#A000A0>const</font> Object& a, Sequence& C) = 0;
+  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>bothEqual</font>(<font color=#A000A0>const</font> Object& a, <font color=#A000A0>const</font> Object& b, Sequence& C) = 0;
+  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>bIsLess</font>(<font color=#A000A0>const</font> Object& b, Sequence& C) = 0;
+<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local utilitites</font>
+  <font color=#A000A0>bool</font> <font color=#000000>getFromA</font>() {					<font color=#0000FF>// get next from A</font>
+    <font color=#00A000>if</font> (iterA.<font color=#000000>hasNext</font>()) { a = iterA.<font color=#000000>next</font>(); <font color=#00A000>return</font> <font color=#A000A0>true</font>; }
+    <font color=#00A000>return</font> <font color=#A000A0>false</font>;
+  }
+  <font color=#A000A0>bool</font> <font color=#000000>getFromB</font>() {					<font color=#0000FF>// get next from B</font>
+    <font color=#00A000>if</font> (iterB.<font color=#000000>hasNext</font>()) { b = iterB.<font color=#000000>next</font>(); <font color=#00A000>return</font> <font color=#A000A0>true</font>; }
+    <font color=#00A000>return</font> <font color=#A000A0>false</font>;
+  }  
+};
+</dl>
+</body></html>
