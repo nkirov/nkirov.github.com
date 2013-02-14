@@ -1,0 +1,112 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os5</title>
+</head>
+<body>
+<b>18. Конкуренция: "мъртва хватка" и "гладна смърт"</b>
+<br><b>Откриване на МХ. Интегрирана стратегия.</b>
+<p><b>6.4 Откриване (detection) на МХ</b>
+<br>&nbsp;&nbsp;&nbsp; Дадено е:
+<br><b><tt>&nbsp;&nbsp;&nbsp; Q</tt></b> - матрица на исканията на всеки
+процес за всеки ресурс <b>в даден момент</b>;
+<br><b><tt>&nbsp;&nbsp;&nbsp; R</tt></b>&nbsp; - вектор на всички налични
+ресурси;
+<br><b><tt>&nbsp;&nbsp;&nbsp; A</tt></b> - матрица на дадени на всеки процес
+ресурси (състояние на системата);
+<br><b><tt>&nbsp;&nbsp;&nbsp; V</tt></b> - вектор на свободните ресурси.
+<p>** Алгоритъм за откриване на МХ.
+<br>&nbsp;&nbsp; 1. Маркираме процесите, които в <b><tt>A</tt></b> имат
+само 0;
+<br>&nbsp;&nbsp; 2. Създаваме но вектор <b><tt>W = V</tt></b>;
+<br>&nbsp;&nbsp; 3. Намираме немаркиран процес, за който елементите на
+реда на <b><tt>Q</tt></b> са по-малки или равни на елементите на вектора
+<b><tt>W</tt></b>.
+Ако няма такъв, стоп.
+<br>&nbsp;&nbsp; 4. Към елементите на <b><tt>W </tt></b>добавяме реда от
+матрицата <b><tt>A</tt></b> на намерения в т. 3 процес. Изпълнява се т.
+3.
+<br>Ако при завършване на алгоритъма има немаркирани процеси, значи имаме
+открита МХ.
+<p>Пример:
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица Q</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+0&nbsp;&nbsp; 1&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+0&nbsp;&nbsp; 1</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 0&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+1&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 0</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;&nbsp; 2&nbsp;&nbsp; 1&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<font color="#333333">&nbsp; 1. Маркираме <b><tt>P4</tt></b>.</font>
+<br><font color="#333333">&nbsp; 2. W = (0 0 0 0 1)</font>
+<br><font color="#333333">&nbsp; 3. <b><tt>P3</tt></b>: (0 0 0 0 1) = W,
+маркираме <b><tt>P3</tt></b>.</font>
+<br><font color="#333333">&nbsp; 4. W = (0 0 0 1 1)</font>
+<br><font color="#333333">&nbsp; 3. <b><tt>P1</tt></b> и <b><tt>P2</tt></b>
+не отговарят на условията (<b><tt>P1</tt></b> иска ресурс </font><b><tt><font color="#993300">R2</font></tt></b><font color="#333333">,
+а <b><tt>P2</tt></b> - ресурс </font><b><tt><font color="#993300">R3</font></tt></b><font color="#333333">,
+от които няма свободни). Стоп.</font>
+<br><font color="#333333">Има немаркирани процеси - МХ.</font>
+<p>** Възстановяване.
+<br>След като е открита МХ, необходимо е възстановяване на работата на
+системата.
+<br>&nbsp;&nbsp; 1. Прекъсване (завършване, kill) на всички процеси, участващи
+в МХ.
+<br>&nbsp;&nbsp; 2. Връщане на всички МХ-процеси в предишно състояние и
+стартирането им отново.
+<br>&nbsp;&nbsp; 3. Последователно прекъсване на МХ-процесите, докато алгоритъмът
+даде липса на МХ.
+<br>&nbsp;&nbsp; 4. Последователно преразпределение на ресурси, докато
+алгоритъмът даде липса на МХ.
+<br>
+<hr WIDTH="100%">
+<br><b>6.5 Интегрирана стратегия</b>
+<br>-- Групиране на ресурсите в класове от различни ресурси.
+<br>-- Използване на наредба на ресурсите във всеки клас.
+<br>-- Използване на подходящи алгоритми за всеки клас.
+<br>Например:
+<br>-- Swapping space: предпазване от МХ с вземане на всички необходими
+ресурси.
+<br>-- Processor resources: избягване на МХ с обявяване на необходимите
+ресурси.
+<br>-- Main memory: преразпределение на ресурси.
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

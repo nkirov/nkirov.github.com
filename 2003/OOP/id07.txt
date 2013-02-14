@@ -1,0 +1,60 @@
+//7. Proxy êëàñîâå.
+//
+// Fig. 7.10: implementation.h
+// Header file for class Implementation
+
+class Implementation {
+   public:
+      Implementation( int v ) { value = v; }
+      void setValue( int v ) { value = v; }
+      int getValue() const { return value; }
+
+   private:
+      int value;
+};
+-------------------------
+// Fig. 7.10: interface.h
+// Header file for interface.cpp
+class Implementation;   // forward class declaration
+
+class Interface {
+   public:
+      Interface( int );
+      void setValue( int );  // same public interface as
+      int getValue() const;  // class Implementation
+   private:
+      Implementation *ptr;   // requires previous 
+                             // forward declaration
+};
+---------------------------
+// Fig. 7.10: interface.cpp
+// Definition of class Interface
+#include "interface.h"
+#include "implementation.h"
+
+Interface::Interface( int v ) 
+   : ptr ( new Implementation( v ) ) { }
+
+// call Implementation's setValue function
+void Interface::setValue( int v ) { ptr->setValue( v ); }
+
+// call Implementation's getValue function
+int Interface::getValue() const { return ptr->getValue(); }
+--------------------------
+// Fig. 7.10: fig07_10.cpp
+// Hiding a class’s private data with a proxy class.
+#include <iostream.h>
+#include "interface.h"
+
+int main()
+{
+   Interface i( 5 );
+ 
+   cout << "Interface contains: " << i.getValue() 
+        << " before setValue" << endl;
+   i.setValue( 10 );
+   cout << "Interface contains: " << i.getValue() 
+        << " after setValue" << endl;
+   return 0;
+}
+------------------------------------------------------

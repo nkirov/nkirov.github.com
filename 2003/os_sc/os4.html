@@ -1,0 +1,1085 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os4</title>
+</head>
+<body>
+
+<h2>
+Операционни системи</h2>
+
+<h3>
+4 (5). Конкуренция: взаимно изключване и синхронизация</h3>
+&nbsp;&nbsp;&nbsp; Централни теми при изграждане на ОС:
+<br>&nbsp; - многопрограмна работа;
+<br>&nbsp; - многопроцесорна работа;
+<br>&nbsp; - разпределени процеси.
+<br>&nbsp;&nbsp;&nbsp; Конкуренция на процеси - 3 различни аспекта:
+<br>&nbsp; - много на брой активни приложения едновременно;
+<br>&nbsp; - структурирани приложения - за повишаване на ефективността
+някои приложения се програмират като множества от конкурентни процеси;
+<br>&nbsp; - структурата на ОС - често като множество от конкурентни процеси.
+<p><b>5.1 Принципи на конкуренцията.</b>
+<br>&nbsp;&nbsp;&nbsp; Пример.
+<br>&nbsp;&nbsp;&nbsp; Процесите <b><tt>P1</tt></b> и <b><tt>P2</tt></b>
+използват обща "ехо" функция (напр. за отпечатване на екрана на натиснат
+клавиш) - без и със защита на функцията. ОС може да прекъсва изпълнението
+на функцията след всеки оператор.
+<br><b><tt><font color="#000099">char chin, chout;</font></tt></b>
+<br><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp; От клавиатурата на&nbsp; </font><b><tt><font color="#003300">P1
+</font></tt></b><font color="#000000">се
+въвежда '<b><tt>A</tt></b>', а от клавиатурата на <b><tt>P2</tt></b> -
+'<b><tt>B</tt></b>'. </font>Възможни са следните сценарии за изпълнение
+на процесите <b><tt>P1</tt></b> и <b><tt>P2</tt></b>, които използват функцията
+"ехо".
+<p>&nbsp; <b>А. Без защита : </b>ОС може да прекъсва изпълнението на функцията
+след всеки оператор.
+<br>&nbsp;
+<table BORDER=0 CELLPADDING=4 >
+<tr>
+<td><b><font color="#003300">// <tt>PROCESS P1</tt></font></b>
+<br><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">................</font></tt></b>
+<br><b><tt><font color="#000099">................</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">.................</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b></td>
+
+<td><b><font color="#003300">// <tt>PROCESS P2</tt></font></b>
+<br><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b></td>
+
+<td>v<b><tt>alue of chin</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>A</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b></td>
+
+<td><b><tt>value of chout</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>...</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b>
+<br><b><tt>B</tt></b></td>
+</tr>
+</table>
+
+<p>т.е. <b><tt><font color="#006600">P1(getchar)-> P2(getchar)-> P2(=)->
+P1(=)-> P1(putchar)-> P2(putchar)->
+</font></tt></b><font color="#000000">и
+двата процеса извеждат '<b><tt>B</tt></b>'
+<b><tt>-> BAD.</tt></b></font>
+<br>&nbsp;<b>&nbsp;&nbsp;&nbsp;&nbsp; Б. Със защита: </b>ОС <b>не</b> може
+да прекъсва изпълнението на функцията.
+<br><b><tt><font color="#006600">P1(getchar)-> P2(echo, недостъпна!)->
+P1(=)-> P1(putchar)-> P2(=)-> P2(putchar)->
+</font></tt></b>и процесът
+<b><tt>P1</tt></b>
+извежда '<b><tt>A</tt></b>', а процесът <b><tt>P2</tt></b> - '<b><tt>B</tt></b>'<b><tt>
+-> OK.</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Извод - управление на достъпа до съвместно използвана
+функция!
+<p>** Задължения на ОС.
+<br>&nbsp;&nbsp;&nbsp; 1. Следене на активните прцеси.
+<br>&nbsp;&nbsp;&nbsp; 2. Отпускане на ресурси за активните процеси:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - процесорно
+време;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - памет;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - файлове;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - I/O устройства.
+<br>&nbsp;&nbsp;&nbsp; 3. Предпазване на данни и ресурси на всеки процес
+от неправомерна намеса на друг процес.
+<br>&nbsp;&nbsp;&nbsp; 4. Резултатът от работата на един процес трябва
+да е независим от скоростта на изпълнението му, както и от скоростта на
+изпълнение на другите процеси.
+<p>** Взаимодействие на процеси.
+<br>* Състезание между процесите за ресурси.
+<br><b>&nbsp;&nbsp;&nbsp; Взаимно изключване</b> (ВИ) - mutual exclusion:
+<b>критичен
+ресурс</b> (КР) и <b>критична секция</b> (КС).
+<br>&nbsp;&nbsp;&nbsp; Пример: ресурс принтер.
+<br><b><tt><font color="#003300">/* program mutual_exclusion */</font></tt></b>
+<br><b><tt><font color="#003300">const int n; /* number of processes */</font></tt></b>
+<br><b><tt><font color="#003300">void P(int i)</font></tt></b>
+<br><b><tt><font color="#003300">{ while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; { enter_critical(i);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp; exit_critical(i);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">void main( )</font></tt></b>
+<br><b><tt><font color="#003300">{ parbegin(P(1), P(2), ..., P(n)); }</font></tt></b>
+<p><font color="#003300">&nbsp;&nbsp;&nbsp; <i>Какво лошо може да се случи?</i></font>
+<br><b>&nbsp;&nbsp;&nbsp; Мъртва хватка</b> (МХ) - deadlock.
+<br>&nbsp;&nbsp;&nbsp; Дадени са процеси <b><tt>P1</tt></b> и
+<b><tt>P2
+</tt></b>и
+ресурси <b><tt>R1</tt></b> и <b><tt>R2</tt></b>. За да завършат, двата
+процеса трябва да използват и двата ресурса. Ако процесът <b><tt>P1</tt></b>
+заеме ресурс <b><tt>R1</tt></b> и процес <b><tt>P2</tt></b> заеме ресурс
+<b><tt>R2</tt></b>,&nbsp;
+тогава нито един от процесите не може да завърши - <b><tt>P1</tt></b> чака
+да бъде освободен ресурс <b><tt>R2</tt></b>, а <b><tt>P2</tt></b> чака
+да бъде освободен ресурс <b><tt>R1</tt></b> - МХ.
+<br><b>&nbsp;&nbsp;&nbsp; Гладна смърт</b> (ГС) - starvation.
+<br>&nbsp;&nbsp;&nbsp; Дадени са процеси <b><tt>P1</tt></b>,
+<b><tt>P2</tt></b>
+и <b><tt>P3</tt></b> и ресурс <b><tt>R</tt></b>. И трите процеса използват
+дадения ресурс. Нека <b><tt>P1</tt></b> и
+<b><tt>P2 </tt></b>да се изпълняват
+периодично, т.е. заемат ресурса за определено време, след което го освобождават.
+При сценарии
+<br><b><tt><font color="#006600">P1(R)-> P2(R)-> P1(R)-> P2(R)-> P1(R)->
+...</font></tt></b>
+<br><b><tt>P3</tt></b> чака да бъде освободен ресурса и това чакане може
+да продължи неопределено време - ГС.
+<p>*&nbsp; Кооперация между процеси чрез поделяне, съгласуване на данните.
+<br>&nbsp;&nbsp;&nbsp; Два процеса, като използват общи променливи <b><tt>a
+</tt></b>и
+<b><tt>b</tt></b>,
+поддържат връзката <b><tt>a = b</tt></b>.
+<br><b><tt><font color="#006600">int a=1, b=1;</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">PROCESS P1</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; a = a + 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; b = b + 1;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#006600">PROCESS P2</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; b = 2 * b;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; a = 2 * a;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; При сценарии (без защита):
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+P1(a = a + 1)-> P2(b = 2 * b)-> P2(a = 2 * a)-> P1(b = b + 1)</font></tt></b>
+<br>стойностите на двете променливи са съответно
+<br><b><tt><font color="#006600">(1,1) ->&nbsp; (2,1)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+->&nbsp;&nbsp; (2,2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ->&nbsp;&nbsp; (4,2)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+->&nbsp;&nbsp;&nbsp; (4,3)</font></tt></b>
+<br>и връзката <b><tt>a = b </tt></b>е нарушена. Отново възниква необходимост
+от защита - от ВИ.
+<p>** Изисквания за ВИ:
+<br>&nbsp;&nbsp;&nbsp; 1. Само един процес е в КС секция относно даден
+КР.
+<br>&nbsp;&nbsp;&nbsp; 2. Процес извън КС може да прекъсва, без това да
+влияе на останалите процеси.
+<br>&nbsp;&nbsp;&nbsp; 3. Всеки процес, чакащ за влизане в КС, трябва да
+може да влезе в КС (с крайно време за чакане).
+<br>&nbsp;&nbsp;&nbsp; 4. Ако няма процес в КС (относно КР), всеки процес,
+който иска този КР, трябва да може да влезе в КС незабавно.
+<br>&nbsp;&nbsp;&nbsp; 5. Няма ограничения за брой процеси, чакащи за КР
+и няма ограничения за времето и честотата на използване на този ресурс.
+<br>&nbsp;&nbsp;&nbsp; 6. Един процес може да остане в КС за крайно време.
+<br>
+<hr WIDTH="100%">
+<p><b>5.2 Взаимно изключване: софтуерен подход.</b>
+<br>** Алгоритъм на Декер.
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>Първи опит:
+<br><b><tt><font color="#003300">int </font><font color="#006600">turn;
+/* =0 or =1 */</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">turn!=0)
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">turn!=1)
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Щастлив сценарии - последователно влизане в КС:
+<br><b><tt><font color="#006600">P0 -> P1 -> P0 -> P1 -> P0 -> P1 -> ...</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Проблем - когато единия процес няма интерес за влизане
+в КС, т.е. <b><tt><font color="#006600">P1</font></tt></b> иска 2 пъти
+последователно да влезе в КС.
+<br><b><tt><font color="#006600">P0 -> P1 -> P1(чака, turn има стойност
+1) -</font></tt></b>&nbsp;&nbsp; <b><tt><font color="#006600">P1 </font></tt></b>се
+блокира.
+<br>Това се случва и при грешка в единия процес
+<p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>&nbsp; Втори опит:
+<br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2]
+= {false, false};</font></tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[1])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[0])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Щастлив сценарии:
+<br><b><tt><font color="#006600">P0(while)-> P0(=)-> P0(КС)-> P0(=)-> P0(while)->
+P0(=)-> P0(КС)-> P0(=)-></font></tt></b>
+<br><b><tt><font color="#006600">P1(while)-> P1(=)-> P1(КС)-> P1(=)-> ...</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Проблем при следния сценарии:
+<br><b><tt>P0(<font color="#006600">while(flag[1])</font></tt></b> намира
+го <b><tt><font color="#006600">false)-></font></tt></b>
+<br><b><tt>P1(<font color="#006600">while(flag[0]) </font></tt></b>намира
+го <b><tt><font color="#006600">false)-></font></tt></b>
+<br><b><tt>P0(<font color="#006600">flag[0]=true</font></tt></b><font color="#000000">
+и влиза в КС)<b><tt> -></tt></b></font>
+<br><b><tt>P1(<font color="#006600">flag[1]=true</font></tt></b><font color="#000000">
+и влиза в КС)</font> <b><tt>-> BAD.</tt></b>
+<br>И двата процеса са в КС - няма ВИ.
+<p><b>&nbsp;&nbsp;&nbsp; </b>Трети опит:
+<br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2];</font></tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[1])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[0])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Щастливи сценарии:
+<br><b><tt><font color="#006600">P0(=t)-> P0(while)-> P0(КС)-> P1(=t)->
+P1(while,чака)-> P0(=f)-> P1(КС)-> P1(=f)-> P1(=t)-> P1(while)-> P0(КС)->
+P0(=t,чака)-> P1(=f)-> P0(КС)-> ...</font></tt></b>
+<br>ВИ е гарантирано.
+<p>&nbsp;&nbsp;&nbsp; Проблем - възможно e МХ при следния сценарии:
+<br><b><tt><font color="#006600">P0(flag[0] = true)-> P1(flag[1] = true)->
+P1(while)-> P0(while)-></font><font color="#000000"> MX.</font></tt></b>
+<p>** Алгоритъм на Петерсон - решение на задачата за ВИ.
+<br><b><tt><font color="#006600">bool flag[2] = {false,false};</font></tt></b>
+<br><b><tt><font color="#006600">int turn;</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void P0()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag[1] &amp;&amp; turn==1)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td><b><tt><font color="#006600">void P1()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag[0] &amp;&amp; turn==0)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{ flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; parbegin(P0, P1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Масивът <b><tt><font color="#006600">flag</font></tt></b>&nbsp;
+показва заявка (интерес) за КС, променливата <b><tt><font color="#006600">turn</font></tt></b>
+- кой в момента е в КС.&nbsp; Ето и всички възможности за стойности на
+тези променлива:
+<table BORDER CELLSPACING=0 CELLPADDING=6 >
+<tr>
+<td><b><tt><font color="#006600">flag[0]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">flag[1]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">turn</font></tt></b></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">0, 1</font></tt></b></td>
+
+<td>Няма интерес за КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC0000">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#006600">0, 1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P0</font></tt></b> няма интерес за КС,
+<b><tt><font color="#006600">P1</font></tt></b>
+в КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#CC0000">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">0, 1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P0</font></tt></b> в КС, <b><tt><font color="#006600">P1</font></tt></b>
+няма интерес за КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#990000">0</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P0</font></tt></b> в КС, <b><tt><font color="#006600">P1</font></tt></b>
+чака за КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#990000">1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P1</font></tt></b> в КС, <b><tt><font color="#006600">P0</font></tt></b>
+чака за КС.</td>
+</tr>
+</table>
+
+<hr WIDTH="100%">
+<p><b>5.3 Взаимно изключване: хардуера поддръжка.</b>
+<br>** Непозволяване на прекъсвания - проблеми при многопроцесорни системи
+и неефективно използване на ресурси..
+<p>** Специални машинни команди. Функцията <b><tt><font color="#000099">testset</font></tt></b>
+не реализирана хардуерно и връща стойност за един такт на процесора, т.е.
+не може да се прекъсва.
+<br><b><tt><font color="#000099">bool testset(int &amp;i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (i == 0)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { i = 1; return true; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return false;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#003300">const</font><font color="#006600"> int
+n; /* number of processes */</font></tt></b>
+<br><b><tt><font color="#006600">int bolt;</font></tt></b>
+<br><b><tt><font color="#003300">void</font><font color="#006600"> P(int
+k)</font></tt></b>
+<br><b><tt><font color="#003300">{ while(true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; do </font><font color="#006600">nothing();</font><font color="#003300">
+while (!</font><font color="#006600">testset(bolt));</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; bolt = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{ parbegin(</font><font color="#006600">P(1),P(2),...,P(n));
+}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Когато променливата <b><tt><font color="#006600">bolt</font></tt></b>
+има стойност 1, има процес в КС и функцията <b><tt><font color="#000099">testset
+</font></tt></b>връща
+стойност <b><tt><font color="#000099">false</font></tt></b> - т.е. всички
+процеси, които имат интерес за КС, чакат. Когато променливата
+<b><tt><font color="#006600">bolt</font></tt></b>
+има стойност 0, няма процес в КС, функцията <b><tt><font color="#000099">testset
+</font></tt></b>връща
+стойност <b><tt><font color="#000099">false</font></tt></b> , като стойността
+на <b><tt><font color="#006600">bolt</font></tt></b> става 1. Процес, който
+излиза от КС, променя стойността на <b><tt><font color="#006600">bolt</font></tt></b>
+на 0. Гарантирано е ВИ, няма опасност от МХ.
+<p><b>5.4 Семафори</b>
+<br>&nbsp;&nbsp; Основен принцип: два или повече процеса се кооперират
+в смисъл на прости сигнали така, че един процес може да бъде спрян на определено
+място и да остане в това състояние, докато не получи съответен сигнал.
+<br>&nbsp;&nbsp; За да изпрати сигнал чрез семафора&nbsp; <b><tt><font color="#006600">s</font></tt></b>,
+процесът трябва да изпълни примитива (процедурата) <b><tt><font color="#006600">signal(s)</font></tt></b>.
+За да получи сигнал от семафор <b><tt><font color="#006600">s</font></tt></b>,
+процесът трябва да изпълни <b><tt><font color="#006600">wait(s)</font></tt></b>&nbsp;
+и ако съответният сигнал още не е изпратен, да остане в състояние на чакане
+(блокиран).
+<p>&nbsp;&nbsp;&nbsp; Дефинирани са 3 действия с променливата семафор:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Инициализира се с неотрицателно число.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Примитива <b><tt><font color="#006600">wait(s)
+</font></tt></b>намалява
+стойността на <b><tt><font color="#006600">s</font></tt></b> с 1. Ако стойността
+стане отрицателна, процесът (изпълняващ <b><tt><font color="#006600">wait</font></tt></b>)
+се блокира.
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3. Операцията <b><tt><font color="#006600">signal(s)
+</font></tt></b>увеличава
+стойността на <b><tt><font color="#006600">s</font></tt></b> с 1. Ако стойността
+не е положителна, процесът (блокиран с <b><tt><font color="#006600">wait</font></tt></b>)
+се разблокира.
+<br>&nbsp;&nbsp;&nbsp; Примитивите <b><tt><font color="#006600">wait </font></tt></b>и
+<b><tt><font color="#006600">signal
+</font></tt></b>се
+предполат неделими, т.е. те не могат да бъдат прекъсвани.
+<p><b><tt><font color="#006600">struct semaphore {</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;int count;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;queueType queue;</font></tt></b>
+<br><b><tt><font color="#006600">};</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#003300">void wait(semaphore s)</font></tt></b>
+<br><b><tt><font color="#003300">{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;s.count--;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;if (s.count &lt; 0)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">place_this_process_in_s.queue;</font></tt></b>
+<br><b><tt><font color="#660000">&nbsp; block_this_process;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;</font><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b></td>
+
+<td><b><tt><font color="#003300">void signal(semaphore s)</font></tt></b>
+<br><b><tt><font color="#003300">{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;s.count++;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;if (s.count &lt;= 0)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#660000">&nbsp; remove_a_process_from_s.queue(P);</font></tt></b>
+<br><b><tt><font color="#660000">&nbsp; place_the_process_on_ready_list(P);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Пример ???.
+<center><img SRC="05_08.gif" height=712 width=413></center>
+Ако <b><tt><font color="#003300">s.count </font></tt></b>е отрицателно
+число (3, 6 и 7), -<font color="#003300"><b><tt>s.count</tt></b> е броят
+на чакащите на семафора&nbsp; <b><tt>s</tt></b> процеси, т.е. броят на
+процесите в опашката </font><b><tt><font color="#660000">s.queue</font></tt></b>.&nbsp;
+Ако <b><tt><font color="#003300">s.count </font></tt></b>е положително
+число (1), <font color="#003300"><b><tt>s.count</tt></b> е броят на процесите,
+които могат да минат през семафора, преди той да се затвори. Опашката </font><b><tt><font color="#660000">s.queue</font></tt></b>
+е празна. Ако <b><tt><font color="#003300">s.count </font></tt></b>е 1
+(1), то един процес минава и затваря семафора. Ако <b><tt><font color="#003300">s.count
+</font></tt></b>е
+0 (2, 4 и 5), то идващ процес се блокира и отива на опашката.
+<p>&nbsp;&nbsp; Двоични семафори - семафорът има две състояния - отворен
+(1) и затворен (0):
+<br><b><tt><font color="#006600">struct binary_semaphore {</font></tt></b>
+<br><b><tt><font color="#006600">int value; /* = 0, 1 */</font></tt></b>
+<br><b><tt><font color="#006600">queueType queue;</font></tt></b>
+<br><b><tt><font color="#006600">};</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void waitB(binary_semaphore s)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;if (s.value==1) s.value=0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;else</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">place_this_process_in_s.queue;</font></tt></b>
+<br><b><tt><font color="#660000">&nbsp; block_this_process;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td><b><tt><font color="#006600">void signalB(binary_semaphore s)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;if (s.queue.is_empty()) s.value=1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;else</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">remove_a_process_from
+s.queue(P);</font></tt></b>
+<br><b><tt><font color="#660000">&nbsp; place_process_on_ready_list(P);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+</tr>
+</table>
+
+<p>** Взаимно изключване - решение на задачата за ВИ със семафори.
+<br><b><tt><font color="#003300">/* program mutual_exclusion */</font></tt></b>
+<br><b><tt><font color="#003300">const int n; /* number of processes */</font></tt></b>
+<br><b><tt><font color="#003300">semaphore s = 1;</font></tt></b>
+<br><b><tt><font color="#003300">void P(int i)</font></tt></b>
+<br><b><tt><font color="#003300">{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; wait(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; signal(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;parbegin(P(1), P(2),..., P(n));</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Стойността на променливата <b><tt><font color="#003300">s.count
+</font></tt></b>има
+следния смисъл:
+<br>- <b><tt><font color="#003300">s.count >= 0 </font></tt></b>е броят
+на процесите, които могат да изпълнят примитива <b><tt><font color="#006600">wait(s)</font></tt></b>без
+да бъдат блокирани (и няма изпълнение на <b><tt><font color="#006600">signal(s)</font></tt></b>);
+<br>- <b><tt><font color="#003300">s.count &lt; 0 </font></tt></b>е броят
+на процесите, чакащи в <b><tt><font color="#006600">s.queue.</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br><b>5.5 Задача за производител/потребител.</b>
+<br>&nbsp;&nbsp;&nbsp; Един или няколко производители генерират данни (записи,
+символи) и ги поставят в един буфер. Един потребител взема по една данна
+от буфера. Само един агент (производител или потребител) има достъп да
+буфера в даден момент.
+<center><img SRC="05_11.gif" height=337 width=547></center>
+* <b>Първи опит</b> за решение със семафори:
+<br><b><tt><font color="#003300">/* program producer_consumer */</font></tt></b>
+<br><b><tt><font color="#003300">int n;</font></tt></b>
+<br><b><tt><font color="#003300">binary_semaphore s = 1;</font></tt></b>
+<br><b><tt><font color="#003300">binary_semaphore delay = 0;</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td VALIGN=TOP><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; void
+producer()</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">/*p1*/ produce();</font></tt></b>
+<br><b><tt><font color="#003300">/*p2*/ waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">/*p3*/ append(); /*КС*/&nbsp;</font></tt></b>
+<br><b><tt><font color="#003300">/*p4*/ n++;</font></tt></b>
+<br><b><tt><font color="#003300">/*p5*/ if (n==1) signalB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">/*p6*/ signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b></td>
+
+<td><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; void consumer()</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">/*c1*/ waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">/*c2*/ take();&nbsp;&nbsp;&nbsp; /*КС*/</font></tt></b>
+<br><b><tt><font color="#003300">/*c3*/ n--;</font></tt></b>
+<br><b><tt><font color="#003300">/*c4*/ signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">/*c5*/ consume();</font></tt></b>
+<br><b><tt><font color="#003300">/*c6*/ if (n==0) waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{ n = 0;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; parbegin(producer, consumer);</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp; Семафорът </font><b><tt><font color="#006600">s</font></tt></b><font color="#000000">
+служи за взаимно изключване, семафорът </font><b><tt><font color="#006600">delay</font></tt></b><font color="#000000">
+- за чакане на потребителя, когато буферът е празен.</font>
+<br><font color="#000000">Проблем:</font>
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td>
+<center><b><tt>n</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>delay</tt></b></center>
+</td>
+
+<td></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Init</tt></b></center>
+</td>
+
+<td><b><tt>&nbsp;</tt></b></td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>2</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Producer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td><b><tt>p1->p2->p3->p4->p5->p6</tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>3</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>waitB(delay)</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>4</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td><b><tt>c1->c2->c3->c4->c5-></tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>5</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Producer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0->1</tt></b></center>
+</td>
+
+<td><b><tt>p1->p2->p3->p4-></tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>6</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt><font color="#003300">if (n==0) waitB(delay)</font></tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td><b><tt>->c6</tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>7</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1</tt></b></center>
+</td>
+
+<td><b><tt>c1->c2->c3->c4->c5-></tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>8</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt><font color="#003300">if (n==0) waitB(delay)</font></tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>1->0</tt></b></center>
+</td>
+
+<td><b><tt>->c6</tt></b></td>
+</tr>
+
+<tr>
+<td>
+<center><b><tt>9</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>Consumer</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>КС</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>-1</tt></b></center>
+</td>
+
+<td>
+<center><b><tt>0</tt></b></center>
+</td>
+
+<td><b><tt>c1->c2-> !!!</tt></b></td>
+</tr>
+</table>
+
+<p>* <b>Втори опит</b> - решение:
+<br><b><tt><font color="#333300">int n;</font></tt></b>
+<br><b><tt><font color="#333300">binary_semaphore s = 1;</font></tt></b>
+<br><b><tt><font color="#333300">binary_semaphore delay = 0;</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td VALIGN=TOP><b><tt><font color="#003300">void producer()</font></tt></b>
+<br><b><tt><font color="#003300">{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; produce();</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; append();n++;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; if (n==1) signalB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b></td>
+
+<td><b><tt><font color="#003300">void consumer()</font></tt></b>
+<br><b><tt><font color="#003300">{ int m;&nbsp; /* a local variable */</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; take(); n--;&nbsp; m = n;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; consume();</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; if (m==0) waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{ n = 0;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; parbegin (producer, consumer);</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Варианти на задачата - безкраен буфер и краен кръгов
+буфер.
+<center><img SRC="05_15.gif" height=557 width=495></center>
+
+<hr WIDTH="100%">
+<br><b>5.6 Задачата на бръснаря.</b>
+<center><img SRC="05_18.gif" height=491 width=661></center>
+
+<hr WIDTH="100%">
+<br><b>5.7 Задачата на писатели/читатели.</b>
+<br>&nbsp;&nbsp;&nbsp; Данни (файл, блок от паметта) се използват от няколко
+процеса. Някои от процесите само четат тези данни - читатили, а други само
+променят данните - писатели. Следните условия трябва да се спазват:
+<br>&nbsp;&nbsp; 1. Произволен брой читатели могат да четат едновременно
+данните;
+<br>&nbsp;&nbsp; 2. Само един писател може да пише данни;
+<br>&nbsp;&nbsp; 3. Ако писател пише, никой читател не може да чете.
+<br>&nbsp;&nbsp;&nbsp; Ако всеки процес може и да пише и да чете, общото
+решение за ВИ работи.
+<br>&nbsp;&nbsp;&nbsp; Ако един процес може или само да чете, или само
+да пише - общото решение е неприемливо, а съществуват и по-ефективни решения.
+<p>** Предимство на читателите.
+<br><b><tt><font color="#006600">/* program readers_and_writers */</font></tt></b>
+<br><b><tt><font color="#006600">int readcount;</font></tt></b>
+<br><b><tt><font color="#006600">semaphore x = 1, wsem = 1;</font></tt></b>
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void reader()</font></tt></b>
+<br><b><tt><font color="#006600">{ while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount++;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==1) wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; READUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==0) signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#006600">void writer()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; WRITEUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;
+<br>&nbsp;
+<p>&nbsp;</td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{ readcount = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; parbegin(reader, writer);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p>** Предимство на писателите.
+<br><b><tt><font color="#006600">/* program readers_and_writers */</font></tt></b>
+<br><b><tt><font color="#006600">int readcount, writecount;</font></tt></b>
+<br><b><tt><font color="#006600">semaphore x = 1, y = 1, z = 1, wsem =
+1, rsem = 1;</font></tt></b>
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void reader()</font></tt></b>
+<br><b><tt><font color="#006600">{ while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(z);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount++;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==1) wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(z);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; READUNIT();&nbsp;&nbsp; /*
+{КС} */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount==0) signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td VALIGN=TOP><b><tt><font color="#006600">void writer()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; writecount++;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (writecount==1) wait(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; WRITEUNIT();&nbsp; /* КС */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; writecount--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (writecount==0) signal(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(y);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;readcount = writecount = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;parbegin (reader, writer);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Общо предназначение на семафорите:
+<br>- <b><tt><font color="#006600">x </font></tt></b>- коректната работа
+с обща глобална променлива <b><tt><font color="#006600">readcount;</font></tt></b>
+<br>- <b><tt><font color="#006600">y </font></tt></b>- коректната работа
+с обща глобална променлива <b><tt><font color="#006600">writecount;</font></tt></b>
+<br>- <b><tt><font color="#006600">z </font></tt></b>- осигурява предимство
+на писателите;
+<br>- <b><tt><font color="#006600">rsem </font></tt></b>- свободно за четене
+(няма писател в КС);
+<br>- <b><tt><font color="#006600">wsem </font></tt></b>- свободно за писане
+(няма читатели в КС).
+<br>&nbsp;&nbsp;&nbsp; Двойката семафори <b><tt>z</tt></b> и <b><tt>rsem</tt></b>
+осигуряват най-много един читател на опашка за семафора <b><tt>rsem</tt></b>,
+което позволява преминаването на първият писател през този семафор. Така
+се дава предимството на писателите.
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td>Състояния на системата:</td>
+
+<td>Състояния на семафорите <b><tt>wsem</tt></b>, <b><tt>rsem</tt></b>
+и <b><tt>z:</tt></b></td>
+</tr>
+
+<tr>
+<td>Само читатели в системата</td>
+
+<td><b><tt>- wsem - 1</tt></b>
+<br><b><tt>- няма опашки</tt></b></td>
+</tr>
+
+<tr>
+<td>Само писатели в системата</td>
+
+<td><b><tt>- rsem - 1</tt></b>
+<br><b><tt>- опашка от писатели на wsem</tt></b></td>
+</tr>
+
+<tr>
+<td>Много читатели четат, идва писател</td>
+
+<td><b><tt>- wsem е затворен (от първия читател); rsem е отворен;</tt></b>
+<br><b><tt>- писателят минава и затваря rsem;</tt></b>
+<br><b><tt>- писателят чака на wsem;</tt></b>
+<br><b><tt>- следващият идващ читател затваря z и чака на rsem;</tt></b>
+<br><b><tt>- всички други идващи читатели чакат на z;</tt></b>
+<br><b><tt>- последният читател, завършил четенето, отваря wsem;</tt></b></td>
+</tr>
+
+<tr>
+<td>Последен писател пише, чакат читатели</td>
+
+<td><b><tt>- wsem е затворен (от пишещия писател);</tt></b>
+<br><b><tt>- опашките са както в предишния случай;</tt></b>
+<br><b><tt>- писателят свършва и отваря wsem;</tt></b>
+<br><b><tt>- писателят отваря rsem;</tt></b>
+<br><b><tt>- читателят, чакащ на rsem минава, отваря z и чете;</tt></b></td>
+</tr>
+</table>
+
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

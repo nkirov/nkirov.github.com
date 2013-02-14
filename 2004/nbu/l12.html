@@ -1,0 +1,167 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l12</title>
+</head>
+<body>
+<b>Динамично оптимиране - числа на Фибоначи и биномни коефициенти [8.3.1,
+8.3.2]</b>
+<p><b>Числа на Фибоначи</b>
+<br>* Числа на Фибоначи: <i>F</i>(0) = <i>F</i>(1)= 1 и <i>F</i>(<i>i</i>)<i><sub>
+</sub></i>= <i>F</i>(<i>i-</i>1) + <i>F</i>(<i>i-</i>2) за <i>i</i> > 1.
+<center>1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...</center>
+* Класически рекурсивен неефективен алгоритъм:
+<br><b><tt><font color="#006600">unsigned long fib(unsigned n)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (n&lt;2) return 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; return fib(n-1) + fib(n-2);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Експоненциално сложност.
+<p>* Динамично програмиране - със запомняне на вече пресметнатите стойности:
+<p><b><tt><font color="#000099">#include &lt;stdio.h></font></tt></b>
+<br><b><tt><font color="#000099">#define MAX 256</font></tt></b>
+<br><b><tt><font color="#000099">unsigned n = 10;</font></tt></b>
+<br><b><tt><font color="#000099">unsigned long m[MAX+1];</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">unsigned long fibMemo(unsigned n)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (n&lt;2) m[n] = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (0 == m[n]) m[n] = fibMemo(n-1)
++ fibMemo(n-2);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return m[n];</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ memset(m, 0, MAX*sizeof(*m));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; scanf("%u", &amp;n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("\n%u-тото число на Фибоначи
+е: %lu", n, fibMemo(n));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Линейна сложност.
+<p>* Друга формула за пресмянате на n-тото число на Фибоначи - със запомняне
+на вече пресметнате стойност.
+<blockquote><i>F</i>(<i>n</i>) = <i>F</i><sup>2</sup>(<i>n</i>/2) + <i>F</i><sup>2</sup>(<i>n</i>/2
+- 1), за <i>n</i> четно;
+<br><i>F</i>(<i>n</i>) = <i>F</i>(<i>n</i>-1) + <i>F</i>(<i>n</i> - 2),
+за <i>n</i> нечетно.</blockquote>
+<b><tt><font color="#000099">#include &lt;stdio.h></font></tt></b>
+<br><b><tt><font color="#000099">#define MAX 250</font></tt></b>
+<br><b><tt><font color="#000099">#define SQR(X) ((X)*(X))</font></tt></b>
+<br><b><tt><font color="#000099">unsigned n = 10;</font></tt></b>
+<br><b><tt><font color="#000099">unsigned long m[MAX+1];</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">unsigned long fMemo(unsigned n)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (n&lt;2) m[n] = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (0 == m[n])</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; if (1 == n%2)
+m[n] = fMemo(n-1) + fMemo(n-2);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; else m[n] = SQR(fMemo(n/2)
++ fMemo(n/2-1));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return m[n];</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ memset(m, 0, MAX*sizeof(*m));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; scanf("%u", &amp;n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("\n%u-тото число на Фибоначи
+е: %lu", n, fibMemo(n));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Логаритмична сложност.
+<br>
+<hr WIDTH="100%">
+<br><b>Биномни коефициенти</b>
+<p>&nbsp;&nbsp;&nbsp; Нека <i>C</i>(<i>n</i>, <i>k</i>) е биномният коефициент
+"<i>n</i> над <i>k</i>" или комбинации без повторения от <i>n</i> елемента
+<i>k</i>-ти клас.&nbsp; Общата формула е: <i>C</i>(<i>n</i>, <i>k</i>)
+= <i>n</i>!/((<i>n - k</i>)! <i>k</i>!), а от триъгълника на Паскал имаме
+и рекурентна формула:
+<center><i>C</i>(<i>n</i>, <i>k</i>) = 1,&nbsp; за <i>k</i> = 0 или <i>k
+= n</i>;
+<br><i>C</i>(<i>n</i>,<i>k</i>) = <i>C</i>(<i>n</i>-1, <i>k</i>-1) + <i>C</i>(<i>n-</i>1,
+<i>k</i>),&nbsp; за <i>0 &lt; k &lt; n</i>;
+<br><i>C</i>(<i>n</i>, <i>k</i>) = 0,&nbsp; за <i>k</i> > <i>n.</i></center>
+* Рекурсивен неефективен алгоритъм:
+<br><b><tt><font color="#006600">unsigned long binom(unsigned n, unsigned
+k)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (k > n) return 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (k == 0 || k == n) return 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; return binom(n-1, k-1) + binom(n-1,
+k);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b><b><tt><font color="#006600"></font></tt></b>
+<p>* Динамично програмиране - със запомняне на вече пресметнатите стойности.
+<br>&nbsp;&nbsp;&nbsp; Не е необходимо да се пази цялата таблица&nbsp;
+<i>C</i>(<i>n</i>, <i>k</i>), а само един ред от таблицата - предишния.
+<br><b><tt><font color="#006600">#define MAX 200</font></tt></b>
+<br><b><tt><font color="#006600">unsigned long m[MAX];</font></tt></b>
+<br><b><tt><font color="#006600">unsigned long binomDynam(unsigned n, unsigned
+k)</font></tt></b>
+<br><b><tt><font color="#006600">{ unsigned i, j;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; for (i=0; i&lt;=n; i++)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; { m[i] = 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; if (i>1)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; { if (k&lt;i-1) j =
+k; else j = i-1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (;
+j>=1; j--) m[j] += m[j-1];</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; return m[k];</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp; Пример: <i>n</i> = 4,<i> k</i>
+= 3; <i>C</i>(4,3) = 4.</font>
+<center><table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td>i</td>
+
+<td>j</td>
+
+<td>m
+<br><font color="#000000">0 1 2 3 4</font></td>
+</tr>
+
+<tr>
+<td>0</td>
+
+<td>-</td>
+
+<td><font color="#000000">1 1 1 1 1</font></td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>-</td>
+
+<td><font color="#000000">1 1 1 1 1</font></td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>1</td>
+
+<td><font color="#000000">1 2 1 1 1</font></td>
+</tr>
+
+<tr>
+<td>3</td>
+
+<td>2</td>
+
+<td><font color="#000000">1 3 3 1 1</font></td>
+</tr>
+
+<tr>
+<td>4</td>
+
+<td>3</td>
+
+<td><font color="#000000">1 4 6 4 1&nbsp;</font></td>
+</tr>
+</table></center>
+<font color="#000000">&nbsp;&nbsp;&nbsp; Този алгоритъм има сложност <i>O</i>(<i>nk</i>).</font>
+<br><font color="#000000">&nbsp;&nbsp;&nbsp; Да се реализира рекурсивен
+вариант, основан на динамичното програмиране.</font>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

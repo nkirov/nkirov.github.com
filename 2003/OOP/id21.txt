@@ -1,0 +1,180 @@
+//21. Стандартна библиотека със шаблони: въведение в STL, 
+//    контейнери-редици 
+//
+// Fig. 20.5: fig20_05.cpp
+// Demonstrating input and output with iterators.
+#include <iostream>
+#include <iterator>
+using namespace std;
+int main()
+{  cout << "Enter two integers: ";
+
+   istream_iterator< int > inputInt( cin );
+   int number1, number2;
+
+   number1 = *inputInt;  // read first int from standard input
+   ++inputInt;           // move iterator to next input value
+   number2 = *inputInt;  // read next int from standard input
+
+   cout << "The sum is: ";
+   ostream_iterator< int > outputInt( cout );
+
+   *outputInt = number1 + number2;  // output result to cout
+   cout << endl;
+   return 0;
+}
+------------------------------------------------------------
+// Fig. 20.14: fig20_14.cpp
+// Testing Standard Library vector class template
+#include <iostream>
+#include <vector>
+using namespace std;
+
+template < class T >
+void printVector( const vector< T > &vec );
+
+int main()
+{  const int SIZE = 6;   
+   int a[ SIZE ] = { 1, 2, 3, 4, 5, 6 };
+   vector< int > v;
+
+   cout << "The initial size of v is: " << v.size()
+        << "\nThe initial capacity of v is: " << v.capacity();
+   v.push_back( 2 );  // method push_back() is in
+   v.push_back( 3 );  // every sequence collection
+   v.push_back( 4 );
+   cout << "\nThe size of v is: " << v.size()
+        << "\nThe capacity of v is: " << v.capacity();
+   cout << "\n\nContents of array a using pointer notation: ";
+
+   for ( int *ptr = a; ptr != a + SIZE; ++ptr )
+      cout << *ptr << ' ';
+   cout << "\nContents of vector v using iterator notation: ";
+   printVector( v );
+   cout << "\nReversed contents of vector v: ";
+
+   vector< int >::reverse_iterator p2;
+
+   for ( p2 = v.rbegin(); p2 != v.rend(); ++p2 )
+      cout << *p2 << ' ';
+   cout << endl;
+   return 0;
+}
+template < class T >
+void printVector( const vector< T > &vec )
+{
+   vector< T >::const_iterator p1;
+   for ( p1 = vec.begin(); p1 != vec.end(); p1++ )
+      cout << *p1 << ' ';
+}
+------------------------------------------------------------
+// Fig. 20.17: fig20_17.cpp
+// Testing Standard Library class list
+#include <iostream>
+#include <list>
+#include <algorithm>
+using namespace std;
+
+template < class T >
+void printList( const list< T > &listRef );
+int main()
+{  const int SIZE = 4;
+   int a[ SIZE ] = { 2, 6, 4, 8 };
+   list< int > values, otherValues;
+
+   values.push_front( 1 );  values.push_front( 2 );
+   values.push_back( 4 );   values.push_back( 3 );
+   
+   cout << "values contains: ";
+   printList( values );
+   values.sort();
+   cout << "\nvalues after sorting contains: ";
+   printList( values );
+  
+   otherValues.insert( otherValues.begin(), a, a + SIZE );
+   cout << "\notherValues contains: ";
+   printList( otherValues );
+   values.splice( values.end(), otherValues );
+   cout << "\nAfter splice values contains: ";
+   printList( values );
+
+   values.sort();
+   cout << "\nvalues contains: ";
+   printList( values );
+   otherValues.insert( otherValues.begin(), a, a + SIZE );
+   otherValues.sort();
+   cout << "\notherValues contains: ";
+   printList( otherValues );
+   values.merge( otherValues );
+   cout << "\nAfter merge:\n   values contains: ";
+   printList( values );
+   cout << "\n   otherValues contains: ";
+   printList( otherValues );
+
+   values.pop_front();
+   values.pop_back();   // all sequence containers
+   cout << "\nAfter pop_front and pop_back values contains:\n";
+   printList( values );
+   
+   values.unique();
+   cout << "\nAfter unique values contains: ";
+   printList( values );
+
+   // method swap is available in all containers
+   values.swap( otherValues );
+   cout << "\nAfter swap:\n   values contains: ";
+   printList( values );
+   cout << "\n   otherValues contains: ";
+   printList( otherValues );
+
+   values.assign( otherValues.begin(), otherValues.end() );
+   cout << "\nAfter assign values contains: ";
+   printList( values );
+
+   values.merge( otherValues ); 
+   cout << "\nvalues contains: ";
+   printList( values ); 
+   values.remove( 4 );
+   cout << "\nAfter remove( 4 ) values contains: ";
+   printList( values );
+   cout << endl;
+   return 0;
+}
+template < class T >
+void printList( const list< T > &listRef )
+{  if ( listRef.empty() ) cout << "List is empty";
+   else {
+      ostream_iterator< T > output( cout, " " );
+      copy( listRef.begin(), listRef.end(), output );
+   }
+}
+------------------------------------------------------------
+// Fig. 20.18: fig20_18.cpp
+// Testing Standard Library class deque
+#include <iostream>
+#include <deque>
+#include <algorithm>
+using namespace std;
+int main()
+{  deque< double > values;
+   ostream_iterator< double > output( cout, " " );
+
+   values.push_front( 2.2 );
+   values.push_front( 3.5 );
+   values.push_back( 1.1 );
+
+   cout << "values contains: ";
+   for ( int i = 0; i < values.size(); ++i )
+      cout << values[ i ] << ' ';
+
+   values.pop_front();
+   cout << "\nAfter pop_front values contains: ";
+   copy ( values.begin(), values.end(), output );
+
+   values[ 1 ] = 5.4;
+   cout << "\nAfter values[ 1 ] = 5.4 values contains: ";
+   copy ( values.begin(), values.end(), output );
+   cout << endl;
+   return 0;
+}
+------------------------------------------------------------

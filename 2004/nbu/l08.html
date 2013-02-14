@@ -1,0 +1,168 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l08</title>
+</head>
+<body>
+<b>8. Разделяй и владей - циклично преместване на елементите на масив
+[7.10]</b>
+<p>* Пример за циклично преместване на <i>k</i> позиции елементите на масив
+<i>m</i>
+от <i>n</i> елемента.
+<br><i>n = </i>6, <i>k = </i>2&nbsp;&nbsp; 0 1 2 3 4 5&nbsp;&nbsp; <b><tt>-></tt></b>&nbsp;
+2 3 4 5 0 1
+<p>* Алгоритъм 1:
+<br>- копираме първите <i>k</i> елемента на <i>m</i> в друг масив <i>x</i>;
+<br>- преместваме <i>n-k</i> елемента на <i>m </i>на <i>k</i> позиции вляво;
+<br>- копираме елементите на <i>x </i>обратно в <i>m</i> на последните
+<i>k</i>
+позиции.
+<br>Сложност <i>O</i>(<i>n</i>), допълнителна памет <i>k</i> елемента.
+<p>* Алгоритъм 2:
+<br>Описания алгоритъм за <i>k = </i>1. За да осъществим циклично преместване
+с <i>k</i> елемента, е необходимо да приложим този алгоритъм&nbsp; <i>k</i>
+пъти.
+<br>Сложност <i>O</i>(<i>n<b><sup>2</sup></b></i>), допълнителна памет
+1 елемент.
+<p>* Алгоритъм 3:
+<br>- копираме <b><tt>m[0]</tt></b> в <b><tt>x</tt></b>;
+<br>- преместваме <b><tt>m[k]</tt></b> в <b><tt>m[0], </tt></b>преместваме
+<b><tt>m[2k%n]</tt></b>
+в <b><tt>m[k], </tt></b>преместваме <b><tt>m[3k%n]</tt></b> в <b><tt>m[2k%n]
+</tt></b>и
+т.н. докато стигнем последния непреместен елемент, който го заменяме с
+<b><tt>x</tt></b>
+(Пример А). Ако достигнем до преместен елемент, спираме и започваме отначало
+по същия начин, като заменяме <b><tt>k</tt></b> с
+<b><tt>k+1 </tt></b>(Пример
+Б).
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td>Пример А&nbsp;&nbsp;&nbsp; <i>n = </i>11, <i>k = </i>3:&nbsp;
+<br>0 1 2 3 4 5 6 7 8 9 10&nbsp; <b><tt>-></tt></b>&nbsp; 3 4 5 6 7 8 9
+10 0 1 2
+<br>m: 0 1 2 3 4 5 6 7 8 9 10 | x:
+<br>m: 0 1 2 3 4 5 6 7 8 9 10 | x: 0
+<br>m: <b><u>3</u></b> 1 2 3 4 5 6 7 8 9 10 | x: 0;&nbsp;
+<br>m: <b>3</b> 1 2 <b><u>6</u></b> 4 5 6 7 8 9 10 | x: 0;&nbsp;
+<br>m: <b>3</b> 1 2 <b>6</b> 4 5 <b><u>9</u></b> 7 8 9 10 | x: 0;&nbsp;
+<br>m: <b>3</b> 1 2 <b>6</b> 4 5 <b>9</b> 7 8 <b><u>1</u></b> 10 | x: 0;&nbsp;
+<br>m: <b>3</b> <b><u>4</u></b> 2 <b>6</b> 4 5 <b>9</b> 7 8 <b>1</b> 10
+| x: 0;&nbsp;
+<br>m: <b>3</b> <b>4</b> 2 <b>6</b> <b><u>7</u></b> 5 <b>9</b> 7 8 <b>1</b>
+10 | x: 0;&nbsp;
+<br>m: <b>3</b> <b>4</b> 2 <b>6</b> <b>7</b> 5 <b>9</b> <b><u>10</u></b>
+8 <b>1</b> 10 | x: 0;&nbsp;
+<br>m: <b>3</b> <b>4</b> 2 <b>6</b> <b>7</b> 5 <b>9</b> <b>10</b> 8 <b>1
+<u>2</u></b>
+| x: 0;&nbsp;
+<br>m: <b>3</b> <b>4</b> <b><u>5</u></b> <b>6</b> <b>7</b> 5 <b>9</b> <b>10</b>
+8 <b>1</b> <b>2</b> | x: 0;&nbsp;
+<br>m: <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b><u>8</u></b> <b>9
+10</b> 8 <b>1</b> <b>2</b> | x: 0;&nbsp;
+<br>m: <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b>8</b> <b>9</b> <b>10
+<u>0</u>
+1</b> <b>2</b> | x: 0;&nbsp;</td>
+
+<td VALIGN=TOP>Пример Б&nbsp;&nbsp; <i>n = </i>9, <i>k = </i>3:&nbsp;
+<br>0 1 2 3 4 5 6 7 8&nbsp; <b><tt>-></tt></b>&nbsp; 3 4 5 6 7 8 0 1 2
+<br>m: 0 1 2 3 4 5 6 7 8 | x:
+<br>m: <b><u>3</u></b> 1 2 3 4 5 6 7 8 | x: 0;&nbsp;
+<br>m: <b>3</b> 1 2 <b><u>6</u></b> 4 5 6 7 8 | x: 0;&nbsp;
+<br>m: <b>3</b> 1 2 <b>6</b> 4 5 <b><u>0</u></b> 7 8 | x: 0;&nbsp;
+<br>m: <b>3</b> 1 2 <b>6</b> 4 5 <b>0</b> 7 8 | x: 1;&nbsp;
+<br>m: <b>3</b> <b><u>4</u></b> 2 <b>6</b> 4 5 <b>0</b> 7 8 | x: 1;&nbsp;
+<br>m: <b>3</b> <b>4</b> 2 <b>6</b> <b><u>7</u></b> 5 <b>0</b> 7 8 | x:
+1;&nbsp;
+<br>m: <b>3</b> <b>4</b> 2 <b>6</b> <b>7</b> 5 <b>0</b> <b><u>1</u></b>
+8 | x: 1;&nbsp;
+<br>m: <b>3</b> <b>4</b> 2 <b>6</b> <b>7</b> 5 <b>0</b> <b>1</b> 8 | x:
+2;&nbsp;
+<br>m: <b>3</b> <b>4</b> <b><u>5</u></b> <b>6</b> <b>7</b> 5 <b>0</b> <b>1</b>
+8 | x: 2;&nbsp;
+<br>m: <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b><u>8</u></b> <b>0
+1</b> 8 | x: 2;&nbsp;
+<br>m: <b>3</b> <b>4</b> <b>5</b> <b>6</b> <b>7</b> <b>8</b> <b>0</b> <b>1
+<u>2</u></b>
+| x: 2;&nbsp;</td>
+</tr>
+</table>
+
+<p>Сложност <i>O</i>(<i>n</i>), допълнителна памет 1 елемент.
+<p>* Алгоритъм 4 (разделяй и владей):
+<br>- разделяме масива на 2 части: A - първите <i>k</i> елемента и B -
+последните <i>n-k</i> елемента;
+<br>- разделяме масива B на 2 части, Br - последните <i>k</i> елемента,
+Bl - останалите елементи;
+<br>- разменяме местата на елементите на A и Br;
+<br>- прилагаме същия алгоритъм за масива B.
+<p>Пример.
+<br><i>n = </i>11, <i>k = </i>3:
+<br>0 1 2 3 4 5 6 7 8 9 10&nbsp; <b><tt>-></tt></b>&nbsp; 3 4 5 6 7 8 9
+10 0 1 2
+<br>[0 1 2 3 4 5 6 7 8 9 10]
+<br>A = [0 1 2], Bl = [3 4 5 6 7], Br = [8 9 10]
+<br>[8 9 10 3 4 5 6 7 0 1 2 ]
+<p>[8 9 10 3 4 5 6 7 ]&nbsp; [0 1 2]
+<br>A = [8 9 10], Bl =[3 4], Br = [5 6 7]
+<br>[5 6 7 3 4 8 9 10]
+<p>[5 6 7 3 4]&nbsp; [8 9 10 0 1 2]
+<br>A = [5 6 7], Bl = [], Br = [3 4 5]
+<br>[ 3 4 5 6 7]
+<p>[3 4 5 6 7 8 9 10 0 1 2]
+<p>Сложност <i>O</i>(<i>n</i>), допълнителна памет - константа.
+<p>* Алгоритъм 5 (Кърниган и Плоджер):
+<center><i>BA</i> = (<i>A<sup>R</sup> B<sup>R</sup></i>)<i><sup>R</sup></i></center>
+Тук с <i>A<sup>R</sup></i> е означен масив, получен от елементите на <i>A
+</i>в
+обратен ред. С 3 извиквания на функция <b><tt>reverse</tt></b> за обръщане
+на елементите на масив в обратен ред решаваме задачата за циклично преместване
+на елементите на масив.
+<p>Пример.
+<br><i>n = </i>11, <i>k = </i>3:
+<br>0 1 2 3 4 5 6 7 8 9 10&nbsp; ->&nbsp; 3 4 5 6 7 8 9 10 0 1 2
+<p><i>A</i> = [0 1 2], <i>B</i> = [3 4 5 6 7 8 9 10], <i>AB</i> = [0 1
+2 3 4 5 6 7 8 9 10]
+<br><i>A<sup>R </sup></i>= [2 1 0],&nbsp; <i>B<sup>R </sup></i>= [10 9
+8 7 6 5 4 3],&nbsp; <i>A<sup>R</sup> B<sup>R </sup></i>= [2 1 0 10 9 8
+7 6 5 4 3]
+<br>(<i>A<sup>R</sup> B<sup>R</sup></i>)<i><sup>R </sup></i>= [3 4 5 6
+7 8 9 10 0 1 2]
+<p><b><tt><font color="#000099">// shift3.c</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;stdio.h></font></tt></b>
+<br><b><tt><font color="#000099">#define N 11</font></tt></b>
+<p><b><tt><font color="#000099">int m[N];</font></tt></b>
+<p><b><tt><font color="#000099">void reverse(unsigned a, unsigned b)</font></tt></b>
+<br><b><tt><font color="#000099">{ unsigned i, j, k, c;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int tmp;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (c=(b-a)/2, k=a, j=b, i=0;
+i&lt;c; i++, j--, k++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { tmp = m[k];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; m[k] = m[j];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; m[j] = tmp;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void shift3(unsigned k)</font></tt></b>
+<br><b><tt><font color="#000099">{ reverse(0, k-1);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; reverse(k, N-1);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; reverse(0, N-1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;for (i=0; i&lt;N; i++) m[i]=i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;shift3(3);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;for (i=0; i&lt;N; i++) printf("%d
+", m[i]);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("\n");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>Сложност <i>O</i>(<i>n</i>), допълнителна памет - константа.
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

@@ -1,0 +1,235 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l14</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<p><b>14. Други реализации на линейни структури от данни</b>
+<p><img SRC="bullet.gif" height=18 width=20 align=TEXTTOP>&nbsp; Едносвързан
+списък.
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">struct Node { char data; Node *next;};</font></tt></b>
+<br><b><tt><font color="#000099">Node *top;</font></tt></b>
+<p><b><tt><font color="#000099">bool insert(Node *pt, char c)&nbsp; //
+insert after *pt</font></tt></b>
+<br><b><tt><font color="#000099">{ if (pt == NULL) return false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Node *node=new Node;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (node == NULL) return false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; node -> data = c;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; node -> next = pt -> next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pt -> next = node;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return true;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">bool erase(Node *pt)&nbsp;&nbsp;&nbsp;&nbsp;
+// erase pt->next</font></tt></b>
+<br><b><tt><font color="#000099">{ if ((pt == NULL) || (pt->next==NULL))
+return false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Node *node=pt->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pt->next=node->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; delete node;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return true;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void print()</font></tt></b>
+<br><b><tt><font color="#000099">{ Node *pt=top;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (pt!=NULL)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; pt->data;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pt=pt->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void create()</font></tt></b>
+<br><b><tt><font color="#000099">{ char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Node *pt=NULL, *ptold=NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; top=NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (cin >> ch)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pt=new Node;</font></tt></b>
+<br><b><tt><font color="#000099">//&nbsp; if (pt==NULL) break;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pt->data = ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; pt->next = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (top==NULL) top = pt;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else ptold->next = pt;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ptold = pt;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ create();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Node *pt=top; pt=pt->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; insert(pt, 'A'); print();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; erase(pt);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+print();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><img SRC="bullet.gif" height=18 width=20 align=TEXTTOP>&nbsp; Опашка.
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">struct Node { char data; Node *next;};</font></tt></b>
+<br><b><tt><font color="#000099">Node *top, *end;</font></tt></b>
+<p><b><tt><font color="#000099">bool append(char c) // insert after last</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (end==NULL) return false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Node *node=new Node;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (node == NULL) return false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;node -> data = c;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;node -> next = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;end -> next = node;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;end = node;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return true;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">bool erase()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// erase first</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (top==NULL) return false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Node *node=top;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;top=top->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;delete node;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return true;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void print()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Node *pt=top;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;while (pt!=NULL)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; pt->data;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pt=pt->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void create()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Node *pt=NULL, *ptold=NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;top=NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;while (cin >> ch)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pt=new Node;</font></tt></b>
+<br><b><tt><font color="#000099">//&nbsp; if (pt==NULL) break;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pt->data = ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; pt->next = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (top==NULL) top = pt;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else ptold->next = pt;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; ptold = pt;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;end = pt;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ create();&nbsp;&nbsp;&nbsp; print();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; append('A'); print();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; erase();&nbsp;&nbsp;&nbsp;&nbsp;
+print();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><img SRC="bullet.gif" height=18 width=20 align=TEXTTOP><font color="#000000">
+Топологично сортиране.</font>
+<br><font color="#000000">Дадено е частично наредено множество, т.е. между
+някои от елементите му е дадена релация&nbsp; <b><i>R</i></b>, със следните
+3 свойства:</font>
+<br><font color="#000000">1. ако <b><i>xRy</i></b> и <b><i>yRz</i></b>,
+то <b><i>xRz</i></b> (транзитивност);</font>
+<br><font color="#000000">2. ако <b><i>xRy</i></b>, то <b><i>yRx</i></b>
+не е вярно (несиметричност);</font>
+<br><font color="#000000">3. <b><i>xRx</i></b> не е вярно (нерефлексивност).</font>
+<br>Задачата е да се изрази частичната наредба с линейна, т.е. да се подредят
+елементите на множеството в редица, така, че ако<b><i> <font color="#000000">xRy</font></i></b><font color="#000000">,
+то <b><i>x</i></b> е преди <b><i>y</i></b> в редицата.</font>
+<br><font color="#000000">Алгоритъмът за решаване на задачата е от Н. Вирт
+и използва свързани списъци.</font>
+<p><b><tt><font color="#000099">#include &lt;iostream.h></font></tt></b>
+<br><b><tt><font color="#000099">struct Trailer;</font></tt></b>
+<p><b><tt><font color="#000099">struct Leader {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int
+key, count;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trailer
+*tr;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leader
+*next;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<br><b><tt><font color="#000099">struct Trailer {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Leader
+*id;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trailer
+*next;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<br><b><tt><font color="#000099">Leader *head=new Leader;</font></tt></b>
+<p><b><tt><font color="#000099">void Create();</font></tt></b>
+<br><b><tt><font color="#000099">Leader *L(int);</font></tt></b>
+<br><b><tt><font color="#000099">void Zero();</font></tt></b>
+<br><b><tt><font color="#000099">void Tsort();</font></tt></b>
+<p><b><tt><font color="#000099">void main()</font></tt></b>
+<br><b><tt><font color="#000099">{ Create();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Zero();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Tsort();</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void Create()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Leader *p, *q;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;int x, y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;head=0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;while (cin >> x &amp;&amp; cin >>
+y &amp;&amp; !cin.eof())</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{ p = L(x); q = L(y);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Trailer *t = new Trailer;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; t->id = q;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; t->next = p->tr;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; p->tr = t;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; (q->count)++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">Leader *L(int x)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Leader *p = head, *q;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;q = p; // q is the last element
+of the list</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;while (p)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if ((p->key) == x) return p;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; q = p; p = p->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;p = new Leader;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;p->key = x; p->count = 0; p->tr
+= 0; p->next = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (q) q->next = p;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;else&nbsp;&nbsp; head = p;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return p;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void Zero()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Leader *p = head, *q;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;head = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;while (p)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{ q = p; p = p->next;</font></tt></b>
+<br><b><tt><font color="#000099">/* nova zadacha za poleto next i ukazatelia
+head */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (!(q->count)) { q->next
+= head; head = q; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">void Tsort()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Trailer *t;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Leader *q = head, *p;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;while (q)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{ cout &lt;&lt; (q->key) &lt;&lt;
+' ';</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; t = q->tr;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; q = q->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (t)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; { p = t->id; (p->count)--;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; if (!(p->count))
+{ p->next = q; q = p; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; t = t->next;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

@@ -1,0 +1,602 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>vp_l06</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<center>
+<p><b><font size=+1>6. Условни оператори&nbsp; II</font></b></center>
+
+<div align=right><b><i><font size=-1>&nbsp;</font></i></b>
+<br><b><i><font size=-1>Алтернатива съм за&nbsp; министър.</font></i></b>
+<br><b><font size=-1><i>в. Стандарт, 11.08.2002 </i>:--)</font></b>
+<br><b><font size=-1>&nbsp;</font></b></div>
+<img SRC="bullet.gif" height=18 width=20> Оператор <b><tt>switch</tt></b>.
+<br>&nbsp;&nbsp;&nbsp; Операторът замества редица от оператори <b><tt>if/else.
+</tt></b>Например:
+<br><b><tt><font color="#006600">int digit;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp; if (digit ==
+1) digit_name = "one";</font></tt></b>
+<br><b><tt><font color="#006600">else if (digit == 2) digit_name = "two";</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">else if (digit == 9) digit_name = "nine";</font></tt></b>
+<br><b><tt><font color="#006600">else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+digit_name = "";</font></tt></b>
+<br>може да се запише алтернативно по следния начин:
+<br><b><tt><font color="#006600">int digit;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">switch (digit)</font></tt></b>
+<br><b><tt><font color="#006600">{ case 1: digit_name = "one"; break;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; case 2: digit_name = "two"; break;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; ...</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; case 9: digit_name = "nine"; break;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; default: digit_name = "";</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>В този случай не трябва да се изпуска оператора <b><tt><font color="#000000">break</font><font color="#006600">.</font></tt></b>
+Ако той липсва и стойността на променливата&nbsp; от <b><tt><font color="#000000">switch
+</font></tt></b>стане
+равна на стойността в някой <b><tt><font color="#000000">case</font></tt></b>
+, тогава се изпълняват операторите на този<b><font color="#000000"> <tt>case
+</tt></font></b>и
+всички&nbsp; <b><tt><font color="#000000">case
+</font></tt></b>след него.
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Вложени условни оператори.
+<br>** Задача за определяне на годишен данък в САЩ.
+<center>Ако сте несемеен</center>
+
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><font size=-1>Ако облагаемата сума е над</font></td>
+
+<td><font size=-1>но не повече от</font></td>
+
+<td><font size=-1>данъкът е</font></td>
+
+<td><font size=-1>върху сумата над</font></td>
+</tr>
+
+<tr>
+<td>0</td>
+
+<td>21400</td>
+
+<td>15%</td>
+
+<td>0</td>
+</tr>
+
+<tr>
+<td>21450</td>
+
+<td>51900</td>
+
+<td>3217.50 + 28%</td>
+
+<td>21450</td>
+</tr>
+
+<tr>
+<td>51900</td>
+
+<td>-</td>
+
+<td NOWRAP>11743.50 + 31%</td>
+
+<td>51900</td>
+</tr>
+</table>
+
+<center>&nbsp;
+<br>Ако сте семеен</center>
+
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><font size=-1>Ако облагаемата сума е над</font></td>
+
+<td><font size=-1>но не повече от</font></td>
+
+<td><font size=-1>данъкът е</font></td>
+
+<td><font size=-1>върху сумата над</font></td>
+</tr>
+
+<tr>
+<td>0</td>
+
+<td>35800</td>
+
+<td>15%</td>
+
+<td>0</td>
+</tr>
+
+<tr>
+<td>35800</td>
+
+<td>51900</td>
+
+<td>5370.00 + 28%</td>
+
+<td>35800</td>
+</tr>
+
+<tr>
+<td>86500</td>
+
+<td>-</td>
+
+<td NOWRAP>19566.00 + 31%</td>
+
+<td>86500</td>
+</tr>
+</table>
+<b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">// tax.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; double income;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double tax;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+your income: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> income;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+s for single, m for married: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string marital_status;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> marital_status;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; if (marital_status == "s")</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; if (income &lt;=
+21450)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax = 0.15 * income;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
+(income &lt;= 51900)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax =&nbsp; 3217.5 + 0.28 * (income - 21450);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;
+tax = 11743.5 + 0.31 * (income - 51900);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; if (income &lt;=
+35800)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax = 0.15 * income;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
+(income &lt;= 86500)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax =&nbsp; 5370 + 0.28 * (income - 35800);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;
+tax = 19566 + 0.31 * (income - 86500);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The tax is
+$" &lt;&lt; tax &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099"></font></tt></b>&nbsp;
+<br><b><tt><font color="#000099"></font></tt></b>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Please enter your income: </font><font color="#006600">30000</font></tt></b>
+<br><b><tt><font color="#993300">Please enter s for single, m for married:
+</font><font color="#006600">m</font></tt></b>
+<br><b><tt><font color="#993300">The tax is $4500</font></tt></b></td>
+</tr>
+</table>
+
+<p><font color="#000000">Операторът&nbsp;<b><tt> if (income &lt;= 21450)</tt></b>
+е вложен в оператора</font>
+<br><b><tt><font color="#000000">if (marital_status == "s").</font></tt></b>
+<p><font color="#000000">** Програма за пресмятане на годишен данък общ
+доход у нас.</font>
+<center>
+<p><font color="#000000">Таблица за годишно облагане на доходите по чл.35
+от Закона за облагане доходите на физическите лица за 2002 г.</font></center>
+
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><font size=-1>Ако облагаемата сума е над</font></td>
+
+<td><font size=-1>но не повече от</font></td>
+
+<td><font size=-1>данъкът е</font></td>
+
+<td><font size=-1>върху сумата над</font></td>
+</tr>
+
+<tr>
+<td>&nbsp;0</td>
+
+<td>1320</td>
+
+<td>&nbsp;0</td>
+
+<td>&nbsp;-</td>
+</tr>
+
+<tr>
+<td>1320</td>
+
+<td>1680</td>
+
+<td>&nbsp;18%</td>
+
+<td>&nbsp;1320</td>
+</tr>
+
+<tr>
+<td>1680</td>
+
+<td>4800</td>
+
+<td>&nbsp;64.80 + 24%</td>
+
+<td>&nbsp;1680</td>
+</tr>
+
+<tr>
+<td>4800</td>
+
+<td>12000</td>
+
+<td>813.60 + 28%</td>
+
+<td>4800</td>
+</tr>
+
+<tr>
+<td>12000</td>
+
+<td>-</td>
+
+<td NOWRAP>2829.60 + 29%</td>
+
+<td>12000</td>
+</tr>
+</table>
+<b><tt><font color="#000099">// tax_bul.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; double income;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double tax;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+your income: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> income;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp;&nbsp;&nbsp;&nbsp;
+if (income &lt;= 1320)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (income &lt;=
+1680)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax =&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.18*(income-
+1320);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (income &lt;=
+4800)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax =&nbsp; 64.80 + 0.24*(income- 1680);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else if (income &lt;=12000)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax = 813.60 + 0.28*(income- 4800);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+tax =2829.60 + 0.29*(income-12000);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; cout &lt;&lt; "The
+tax is " &lt;&lt; tax &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; cout &lt;&lt; "Please
+enter your income: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; cin >> income;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (income > 0);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">Please enter your income: </font><font color="#006600">10000</font></tt></b>
+<br><b><tt><font color="#990000">The tax is 2269.6</font></tt></b>
+<br><b><tt><font color="#990000">Please enter your income: </font><font color="#006600">3652.50</font></tt></b>
+<br><b><tt><font color="#990000">The tax is 538.2</font></tt></b>
+<br><b><tt><font color="#990000">Please enter your income: </font><font color="#006600">0</font></tt></b></td>
+</tr>
+</table>
+
+<p>В тази програма е използван оператор за цикъл <b><tt>do/while</tt></b>
+(който ще се изучава по-нататък), за да може с едно пускане на програмата
+да се пресмята данъка многократно, за различни доходи. Програмата прекратява
+работата си, когато въведем доход 0.
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Логически операции.
+<br>** Логически константи - възможни са само две стойности:
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td>истина</td>
+
+<td>да</td>
+
+<td><b><tt>true</tt></b></td>
+
+<td>1</td>
+
+<td>изпълнено</td>
+
+<td>вярно</td>
+
+<td>удовлетворено</td>
+</tr>
+
+<tr>
+<td>лъжа</td>
+
+<td>не</td>
+
+<td><b><tt>false</tt></b></td>
+
+<td>0</td>
+
+<td>нарушено</td>
+
+<td>невярно</td>
+
+<td>неудовлетворено</td>
+</tr>
+</table>
+
+<p>** Основни логически операции:
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td>и</td>
+
+<td>конюнкция</td>
+
+<td><b><tt>and</tt></b></td>
+
+<td><b><tt><font size=+1>&amp;&amp;</font></tt></b></td>
+
+<td>бинарна операция</td>
+</tr>
+
+<tr>
+<td>или</td>
+
+<td>дизюнкция</td>
+
+<td><b><tt>or</tt></b></td>
+
+<td><b><tt><font size=+1>||</font></tt></b></td>
+
+<td>бинарна операция</td>
+</tr>
+
+<tr>
+<td>не</td>
+
+<td>отрицание</td>
+
+<td><b><tt>not</tt></b></td>
+
+<td><b><tt><font size=+1>!</font></tt></b></td>
+
+<td>унарна операция</td>
+</tr>
+</table>
+
+<p>** Таблици за стойността на логическите операции:
+<table CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td>
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="95%" >
+<tr>
+<td>&nbsp;<b>A</b></td>
+
+<td>&nbsp;<b>B</b></td>
+
+<td>&nbsp;<b>A</b> and <b>B</b></td>
+</tr>
+
+<tr>
+<td>&nbsp;false</td>
+
+<td>&nbsp;false</td>
+
+<td>&nbsp;false</td>
+</tr>
+
+<tr>
+<td>&nbsp;false</td>
+
+<td>&nbsp;true</td>
+
+<td>&nbsp;false</td>
+</tr>
+
+<tr>
+<td>&nbsp;true</td>
+
+<td>&nbsp;false</td>
+
+<td>&nbsp;false</td>
+</tr>
+
+<tr>
+<td>&nbsp;true</td>
+
+<td>&nbsp;true</td>
+
+<td>&nbsp;true</td>
+</tr>
+</table>
+&nbsp;</td>
+
+<td>
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="98%" >
+<tr>
+<td>&nbsp;<b>A</b></td>
+
+<td>&nbsp;<b>B</b></td>
+
+<td>&nbsp;<b>A</b> or <b>B</b></td>
+</tr>
+
+<tr>
+<td>&nbsp;false</td>
+
+<td>&nbsp;false</td>
+
+<td>&nbsp;false</td>
+</tr>
+
+<tr>
+<td>&nbsp;false</td>
+
+<td>&nbsp;true</td>
+
+<td>&nbsp;true</td>
+</tr>
+
+<tr>
+<td>&nbsp;true</td>
+
+<td>&nbsp;false</td>
+
+<td>&nbsp;true</td>
+</tr>
+
+<tr>
+<td>&nbsp;true</td>
+
+<td>&nbsp;true</td>
+
+<td>&nbsp;true</td>
+</tr>
+</table>
+&nbsp;</td>
+
+<td VALIGN=TOP>
+<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="95%" >
+<tr>
+<td>&nbsp;<b>A</b></td>
+
+<td>&nbsp;not <b>A</b></td>
+</tr>
+
+<tr>
+<td>&nbsp;false</td>
+
+<td>&nbsp;true</td>
+</tr>
+
+<tr>
+<td>&nbsp;true</td>
+
+<td>&nbsp;false</td>
+</tr>
+</table>
+&nbsp;</td>
+</tr>
+</table>
+** Проверка за краен срок на определена задача.
+<br><b><tt><font color="#000099">// hwdue1.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Enter the time
+that the homework is due";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; " (hours minutes):
+";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int hours;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int minutes;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> hours >> minutes;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time homework_due(hours,
+minutes, 0);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time now;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (now.get_hours() &lt;
+homework_due.get_hours() or</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; (now.get_hours()
+== homework_due.get_hours()</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; and now.get_minutes() &lt;=
+homework_due.get_minutes()))</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"Still time to finish the homework.\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"The homework is already past due.\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">Enter the time that the homework is due
+(hours minutes): </font><font color="#006600">10 20</font></tt></b>
+<br><b><tt><font color="#660000">Still time to finish the homework.</font></tt></b></td>
+</tr>
+</table>
+
+<p>** Отложени пресмятания
+<br>&nbsp;- За логическата операция <b><tt>and:</tt></b> ако първият аргумент
+е <b><tt>false
+</tt></b>и стойността на операцията е <b><tt>false</tt></b>,
+независимо от стойността на втория аргумент.
+<br>&nbsp;- За логическата операция <b><tt>or:</tt></b>&nbsp; ако първият
+аргумент е <b><tt>true </tt></b>и стойността на операцията е <b><tt>true</tt></b>,
+независимо от стойността на втория аргумент.
+<br>&nbsp;&nbsp;&nbsp; Пример.
+<br><b><tt><font color="#006600">double area;</font></tt></b>
+<br><b><tt><font color="#006600">cin >> area;</font></tt></b>
+<br><b><tt><font color="#006600">if (cin.fail() or area &lt; 0) cout &lt;&lt;
+"Input error";</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; При проверката на въведено число и грешка във входния
+поток не се проверява условието <b><tt>area &lt; 0.</tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Закони на де Морган&nbsp;
+[Аугуст де Морган (1806-1871)].
+<br>-- отрицание на конюнкция:
+<br><b><tt>not (A and B)</tt></b> дава същия резултат както
+<br><b><tt>(not A) or (not B)</tt></b>
+<br>-- отрицание на дизюнкция:
+<br><b><tt>not (A or B)</tt></b>&nbsp; дава същия резултат както
+<br><b><tt>(not A) and (not B)</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Да изразим условието, че даден адрес е&nbsp; извън
+континенталната част на САЩ, т.е. друга държава или щатите Аляска и Хавай.
+<br><b><tt>not (country == "USA" and state != "AK" and state != "HI")</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Преобразуваме част от израза:
+<br><b><tt>state != "AK" and state != "HI"</tt></b>
+<br>като
+<br><b><tt>not (state == "AK") and not (state == "HI")</tt></b>
+<br>и като (Де Морган):
+<br><b><tt>not (state == "AK" or state == "HI")</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Преобразуваме целия израз като:
+<br><b><tt>not (country == "USA" and not (state == "AK" or state == "HI"))</tt></b>
+<br>и като (Де Морган):
+<br><b><tt>not (country == "USA") or (state == "AK" or state == "HI")</tt></b>
+<br>и окончателно:
+<br><b><tt>country != "USA" or state == "AK" or state == "HI"</tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20> Булеви променливи.
+<br>&nbsp;&nbsp;&nbsp; За да се определи дали една пратка ще бъде изпратена
+със самолет или с камион, може да се използва следната конструкция:
+<br><b><tt><font color="#006600">bool ship_by_air = false;</font></tt></b>
+<br><b><tt><font color="#006600">if (country != "USA") ship_by_air = true;</font></tt></b>
+<br><b><tt><font color="#006600">else if (state=="AK" or state=="HI") ship_by_air
+= true;</font></tt></b>
+<br><b><tt><font color="#006600">if (ship_by_air) shipping_charge = 20;</font></tt></b>
+<br><b><tt><font color="#006600">else shipping_charge = 10;</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Тип данни <b><tt>bool</tt></b> - булев или логически
+тип, съдържа две константи - <b><tt>true</tt></b> и <b><tt>false</tt></b>.
+Стойност на булева променлива е едната от тези две стойности.
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;
+</body>
+</html>

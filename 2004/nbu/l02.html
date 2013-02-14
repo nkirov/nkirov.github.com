@@ -1,0 +1,184 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+</head>
+<body>
+<b>2. Рекурсия и итерация - 14.10.03</b>
+<p>Алгоритъм на Евклид [1.2.3]
+<br><b><tt><font color="#000099">/* Два варианта на алгоритъма на Евклид
+за пресмятане на най-голям общ делител [1.2.3] */</font></tt></b>
+<br><b><tt><font color="#000099">// gcd.c</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;stdio.h></font></tt></b>
+<br><b><tt><font color="#000099">const unsigned n=6;</font></tt></b>
+<p><b><tt><font color="#000099">unsigned gcd1(unsigned a, unsigned b)</font></tt></b>
+<br><b><tt><font color="#000099">{ unsigned swap;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; while (b>0) { swap=b; b=a%b; a=swap;
+}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return a;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">unsigned gcd2(unsigned a, unsigned b)</font></tt></b>
+<br><b><tt><font color="#000099">{ return (0==b)? a : gcd2(b, a%b); }</font></tt></b>
+<p><b><tt><font color="#000099">int main(void)</font></tt></b>
+<br><b><tt><font color="#000099">{ const unsigned a=1, b=125;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("%u \n", gcd1(a, b));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("%u \n", gcd2(a, b));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>-- Реализация с изваждане
+<br>-- Съкращаване на дроби
+<br>
+<hr WIDTH="100%">
+<br><b><tt><font color="#000099">/* Рекурсивно отпечатване на цифрите на
+число [1.2.5] */</font></tt></b>
+<br><b><tt><font color="#000099">// digit2.c</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;stdio.h></font></tt></b>
+<p><b><tt><font color="#000099">void printN(unsigned n)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (n>=10) printN(n/10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("%u ", n%10);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main(void)</font></tt></b>
+<br><b><tt><font color="#000099">{ unsigned m=1234;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printN(m);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br><b><tt><font color="#000099">/* Два варианта за пресмятане на n! [1.2.5]
+*/</font></tt></b>
+<br><b><tt><font color="#000099">// fact.c</font></tt></b>
+<br><b><tt><font color="#000099">#include&nbsp; &lt;stdio.h></font></tt></b>
+<br><b><tt><font color="#000099">const unsigned n=6;</font></tt></b>
+<br><b><tt><font color="#000099">unsigned long fact1(unsigned i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (1==i) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return i*fact1(i-1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">unsigned i;</font></tt></b>
+<br><b><tt><font color="#000099">unsigned long fact2()</font></tt></b>
+<br><b><tt><font color="#000099">{ if (1==i) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return i-- *fact2(); // --i*fact();</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main(void)</font></tt></b>
+<br><b><tt><font color="#000099">{ i=n; // i=n+1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("fact1: %u! = %lu \n", n,
+fact1(n));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("fact2: %u! = %lu \n", n,
+fact2());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;<b><tt><font color="#000099">/* Три варианта за рекурсия и използване
+на глобални променливи [1.2.5] */</font></tt></b>
+<br><b><tt><font color="#000099">// print0.c</font></tt></b>
+<br><b><tt><font color="#000099">#include&nbsp; &lt;stdio.h></font></tt></b>
+<br><b><tt><font color="#000099">const unsigned n=6;</font></tt></b>
+<br><b><tt><font color="#000099">void printRed1(unsigned k, unsigned long
+res)</font></tt></b>
+<br><b><tt><font color="#000099">{ printf("%lu ", res);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (k&lt;n) printRed1(k+1,res*10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; printf("%lu ", res);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">unsigned k=0;</font></tt></b>
+<br><b><tt><font color="#000099">void printRed2(unsigned long res)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;k++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("%lu ", res);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (k&lt;n) printRed2(res*10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("%lu ", res);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">unsigned long res = 1;</font></tt></b>
+<br><b><tt><font color="#000099">void printRed3()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;k++;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;res*=10;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("%lu ", res);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (k&lt;n) printRed3();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("%lu ", res);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;res/=10;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main(void)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printRed1(1,10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("\n");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printRed2(10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("\n");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;k=0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printRed3();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;printf("\n");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br>Стандартен вход и изход; пренасочване на входа и изхода.
+<br>1. Стандартен вход за езика C
+<br><b><tt><font color="#006600">scanf("&lt;форматиращ спецификатор>",&lt;адрес
+на променлива>);</font></tt></b>
+<br><font color="#000000">Пример:</font>
+<br><b><tt><font color="#660000">int ik;</font></tt></b>
+<br><b><tt><font color="#660000">unsigned uk;</font></tt></b>
+<br><b><tt><font color="#660000">long lk;</font></tt></b>
+<br><b><tt><font color="#660000">unsigned long ulk;</font></tt></b>
+<br><b><tt><font color="#660000">double dk;</font></tt></b>
+<br><b><tt><font color="#660000">scanf("%d %u %ld %lu %lf", &amp;ik, &amp;uk,
+&amp;lk, &amp;ulk, &amp;dk);</font></tt></b>
+<p><font color="#000000">2. Стандартен изход за езика C</font>
+<br><b><tt><font color="#006600">printf("&lt;форматиращ спецификатор>",
+&lt;променлива>);</font></tt></b>
+<br><font color="#000000">Пример:</font>
+<br><b><tt><font color="#660000">int ik=-10;</font></tt></b>
+<br><b><tt><font color="#660000">unsigned uk=10;</font></tt></b>
+<br><b><tt><font color="#660000">long lk=-1000000;</font></tt></b>
+<br><b><tt><font color="#660000">unsigned long ulk=1000000;</font></tt></b>
+<br><b><tt><font color="#660000">double dk=2.52;</font></tt></b>
+<br><b><tt><font color="#660000">printf("%d %u %ld %lu %lf\n", ik, uk,
+lk, ulk, dk);</font></tt></b>
+<p>3. Стандартен вход за езика C++
+<br><b><tt><font color="#006600">cin >> &lt;име на променлива>;</font></tt></b>
+<br><font color="#000000">Пример:</font>
+<br><b><tt><font color="#660000">int k;</font></tt></b>
+<br><b><tt><font color="#660000">cin >> k;</font></tt></b>
+<p><font color="#000000">4. Стандартен изход за езика C++</font>
+<br><b><tt><font color="#006600">cout &lt;&lt; &lt;име на променлива>;</font></tt></b>
+<br><font color="#000000">Пример:</font>
+<br><b><tt><font color="#660000">int ik=-10;</font></tt></b>
+<br><b><tt><font color="#660000">unsigned int uk=10;</font></tt></b>
+<br><b><tt><font color="#660000">long lk=-1000000;</font></tt></b>
+<br><b><tt><font color="#660000">unsigned long ulk=1000000;</font></tt></b>
+<br><b><tt><font color="#660000">double dk=2.52;</font></tt></b>
+<br><b><tt><font color="#660000">cout &lt;&lt; ik &lt;&lt; " " &lt;&lt;
+uk &lt;&lt; " " &lt;&lt; lk &lt;&lt; " "</font></tt></b>
+<br><b><tt><font color="#660000">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt; ulk
+&lt;&lt; " " &lt;&lt; dk &lt;&lt; "\n";</font></tt></b>
+<p><font color="#000000">5. Пренасочване на стандартни вход и изход със
+средствата на ОС - DOS и всеки Unix-like.</font>
+<br><font color="#000000">Файл с програма на C или C++ със стандартни вход
+и изход: <b><tt>prog.exe</tt></b></font>
+<br><font color="#000000">Текстов файл с входните данни за програмата:<b><tt>
+test1.inp</tt></b></font>
+<br><font color="#000000">Изпълнение на програмата:</font>
+<br><b><tt><font color="#660000">prog &lt;test1.inp >test1.out</font></tt></b>
+<br><font color="#000000">Текстов файл, произведен от програмата при това
+изпълнение: <b><tt>test1.out</tt></b></font>
+<br>
+<hr WIDTH="100%">
+<br><b>Задача:</b> Да се напише програма за намиране на НОД на <i>n</i>
+естествени числа.
+<p>Хипотеза: За естественото число <i>a</i> дефинираме редицата <i>a</i><sub>0</sub><i>=
+a</i>,&nbsp; <i>a<sub>k+</sub></i><sub>1</sub>= <i>a<sub>k</sub></i>/2,
+ако <i>a<sub>k</sub></i> е четно или <i>a<sub>k+</sub></i><sub>1</sub>=
+3<i>a<sub>k</sub>+</i>1, ако <i>a<sub>k</sub></i> е нечетно. Ако някое&nbsp;<i>
+a<sub>k</sub></i> = 1, то тази стойност се счита за край на редицата. Всяко
+естествено число <i>a </i>генерира крайна редица.
+<p>Хипотези на Голдбах [1.1.3]
+<br>1. Всяко цяло четно число може да се представи като сума на две прости
+числа.
+<br>2. Всяко цяло число > 17 може да се представи като сума на 3 различни
+прости числа.
+<br>&nbsp;&nbsp; 8849+8861+9769=27479
+<br>&nbsp;&nbsp; 9973+2+3=9978
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

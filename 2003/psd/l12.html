@@ -1,0 +1,147 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l12</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<p><b>12. Наследяване</b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Производни
+класове
+<br>Базов клас - производен клас
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Викане на
+конструктор на базов клас
+<br><b><tt><font color="#000099">// clocks.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">/* This code is unchanged from chapter
+8 */</font></tt></b>
+<p><b><tt><font color="#000099">const double PI = 3.141592653589793;</font></tt></b>
+<p><b><tt><font color="#000099">class Clock&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Clock() {}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Clock(Point c, double r){
+center = c; radius = r; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void set_time(Time t){ current_time
+= t; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void draw() const;</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void draw_tick(double angle,
+double length) const;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void draw_hand(double angle,
+double length) const;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time current_time;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Point center;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double radius;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<p><b><tt><font color="#000099">void Clock::draw_tick(double angle, double
+length) const</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double alpha = PI / 2 - 6
+* angle * PI / 180;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Point from(center.get_x()
++ cos(alpha)*radius*(1-length),</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+center.get_y() + sin(alpha)*radius*(1-length));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Point to(center.get_x() +
+cos(alpha) * radius,</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+center.get_y() + sin(alpha) * radius);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cwin &lt;&lt; Line(from, to);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void Clock::draw_hand(double angle, double
+length) const</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double alpha = PI / 2 - 6
+* angle * PI / 180;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Point from = center;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Point to(center.get_x() +
+cos(alpha) * radius * length,</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+center.get_y() + sin(alpha) * radius * length);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin &lt;&lt; Line(from,
+to);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void Clock::draw() const</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cwin &lt;&lt; Circle(center, radius);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double HOUR_TICK_LENGTH
+= 0.2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double MINUTE_TICK_LENGTH
+= 0.1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double HOUR_HAND_LENGTH
+= 0.6;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double MINUTE_HAND_LENGTH
+= 0.75;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;for (i = 0; i &lt; 12; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{&nbsp; draw_tick(i * 5, HOUR_TICK_LENGTH);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int j;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (j = 1; j &lt;= 4; j++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; draw_tick(i * 5 + j, MINUTE_TICK_LENGTH);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;draw_hand(current_time.get_minutes(),
+MINUTE_HAND_LENGTH);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;draw_hand((current_time.get_hours()
++</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;current_time.get_minutes() / 60.0)
+* 5, HOUR_HAND_LENGTH);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">/* This code extends the Clock code */</font></tt></b>
+<p><b><tt><font color="#000099">class WorldClock : public Clock {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; WorldClock() {}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; WorldClock(string city_name,
+double hour_diff,</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Point center,
+double radius);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; void draw() const { Clock::draw();
+cwin &lt;&lt; city; }</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Message city;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b>
+<p><b><tt><font color="#000099">WorldClock::WorldClock(string city_name,
+double hour_diff,</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Point center, double radius)
+: Clock(center, radius)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Point p = center;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; p.move(0, -radius);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; city = Message(p, city_name);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time now;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double SECONDS_PER_HOUR
+= 60 * 60;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; now.add_seconds(hour_diff
+* SECONDS_PER_HOUR);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; set_time(now);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; vector&lt;WorldClock> clocks(6);</font></tt></b>
+<p><b><tt><font color="#000099">/* populate clocks */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[0] = WorldClock("San
+Jose", 16, Point(-6.5, 5), 3);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[1] = WorldClock("Taipei",
+7, Point(0, 5), 3);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[2] = WorldClock("Berlin",
+1, Point(6.5, 5), 3);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[3] = WorldClock("Cairo",
+2, Point(-6.5, -5), 3);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[4] = WorldClock("New
+York", 19, Point(0, -5), 3);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[5] = WorldClock("Bombay",
+4.5, Point(6.5, -5), 3);</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; clocks.size();
+i++) clocks[i].draw();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Викане на
+член-функция на базов клас
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

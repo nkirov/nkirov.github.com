@@ -1,0 +1,330 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l11</title>
+</head>
+<body>
+<b>23. Организация на входа и изхода и планиране (разписание) на диска</b>
+<br><b>Разписание на диска. RAID. Дисков кеш.</b>
+<p>11.5. Разписание на диска
+<br>** Параметри на работа на диска:
+<br>--- <a href="zzz/11-7.gif">FIGURE 11.7</a> ---
+<br>&nbsp;-- Време за търсене (Seek Time);
+<br>&nbsp;-- Закъснение при въртене (Rotational Delay);
+<br>&nbsp;-- Време за прехвърляне (Transfer Time);
+<br>&nbsp;-- Сравнения.
+<br>Пример: Диск с:
+<br>&nbsp;&nbsp;&nbsp; - рекламирана скорост на търсене (seek time) 20
+ms;
+<br>&nbsp;&nbsp;&nbsp; - скорост на пренасяне (transfer rate) 1MB/s;
+<br>&nbsp;&nbsp;&nbsp; - 512-байтови сектори (sectors) с 32 сектора в пътечка
+(track).
+<br>&nbsp; Заявка за четене на файл от 128K байта, значи 256 сектора.
+<br><b>А.</b> Предполагаме, че файлът е разположен на последователни сектори.
+<br>&nbsp;
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td>За първата пътечка имаме:&nbsp;
+<table>
+<tr>
+<td>Време за достъп&nbsp;</td>
+
+<td>20</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Закъснение при въртене</td>
+
+<td>&nbsp;8.3</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Четене на 32 сектора</td>
+
+<td>16.7&nbsp;</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Общо</td>
+
+<td>45</td>
+
+<td>ms</td>
+</tr>
+</table>
+</td>
+
+<td>За следващите пътечки имаме:&nbsp;
+<table>
+<tr>
+<td>Закъснение при въртене</td>
+
+<td>&nbsp;8.3</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Четене на 32 сектора</td>
+
+<td>16.7&nbsp;</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Общо</td>
+
+<td>25</td>
+
+<td>ms</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+Получаваме всичко 45 + 7x25 = 220 ms = 0.22 s
+<p><b>Б.</b> Предполагаме, че файлът е разположен на случайни сектори на
+диска.
+<br>За всеки сектор имаме:
+<table>
+<tr>
+<td>Време за достъп&nbsp;</td>
+
+<td>20</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Закъснение при въртене</td>
+
+<td>&nbsp;8.3</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Четене на 1 сектор</td>
+
+<td>0.5&nbsp;</td>
+
+<td>ms</td>
+</tr>
+
+<tr>
+<td>Общо</td>
+
+<td>28.8</td>
+
+<td>ms</td>
+</tr>
+</table>
+Получаваме всичко 256x28.8 = 7373 ms =7.37 s
+<br>&nbsp;&nbsp;&nbsp; Разположението на секторите на файла върху диска
+има голям ефект за скоростта на достъп до файла.
+<p>** Политика при разписания на диска:
+<br>&nbsp; -- приоритет;
+<br>&nbsp; -- случайно (random);
+<br>&nbsp; -- опашка (FIFO);
+<br>&nbsp; -- стек (LIFO);
+<br>&nbsp; -- най-малко време за обслужване (Shortest Service Time First
+- SSTF);
+<br>&nbsp; -- SCAN;
+<br>&nbsp; -- C-SCAN;
+<br>&nbsp; -- N стъпки SCAN и FeedbackSCAN.
+<br>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=2 COLS=4 WIDTH="100%" >
+<tr>
+<td>FIFO&nbsp;
+<br>(starting at track 100)</td>
+
+<td>SSTF&nbsp;
+<br>(starting at track 100)</td>
+
+<td>SCAN (starting at track 100, forward)</td>
+
+<td>C-SCAN (starting at track 100, forward)</td>
+</tr>
+
+<tr>
+<td>&nbsp;
+<div ALIGN=right><table WIDTH="100%" >
+<tr>
+<td>Next track accessed</td>
+
+<td>Number of tracks trasfered</td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td>55&nbsp;
+<br>58&nbsp;
+<br>39&nbsp;
+<br>18&nbsp;
+<br>90&nbsp;
+<br>160&nbsp;
+<br>150&nbsp;
+<br>38&nbsp;
+<br>184</td>
+
+<td>45&nbsp;
+<br>3&nbsp;
+<br>19&nbsp;
+<br>21&nbsp;
+<br>72&nbsp;
+<br>70&nbsp;
+<br>10&nbsp;
+<br>112&nbsp;
+<br>146</td>
+</tr>
+
+<tr>
+<td>Average seek length</td>
+
+<td ALIGN=RIGHT>55.3</td>
+</tr>
+</table></div>
+</td>
+
+<td>&nbsp;
+<div ALIGN=right><table WIDTH="100%" >
+<tr>
+<td>Next track accessed</td>
+
+<td>Number of tracks trasfered</td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td>90&nbsp;
+<br>58&nbsp;
+<br>55&nbsp;
+<br>39&nbsp;
+<br>38&nbsp;
+<br>18&nbsp;
+<br>150&nbsp;
+<br>160&nbsp;
+<br>184</td>
+
+<td>10&nbsp;
+<br>32&nbsp;
+<br>3&nbsp;
+<br>16&nbsp;
+<br>1&nbsp;
+<br>20&nbsp;
+<br>132&nbsp;
+<br>10&nbsp;
+<br>24</td>
+</tr>
+
+<tr>
+<td>Average seek length</td>
+
+<td ALIGN=RIGHT>27.5</td>
+</tr>
+</table></div>
+</td>
+
+<td>&nbsp;
+<div ALIGN=right><table WIDTH="100%" >
+<tr>
+<td>Next track accessed</td>
+
+<td>Number of tracks trasfered</td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td>150&nbsp;
+<br>160&nbsp;
+<br>184&nbsp;
+<br>90&nbsp;
+<br>58&nbsp;
+<br>55&nbsp;
+<br>39&nbsp;
+<br>38&nbsp;
+<br>18</td>
+
+<td>50&nbsp;
+<br>10&nbsp;
+<br>24&nbsp;
+<br>94&nbsp;
+<br>32&nbsp;
+<br>3&nbsp;
+<br>16&nbsp;
+<br>1&nbsp;
+<br>20</td>
+</tr>
+
+<tr>
+<td>Average seek length</td>
+
+<td ALIGN=RIGHT>27.8</td>
+</tr>
+</table></div>
+</td>
+
+<td>&nbsp;
+<div ALIGN=right><table WIDTH="100%" >
+<tr>
+<td>Next track accessed</td>
+
+<td>Number of tracks trasfered</td>
+</tr>
+
+<tr ALIGN=RIGHT>
+<td>150&nbsp;
+<br>160&nbsp;
+<br>184&nbsp;
+<br>18&nbsp;
+<br>38&nbsp;
+<br>39&nbsp;
+<br>55&nbsp;
+<br>58&nbsp;
+<br>90</td>
+
+<td>50&nbsp;
+<br>10&nbsp;
+<br>24&nbsp;
+<br>166&nbsp;
+<br>20&nbsp;
+<br>1&nbsp;
+<br>16&nbsp;
+<br>3&nbsp;
+<br>32</td>
+</tr>
+
+<tr>
+<td>Average seek length</td>
+
+<td ALIGN=RIGHT>35.8</td>
+</tr>
+</table></div>
+</td>
+</tr>
+</table>
+
+<p>
+<hr WIDTH="100%">
+<br>11.6. RAID (Redundant Array of Independent Disks).
+<br>"Масив от независими дискове с излишен капацитет"
+<p>&nbsp;&nbsp;&nbsp; 1. RAID&nbsp; е множество от физически дискови устройства,
+което се "вижда" от ОС като един логически диск.
+<br>&nbsp;&nbsp;&nbsp; 2. Данните са разпределени между физическите дискове
+във вид на масив.
+<br>&nbsp;&nbsp;&nbsp; 3. Излишният капацитет на дисковете се използва
+за съхраняване на допълнителна информация (parity), която гарантира възстановяването
+на данните при повреда на един (или няколко) от физическите дискове.
+<p>--- <a href="zzz/11-9a.gif">FIGURE 11.9a</a> ---&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+--- <a href="zzz/11-9b.gif">FIGURE 11.9b</a> ---
+<br>--- <a href="zzz/11-10.gif">FIGURE 11.10</a> ---
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

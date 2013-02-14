@@ -1,0 +1,147 @@
+-----------------------------------------------------------
+Дадена е част от програма:
+
+class Vec { int *p;
+public:
+   int& operator[](int i)
+{ if (0<=i && i<100) return p[i]; throw Range(i); }
+   class Range { public:
+     int index;
+     Range(int j):index(j) {} };
+... };
+void do_any(Vec &w);
+void do_some(Vec &w);
+void  f(Vec& v)
+{      do_any(v);
+ try { do_some(v); }
+ catch(Vec::Range r)
+ { cerr << "ERROR" << r.index; ... } ...
+} ...
+
+Отбележете верните твърдения.
+
++ Променливата index служи за предаване на цяло число до блока на catch.
+- Изразът w[0]+w[1] от функция do_some ще предизвика обработка на изключение.
+
+-----------------------------------------------------------
+
+Дадена е шаблон-функция:
+
+template<class T> T maxA(T *arr)
+{ T maxVal=arr[0];
+  for (int i = 1; i < 10; i++)
+     if (arr[i] > maxVal) maxVal = arr[i];
+  return maxVal;  }
+
+Отбележете верните оператори на main и твърдения.
+
++ int a[11]={1,2,5}; cout << maxA(a);
+- Ако T е класа K, то в K трябва да бъде предефинирана операцията >>.
+
+-----------------------------------------------------------
+
+Даден е шаблон-клас и дефиниции на обекти:
+
+template <class T> class listIt {
+public:
+    listIt(list<T> & aList);
+    listIt(const listIt &);
+    virtual int  init();
+    virtual T    operator ()();
+    virtual int  operator !();
+    virtual int  operator ++();
+    virtual void operator =(T value);
+    void         addBefore(T newValue);
+    void         addAfter(T newValue);
+... };
+list<int> lst; listIt<int> liter(lst);
+
+list<T> е клас-шаблон с конструктор по подразбиране, дефиниран по-рано.
+Отбележете верните оператори от външна за класа функция.
+
++ listIt<int> li1(lst);
+- cout << liter().init();
+
+-----------------------------------------------------------
+
+Дадена е следната част от програма:
+
+void fun3() { throw runtime_error("RTE" ); }
+void fun2() throw(runtime_error) { ... }
+void fun1() throw(runtime_error) { fun2(); }
+int main()
+{ try { fun1(); }
+  catch (runtime_error e) { cout<<e.what(); }
+  return 0; }
+
+Отбележете оператор от блока на fun2, който ще предизвика
+отпечатване на екрана на съобщение RTE.
+
++ fun3();
+- throw int(0);
+
+-----------------------------------------------------------
+
+Дадени са следните дефиниции на класове:
+
+class Base { ... };
+class Deriv: public Base { ... };
+
+Отбележете верните твърдения за връзките между класовете Base
+и Deriv:
+
++ Класът Deriv е производен клас на класа Base.
+- public членовете на Base са private членове на Deriv.
+
+-----------------------------------------------------------
+
+Отбележете правилните оператори и операции, като предполагаме, че
+променливите са от необходимите вградени (стандартни) типове на С++.
+
++ j_addr = &j;
+- lili += new int;
+
+-----------------------------------------------------------
+
+Дадени са следните дефиниции:
+
+class Sim {
+public:   Sim() { x=0; }
+          int get_x() const { return x; }
+private:  int x;
+} t, *ptr_t=&t, &ref_t=t;
+
+Отбележете обръщенията към функцията get_x на класа
+Sim от функция main, които не са синтактични грешки.
+
++ t.get_x()
+- Sim::get_x()
+
+-----------------------------------------------------------
+
+Дадени са следните дефиниции:
+
+class Emp {
+public:
+   Emp(const char*, const char*);
+   ~Emp();
+   char *getFirstName();
+   char *getLastName() const;
+   static int getCount() const;
+... };
+Emp e1("A","B"), e2("Y","Z");
+Emp const ec("C","C");
+
+Отбележете верните оператори от main.
+
++ cout << e1.getFirstName();
+- ec = e1;
+
+-----------------------------------------------------------
+
+Отбележете верните твърдения за потоци в С++.
+
++ Член-функцията put извежда 1 символ на екрана.
+- Класът ostream е индиректен базов клас на класа ofstream.
+
+-----------------------------------------------------------

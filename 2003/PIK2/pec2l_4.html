@@ -1,0 +1,120 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>Pec2</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<br><b>4. Алгоритми и вложени цикли</b>
+<br><img SRC="yellowball.gif" height=14 width=14> Итеративни алгоритми
+и сходимост на алгоритми
+<br><b><tt><font color="#3333FF">#include "ccc_win.cpp"</font></tt></b>
+<br><b><tt><font color="#3333FF">int main()</font></tt></b>
+<br><b><tt><font color="#3333FF">{&nbsp; double a = cwin.get_double("Please
+enter a number");</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; if (a == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; double xnew = a;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; double xold;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; int iteration = 0;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; const int MAX_ITERATIONS
+= 20;</font></tt></b>
+<p><b><tt><font color="#3333FF">&nbsp;&nbsp; cwin.coord(0, a, MAX_ITERATIONS,
+-a);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; do</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; {&nbsp; xold = xnew;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xnew =
+(xold + a / xold) / 2;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+Point(iteration, xnew);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; iteration++;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; } while (iteration &lt; MAX_ITERATIONS);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#3333FF">}</font></tt></b>
+<p><img SRC="yellowball.gif" height=14 width=14> Генериране на случайни
+събития и симулации
+<p><img SRC="yellowball.gif" height=14 width=14> Вложени цикли
+<br>* Таблица за сумата по влог за 5, 10, 15, 20, 25 и 30 години при годишна
+лихва от 5 до 10% (през 0.5%).
+<p><b><tt><font color="#3333FF">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#3333FF">#include &lt;iomanip></font></tt></b>
+<br><b><tt><font color="#3333FF">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#3333FF">using namespace std;</font></tt></b>
+<p><b><tt><font color="#3333FF">double future_value(double init_balance,
+double p, int n)</font></tt></b>
+<br><b><tt><font color="#3333FF">{&nbsp; double b = init_balance*pow(1
++ p/12/100, 12*n);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; return b;&nbsp;&nbsp; }</font></tt></b>
+<p><b><tt><font color="#3333FF">int main()</font></tt></b>
+<br><b><tt><font color="#3333FF">{</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;const double RATE_MIN = 5;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;const double RATE_MAX = 10;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;const double RATE_INCR = 0.5;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;const int YEAR_MIN = 5;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;const int YEAR_MAX = 30;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;const int YEAR_INCR = 5;</font></tt></b>
+<p><b><tt><font color="#3333FF">/* print table header */</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;cout &lt;&lt; " Rate&nbsp; ";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;int year;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;for (year=YEAR_MIN; year&lt;=YEAR_MAX;
+year=year+YEAR_INCR)</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;{ cout &lt;&lt; setw(2) &lt;&lt;
+year &lt;&lt; " years&nbsp; "; }</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;cout &lt;&lt; "\n";</font></tt></b>
+<p><b><tt><font color="#3333FF">&nbsp;cout &lt;&lt; fixed &lt;&lt; setprecision(2);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;double rate;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;double init_bal = 10000;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;for (rate=RATE_MIN; rate&lt;=RATE_MAX;
+rate=rate+RATE_INCR)</font></tt></b>
+<br><b><tt><font color="#3333FF">/* print table row */</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;{ int year;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; setw(5) &lt;&lt;
+rate;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; for (year=YEAR_MIN; year&lt;=YEAR_MAX;
+year=year+YEAR_INCR)</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; { double balance = future_value(init_bal,
+rate, year);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+setw(10) &lt;&lt; balance;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#3333FF">}</font></tt></b>
+<table BORDER CELLSPACING=6 CELLPADDING=6 >
+<tr>
+<td>&nbsp;<b><tt><font color="#990000">Rate&nbsp;&nbsp; 5 years&nbsp; 10
+years&nbsp; 15 years&nbsp; 20 years&nbsp;&nbsp;</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 5.0&nbsp; 12833.59&nbsp; 16470.09&nbsp;
+21137.04&nbsp; 27126.40</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 5.5&nbsp; 13157.04&nbsp; 17310.76&nbsp;
+22775.84&nbsp; 29966.26</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 6.0&nbsp; 13488.50&nbsp; 18193.97&nbsp;
+24540.94&nbsp; 33102.04</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 6.5&nbsp; 13828.17&nbsp; 19121.84&nbsp;
+26442.01&nbsp; 36564.47</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 7.0&nbsp; 14176.25&nbsp; 20096.61&nbsp;
+28489.47&nbsp; 40387.39</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 7.5&nbsp; 14532.94&nbsp; 21120.65&nbsp;
+30694.52&nbsp; 44608.17</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 8.0&nbsp; 14898.46&nbsp; 22196.40&nbsp;
+33069.21&nbsp; 49268.03</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 8.5&nbsp; 15273.01&nbsp; 23326.47&nbsp;
+35626.53&nbsp; 54412.43</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 9.0&nbsp; 15656.81&nbsp; 24513.57&nbsp;
+38380.43&nbsp; 60091.52</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp; 9.5&nbsp; 16050.09&nbsp; 25760.55&nbsp;
+41345.93&nbsp; 66360.61</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp;10.0&nbsp; 16453.09&nbsp; 27070.41&nbsp;
+44539.20&nbsp; 73280.74</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="yellowball.gif" height=14 width=14> Област на действие на
+променлива
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

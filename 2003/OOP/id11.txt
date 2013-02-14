@@ -1,0 +1,123 @@
+//11. Предефиниране на членове от базовия клас в производния клас;
+//публични, защитени и частни базови класове.
+//
+// employ.h
+// Definition of class Employee
+#ifndef EMPLOY_H
+#define EMPLOY_H
+
+class Employee {
+public:
+   Employee( const char *, const char * );  // constructor
+   void print() const;  // output first and last name
+   ~Employee();         // destructor
+private:
+   char *firstName;     // dynamically allocated string
+   char *lastName;      // dynamically allocated string
+};
+#endif
+------
+// employ.cpp
+// Member function definitions for class Employee
+#include <string.h>
+#include <iostream.h>
+#include <assert.h>
+#include "employ.h"
+
+// Constructor dynamically allocates space for the
+// first and last name and uses strcpy to copy
+// the first and last names into the object.
+Employee::Employee( const char *first, const char *last )
+{
+   firstName = new char[ strlen( first ) + 1 ];
+   assert( firstName != 0 ); // terminate if not allocated
+   strcpy( firstName, first );
+
+   lastName = new char[ strlen( last ) + 1 ];
+   assert( lastName != 0 );  // terminate if not allocated
+   strcpy( lastName, last );
+}
+
+// Output employee name
+void Employee::print() const
+   { cout << firstName << ' ' << lastName; }
+
+// Destructor deallocates dynamically allocated memory
+Employee::~Employee()
+{
+   delete [] firstName;   // reclaim dynamic memory
+   delete [] lastName;    // reclaim dynamic memory
+}
+-----------
+// hourly.h
+// Definition of class HourlyWorker
+#ifndef HOURLY_H
+#define HOURLY_H
+
+#include "employ.h"
+
+class HourlyWorker : public Employee {
+public:
+   HourlyWorker( const char*, const char*, double, double );
+   double getPay() const;  // calculate and return salary
+   void print() const;     // overridden base-class print
+private:
+   double wage;            // wage per hour
+   double hours;           // hours worked for week
+};
+
+#endif
+------
+// hourly.cpp
+// Member function definitions for class HourlyWorker
+#include <iostream.h>
+#include <iomanip.h>
+#include "hourly.h"
+
+// Constructor for class HourlyWorker
+HourlyWorker::HourlyWorker( const char *first, 
+                            const char *last,
+                            double initHours, double initWage )
+   : Employee( first, last )   // call base-class constructor
+{
+   hours = initHours;  // should validate
+   wage = initWage;    // should validate
+}
+// Get the HourlyWorker's pay
+double HourlyWorker::getPay() const { return wage * hours; }
+
+// Print the HourlyWorker's name and pay
+void HourlyWorker::print() const
+{
+   cout << "HourlyWorker::print() is executing\n\n";
+   Employee::print();   // call base-class print function
+
+   cout << " is an hourly worker with pay of $"
+        << setiosflags( ios::fixed | ios::showpoint )
+        << setprecision( 2 ) << getPay() << endl;
+}
+------
+// Fig09_05.cpp
+// Overriding a base-class member function in a 
+// derived class.
+#include <iostream.h>
+#include "hourly.h"
+
+int main()
+{
+   HourlyWorker h( "Bob", "Smith", 40.0, 10.00 );
+   h.print();
+   return 0;
+}
+-------------------------------------------------------
+Публична, защитена и частна наследственост
+
+членове     public          protected         private
+на б.клас   inheritance     inheritance       inheritance
+    
+public      public           protected        private
+
+protected   protected        protected        private
+
+private     HIDDEN            HIDDEN          HIDDEN
+-------------------------------------------------------

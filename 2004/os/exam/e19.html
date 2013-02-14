@@ -1,0 +1,73 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os5</title>
+</head>
+<body>
+<b>19. Конкуренция: "мъртва хватка" и "гладна смърт"</b>
+<br><b>Задачата за обядващите философи.</b>
+<p><b>6.6 Задачата за обядващите философи</b>
+<br>&nbsp;&nbsp;&nbsp; Пет философа прекарват живота си в мислене и ядене.
+Те седят около кръгла маса, на която има 5 чинии със спагети и 5 вилици.
+Когато мисли, философ не контактува с колегите си. От време на време огладнява
+и се опитва да вземе (последователно!) двете вилици, които са от двете
+стране на чинията му.&nbsp; Ако успее, той започва да яде с двете вилици,
+а след като свърши с яденето, връща вилиците и започва да мисли отново.
+<p><b>Първи опит</b> за тривиално решение със семафори.
+<br><b><tt><font color="#006600">/* program dining_philosophers */</font></tt></b>
+<br><b><tt><font color="#006600">semaphore fork[5] = {1,1,1,1,1};</font></tt></b>
+<br><b><tt><font color="#006600">int i;</font></tt></b>
+<br><b><tt><font color="#006600">void philosopher(int i)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while(true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; think;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; eat;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<p><b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;parbegin(philosopher(0), philosopher(1),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(2), philosopher(3),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(4));</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p>Втори опит - решение със семафори:
+<br><b><tt><font color="#006600">/* program dining_philosophers */</font></tt></b>
+<br><b><tt><font color="#006600">semaphore fork[5] = {1,1,1,1,1};</font></tt></b>
+<br><b><tt><font color="#006600">semaphore room = 4;</font></tt></b>
+<br><b><tt><font color="#006600">int i;</font></tt></b>
+<br><b><tt><font color="#006600">void philosopher(int i)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while(true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; think;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(room);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; eat;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(room);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p><b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;parbegin(philosopher(0), philosopher(1),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(2), philosopher(3),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(4));</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

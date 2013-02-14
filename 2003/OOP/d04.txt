@@ -1,0 +1,262 @@
+// 4. Наследственост - I 
+// -- Базисни класове и производни класове.  
+// -- Защитени (protected) членове на клас.  
+// -- Преобразуване на указатели от базисния клас към указатели от 
+//    производния клас.
+//
+// point.h
+// Definition of class Point
+#ifndef POINT_H
+#define POINT_H
+
+class Point {
+   friend ostream &operator<<( ostream &, const Point & );
+public:
+   Point( int = 0, int = 0 );      // default constructor
+   void setPoint( int, int );      // set coordinates
+   int getX() const { return x; }  // get x coordinate
+   int getY() const { return y; }  // get y coordinate
+protected:         // accessible by derived classes
+   int x, y;       // x and y coordinates of the Point
+};
+
+#endif
+------
+// point.cpp
+// Member functions for class Point
+#include <iostream.h>
+#include "point.h"
+
+// Constructor for class Point
+Point::Point( int a, int b ) { setPoint( a, b ); }
+
+// Set x and y coordinates of Point
+void Point::setPoint( int a, int b )
+{
+   x = a;
+   y = b;
+}
+
+// Output Point (with overloaded stream insertion operator)
+ostream &operator<<( ostream &output, const Point &p )
+{
+   output << '[' << p.x << ", " << p.y << ']';
+
+   return output;   // enables cascaded calls
+}
+-----------
+// circle.h 
+// Definition of class Circle
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include <iostream.h>
+#include <iomanip.h>
+#include "point.h"
+
+class Circle : public Point {  // Circle inherits from Point
+   friend ostream &operator<<( ostream &, const Circle & );
+public:
+   // default constructor
+   Circle( double r = 0.0, int x = 0, int y = 0 );
+
+   void setRadius( double );   // set radius
+   double getRadius() const;   // return radius
+   double area() const;        // calculate area
+protected:
+   double radius;
+};
+
+#endif
+------
+// circle.cpp
+// Member function definitions for class Circle
+#include "circle.h"
+
+// Constructor for Circle calls constructor for Point
+// with a member initializer then initializes radius.
+Circle::Circle( double r, int a, int b )
+   : Point( a, b )       // call base-class constructor
+{ setRadius( r ); }
+
+// Set radius of Circle
+void Circle::setRadius( double r ) 
+   { radius = ( r >= 0 ? r : 0 ); }
+
+// Get radius of Circle
+double Circle::getRadius() const { return radius; }
+
+// Calculate area of Circle
+double Circle::area() const
+   { return 3.14159 * radius * radius; }
+
+// Output a Circle in the form:
+// Center = [x, y]; Radius = #.##
+ostream &operator<<( ostream &output, const Circle &c )
+{
+   output << "Center = " << static_cast< Point >( c ) 
+          << "; Radius = " 
+          << setiosflags( ios::fixed | ios::showpoint )
+          << setprecision( 2 ) << c.radius;
+
+   return output;   // enables cascaded calls
+}
+---------------
+// fig09_04.cpp
+// Casting base-class pointers to derived-class pointers
+#include <iostream.h>
+#include <iomanip.h>
+#include "point.h"
+#include "circle.h"
+
+int main()
+{
+   Point *pointPtr = 0, p( 30, 50 );
+   Circle *circlePtr = 0, c( 2.7, 120, 89 );
+
+   cout << "Point p: " << p << "\nCircle c: " << c << '\n';
+
+   // Treat a Circle as a Point (see only the base class part)
+   pointPtr = &c;   // assign address of Circle to pointPtr
+   cout << "\nCircle c (via *pointPtr): " 
+        << *pointPtr << '\n';
+
+   // Treat a Circle as a Circle (with some casting)
+   pointPtr = &c;   // assign address of Circle to pointPtr
+
+   // cast base-class pointer to derived-class pointer
+   circlePtr = static_cast< Circle * >( pointPtr );  
+   cout << "\nCircle c (via *circlePtr):\n" << *circlePtr 
+        << "\nArea of c (via circlePtr): "
+        << circlePtr->area() << '\n';
+
+   // DANGEROUS: Treat a Point as a Circle
+   pointPtr = &p;   // assign address of Point to pointPtr
+   
+   // cast base-class pointer to derived-class pointer
+   circlePtr = static_cast< Circle * >( pointPtr );
+   cout << "\nPoint p (via *circlePtr):\n" << *circlePtr
+        << "\nArea of object circlePtr points to: "
+        << circlePtr->area() << endl;
+   return 0;
+}
+------------------------------------------------------------------
+// -- Предефиниране на членове от базисния клас в производния клас
+//
+// employ.h
+// Definition of class Employee
+#ifndef EMPLOY_H
+#define EMPLOY_H
+
+class Employee {
+public:
+   Employee( const char *, const char * );  // constructor
+   void print() const;  // output first and last name
+   ~Employee();         // destructor
+private:
+   char *firstName;     // dynamically allocated string
+   char *lastName;      // dynamically allocated string
+};
+#endif
+------
+// employ.cpp
+// Member function definitions for class Employee
+#include <string.h>
+#include <iostream.h>
+#include <assert.h>
+#include "employ.h"
+
+// Constructor dynamically allocates space for the
+// first and last name and uses strcpy to copy
+// the first and last names into the object.
+Employee::Employee( const char *first, const char *last )
+{
+   firstName = new char[ strlen( first ) + 1 ];
+   assert( firstName != 0 ); // terminate if not allocated
+   strcpy( firstName, first );
+
+   lastName = new char[ strlen( last ) + 1 ];
+   assert( lastName != 0 );  // terminate if not allocated
+   strcpy( lastName, last );
+}
+
+// Output employee name
+void Employee::print() const
+   { cout << firstName << ' ' << lastName; }
+
+// Destructor deallocates dynamically allocated memory
+Employee::~Employee()
+{
+   delete [] firstName;   // reclaim dynamic memory
+   delete [] lastName;    // reclaim dynamic memory
+}
+-----------
+// hourly.h
+// Definition of class HourlyWorker
+#ifndef HOURLY_H
+#define HOURLY_H
+
+#include "employ.h"
+
+class HourlyWorker : public Employee {
+public:
+   HourlyWorker( const char*, const char*, double, double );
+   double getPay() const;  // calculate and return salary
+   void print() const;     // overridden base-class print
+private:
+   double wage;            // wage per hour
+   double hours;           // hours worked for week
+};
+
+#endif
+------
+// hourly.cpp
+// Member function definitions for class HourlyWorker
+#include <iostream.h>
+#include <iomanip.h>
+#include "hourly.h"
+
+// Constructor for class HourlyWorker
+HourlyWorker::HourlyWorker( const char *first, 
+                            const char *last,
+                            double initHours, double initWage )
+   : Employee( first, last )   // call base-class constructor
+{
+   hours = initHours;  // should validate
+   wage = initWage;    // should validate
+}
+
+// Get the HourlyWorker's pay
+double HourlyWorker::getPay() const { return wage * hours; }
+
+// Print the HourlyWorker's name and pay
+void HourlyWorker::print() const
+{
+   cout << "HourlyWorker::print() is executing\n\n";
+   Employee::print();   // call base-class print function
+
+   cout << " is an hourly worker with pay of $"
+        << setiosflags( ios::fixed | ios::showpoint )
+        << setprecision( 2 ) << getPay() << endl;
+}
+------
+// Fig09_05.cpp
+// Overriding a base-class member function in a 
+// derived class.
+#include <iostream.h>
+#include "hourly.h"
+
+int main()
+{
+   HourlyWorker h( "Bob", "Smith", 40.0, 10.00 );
+   h.print();
+   return 0;
+}
+---------------------------------------------------------------
+
+
+
+
+
+
+

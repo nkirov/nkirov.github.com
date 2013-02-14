@@ -1,0 +1,88 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+</head>
+<body>
+<b><tt><font color="#000099">// </font><font color="#990000">straus1.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">class Vector {</font></tt></b>
+<br><b><tt><font color="#000099">public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; enum { max = 32000 };</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; class Range {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; public:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int index;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Range(int
+i): index(i){}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; };</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; class Size {};</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Vector(int);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int &amp;operator[](int);</font></tt></b>
+<br><b><tt><font color="#000099">private:</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int *p;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int sz;</font></tt></b>
+<br><b><tt><font color="#000099">};</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void f();</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "begin main()\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; f();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "end main()\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">Vector::Vector(int s)</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Vector::Vector\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (s&lt;0 || s>max) throw Size();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; sz = s;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; p = new int[sz];</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">int &amp;Vector::operator[](int i)</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "Vector::operator[](int)\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (i>0 &amp;&amp; i&lt;sz) return
+p[i];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; throw Range(i); }</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void use_vectors()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "use_vectors()\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Vector v(10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (i=9; i&lt;12; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { v[i]=i*i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; cout &lt;&lt; v[i]
+&lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; Vector vbad(-10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "BAD\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void f()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; "begin f()\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; try</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { use_vectors(); }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; catch (Vector::Range r)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { cout &lt;&lt; "Index " &lt;&lt;
+r.index &lt;&lt; " out of range!\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; exit(99);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; catch (Vector::Size)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { cout &lt;&lt; "ERROR in the constructor
+Vector::Size\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; exit(99);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "end f()\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt></tt></b>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">begin main()</font></tt></b>
+<br><b><tt><font color="#993300">begin f()</font></tt></b>
+<br><b><tt><font color="#993300">use_vectors()</font></tt></b>
+<br><b><tt><font color="#993300">Vector::Vector</font></tt></b>
+<br><b><tt><font color="#993300">Vector::operator[](int)</font></tt></b>
+<br><b><tt><font color="#993300">Vector::operator[](int)</font></tt></b>
+<br><b><tt><font color="#993300">81 Vector::operator[](int)</font></tt></b>
+<br><b><tt><font color="#993300">Index 10 out of range!</font></tt></b></td>
+</tr>
+</table>
+<b><tt></tt></b>
+</body>
+</html>

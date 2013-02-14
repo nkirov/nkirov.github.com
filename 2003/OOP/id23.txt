@@ -1,0 +1,238 @@
+23. Алгоритми и функционални класове
+
+// Fig. 20.27: fig20_27.cpp
+// Demonstrates standard library functions equal, 
+// mismatch, lexicographical_compare.
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+   const int SIZE = 10;
+   int a1[ SIZE ] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+   int a2[ SIZE ] = { 1, 2, 3, 4, 1000, 6, 7, 8, 9, 10 };
+   vector< int > v1( a1, a1 + SIZE ),
+                 v2( a1, a1 + SIZE ),
+                 v3( a2, a2 + SIZE );
+   ostream_iterator< int > output( cout, " " );
+
+   cout << "Vector v1 contains: ";
+   copy( v1.begin(), v1.end(), output );
+   cout << "\nVector v2 contains: ";
+   copy( v2.begin(), v2.end(), output );
+   cout << "\nVector v3 contains: ";
+   copy( v3.begin(), v3.end(), output );
+
+   bool result = equal( v1.begin(), v1.end(), v2.begin() );
+   cout << "\n\nVector v1 " << ( result ? "is" : "is not" ) 
+        << " equal to vector v2.\n";
+
+   result = equal( v1.begin(), v1.end(), v3.begin() );
+   cout << "Vector v1 " << ( result ? "is" : "is not" ) 
+        << " equal to vector v3.\n";
+
+   pair< vector< int >::iterator,
+         vector< int >::iterator > location;
+   location = mismatch( v1.begin(), v1.end(), v3.begin() );
+   cout << "\nThere is a mismatch between v1 and v3 at "
+        << "location " << ( location.first - v1.begin() ) 
+        << "\nwhere v1 contains " << *location.first
+        << " and v3 contains " << *location.second 
+        << "\n\n";
+
+   char c1[ SIZE ] = "HELLO", c2[ SIZE ] = "BYE BYE";
+
+   result = 
+      lexicographical_compare( c1, c1 + SIZE, c2, c2 + SIZE );
+   cout << c1 
+        << ( result ? " is less than " : " is greater than " )
+        << c2;
+
+   cout << endl;
+   return 0;
+}
+-----------------------------------------
+// Fig. 20.30: fig20_30.cpp
+// Examples of mathematical algorithms in the Standard Library.
+#include <iostream>
+#include <algorithm>
+#include <numeric>     // accumulate is defined here
+#include <vector>
+
+using namespace std;
+
+bool greater9( int );
+void outputSquare( int );
+int calculateCube( int );
+
+int main()
+{
+   const int SIZE = 10;
+   int a1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+   vector< int > v( a1, a1 + SIZE );
+   ostream_iterator< int > output( cout, " " );
+
+   cout << "Vector v before random_shuffle: ";
+   copy( v.begin(), v.end(), output );
+   random_shuffle( v.begin(), v.end() );
+   cout << "\nVector v after random_shuffle: ";
+   copy( v.begin(), v.end(), output );
+
+   int a2[] = { 100, 2, 8, 1, 50, 3, 8, 8, 9, 10 };
+   vector< int > v2( a2, a2 + SIZE );
+   cout << "\n\nVector v2 contains: ";
+   copy( v2.begin(), v2.end(), output );
+   int result = count( v2.begin(), v2.end(), 8 );
+   cout << "\nNumber of elements matching 8: " << result;
+ 
+   result = count_if( v2.begin(), v2.end(), greater9 );
+   cout << "\nNumber of elements greater than 9: " << result;
+
+   cout << "\n\nMinimum element in Vector v2 is: "
+        << *( min_element( v2.begin(), v2.end() ) );
+
+   cout << "\nMaximum element in Vector v2 is: "
+        << *( max_element( v2.begin(), v2.end() ) );
+
+   cout << "\n\nThe total of the elements in Vector v is: "
+        << accumulate( v.begin(), v.end(), 0 );
+
+   cout << "\n\nThe square of every integer in Vector v is:\n";
+   for_each( v.begin(), v.end(), outputSquare );
+
+   vector< int > cubes( SIZE );
+   transform( v.begin(), v.end(), cubes.begin(),
+              calculateCube );
+   cout << "\n\nThe cube of every integer in Vector v is:\n";
+   copy( cubes.begin(), cubes.end(), output );
+
+   cout << endl;
+   return 0;
+}
+
+bool greater9( int value ) { return value > 9; }
+
+void outputSquare( int value ) { cout << value * value << ' '; }
+
+int calculateCube( int value ) { return value * value * value; }
+
+-----------------------------------------
+// Fig. 20.31: fig20_31.cpp
+// Demonstrates search and sort capabilities.
+#include <iostream>
+#include <algorithm>
+#include <vector>
+
+using namespace std;
+
+bool greater10( int value );
+
+int main()
+{
+   const int SIZE = 10;
+   int a[ SIZE ] = { 10, 2, 17, 5, 16, 8, 13, 11, 20, 7 };
+   vector< int > v( a, a + SIZE );
+   ostream_iterator< int > output( cout, " " );
+
+   cout << "Vector v contains: ";
+   copy( v.begin(), v.end(), output );
+   
+   vector< int >::iterator location;
+   location = find( v.begin(), v.end(), 16 );
+
+   if ( location != v.end() ) 
+      cout << "\n\nFound 16 at location " 
+           << ( location - v.begin() );
+   else 
+      cout << "\n\n16 not found";
+   
+   location = find( v.begin(), v.end(), 100 );
+
+   if ( location != v.end() ) 
+      cout << "\nFound 100 at location " 
+           << ( location - v.begin() );
+   else 
+      cout << "\n100 not found";
+
+   location = find_if( v.begin(), v.end(), greater10 );
+
+   if ( location != v.end() ) 
+      cout << "\n\nThe first value greater than 10 is "
+           << *location << "\nfound at location " 
+           << ( location - v.begin() );
+   else 
+      cout << "\n\nNo values greater than 10 were found";
+
+   sort( v.begin(), v.end() );
+   cout << "\n\nVector v after sort: ";
+   copy( v.begin(), v.end(), output );
+
+   if ( binary_search( v.begin(), v.end(), 13 ) )
+      cout << "\n\n13 was found in v";
+   else
+      cout << "\n\n13 was not found in v";
+
+   if ( binary_search( v.begin(), v.end(), 100 ) )
+      cout << "\n100 was found in v";
+   else
+      cout << "\n100 was not found in v";
+
+   cout << endl;
+   return 0;
+}
+
+bool greater10( int value ) { return value > 10; }
+-----------------------------------------
+// Fig. 20.42: fig20_42.cpp
+// Demonstrating function objects.
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <numeric>
+#include <functional>
+
+using namespace std;
+
+// binary function adds the square of its second argument and
+// the running total in its first argument and 
+// returns the sum
+int sumSquares( int total, int value ) 
+   { return total + value * value; }
+
+// binary function class template which defines an overloaded 
+// operator() that function adds the square of its second 
+// argument and the running total in its first argument and 
+// returns the sum
+template< class T > 
+class SumSquaresClass : public binary_function< T, T, T >
+{
+public:
+   const T &operator()( const T &total, const T &value )
+      { return total + value * value; }
+};
+
+int main()
+{
+   const int SIZE = 10;
+   int a1[] = { 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 };
+   vector< int > v( a1, a1 + SIZE );
+   ostream_iterator< int > output( cout, " " );
+   int result = 0;
+
+   cout << "vector v contains:\n";
+   copy( v.begin(), v.end(), output );
+   result = accumulate( v.begin(), v.end(), 0, sumSquares );
+   cout << "\n\nSum of squares of elements in vector v using "
+        << "binary\nfunction sumSquares: " << result;
+
+   result = accumulate( v.begin(), v.end(), 0, 
+                        SumSquaresClass< int >() );
+   cout << "\n\nSum of squares of elements in vector v using "
+        << "binary\nfunction object of type " 
+        << "SumSquaresClass< int >: " << result << endl;
+   return 0;
+}
+-----------------------------------------

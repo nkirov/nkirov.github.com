@@ -1,0 +1,121 @@
+//19. Пренасочване на обработката на изключението. "Развиване" на 
+//стека.  Обработка на изключение при new. 
+//
+// Fig. 13.2: fig13_02.cpp
+// Demonstration of rethrowing an exception.
+#include <iostream>
+#include <exception>
+using namespace std;
+
+void throwException() throw ( exception )
+{
+// Throw an exception and immediately catch it.
+   try {  cout << "Function throwException\n";
+          throw exception();  // generate exception
+       }
+   catch( exception e )
+   {  cout << "Exception handled in function throwException\n";
+      throw;  // rethrow exception for further processing
+   }
+   cout << "This also should not print\n";
+}   
+int main()
+{ try { throwException();
+        cout << "This should not print\n";
+      }
+   catch ( exception e )
+   {  cout << "Exception handled in main\n";   }
+   cout << "Program control continues after catch in main" 
+        << endl;
+   return 0;
+}
+---------------------------------------------------------
+// Fig. 13.3: fig13_03.cpp
+// Demonstrating stack unwinding.
+#include <iostream>
+#include <stdexcept>
+using namespace std;
+
+void function3() throw ( runtime_error )
+{   throw runtime_error( "runtime_error in function3" );   }
+
+void function2() throw ( runtime_error )
+{   function3();   }
+
+void function1() throw ( runtime_error )
+{   function2();   }
+
+int main()
+{  try { function1();   }
+   catch ( runtime_error e )
+   {  cout << "Exception occurred: " << e.what() << endl;  }
+   return 0;
+}
+-------------------------------------------------------
+// Fig. 13.4: fig13_04.cpp
+// Demonstrating new returning 0 
+// when memory is not allocated
+#include <iostream.h>
+
+int main()
+{  double *ptr[ 10 ];
+   for ( int i = 0; i < 10; i++ ) {
+      ptr[ i ] = new double[ 5000000 ];
+
+      if ( ptr[ i ] == 0 ) { // new failed to allocate memory
+         cout << "Memory allocation failed for ptr[ " 
+              << i << " ]\n";
+         break;
+      }
+      else
+         cout << "Allocated 5000000 doubles in ptr[ " 
+              << i << " ]\n";    
+   }
+   return 0;
+}
+-------------------------------------------------------
+// Fig. 13.5: fig13_05.cpp
+// Demonstrating new throwing bad_alloc 
+// when memory is not allocated
+#include <iostream>
+#include <new>
+
+int main()
+{  double *ptr[ 10 ];
+   try {   
+      for ( int i = 0; i < 10; i++ ) {
+         ptr[ i ] = new double[ 5000000 ];
+         cout << "Allocated 5000000 doubles in ptr[ " 
+              << i << " ]\n";
+      }
+   }
+   catch ( bad_alloc exception ) {
+      cout << "Exception occurred: " 
+           << exception.what() << endl;
+   }
+   return 0;
+}
+-------------------------------------------------------
+// Fig. 13.6: fig13_06.cpp
+// Demonstrating set_new_handler
+#include <iostream.h>
+#include <new.h>
+#include <stdlib.h>
+
+void customNewHandler()
+{  cerr << "customNewHandler was called"; 
+   abort();
+}
+   
+int main()
+{  double *ptr[ 10 ];
+   set_new_handler( customNewHandler );
+   
+   for ( int i = 0; i < 10; i++ ) {
+      ptr[ i ] = new double[ 5000000 ];    
+      cout << "Allocated 5000000 doubles in ptr[ " 
+           << i << " ]\n";
+   }
+   return 0;
+}
+-------------------------------------------------------

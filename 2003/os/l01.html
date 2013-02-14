@@ -1,0 +1,203 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l1</title>
+</head>
+<body>
+<b><font size=+1>1. Общ преглед на компютърните системи</font></b>
+<p>Операционната система използва hardware-ните ресурси на един или повече
+процесора за да осигури обслужване на един или повече потребители. Операционната
+система управлява паметта и входно/изходните устройства.
+<br>
+<hr WIDTH="100%">
+<br><b>1.1 Базисни елементи</b>
+<br>- Процесор
+<br>- Памет
+<br>- I/O устройства
+<br>- Системни връзки
+<br>---<a href="ff1-1.gif"> FIGURE 1.1 </a>---
+<br>Регистри&nbsp; на процесора за връзка между компонентите:
+<br>MAR - memory address register
+<br>MBR - memory buffer register I/O
+<br>AR - I/O adderss register I/O
+<br>BR - I/O buffer register
+<br>
+<hr WIDTH="100%">
+<br><b>1.2 Регистри на процесора</b>
+<br>** Видими за потребителя регистри
+<br>- регистри за данни
+<br>- адресни регистри:
+<br>-- индексни,
+<br>-- сегментни указатели [деление на паметта на сегменти],
+<br>-- указател за стека и др.
+<br>- флагове: резултат от сравнение, от аритметична операция,...
+<br>** Контролни регистри и регистри на състоянията
+<br>PC - program counter (съдържа адреса на текущата инструкция)
+<br>IR - instruction register (съдържа текущата инструкция)
+<br>PSW - program status word (дума за състоянието на програмата) :
+<br>Sign, Zero, Carry (пренос), Equal,Overflow, Interrupt enable/disable,
+Supervisor (supervisor/kernal mode or user mode)
+<br>Ограничение за някои инструкции и достъп до паметта в user mode.
+<br>Управляваща информация може да се съхранява и в долната част на паметта.
+<br>
+<hr WIDTH="100%">
+<br><b>1.3 Изпълнение на инструкциите</b>
+<br>** Цикъл на инструкциите
+<br>Две стъпки:
+<br>&nbsp;&nbsp;&nbsp; 1. зареждане (fetch - донасям, довеждам) от паметта
+в IR;
+<br>&nbsp;&nbsp;&nbsp; 2. изпълнение на инструкцията, записана в IR.
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-02.PDF">FIGURE
+1.2</a> ---
+<br>Най-общо има 4 вида инструкции:
+<br>&nbsp;&nbsp;&nbsp; 1. Processor-memory
+<br>&nbsp;&nbsp;&nbsp; 2. Processor-I/O
+<br>&nbsp;&nbsp;&nbsp; 3. Data processing
+<br>&nbsp;&nbsp;&nbsp; 4. Control
+<br><b>Пример:</b>
+<br>AC - accumulator
+<br>Формат на командите: OpCode Address
+<br>OpCode действие: 1 - зарежда AC от паметта; 2 - записва AC в паметта;
+5 - добавя към AC от паметта
+<br>Към съдържанието на клетка 941 от паметта се добавя съдържанието на
+клетка 940 (2+3=5)
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-04.PDF">FIGURE
+1.4</a> ---
+<br>Задачата се решава с 3 цикъла на инструкциите.
+<br>** Входно/изходни функции
+<br>- Директен обмен на данни процесор-диск;
+<br>- Използване на I/O модула DMA (direct memory access).
+<br>
+<hr WIDTH="100%">
+<br><b>1.4 Прекъсвания</b>
+<br>Класове от прекъсвания:
+<br>- Program - overflow, division by zero, illegal instruction, out of
+memory
+<br>- Timer
+<br>- I/O - сигнал за завършване на действието или код на грешка
+<br>- Hardware failure
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-05.PDF">FIGURE
+1.5</a> ---
+<br>** Прекъсвания и цикъла на инструкциите
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-07.PDF">FIGURE
+1.7</a> ---
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-08.PDF">FIGURE
+1.8</a> ---
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-09.PDF">FIGURE
+1.9</a> ---
+<br>** Обработка на прекъсването
+<br>Прекъсването предизвиква събития в hardware и software:
+<br>1. Устройството изпраща прекъсване към процесора.
+<br>2. Процесорът завършва изпълнението на текущата инструкция преди да
+отговори на прекъсването.
+<br>3. Процесорът проверява за прекъсване, идентифицира прекъсването и
+връща потвърждение на устройството, че прекъсването е прието.
+<br>4. Процесорът запазва информация за текущата програма (поне PSW), като
+я записва в системния управляващ стек (system control stack).
+<br>5. Процесорът зарежда PC с първия адрес на програмата, съответстваща
+на прекъсването (interupt-handling program).
+<br>6. Програмата за обработка на прекъсванено записва в системния управляващ
+стек регистрите и друга информация.
+<br>7. Изпълнява се прекъсването - проверява се кода на изпълнение на I/O
+операцията, отговаря се на I/O устройството.
+<br>8. Програмата за обработка на изключенията възстановява състоянието
+на регистрите.
+<br>9. Възстановява се PC и PSW и прекъсната програма продължава работата
+си.
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-10.PDF">FIGURE
+1.10</a> ---
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-11.PDF">FIGURE
+1.11</a> ---
+<br>** Многократни прекъсвания
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-12.PDF">FIGURE
+1.12</a> ---
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-13.PDF">FIGURE
+1.13</a> ---
+<br>** Multiprogramming
+<br>Няколко програми се изпълняват "едновременно". След прекъсване процесорът
+може да изпълнява друга програма в зависимост от зададени приоритети на
+чакащите за изпълнение програми.
+<br>
+<hr WIDTH="100%">
+<br><b>1.5 Йерархия на паметта</b>
+<br>Характеристики: цена, обем, бързина на достъп.
+<br>- малко време за достъп, висока цена (бърза, скъпа)
+<br>- голям обем, ниска цена (голяма, евтина)
+<br>- голям обем, голямо време за достъп (голяма, бавна)
+<center><table BORDER COLS=1 WIDTH="47%" >
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td><b><font color="#993300">рег</font><font color="#990000">истри</font></b></td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td><b><font color="#990000">кеш (бърза памет)</font></b></td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td><b><font color="#990000">оперативна памет</font></b></td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td><b><font color="#990000">дисков кеш (буфер)</font></b></td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td><b><font color="#990000">твърд (магнитен) дик&nbsp;</font></b></td>
+</tr>
+
+<tr ALIGN=CENTER VALIGN=CENTER>
+<td><b><font color="#990000">сменяеми носители</font></b></td>
+</tr>
+</table></center>
+Надолу по таблицата:
+<br>&nbsp; 1. намалява цената
+<br>&nbsp; 2. расте обемът
+<br>&nbsp; 3. расте времето за достъп
+<br>&nbsp; 4. намалява честотата на достъп от процесора
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-15.PDF">FIGURE
+1.15</a> ---
+<br>Виртуална памет
+<br>
+<hr WIDTH="100%">
+<br><b>1.6 Кеш памет</b>
+<br>** Необходимост
+<br>Времето за достъп до паметта е определящо за бързодействието.
+<br>** Принципи
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-16.PDF">FIGURE
+1.16</a> ---
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-17.PDF">FIGURE
+1.17</a> ---
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-18.PDF">FIGURE
+1.18</a> ---
+<br>** Дизайн
+<br>- Cash size - големина на кеша
+<br>- Block size - големина на блока
+<br>- Mapping function - функция за разполагане на нови данни в кеша
+<br>- Replacement algorithm - алгоритъм за заместване: least-recently-used
+(LRU)
+<br>- Write policy - правила за записване в ОП на променени данни
+<br>
+<hr WIDTH="100%">
+<br><b>1.7 I/O методи за комуникация</b>
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F1-19.PDF">FIGURE
+1.19</a> ---
+<br>** Програмирани I/O
+<br>- процесорът пряко управлява I/O устройствата
+<br>- обмена на данните между ОП и&nbsp; I/O устройствата минава през регистрите
+на процесора
+<br>- процесорът проверява състоянието на I/O устройствата
+<br>** I/O основани на прекъсвания
+<br>- обмена на данните между ОП и&nbsp; I/O устройствата минава през регистрите
+на процесора
+<br>- процесорът изпълнява други команди докато I/O устройствата изпълнят
+заявката
+<br>** Директен достъп до паметта
+<br>- процесорът задава: четене/писане, адрес на I/O устройство, начален
+адрес в ОП и брой байтове
+<br>- DMA модула изпълнява заявката.
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

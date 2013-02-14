@@ -1,0 +1,479 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l1</title>
+</head>
+<body>
+<b>2. Общ преглед на операционните системи</b>
+<p>2.1 Цели и функции на операционната система
+<br>Операционната система е програма, която управлява изпълнението
+<br>на приложни програми и е интерфейс между потребителя на компютъра
+<br>и хардуера.
+<br>Какво очаква потребителят от ОС?
+<br>А. Unix: login, файлова система, управление на заданията, многозадачна
+поддръжка, работа с периферията, мрежова поддръжка, utility
+<br>Б. DOS: стартиране на компютъра,&nbsp; файлова система,&nbsp; работа
+с периферията, utility
+<br>В. Windows: стартиране на компютъра, файлова система, графична среда,
+работа с периферията, мрежова поддръжка
+<br>** ОС като потребител/компютър интерфейс
+<br>--- <a href="OS4e_PDF_Figures/CHAP_2/F2-1.gif">FIGURE 2.1</a> ---
+<br>Операционната система осигурява следните дейности:
+<br>- Създаване на програми - редактори, компилатори, дебъгери
+<br>- Изпълнение на програми -
+<br>- Достъп до I/O устройства -
+<br>- Управление на достъпа до файлове -
+<br>- Достъп до системата
+<br>- Откриване и обработка на грешки
+<br>- Статистика
+<br>** ОС като организатор на ресурси
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-2.PDF">FIGURE
+2.2</a> ---
+<br>** Възможност за развитие на ОС
+<br>- нов hardware
+<br>- нови услуги за потребителя
+<br>- отстраняване на грешки в ОС
+<br>
+<hr WIDTH="100%">
+<br>2.2. Развитие на ОС
+<br>** Последователна обработка
+<br>- без ОС (от края на 40-те г. до средата на 50-те)
+<br>- два главни проблема: разпределение на времето между потребителите
+и много време престой на процесора
+<br>** Проста система за обработка на задания (batch system)
+<br>- първа ОС (средата на 50-те) за IBM 701
+<br>- използване на монитор:
+<br>-- последователно стратира заданията
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-3.PDF">FIGURE
+2.3</a> ---
+<br>-- език за управление на заданията (job control language - JCL)
+<br><font color="#993300">$JOB</font>
+<br><font color="#993300">$FTN</font>
+<br><font color="#993300">... FORTRAN</font>
+<br><font color="#993300">$LOAD</font>
+<br><font color="#993300">$RUN</font>
+<br><font color="#993300">... Data</font>
+<br><font color="#993300">$END</font>
+<br>- други изисквания към ОС
+<br>-- Защита на паметта - разделяне на паметта между 2 програми
+<br>-- Крайно време за работа на всяко задание
+<br>-- Инструкции, достъпни само за монитора
+<br>-- Прекъсвания
+<br>** Многозадачна система за обработка на задания
+<br><font color="#000000">- simple batch system:</font>
+<br><font color="#993300">Read one record&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.0015 s</font>
+<br><font color="#993300">Execute 100 instructions&nbsp; 0.0001 s</font>
+<br><font color="#993300">Write one record&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.0015 s</font>
+<br><font color="#993300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+------------</font>
+<br><font color="#993300">Total&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+0.0031 s</font>
+<br><font color="#993300">Натоварване на процесора : 0.0001/0.0031&nbsp;
+= 3.2%</font>
+<br>&nbsp;
+<table BORDER CELLPADDING=4 >
+<tr>
+<td></td>
+
+<td>JOB1</td>
+
+<td>JOB2</td>
+
+<td>JOB3</td>
+</tr>
+
+<tr>
+<td>Type of job</td>
+
+<td>Heavy compute</td>
+
+<td>Heavy I/O</td>
+
+<td>Heavy I/O</td>
+</tr>
+
+<tr>
+<td>Duration</td>
+
+<td>5 min</td>
+
+<td>15 min</td>
+
+<td>10 min</td>
+</tr>
+
+<tr>
+<td>Memory requirement</td>
+
+<td>50K</td>
+
+<td>100K</td>
+
+<td>80K</td>
+</tr>
+
+<tr>
+<td>Need disk?</td>
+
+<td>No</td>
+
+<td>No</td>
+
+<td>Yes</td>
+</tr>
+
+<tr>
+<td>Need terminal?</td>
+
+<td>No</td>
+
+<td>Yes</td>
+
+<td>No</td>
+</tr>
+
+<tr>
+<td>Need printer?</td>
+
+<td>No</td>
+
+<td>No</td>
+
+<td>Yes</td>
+</tr>
+</table>
+--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-5.PDF">FIGURE 2.5</a>
+---
+<br>&nbsp;
+<table BORDER CELLPADDING=4 >
+<tr>
+<td>&nbsp;</td>
+
+<td>Еднозадачна</td>
+
+<td>Многозадачна</td>
+</tr>
+
+<tr>
+<td>Използване на процесора</td>
+
+<td>17%</td>
+
+<td>33%</td>
+</tr>
+
+<tr>
+<td>Използване на паметта</td>
+
+<td>30%</td>
+
+<td>67%</td>
+</tr>
+
+<tr>
+<td>Използване на диска</td>
+
+<td>33%</td>
+
+<td>67%</td>
+</tr>
+
+<tr>
+<td>Използване на принтера</td>
+
+<td>33%</td>
+
+<td>67%</td>
+</tr>
+
+<tr>
+<td>Общо време</td>
+
+<td>30 min</td>
+
+<td>15 min</td>
+</tr>
+
+<tr>
+<td>Производителност</td>
+
+<td>6 jobs/h</td>
+
+<td>12 jobs/h</td>
+</tr>
+
+<tr>
+<td>Средно време за изпълнение</td>
+
+<td>18 min</td>
+
+<td>10 min</td>
+</tr>
+</table>
+--- FIGURE 2.6 ---
+<br>--- FIGURE 2.7 ---
+<br>** Системи с времеделение
+<br>&nbsp;
+<table BORDER CELLPADDING=4 >
+<tr>
+<td></td>
+
+<td>Многозадачна обработка на задания</td>
+
+<td>Времеделение</td>
+</tr>
+
+<tr>
+<td>Принципна цел</td>
+
+<td>максимум използване на процесора</td>
+
+<td>минимум време за отговор</td>
+</tr>
+
+<tr>
+<td>Вид на командите съм ОС</td>
+
+<td>JCL, командите са със заданието</td>
+
+<td>командите се въвеждат от терминал</td>
+</tr>
+</table>
+-- Compatible Time-Sharing Systems (CTSS), MIT, 1962
+<br><font color="#993300">JOB1: 15K</font>
+<br><font color="#993300">JOB2: 20K</font>
+<br><font color="#993300">JOB3:&nbsp; 5K</font>
+<br><font color="#993300">JOB4: 10K</font>
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-8.PDF">FIGURE
+2.8</a> ---
+<br>
+<hr WIDTH="100%">
+<br>2.3. Главни постижения в развитието на ОС
+<br>** Процеси
+<br>-- Многозадачност: в отговор на сигнал за завършила I/O операция, процесорът
+превключва изпълнението на друга програма,&nbsp; намираща се в ОП.
+<br>-- Времеделение: възможност за работа на много потребители
+<br>-- Изпълнение на едновременни заявки (real-time transaction system)
+<br>- Главни причини за възникване на грешки:
+<br>-- Неправилна синхронизация (improper synchronization)
+<br>-- Неуспешна едновременна работа с ресурс (failed mutual exclusion)
+<br>-- Невалидна инструкция (nondeterminate program operation)
+<br>-- Мъртва хватка (deadlock)
+<br>- Всеки процес се сътои от 3 части:
+<br>-- изпълнима програма;
+<br>-- необходими на програмата данни
+<br>-- контекст на изпълнението
+<br>--- FIGURE 2.9 ---
+<br>** Организация на паметта
+<br>- изолиране на процесите
+<br>- автоматично заделяне на памет и организация
+<br>- поддръжка на модулно програмиране
+<br>- защита и управление на достъпа
+<br>- дълговременна памет
+<br>--- FIGURE 2.10 ---
+<br>** Защита на информацията и сигурност
+<br>Категории дейности:
+<br>&nbsp;&nbsp; 1. Управление на достъпа (access control)
+<br>&nbsp;&nbsp; 2. Управление на потока с данни (information flow control)
+<br>** Планиране и организация на ресурсите
+<br>-- справедливост - за всеки процес се осигуряват ресурси
+<br>-- отзивчивост - ресурсът се осигурява възможна най-рано
+<br>-- ефективност
+<br>Long-term queue - нови задания
+<br>Short-term queue - готови за изпълнение, диспечер
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-11.PDF">FIGURE
+2.11</a> ---
+<br>** Структура на системата
+<br>-- CTSS (1963),&nbsp;&nbsp; MIT, 32000 16-битови думи
+<br>-- OS/360 (1964), IBM, >1 млн. машинни инструкции
+<br>-- Multics (1975), MIT &amp; Bell Lab, >20 млн. инструкции
+<br>&nbsp;
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td>Ниво</td>
+
+<td>Име</td>
+
+<td>Обекти</td>
+
+<td>Примерни операции</td>
+</tr>
+
+<tr>
+<td>13</td>
+
+<td>Shell</td>
+
+<td>User programming environment</td>
+
+<td>statements in shall language</td>
+</tr>
+
+<tr>
+<td>12</td>
+
+<td>User processes</td>
+
+<td>потребителски процеси</td>
+
+<td>quit, kill, suspend, resume&nbsp;</td>
+</tr>
+
+<tr>
+<td>11</td>
+
+<td>Directories</td>
+
+<td>Directories</td>
+
+<td>create, destroy, attach, detach, search, list</td>
+</tr>
+
+<tr>
+<td>10</td>
+
+<td>Devices</td>
+
+<td>външни устройства: принтери, монитори, клавиатури</td>
+
+<td>create, destroy, open, close, read, write</td>
+</tr>
+
+<tr>
+<td>9</td>
+
+<td>File systems</td>
+
+<td>файлове</td>
+
+<td>create, destroy, open, close, read, write</td>
+</tr>
+
+<tr>
+<td>8</td>
+
+<td>Communications</td>
+
+<td>Pipes</td>
+
+<td>create, destroy, open, close, read, write</td>
+</tr>
+
+<tr>
+<td>7</td>
+
+<td>Virtual memory</td>
+
+<td>сегменти, страници</td>
+
+<td>read, write, fetch</td>
+</tr>
+
+<tr>
+<td>6</td>
+
+<td>Local secondary store</td>
+
+<td>блокове с данни, канали за устройства</td>
+
+<td>read, write, allocate, free</td>
+</tr>
+
+<tr>
+<td>5</td>
+
+<td>Primitive processes</td>
+
+<td>Primitive processes, semaphors, ready list</td>
+
+<td>suspend, resume, wait, signal</td>
+</tr>
+
+<tr>
+<td>4</td>
+
+<td>Interrupts</td>
+
+<td>Interrupt-handling programs</td>
+
+<td>invoke, mask, unmask, retry</td>
+</tr>
+
+<tr>
+<td>3</td>
+
+<td>Procedures</td>
+
+<td>Procedures, call stack, display</td>
+
+<td>mark stack, call, return</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>Instruction set</td>
+
+<td>Evaluation stack, microprogram, interpreter, scaler and array data</td>
+
+<td>lad, store, add, subtract, branch</td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>Electronic circuit</td>
+
+<td>Registers, gates, buses, etc.</td>
+
+<td>clear, trnsfer, activate, complement</td>
+</tr>
+</table>
+
+<hr WIDTH="100%">
+<br>2.4. Характеристики на съвременните ОС
+<br>* Microkernel architecture
+<br>* Multithreading
+<br>* Symetric multiprocessing
+<br>* Distrubuted operatin systems
+<br>* Object oriented design
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-12.PDF">FIGURE
+2.12</a> ---
+<br>
+<hr WIDTH="100%">
+<br>2.5. Преглед на Windows NT
+<br>** История
+<br>** Еднопотребителска многозадачна система
+<br>** Архитектура
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-13.PDF">FIGURE
+2.13</a> ---
+<br>** Модел клиент/сървер
+<br>
+<hr WIDTH="100%">
+<br>2.6. Класически UNIX ОС
+<br>** История - PDP-7 (1970), MIT &amp; Bell Labs, CTSS, Multics, PDP-11,
+V6 (1976), V7 (1978)
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-14.PDF">FIGURE
+2.14</a> ---
+<br>** Описание
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-15.PDF">FIGURE
+2.15</a> ---
+<br>System 5 Release 3, 4.3BSD
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-16.PDF">FIGURE
+2.16</a> ---
+<br>
+<hr WIDTH="100%">
+<br>2.7. Съвременни UNIX ОС
+<br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F2-17.PDF">FIGURE
+2.17</a> ---
+<br>** System 5 Release 4 (SVR4) , AT&amp;T and Sun Microsystems
+<br>** Solaris 2.x , SVR4 с подобрения
+<br>** 4.4 BSD, Berkeley Software Distribution (BSD)
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

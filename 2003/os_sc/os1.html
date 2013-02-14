@@ -1,0 +1,170 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os1</title>
+</head>
+<body>
+
+<h2>
+Операционни системи</h2>
+
+<h3>
+1 (1).&nbsp; Общ преглед на компютърните системи</h3>
+Операционната система използва hardware-ните ресурси на един или повече
+процесора за да осигури обслужване на един или повече потребители. Операционната
+система управлява паметта и входно/изходните устройства.
+<p><b>1.1 Базисни елементи.</b>
+<br>- Процесор (CPU).
+<br>- Памет (Main Memory).
+<br>- Входно/изходни (I/O) устройства.
+<br>- Системни връзки (System Bus).
+<center><img SRC="01_01.gif" height=582 width=568></center>
+
+<hr WIDTH="100%">
+<br><b>1.2 Регистри и режими на процесора.</b>
+<br>** Видими за потребителя регистри:
+<br>&nbsp;&nbsp;&nbsp; - регистри за данни;
+<br>&nbsp;&nbsp;&nbsp; - адресни регистри - индексни, сегментни указатели
+[деление на паметта на сегменти], указател за стека и др.;
+<br>&nbsp;&nbsp;&nbsp; - флагове - резултат от сравнение, от аритметична
+операция, ...
+<br>** Контролни регистри и регистри на състоянията.
+<br>&nbsp;&nbsp;&nbsp; PC - program counter (съдържа адреса на текущата
+инструкция)
+<br>&nbsp;&nbsp;&nbsp; IR - instruction register (съдържа текущата инструкция)
+<br>&nbsp;&nbsp;&nbsp; PSW - program status word (дума за състоянието на
+програмата) :
+<br>&nbsp;&nbsp;&nbsp; Sign, Zero, Carry (пренос), Equal, Overflow, Interrupt
+enable/disable, режими на работаSupervisor (supervisor/kernal mode or user
+mode)
+<br>** Режими за работа на процесора:
+<br>&nbsp;&nbsp;&nbsp; - режим ядро (kernal mode);
+<br>&nbsp;&nbsp;&nbsp; - потребителски режим (user mode).
+<br>Ограничение за някои инструкции и достъп до паметта в user mode.
+<br>Освен в регистрите, управляваща информация (за процесора) може да се
+съхранява и в долната част на паметта.
+<p><b>1.3 Изпълнение на инструкциите.</b>
+<br>&nbsp;&nbsp;&nbsp; Две стъпки:
+<br>&nbsp;&nbsp;&nbsp; 1. Зареждане (fetch - донасям, довеждам) от паметта
+в IR.
+<br>&nbsp;&nbsp;&nbsp; 2. Изпълнение на инструкцията, записана в IR.
+<center><img SRC="01-02.gif" height=323 width=703></center>
+&nbsp;&nbsp;&nbsp; Най-общо има 4 вида инструкции:
+<br>&nbsp;&nbsp;&nbsp; 1. Процесор-памет (processor-memory);
+<br>&nbsp;&nbsp;&nbsp; 2. Процесор-вход/изход (processor-I/O);
+<br>&nbsp;&nbsp;&nbsp; 3. Обработка на данни (data processing);
+<br>&nbsp;&nbsp;&nbsp; 4. Управляващи (control);
+<br>&nbsp;&nbsp;&nbsp; Пример.
+<br>&nbsp;&nbsp;&nbsp; Да разгледаме хипотетична машина, която има 3 регистри:
+PC и IR от Fig.1.1 и още един регистър за данни - AC (accumulator). Даден
+е и формата на командите:
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td>OpCode</td>
+
+<td>
+<center>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Address&nbsp;</center>
+</td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; OpCode е код на командата и приема следните стойности:
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td>OpCode</td>
+
+<td>действие</td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td>зарежда AC от Address в паметта</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td>записва AC в Address в паметта</td>
+</tr>
+
+<tr>
+<td>5</td>
+
+<td>добавя към AC стойността от Address в паметта</td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; На Fig.1.4 са дадени стъпките на работа на машината
+при решаване на задачата: към съдържанието на клетка 941 от паметта се
+добавя съдържанието на клетка 940, като получения резултат се записва в
+клетка 941 (2+3=5). Задачата се решава с 3 цикъла на инструкциите.
+<center><img SRC="01-04.gif" height=537 width=441></center>
+
+<hr WIDTH="100%">
+<br><b>1.4 Прекъсвания.</b>
+<br>&nbsp;&nbsp;&nbsp; Класове от прекъсвания:
+<br>- Програмни (program - overflow, division by zero, illegal instruction,
+out of memory);
+<br>- Часовника (timer);
+<br>- Входно-изходни (I/O) - сигнал за завършване на действието или код
+на грешка;
+<br>- Повреда в хардуера (hardware failure).
+<center><img SRC="01-05.gif" height=505 width=693>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="01-06.gif" height=418 width=510></center>
+
+<hr WIDTH="100%">
+<br>** Прекъсвания и цикъла на инструкциите.
+<center>
+<p><img SRC="01-07.gif" height=347 width=723>
+<br>
+<hr WIDTH="100%"></center>
+
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td VALIGN=BOTTOM><img SRC="01-08.gif" height=676 width=517></td>
+
+<td><img SRC="01-09.gif" height=722 width=513></td>
+</tr>
+</table>
+
+<p>** Обработка на прекъсването.
+<br>&nbsp;&nbsp;&nbsp; Прекъсването предизвиква събития в hardware и software:
+<br>1. Устройството изпраща прекъсване към процесора.
+<br>2. Процесорът завършва изпълнението на текущата инструкция преди да
+отговори на прекъсването.
+<br>3. Процесорът проверява за прекъсване, идентифицира прекъсването и
+връща потвърждение на устройството, че прекъсването е прието.
+<br>4. Процесорът запазва информация за текущата програма (поне PSW), като
+я записва в системния управляващ стек (system control stack).
+<br>5. Процесорът зарежда PC с първия адрес на програмата, съответстваща
+на прекъсването (interupt-handling program).
+<br>6. Програмата за обработка на прекъсванено записва в системния управляващ
+стек регистрите и друга нформация.
+<br>7. Изпълнява се прекъсването - проверява се кода на изпълнение на I/O
+операцията, отговаря се на I/O устройството.
+<br>8. Програмата за обработка на изключенията възстановява състоянието
+на регистрите.
+<br>9. Възстановява се PC и PSW и прекъсната програма продължава работата
+си.
+<center>
+<p><img SRC="01-11.gif" height=642 width=570></center>
+
+<hr WIDTH="100%">
+<br>** Многократни прекъсвания.
+<center><img SRC="01-12.gif" height=756 width=486></center>
+
+<p>** Многозадачна ОС (multiprogramming).
+<br>&nbsp;&nbsp;&nbsp; Няколко програми се изпълняват "едновременно", по-точно,
+чакат готови за изпълнение от процесора. След прекъсване процесорът може
+да изпълнява друга програма в зависимост от зададени приоритети на чакащите
+за изпълнение програми.
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

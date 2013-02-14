@@ -1,0 +1,160 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>lecture4a</title>
+</head>
+<body>
+<b>Метод на пълно изчерпване</b><b></b>
+<p>Николай Киров
+<p>1. Задача за подмножества.
+<p>Даден е масив A с N елемента - естествени числа и цяло число S.&nbsp;
+Да се намерят всички суми на елементи на масива, които са равни на S.
+<p>Вариант 1 - най-просто решение
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<p><b><tt><font color="#000099">int const N=4;</font></tt></b>
+<br><b><tt><font color="#000099">int const A[N]={1,2,3,4};</font></tt></b>
+<br><b><tt><font color="#000099">int const SUM = 6;</font></tt></b>
+<p><b><tt><font color="#000099">int two_p(int n)</font></tt></b>
+<br><b><tt><font color="#000099">{ return static_cast&lt;int>(pow(2,n));
+}</font></tt></b>
+<p><b><tt><font color="#000099">int const NN = two_p(N);</font></tt></b>
+<p><b><tt><font color="#000099">void count()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;int i, j;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;for(i=1; i&lt;NN; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int sum=0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for(j=0; j&lt;N; j++) if (two_p(j)
+&amp; i)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; sum+=A[j]; cout &lt;&lt;
+A[j] &lt;&lt; "+";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (sum==SUM) cout &lt;&lt; "&nbsp;&nbsp;
+OK";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;count();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cin.get();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><font color="#000000">Вариант 2:</font>
+<br><font color="#000000">Име на входния файл: SUM.INP</font>
+<p><font color="#000000">Описание на входния файл:</font>
+<br><font color="#000000">Първият ред на файла съдържа число - броя на
+примерите. Всеки пример започва с 2 числа - броя на елементите на масива
+N и търсената сума S. След това са дадени N естествени числа - елементите
+на месива.</font>
+<p><font color="#000000">Име на изходния файл: SUM.OUT</font>
+<p><font color="#000000">Описание на изходния файл:</font>
+<br><font color="#000000">За всеки пример на отделен ред се извеждат индексите
+на онези елементи на масива, чиято сума е точно S. Индексирането започва
+от 0 и индексите са наредени по възходящ ред. След всеки пример се оставя
+по един празен ред.</font>
+<p><font color="#000000">Примерен входен файл:</font>
+<br><b><tt><font color="#000000">2</font></tt></b>
+<br><b><tt><font color="#000000">4 1</font></tt></b>
+<br><b><tt><font color="#000000">1 2 3 4</font></tt></b>
+<br><b><tt><font color="#000000">9 1</font></tt></b>
+<br><b><tt><font color="#000000">1 1 1 1 1 1 1 1 1</font></tt></b>
+<p><font color="#000000">Изходен файл за примерния входен файл:</font>
+<br><b><tt><font color="#000000">0 1 2</font></tt></b>
+<br><b><tt><font color="#000000">1 3</font></tt></b>
+<p><b><tt><font color="#000000">0 1 2 3 4 5 6 7 8</font></tt></b>
+<br>&nbsp;
+<p><b><tt><font color="#000099">#include &lt;fstream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#define inttype unsigned long</font></tt></b>
+<br><b><tt><font color="#000099">#define MAX 100</font></tt></b>
+<p><b><tt><font color="#000099">int N=4;</font></tt></b>
+<br><b><tt><font color="#000099">int A[MAX]={1,2,3,4};</font></tt></b>
+<br><b><tt><font color="#000099">int SUM = 6;</font></tt></b>
+<p><b><tt><font color="#000099">ofstream fout("sum.out");</font></tt></b>
+<p><b><tt><font color="#000099">inttype two_p(int n)</font></tt></b>
+<br><b><tt><font color="#000099">{ return static_cast&lt;inttype>(pow(2,n));
+}</font></tt></b>
+<p><b><tt><font color="#000099">void count()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;int b[MAX], nb;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;inttype NN = two_p(N);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;for(inttype i=1; i&lt;NN; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; int sum=0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; nb = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for(int j=0; j&lt;N; j++) if (two_p(j)
+&amp; i)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; sum+=A[j]; b[nb++]=j;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (sum==SUM)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (int k=0; k&lt;nb; k++)
+fout &lt;&lt; b[k] &lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; fout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;ifstream fin("sum.inp");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;int num;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;fin >> num;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;for (int i=0; i&lt;num; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; fin >> N >> SUM;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; for (int j=0; j&lt;N; j++) fin
+>> A[j];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; count();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; fout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><font color="#000000">Задачи:</font>
+<br><font color="#000000">1. Да се промени програмата така, че да се повиши
+бързодействието й;</font>
+<br><font color="#000000">2. Програмата да може да работи при N=20.</font>
+<br>
+<hr WIDTH="100%">
+<br>2. Друг вариант на задачата за подмножества.
+<p>Даден е масив A с N елемента - естествени числа и цяло число S.&nbsp;
+Да се намерят елементи на масива, чиято сума е S.
+<p><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<p><b><tt><font color="#000099">const int N=9;</font></tt></b>
+<br><b><tt><font color="#000099">int A[N]={7,7,7,4,5,6,7,8,9};</font></tt></b>
+<br><b><tt><font color="#000099">int SUM = 12;</font></tt></b>
+<p><b><tt><font color="#000099">bool count(int s, int m)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (s==0) return true;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (s&lt;0) return false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;for(int i=m; i&lt;N; i++) if (count(s-A[i],
+i+1))</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; A[i] &lt;&lt; " ";
+return true;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return false;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;count(SUM, 0);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cin.get();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br>По-ефективни методи за решаване на подобни задачи
+<p>Задача за раницата
+<br>Динамично оптимиране
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

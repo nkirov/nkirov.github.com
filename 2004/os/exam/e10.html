@@ -1,0 +1,228 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os4</title>
+</head>
+<body>
+<b>10. Конкуренция: взаимно изключване и синхронизация</b>
+<br><b>Взаимно изключване: софтуерен подход.&nbsp;</b>
+<p><b>5.2 Взаимно изключване: софтуерен подход.</b>
+<br>** Алгоритъм на Декер.
+<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>Първи опит:
+<br><b><tt><font color="#003300">int </font><font color="#006600">turn;
+/* =0 or =1 */</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">turn!=0)
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">turn!=1)
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Щастлив сценарии - последователно влизане в КС:
+<br><b><tt><font color="#006600">P0 -> P1 -> P0 -> P1 -> P0 -> P1 -> ...</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Проблем - когато единия процес няма интерес за влизане
+в КС, т.е. <b><tt><font color="#006600">P1</font></tt></b> иска 2 пъти
+последователно да влезе в КС.
+<br><b><tt><font color="#006600">P0 -> P1 -> P1(чака, turn има стойност
+1) -</font></tt></b>&nbsp;&nbsp; <b><tt><font color="#006600">P1 </font></tt></b>се
+блокира.
+<br>Това се случва и при грешка в единия процес
+<p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>&nbsp; Втори опит:
+<br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2]
+= {false, false};</font></tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[1])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[0])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Щастлив сценарии:
+<br><b><tt><font color="#006600">P0(while)-> P0(=)-> P0(КС)-> P0(=)-> P0(while)->
+P0(=)-> P0(КС)-> P0(=)-></font></tt></b>
+<br><b><tt><font color="#006600">P1(while)-> P1(=)-> P1(КС)-> P1(=)-> ...</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Проблем при следния сценарии:
+<br><b><tt>P0(<font color="#006600">while(flag[1])</font></tt></b> намира
+го <b><tt><font color="#006600">false)-></font></tt></b>
+<br><b><tt>P1(<font color="#006600">while(flag[0]) </font></tt></b>намира
+го <b><tt><font color="#006600">false)-></font></tt></b>
+<br><b><tt>P0(<font color="#006600">flag[0]=true</font></tt></b><font color="#000000">
+и влиза в КС)<b><tt> -></tt></b></font>
+<br><b><tt>P1(<font color="#006600">flag[1]=true</font></tt></b><font color="#000000">
+и влиза в КС)</font> <b><tt>-> BAD.</tt></b>
+<br>И двата процеса са в КС - няма ВИ.
+<p><b>&nbsp;&nbsp;&nbsp; </b>Трети опит:
+<br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2];</font></tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[1])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<br><b><tt><font color="#003300">...</font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while(</font><font color="#006600">flag[0])
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Щастливи сценарии:
+<br><b><tt><font color="#006600">P0(=t)-> P0(while)-> P0(КС)-> P1(=t)->
+P1(while,чака)-> P0(=f)-> P1(КС)-> P1(=f)-> P1(=t)-> P1(while)-> P0(КС)->
+P0(=t,чака)-> P1(=f)-> P0(КС)-> ...</font></tt></b>
+<br>ВИ е гарантирано.
+<p>&nbsp;&nbsp;&nbsp; Проблем - възможно e МХ при следния сценарии:
+<br><b><tt><font color="#006600">P0(flag[0] = true)-> P1(flag[1] = true)->
+P1(while)-> P0(while)-></font><font color="#000000"> MX.</font></tt></b>
+<p>** Алгоритъм на Петерсон - решение на задачата за ВИ.
+<br><b><tt><font color="#006600">bool flag[2] = {false,false};</font></tt></b>
+<br><b><tt><font color="#006600">int turn;</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void P0()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag[1] &amp;&amp; turn==1)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td><b><tt><font color="#006600">void P1()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag[0] &amp;&amp; turn==0)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+nothing();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{ flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; parbegin(P0, P1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Масивът <b><tt><font color="#006600">flag</font></tt></b>&nbsp;
+показва заявка (интерес) за КС, променливата <b><tt><font color="#006600">turn</font></tt></b>
+- кой в момента е в КС.&nbsp; Ето и всички възможности за стойности на
+тези променлива:
+<table BORDER CELLSPACING=0 CELLPADDING=6 >
+<tr>
+<td><b><tt><font color="#006600">flag[0]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">flag[1]</font></tt></b></td>
+
+<td><b><tt><font color="#006600">turn</font></tt></b></td>
+
+<td></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">0, 1</font></tt></b></td>
+
+<td>Няма интерес за КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#CC0000">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#006600">0, 1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P0</font></tt></b> няма интерес за КС,
+<b><tt><font color="#006600">P1</font></tt></b>
+в КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#CC0000">false</font></tt></b></td>
+
+<td><b><tt><font color="#006600">0, 1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P0</font></tt></b> в КС, <b><tt><font color="#006600">P1</font></tt></b>
+няма интерес за КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#990000">0</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P0</font></tt></b> в КС, <b><tt><font color="#006600">P1</font></tt></b>
+чака за КС.</td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#006600">true</font></tt></b></td>
+
+<td><b><tt><font color="#990000">1</font></tt></b></td>
+
+<td><b><tt><font color="#006600">P1</font></tt></b> в КС, <b><tt><font color="#006600">P0</font></tt></b>
+чака за КС.</td>
+</tr>
+</table>
+
+<hr WIDTH="100%">
+</body>
+</html>

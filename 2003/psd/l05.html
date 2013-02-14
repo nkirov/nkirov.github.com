@@ -1,0 +1,352 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l05</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<br><b>&nbsp;5. Модули</b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Разделно компилиране
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Създаване
+на заглавни файлове
+<br>* Стек - пример
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.push("Able")</font></tt></b>
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.push("Backer")</font></tt></b>
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.push("Charlie")</font></tt></b>
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.pop() -> "Charlie"</font></tt></b>
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.push("Delta")</font></tt></b>
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.pop() -> "Delta"</font></tt></b>
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.pop() -> "Backer"</font></tt></b>
+<br><b><tt><font color="#CC6600">&nbsp;&nbsp; s.pop() -> "Able"</font></tt></b>
+<br>* Създаване на клас
+<br><b><tt><font color="#006600">class Stack&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">public:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;Stack();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;void push(string s);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;string pop();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;bool is_empty() const;</font></tt></b>
+<br><b><tt><font color="#006600">private:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;vector&lt;string> data;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;int top;</font></tt></b>
+<br><b><tt><font color="#006600">};</font></tt></b>
+<br><b><tt><font color="#006600">Stack::Stack() { top = 0; }</font></tt></b>
+<p><b><tt><font color="#006600">void Stack::push(string s)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;if (top &lt; data.size()) data[top]
+= s;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;else data.push_back(s);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;top++;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">string Stack::pop()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;assert(top > 0);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;top--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;return data[top];</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">bool Stack::is_empty() const&nbsp; {&nbsp;
+return top == 0;&nbsp; }</font></tt></b>
+<p>* Разделяне на информацията между <b><tt><font color="#006600">stack.h</font></tt></b>
+и <b><tt><font color="#006600">stack.cpp</font></tt></b>
+<br><b><tt><font color="#006600">// </font><font color="#993300">stack.h</font></tt></b>
+<br><b><tt><font color="#006600">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#006600">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#006600">using namespace std;</font></tt></b>
+<p><b><tt><font color="#006600">class Stack&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">public:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;Stack();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;void push(string s);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;string pop();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;bool is_empty() const;</font></tt></b>
+<br><b><tt><font color="#006600">private:</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;vector&lt;string> data;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;int top;</font></tt></b>
+<br><b><tt><font color="#006600">};</font></tt></b>
+<br><b><tt><font color="#006600">// </font><font color="#993300">stack.cpp</font></tt></b>
+<br><b><tt><font color="#006600">#include &lt;cassert></font></tt></b>
+<br><b><tt><font color="#006600">using namespace std;</font></tt></b>
+<br><b><tt><font color="#006600">#include "stack.h"</font></tt></b>
+<p><b><tt><font color="#006600">Stack::Stack() { top = 0; }</font></tt></b>
+<p><b><tt><font color="#006600">void Stack::push(string s)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;if (top &lt; data.size()) data[top]
+= s;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;else data.push_back(s);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;top++;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p><b><tt><font color="#006600">string Stack::pop()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;assert(top > 0);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;top--;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;return data[top];</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p><b><tt><font color="#006600">bool Stack::is_empty() const {&nbsp; return
+top == 0;&nbsp; }</font></tt></b>
+<p>*Проблемът за двукратно включване на един и същи заглавен файл в програмата
+<br><b><tt><font color="#006600">#ifndef STACK_H</font></tt></b>
+<br><b><tt><font color="#006600">#define STACK_H</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">#endif</font></tt></b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Разделяне
+на програмата на няколко първични файла
+<p><b><tt><font color="#993300">// error.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef ERROR_H</font></tt></b>
+<br><b><tt><font color="#000099">#define ERROR_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">void error(string message);</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#993300">// input.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef INPUT_H</font></tt></b>
+<br><b><tt><font color="#000099">#define INPUT_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">bool is_operator(string s);</font></tt></b>
+<br><b><tt><font color="#000099">string next_token();</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#993300">// eval.h</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef EVAL_H</font></tt></b>
+<br><b><tt><font color="#000099">#define EVAL_H</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "stack.h"</font></tt></b>
+<p><b><tt><font color="#000099">int precedence(string s);</font></tt></b>
+<br><b><tt><font color="#000099">void evaluate(Stack&amp; num, string op);</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<p><b><tt><font color="#993300">// error.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<p><b><tt><font color="#000099">void error(string message)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "ERROR: " &lt;&lt;
+message &lt;&lt; ".\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; exit(1);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#993300">// eval.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;sstream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "stack.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "eval.h"</font></tt></b>
+<p><b><tt><font color="#000099">int precedence(string s)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;if (s == "+" or s == "-")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;else if (s == "*" or s == "/")&nbsp;
+return 2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;else if (s == "^")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 3;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">double string_to_double(string s)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; istringstream instr(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; instr >> x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return x;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">string double_to_string(double x)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ostringstream outstr;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; outstr &lt;&lt; x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return outstr.str();</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void evaluate(Stack&amp; num, string op)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (num.is_empty()) error("Syntax
+error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double y = string_to_double(num.pop());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (num.is_empty())
+error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double x = string_to_double(num.pop());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double z;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (op == "^") z = pow(x,
+y);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (op == "*") z = x
+* y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (op == "/")</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; if (y == 0) error("Divide
+by 0");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else z
+= x / y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (op == "+") z = x
++ y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (op == "-") z = x
+- y;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; num.push(double_to_string(z));</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#993300">// input.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cctype></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "input.h"</font></tt></b>
+<p><b><tt><font color="#000099">bool is_operator(string s)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return s == "+" or s == "-" or</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s == "*" or s == "/" or s == "^";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">void skip_whitespace()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; cin.get(ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (cin.fail())
+return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }&nbsp; while (isspace(ch));</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef CCC_USE_OLD_STREAMS</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin.unget();</font></tt></b>
+<br><b><tt><font color="#000099">#else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin.putback(ch);</font></tt></b>
+<br><b><tt><font color="#000099">/* used if your compiler doesn't support
+the ANSI unget function */</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">string next_number()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string r;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; bool more = true;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (more)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin.get(ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (cin.fail())&nbsp;
+more = false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
+(isdigit(ch))&nbsp; r = r + ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef CCC_USE_OLD_STREAMS</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cin.unget();</font></tt></b>
+<br><b><tt><font color="#000099">#else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cin.putback(ch);</font></tt></b>
+<br><b><tt><font color="#000099">/* used if your compiler doesn't support
+the ANSI unget function */</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+more = false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return r;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">string next_token()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; skip_whitespace();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; char ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin.get(ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (cin.fail()) return "";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (isdigit(ch))</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {</font></tt></b>
+<br><b><tt><font color="#000099">#ifndef CCC_USE_OLD_STREAMS</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin.unget();</font></tt></b>
+<br><b><tt><font color="#000099">#else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin.putback(ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* used if your compiler doesn't support the ANSI unget function */</font></tt></b>
+<br><b><tt><font color="#000099">#endif</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+next_number();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; string token;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; token =
+token + ch;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (is_operator(token)
+or token == "(" or token == ")"</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+or token == "=") return token;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;
+string message = "Unexpected input ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+error(message + ch);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return "";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#993300">// calc.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "stack.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "input.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "eval.h"</font></tt></b>
+<br><b><tt><font color="#000099">#include "error.h"</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Stack numstack;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;Stack opstack;</font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;{&nbsp; string s = next_token();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; if (is_operator(s))</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {&nbsp; if (opstack.is_empty())
+opstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; string old_op = opstack.pop();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (precedence(s) >
+precedence(old_op))&nbsp; stack.push(old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; evaluate(numstack,
+old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; opstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (s == "(") opstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (s == ")")</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {&nbsp; bool more = true;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (more)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; if (opstack.is_empty())
+error("No matching (");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; string old_op = opstack.pop();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (old_op == "(")
+more = false;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else evaluate(numstack,
+old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (s == "=")</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; {&nbsp; while (not opstack.is_empty())</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; string old_op = opstack.pop();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (old_op == "(")
+error("No matching )");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else evaluate(numstack,
+old_op);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (numstack.is_empty())
+error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; numstack.pop()
+&lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (not numstack.is_empty())
+error("Syntax error");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else if (s == "") /* end of input
+*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; else /* must be a number */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; numstack.push(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Поделяне на
+променливи между модули
+<br>&nbsp;
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Проекти
+<br>&nbsp;
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

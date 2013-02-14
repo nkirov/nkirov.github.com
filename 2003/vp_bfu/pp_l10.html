@@ -1,0 +1,219 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>pp_l10</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<center>
+<p><b><font size=+1>10.&nbsp; Тестване и настройка</font></b></center>
+
+<div align=right><b><i><font size=-1>&nbsp;</font></i></b>
+<br><b><i><font size=-1>"Мисля, че е съществено програмите да се показват
+в окончателен</font></i></b>
+<br><b><i><font size=-1>вид, като се обръща достатъчно внимание на подробностите,</font></i></b>
+<br><b><i><font size=-1>защото в програмирането зад подробностите се крие</font></i></b>
+<br><b><i><font size=-1>дяволът."</font></i></b>
+<br><b><i><font size=-1>Никлаус Вирт</font></i></b>
+<br><b><i><font size=-1>&nbsp;</font></i></b></div>
+<img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Самостоятелно
+тестване на функции.
+<br>** Данните, с които ще се тества функцията, се получават по 3 начина:
+<br>-- от входния поток;
+<br>-- като стойности, получени от цикъл;
+<br>-- случайни числа.
+<br>** П<font color="#000000">римери за тестване на функцията <b><tt>squareroot</tt></b>
+за намиране на квадратен корен по метода на Херон. Записваме текстовете
+на функциите <b><tt>squareroot </tt></b>и <b><tt>not_equal </tt></b>в отделен
+файл:</font>
+<br><b><tt><font color="#000099">// sq_root.cpp</font></tt></b>
+<br><b><tt><font color="#000099">bool not_equal(double x, double y)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; const double EPSILON = 1E-14;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double dmax = fabs(x);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (fabs(y) > dmax) dmax
+= fabs(y);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return fabs(x - y) > dmax
+* EPSILON;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">double squareroot(double a)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (a == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double xnew = a;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double xold;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; xold = xnew;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xnew =
+(xold + a / xold) / 2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (not_equal(xnew, xold));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return xnew;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>* Първи пример - данните идват от входния поток:
+<br><b><tt><font color="#993300">// sqrtest1.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "sq_root.cpp"</font></tt></b>
+<br><b><tt><font color="#000066">/* </font><font color="#3333FF">Тестващо
+гнездо</font><font color="#000066"> */</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (cin >> x)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double y = squareroot(x);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">25</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 25 = 5</font></tt></b>
+<br><b><tt><font color="#006600">3</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 3 = 1.73205</font></tt></b>
+<br><b><tt><font color="#006600">q</font></tt></b></td>
+</tr>
+</table>
+
+<p>* Втори пример - входните стойности на функцията се генерират от цикъл.
+<br><b><tt><font color="#993300">// sqrtest2.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "sq_root.cpp"</font></tt></b>
+<br><b><tt><font color="#000066">/* </font><font color="#3333FF">Тестващо
+гнездо</font><font color="#000066"> */</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (x = 0; x &lt;= 2; x
++= 0.5)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double y = squareroot(x);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">squareroot of 0 = 0</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 0.5 = 0.707107</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 1 = 1</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 1.5 = 1.22474</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 2 = 1.41421</font></tt></b></td>
+</tr>
+</table>
+
+<p>* Трети пример - входните стойности се получават от генератор за случайни
+числа.
+<br><b><tt><font color="#993300">// sqrtest3.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "sq_root.cpp"</font></tt></b>
+<br><b><tt><font color="#000099">void rand_seed()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">double rand_double(double a, double b)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; return a + (b - a) * rand()*(1.0/RAND_MAX);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000066">/* </font><font color="#3333FF">Тестващо
+гнездо</font><font color="#000066"> */</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 1; i &lt;= 4; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double x = rand_double(0,
+1E6);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+y = squareroot(x);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#660000">squareroot of 185949 = 431.218</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 680715 = 825.055</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 17883.8 = 133.73</font></tt></b>
+<br><b><tt><font color="#660000">squareroot of 238868 = 488.742</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Подбор на
+тестови примери.
+<br>1. Докато се пише програмата, трябва да имаме прост тестов пример,
+на който знаем решението.
+<br>2. Програмата се проверява с други тестови примери, също с известни
+решения - позитивни тестове.
+<br>3. Включват се и граничните случаи. Например за функцията <b><tt><font color="#000099">squareroot</font></tt></b>
+това са <b><tt>0</tt></b>, големи числа (напр. <b><tt>1Е20</tt></b>) и
+числа, близки до 0 (напр.<b><tt>1е-20</tt></b>). Целта е да се определят
+границите на параметрите, за които функцията работи вярно.
+<br>4. Функцията се проверява с негативни тестови примери - некоректни
+входни данни. Такива за <b><tt><font color="#000099">squareroot</font></tt></b>
+са отрицателни стойности на параметъра.
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Оценка на
+резултатите от тестването.
+<br>** Как можем да оценим дали върнатата стойност от функцията е вярна:
+<br>- като предварително знаем решението;
+<br>- с програма за проверка на върнатите стойности;
+<br>- с "оракул" - друга функция, която решава същата задача (може по-бавно
+и неефективно!).
+<br>** В нашия случай можем да сравним квадрата на върнатото число от функцията
+с входната стойност. Ето тестващото гнездо:
+<br><b><tt><font color="#006600">int main()</font></tt></b>
+<br><b><tt><font color="#006600">{&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; for (i = 1; i &lt;= 100;
+i++)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; {&nbsp; double x = rand_double(0,
+1E6);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+y = squareroot(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (not_equal(y
+* y, x))&nbsp; cout &lt;&lt; "Test failed. ";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout &lt;&lt; "Test passed. ";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>**&nbsp; За оракул можем да използваме стандартната аритметична функция
+<font color="#000000"><b><tt>pow(x,0.5)</tt></b>или функцията
+<b><tt>sqrt(x).</tt></b></font>
+<br><b><tt><font color="#000066">/* </font><font color="#3333FF">Тестващо
+гнездо</font><font color="#000066"> */</font></tt></b>
+<br><b><tt><font color="#006600">int main()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; rand_seed();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; for (i = 1; i &lt;= 100;
+i++)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; {&nbsp; double x = rand_double(0,
+1E6);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+y = squareroot(x);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (not_equal(y,
+pow(x, 0.5))) cout &lt;&lt; "Test failed. ";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout &lt;&lt; "Test passed. ";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

@@ -1,0 +1,56 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os4</title>
+</head>
+<body>
+<b>11. Конкуренция: взаимно изключване и синхронизация</b>
+<br><b>Взаимно изключване: хардуера поддръжка.</b>
+<p>&nbsp;&nbsp; <b>5.3 Взаимно изключване: хардуера поддръжка.</b>
+<br>** Непозволяване на прекъсвания - проблеми при многопроцесорни системи
+и неефективно използване на ресурси..
+<p>** Специални машинни команди. Функцията <b><tt><font color="#000099">testset</font></tt></b>
+не реализирана хардуерно и връща стойност за един такт на процесора, т.е.
+не може да се прекъсва.
+<br><b><tt><font color="#000099">bool testset(int &amp;i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (i == 0)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { i = 1; return true; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return false;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#003300">const</font><font color="#006600"> int
+n; /* number of processes */</font></tt></b>
+<br><b><tt><font color="#006600">int bolt;</font></tt></b>
+<br><b><tt><font color="#003300">void</font><font color="#006600"> P(int
+k)</font></tt></b>
+<br><b><tt><font color="#003300">{ while(true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; do </font><font color="#006600">nothing();</font><font color="#003300">
+while (!</font><font color="#006600">testset(bolt));</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; bolt = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{ parbegin(</font><font color="#006600">P(1),P(2),...,P(n));
+}</font></tt></b>
+<br>&nbsp;&nbsp;&nbsp; Когато променливата <b><tt><font color="#006600">bolt</font></tt></b>
+има стойност 1, има процес в КС и функцията <b><tt><font color="#000099">testset
+</font></tt></b>връща
+стойност <b><tt><font color="#000099">false</font></tt></b> - т.е. всички
+процеси, които имат интерес за КС, чакат. Когато променливата
+<b><tt><font color="#006600">bolt</font></tt></b>
+има стойност 0, няма процес в КС, функцията <b><tt><font color="#000099">testset
+</font></tt></b>връща стойност <b><tt><font color="#000099">false</font></tt></b>
+, като стойността на <b><tt><font color="#006600">bolt</font></tt></b>
+става 1. Процес, който излиза от КС, променя стойността на <b><tt><font color="#006600">bolt</font></tt></b>
+на 0. Гарантирано е ВИ, няма опасност от МХ.
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;
+</body>
+</html>

@@ -1,0 +1,189 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+</head>
+<body>
+
+<h4>
+Въведение и задача за свързаност</h4>
+Николай Киров
+<p>1. Технология на провеждане на студентски състезания по програмиране
+<br>2. Техника на програмирането на състезания по програмиране
+<br>3. Пример за скелет на програма на С++, вход и изход:
+<p><tt>#include &lt;iostream></tt>
+<br><tt>using namespace std;</tt>
+<br><tt>int main()</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; ifstream fin("data.inp"); // данните са в текущата директирия,
+файл data.inp</tt>
+<br><tt>&nbsp; ...</tt>
+<br><tt>&nbsp; fin >> k;&nbsp;&nbsp;&nbsp;&nbsp; // пример за четене от
+файла</tt>
+<br><tt>&nbsp; ...</tt>
+<br><tt>&nbsp; while (fin >> k) { ... } // пример за организиране на цикъл
+за четене</tt>
+<br><tt>&nbsp; ...</tt>
+<br><tt>&nbsp;} // в края на блока се унищожава променливата fin и</tt>
+<br><tt>&nbsp;&nbsp; // деструкторът затваря файла data.inp</tt>
+<br><tt>&nbsp;...</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp;ofstream fout("data.out");&nbsp; // отваряне на тесктов файл
+за писане</tt>
+<br><tt>&nbsp;...</tt>
+<br><tt>&nbsp;fout &lt;&lt; k; // пример за писане във файла data.out</tt>
+<br><tt>&nbsp;} // в края на блока се унищожава променливата fout и</tt>
+<br><tt>&nbsp;&nbsp; // деструкторът затваря файла data.out</tt>
+<br><tt>}</tt>
+<p>4. Задача за свързаност (Робърт Седжуик, Алгоритми на С. Том 1, Глава
+1 ).
+<br>Дадени са редица от двойки числа, където всяко число представлява някакъв
+обект и <tt>p-q</tt> означава, че "<tt>р</tt> е свързано с <tt>q". Нека
+връзката&nbsp;</tt> "<tt>р</tt> е свързано с <tt>q" </tt>е транзитивна.
+Иска се да премахнем ненужните двойки от множеството, т.е. когато в програмата
+се въведе нова двойка <tt>р-q</tt>, тя трябва да се изведе само ако според
+досега въведените двойки<tt> p</tt> не е свързано с <tt>q</tt>.
+<p><tt>Пример - входен файл:</tt>
+<p><tt>3 4</tt>
+<br><tt>4 9</tt>
+<br><tt>8 0</tt>
+<br><tt>2 3</tt>
+<br><tt>5 6</tt>
+<br><tt>2 9</tt>
+<br><tt>5 9</tt>
+<br><tt>7 3</tt>
+<br><tt>4 8</tt>
+<br><tt>5 6</tt>
+<br><tt>0 2</tt>
+<br><tt>6 1</tt>
+<p>Програма 1 - бързо намиране, стандартен вход и изход.
+<br><tt>#include &lt;iostream></tt>
+<br><tt>#define N 10000</tt>
+<br><tt>using namespace std;</tt>
+<br><tt>int main()</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;int id[N];</tt>
+<br><tt>&nbsp;for (int i = 0; i &lt; N; i++) id[i] = i;</tt>
+<br><tt>&nbsp;int p, q;</tt>
+<br><tt>&nbsp;while (cin >> p >> q)</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; if (id[p] != id[q])</tt>
+<br><tt>&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp; int t = id[p];</tt>
+<br><tt>&nbsp;&nbsp; for (int i = 0; i &lt; N; i++)</tt>
+<br><tt>&nbsp;&nbsp; if (id[i] == t) id[i] = id[q];</tt>
+<br><tt>&nbsp;&nbsp; cout &lt;&lt; "&nbsp;&nbsp; " &lt;&lt; p &lt;&lt;
+" " &lt;&lt;q &lt;&lt; "\n";</tt>
+<br><tt>&nbsp; }</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>}</tt>
+<p>Програма 2 - бързо намиране, вход от файл и изход&nbsp; на файл.
+<br><tt>#include &lt;fstream></tt>
+<br><tt>#define N 10000</tt>
+<br><tt>using namespace std;</tt>
+<br><tt>int main()</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;int id[N];</tt>
+<br><tt>&nbsp;for (int i = 0; i &lt; N; i++) id[i] = i;</tt>
+<br><tt>&nbsp;int p, q;</tt>
+<br><tt>&nbsp;ifstream fin("ex1.inp");</tt>
+<br><tt>&nbsp;ofstream fout ("ex1.out");</tt>
+<br><tt>&nbsp;while (fin >> p >> q)</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; if (id[p] != id[q])</tt>
+<br><tt>&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp; int t = id[p];</tt>
+<br><tt>&nbsp;&nbsp; for (int i = 0; i &lt; N; i++)</tt>
+<br><tt>&nbsp;&nbsp; if (id[i] == t) id[i] = id[q];</tt>
+<br><tt>&nbsp;&nbsp; fout &lt;&lt; p &lt;&lt; " " &lt;&lt; q &lt;&lt; "\n";</tt>
+<br><tt>&nbsp; }</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>}</tt>
+<p>Програма 3 - бързо обединение.
+<br><tt>#include &lt;iostream></tt>
+<br><tt>#define N 10000</tt>
+<br><tt>using namespace std;</tt>
+<br><tt>int main()</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;int i, j, p, q, id[N];</tt>
+<br><tt>&nbsp;for (i = 0; i &lt; N; i++) id[i] = i;</tt>
+<br><tt>&nbsp;while (cin >> p >> q)</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; for (i = p; i != id[i]; i = id[i]) ;</tt>
+<br><tt>&nbsp; for (j = q; j != id[j]; j = id[j]) ;</tt>
+<br><tt>&nbsp; if (i != j)</tt>
+<br><tt>&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp; id[i] = j;</tt>
+<br><tt>&nbsp;&nbsp; cout &lt;&lt; "&nbsp;&nbsp; " &lt;&lt; p &lt;&lt;
+" " &lt;&lt;q &lt;&lt; "\n";</tt>
+<br><tt>&nbsp; }</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>}</tt>
+<p>Програма 3 - претеглено бързо обединение.
+<br><tt>#include &lt;iostream></tt>
+<br><tt>#define N 10000</tt>
+<br><tt>using namespace std;</tt>
+<br><tt>int main()</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;int i, j, p, q, id[N], sz[N];</tt>
+<br><tt>&nbsp;for (i = 0; i &lt; N; i++)</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; id[i] = i; sz[i] = 1;</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>&nbsp;while (cin >> p >> q)</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; for (i = p; i != id[i]; i = id[i]);</tt>
+<br><tt>&nbsp; for (j = q; j != id[j]; j = id[j]);</tt>
+<br><tt>&nbsp; if (i != j)</tt>
+<br><tt>&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp; if (sz[i] &lt; sz[j])</tt>
+<br><tt>&nbsp;&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; id[i] = j; sz[j] += sz[i];</tt>
+<br><tt>&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp; else</tt>
+<br><tt>&nbsp;&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; id[j] = i; sz[i] += sz[j];</tt>
+<br><tt>&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp; cout &lt;&lt; "&nbsp;&nbsp; " &lt;&lt; p &lt;&lt;
+" " &lt;&lt;q &lt;&lt; "\n";</tt>
+<br><tt>&nbsp; }</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>}</tt>
+<p>Програма 4 - бързо обединение с компресия на пътя чрез разполовяване.
+<br><tt>#include &lt;iostream></tt>
+<br><tt>#define N 10000</tt>
+<br><tt>using namespace std;</tt>
+<br><tt>int main()</tt>
+<br><tt>{</tt>
+<br><tt>&nbsp;int i, j, p, q, id[N], sz[N];</tt>
+<br><tt>&nbsp;for (i = 0; i &lt; N; i++)</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; id[i] = i; sz[i] = 1;</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>&nbsp;while (cin >> p >> q)</tt>
+<br><tt>&nbsp;{</tt>
+<br><tt>&nbsp; for (i = p; i != id[i]; i = id[i])</tt>
+<br><tt>&nbsp; {&nbsp; int t = i; i = id[id[t]]; id[t] = i; }</tt>
+<br><tt>&nbsp; for (j = q; j != id[j]; j = id[j])</tt>
+<br><tt>&nbsp; {&nbsp; int t = j; j = id[id[t]]; id[t] = j;&nbsp; }</tt>
+<br><tt>&nbsp; if (i != j)</tt>
+<br><tt>&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp; if (sz[i] &lt; sz[j])</tt>
+<br><tt>&nbsp;&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; id[i] = j; sz[j] += sz[i];</tt>
+<br><tt>&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp; else</tt>
+<br><tt>&nbsp;&nbsp; {</tt>
+<br><tt>&nbsp;&nbsp;&nbsp; id[j] = i; sz[i] += sz[j];</tt>
+<br><tt>&nbsp;&nbsp; }</tt>
+<br><tt>&nbsp;&nbsp; cout &lt;&lt; "&nbsp;&nbsp; " &lt;&lt; p &lt;&lt;
+" " &lt;&lt;q &lt;&lt; "\n";</tt>
+<br><tt>&nbsp; }</tt>
+<br><tt>&nbsp;}</tt>
+<br><tt>}</tt>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

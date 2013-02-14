@@ -1,0 +1,99 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1251">
+   <META NAME="Author" CONTENT="Nikolay Kirov">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <TITLE>Pec2</TITLE>
+</HEAD>
+<BODY>
+
+<HR WIDTH="100%">
+<BR><B>7. Наследяване</B>
+<BR>Една реализация на класа <B><TT><FONT COLOR="#009900">Employee:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">class Employee {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">public:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; Employee();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; Employee(string emp_name,
+double init_salary);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; void set_salary(double new_salary);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; string get_name() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; double get_salary() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; void print() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">private:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; string name;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; double salary;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">};</FONT></TT></B><B><TT><FONT COLOR="#3333FF"></FONT></TT></B>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Динамична памет
+<BR>* Заделяне на динамична памет:
+<BR><B><TT><FONT COLOR="#009900">new Employee</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">new int</FONT></TT></B>
+<BR>* Тип указател - съхранява адрес в heap-а
+<BR>-- дефиниране:
+<BR><B><TT><FONT COLOR="#009900">Employee * boss;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">int * pn;</FONT></TT></B>
+
+<P>-- запазване на памет:
+<BR><B><TT><FONT COLOR="#009900">new</FONT></TT></B> име на тип
+<BR><B><TT><FONT COLOR="#009900">new</FONT></TT></B> име на тип(...)
+
+<P>-- задаване на начална стойност:
+<BR><B><TT><FONT COLOR="#009900">Employee * boss = new Employee("John",
+3200);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">int * pn = new int(10);</FONT></TT></B>
+
+<P>-- стойност на указател:
+<BR><B><TT><FONT COLOR="#009900">Employee harry("Harry", 1500);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">*boss = harry;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">cout &lt;&lt; (*boss).get_salary();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">cout &lt;&lt; boss->get_salary();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">*pn = 12;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">cout &lt;&lt; *pn;</FONT></TT></B>
+
+<P>-- освобождаване на памет (унищожаване на обекта):
+<BR><B><TT><FONT COLOR="#009900">delete boss;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">delete pn;</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Производни класове
+<BR><B><TT><FONT COLOR="#3333FF">class Manager : public Employee {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">public:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; Manager(string n, double
+sal, string dept);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; string get_department() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; void print() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">private:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; string department;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">};</FONT></TT></B><B><TT><FONT COLOR="#009900"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#009900">Manager man;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">man.set_salary(1200);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">cout &lt;&lt; man.get_department();</FONT></TT></B><B><TT><FONT COLOR="#009900"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">Employee</FONT></TT></B> - базов клас,
+<B><TT><FONT COLOR="#006600">Manage</FONT></TT></B>r - производен клас
+<BR>- членовете на базовият клас са членове и на производния клас
+<BR>- функциите на производният клас нямат достъп&nbsp; до частните членова
+на базовия клас
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Конструктор на производен клас
+и викане на член-функция на базов клас
+<BR><B><TT><FONT COLOR="#009900">&nbsp; Manager::Manager(string n, double
+sal, string dept)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp;&nbsp; : Employee(n,
+sal)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp; { department = dept;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp; void&nbsp; Manager::print()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp; { Employee::print();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp; cout &lt;&lt; department;
+}</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Полиморфизъм
+<BR><IMG SRC="bullet.gif"  ALIGN=CENTER> Виртуални функции
+<BR><IMG SRC="bullet.gif"  ALIGN=CENTER> Връзки между класове
+
+<P>
+<HR WIDTH="100%">
+<BR>&nbsp;
+<BR>&nbsp;
+</BODY>
+</HTML>

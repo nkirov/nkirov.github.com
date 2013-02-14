@@ -1,0 +1,693 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>os5</title>
+</head>
+<body>
+
+<h2>
+Операционни системи</h2>
+
+<h3>
+5 (6). Конкуренция: "мъртва хватка" (deadlock)</h3>
+
+<center><img SRC="06-01.gif" height=424 width=650></center>
+
+<hr WIDTH="100%">
+<br><b>6.1 Принцини на "мъртва хватка" (МХ)</b>
+<br>&nbsp;&nbsp;&nbsp; Пример.
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#000000">PROCESS&nbsp; P&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><b><tt><font color="#000000">PROCESS&nbsp; Q&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Възможни са следните сценарии:
+<br><b><tt>1. Q gets B,A -> Q releases B,A -> P executes</tt></b>
+<br><b><tt>2. Q gets B,A -> P blocks&nbsp;&nbsp; A&nbsp;&nbsp; -> Q releases
+B,A -> P executes</tt></b>
+<br><b><tt>3. Q gets B&nbsp;&nbsp; -> P gets&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;
+-> deadlock !</tt></b>
+<br><b><tt>4. P gets A&nbsp;&nbsp; -> Q gets&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;
+-> deadlock !</tt></b>
+<br><b><tt>5. P gets A,B -> Q blocks&nbsp;&nbsp; B&nbsp;&nbsp; -> P releases
+A,B -> Q executes</tt></b>
+<br><b><tt>6. P gets A,B -> P releases A,B -> Q executes</tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#000000">PROCESS&nbsp; P&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<p>
+<hr WIDTH="100%">
+<p><b><tt><font color="#000000">PROCESS&nbsp; Q&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br>&nbsp;</td>
+
+<td><img SRC="06-02.gif" height=559 width=669></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Възможна промяна в работата на процеса - за избягване
+на МХ:
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td VALIGN=CENTER><b><tt><font color="#000000">PROCESS&nbsp; P</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">Get A</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">Release A</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">Get B</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br><b><tt><font color="#006600">Release B</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br>&nbsp;
+<p>
+<hr WIDTH="100%">
+<p><b><tt><font color="#000000">PROCESS&nbsp; Q&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release B&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">Release A&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b></td>
+
+<td><img SRC="06-03.gif" height=527 width=670></td>
+</tr>
+</table>
+
+<p>** Многократно използваеми ресурси (Reusable Resources) -&nbsp; процесори,
+I/O канали, основна и допълнителна памет, устройства, структури от данни
+като файлове, бази данни и семафори.
+<p>&nbsp;&nbsp;&nbsp; Пример 1.
+<br>&nbsp;&nbsp;&nbsp; Два процеса P и Q използват ресурси магнитен диск
+D и магнитна лента T.
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><font color="#000000">Process P</font></b>
+<table BORDER=0 CELLPADDING=4 >
+<tr>
+<td><b><font color="#006600">Step</font></b></td>
+
+<td><b><font color="#006600">Action</font></b></td>
+</tr>
+
+<tr>
+<td><font color="#006600">p0</font></td>
+
+<td><font color="#006600">Request (D)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">p1</font></td>
+
+<td><font color="#006600">Lock (D)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">p2</font></td>
+
+<td><font color="#006600">Request (T)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">p3</font></td>
+
+<td><font color="#006600">Lock (T)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">p4</font></td>
+
+<td><font color="#006600">Perform function</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">p5</font></td>
+
+<td><font color="#006600">Unlock (D)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">p6</font></td>
+
+<td><font color="#006600">Unlock (T)</font></td>
+</tr>
+</table>
+</td>
+
+<td><b><font color="#000000">Process Q</font></b>
+<table CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td><b><font color="#006600">Step</font></b></td>
+
+<td><b><font color="#006600">Action</font></b></td>
+</tr>
+
+<tr>
+<td><font color="#006600">q0</font></td>
+
+<td><font color="#006600">Request (T)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">q1</font></td>
+
+<td><font color="#006600">Lock (T)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">q2</font></td>
+
+<td><font color="#006600">Request (D)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">q3</font></td>
+
+<td><font color="#006600">Lock (D)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">q4</font></td>
+
+<td><font color="#006600">Perform function</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">q5</font></td>
+
+<td><font color="#006600">Unlock (T)</font></td>
+</tr>
+
+<tr>
+<td><font color="#006600">q6</font></td>
+
+<td><font color="#006600">Unlock (D)</font></td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; МХ се получава при следния сценарии:
+<br><b><font color="#006600">&nbsp;&nbsp;&nbsp;<tt> p0 -> p1 -> q0 -> q1
+-> p2 -> q2 -> MX</tt></font></b>
+<p>&nbsp;&nbsp;&nbsp; Пример 2.
+<br>&nbsp;&nbsp;&nbsp; Два процеса се конкурират за ресурс 200КB памет.
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><font color="#006600">Process P1</font></b></td>
+
+<td><b><font color="#006600">Process P2</font></b></td>
+</tr>
+
+<tr>
+<td><font color="#006600">...</font>
+<br><font color="#006600">Request 80 KB</font>
+<br><font color="#006600">...</font>
+<br><font color="#006600">Request 60 KB</font></td>
+
+<td><font color="#006600">...</font>
+<br><font color="#006600">Request 70 KB</font>
+<br><font color="#006600">...</font>
+<br><font color="#006600">Request 80 KB</font></td>
+</tr>
+</table>
+се конкурират за нея. При страртиране и на двата процеса се получава МХ
+при второто искане за памет.
+<p>** Условия за МХ.
+<br>&nbsp;&nbsp;&nbsp; 1. Взаимно изключване (mutual exclusion) - само
+един процес може да владее ресурс в даден момент.
+<br>&nbsp;&nbsp;&nbsp; 2. Владея и чакам (очакване на ресурси, hold and
+wait) - един процес блокира (владее) един ресурс, докато чака за друг.
+<br>&nbsp;&nbsp;&nbsp; 3. Няма отстъпки (непреразпределение, no preemtion)
+- един ресурс не може да бъде насилствено освободен от владението на процес.
+<br>&nbsp;&nbsp;&nbsp; МХ може да се появи при тези 3 условия, но може
+и да не се появи. Следващото условие е достатъчно за поява на МХ.
+<br>&nbsp;&nbsp;&nbsp; 4. Циклично чакане (circular wait) -&nbsp; затворена
+верига от процеси, като всеки процес владее пони един ресурс, за който
+чака следващият процес от веригата.
+<center>
+<p><img SRC="06-05.gif" height=330 width=518></center>
+
+<hr WIDTH="100%">
+<br><b>6.2 Предпазване (prevention) от МХ</b>
+<br>** Взаимно изключване.
+<br>&nbsp;&nbsp;&nbsp;&nbsp; Не може да бъде избягнато.
+<br>** Владея и чакам.
+<br>&nbsp;&nbsp;&nbsp; Процесът чака за всички необходими ресурси - неефективно
+<br>** Няма отстъпки (no preemtion).
+<br>** Циклично чакане.
+<p><b>6.3 Избягване (avoidance) на МХ</b>
+<br>&nbsp;&nbsp;&nbsp; Два подхода при избягване на МХ:
+<br>&nbsp; -- да не се стартира процес, който води до МХ;
+<br>&nbsp; -- да не се дава ресурс на процес, ако това води до МХ.
+<br>&nbsp;&nbsp;&nbsp; Изисква се предварителна информация за необходимите
+расурси на всеки процес.
+<br>** Отказ за стартиране на процес.
+<br>&nbsp;&nbsp;&nbsp; Дадени са:
+<br><b><tt>&nbsp;&nbsp;&nbsp; C</tt></b> - матрица на исканията на всеки
+процес за всеки ресурс;
+<br><b><tt>&nbsp;&nbsp;&nbsp; R</tt></b>&nbsp; - вектор на всички налични
+ресурси;
+<br><b><tt>&nbsp;&nbsp;&nbsp; A</tt></b> - матрица на дадени на всеки процес
+ресурси (състояние на системата);
+<br><b><tt>&nbsp;&nbsp;&nbsp; V</tt></b> - вектор на свободните ресурси.
+<br>&nbsp;&nbsp;&nbsp; Стартираме процес, само ако всичките му необходими
+ресурси са "излишни", т.е. те са свободни в момента и при удовлетворяване
+на всички искания на всички активни процеси пак ще останат свободни.
+<br>Пример.
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp; 2
+активен</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3
+активен</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;&nbsp;
+4&nbsp;</font></tt></b></td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp;<i> Можем ли да стартираме процес </i><b><tt><font color="#993300">P3</font></tt></b><font color="#000000"><i>?
+</i>-
+Да.</font>
+<br><i>&nbsp;&nbsp;&nbsp; Можем ли да стартираме процес </i><b><tt><font color="#993300">P4</font></tt></b><font color="#000000"><i>?
+</i>-
+Не.</font>
+<br>&nbsp;&nbsp;&nbsp; Тази стратегия е твърде песимистична - предполага
+се, че всички процеси ще искат всички необходими им ресурси едновременно.
+<p>** Отказ за даване на ресурс - алгоритъм на банкера.
+<br>&nbsp;&nbsp;&nbsp; Безопасно (сигурно) състояние на системата - съществува
+такава последователност от изпълнение на процесите, при която всички процеси
+завършват успешно (няма МХ). Опасно (несигурно) състояние - всяко друго.
+<br>&nbsp;&nbsp;&nbsp; Пример на безопасно състояние и изпълнение на процесите.
+<br><b><tt><font color="#333333">Начално състояние</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">P2 е завършил</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 6&nbsp;&nbsp; 2&nbsp;&nbsp;
+3&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">P1 е завършил</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp; 2&nbsp;&nbsp;
+3&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">P3 е завършил</font></tt></b>
+<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+4&nbsp;</font></tt></b></td>
+</tr>
+</table>
+
+<p>Пример на опасно състояние и изпълнение на процесите:
+<br><b><tt><font color="#333333">Начално състояние</font></tt></b>
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 5&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp;
+2&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#333333">На P1 се дават R1 и R3</font></tt></b>
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица C</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 2&nbsp;&nbsp; 0&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 5&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
+6&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<font color="#333333">&nbsp;&nbsp;&nbsp; На всеки процес му трябва <b><tt>R1</tt></b>
+за да завърши, а такъв няма. Това не е МХ, но може да се появи МХ. Ако
+някой процес освободи <b><tt>R1</tt></b>, МХ се избягва.</font>
+<br>
+<hr WIDTH="100%">
+<br><b>6.4 Откриване (detection) на МХ</b>
+<br>&nbsp;&nbsp;&nbsp; Дадено е:
+<br><b><tt>&nbsp;&nbsp;&nbsp; Q</tt></b> - матрица на исканията на всеки
+процес за всеки ресурс <b>в даден момент</b>;
+<br><b><tt>&nbsp;&nbsp;&nbsp; R</tt></b>&nbsp; - вектор на всички налични
+ресурси;
+<br><b><tt>&nbsp;&nbsp;&nbsp; A</tt></b> - матрица на дадени на всеки процес
+ресурси (състояние на системата);
+<br><b><tt>&nbsp;&nbsp;&nbsp; V</tt></b> - вектор на свободните ресурси.
+<p>** Алгоритъм за откриване на МХ.
+<br>&nbsp;&nbsp; 1. Маркираме процесите, които в <b><tt>A</tt></b> имат
+само 0;
+<br>&nbsp;&nbsp; 2. Създаваме но вектор <b><tt>W = V</tt></b>;
+<br>&nbsp;&nbsp; 3. Намираме немаркиран процес, за който елементите на
+реда на <b><tt>Q</tt></b> са по-малки или равни на елементите на вектора
+<b><tt>W</tt></b>.
+Ако няма такъв, стоп.
+<br>&nbsp;&nbsp; 4. Към елементите на <b><tt>W&nbsp;</tt></b> добавяме
+реда от матрицата <b><tt>A</tt></b> на намерения в т. 3 процес. Изпълнява
+се т. 3.
+<br>Ако при завършване на алгоритъма има немаркирани процеси, значи имаме
+открита МХ.
+<br>Пример:
+<table COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#993300">Матрица Q</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+0&nbsp;&nbsp; 1&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 1</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+0&nbsp;&nbsp; 1</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Матрица A</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P2&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 0&nbsp;</font></tt></b>
+<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+1&nbsp;&nbsp; 0</font></tt></b>
+<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 0</font></tt></b></td>
+</tr>
+
+<tr>
+<td><b><tt><font color="#993300">Вектор R</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp;
+1&nbsp;&nbsp; 2&nbsp;&nbsp; 1&nbsp;</font></tt></b></td>
+
+<td><b><tt><font color="#993300">Вектор V</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3&nbsp;
+R4&nbsp; R5</font></tt></b>
+<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp;
+0&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;</font></tt></b></td>
+</tr>
+</table>
+<font color="#333333">&nbsp; 1. Маркираме <b><tt>P4</tt></b>.</font>
+<br><font color="#333333">&nbsp; 2. W = (0 0 0 0 1)</font>
+<br><font color="#333333">&nbsp; 3. <b><tt>P3</tt></b>: (0 0 0 0 1) = W,
+маркираме <b><tt>P3</tt></b>.</font>
+<br><font color="#333333">&nbsp; 4. W = (0 0 0 1 1)</font>
+<br><font color="#333333">&nbsp; 3. <b><tt>P1</tt></b> и <b><tt>P2</tt></b>
+не отговарят на условията ( <b><tt>P1</tt></b> иска ресурс </font><b><tt><font color="#993300">R2</font></tt></b><font color="#333333">,
+а <b><tt>P2</tt></b> - ресурс </font><b><tt><font color="#993300">R3</font></tt></b><font color="#333333">,
+от които няма свободни). Стоп.</font>
+<br><font color="#333333">Има немаркирани процеси - МХ.</font>
+<br>** Възстановяване.
+<br>След като е открита МХ, необходимо е възстановяване на работата на
+системата.
+<br>&nbsp;&nbsp; 1. Прекъсване (завършване, kill) на всички процеси, участващи
+в МХ.
+<br>&nbsp;&nbsp; 2. Връщане на всички МХ-процеси в предишно състояние и
+стартирането им отново.
+<br>&nbsp;&nbsp; 3. Последователно прекъсване на МХ-процесите, докато алгоритъмът
+даде липса на МХ.
+<br>&nbsp;&nbsp; 4. Последователно преразпределение на ресурси, докато
+алгоритъмът даде липса на МХ.
+<br>
+<hr WIDTH="100%">
+<br><b>6.5 Интегрирана стратегия</b>
+<br>-- Групиране на ресурсите в класове от различни ресурси.
+<br>-- Използване на наредба на ресурсите във всеки клас.
+<br>-- Използване на подходящи алгоритми за всеки клас.
+<br>Например:
+<br>-- Swapping space: предпазване от МХ с вземане на всички необходими
+ресурси.
+<br>-- Processor resources: избягване на МХ с обявяване на необходимите
+ресурси.
+<br>-- Main memory: преразпределение на ресурси.
+<br>
+<hr WIDTH="100%">
+<br><b>6.6 Задачата за обядващите философи</b>
+<br>&nbsp;&nbsp;&nbsp; Пет философа прекарват живота си в мислене и ядене.
+Те седят около кръгла маса, на която има 5 чинии със спагети и 5 вилици.
+Когато мисли, философ не контактува с колегите си. От време на време огладнява
+и се опитва да вземе (последователно!) двете вилици, които са от двете
+стране на чинията му.&nbsp; Ако успее, той започва да яде с двете вилици,
+а след като свърши с яденето, връща вилиците и започва да мисли отново.
+<p><b>Първи опит</b> за тривиално решение със семафори.
+<br><b><tt><font color="#006600">/* program dining_philosophers */</font></tt></b>
+<br><b><tt><font color="#006600">semaphore fork[5] = {1,1,1,1,1};</font></tt></b>
+<br><b><tt><font color="#006600">int i;</font></tt></b>
+<br><b><tt><font color="#006600">void philosopher(int i)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while(true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; think;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; eat;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<p><b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;parbegin(philosopher(0), philosopher(1),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(2), philosopher(3),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(4));</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p>Втори опит - решение със семафори:
+<br><b><tt><font color="#006600">/* program dining_philosophers */</font></tt></b>
+<br><b><tt><font color="#006600">semaphore fork[5] = {1,1,1,1,1};</font></tt></b>
+<br><b><tt><font color="#006600">semaphore room = 4;</font></tt></b>
+<br><b><tt><font color="#006600">int i;</font></tt></b>
+<br><b><tt><font color="#006600">void philosopher(int i)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while(true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; think;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(room);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; wait(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; eat;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[(i+1)%5]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(fork[i]);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; signal(room);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p><b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;parbegin(philosopher(0), philosopher(1),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(2), philosopher(3),</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+philosopher(4));</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br>&nbsp;
+</body>
+</html>

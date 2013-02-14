@@ -1,0 +1,397 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l05a</title>
+</head>
+<body>
+<b>5a. Конкуренция: взаимно изключване и синхронизация</b>
+<p>Централни теми при изграждане на ОС:
+<br>- многопрограмна работа;
+<br>- многопроцесорна работа;
+<br>- разпределени процеси
+<br>Конкуренция на процеси - 3 различни аспекта:
+<br>- много на брой активни приложения едновременно;
+<br>- структурирани приложения - за повишаване на ефективността някои приложения
+се програмират като множества от конкурентни процеси;
+<br>- структурата на ОС - често като множество от конкурентни процеси.
+<br>
+<hr WIDTH="100%">
+<br>5.1 Принципи на конкуренцията
+<br>* Трудности при "изчакване" и "застъпване":
+<br>&nbsp; 1. Съвместно използане на общи ресурси, напр. глобална променлива.
+<br>&nbsp; 2. Оптимално разпределяне на ресурси, напр. след искане (и даване)
+на ресурс и процесът влязъл (по някаквоа причина)&nbsp; в състояние преустановен.
+<br>&nbsp; 3. Откриване на грешки - неповторяеми резултати, зависят от
+конкретната работа на ОС.
+<br>* Пример с 2 процеса, използващи обща "ехо" функция - без и със защита
+на функцията:
+<br><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">................</font></tt></b>
+<br><b><tt><font color="#000099">................</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">.................</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b></td>
+
+<td><b><tt><font color="#000099">void echo()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; getchar(chin);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; chout = chin;</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">...............</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; putchar(chout);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b></td>
+</tr>
+</table>
+Възможни са следните сценарии за процеси P1 и P2, които използват функцията
+"ехо":
+<br>&nbsp; А. без защита:
+<br><b><tt><font color="#006600">P1(input) - P2(input) - P2(=) - P1(=)
+- P1(output) - P2 (output)</font></tt></b>
+<br>&nbsp; Б. със защита:
+<br><b><tt><font color="#006600">P1(input) - P2(echo, недостъпна!) - P1(=)
+- P1(output) - P2 (echo, OK!) - ...</font></tt></b>
+<br>Извод - управление на достъпа до съвместно използвана функция!
+<br>** Задължиния на ОС.
+<br>ОС трябва да има следните задължения:
+<br>&nbsp;&nbsp;&nbsp; 1. Следене на активните прцеси.
+<br>&nbsp;&nbsp;&nbsp; 2. Отпускане на ресурси за активните процеси:
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - процесорно
+време;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - памет;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - файлове;
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - I/O устройства
+<br>&nbsp;&nbsp;&nbsp; 3. Предпазване на данни и ресурси на всеки процес
+от неправомерна намеса на друг процес.
+<br>&nbsp;&nbsp;&nbsp; 4. Резултатът от работата на един процес трябва
+да е независим от скоростта на изпълнението му, както и от скоростта на
+изпълнение на другите процеси.
+<br>** Взаимодействие на процеси.
+<br>--&nbsp; Състезание между процесите за ресурси.
+<br><b>Взаимно изключване</b> (ВИ) - mutual exclusion: <b>критичен ресурс</b>
+(КР) и <b>критична секция</b> (КС)
+<br>Пример: принтер
+<br><b><tt><font color="#003300">/* program mutualexclusion */</font></tt></b>
+<br><b><tt><font color="#003300">const int n = /* number of processes */
+;</font></tt></b>
+<br><b><tt><font color="#003300">void P(int i)</font></tt></b>
+<br><b><tt><font color="#003300">{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; entercritical(i);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; /* critical section */;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; exitcritical(i);</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; /* remainder */;</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">void main( )</font></tt></b>
+<br><b><tt><font color="#003300">{ parbegin(P(R1), P(R2), . . ., P(Rn));</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b>Мъртва хватка</b> (МХ) - deadlock: процеси P1 и P2&nbsp; и ресурси
+R1 и R2.
+<br><b>Гладна смърт</b> (ГС) - starvation: процеси P1, P2 и P3 периодично
+използват ресурс R.
+<br>--&nbsp; Кооперация между процеси чрез поделяне, съгласуване на данните
+<br>&nbsp;2 процеса поддържат връзката a=b
+<br><b><tt><font color="#006600">P1: a = a + 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; b = b + 1;</font></tt></b>
+<br><b><tt><font color="#006600">P2: b = 2*b;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; a = 2*a;</font></tt></b>
+<br>необходимост от ВИ.
+<br>--&nbsp; Кооперация между процеси чрез комуникация.
+<br>ВИ не е актуално, МХ и ГС не са изключени!
+<br>** Изисквания за ВИ:
+<br>1. Само един процес е в КС секция относно даден КР.
+<br>2. Процес извън КС може да прекъсва, без това да влияе на останалите
+процеси.
+<br>3. Всеки процес, чакащ за влизане в КС, трябва да може да влезе в КС
+(с крайно време за чакане).
+<br>4. Ако няма процес в КС (относно КР), всеки процес, който иска този
+КР, трябва да може да влезе в КС незабавно.
+<br>5. Няма ограничения за брой процеси, чакащи за КР и няма ограничения
+за времето и честотата на използване на този ресурс.
+<br>6. Един процес може да остане в КС за крайно време.
+<br>
+<hr WIDTH="100%">
+<br>5.2 Взаимно изключване: софтуерен подход.
+<br>** Алгоритъм на Декер.
+<br>--- <b>Първи опит</b>
+<br><b><tt><font color="#003300">int </font><font color="#006600">turn;
+// 0, 1</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><font color="#003300">// PROCESS P0</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">turn
+!= 0)</font><font color="#003300">&nbsp; </font><font color="#006600">{nothing};</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+
+<td><b><font color="#003300">// PROCESS P1</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">turn
+!= 1)</font><font color="#003300"> </font><font color="#006600">{nothing};</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+</tr>
+</table>
+Проблеми:
+<br>-- последователно влизане в КС;
+<br>-- при грешка в единия процес и другия се блокира
+<br>--- <b>Втори опит</b>
+<br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2];</font></tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><font color="#003300">// PROCESS P0</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">flag[1])</font></tt></b>
+<br><b><tt><font color="#006600">{nothing};</font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+
+<td><b><font color="#003300">// PROCESS P1</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">flag[0])</font></tt></b>
+<br><b><tt><font color="#006600">{nothing};</font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+</tr>
+</table>
+Проблеми:
+<br>-- P0 проверява <b><tt><font color="#006600">flag[1]</font></tt></b>
+намира го <b><tt><font color="#006600">false</font></tt></b> и прекъсва;
+<br>-- P1 проверява <b><tt><font color="#006600">flag[0] </font></tt></b>намира
+го <b><tt><font color="#006600">false</font></tt></b> и прекъсва;
+<br>-- P0 превключва <b><tt><font color="#006600">flag[0] </font></tt></b><font color="#000000">на
+</font><b><tt><font color="#006600">true</font></tt></b><font color="#000000">
+и влиза в КС;</font>
+<br>-- P1 превключва <b><tt><font color="#006600">flag[1] </font></tt></b><font color="#000000">на
+</font><b><tt><font color="#006600">true</font></tt></b><font color="#000000">
+и влиза в КС ! -- няма ВИ</font>
+<br>--- <b>Трети опит</b>
+<br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2];</font></tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><font color="#003300">// PROCESS P0</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">flag[1])</font></tt></b>
+<br><b><tt><font color="#006600">{nothing};</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+
+<td><b><font color="#003300">// PROCESS P1</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">flag[0])</font></tt></b>
+<br><b><tt><font color="#006600">{nothing};</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+</tr>
+</table>
+Проблеми:
+<br>-- ВИ е гарантирано, но е възможно МХ.
+<br>--- <b>Четвърти опит</b>
+<br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2];</font></tt></b>
+<table CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><font color="#003300">// PROCESS P0</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">flag[1])</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;flag[0] = false;&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;delay for a short time>&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+
+<td><b><font color="#003300">// PROCESS P1</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><font color="#003300">.</font></b>
+<br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#003300">while (</font><font color="#006600">flag[0])</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;flag[1] = false;&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;delay for a short time>&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">.</font></tt></b></td>
+</tr>
+</table>
+Проблеми:
+<br>ВИ е гарантирано, но е възможен следния сценарии:
+<br>-- P0 превключва <b><tt><font color="#006600">flag[0] </font></tt></b>на
+<b><tt><font color="#006600">true</font></tt></b>
+<br>-- P1 превключва <b><tt><font color="#006600">flag[1] </font></tt></b>на
+<b><tt><font color="#006600">true</font></tt></b>
+<br>-- P0 проверява <b><tt><font color="#006600">flag[1]</font></tt></b>
+<br>-- P1 проверява <b><tt><font color="#006600">flag[0]</font></tt></b>
+<br>-- P0 превключва <b><tt><font color="#006600">flag[0] </font></tt></b>на
+<b><tt><font color="#006600">false</font></tt></b>
+<br>-- P1 превключва <b><tt><font color="#006600">flag[1] </font></tt></b>на
+<b><tt><font color="#006600">false</font></tt></b>
+<br>-- P0 превключва <b><tt><font color="#006600">flag[0] </font></tt></b>на
+<b><tt><font color="#006600">true</font></tt></b>
+<br>-- P1 превключва <b><tt><font color="#006600">flag[1] </font></tt></b>на
+<b><tt><font color="#006600">true</font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+<br>нито един от двата процеса може да влезе в критична секция.
+<br>--- <b>Пети опит - </b>решение
+<br><b><tt><font color="#006600">bool flag[2];</font></tt></b>
+<br><b><tt><font color="#006600">int turn;</font></tt></b>
+<table BORDER=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void P0()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag [1])</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (turn == 1)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; while (turn == 1)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; /* do nothing */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* critical section */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* remainder */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td><b><tt><font color="#006600">void P1()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag [1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag[0])</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; if (turn == 0)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; while (turn == 0)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; /* do nothing */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* critical section */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* remainder */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main ()</font></tt></b>
+<br><b><tt><font color="#006600">{ flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; parbegin(P0, P1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>** Алгоритъм на Петерсон.
+<br><b><tt><font color="#006600">bool flag [2];</font></tt></b>
+<br><b><tt><font color="#006600">int turn;</font></tt></b>
+<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#006600">void P0()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag[1] &amp;&amp; turn
+== 1)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* do nothing */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* critical section */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* remainder */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+
+<td><b><tt><font color="#006600">void P1()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; while (flag[0] &amp;&amp; turn
+== 0)</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* do nothing */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* critical section */;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; /* remainder */</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b></td>
+</tr>
+</table>
+<b><tt><font color="#006600">void main()</font></tt></b>
+<br><b><tt><font color="#006600">{ flag [0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; flag [1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; parbegin(P0, P1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+<br>5.3 Взаимно изключване: хардуера поддръжка.
+<br>** Непозволяване на прекъсвания - проблеми при многопроцесорни системи
+и неефективно използване на ресурси..
+<br>** Специални машинни команди.
+<br><b><tt><font color="#000099">bool testset(int &amp;i)</font></tt></b>
+<br><b><tt><font color="#000099">{ if (i==0)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; { i = 1; return true; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return false;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#003300">const</font><font color="#006600"> int
+n = /* number of processes */</font></tt></b>
+<br><b><tt><font color="#006600">int bolt;</font></tt></b>
+<br><b><tt><font color="#003300">void</font><font color="#006600"> P(int
+i)</font></tt></b>
+<br><b><tt><font color="#003300">{ while(true)</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
+<br><b><tt><font color="#003300">&nbsp;&nbsp; do </font><font color="#006600">{
+nothing }</font><font color="#003300"> while (!</font><font color="#006600">testset(bolt));</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; &lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; bolt = 0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; &lt;remainder></font></tt></b>
+<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">void main()</font></tt></b>
+<br><b><tt><font color="#003300">{&nbsp; parbegin(</font><font color="#006600">P(1),P(2),P(n));</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

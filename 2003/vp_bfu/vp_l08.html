@@ -1,0 +1,514 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>vp_l08</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<center><b><font size=+1>8. Функции&nbsp; ІІ</font></b></center>
+
+<div align=right><b><i><font size=-1>&nbsp;</font></i></b>
+<br><b><i><font size=-1>Да повтаряме е човешко,</font></i></b>
+<br><b><i><font size=-1>рекурсията е божествена.</font></i></b>
+<br><b><i><font size=-1>Л. Петер Дойч</font></i></b>
+<br><b><i><font size=-1>&nbsp;</font></i></b></div>
+<img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Параметри-псевдоними.
+<br>* Параметър-псевдоним не представлява нова променлива, а друго име
+(псевдоним) на съществуваща променлива в извикващата функция.
+<br>* Процедура <b><tt><font color="#000000">raise_salary</font></tt></b>,
+която увеличава заплатата на служител с<b><font color="#000000"> <tt>by
+</tt></font></b><font color="#000000">про</font>цента.
+<br><b><tt><font color="#000099">//reisesal.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_empl.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">void raise_salary(Employee&amp; e, double
+by)</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ:&nbsp;
+увеличава заплатата на даден служител</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; RECEIVES: e - служител, получаващ
+увеличение</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+by - процент на увеличението</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; double new_salary = e.get_salary()
+* (1 + by / 100);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; e.set_salary(new_salary);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; Employee harry("Hacker, Harry",
+45000.00);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; raise_salary(harry, 5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "New salary:
+" &lt;&lt; harry.get_salary() &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">New salary: 47250</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Формалният параметър<font color="#000000"> <b><tt>Employee&amp;
+e</tt></b> на функцията </font><b><tt><font color="#000099">raise_salary</font></tt></b><font color="#000000">
+е</font> параметър-псевдоним на променливата <b><tt><font color="#000000">harry</font></tt></b>
+от главната функция <b><tt><font color="#000000">main.</font></tt></b>Промяната
+на стойността на параметъра-псевдоним <b><tt><font color="#000000">e</font></tt></b>
+във функцията <b><tt><font color="#000000">raise_salary</font></tt></b>
+води до промяна и на стойността на фактическия параметър (променливата)
+<b><tt><font color="#000000">harry</font></tt></b> от функция <b><tt><font color="#000000">main</font></tt></b>.
+Затова параметрите-псевдоними се наричат още входно-изходни параметри -
+те "пренасят" информация от извикващата функция към извиканата функция
+и обратно.
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Константни
+псевдоними.
+<br>&nbsp;&nbsp;&nbsp; Използват се за да се избегне копирането - особено
+нежелателно, ако параметърът е обект, съдържащ много данни. Тъй като стойността
+на константния псевдоним не може да се променя, той не "пренася" информация
+от извиканата функция в извикващата функция.
+<br><b><tt><font color="#006600">void print_employee(Employee const &amp;
+e)</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;cout &lt;&lt; "Name:&nbsp;&nbsp;
+" &lt;&lt; e.get_name()</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+"Salary: " &lt;&lt; e.get_salary();</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600"></font></tt></b>&nbsp;
+<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=3 WIDTH="100%" >
+<tr>
+<td><b>параметри-променливи</b></td>
+
+<td><b>параметри-псевдоними</b></td>
+
+<td><b>константни псевдоними</b></td>
+</tr>
+
+<tr>
+<td>входни параметри за функцията</td>
+
+<td>входно-изходни параметри за функцията</td>
+
+<td>-</td>
+</tr>
+
+<tr>
+<td>предаване на параметри чрез копиране</td>
+
+<td>предаване на параметри по адрес</td>
+
+<td>предаване на параметри по адрес</td>
+</tr>
+
+<tr>
+<td>стойността на параметъра може да се променя</td>
+
+<td>стойността на параметъра може да се променя</td>
+
+<td>стойността на параметъра <b>не</b> може да се променя</td>
+</tr>
+
+<tr>
+<td>фактически параметър може да бъде константа, променлива или израз</td>
+
+<td>фактически параметър може да бъде само променлива</td>
+
+<td>фактически параметър може да бъде константа, променлива или израз</td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Област на
+действие на променливите, глобални променливи.
+<br>&nbsp;&nbsp;&nbsp; Ако едно и също име на променлива се използва в
+две функции,&nbsp; то не съществува&nbsp; връзка между двете променливи.
+Областта на действие на променлива, която е дефинирана в блока на функция,
+се простира единствено в рамките на тази функция.
+<br><b><tt><font color="#000099">//futval1.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">double f_val(double i_bal, double p, int
+ny) </font><font color="#3333FF">/*дефиниции на параметрите-променливи
+i_bal, p и ny*/</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; double r; </font><font color="#3333FF">/*дефиниция
+на променливата r в блока на функцията future_value*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; r = i_bal*pow(1 + p/(12*100), 12*ny);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return r;</font></tt></b>
+<br><b><tt><font color="#000099">} /</font><font color="#3333FF">*край
+на областта на действие на променливите i_bal, p, ny и r*/</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cout &lt;&lt; "Interest rate in
+percent: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;double r; /*</font><font color="#3333FF">дефиниция
+на променливата r в блока на функцията</font><font color="#000099"> </font><font color="#3333FF">main*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cin >> r;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;double bal = f_val(1000, r, 10);
+/*</font><font color="#3333FF">дефиниция на променливата bal*/</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;cout &lt;&lt; "After 10 years, the
+balance is " &lt;&lt; bal &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">} </font><font color="#3333FF">/* край
+на областта на действие на променливите r и bal*/</font></tt></b>
+<p>&nbsp;&nbsp;&nbsp; В примера няма връзка между двете променливи с им<font color="#000000">е
+<b><tt>r
+</tt></b>в
+двете функции <b><tt>future_value</tt></b> и <b><tt>main</tt></b>.</font>
+<br>&nbsp;&nbsp;&nbsp; Променлива, дефинирана в блок на функция, се нарича
+<b>локална
+променлива</b>. Областта на действие на локална променлива е от мястото
+на дефинирането до края на блока, в който е дефинирана променливата. В
+тази област променливата е видима, т.е. може да бъде използвана.
+<br><b><tt><font color="#000099">// global.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_empl.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">double annual_raise; /</font><font color="#3333FF">*
+дефиниране на глобална променлива */</font></tt></b>
+<br><b><tt><font color="#000099">void raise_salary(Employee&amp; e)</font></tt></b>
+<br><b><tt><font color="#000099">{ double new_salary = e.get_salary()*(1
++ annual_raise/100);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; e.set_salary(new_salary);
+</font><font color="#3333FF">/*
+използване на глобалната променлива */</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; Employee boss("Reindeer, Rudolf",
+48000.00);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Employee harry("Hacker, Harry",
+35000.00);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; annual_raise = 5; /</font><font color="#3333FF">*
+използване на глобалната променлива */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; raise_salary(boss);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; raise_salary(harry);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; boss.get_name()
+&lt;&lt; " " &lt;&lt; boss.get_salary() &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; harry.get_name()&lt;&lt;
+" " &lt;&lt; harry.get_salary()&lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">Reindeer, Rudolf 50400</font></tt></b>
+<br><b><tt><font color="#990000">Hacker, Harry 36750</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Променлива, дефинирана извън блок на функция, се
+нарича <b>глобална променлива</b>. Областта на действие на глобална променлива
+е от мястото на дефинирането до края на файла, в който е дефинирана променливата.
+Досега са използвани глобалните променливи (обекти) <b><tt>cin </tt></b>и
+<b><tt>cout,</tt></b>
+които са дефинирани в заглавния файл <b><tt>iostream.h.
+</tt></b>Глобалните
+променливи предават данни между функциите, което трябва да се избягва.
+Използването им трябва да става само ако има основателна причина за това.
+Нормалният обмен на данни между функциите става с помощта на параметрите
+на функциите.
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Постъпково
+прецизиране, създаване на кода, проиграване.
+<br>&nbsp;&nbsp;&nbsp; Една от най-добрите стратегии за решаване на трудни
+задачи е декомпозицията (постъпково прецизиране) - разбиване на задачата
+на няколко по-прости задачи. Получените задачи също се разбиват на по-прости
+и процесът продължава, докато се получат задачи, които могат да се решат
+директно.
+<br>&nbsp;&nbsp;&nbsp; Задача за записване на числата с думи.
+<br><b><tt><font color="#000099">// intname.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">string digit_name(int n)</font></tt></b>
+<br><b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; превръща цифра в английското
+й име</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло число
+между 1 и 9</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на n ("one"
+. . . "nine")</font></tt></b>
+<br><b><tt><font color="#3333FF">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (n == 1) return "one";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 2) return "two";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 3) return "three";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 4) return "four";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 5) return "five";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 6) return "six";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 7) return "seven";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 8) return "eight";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 9) return "nine";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return "";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">string teen_name(int n)</font></tt></b>
+<br><b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; превръща цяло число между
+10 и 19 в английското му име</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло число
+между 10 и 19</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на n ("ten"
+. . . "nineteen")</font></tt></b>
+<br><b><tt><font color="#3333FF">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (n == 10) return "ten";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 11) return
+"eleven";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 12) return
+"twelve";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 13) return
+"thirteen";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 14) return
+"fourteen";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 15) return
+"fifteen";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 16) return
+"sixteen";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 17) return
+"seventeen";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 18) return
+"eighteen";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 19) return
+"nineteen";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return "";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">string tens_name(int n)</font></tt></b>
+<br><b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; дава английското име на
+десетиците между 20 и 90</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло число
+между 2 и 9</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на 10*n
+("twenty" . . . "ninety")</font></tt></b>
+<br><b><tt><font color="#3333FF">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (n == 2) return "twenty";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 3) return "thirty";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 4) return "forty";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 5) return "fifty";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 6) return "sixty";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 7) return "seventy";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 8) return "eighty";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 9) return "ninety";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return "";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">string int_name(int n)</font></tt></b>
+<br><b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; превръща цяло число в английското
+му име</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло положително
+число &lt; 1000000</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на n (т.е.
+"two hundred seventy four")</font></tt></b>
+<br><b><tt><font color="#3333FF">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int c = n; /* </font><font color="#3333FF">оставащата
+за превръщане част</font><font color="#000099"> */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string r;&nbsp; /* </font><font color="#3333FF">стойността
+на функцията</font><font color="#000099"> */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (c >= 1000)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = int_name(c /
+1000) + " thousand";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = c %
+1000;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (c >= 100)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = r + " " + digit_name(c
+/ 100) + " hundred";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = c %
+100;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (c >= 20)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = r + " " + tens_name(c
+/ 10);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = c %
+10;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (c >= 10)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = r + " " + teen_name(c);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = 0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (c > 0)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r = r +
+" " + digit_name(c);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return r;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+a positive integer: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; int_name(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">Please enter a positive integer: </font><font color="#006600">20119</font></tt></b>
+<br><b><tt><font color="#990000">&nbsp;twenty thousand one hundred nineteen</font></tt></b></td>
+</tr>
+</table>
+
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Предусловия
+и макрос <b><tt>assert.</tt></b>
+<br>&nbsp;&nbsp;&nbsp; Какво трябва да направи една функция, ако е извикана
+с неподходящ вход? Има два варианта - да завърши нормално или да прекъсне
+работата на програмата. Първият вариант е подходящ, когато функцията може
+да върне нещо разумно на извикващата функция - напр. <b><tt><font color="#000000">digit_name
+</font></tt></b>от
+предишния пример връща празен низ. Стандартните аритметични функции прекъсват
+работата на програмата със съобщение за грешка.
+<br>&nbsp;&nbsp;&nbsp; Едно решение на проблема е да се използва макрос
+<b><tt>assert.
+</tt></b>Когато
+се тества програмата, той дава мястото на "грешката" (некоректни входни
+данни на функция) в текста на програмата. Когато програмата е готова, може
+да се изключи проверката на&nbsp; <b><tt>assert</tt></b> с директива на
+препроцесора.
+<br><b><tt><font color="#000099">//fincalc.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;assert.h></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">double future_value(double initial_balance,
+double p, int nyear)</font></tt></b>
+<br><b><tt><font color="#000099">{ assert(nyear>=0 &amp;&amp; p>=0);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return initial_balance*pow(1 +
+p/(12*100), 12*nyear);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{ cout &lt;&lt; future_value(1000,6,-5);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">fincalc.cpp:8: failed assertion `nyear>=0
+&amp;&amp; p>=0'</font></tt></b>
+<br><b><tt><font color="#990000">abnormal program termination</font></tt></b></td>
+</tr>
+</table>
+
+<p><font color="#000000">&nbsp;&nbsp;&nbsp; Ако условието в </font><b><tt>assert
+</tt></b><font color="#000000">е
+изпълнено, нищо не се случва. Ако обаче изразът има стойност <b><tt>false</tt></b>,
+програмата прекратява работата си със съобщение от макрос </font><b><tt>assert.</tt></b>
+<br>
+<hr WIDTH="100%">
+<br><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Рекурсия
+<table BORDER=0 WIDTH="100%" >
+<tr>
+<td ALIGN=LEFT VALIGN=TOP>* Функцията&nbsp; <b>n!</b>&nbsp; (n факториел),&nbsp;<b>
+n! = 1.2.3.4...n</b>. Рекурентна дефиниция на същата функция е:
+<br><b><tt>0! = 1,&nbsp;</tt></b> <b><tt>n! = n(n-1)!</tt></b>
+<br>Ако трябва да се пресметне например <b><tt>4!</tt></b> по тази дефиниция,
+трябва да се направи следното: Записва се
+<br>4! = 4.3!
+<br>3! = 3.2!
+<br>2! = 2.1!
+<br>1! = 1.0!
+<br>0! = 1
+<br>и връщайки се обратно по записа, се пресмята
+<br>1! = 1.0! = 1.1 = 1
+<br>2! = 2.1! = 2.1 = 2
+<br>3! = 3.2! = 3.2 = 6
+<br>4! = 4.3! = 4.6 = 24.</td>
+
+<td>&nbsp;</td>
+
+<td>
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td>n</td>
+
+<td>n!</td>
+</tr>
+
+<tr>
+<td>0</td>
+
+<td ALIGN=RIGHT>1</td>
+</tr>
+
+<tr>
+<td>1</td>
+
+<td ALIGN=RIGHT>1</td>
+</tr>
+
+<tr>
+<td>2</td>
+
+<td ALIGN=RIGHT>2</td>
+</tr>
+
+<tr>
+<td>3</td>
+
+<td ALIGN=RIGHT>6</td>
+</tr>
+
+<tr>
+<td>4</td>
+
+<td ALIGN=RIGHT>24</td>
+</tr>
+
+<tr>
+<td>5</td>
+
+<td ALIGN=RIGHT>120</td>
+</tr>
+
+<tr>
+<td>6</td>
+
+<td ALIGN=RIGHT>720</td>
+</tr>
+
+<tr>
+<td>7</td>
+
+<td>5040</td>
+</tr>
+</table>
+</td>
+
+<td>&nbsp;</td>
+</tr>
+</table>
+&nbsp;&nbsp;&nbsp; Програма за пресмятане на n!
+<br><b><tt><font color="#000099">// fac.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">long factorial(int n)</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (n == 0) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; { long result = n * factorial(n
+- 1);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; return result;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Please enter a
+number: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; n &lt;&lt;
+"! = " &lt;&lt; factorial(n) &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<table BORDER CELLPADDING=4 WIDTH="100%" >
+<tr>
+<td><b><tt><font color="#990000">Please enter a number: </font><font color="#006600">12</font></tt></b>
+<br><b><tt><font color="#990000">12! = 479001600</font></tt></b></td>
+</tr>
+</table>
+
+<p>&nbsp;&nbsp;&nbsp; Процесът, при който една функция вика себе си, се
+нарича рекурсия, а самата функция се нарича рекурсивна функция. Тя трябва
+да изпълнява две условия:
+<br>&nbsp;&nbsp;&nbsp; 1. Всяко рекурсивно извикване трябва да опростява
+пресмятанията по някакъв начин. В случая функцията се извиква с по-малка
+стойност на параметъра.
+<br>&nbsp;&nbsp;&nbsp; 2. Трябва да има специална обработка на най-простите
+случаи. В нашия пример това е случаят когато входният параметър <b><tt>n</tt></b>
+е нула.
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

@@ -1,0 +1,170 @@
+22. Асоциативни контейнери 
+
+// Fig. 20.19: fig20_19.cpp
+// Testing Standard Library class multiset
+#include <iostream>
+#include <set>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+   const int SIZE = 10;
+   int a[ SIZE ] = { 7, 22, 9, 1, 18, 30, 100, 22, 85, 13 };
+   typedef multiset< int, less< int > > ims;
+   ims intMultiset;    // ims for "integer multiset"
+   ostream_iterator< int > output( cout, " " );
+
+   cout << "There are currently " << intMultiset.count( 15 )
+        << " values of 15 in the multiset\n";   
+   intMultiset.insert( 15 );
+   intMultiset.insert( 15 );
+   cout << "After inserts, there are " 
+        << intMultiset.count( 15 )
+        << " values of 15 in the multiset\n";
+
+   ims::const_iterator result;
+
+   result = intMultiset.find( 15 );  // find returns iterator
+
+   if ( result != intMultiset.end() ) // if iterator not at end
+      cout << "Found value 15\n";     // found search value 15
+   
+   result = intMultiset.find( 20 );
+
+   if ( result == intMultiset.end() )    // will be true hence
+      cout << "Did not find value 20\n"; // did not find 20
+
+   intMultiset.insert( a, a + SIZE ); // add array a to multiset
+   cout << "After insert intMultiset contains:\n";
+   copy( intMultiset.begin(), intMultiset.end(), output );
+
+   cout << "\nLower bound of 22: " 
+        << *( intMultiset.lower_bound( 22 ) );
+   cout << "\nUpper bound of 22: " 
+        << *( intMultiset.upper_bound( 22 ) );
+
+   pair< ims::const_iterator, ims::const_iterator > p;
+
+   p = intMultiset.equal_range( 22 );
+   cout << "\nUsing equal_range of 22"
+        << "\n   Lower bound: " << *( p.first )
+        << "\n   Upper bound: " << *( p.second );
+   cout << endl;
+   return 0;
+}
+---------------------------------
+// Fig. 20.20: fig20_20.cpp
+// Testing Standard Library class set
+#include <iostream>
+#include <set>
+#include <algorithm>
+
+using namespace std;
+
+int main()
+{
+   typedef set< double, less< double > > double_set;
+   const int SIZE = 5;
+   double a[ SIZE ] = { 2.1, 4.2, 9.5, 2.1, 3.7 };   
+   double_set doubleSet( a, a + SIZE );;
+   ostream_iterator< double > output( cout, " " );
+
+   cout << "doubleSet contains: ";
+   copy( doubleSet.begin(), doubleSet.end(), output );
+
+   pair< double_set::const_iterator, bool > p;
+
+   p = doubleSet.insert( 13.8 ); // value not in set
+   cout << '\n' << *( p.first ) 
+        << ( p.second ? " was" : " was not" ) << " inserted";
+   cout << "\ndoubleSet contains: ";
+   copy( doubleSet.begin(), doubleSet.end(), output );
+
+   p = doubleSet.insert( 9.5 );  // value already in set
+   cout << '\n' << *( p.first ) 
+        << ( p.second ? " was" : " was not" ) << " inserted";
+   cout << "\ndoubleSet contains: ";
+   copy( doubleSet.begin(), doubleSet.end(), output );
+
+   cout << endl;
+   return 0;
+}
+---------------------------------
+// Fig. 20.21: fig20_21.cpp
+// Testing Standard Library class multimap
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+int main()
+{
+   typedef multimap< int, double, less< int > > mmid;
+   mmid pairs;
+
+   cout << "There are currently " << pairs.count( 15 )
+        << " pairs with key 15 in the multimap\n";
+   pairs.insert( mmid::value_type( 15, 2.7 ) );
+   pairs.insert( mmid::value_type( 15, 99.3 ) );
+   cout << "After inserts, there are " 
+        << pairs.count( 15 )
+        << " pairs with key 15\n";
+   pairs.insert( mmid::value_type( 30, 111.11 ) );
+   pairs.insert( mmid::value_type( 10, 22.22 ) );
+   pairs.insert( mmid::value_type( 25, 33.333 ) );
+   pairs.insert( mmid::value_type( 20, 9.345 ) );
+   pairs.insert( mmid::value_type( 5, 77.54 ) );
+   cout << "Multimap pairs contains:\nKey\tValue\n";
+   
+   for ( mmid::const_iterator iter = pairs.begin();
+         iter != pairs.end(); ++iter )
+      cout << iter->first << '\t' 
+           << iter->second << '\n';
+
+   cout << endl;
+   return 0;
+}
+---------------------------------
+// Fig. 20.22: fig20_22.cpp
+// Testing Standard Library class map
+#include <iostream>
+#include <map>
+
+using namespace std;
+
+int main()
+{
+   typedef map< int, double, less< int > > mid;
+   mid pairs;
+
+   pairs.insert( mid::value_type( 15, 2.7 ) );
+   pairs.insert( mid::value_type( 30, 111.11 ) );
+   pairs.insert( mid::value_type( 5, 1010.1 ) );
+   pairs.insert( mid::value_type( 10, 22.22 ) );
+   pairs.insert( mid::value_type( 25, 33.333 ) );
+   pairs.insert( mid::value_type( 5, 77.54 ) ); // dupe ignored
+   pairs.insert( mid::value_type( 20, 9.345 ) );
+   pairs.insert( mid::value_type( 15, 99.3 ) ); // dupe ignored
+   cout << "pairs contains:\nKey\tValue\n";
+   
+   mid::const_iterator iter;
+
+   for ( iter = pairs.begin(); iter != pairs.end(); ++iter )
+      cout << iter->first << '\t' 
+           << iter->second << '\n';
+
+   pairs[ 25 ] = 9999.99;  // change existing value for 25
+   pairs[ 40 ] = 8765.43;  // insert new value for 40
+   cout << "\nAfter subscript operations, pairs contains:"
+        << "\nKey\tValue\n";
+   
+   for ( iter = pairs.begin(); iter != pairs.end(); ++iter )
+      cout << iter->first << '\t' 
+           << iter->second << '\n';
+
+   cout << endl;
+   return 0;
+}
+---------------------------------

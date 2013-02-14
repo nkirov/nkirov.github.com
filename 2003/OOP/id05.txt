@@ -1,0 +1,184 @@
+//5. Приятелски функции и класове; указател this. 
+//
+// FIG7_5.CPP  
+// Friends can access private members of a class.
+#include <iostream.h>
+
+// Modified Count class
+class Count {
+   friend void setX(Count &, int);  // friend declaration
+public:
+   Count() { x = 0; }               // constructor
+   void print() const { cout << x << endl; }  // output
+private:
+   int x;  // data member
+};
+
+// Can modify private data of Count because
+// setX is declared as a friend function of Count
+void setX(Count &c, int val)
+{
+   c.x = val;  // legal: setX is a friend of Count
+}
+
+main()
+{
+   Count object;
+
+   cout << "object.x after instantiation: ";
+   object.print();
+   cout << "object.x after call to setX friend function: ";
+   setX(object, 8);  // set x with a friend
+   object.print();
+
+   return 0;
+}
+---------------------------------------------------------
+// FIG7_7.CPP  
+// Using the this pointer to refer to object members.
+#include <iostream.h>
+
+class Test {
+public:
+   Test(int = 0);               // default constructor
+   void print() const;
+private:
+   int x;
+};
+
+Test::Test(int a) { x = a; }    // constructor
+
+void Test::print() const
+{
+   cout << "        x = " << x << endl
+        << "  this->x = " << this->x << endl
+        << "(*this).x = " << (*this).x << endl;
+}
+
+main()
+{
+   Test testObject(12);
+   testObject.print();
+   return 0;
+}
+----------------------------------------------------
+// TIME6.H  
+// Declaration of class Time.
+// Member functions defined in TIME6.CPP
+
+#ifndef TIME6_H
+#define TIME6_H
+
+class Time {
+public:
+   Time(int = 0, int = 0, int = 0);  // default constructor
+
+   // set functions
+   Time &setTime(int, int, int);  // set hour, minute, second
+   Time &setHour(int);    // set hour
+   Time &setMinute(int);  // set minute
+   Time &setSecond(int);  // set second
+
+   // get functions (normally declared const)
+   int getHour() const;   // return hour
+   int getMinute() const; // return minute
+   int getSecond() const; // return second
+
+   // print functions (normally declared const)
+   void printMilitary() const;  // print military time
+   void printStandard() const;  // print standard time
+private:
+   int hour;              // 0 - 23
+   int minute;            // 0 - 59
+   int second;            // 0 - 59
+};
+#endif
+------
+// TIME6.CPP 
+// Member function definitions for Time class.
+#include "time6.h"
+#include <iostream.h>
+
+// Constructor function to initialize private data.
+// Calls member function setTime to set variables.
+// Default values are 0 (see class definition).
+Time::Time(int hr, int min, int sec) { setTime(hr, min, sec); }
+
+// Set the values of hour, minute, and second.
+Time &Time::setTime(int h, int m, int s)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   minute = (m >= 0 && m < 60) ? m : 0;
+   second = (s >= 0 && s < 60) ? s : 0;
+   return *this;   // enables chaining
+}
+
+// Set the hour value
+Time &Time::setHour(int h)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   return *this;         // enables chaining
+}
+
+// Set the minute value
+Time &Time::setMinute(int m)
+{
+   minute = (m >= 0 && m < 60) ? m : 0;
+   return *this;   // enables chaining
+}
+
+// Set the second value
+Time &Time::setSecond(int s)
+{
+   second = (s >= 0 && s < 60) ? s : 0;
+   return *this;   // enables chaining
+}
+
+// Get the hour value
+int Time::getHour() const { return hour; }
+
+// Get the minute value
+int Time::getMinute() const { return minute; }
+
+// Get the second value
+int Time::getSecond() const { return second; }
+
+// Display military format time: HH:MM:SS
+void Time::printMilitary() const
+{
+   cout << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second;
+}
+
+// Display standard format time: HH:MM:SS AM (or PM)
+void Time::printStandard() const
+{
+   cout << ((hour == 0 || hour == 12) ? 12 : hour % 12) << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second
+        << (hour < 12 ? " AM" : " PM");
+}
+-------------
+// FIG7_8.CPP  
+// Chaining member function calls together
+// with the this pointer
+#include <iostream.h>
+#include "time6.h"
+
+main()
+{
+   Time t;
+
+   t.setHour(18).setMinute(30).setSecond(22);
+   cout << "Military time: ";
+   t.printMilitary();
+   cout << endl << "Standard time: ";
+   t.printStandard();
+
+   cout << endl << endl << "New standard time: ";
+   t.setTime(20, 20, 20).printStandard();
+   cout << endl;
+   return 0;
+}
+---------------------------------------------------

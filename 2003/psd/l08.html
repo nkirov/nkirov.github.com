@@ -1,0 +1,173 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l08</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<p><b>8. Още за рекурсията</b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Непряка рекурсия
+<br>&nbsp;Хилбертови криви
+<p>&nbsp; <b><tt><font color="#006600">int x,y,h=512;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; void Hilbert();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; void A(int i);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; void B(int i);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; void C(int i);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; void D(int i);</font></tt></b>
+<p><b><tt><font color="#006600">void Hilbert()</font></tt></b>
+<br><b><tt><font color="#006600">{ int i=0;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; x=h/2; y=h/2;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; do</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; { i++; h/=2;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; x=h/2; y=h/2;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; A(i);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; } while (h==2);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<p><b><tt><font color="#006600">void A(i)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (i==0) return;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; D(i-1); x-=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; A(i-1); y-=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; A(i-1); x+=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; B(i-1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">void B(i)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (i==0) return;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; C(i-1); y+=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; B(i-1); x+=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; B(i-1); y-=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; A(i-1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">void C(i)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (i==0) return;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; B(i-1); x+=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; C(i-1); y+=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; C(i-1); x-=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; D(i-1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br><b><tt><font color="#006600">void D(i)</font></tt></b>
+<br><b><tt><font color="#006600">{ if (i==0) return;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; A(i-1); y-=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; D(i-1); x-=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; D(i-1); y+=h; plot();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp; C(i-1);</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>&nbsp; <a href="Hilbert.cpp">Hilbert.cpp</a>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Ефективност
+на рекурсията
+<br><b><tt><font color="#993300">// fibtime.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">/* PURPOSE:&nbsp; Compute a Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RECEIVES: n - an integer</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RETURNS:&nbsp; the nth Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (n &lt;= 2) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else return fib(n - 1) +
+fib(n - 2);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "fib(" &lt;&lt;
+n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Elapsed time
+= " &lt;&lt; after.seconds_from(before)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+" seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#993300">// fibtrace.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">/* PURPOSE:&nbsp; Compute a Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RECEIVES: n - an integer</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RETURNS:&nbsp; the nth Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Entering fib: n
+= " &lt;&lt; n &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; long f;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (n &lt;= 2) f = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; else f = fib(n - 1) + fib(n
+- 2);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Exiting fib:
+n = " &lt;&lt; n</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+" return value = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return f;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "fib(" &lt;&lt;
+n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>&nbsp;
+<p><b><tt><font color="#993300">// fibloop.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+<p><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">/* PURPOSE:&nbsp; Compute a Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RECEIVES: n - an integer</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RETURNS:&nbsp; the nth Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; if (n &lt;= 2) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; long fold = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; long fold2 = 1;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; long fnew;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 3; i &lt;= n; i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; fnew = fold + fold2;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fold2 =
+fold;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fold =
+fnew;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return fnew;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time before;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; Time after;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "fib(" &lt;&lt;
+n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Elapsed time
+= " &lt;&lt; after.seconds_from(before)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+" seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<p><font color="#000000">* Нерекурсивният вариант е по-ефективен.</font>
+<br><font color="#000000">* За пресмятане на&nbsp; n! и двата варианта
+са еднакво ефективни.</font>
+<br><font color="#000000">* Двоичното търсене може да се направи нерекурсивно.</font>
+<br><font color="#000000">* Сортиране чрез сливане е трудно да се направи
+нерекурсивно.</font>
+<br><font color="#000000">* Бързата сортировка може да си направи нерекурсивна</font>
+<p>
+<hr WIDTH="100%">
+</body>
+</html>

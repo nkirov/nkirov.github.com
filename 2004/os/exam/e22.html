@@ -1,0 +1,215 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>l11</title>
+</head>
+<body>
+<b>22. Организация на входа и изхода и планиране (разписание) на диска</b>
+<br><b>I/O устройства. Организация на функциите на I/O. Буфериране на входа
+и изхода.</b>
+<p>11.1. I/O устройства.
+<br>- Human-readable - видео-дисплей терминали, принтери;
+<br>- Mashine-readable - дискове, ленти, контролери;
+<br>- Communication - мрежови карти и модеми.
+<br>Различия при различните I/O устройства:
+<br>&nbsp;-- скорост на работа с данните;
+<br>&nbsp;-- приложения;
+<br>&nbsp;-- сложност на управление;
+<br>&nbsp;-- единица пренасяни данни;
+<br>&nbsp;-- представяне на данните;
+<br>&nbsp;-- състояния при грешки.
+<br>Примери на I/O устройства:
+<table BORDER CELLSPACING=0 CELLPADDING=4 >
+<tr>
+<td><b>Device</b></td>
+
+<td><b>Purpose</b></td>
+
+<td><b>Partner</b></td>
+
+<td><b>Data Rate (kilobytes/s)</b></td>
+</tr>
+
+<tr>
+<td>Keyboard</td>
+
+<td>Input</td>
+
+<td>Human</td>
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.01</td>
+</tr>
+
+<tr>
+<td>Mouse</td>
+
+<td>Input</td>
+
+<td>Human</td>
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.02</td>
+</tr>
+
+<tr>
+<td>Voice input</td>
+
+<td>Input</td>
+
+<td>Human</td>
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.02</td>
+</tr>
+
+<tr>
+<td>Scanner</td>
+
+<td>Input</td>
+
+<td>Human</td>
+
+<td ALIGN=LEFT>&nbsp;200</td>
+</tr>
+
+<tr>
+<td>Voice output&nbsp;</td>
+
+<td>Output</td>
+
+<td>Human</td>
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.6</td>
+</tr>
+
+<tr>
+<td>Line printer</td>
+
+<td>Output</td>
+
+<td>Human</td>
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1</td>
+</tr>
+
+<tr>
+<td>Laser printer</td>
+
+<td>Output</td>
+
+<td>Human</td>
+
+<td>&nbsp;&nbsp; 100</td>
+</tr>
+
+<tr>
+<td>Graphics display</td>
+
+<td>Output</td>
+
+<td>Human</td>
+
+<td>30000</td>
+</tr>
+
+<tr>
+<td>CPU to frame buffer</td>
+
+<td>Output</td>
+
+<td>Human</td>
+
+<td>&nbsp;&nbsp;&nbsp; 200</td>
+</tr>
+
+<tr>
+<td>Network-terminal</td>
+
+<td>Input or output</td>
+
+<td>Machine</td>
+
+<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0.05</td>
+</tr>
+
+<tr>
+<td>Network-LAN</td>
+
+<td>Input or output</td>
+
+<td>Machine</td>
+
+<td>&nbsp; 200</td>
+</tr>
+
+<tr>
+<td>Optical disk</td>
+
+<td>Storage</td>
+
+<td>Machine</td>
+
+<td>&nbsp; 500</td>
+</tr>
+
+<tr>
+<td>Magnetic type</td>
+
+<td>Storage</td>
+
+<td>Machine</td>
+
+<td>&nbsp;2000</td>
+</tr>
+
+<tr>
+<td>Magnetic disk</td>
+
+<td>Storage</td>
+
+<td>Machine</td>
+
+<td>&nbsp;2000</td>
+</tr>
+</table>
+
+<p>--- <a href="zzz/11-1.gif">FIGURE 11.1</a> ---
+<br>
+<hr WIDTH="100%">
+<br>11.2. Организация на функциите на I/O.
+<br>- програмирани I/O (programmed);
+<br>- I/O основани на прекъсвания (interupt-driven);
+<br>- пряк достъп до паметта (DMA).
+<br>** Еволюция на функциите на I/O.
+<br>&nbsp; 1. Процесорът пряко управлява периферията.
+<br>&nbsp; 2. Контролер или I/O модул, управление без прекъсвания.
+<br>&nbsp; 3. Контролер или I/O модул, управление с прекъсвания.
+<br>&nbsp; 4. DMA - процесорът участва само в началото и в края на предаване
+на данните.
+<br>&nbsp; 5. I/O модула е отделен процесор, който работи директно с паметта
+без CPU.
+<br>&nbsp; 6. I/O модула е отделен процесор със собствена памет.
+<br>** Пряк достъп до паметта (DMA).
+<p>--- <a href="zzz/11-2.gif">FIGURE 11.2</a> ---
+<br>--- <a href="zzz/11-3.gif">FIGURE 11.3</a> ---
+<br>--- <a href="zzz/11-4.gif">FIGURE 11.4</a> ---
+<br>
+<hr WIDTH="100%">
+<br>11.3. Проектиране и организация на I/O в ОП.
+<br>** Цели.
+<br>** Логическа структура на I/O функциите.
+<br>--- <a href="zzz/11-5.gif">FIGURE 11.5</a> ---
+<br>
+<hr WIDTH="100%">
+<br>11.4. Буфериране на входа и изхода.
+<br>&nbsp;- Block-oriented device: диск
+<br>&nbsp;- Stream-oriented device: терминал, принтер, мишка, комуникационна
+линия
+<br>** Единичен буфер.
+<br>** Двоен буфер.
+<br>** Кръгов буфер.
+<br>--- <a href="zzz/11-6.gif">FIGURE 11.6</a> ---
+<br>
+<hr WIDTH="100%">
+</body>
+</html>
