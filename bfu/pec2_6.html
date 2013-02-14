@@ -1,0 +1,287 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win95; U) [Netscape]">
+   <title>Pec2</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<br><b>6. Потоци</b>
+<br><img SRC="bullet.gif"  align=CENTER> Четене и запис в текстови файлове
+<br>* Пренасочване на входа и изхода
+<p>* Четене от файл:
+<br>А) файл за четене:
+<br>- дефиниране на файлове променлива за четене
+<br><b><tt><font color="#009900">ifstream inp_data;</font></tt></b>
+<br>- отваряне на файл
+<br><b><tt><font color="#006600">inp_data.open("input.dat");</font></tt></b>
+<br>- четене от файл
+<br>--- цели числа и числа с плаваща точка:
+<br><b><tt><font color="#006600">&nbsp;&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; inp_data >> n >> x;</font></tt></b>
+<br>--- низове:
+<br><b><tt><font color="#006600">&nbsp;&nbsp; string s;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; inp_data >> s;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; getline(inp_data, s);</font></tt></b>
+<br>--- символи:
+<br>&nbsp;<b><tt><font color="#006600">&nbsp; char ch;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; inp_data.get(ch);</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; input_stream.unget();</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; input_stream.put_back(ch);</font></tt></b>
+<br>- затваряне на файл
+<br><b><tt><font color="#006600">&nbsp;&nbsp; inp_data.close();</font></tt></b>
+<p>Пример:
+<br><b><tt><font color="#009900">#include &lt;fstream>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">включване на заглавен файл</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">int main()</font></tt></b>
+<br><b><tt><font color="#009900">{&nbsp; ifstream in_data; /* </font></tt></b><font color="#000000">дефиниран</font>е
+на файлова променлива за четене<b><tt><font color="#009900"> */</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; in_data.open("input.txt");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">отваряне на </font>файла<b><tt><font color="#009900">
+*/</font></tt></b>
+<p><b><tt><font color="#009900">&nbsp;&nbsp; string s;</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; in_data >> s;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">четене на дума</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; getline(in_data, s);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">четене на ред</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; int n;</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; in_data >> n >> x;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">четене на числови данни</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; char ch;</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; in_data.get(ch);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">четене на символ</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<p><b><tt><font color="#009900">&nbsp;&nbsp; in_data.close();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">затваряне на </font>файла<b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#009900">}</font></tt></b><b><tt><font color="#009900"></font></tt></b>
+<p>* Записване на файл:
+<br>- дефиниране на файлове променлива за писане
+<br>&nbsp;<b><tt><font color="#006600">&nbsp; ofstream out_data;</font></tt></b>
+<br>- отваряне на файл
+<br>&nbsp;&nbsp; <b><tt><font color="#006600">out_data.open("output.dat");</font></tt></b>
+<br>- писане във&nbsp; файл
+<br>--- с изходен поток:
+<br><b><tt><font color="#006600">&nbsp;&nbsp; int n = 2;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; double x = 1.5;</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; string s = " Hello";</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; out_data &lt;&lt; n &lt;&lt;
+"&nbsp; " &lt;&lt; x &lt;&lt; s;</font></tt></b>
+<br>--- с член-функции
+<br><b><tt><font color="#006600">&nbsp;&nbsp; char ch = 'A';</font></tt></b>
+<br><b><tt><font color="#006600">&nbsp;&nbsp; out_data.put(ch);</font></tt></b>
+<br>- затваряне на файл
+<br>&nbsp;&nbsp;<b><tt><font color="#006600"> out_data.close();</font></tt></b><b><tt><font color="#006600"></font></tt></b>
+<p><font color="#000000">Пример:</font>
+<br><b><tt><font color="#009900">#include &lt;fstream>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">включване на заглавен файл</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">int main()</font></tt></b>
+<br><b><tt><font color="#009900">{&nbsp; ofstream out_data; /* </font></tt></b><font color="#000000">дефиниран</font>е
+на файлова променлива за четене<b><tt><font color="#009900"> */</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; out_data.open("output.txt");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">отваряне на </font>файла<b><tt><font color="#009900">
+*/</font></tt></b>
+<p><b><tt><font color="#009900">&nbsp;&nbsp; string s = "Hello";</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; out_data &lt;&lt; s;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/*</font></tt></b><font color="#000000"> писане на низ</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; int n = 5;</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; double x = 5.5;</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; out_data &lt;&lt; n &lt;&lt;
+x;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">писане на числови данни</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; char ch = 'T';</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; out_data.put(ch);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">писане на символ</font><b><tt><font color="#009900">
+*/</font></tt></b>
+<p><b><tt><font color="#009900">&nbsp;&nbsp; out_data.close();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">затваряне на </font>файла<b><tt><font color="#009900">
+*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#009900">}</font></tt></b><b><tt><font color="#009900"></font></tt></b>
+<p><font color="#000000">* Програма за четене на заплати и чертаене на
+диаграма</font>
+<br><b><tt><font color="#000099">// readdata.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void read_data(vector&lt;double>&amp; v,
+ifstream&amp; in)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double s;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; while (in >> s) v.push_back(s);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">double maximum(vector&lt;double> v)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (v.size() == 0) return
+0;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double highest = v[0];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 1; i &lt; v.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (v[i]
+> highest) highest = v[i];</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return highest;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void plot_data(vector&lt;double> v)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double highest = maximum(v);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin.coord(0, 0, highest,
+v.size());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; Point left(0, i);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Point right(v[i],
+i);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Line bar(left,
+right);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Message
+label(left, v[i]);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+bar &lt;&lt; label;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; string filename</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = cwin.get_string("Please
+enter the data file name: ");</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; ifstream infile;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; infile.open(filename.c_str());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;double> data;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; read_data(data, infile);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; infile.close();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; plot_data(data);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;</font></tt></b>
+<br>* Четене и писане в един файл:
+<br>- дефиниране на файлове променлива за писане и четене
+<br>&nbsp;<b><tt><font color="#006600">&nbsp; fstream io_data;</font></tt></b>
+<br>- отваряне на файл
+<br>&nbsp;&nbsp; <b><tt><font color="#006600">io_data.open("io.dat");</font></tt></b><b><tt><font color="#006600"></font></tt></b>
+<p><img SRC="bullet.gif"  align=CENTER> Текстови потоци
+<p><img SRC="bullet.gif"  align=CENTER> Аргументи от командния ред
+<br>* Стартиране на програмата<b> <tt><font color="#009900">prog</font></tt></b><font color="#000000">:</font>
+<p><b><tt><font color="#009900">C:\mydir\>prog -v input.dat</font></tt></b>
+<p>&nbsp;* Текста на програмата:
+<br><b><tt><font color="#009900">int main(int argc, char * argv[])</font></tt></b>
+<br><b><tt><font color="#009900">{</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;cout &lt;&lt; argc;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* </font></tt></b><font color="#000000">брой на аргументите - 3 </font><b><tt><font color="#009900">*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;cout &lt;&lt; string(argv[0]);&nbsp;&nbsp;&nbsp;
+/* prog</font></tt></b><font color="#000000"> </font><b><tt><font color="#009900">*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;cout &lt;&lt; string(argv[1]);&nbsp;&nbsp;&nbsp;
+/* -v</font></tt></b><font color="#000000"> </font><b><tt><font color="#009900">*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;cout &lt;&lt; string(argv[2]);&nbsp;&nbsp;&nbsp;
+/* input.dat</font></tt></b><font color="#000000"> </font><b><tt><font color="#009900">*/</font></tt></b>
+<br><b><tt><font color="#009900">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#009900">}</font></tt></b>
+<p><img SRC="bullet.gif"  align=CENTER> Произволен достъп
+<br>-- файлове с променлива или фиксирана дължина на записа
+<p>-- <font color="#000000">включване на заглавен файл:</font>
+<br><b><tt><font color="#009900">#include &lt;fstream></font></tt></b>
+<p>-- файлова променлива за четене и писане:
+<br><b><tt><font color="#009900">fstream fs;</font></tt></b>
+<p>-- преместване на позициите за четене и писане:
+<br><b><tt><font color="#009900">long n = 10;</font></tt></b>
+<br><b><tt><font color="#009900">fs.seekg(n, ios::beg);</font></tt></b>
+<br><b><tt><font color="#009900">fs.seekp(n, ios::beg);</font></tt></b>
+<p>-- намиране на текущите позициите за четене и писане:
+<br><b><tt><font color="#009900">long n;</font></tt></b>
+<br><b><tt><font color="#009900">n = fs.tellg();</font></tt></b>
+<br><b><tt><font color="#009900">n = fs.tellp();</font></tt></b>
+<p>* Пример с база-данни за повишаване на заплати
+<br><b><tt><font color="#000099">// database.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iomanip></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;fstream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;sstream></font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">#include "ccc_empl.cpp"</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">const int NEWLINE_LENGTH = 2; /* or 1 on
+Unix */</font></tt></b>
+<br><b><tt><font color="#000099">const int RECORD_SIZE = 30 + 10 + NEWLINE_LENGTH;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">double string_to_double(string s)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; istringstream instr(s);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; instr >> x;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return x;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void raise_salary(Employee&amp; e, double
+percent)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double new_salary = e.get_salary()
+* (1 + percent / 100);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; e.set_salary(new_salary);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void read_employee(Employee&amp; e, fstream&amp;
+fs)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string line;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; getline(fs, line);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; if (fs.fail()) return;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string name = line.substr(0,
+30);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; double salary = string_to_double(line.substr(30,
+10));</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; e = Employee(name, salary);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">void write_employee(Employee e, fstream&amp;
+fs)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; fs &lt;&lt; e.get_name()</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+setw(10 + (30 - e.get_name().length()))</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+fixed &lt;&lt; setprecision(2)</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+e.get_salary()</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+"\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Please enter the
+data file name: ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; string filename;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> filename;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; fstream fs;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; fs.open(filename.c_str());</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; fs.seekg(0, ios::end); /*
+go to end of file */</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int nrecord = fs.tellg()
+/ RECORD_SIZE;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+the record to update: (0 - "</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+nrecord - 1 &lt;&lt; ") ";</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; int pos;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> pos;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; const double SALARY_CHANGE
+= 5.0;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; Employee e;</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; fs.seekg(pos * RECORD_SIZE,
+ios::beg);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; read_employee(e, fs);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; raise_salary(e, SALARY_CHANGE);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; fs.seekp(pos * RECORD_SIZE,
+ios::beg);</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; write_employee(e, fs);</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+<p><b><tt><font color="#000099">&nbsp;&nbsp; fs.close();</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br>
+<hr WIDTH="100%">
+</body>
+</html>

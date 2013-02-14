@@ -1,0 +1,149 @@
+4. Въведение в ООП
+
+-- Дефиниране на клас, достъп до членовете на класа
+---------------------
+#include <iostream.h>
+class Date {
+   private:
+      int day;
+      int month;
+      int year;
+   public:
+      void setDate(int d, int m, int y);
+      void setDay(int d);
+      void setMonth(int m);
+      void setYear(int y);
+      int getDay() { return day; } 
+      int getMonth() { return month; }
+      int gerYear() { return year; }
+      void print(); 
+};
+void main()
+{ 
+ Date d1, d2;
+ d1.setDate(1,1,2000);
+ d2=d1;
+ d2.setYear(2001);
+ d2.setMonth(d1.getMonth()+1);
+ d1.print();
+ d2.print();
+}
+void Date::setDate(int d, int m, int y)
+{
+ setDay(d); setYear(y); setMonth(m);
+}
+void Date::setDay(int d)
+{
+ day=((d>0)&&(d<=31))?d:0;
+}
+void Date::setMonth(int m)
+{
+ month=((m>0)&&(m<=12))?m:0;
+}
+void Date::setYear(int y)
+{
+ year=((y>1900)&&(y<=2100))?y:1900;
+}
+void Date::print()
+{
+ cout << day <<"."<< month <<"."<< year <<"\n";
+}
+---------------------
+-- Класове като параметри на функции, 
+   класове като типове на функции,
+   класове като елементи на други класове,
+   масиви от обекти тип клас
+---------------------
+#include<iostream.h>
+class Point {
+   private:
+      float x, y;
+      int color;
+   public:
+      void setx(float xx) { x=xx; }
+      void sety(float yy) { y=yy; }
+      void setcolor(float c) { color=c; }
+      float getx() { return x; }
+      float gety() { return y; }
+      float getcolor() { return color; }
+      void print();
+};
+class Triangle {
+   private:
+      Point v[3];
+      int flag;
+   public:
+      void setTriangle(Point w[3], int f);
+      void print();
+      Point getMedi();
+};
+void main()
+{
+ Point a[3], m;
+ a[0].setx(0); a[0].sety(0); 
+ a[1].setx(1); a[1].sety(0);
+ a[2].setx(0); a[2].sety(1); 
+ Triangle t;
+ t.setTriangle(a, 1);
+ t.print();
+ m=t.getMedi();
+ m.print();
+}
+void Point::print()
+{
+ cout<<"Point ("<<x<<","<<y<<")\n";
+}
+void Triangle::setTriangle(Point w[3], int f)
+{
+ for (int i=0; i<3; i++) v[i]=w[i];
+ flag=f;
+}
+void Triangle::print()
+{
+ cout<<"Triangle ... \n";
+}
+Point Triangle::getMedi()
+{
+ Point p;
+ double mx=0, my=0;
+ for (int i=0; i<3; i++)
+ {
+  mx+=v[i].getx()/3; my+=v[i].gety()/3;
+ }
+ p.setx(mx); p.sety(my);
+ return p;
+}
+---------------------
+-- Конструктор и деструктор на клас
+#include <iostream.h>
+class Date {
+   private:
+      int day;
+      int month;
+      int year;
+   public:
+      Date(int =1, int =1, int =1990); //Прототип на конструктор
+//с параметри по подразбиране          
+      void setDay(int d) {day=((d>0)&&(d<=31))?d:0;}
+      void setMonth(int m) {month=((m>0)&&(m<=12))?m:0;}
+      void setYear(int y) {year=((y>1900)&&(y<=2100))?y:1900;}      
+      void print(); 
+};
+void main()
+{ 
+ Date d1(8,3,2000), d2(1,4), d3;//Създане и инициализация на 
+// обекти от тип Date 
+ d1.print();  d2.print(); d3.print();
+ d2.setYear(2001);
+ d3=d1;
+ d3.setMonth(2);
+ d1.print();  d2.print(); d3.print();
+}
+Date::Date(int d, int m, int y) // Дефиницията на конструктора
+{
+ setDay(d); setYear(y); setMonth(m);
+}
+void Date::print()
+{
+ cout << day <<"."<< month <<"."<< year <<"\n";
+}

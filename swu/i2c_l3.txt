@@ -1,0 +1,64 @@
+3. Файлове с произволен достъп
+
+-- Позициониране на указател към файла:
+      ios::beg - начало на файла (сочи първия запис)
+      ios::cur - текуща позиция (сочи текущия запис)
+      ios::end - край на файла (сочи последния запис)
+
+-- Функция seekg:
+     fp.seekg(0L, ios::beg) - начало на файла
+     fp.sеekg(5L, ios::beg) - 5-та позиция
+     fp.sеekg(-1L, ios::end) - 1 позиция преди края ня файла 
+
+-- Отваряне на файл за четене и писане:
+    fstream fio;
+    fio.open("a.txt", ios::in | ios::out);
+
+-- Използване на seekg за прочитане втори път на файл 
+#include <fsrteam.h>
+ifstream inf;
+ofstream scrn;
+ofstream prnt;
+void main()
+{
+ char ch;
+ inf.open("b.txt", ios::in);
+ if (!inf) cout<<"Грешка";
+ else
+ {
+  scrn.open("CON",ios::out);
+  while(inf.get(ch)) scrn <<ch; // извежда на екрана
+  scrn.close();
+  inf.seekg(0L, ios::beg);
+  prnt.open("PRN",ios::out);
+  while(inf.get(ch)) prnt <<ch; // отпечатва на принтера
+  prnt.close();
+  inf.close();
+ }
+}
+
+-- Четене и писане във файл
+#include <fstream.h>
+void main()
+{
+ fstream fio;
+ char ch;
+ fio.open("c.txt", ios::in | ios::out);
+ if (!fio) cout<<"Грешка";
+ else
+ {
+  for (ch='A'; ch<='Z'; ch++) fio<<ch; // записва азбуката
+  
+  fio.seekg(8L, ios::beg);  // прескача 8 букви от началото
+  fio>>ch; cout<<ch;        // отпечатва I
+  fio.seekg(1L, ios::cur);  // прескача още 1 букви
+  fio>>ch; cout<<ch;        // отпечатва K
+
+  fio<<'z'; // на мястото на L записва z           
+  fio >> ch; cout << ch;    // отпечатва М
+  fio.seekg(-2L, ios::cur);
+  fio >> ch; cout << ch;    // отпечатва z
+  fio.close();
+ }
+}
+--

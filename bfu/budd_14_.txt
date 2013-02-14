@@ -1,0 +1,377 @@
+//======================================================================
+//  File:        list.h
+//  Author:      Timothy A. Budd
+//  Description: This file contains the interface of the list classes.
+//
+//  Copyright (c) 1992 by Timothy A. Budd.  All Rights Reserved.
+//     may be reproduced for any non-commercial purpose
+//======================================================================
+
+#include <assert.h>
+#include <iterator.h>
+
+//----------------------------------------------------------------------
+//     class list
+//             arbitrary size lists of elements
+//             permits insertion and removal only
+//             from the front of the list
+//----------------------------------------------------------------------
+
+template <class T> class link;
+template <class T> class listIterator;
+
+template <class T> class list {
+public:
+// constructors
+    list();
+    list(const list<T> & source);
+    virtual ~list();
+// operations
+    void         add(T value);
+    virtual void  deleteAllValues();
+    list *               duplicate() const;
+    T             firstElement() const;
+    virtual int   includes(T value) const;
+    int           isEmpty() const;
+    virtual void  removeFirst();
+protected:
+// data field
+    link<T> *     ptrToFirstLink;
+// friends
+    friend class  listIterator<T>;
+};
+//--------------------------------
+//     class list implementation
+template <class T> list<T>::list() : ptrToFirstLink(0) {}
+
+// empty all elements from the list
+template <class T> list<T>::~list()
+{  deleteAllValues(); }    
+
+// add a new value to the front of a linked list
+template <class T> void list<T>::add(T val)
+{   ptrToFirstLink = new link<T>(val, ptrToFirstLink);
+    assert(ptrToFirstLink != 0); }
+
+// clear all items from the list
+template <class T> void list<T>::deleteAllValues()
+{   link<T> * next;
+    for (link<T> * p = ptrToFirstLink; p != 0; p = next)
+    {  next = p->ptrToNextLink;
+       p->ptrToNextLink = 0;
+       delete p;  }      // delete the element pointed to by p
+    ptrToFirstLink = 0;  // mark that the list contains no elements
+}
+
+// copy list
+template <class T> list<T> * list<T>::duplicate() const
+{   list<T> * newlist = new list<T>;
+    assert(newlist != 0);
+    if (ptrToFirstLink)
+        newlist->ptrToFirstLink = ptrToFirstLink->duplicate();
+    return newlist;   // return the new list
+}
+
+// duplicate elements from source list
+template <class T> list<T>::list(const list<T> & source)
+{   if (source.isEmpty()) ptrToFirstLink = 0;
+    else
+    {  link<T> * firstLink = source.ptrToFirstLink;
+       ptrToFirstLink = firstLink->duplicate();     }
+}
+
+// return first value in list
+template <class T> T list<T>::firstElement() const
+{   assert(ptrToFirstLink != 0);
+    return ptrToFirstLink->value;
+}
+
+// loop to test each element
+template <class T> int list<T>::includes(T v) const
+{   for (link<T> * p = ptrToFirstLink; p; p = p->ptrToNextLink)
+       if (v == p->value) return 1; // found
+                          return 0; // not found
+}
+
+// test to see if the list is empty
+// list is empty if the pointer to the first link is null
+template <class T> int list<T>::isEmpty() const
+{    return ptrToFirstLink == 0;  }
+
+template <class T> void list<T>::removeFirst()
+{
+ assert(ptrToFirstLink != 0);   // make sure there is a first element
+ link<T> * p = ptrToFirstLink;  // save pointer to the removed node
+ ptrToFirstLink = p->ptrToNextLink;  // reassign the ptrToFirstLink node
+ delete p;                   // recover memory used by the first element
+}
+//----------------------------------------------------------------------
+//     class link
+//             facilitator for operations on lists
+//             maintains a single element for the linked list class
+//----------------------------------------------------------------------
+
+template <class T> class link  {
+public:
+// insert a new element following the current value
+    link<T> * insert(T val);
+private:
+// constructor
+    link(T linkValue, link * nextPtr);
+    link(const link &);
+// duplicate
+    link *    duplicate() const;
+// data areas
+    T            value;
+    link *    ptrToNextLink;
+// friends
+    friend class list<T>;
+    friend class listIterator<T>;
+};
+//------------------------------
+//     class link implementation
+
+// insert a new link after current node
+template <class T> link<T> * link<T>::insert(T val)
+{  
+    ptrToNextLink = new link<T>(val, ptrToNextLink);
+    assert(ptrToNextLink != 0); // check that allocation was successful
+    return ptrToNextLink;
+}
+
+// create and initialize a new link field
+template <class T> link<T>::link(T val, link<T> * nxt)
+    : value(val), ptrToNextLink(nxt) {}
+
+template <class T> link<T>::link(const link<T> & source)
+       : value(source.value), ptrToNextLink(source.ptrToNextLink) {}
+
+template <class T> link<T> * link<T>::duplicate() const
+{
+ link<T> * newlink;
+// if there is a next field, copy remainder of list
+ if (ptrToNextLink != 0) 
+    newlink = new link<T>(value, ptrToNextLink->duplicate());
+ else
+    newlink = new link<T>(value, 0);
+ assert(newlink != 0); // check that allocation was successful
+ return newlink;
+}
+
+//----------------------------------------------------------------------
+//     class listIterator
+//             implements iterator protocol for linked lists
+//             also permits removal and addition of elements
+//----------------------------------------------------------------------
+
+template <class T> class listIterator : public iterator<T>  {
+public:
+// constructor
+    listIterator(list<T> & aList);
+    listIterator(const listIterator &);
+// iterator protocol
+    virtual int  init();
+    virtual T    operator ()();
+    virtual int  operator !();
+    virtual int  operator ++();
+    virtual void operator =(T value);
+// new methods specific to list iterators
+    void         removeCurrent();
+    void         addBefore(T newValue);
+    void         addAfter(T newValue);
+protected:
+// data areas
+    link<T> *    currentLink;
+    link<T> *    previousLink;
+    list<T> &    theList;
+};
+//---------------------------------------
+//     class listIterator implementation
+
+// create and initialize a new list
+template <class T> listIterator<T>::listIterator(list<T> & aList)
+    : theList(aList) { init(); }
+
+template <class T> listIterator<T>::listIterator(const listIterator<T> & x)
+       : theList(x.theList) {  init();  }
+
+// set the iterator to the first element in the list
+template <class T> int listIterator<T>::init()
+{   previousLink = 0;
+    currentLink = theList.ptrToFirstLink;
+    return currentLink != 0;
+}
+
+// return value of current element
+template <class T> T listIterator<T>::operator ()()
+{
+ assert(currentLink != 0); // check to see if there is a current element
+ return currentLink->value;// return value associated with current element
+}
+
+// test for termination of the iterator
+template <class T> int listIterator<T>::operator !()
+{
+// if current link references a removed value,
+// update current to point to next position
+    if (currentLink == 0)
+       if (previousLink != 0)
+           currentLink = previousLink->ptrToNextLink;
+// now see if currentLink is valid
+    return currentLink != 0;
+}
+
+// move current pointer to next element
+template <class T> int listIterator<T>::operator ++()
+{   
+ if (currentLink == 0) // special processing if current link is deleted
+ {  if (previousLink == 0) currentLink = theList.ptrToFirstLink;
+    else                   currentLink = previousLink->ptrToNextLink;
+ }
+ else
+ { previousLink = currentLink; // advance pointer
+   currentLink = currentLink->ptrToNextLink; }
+ return currentLink != 0; // return true if the current elementwe is valid
+}
+
+// modify value of current element
+template <class T> void listIterator<T>::operator =(T val)
+{ assert(currentLink != 0);
+  currentLink->value = val; // modify value of the current link
+}
+
+// remove the current element from a list
+template <class T> void listIterator<T>::removeCurrent()
+{   
+     assert(currentLink != 0); // make sure there is a current element
+// case 1, removing first element
+    if (previousLink == 0)
+       theList.ptrToFirstLink = currentLink->ptrToNextLink;
+// case 2, not removing the first element
+    else
+       previousLink->ptrToNextLink = currentLink->ptrToNextLink;
+
+    delete currentLink; // delete current node
+    currentLink = 0;    // and set current pointer to null
+}
+
+// add a new element to list before current value
+template <class T> void listIterator<T>::addBefore(T val)
+{
+// case 1, not at start
+    if (previousLink)
+       previousLink = previousLink->insert(val);
+// case 2, at start of list
+    else
+    {  theList.add(val);
+       previousLink = theList.ptrToFirstLink;
+       currentLink = previousLink->ptrToNextLink;  }
+}
+
+// add a new element to list after current value
+template <class T> void listIterator<T>::addAfter(T val)
+{
+// case 1, not at start
+    if (currentLink != 0)  currentLink->insert(val);
+
+// case 2, at end of list
+    else if (previousLink != 0) currentLink = previousLink->insert(val);
+
+// case 3, start of list
+    else theList.add(val);
+}
+
+//----------------------------------------------------------------------
+//     class orderedList
+//             a list structure where each element
+//             is maintained in sequence based on the
+//             less-than comparison operator
+//----------------------------------------------------------------------
+
+template <class T> class orderedList : public list<T>  {
+public:
+    void  add(T value);   // change the addition method
+};
+//-------------------------------------
+//     class orderedList implementation
+
+// add a new value to an ordered list
+template <class T> void orderedList<T>::add(T val)
+{
+// loop over values smaller than current
+    listIterator<T> itr(*this);
+    for (itr.init(); !itr; ++itr) 
+        if (val < itr())        // found location to insert value
+        {
+            itr.addBefore(val); return;
+        }
+    itr.addBefore(val);  // add to end of list if not yet inserted
+}
+
+//----------------------------------------------------------------------
+//     class doubleEndedList
+//             a variation on lists - can add elements to end
+//             as well as to front
+//----------------------------------------------------------------------
+
+template <class T> class doubleEndedList : public list<T> {
+public:
+// constructors
+       doubleEndedList ();
+       doubleEndedList (const doubleEndedList &);
+// override the following methods from class list
+       virtual void    add (T value);
+       virtual void    deleteAllValues ();
+       virtual void    removeFirst ();
+// add a new element to the end of the list
+       void            addToEnd (T value);
+protected:
+// data area -- link to end
+       link<T> * ptrToLastLink;
+};
+//-----------------------------------------
+//     class doubleEndedList implementation
+
+template <class T> doubleEndedList<T>::doubleEndedList()
+       : list<T>() {  ptrToLastLink = 0;  }
+
+template <class T> doubleEndedList<T>::
+       doubleEndedList(const doubleEndedList<T> & x)
+       : list<T>(x), ptrToLastLink(x.ptrToLastLink) {}
+
+// add an element to the front of a double ended list
+template <class T> void doubleEndedList<T>::add(T val)
+{     
+  if (isEmpty())    // only need to handle addition to empty list
+    {    list<T>::add(val);
+         ptrToLastLink = ptrToFirstLink;
+    }
+    else list<T>::add(val);
+}
+
+// add a new element to the end of a double ended list
+template <class T> void doubleEndedList<T>::addToEnd(T val)
+{
+ if (ptrToLastLink != 0) // if there is an end, add to it
+     ptrToLastLink = ptrToLastLink->insert(val);
+ else  add(val);         // otherwise, just add to front
+}
+
+// delete all values from collection
+template <class T> void doubleEndedList<T>::deleteAllValues()
+{    
+// invoke the list method to do the actual work
+       list<T>::deleteAllValues();
+// then set the pointer to the last element to zero
+       ptrToLastLink = 0;
+}
+
+// remove the first element from double ended list
+template <class T> void doubleEndedList<T>::removeFirst()
+{
+// invoke the method from list to do the work
+       list<T>::removeFirst();
+// only do something different if we removed last element
+       if (isEmpty()) ptrToLastLink = 0;
+}
+//----------------------------------------------------------------------

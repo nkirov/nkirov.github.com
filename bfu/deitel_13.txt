@@ -1,0 +1,255 @@
+// fig14_15.cpp
+// This program reads a random access file sequentially,
+// updates data already written to the file, creates new
+// data to be placed in the file, and deletes data
+// already in the file.
+#include <iostream.h>
+#include <fstream.h>
+#include <iomanip.h>
+#include <stdlib.h>
+
+struct clientData {
+   int acctNum;
+   char lastName[15];
+   char firstName[10];
+   float balance;
+};
+
+int enterChoice(void);
+void textFile(fstream&);
+void updateRecord(fstream&);
+void newRecord(fstream&);
+void deleteRecord(fstream&);
+void outputLine(ostream&, clientData);
+
+main()
+{
+   fstream inOutCredit("credit.dat", ios::in | ios::out);
+
+   if (!inOutCredit) {
+      cerr << "File could not be opened." << endl;
+      exit (1);
+   }
+
+   int choice;
+
+   while ( ( choice = enterChoice() ) != 5 ) {
+
+      switch (choice) {
+         case 1:
+            textFile(inOutCredit);
+            break;
+         case 2:
+            updateRecord(inOutCredit);
+            break;
+         case 3:
+            newRecord(inOutCredit);
+            break;
+         case 4:
+            deleteRecord(inOutCredit);
+            break;
+         default:
+            cerr << "Incorrect choice" << endl;
+            break;
+      }
+
+      inOutCredit.clear();  // resets end-of-file indicator
+   }
+
+   return 0;
+}
+
+// Prompt for and input menu choice
+int enterChoice(void)
+{
+   cout << endl << "Enter your choice" << endl
+        << "1 - store a formatted text file of accounts" << endl
+        << "    called \"print.txt\" for printing" << endl
+        << "2 - update an account" << endl
+        << "3 - add a new account" << endl
+        << "4 - delete an account" << endl
+        << "5 - end program" << endl << "? ";
+
+   int menuChoice;
+   cin >> menuChoice;
+   return menuChoice;
+}
+
+// Create formatted text file for printing
+void textFile(fstream &readFromFile)
+{
+   ofstream outPrintFile("print.txt", ios::out);
+
+   if (!outPrintFile) {
+      cerr << "File could not be opened." << endl;
+      exit(1);
+   }
+
+   outPrintFile << setiosflags(ios::left) << setw(6) << "Acct" 
+       << setw(16) << "Last Name" << setw(11) << "First Name"
+       << setiosflags(ios::right) << setw(10) << "Balance" << endl;
+   readFromFile.seekg(0);
+
+   clientData client;
+   readFromFile.read((char *)&client, sizeof(clientData));
+
+   while (!readFromFile.eof()) {
+      if (client.acctNum != 0)
+         outputLine(outPrintFile, client);
+
+      readFromFile.read((char *)&client, sizeof(clientData));
+   }
+}
+
+// Update an account's balance
+void updateRecord(fstream &updateFile)
+{
+   int account;
+
+   do {
+      cout << "Enter account to update (1 - 100): ";
+      cin >> account;
+   } while (account < 1 || account > 100);
+
+   updateFile.seekg((account - 1) * sizeof(clientData));
+
+   clientData client;
+   updateFile.read((char *)&client, sizeof(clientData));
+
+   if (client.acctNum != 0) {
+      outputLine(cout, client);
+      cout << endl << "Enter charge (+) or payment (-): ";
+
+      float transaction;
+      cin >> transaction;
+      client.balance += transaction;
+      outputLine(cout, client);
+      updateFile.seekp((account - 1) * sizeof(clientData));
+      updateFile.write((char *)&client, sizeof(clientData));
+   }
+   else
+      cerr << "Acount #" << account
+           << " has no information." << endl;
+}
+
+// Create and insert new record
+void newRecord(fstream &insertInFile)
+{
+   cout << "Enter new account number (1 - 100): ";
+
+   int account;
+   cin >> account;
+   insertInFile.seekg((account - 1) * sizeof(clientData));
+
+   clientData client;
+   insertInFile.read((char *)&client, sizeof(clientData));
+
+   if (client.acctNum == 0) {
+      cout << "Enter lastname, firstname, balance" << endl << "? ";
+      cin >> client.lastName >> client.firstName >> client.balance;
+      client.acctNum = account;
+      insertInFile.seekp((account - 1) * sizeof(clientData));
+      insertInFile.write((char *)&client, sizeof(clientData));
+   }
+   else
+      cerr << "Account #" << account
+           << " already contains information." << endl;
+}
+
+// Delete an existing record
+void deleteRecord(fstream &deleteFromFile)
+{
+   cout << "Enter account number to delete (1 - 100): ";
+
+   int account;
+   cin >> account;
+   deleteFromFile.seekg((account - 1) * sizeof(clientData));
+
+   clientData client;
+   deleteFromFile.read((char *)&client, sizeof(clientData));
+
+   if (client.acctNum != 0) {
+      clientData blankClient = {0, "", "", 0};
+
+      deleteFromFile.seekp((account - 1) * sizeof(clientData));
+      deleteFromFile.write((char *)&blankClient, sizeof(clientData));
+      cout << "Account #" << account << " deleted." << endl;
+   }
+   else
+      cout << "Account #" << account << " is empty." << endl;
+}
+
+// Output a line of client information
+void outputLine(ostream &output, clientData c)
+{
+   output << setiosflags(ios::left)  << setw(6) << c.acctNum
+          << setw(16) << c.lastName << setw(11) << c.firstName
+          << setiosflags(ios::showpoint | ios::right) 
+          << setw(10) << setprecision(2) << c.balance << endl;
+}
+---------------------------------------------
+// fig14_17.cpp
+// Demonstrating an ostrstream object
+// using a previously defined array.
+#include <iostream.h>
+#include <strstream.h>
+
+main()
+{
+   const int size = 15;
+   char buffer[size];
+
+   ostrstream outputString(buffer, size, ios::out);
+   cout << "outputString state before insertion: "
+        << outputString.rdstate() << endl << endl;
+
+   outputString << "Testing " << 123 << ends;
+
+   cout << "The contents of buffer are:" << endl << buffer;
+
+   outputString << "ATTEMPT TO INSERT PAST END OF ARRAY";
+   cout << endl << endl << "outputString state after attempting"
+        << endl << "to insert past the end of the string: "
+        << outputString.rdstate() << endl;
+
+   return 0;
+}
+---------------------------------------------
+// fig14_18.cpp
+// Demonstrating input from an istrstream object.
+#include <iostream.h>
+#include <strstream.h>
+
+main()
+{
+   const int size = 80;
+   char input[size] = "Input test 123 4.7 A";
+
+   istrstream inputBuffer(input, size);
+
+   cout << "inputBuffer state before extraction: "
+        << inputBuffer.rdstate() << endl << endl;
+
+   char string1[size], string2[size];
+   int i;
+   double d;
+   char c;
+   inputBuffer >> string1 >> string2 >> i >> d >> c;
+
+   cout << "The following inputs were extracted" << endl
+        << "from the istrstream object:" << endl
+        << " String: " << string1 << endl
+        << " String: " << string2 << endl
+        << "Integer: " << i << endl
+        << " Double: " << d << endl
+        << "   Char: " << c << endl << endl;
+
+   // attempt to read from empty stream
+   long l;
+   inputBuffer >> l;
+   cout << "inputBuffer state after extraction on empty stream: "
+        << inputBuffer.rdstate() << endl;
+
+   return 0;
+}
+---------------------------------------------

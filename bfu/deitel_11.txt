@@ -1,0 +1,52 @@
+// A simple exception handling example.
+// Checking for a divide-by-zero error.
+#include <iostream.h>
+#include <string.h>
+
+// Definition of class DivideByZeroError to be used in exception 
+// handling for throwing an exception on a division by zero.
+class DivideByZeroError {
+public:
+   DivideByZeroError()  { strcpy(message, "Divide by zero"); }
+   void printMessage() const { cout << message; }
+private:
+   char message[15];
+};
+
+// Definition of function quotient. Used to demonstrate throwing 
+// an exception when a divide-by-zero error is encountered.
+float quotient(int num1, int num2)
+{
+   if (num2 == 0)
+      throw DivideByZeroError();
+
+   return (float) num1 / num2;
+}
+
+// Driver program
+main()
+{
+   cout << "Enter two integers to get their quotient: ";
+
+   int number1, number2;
+
+   cin >> number1 >> number2;
+
+   try {   // wraps the code that may throw an exception
+
+      float result = quotient(number1, number2);
+      
+      cout << "The quotient is: " << result << endl;
+   }
+
+   catch (DivideByZeroError error) {    // error handler
+		cout << "ERROR: ";
+		error.printMessage();
+		cout << endl;
+
+      return 1;   // terminate because of an error
+   }
+
+   return 0;      // terminate normally
+}
+

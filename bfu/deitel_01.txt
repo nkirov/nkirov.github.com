@@ -1,0 +1,545 @@
+// Пример за структура Time
+// FIG6_1.CPP
+// Create a structure, set its members, and print it.
+#include <iostream.h>
+
+struct Time {    // structure definition
+   int hour;     // 0-23
+   int minute;   // 0-59
+   int second;   // 0-59
+};
+
+void printMilitary(const Time &);  // prototype
+void printStandard(const Time &);  // prototype
+
+main()
+{
+   Time dinnerTime;    // variable of new type Time
+
+   // set members to valid values
+   dinnerTime.hour = 18;
+   dinnerTime.minute = 30;
+   dinnerTime.second = 0;
+
+   cout << "Dinner will be held at ";
+   printMilitary(dinnerTime);
+   cout << " military time," << endl << "which is ";
+   printStandard(dinnerTime);
+   cout << " standard time." << endl;
+
+   // set members to invalid values
+   dinnerTime.hour = 29;
+   dinnerTime.minute = 73;
+   dinnerTime.second = 103;
+
+   cout << endl << "Time with invalid values: ";
+   printMilitary(dinnerTime);
+   cout << endl;
+   return 0;
+}
+
+// Print the time in military format
+void printMilitary(const Time &t)
+{
+   cout << (t.hour < 10 ? "0" : "") << t.hour << ":"
+        << (t.minute < 10 ? "0" : "") << t.minute << ":"
+        << (t.second < 10 ? "0" : "") << t.second;
+}
+
+// Print the time in standard format
+void printStandard(const Time &t)
+{
+   cout << ((t.hour == 0 || t.hour == 12) ? 12 : t.hour % 12)
+        << ":" << (t.minute < 10 ? "0" : "") << t.minute
+        << ":" << (t.second < 10 ? "0" : "") << t.second
+        << (t.hour < 12 ? " AM" : " PM");
+}
+----------------------------------------------------------------
+// Пример за клас Time
+// FIG6_3.CPP 
+// Time class.
+#include <iostream.h>
+
+// Time abstract data type (ADT) definition
+class Time {
+public:
+   Time();                       // constructor
+   void setTime(int, int, int);  // set hour, minute and second
+   void printMilitary();         // print military time format
+   void printStandard();         // print standard time format
+private:
+   int hour;     // 0 - 23
+   int minute;   // 0 - 59
+   int second;   // 0 - 59
+};
+
+// Time constructor initializes each data member to zero.
+// Ensures all Time objects start in a consistent state.
+Time::Time() { hour = minute = second = 0; }
+
+// Set a new Time value using military time. Perform validity 
+// checks on the data values. Set invalid values to zero.
+void Time::setTime(int h, int m, int s)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   minute = (m >= 0 && m < 60) ? m : 0;
+   second = (s >= 0 && s < 60) ? s : 0;
+}
+
+// Print Time in military format
+void Time::printMilitary()
+{
+   cout << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second;
+}
+
+// Print time in standard format
+void Time::printStandard()
+{
+   cout << ((hour == 0 || hour == 12) ? 12 : hour % 12)
+        << ":" << (minute < 10 ? "0" : "") << minute
+        << ":" << (second < 10 ? "0" : "") << second
+        << (hour < 12 ? " AM" : " PM");
+}
+
+// Driver to test simple class Time
+main()
+{
+   Time t;  // instantiate object t of class Time
+
+   cout << "The initial military time is ";
+   t.printMilitary();
+   cout << endl << "The initial standard time is ";
+   t.printStandard();
+
+   t.setTime(13, 27, 6);
+   cout << endl << endl << "Military time after setTime is ";
+   t.printMilitary();
+   cout << endl << "Standard time after setTime is ";
+   t.printStandard();
+
+   t.setTime(99, 99, 99);  // attempt invalid settings
+   cout << endl << endl << "After attempting invalid settings:"
+        << endl << "Military time: ";
+   t.printMilitary();
+   cout << endl << "Standard time: ";
+   t.printStandard();
+   cout << endl;
+   return 0;
+}
+----------------------------------------------------------------
+----------------------------------------------------------------
+// Пример за разделяне на програмата в 3 файла
+// TIME1.H
+// Declaration of the Time class.
+// Member functions are defined in TIME.CPP
+
+// prevent multiple inclusions of header file
+#ifndef TIME1_H
+#define TIME1_H
+
+// Time abstract data type definition
+class Time {
+public:
+   Time();                       // constructor
+   void setTime(int, int, int);  // set hour, minute and second
+   void printMilitary();         // print military time format
+   void printStandard();         // print standard time format
+private:
+   int hour;     // 0 - 23
+   int minute;   // 0 - 59
+   int second;   // 0 - 59
+};
+
+#endif
+------
+// TIME1.CPP
+// Member function definitions for Time class.
+
+#include <iostream.h>
+#include "time1.h"
+
+// Time constructor initializes each data member to zero.
+// Ensures all Time objects start in a consistent state.
+Time::Time() { hour = minute = second = 0; }
+
+// Set a new Time value using military time.
+// Perform validity checks on the data values.
+// Set invalid values to zero (consistent state).
+void Time::setTime(int h, int m, int s)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   minute = (m >= 0 && m < 60) ? m : 0;
+   second = (s >= 0 && s < 60) ? s : 0;
+}
+
+// Print Time in military format
+void Time::printMilitary()
+{
+   cout << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second;
+}
+
+// Print time in standard format
+void Time::printStandard()
+{
+   cout << ((hour == 0 || hour == 12) ? 12 : hour % 12)
+        << ":" << (minute < 10 ? "0" : "") << minute
+        << ":" << (second < 10 ? "0" : "") << second
+        << (hour < 12 ? " AM" : " PM");
+}
+-------
+// FIG6_5.CPP
+// Driver for Time1 class
+// NOTE: Compile with TIME1.CPP
+#include <iostream.h>
+#include "time1.h"
+
+// Driver to test simple class Time
+main()
+{
+   Time t;  // instantiate object t of class time
+
+   cout << "The initial military time is ";
+   t.printMilitary();
+   cout << endl << "The initial standard time is ";
+   t.printStandard();
+
+   t.setTime(13, 27, 6);
+   cout << endl << endl << "Military time after setTime is ";
+   t.printMilitary();
+   cout << endl << "Standard time after setTime is ";
+   t.printStandard();
+
+   t.setTime(99, 99, 99);  // attempt invalid settings
+   cout << endl << endl << "After attempting invalid settings:"
+	<< endl << "Military time: ";
+   t.printMilitary();
+   cout << endl << "Standard time: ";
+   t.printStandard();
+   cout << endl;
+   return 0;
+}
+----------------------------------------------------------------
+// Използване на конструктор и конструктор с подразбиращи се 
+// аргументи
+// TIME2.H 
+// Declaration of the Time class.
+// Member functions defined in TIME2.CPP
+
+// prevent multiple inclusions of header file
+#ifndef TIME2_H  
+#define TIME2_H  
+
+class Time {
+public:
+   Time(int = 0, int = 0, int = 0);  // default constructor
+   void setTime(int, int, int);
+   void printMilitary();
+   void printStandard();
+
+private:
+   int hour;
+   int minute;
+   int second;
+};
+
+#endif
+------
+// TIME2.CPP 
+// Member function definitions for Time class.
+
+#include <iostream.h>
+#include "time2.h"
+
+// Constructor function to initialize private data.
+// Default values are 0 (see class definition).
+Time::Time(int hr, int min, int sec)
+   { setTime(hr, min, sec); }
+
+// Set values of hour, minute, and second.
+// Invalid values are set to 0.
+void Time::setTime(int h, int m, int s)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   minute = (m >= 0 && m < 60) ? m : 0;
+   second = (s >= 0 && s < 60) ? s : 0;
+}
+
+// Display time in military format: HH:MM:SS
+void Time::printMilitary()
+{
+   cout << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second;
+}
+
+// Display time in standard format: HH:MM:SS AM (or PM)
+void Time::printStandard()
+{
+   cout << ((hour == 0 || hour == 12) ? 12 : hour % 12)
+        << ":" << (minute < 10 ? "0" : "") << minute
+        << ":" << (second < 10 ? "0" : "") << second
+        << (hour < 12 ? " AM" : " PM");
+}
+-------
+// FIG6_8.CPP 
+// Demonstrating a default constructor
+// function for class Time.
+#include <iostream.h>
+#include "time2.h"
+
+main()
+{
+   Time t1, t2(2), t3(21, 34), t4(12, 25, 42),
+        t5(27, 74, 99);
+
+   cout << "Constructed with:" << endl 
+        << "all arguments defaulted:" << endl << "   ";
+   t1.printMilitary();
+   cout << endl << "   ";
+   t1.printStandard();
+
+   cout << endl << "hour specified; minute and second defaulted:" 
+        << endl << "   ";
+   t2.printMilitary();
+   cout << endl << "   ";
+   t2.printStandard();
+
+   cout << endl << "hour and minute specified; second defaulted:" 
+        << endl << "   ";
+   t3.printMilitary();
+   cout << endl << "   ";
+   t3.printStandard();
+
+   cout << endl << "hour, minute, and second specified:" 
+        << endl << "   ";
+   t4.printMilitary();
+   cout << endl << "   ";
+   t4.printStandard();
+
+   cout << endl << "all invalid values specified:" 
+        << endl << "   ";
+   t5.printMilitary();
+   cout << endl << "   ";
+   t5.printStandard();
+   cout << endl;
+
+   return 0;
+}
+-------------------------------------------------------------
+// CREATE.H
+// Definition of class CreateAndDestroy.
+// Member functions defined in CREATE.CPP.
+
+#ifndef CREATE_H
+#define CREATE_H
+
+class CreateAndDestroy {
+public:
+   CreateAndDestroy(int);  // constructor
+   ~CreateAndDestroy();    // destructor
+private:
+   int data;
+};
+
+#endif
+---------------------------------------------------
+// CREATE.CPP
+// Member function definitions for class CreateAndDestroy
+#include <iostream.h>
+#include "create.h"
+
+CreateAndDestroy::CreateAndDestroy(int value)
+{
+   data = value;
+   cout << "Object " << data << "   constructor";
+}
+
+CreateAndDestroy::~CreateAndDestroy()
+   { cout << "Object " << data << "   destructor " << endl; }
+-----------------------------------------------------
+// FIG6_9.CPP
+// Demonstrating the order in which constructors and
+// destructors are called.
+#include <iostream.h>
+#include "create.h"
+
+void create(void);   // prototype
+
+CreateAndDestroy first(1);  // global object
+
+main()
+{
+   cout << "   (global created before main)" << endl;
+
+   CreateAndDestroy second(2);        // local object
+   cout << "   (local automatic in main)" << endl;
+
+   static CreateAndDestroy third(3);  // local object
+   cout << "   (local static in main)" << endl;
+
+   create();  // call function to create objects
+
+   CreateAndDestroy fourth(4);        // local object
+   cout << "   (local automatic in main)" << endl;
+   return 0;
+}
+
+// Function to create objects
+void create(void)
+{
+   CreateAndDestroy fifth(5);
+   cout << "   (local automatic in create)" << endl;
+
+   static CreateAndDestroy sixth(6);
+   cout << "   (local static in create)" << endl;
+
+   CreateAndDestroy seventh(7);
+   cout << "   (local automatic in create)" << endl;
+}
+-----------------------------------------------------
+-----------------------------------------------------
+// TIME3.H 
+// Declaration of the Time class.
+// Member functions defined in TIME3.CPP
+
+// prevent multiple inclusions of header file
+#ifndef TIME3_H  
+#define TIME3_H 
+
+class Time {
+public:
+   Time(int = 0, int = 0, int = 0);  // constructor
+
+   // set functions
+   void setTime(int, int, int);  // set hour, minute, second
+   void setHour(int);     // set hour
+   void setMinute(int);   // set minute
+   void setSecond(int);   // set second
+
+   // get functions
+   int getHour();         // return hour
+   int getMinute();       // return minute
+   int getSecond();       // return second
+
+   void printMilitary();  // output military time
+   void printStandard();  // output standard time
+
+private:
+   int hour;              // 0 - 23
+   int minute;            // 0 - 59
+   int second;            // 0 - 59
+};
+
+#endif
+------------------------------------------
+// TIME3.CPP 
+// Member function definitions for Time class.
+#include "time3.h"
+#include <iostream.h>
+
+// Constructor function to initialize private data.
+// Calls member function setTime to set variables.
+// Default values are 0 (see class definition).
+Time::Time(int hr, int min, int sec) { setTime(hr, min, sec); }
+
+// Set the values of hour, minute, and second.
+void Time::setTime(int h, int m, int s)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   minute = (m >= 0 && m < 60) ? m : 0;
+   second = (s >= 0 && s < 60) ? s : 0;
+}
+
+// Set the hour value
+void Time::setHour(int h) { hour = (h >= 0 && h < 24) ? h : 0; }
+
+// Set the minute value
+void Time::setMinute(int m)
+   { minute = (m >= 0 && m < 60) ? m : 0; }
+
+// Set the second value
+void Time::setSecond(int s)
+   { second = (s >= 0 && s < 60) ? s : 0; }
+
+// Get the hour value
+int Time::getHour() { return hour; }
+
+// Get the minute value
+int Time::getMinute() { return minute; }
+
+// Get the second value
+int Time::getSecond() { return second; }
+
+// Display military format time: HH:MM:SS
+void Time::printMilitary()
+{
+   cout << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second;
+}
+
+// Display standard format time: HH:MM:SS AM (or PM)
+void Time::printStandard()
+{
+   cout << ((hour == 0 || hour == 12) ? 12 : hour % 12) << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second
+        << (hour < 12 ? " AM" : " PM");
+}
+---------------------------------------------------
+// FIG6_10.CPP 
+// Demonstrating the Time class set and get functions
+#include <iostream.h>
+#include "time3.h"
+void incrementMinutes(Time &, const int);
+main()
+{
+   Time t;
+
+   t.setHour(17);
+   t.setMinute(34);
+   t.setSecond(25);
+
+   cout << "Result of setting all valid values:" << endl 
+        << "  Hour: " << t.getHour()
+        << "  Minute: " << t.getMinute()
+        << "  Second: " << t.getSecond() << endl << endl;
+
+   t.setHour(234);      // invalid hour set to 0
+   t.setMinute(43);
+   t.setSecond(6373);   // invalid second set to 0
+
+   cout << "Result of attempting to set invalid hour and"
+        << " second:" << endl << "  Hour: " << t.getHour()
+        << "  Minute: " << t.getMinute()
+        << "  Second: " << t.getSecond() << endl << endl;
+
+   t.setTime(11, 58, 0);
+   incrementMinutes(t, 3);
+
+   return 0;
+}
+
+void incrementMinutes(Time &tt, const int count)
+{
+   cout << "Incrementing minute " << count
+        << " times:" << endl << "Start time: ";
+   tt.printStandard();
+
+   for (int i = 1; i <= count; i++) {
+      tt.setMinute((tt.getMinute() + 1) % 60);
+
+      if (tt.getMinute() == 0)
+         tt.setHour((tt.getHour() + 1) % 24);
+
+      cout << endl << "minute + 1: ";
+      tt.printStandard();
+   }
+
+   cout << endl;
+}
+------------------------------------------------------------

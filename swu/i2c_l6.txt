@@ -1,0 +1,254 @@
+6. Рекурсивни алгоритми
+
+-- Рекурсивни дефиниции
+ Един обект е рекурсивен, ако той частично се съдържа в себе си
+или е дефиниран чрез себе си.
+ Примери на рекурсивни дефиниции:
+ 1. Сума на n-те последователни естествени числа
+    sum(1)=1, sum(n)=n+sum(n-1) за n>0
+ 2. n факториел
+    0!=1, n!=n.(n-1)! за n>0
+ 3. Редица на Фибоначи
+    fib(0)=1, fib(1)=1, fib(n)=fib(n-2)+fib(n-1) за n>1
+ Свойства:
+ 1. Наличие на един или няколко тривиални случаи, при които 
+дефинираният обект се определя директно.
+ 2. Наличие на параметър (явен или неявен) в дефинирания обект 
+(размерност).    
+ 3. Изразяване на обекта чрез други обекти с по-малка размерност
+(рекурентна връзка, декомпозиция).
+
+-- Рекурсивни функции
+ 1. Сума на n-те последователни естествени числа
+const int n=10;
+int a[n];
+int sum(int i)
+{
+ if (i==1} return 1;
+ else return (i+sum(i-1));
+}    
+ 2. n факториел
+int fact(int i)
+{
+ if (i==0} return 1;
+ else return (i*fact(i-1));
+}    
+ 3. Редица на Фибоначи
+int fib(int i)
+{
+ if ((i==0}||(i==1)) return 1;
+ else return (fib(i-2)+fib(i-1));
+}    
+
+-- Рекурсивни и итеративни варианти
+ 1. Сума на n-те последователни естествени числа
+int sumit()
+{
+ int s=0;
+ for (int i=1; i<n; i++) s+=i;
+ return s;
+}
+ 2. n факториал
+int factit()
+{
+ int f=1; 
+ for (int i=1; i<n; i++) f*=i;
+ return f;
+}    
+ 3. Редица на Фибоначи (n-ти член)
+int fibit()
+{
+ int f1=1, f2=0, i=1;
+ while (i<n)
+ {
+  i++;
+  f1=f1+f2; f2=f1-f2;
+ }
+ return f1;
+}    
+-- По-сложна рекурсивна функция - "разходка на коня"
+Дадена е  дъска с размери nxn с n^2 полета. Конят, на 
+който е разрешено да се движи по правилата на шаха, 
+се поставя на полето с начални координати x0,y0.
+Да се намери покритие на цялата дъска, ако такова съществува,
+т.е. да се определи разходка от n^2-1 хода по такъв начин, 
+че всяко поле на дъската да бъде посетено точно веднъж.
+
+#include <iostream.h>
+#include <iomanip.h>
+const n=5, nsq=25;
+int h[n+1][n+1];
+int a[]={0,2,1,-1,-2,-2,-1, 1, 2};
+int b[]={0,1,2, 2, 1,-1,-2,-2,-1};
+
+void try0(int i, int x, int y, int &q);
+
+void main()
+{
+ int i,j, q;
+ for (i=1; i<=n; i++)
+	for (j=1; j<=n; j++) h[i][j]=0;
+ h[1][1]=1; try0(2,1,1,q);
+ if (q)
+  for (i=1; i<=n; i++)
+  {
+   for (j=1; j<=n; j++) cout << setw(4) << h[i][j] << "  ";
+   cout << endl;
+  }
+ else cout << "No solution" << endl;
+ cout << endl;
+}
+
+void try0(int i, int x, int y, int &q)
+{
+ int k=0, u, v;
+ int q1;
+ do
+ {
+  k++; q1=0;
+  u=x+a[k]; v=y+b[k];
+  if ( (u<=n) && (u>0) && (v<=n) && (v>0) )
+   if (h[u][v]==0)
+   {
+    h[u][v]=i;
+    if (i<nsq)
+    {
+     try0(i+1,u,v,q1);
+     if (!q1) h[u][v]=0;
+    }
+    else q1=1;
+   }
+ }
+ while ( !(q1 || (k==8)) );
+ q=q1;
+}
+
+-- Рекурсивно търсене в сортиран масив 
+ Нека
+struct Item {
+    int key;
+    <други полета на структурата>
+};
+const int n=<число>;
+Item a[n+1], x; 
+и нека масивът a (a[1]..a[n]) е сортиран. 
+ Задачата е да се намери елемент на масива, равен на зададено 
+число x или да се установи, че масивът не съдържа такъв елемент.
+
+int binarysearch(int left, int right)
+{
+ int mid;
+ if (left>right) return 0;
+ mid=(left+right)/2;
+ if (a[mid].key==x.key) return mid;
+ else if (a[mid].key>x.key) return (binarysearch(left, mid-1));
+      else return (binarysearch(mid+1, right));
+}
+
+-- "бързо сортиране" 
+ Разделяне на дялове:
+ 1. Избираме случаен елемент x от масива a 
+ 2. Преглеждаме масива отляво (от началото), докато достигнем
+    до елемент >x
+ 3. Преглеждаме масива отдясно (от края), докато достигнем
+    до елемент <x
+ 4. Разменяме местата на двата елемента
+
+void partition(Item x)
+{
+ Item w;
+ int i=1, j=n;
+ do
+ {
+  while (a[i].key < x.key) i++;
+  while (a[j].key > x.key) j--;
+  if (i<=j)
+  {
+   w=a[i]; a[i]=a[j]; a[j]=w;
+   i++; j--;
+  }
+ }
+ while (i<=j);
+}
+ Сортиране - след като масивът се раздели, двата му дяла се 
+подлагат на същата обработка и това продължава, докато се
+получат дялове само с по един елемент.
+
+void quicksort(int left, int right)
+{
+ Item x, w;
+ int i, j;
+ i=left; j=right;
+ x=a[(left+right)/2];
+ do
+ {
+  while (a[i].key < x.key) i++;
+  while (a[j].key > x.key) j--;
+  if (i<=j)
+  {
+   w=a[i]; a[i]=a[j]; a[j]=w;
+   i++; j--;
+  }
+ }
+ while (i<=j);
+ if (left<j) quicksort(left, j);
+ if (i<right) quicksort(i, right);
+}
+
+-- Непряка рекурсия - Хилбертови криви
+
+int x,y,h=512;
+void Hilbert();
+void A(int i);
+void B(int i);
+void C(int i);
+void D(int i);
+
+void Hilbert()
+{
+ int i=0;
+ x=h/2; y=h/2;
+ do
+ {
+  i++; h/=2; 
+  x=h/2; y=h/2;
+  A(i);
+ }
+ while (h==2);
+}
+
+void A(i)
+{
+ if (i==0) return;
+ D(i-1); x-=h; plot();
+ A(i-1); y-=h; plot();
+ A(i-1); x+=h; plot();
+ B(i-1);
+} 
+void B(i)
+{
+ if (i==0) return;
+ C(i-1); y+=h; plot();
+ B(i-1); x+=h; plot();
+ B(i-1); y-=h; plot();
+ A(i-1);
+} 
+void C(i)
+{
+ if (i==0) return;
+ B(i-1); x+=h; plot();
+ C(i-1); y+=h; plot();
+ C(i-1); x-=h; plot();
+ D(i-1);
+} 
+void D(i)
+{
+ if (i==0) return;
+ A(i-1); y-=h; plot();
+ D(i-1); x-=h; plot();
+ D(i-1); y+=h; plot();
+ C(i-1);
+} 
+-------------------------
+
+

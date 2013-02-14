@@ -1,0 +1,100 @@
+1. Структури 
+
+-- Въведение в структурите
+struct Inventory 
+{
+   char Descript[15];
+   char PartNo[6];
+   int Quantity;
+   float Cost;
+};
+ 
+-- Дефиниране на структури
+struct Point
+{
+   double x,y;
+   int color;
+} p0;
+Point p1, p2, p3, p4;  
+
+-- Инициализация на променливи от тип структура
+Point pc={1.1, 2.2, 3};
+const Point pconst={0.5, 1.5, 1};
+struct Point p5;
+
+-- Оператор за присвояване и операция .
+   p1=p2;
+   p1.x=3.33; p1.y=p1.x+0.5;  p1.color=1;
+
+-- Структури и функции
+int fun1(Point p, int k);
+Point fun2(double xx, double yy, int col)
+{
+   Point p;
+   p.x:=xx; p.y:=yy; p.color:=col;
+   return p;
+}
+
+-- Вложени структури
+struct Circle
+{
+   Point c;
+   int radius;
+} c1, c2;
+   c1.c.x=0.5; c1.c.y=-0.5; c1.c.color=2; c1.radius=5;
+struct Cylinder
+{ 
+   Circle cir;
+   float h;
+};
+Cylinder cyl1, cyl2;
+ - cyl1.cir     от тип Circle;
+ - cyl1.cir.c   от тип Point;
+ - cyl1.cir.c.x от тип double.
+
+-- Указатели към променлива от тип структура
+Point *pt=&p1;
+pt->x е променливата (*pt).x или p1.x
+pt->y е променливата (*pt).y или p1.y
+
+-- Масиви от структури
+Point map[10];
+map[0].x, map[6].y, map[2].color  
+
+-- Масиви като полета на структури 
+struct Mst
+{
+   int arr[10];
+   char c;
+};
+Mst m1, m2, ma[5];
+   m1.arr[0]=2; m1.arr[9]=3; m2.c='A';   
+   ma[0].arr[0], ma[4].arr[1], ma[0].c
+
+-- Функции като полета на структури
+#include <iostream.h>
+#include <string.h>
+struct Inventory
+{
+   char name[15];
+   int quantity;
+   float price;
+   void init(char n[], int q, float p)
+   {
+    strcpy(name, n); quantity=q; price=p;
+   }
+   void prInv()
+   {
+    cout<<name<<"  "<<quantity<<"  "<<price<<'\n';
+   }
+};
+void main()
+{
+ Inventory i1, i2;
+ i1.init("First", 2, 0.5);
+ i1.prInv();
+ i2=i1;
+ i2.quantity:=10;
+ i2.prInv();
+}
+--

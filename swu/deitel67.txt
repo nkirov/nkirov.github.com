@@ -1,0 +1,518 @@
+// CREATE.H
+// Definition of class CreateAndDestroy.
+// Member functions defined in CREATE.CPP.
+
+#ifndef CREATE_H
+#define CREATE_H
+
+class CreateAndDestroy {
+public:
+   CreateAndDestroy(int);  // constructor
+   ~CreateAndDestroy();    // destructor
+private:
+   int data;
+};
+
+#endif
+---------------------------------------------------
+// CREATE.CPP
+// Member function definitions for class CreateAndDestroy
+#include <iostream.h>
+#include "create.h"
+
+CreateAndDestroy::CreateAndDestroy(int value)
+{
+   data = value;
+   cout << "Object " << data << "   constructor";
+}
+
+CreateAndDestroy::~CreateAndDestroy()
+   { cout << "Object " << data << "   destructor " << endl; }
+-----------------------------------------------------
+// FIG6_9.CPP
+// Demonstrating the order in which constructors and
+// destructors are called.
+#include <iostream.h>
+#include "create.h"
+
+void create(void);   // prototype
+
+CreateAndDestroy first(1);  // global object
+
+main()
+{
+   cout << "   (global created before main)" << endl;
+
+   CreateAndDestroy second(2);        // local object
+   cout << "   (local automatic in main)" << endl;
+
+   static CreateAndDestroy third(3);  // local object
+   cout << "   (local static in main)" << endl;
+
+   create();  // call function to create objects
+
+   CreateAndDestroy fourth(4);        // local object
+   cout << "   (local automatic in main)" << endl;
+   return 0;
+}
+
+// Function to create objects
+void create(void)
+{
+   CreateAndDestroy fifth(5);
+   cout << "   (local automatic in create)" << endl;
+
+   static CreateAndDestroy sixth(6);
+   cout << "   (local static in create)" << endl;
+
+   CreateAndDestroy seventh(7);
+   cout << "   (local automatic in create)" << endl;
+}
+-----------------------------------------------------
+-----------------------------------------------------
+// TIME3.H 
+// Declaration of the Time class.
+// Member functions defined in TIME3.CPP
+
+// prevent multiple inclusions of header file
+#ifndef TIME3_H  
+#define TIME3_H 
+
+class Time {
+public:
+   Time(int = 0, int = 0, int = 0);  // constructor
+
+   // set functions
+   void setTime(int, int, int);  // set hour, minute, second
+   void setHour(int);     // set hour
+   void setMinute(int);   // set minute
+   void setSecond(int);   // set second
+
+   // get functions
+   int getHour();         // return hour
+   int getMinute();       // return minute
+   int getSecond();       // return second
+
+   void printMilitary();  // output military time
+   void printStandard();  // output standard time
+
+private:
+   int hour;              // 0 - 23
+   int minute;            // 0 - 59
+   int second;            // 0 - 59
+};
+
+#endif
+------------------------------------------
+// TIME3.CPP 
+// Member function definitions for Time class.
+#include "time3.h"
+#include <iostream.h>
+
+// Constructor function to initialize private data.
+// Calls member function setTime to set variables.
+// Default values are 0 (see class definition).
+Time::Time(int hr, int min, int sec) { setTime(hr, min, sec); }
+
+// Set the values of hour, minute, and second.
+void Time::setTime(int h, int m, int s)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   minute = (m >= 0 && m < 60) ? m : 0;
+   second = (s >= 0 && s < 60) ? s : 0;
+}
+
+// Set the hour value
+void Time::setHour(int h) { hour = (h >= 0 && h < 24) ? h : 0; }
+
+// Set the minute value
+void Time::setMinute(int m)
+   { minute = (m >= 0 && m < 60) ? m : 0; }
+
+// Set the second value
+void Time::setSecond(int s)
+   { second = (s >= 0 && s < 60) ? s : 0; }
+
+// Get the hour value
+int Time::getHour() { return hour; }
+
+// Get the minute value
+int Time::getMinute() { return minute; }
+
+// Get the second value
+int Time::getSecond() { return second; }
+
+// Display military format time: HH:MM:SS
+void Time::printMilitary()
+{
+   cout << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second;
+}
+
+// Display standard format time: HH:MM:SS AM (or PM)
+void Time::printStandard()
+{
+   cout << ((hour == 0 || hour == 12) ? 12 : hour % 12) << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second
+        << (hour < 12 ? " AM" : " PM");
+}
+---------------------------------------------------
+// FIG6_10.CPP 
+// Demonstrating the Time class set and get functions
+#include <iostream.h>
+#include "time3.h"
+void incrementMinutes(Time &, const int);
+main()
+{
+   Time t;
+
+   t.setHour(17);
+   t.setMinute(34);
+   t.setSecond(25);
+
+   cout << "Result of setting all valid values:" << endl 
+        << "  Hour: " << t.getHour()
+        << "  Minute: " << t.getMinute()
+        << "  Second: " << t.getSecond() << endl << endl;
+
+   t.setHour(234);      // invalid hour set to 0
+   t.setMinute(43);
+   t.setSecond(6373);   // invalid second set to 0
+
+   cout << "Result of attempting to set invalid hour and"
+        << " second:" << endl << "  Hour: " << t.getHour()
+        << "  Minute: " << t.getMinute()
+        << "  Second: " << t.getSecond() << endl << endl;
+
+   t.setTime(11, 58, 0);
+   incrementMinutes(t, 3);
+
+   return 0;
+}
+
+void incrementMinutes(Time &tt, const int count)
+{
+   cout << "Incrementing minute " << count
+        << " times:" << endl << "Start time: ";
+   tt.printStandard();
+
+   for (int i = 1; i <= count; i++) {
+      tt.setMinute((tt.getMinute() + 1) % 60);
+
+      if (tt.getMinute() == 0)
+         tt.setHour((tt.getHour() + 1) % 24);
+
+      cout << endl << "minute + 1: ";
+      tt.printStandard();
+   }
+
+   cout << endl;
+}
+--------------------------------------------------------
+--------------------------------------------------------
+// FIG6_12.CPP 
+// Demonstrating that class objects can be assigned
+// to each other using default memberwise copy
+#include <iostream.h>
+
+// Simple Date class
+class Date {
+public:
+   Date(int = 1, int = 1, int = 1990);  // default constructor
+   void print();
+private:
+   int month;
+   int day;
+   int year;
+};
+
+// Simple Date constructor with no range checking
+Date::Date(int m, int d, int y)
+{
+   month = m;
+   day = d;
+   year = y;
+}
+
+// Print the Date in the form mm-dd-yyyy
+void Date::print() 
+   { cout << month << '-' << day << '-' << year; }
+
+main()
+{
+   Date date1(7, 4, 1993), date2;  // d2 defaults to 1/1/90
+
+   cout << "date1 = ";
+   date1.print();
+   cout << endl << "date2 = ";
+   date2.print();
+
+   date2 = date1;   // assignment by default memberwise copy
+   cout << endl << endl 
+        << "After default memberwise copy, date2 = ";
+   date2.print();
+   cout << endl;
+
+   return 0;
+}
+------------------------------------------------------
+------------------------------------------------------
+// TIME5.H
+// Declaration of the class Time.
+// Member functions defined in TIME5.CPP
+
+#ifndef TIME5_H
+#define TIME5_H
+
+class Time {
+public:
+   Time(int = 0, int = 0, int = 0);  // default constructor
+
+   // set functions
+   void setTime(int, int, int);  // set time
+   void setHour(int);     // set hour
+   void setMinute(int);   // set minute
+   void setSecond(int);   // set second
+
+   // get functions (normally declared const)
+   int getHour() const;   // return hour
+   int getMinute() const; // return minute
+   int getSecond() const; // return second
+
+   // print functions (normally declared const)
+   void printMilitary() const;  // print military time
+   void printStandard() const;  // print standard time
+private:
+   int hour;              // 0 - 23
+   int minute;            // 0 - 59
+   int second;            // 0 - 59
+};
+
+#endif
+----------------------------------------------
+// TIME5.CPP
+// Member function definitions for Time class.
+#include <iostream.h>
+#include "time5.h"
+
+// Constructor function to initialize private data.
+// Default values are 0 (see class definition).
+Time::Time(int hr, int min, int sec) { setTime(hr, min, sec); }
+
+// Set the values of hour, minute, and second.
+void Time::setTime(int h, int m, int s)
+{
+   hour = (h >= 0 && h < 24) ? h : 0;
+   minute = (m >= 0 && m < 60) ? m : 0;
+   second = (s >= 0 && s < 60) ? s : 0;
+}
+
+// Set the hour value
+void Time::setHour(int h) { hour = (h >= 0 && h < 24) ? h : 0; }
+
+// Set the minute value
+void Time::setMinute(int m) 
+   { minute = (m >= 0 && m < 60) ? m : 0; }
+
+// Set the second value
+void Time::setSecond(int s)
+   { second = (s >= 0 && s < 60) ? s : 0; }
+
+// Get the hour value
+int Time::getHour() const { return hour; }
+
+// Get the minute value
+int Time::getMinute() const { return minute; }
+
+// Get the second value
+int Time::getSecond() const { return second; }
+
+// Display military format time: HH:MM:SS
+void Time::printMilitary() const
+{
+   cout << (hour < 10 ? "0" : "") << hour << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second;
+}
+
+// Display standard format time: HH:MM:SS AM (or PM)
+void Time::printStandard() const
+{
+   cout << ((hour == 12) ? 12 : hour % 12) << ":"
+        << (minute < 10 ? "0" : "") << minute << ":"
+        << (second < 10 ? "0" : "") << second
+        << (hour < 12 ? " AM" : " PM");
+}
+------------------------------------------------------
+// FIG7_1.CPP
+// Attempting to access a const object with
+// non-const member functions.
+
+#include <iostream.h>
+#include "time5.h"
+
+main()
+{
+   const Time t(19, 33, 52);   // constant object
+
+   t.setHour(12);    // ERROR: non-const member function
+   t.setMinute(20);  // ERROR: non-const member function
+   t.setSecond(39);  // ERROR: non-const member function
+
+   return 0;
+}
+---------------------------------------------------
+---------------------------------------------------
+// DATE1.H  
+// Declaration of the Date class.
+// Member functions defined in DATE1.CPP
+#ifndef DATE1_H
+#define DATE1_H
+
+class Date {
+public:
+   Date(int = 1, int = 1, int = 1900);  // default constructor
+   void print() const;  // print date in month/day/year format
+
+private:
+   int month;  // 1-12
+   int day;    // 1-31 based on month
+   int year;   // any year
+
+   // utility function to test proper day for month and year
+   int checkDay(int);
+};
+
+#endif
+---------------------------------------------------
+// DATE1.CPP
+// Member function definitions for Date class.
+
+#include <iostream.h>
+#include "date1.h"
+
+// Constructor: Confirm proper value for month;
+// call utility function checkDay to confirm proper
+// value for day.
+Date::Date(int mn, int dy, int yr)
+{
+   if (mn > 0 && mn <= 12)         // validate the month
+      month = mn;
+   else {
+      month = 1;
+      cout << "Month " << mn << " invalid. Set to month 1."
+           << endl;
+   }
+
+   year = yr;                      // could also check
+   day = checkDay(dy);             // validate the day
+
+   cout << "Date object constructor for date ";
+   print();
+   cout << endl;
+}
+
+// Utility function to confirm proper day value
+// based on month and year.
+int Date::checkDay(int testDay)
+{
+   static int daysPerMonth[13] = {0, 31, 28, 31, 30,
+              31, 30, 31, 31, 30,
+              31, 30, 31};
+
+   if (testDay > 0 && testDay <= daysPerMonth[month])
+      return testDay;
+
+   if (month == 2 &&     // February: Check for possible leap year
+       testDay == 29 &&
+       (year % 400 == 0 || (year % 4 == 0 && year % 100 != 0)))
+      return testDay;
+
+   cout << "Day " << testDay << " invalid. Set to day 1." << endl;
+
+   return 1;  // leave object in consistent state if bad value
+}
+
+// Print Date object in form  month/day/year
+void Date::print() const
+   { cout << month << '/' << day << '/' << year; }
+--------------------------------------------------
+// EMPLY1.H
+// Declaration of the Employee class.
+// Member functions defined in EMPLY1.CPP
+#ifndef EMPLY1_H
+#define EMPLY1_H
+
+#include "date1.h"
+
+class Employee {
+public:
+   Employee(char *, char *, int, int, int, int, int, int);
+   void print() const;
+private:
+   char lastName[25];
+   char firstName[25];
+   Date birthDate;
+   Date hireDate;
+};
+
+#endif
+------------------------------------------------
+// EMPLY1.CPP
+// Member function definitions for Employee class.
+#include <iostream.h>
+#include <string.h>
+#include "emply1.h"
+#include "date1.h"
+
+Employee::Employee(char *fname, char *lname,
+                   int bmonth, int bday, int byear,
+                   int hmonth, int hday, int hyear)
+   : birthDate(bmonth, bday, byear), hireDate(hmonth, hday, hyear)
+{
+   // copy fname into firstName and be sure that it fits
+   int length = strlen(fname);
+   length = length < 25 ? length : 24;
+   strncpy(firstName, fname, length);
+   firstName[length] = '\0';
+
+   // copy lname into lastName and be sure that it fits
+   length = strlen(lname);
+   length = length < 25 ? length : 24;
+   strncpy(lastName, lname, 24);
+   lastName[length] = '\0';
+
+   cout << "Employee object constructor: "
+        << firstName << ' ' << lastName << endl;
+}
+
+void Employee::print() const
+{
+   cout << lastName << ", " << firstName << endl << "Hired: ";
+   hireDate.print();
+   cout << "  Birthday: ";
+   birthDate.print();
+   cout << endl;
+}
+------------------------------------------------------
+// FIG7_4.CPP
+// Demonstrating an object with a member object.
+#include <iostream.h>
+#include "emply1.h"
+
+main()
+{
+   Employee e("Bob", "Jones", 7, 24, 49, 3, 12, 88);
+
+   cout << endl;
+   e.print();
+
+   cout << endl << "Test Date constructor with invalid values:" 
+        << endl;
+   Date d(14, 35, 94);  // invalid Date values
+
+   return 0;
+}
+---------------------------------------------

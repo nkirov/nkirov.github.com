@@ -1,0 +1,51 @@
+uses Crt;
+const imax=12;
+type pt=^klon;
+     klon=record
+            r: real;
+            ptl, ptr: pt;
+          end;
+var koren: pt;
+    i: integer;
+
+procedure create(var ptt:pt);
+var ir: integer;
+begin
+   new(ptt);
+   i:=i+1;
+   ptt^.r:=i;
+   ptt^.ptl:=nil;   ptt^.ptr:=nil;
+   if i<imax then
+   begin
+      ir:=random(2);
+      if ir in [0,1] then
+      begin
+         write(ptt^.r:4:0,'+l',i);  create(ptt^.ptl);
+      end else write(ptt^.r:4:0,'-l',i);
+      if ir in [1,2] then
+      begin
+         write(ptt^.r:4:0,'+r',i);  create(ptt^.ptr);
+      end else write(ptt^.r:4:0,'-r',i);
+   end;
+end;
+
+procedure go(var ptt:pt);
+var rle, rri: real;
+    le, ri: pt;
+begin
+   le:=ptt^.ptl; ri:=ptt^.ptr;
+   if ri=nil then rri:=0 else rri:=ri^.r;
+   if le=nil then rle:=0 else rle:=le^.r;
+   writeln(rle:3:0,'<--',ptt^.r:3:0,' -->',rri:3:0);
+   if ptt^.ptr<>nil then go(ptt^.ptr);
+   if ptt^.ptl<>nil then go(ptt^.ptl);
+end;
+
+begin
+   ClrScr;
+   randomize;
+   i:=0;
+   create(koren);
+   writeln; writeln;
+   go(koren);
+end.

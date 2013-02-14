@@ -1,0 +1,119 @@
+Отбележете верните твърдения за потоци в С++.
+
++ Класът istream е производен на класа ios.
+- Класът ofstream е производен на класа fstream.
+
+
+Даден е абстрактен базов клас К0 с членове-данни и с виртуална
+функция void fk(), предефинирана във всички производни класове.
+K1 и K2 са производни на K0 класове,
+а K3 е производен на K2 клас. Нека:
+Нека pk0, pk1, pk2, pk3 са указатели, а k0, k1, k2 и
+k3 са глобални обекти съответно от класовете K0, K1, K2 и
+K3. Отбележете случаите на динамично свързване на функцията
+fk с обекта.
+
++ pk0=&k1; pk0->fk();
+- pk0=&k0; pk0->fk();
+
+
+
+Дадена е част от дефиницията на класа Arr и обекти от този клас:
+   class Arr {
+    friend ostream &operator<<(ostream&, const Arr&);
+   public:   ...
+      const Arr &operator=(const Arr &);
+      int operator==(const Arr &) const;
+      int operator!=(const Arr &) const;
+      int &operator[](int); ...
+   } a1, a2, *pa;
+Отбележете операторите, които съдържат поне една предефинирана
+в класа операция.
+
++ a1 = a2;
+- pa = &a2;
+
+
+
+Даден е шаблон-клас и дефиниции на глобални обекти:
+   template <class T> class listIterator {
+   public:
+    listIterator(list<T> & aList);
+    listIterator(const listIterator &);
+    virtual int  init();
+    virtual T    operator ()();
+    virtual int  operator !();
+    virtual int  operator ++();
+    virtual void operator =(T value);
+    void         removeCurrent();
+    void         addBefore(T newValue);
+    void         addAfter(T newValue);
+   ... };
+   list<int> lst; listIterator<int> liter(lst);
+list<T> е клас-шаблон с конструктор по подразбиране, дефиниран по-рано.
+Отбележете верните оператори от външна за класа функция.
+
++ listIterator<int> li1(lst);
+- listIterator l0(lst);
+
+
+
+Дадена е част от програма:
+ \vspace{-2mm}\begin{verbatim}
+   class Vec { int *p;
+   public:
+      int& operator[](int i)
+   { if (0<=i && i<100) return p[i]; throw Range(i); }
+      class Range { public:
+        int index;
+        Range(int j):index(j) {} };
+   ... };
+   void do_any(Vec &w){ ... }
+   void do_some(Vec &w){ ... }
+   void  f(Vec& v)
+   {      do_any(v);
+    try { do_some(v); }
+    catch(Vec::Range r)
+    { cerr << "ERROR" << r.index << '\n'; ... } ...
+   } ...
+Отбележете верните твърдения.
+
++ Обработва се изключението излизане извън границите на масив, зададен с класа Vector.
+- Изключение във функцията do_any се обработва от catch;
+
+
+
+Дадена е шаблон-функция:
+   template<class T>
+   T maxArr(T *arr)
+   { T maxVal=arr[0];
+     for (int i = 1; i < 100; i++)
+        if (arr[i] > maxVal) maxVal = arr[i];
+     return maxVal;  }
+Отбележете верните оператори и твърдения.
+
++ int a[100]={1,2,5}; cout << maxArr(a);
+- Ако T е класа K, то в K трябва да бъде предефинирана операцията >>.
+
+
+
+Дадена е следните дефиниции на класове:
+   class Point { ... };
+   class Circle : public Point { ... };
+Отбележете верните твърдения за връзките между класовете Point и Circle:
+
++ Класът Circle е производен клас на класа Point.
+- Класът  Point е производен клас на класа Circle.
+
+
+
+Нека класа Shape е абстрактен клас, класа Point е
+производен на Shape, а Circle е производен клас на
+Point. Виртуалната функция print() е дефинирана
+и в трите класа. Дадени са и следните обекти и указатели:
+   Shape *s; Point p, *pp; Circle c;
+Отбележете верните твърдения:
+
++ Ако s=&c;, то s->print() извиква функция от класа Circle.
+- Ако s=&c;, то s->print() извиква функция от класа Point.
+

@@ -1,0 +1,284 @@
+// FIG8_3.CPP
+// Overloading the stream-insertion and 
+// stream-extraction operators.
+#include <iostream.h>
+
+class PhoneNumber {
+   friend ostream &operator<<(ostream &, const PhoneNumber &);
+   friend istream &operator>>(istream &, PhoneNumber &);
+private:
+   char areaCode[4];  // 3-digit area code and null
+   char exchange[4];  // 3-digit exchange and null
+   char line[5];      // 4-digit line and null
+};
+
+// Overloaded stream insertion operator (cannot be 
+// a member function).
+ostream &operator<<(ostream &output, const PhoneNumber &num)
+{
+   output << "(" << num.areaCode << ") "
+          << num.exchange << "-" << num.line;
+
+   return output;     // enables cout << a << b << c;
+}
+
+// overloaded stream extraction operator
+istream &operator>>(istream &input, PhoneNumber &num)
+{
+   input.ignore();                 // skip (
+   input.getline(num.areaCode, 4); // input area code
+   input.ignore(2);                // skip ) and space
+   input.getline(num.exchange, 4); // input exchange
+   input.ignore();                 // skip dash (-)
+   input.getline(num.line, 5);     // input line
+
+   return input;      // enables cin >> a >> b >> c;
+}
+
+main()
+{
+   PhoneNumber phone; // create object phone
+
+   cout << "Enter a phone number in the "
+        << "form (123) 456-7890:" << endl;
+
+   // cin >> phone invokes operator>> function by 
+   // issuing the call operator>>(cin, phone).
+   cin >> phone;
+
+   // cout << phone invokes operator<< function by
+   // issuing the call operator<<(cout, phone). 
+   cout << "The phone number entered was:" << endl
+        << phone << endl;
+   return 0;
+}
+--------------------------------
+// ARRAY1.H
+// Simple class Array (for integers)
+#ifndef ARRAY1_H
+#define ARRAY1_H
+
+#include <iostream.h>
+
+class Array {
+   friend ostream &operator<<(ostream &, const Array &);
+   friend istream &operator>>(istream &, Array &);
+public:
+   Array(int = 10);                     // default constructor
+   Array(const Array &);                // copy constructor
+   ~Array();                            // destructor
+   int getSize() const;                 // return size
+   const Array &operator=(const Array &);  // assign arrays
+   int operator==(const Array &) const; // compare equal
+   int operator!=(const Array &) const; // compare !equal
+   int &operator[](int);                // subscript operator
+   static int getArrayCount();          // Return count of 
+                                        // arrays instantiated.
+private:
+   int *ptr; // pointer to first element of array
+   int size; // size of the array
+   static int arrayCount;  // # of Arrays instantiated
+};
+
+#endif
+---------
+// ARRAY1.CPP
+// Member function definitions for class Array
+#include <iostream.h>
+#include <stdlib.h>
+#include <assert.h>
+#include "array1.h"
+
+// Initialize static data member at file scope
+int Array::arrayCount = 0;   // no objects yet
+
+// Default constructor for class Array
+Array::Array(int arraySize)
+{
+   ++arrayCount;             // count one more object
+   size = arraySize;         // default size is 10
+   ptr = new int[size];      // create space for array
+   assert(ptr != 0);  // terminate if memory not allocated
+
+   for (int i = 0; i < size; i++)
+      ptr[i] = 0;            // initialize array
+}
+
+// Copy constructor for class Array
+Array::Array(const Array &init)
+{
+   ++arrayCount;             // count one more object
+   size = init.size;         // size this object
+   ptr = new int[size];      // create space for array
+   assert(ptr != 0);  // terminate if memory not allocated
+
+   for (int i = 0; i < size; i++)
+      ptr[i] = init.ptr[i];  // copy init into object
+}
+
+// Destructor for class Array
+Array::~Array()
+{
+   --arrayCount;             // one fewer objects
+   delete [] ptr;            // reclaim space for array
+}
+
+// Get the size of the array
+int Array::getSize() const { return size; }
+
+// Overloaded assignment operator
+const Array &Array::operator=(const Array &right)
+{
+   if (&right != this) {    // check for self-assignment
+      delete [] ptr;        // reclaim space
+      size = right.size;    // resize this object
+      ptr = new int[size];  // create space for array copy
+      assert(ptr != 0);     // terminate if memory not allocated
+
+      for (int i = 0; i < size; i++)
+         ptr[i] = right.ptr[i];  // copy array into object
+   }
+
+   return *this;   // enables x = y = z;
+}
+
+// Determine if two arrays are equal and
+// return 1 if true, 0 if false.
+int Array::operator==(const Array &right) const
+{
+   if (size != right.size)
+      return 0;    // arrays of different sizes
+
+   for (int i = 0; i < size; i++)
+      if (ptr[i] != right.ptr[i])
+         return 0; // arrays are not equal
+
+   return 1;       // arrays are equal
+}
+
+// Determine if two arrays are not equal and
+// return 1 if true, 0 if false.
+int Array::operator!=(const Array &right) const
+{
+   if (size != right.size)
+      return 1;         // arrays of different sizes
+
+   for (int i = 0; i < size; i++)
+      if (ptr[i] != right.ptr[i])
+         return 1;      // arrays are not equal
+
+   return 0;            // arrays are equal
+}
+
+// Overloaded subscript operator
+int &Array::operator[](int subscript)
+{
+   // check for subscript out of range error
+   assert(0 <= subscript && subscript < size);
+
+   return ptr[subscript];   // reference return creates lvalue
+}
+
+// Return the number of Array objects instantiated
+int Array::getArrayCount() { return arrayCount; }
+
+// Overloaded input operator for class Array;
+// inputs values for entire array.
+istream &operator>>(istream &input, Array &a)
+{
+   for (int i = 0; i < a.size; i++)
+      input >> a.ptr[i];
+
+   return input;   // enables cin >> x >> y;
+}
+
+// Overloaded output operator for class Array
+ostream &operator<<(ostream &output, const Array &a)
+{
+   for (int i = 0; i < a.size; i++) {
+      output << a.ptr[i] << ' ';
+
+      if ((i + 1) % 10 == 0)
+         output << endl;
+   }
+
+   if (i % 10 != 0)
+      output << endl;
+
+   return output;   // enables cout << x << y;
+}
+---------------
+// FIG8_4.CPP
+// Driver for simple class Array
+#include <iostream.h>
+#include "array1.h"
+
+main()
+{
+   // no objects yet
+   cout << "# of arrays instantiated = "
+        << Array::getArrayCount() << endl;
+
+   // create two arrays and print Array count
+   Array integers1(7), integers2;
+   cout << "# of arrays instantiated = "
+        << Array::getArrayCount() << endl << endl;
+
+   // print integers1 size and contents
+   cout << "Size of array integers1 is "
+        << integers1.getSize() << endl
+        << "Array after initialization:" << endl
+        << integers1 << endl;
+
+   // print integers2 size and contents
+   cout << "Size of array integers2 is "
+        << integers2.getSize() << endl
+        << "Array after initialization:" << endl
+        << integers2 << endl;
+
+   // input and print integers1 and integers2
+   cout << "Input 17 integers:" << endl;
+   cin >> integers1 >> integers2;
+   cout << "After input, the arrays contain:" << endl
+        << "integers1: " << integers1
+        << "integers2: " << integers2 << endl;
+
+   // use overloaded inequality (!=) operator
+   cout << "Evaluating: integers1 != integers2" << endl;
+   if (integers1 != integers2)
+      cout << "They are not equal" << endl;
+
+   // create array integers3 using integers1 as an
+   // initializer; print size and contents
+   Array integers3(integers1);
+
+   cout << endl << "Size of array integers3 is "
+        << integers3.getSize() << endl
+        << "Array after initialization:" << endl
+	<< integers3 << endl;
+
+   // use overloaded assignment (=) operator
+   cout << "Assigning integers2 to integers1:" << endl;
+   integers1 = integers2;
+   cout << "integers1: " << integers1
+        << "integers2: " << integers2 << endl;
+
+   // use overloaded equality (==) operator
+   cout << "Evaluating: integers1 == integers2" << endl;
+   if (integers1 == integers2)
+      cout << "They are equal" << endl << endl;
+
+   // use overloaded subscript operator to create rvalue
+   cout << "integers1[5] is " << integers1[5] << endl;
+
+   // use overloaded subscript operator to create lvalue
+   cout << "Assigning 1000 to integers1[5]" << endl;
+   integers1[5] = 1000;
+   cout << "integers1: " << integers1 << endl;
+
+   // attempt to use out of range subscript
+   cout << "Attempt to assign 1000 to integers1[15]" << endl;
+   integers1[15] = 1000;  // ERROR: out of range
+
+   return 0;
+}

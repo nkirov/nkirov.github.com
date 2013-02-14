@@ -1,0 +1,389 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1251">
+   <META NAME="Author" CONTENT="Nikolay Kirov">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <TITLE>Pec2</TITLE>
+</HEAD>
+<BODY>
+
+<HR WIDTH="100%">
+<BR><B>&nbsp;4. Модули</B>
+<BR>&nbsp;<IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Разделно
+компилиране
+
+<P>&nbsp;<IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Създаване
+на заглавни файлове
+<BR>* Стек - пример
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.push("Able")</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.push("Backer")</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.push("Charlie")</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.pop() -> "Charlie"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.push("Delta")</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.pop() -> "Delta"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.pop() -> "Backer"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#CC6600">&nbsp;&nbsp; s.pop() -> "Able"</FONT></TT></B>
+<BR>* Създаване на клас
+<BR><B><TT><FONT COLOR="#006600">class Stack&nbsp; {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">public:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;Stack();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;void push(string s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;string pop();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;bool is_empty() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">private:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;vector&lt;string> data;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;int top;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">};</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">Stack::Stack() { top = 0; }</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">void Stack::push(string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;if (top &lt; data.size()) data[top]
+= s;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;else data.push_back(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;top++;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">}</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">string Stack::pop()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;assert(top > 0);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;top--;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;return data[top];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">}</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">bool Stack::is_empty() const&nbsp; {&nbsp;
+return top == 0;&nbsp; }</FONT></TT></B>
+
+<P>* Разделяне на информацията между <B><TT><FONT COLOR="#006600">stack.h</FONT></TT></B>
+и <B><TT><FONT COLOR="#006600">stack.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">// </FONT><FONT COLOR="#993300">stack.h</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">class Stack&nbsp; {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">public:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;Stack();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;void push(string s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;string pop();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;bool is_empty() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">private:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;vector&lt;string> data;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;int top;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">};</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">// </FONT><FONT COLOR="#993300">stack.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">#include &lt;cassert></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">using namespace std;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">#include "stack.h"</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">Stack::Stack() { top = 0; }</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">void Stack::push(string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;if (top &lt; data.size()) data[top]
+= s;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;else data.push_back(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;top++;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">}</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">string Stack::pop()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;assert(top > 0);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;top--;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;return data[top];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">}</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">bool Stack::is_empty() const {&nbsp; return
+top == 0;&nbsp; }</FONT></TT></B>
+
+<P>*Проблемът за двукратно включване на един и същи заглавен файл в програмата
+<BR><B><TT><FONT COLOR="#006600">#ifndef STACK_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">#define STACK_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">...</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">#endif</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;</FONT></TT></B>
+<BR>&nbsp;<IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Разделяне
+на програмата на няколко първични файла
+
+<P><B><TT><FONT COLOR="#993300">// error.h</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#ifndef ERROR_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#define ERROR_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void error(string message);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#endif</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#993300">// input.h</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#ifndef INPUT_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#define INPUT_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">bool is_operator(string s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">string next_token();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#endif</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#993300">// eval.h</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#ifndef EVAL_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#define EVAL_H</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "stack.h"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int precedence(string s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">void evaluate(Stack&amp; num, string op);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#endif</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#993300">// error.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "error.h"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void error(string message)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "ERROR: " &lt;&lt;
+message &lt;&lt; ".\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; exit(1);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#993300">// eval.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;sstream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;cmath></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">#include "stack.h"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "error.h"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "eval.h"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int precedence(string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;if (s == "+" or s == "-")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 1;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;else if (s == "*" or s == "/")&nbsp;
+return 2;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;else if (s == "^")&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 3;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">double string_to_double(string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; istringstream instr(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; instr >> x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">string double_to_string(double x)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; ostringstream outstr;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; outstr &lt;&lt; x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return outstr.str();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void evaluate(Stack&amp; num, string op)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (num.is_empty()) error("Syntax
+error");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double y = string_to_double(num.pop());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; if (num.is_empty())
+error("Syntax error");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double x = string_to_double(num.pop());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double z;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (op == "^") z = pow(x,
+y);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else if (op == "*") z = x
+* y;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else if (op == "/")</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; if (y == 0) error("Divide
+by 0");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else z
+= x / y;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else if (op == "+") z = x
++ y;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else if (op == "-") z = x
+- y;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else error("Syntax error");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; num.push(double_to_string(z));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#993300"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#993300">// input.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;cctype></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">#include "error.h"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "input.h"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">bool is_operator(string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;return s == "+" or s == "-" or</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s == "*" or s == "/" or s == "^";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void skip_whitespace()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; char ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; do</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; cin.get(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (cin.fail())
+return;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }&nbsp; while (isspace(ch));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#ifndef CCC_USE_OLD_STREAMS</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin.unget();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin.putback(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* used if your compiler doesn't support
+the ANSI unget function */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#endif</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">string next_number()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string r;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; bool more = true;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (more)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; char ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin.get(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (cin.fail())&nbsp;
+more = false;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
+(isdigit(ch))&nbsp; r = r + ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#ifndef CCC_USE_OLD_STREAMS</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cin.unget();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cin.putback(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* used if your compiler doesn't support
+the ANSI unget function */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#endif</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+more = false;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;}</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return r;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">string next_token()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; skip_whitespace();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; char ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin.get(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (cin.fail()) return "";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (isdigit(ch))</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#ifndef CCC_USE_OLD_STREAMS</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin.unget();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin.putback(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+/* used if your compiler doesn't support the ANSI unget function */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#endif</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+next_number();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; string token;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; token =
+token + ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (is_operator(token)
+or token == "(" or token == ")"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+or token == "=") return token;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;
+string message = "Unexpected input ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+error(message + ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return "";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#993300"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#993300">// calc.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">#include "stack.h"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "input.h"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "eval.h"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "error.h"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;Stack numstack;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;Stack opstack;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;while (true)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;{&nbsp; string s = next_token();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; if (is_operator(s))</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; {&nbsp; if (opstack.is_empty())
+opstack.push(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp; else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; string old_op = opstack.pop();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; if (precedence(s) >
+precedence(old_op))&nbsp; stack.push(old_op);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp; evaluate(numstack,
+old_op);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; opstack.push(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; else if (s == "(") opstack.push(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; else if (s == ")")</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; {&nbsp; bool more = true;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (more)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; if (opstack.is_empty())
+error("No matching (");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; string old_op = opstack.pop();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; if (old_op == "(")
+more = false;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; else evaluate(numstack,
+old_op);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; else if (s == "=")</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; {&nbsp; while (not opstack.is_empty())</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; string old_op = opstack.pop();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; if (old_op == "(")
+error("No matching )");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp; else evaluate(numstack,
+old_op);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (numstack.is_empty())
+error("Syntax error");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; numstack.pop()
+&lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (not numstack.is_empty())
+error("Syntax error");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; else if (s == "") /* end of input
+*/</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; else /* must be a number */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; numstack.push(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;}</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P>&nbsp;<IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Поделяне
+на променливи между модули
+<BR>&nbsp;
+
+<P>&nbsp;<IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Проекти
+<BR>&nbsp;
+
+<P>
+<HR WIDTH="100%">
+</BODY>
+</HTML>

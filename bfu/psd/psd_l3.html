@@ -1,0 +1,452 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1251">
+   <META NAME="Author" CONTENT="Nikolay Kirov">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <TITLE>Pec2</TITLE>
+</HEAD>
+<BODY>
+
+<HR WIDTH="100%">
+<BR><B>&nbsp;3. Потоци</B>
+<BR><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Четене и
+запис в текстови файлове
+<BR>* Досега за четене от и запис във файлове
+<BR>* Основни дейности
+<BR>А) файл за четене:
+<BR>- дефиниране на файлова променлива за четене
+<BR><B><TT><FONT COLOR="#006600">ifstream inp_data;</FONT></TT></B>
+<BR>- отваряне на файл
+<BR><B><TT><FONT COLOR="#006600">inp_data.open("input.dat");</FONT></TT></B>
+<BR>- четене от файл
+<BR>--- цели числа и числа с плаваща точка:
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; int n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; double x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; inp_data >> n >> x;</FONT></TT></B>
+<BR>--- низове:
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; string s;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; inp_data >> s;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; getline(inp_data, s);</FONT></TT></B>
+<BR>--- символи:
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; char ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; inp_data.get(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; inp_data.unget();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; input_data.put_back(ch);</FONT></TT></B>
+<BR>- затваряне на файл
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; inp_data.close();</FONT></TT></B>
+
+<P>Б) файл за писане:
+<BR>- дефиниране на файлова променлива за писане
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; ofstream out_data;</FONT></TT></B>
+<BR>- отваряне на файл
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; out_data.open("output.dat");</FONT></TT></B>
+<BR>- писане във&nbsp; файл
+<BR>--- с изходен поток:
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; int n = 2;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; double x = 1.5;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; string s = " Hello";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; out_data &lt;&lt; n &lt;&lt;
+"&nbsp; " &lt;&lt; x &lt;&lt; s;</FONT></TT></B>
+<BR>--- с член-функции
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; char ch = 'A';</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; out_data.put(ch);</FONT></TT></B>
+<BR>- затваряне на файл
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; out_data.close();</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P>В) файл за четене и писане:
+<BR>- дефиниране на файлове променлива за четене и писане
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; fstream io_data;</FONT></TT></B>
+<BR>- отваряне на файл
+<BR><B><TT><FONT COLOR="#006600">&nbsp;&nbsp; io_data.open("data.dat");</FONT></TT></B>
+
+<P>* Програма за четене на заплати и чертаене на диаграма
+
+<P><B><TT><FONT COLOR="#000099">// readdata.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include "ccc_win.cpp"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void read_data(vector&lt;double>&amp; v,
+ifstream&amp; in)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double s;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (in >> s) v.push_back(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">double maximum(vector&lt;double> v)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (v.size() == 0) return
+0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double highest = v[0];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 1; i &lt; v.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (v[i]
+> highest) highest = v[i];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return highest;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void plot_data(vector&lt;double> v)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double highest = maximum(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cwin.coord(0, 0, highest,
+v.size());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; Point left(0, i);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Point right(v[i],
+i);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Line bar(left,
+right);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Message
+label(left, v[i]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+bar &lt;&lt; label;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; string filename</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = cwin.get_string("Please
+enter the data file name: ");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; ifstream infile;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; infile.open(filename.c_str());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;double> data;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; read_data(data, infile);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; infile.close();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; plot_data(data);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Текстови потоци
+<BR>* Входен поток
+<BR><B><TT><FONT COLOR="#006600">#include &lt;sstream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">...</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">string input = "January 23, 1881";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">istringstream instr(input);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">string month;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">int day;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">string comma;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">int year;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">instr >> month >> day >> comma >> year;</FONT></TT></B>
+<BR>* Изходен поток
+<BR><B><TT><FONT COLOR="#006600">ostringstream outstr;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">outstr &lt;&lt; setprecision(8) &lt;&lt;
+sqrt(2);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">string output = outstr.str();</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">// readtime.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;sstream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">string int_to_string(int n)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; ostringstream outstr;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; outstr &lt;&lt; n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return outstr.str();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void read_time(int&amp; hours, int&amp;
+minutes)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string line;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; getline(cin, line);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; istringstream instr(line);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; instr >> hours;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; minutes = 0;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; char ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; instr.get(ch);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (ch == ':') instr >> minutes;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#ifndef CCC_USE_OLD_STREAMS</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instr.unget();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; instr.putback(ch);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* used if your compiler doesn't support
+the ANSI unget function */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#endif</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string suffix;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; instr >> suffix;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (suffix == "pm") hours
+= hours + 12;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">string time_to_string(int hours, int minutes,
+bool am_pm)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string suffix;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (am_pm)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; if (hours &lt; 12)
+suffix = "am";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;
+{ suffix = "pm"; hours = hours - 12; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (hours
+== 0) hours = 12;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string result = int_to_string(hours)
++ ":";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (minutes &lt; 10) result
+= result + "0";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; result = result + int_to_string(minutes);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (am_pm) result = result
++ " " + suffix;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return result;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; cout &lt;&lt; "Please enter the
+time: ";</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int hours;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int minutes;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; read_time(hours, minutes);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Using am/pm:&nbsp;&nbsp;
+" &lt;&lt; time_to_string(hours, minutes, true) &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Military time:
+" &lt;&lt; time_to_string(hours, minutes, false) &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Аргументи
+от командния ред
+<BR>* Определение и използване
+<BR><B><TT><FONT COLOR="#006600">C:/mydir/>prog -v input.dat</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">int main(int argc, char* argv[])</FONT></TT></B><B><TT><FONT COLOR="#006600"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#006600">string(argv[0])&nbsp;&nbsp;&nbsp; "prog"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">string(argv[1])&nbsp;&nbsp;&nbsp; "-v"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">string(argv[2])&nbsp;&nbsp;&nbsp; "input.dat"</FONT></TT></B>
+
+<P>* Шифроване на Цезар<B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">// ceasar.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;fstream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;sstream></FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void usage(string program_name)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Usage: " &lt;&lt;
+program_name</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt; " [-d] [-kn] infile outfile\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; exit(1);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void open_file_error(string filename)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Error opening
+file " &lt;&lt; filename &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; exit(1);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int remainder(int a, int n)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (a >= 0) return a % n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return n - 1 - (-a - 1) % n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">char encrypt(char ch, int k)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; const int NLETTER = 26;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if ('A' &lt;= ch &amp;&amp;
+ch &lt;= 'Z')</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+static_cast&lt;char>('A' + remainder(ch-'A'+k, NLETTER));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if ('a' &lt;= ch &amp;&amp;
+ch &lt;= 'z')</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+static_cast&lt;char>('a' + remainder(ch-'a'+k, NLETTER));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void encrypt_file(ifstream&amp; in, ofstream&amp;
+out, int k)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; char ch;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (in.get(ch)) out.put(encrypt(ch,
+k));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int string_to_int(string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; istringstream instr(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; instr >> n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main(int argc, char* argv[])</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; bool decrypt = false;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int key = 3;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int nfile = 0; /* the number
+of files specified */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; ifstream infile;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; ofstream outfile;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (argc &lt; 3 or argc >
+5) usage(string(argv[0]));</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 1; i &lt; argc;
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; string arg = string(argv[i]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (arg.length()
+>= 2 and arg[0] == '-')</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* it is
+a command line option */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;
+char option = arg[1];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (option == 'd')</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+decrypt = true;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else if (option == 'k')</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+key = string_to_int(arg.substr(2, arg.length() - 2));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;
+nfile++;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (nfile == 1)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp; infile.open(arg.c_str());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (infile.fail()) open_file_error(arg);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+else if (nfile == 2)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp; outfile.open(arg.c_str());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if (outfile.fail()) open_file_error(arg);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if(nfile != 2) usage(string(argv[0]));</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (decrypt) key = -key;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; encrypt_file(infile, outfile,
+key);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; infile.close();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; outfile.close();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Произволен
+достъп
+<BR>* Специфични функции
+<BR><B><TT><FONT COLOR="#006600">fs.seekg(n, ios::beg);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">fs.seekp(n, ios::beg);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">fs.tellg();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">fs.tellp();</FONT></TT></B>
+<BR>* Пример с база-данни за повишаване на заплати
+<BR><B><TT><FONT COLOR="#000099">// database.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iomanip></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;fstream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;sstream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">#include "ccc_empl.cpp"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">const int NEWLINE_LENGTH = 2; /* or 1 on
+Unix */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">const int RECORD_SIZE = 30 + 10 + NEWLINE_LENGTH;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">double string_to_double(string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; istringstream instr(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; instr >> x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void raise_salary(Employee&amp; e, double
+percent)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double new_salary = e.get_salary()
+* (1 + percent / 100);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; e.set_salary(new_salary);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void read_employee(Employee&amp; e, fstream&amp;
+fs)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string line;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; getline(fs, line);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (fs.fail()) return;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string name = line.substr(0,
+30);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double salary = string_to_double(line.substr(30,
+10));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; e = Employee(name, salary);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void write_employee(Employee e, fstream&amp;
+fs)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; fs &lt;&lt; e.get_name()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+setw(10 + (30 - e.get_name().length()))</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+fixed &lt;&lt; setprecision(2)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+e.get_salary()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+"\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; cout &lt;&lt; "Please enter the
+data file name: ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string filename;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> filename;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; fstream fs;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; fs.open(filename.c_str());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; fs.seekg(0, ios::end); /*
+go to end of file */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int nrecord = fs.tellg()
+/ RECORD_SIZE;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+the record to update: (0 - "</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+nrecord - 1 &lt;&lt; ") ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int pos;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> pos;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; const double SALARY_CHANGE
+= 5.0;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Employee e;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; fs.seekg(pos * RECORD_SIZE,
+ios::beg);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; read_employee(e, fs);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; raise_salary(e, SALARY_CHANGE);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; fs.seekp(pos * RECORD_SIZE,
+ios::beg);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; write_employee(e, fs);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; fs.close();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+<BR>
+<HR WIDTH="100%">
+</BODY>
+</HTML>

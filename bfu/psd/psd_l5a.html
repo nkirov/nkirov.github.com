@@ -1,0 +1,332 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1251">
+   <META NAME="Author" CONTENT="Nikolay Kirov">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <TITLE>Pec2</TITLE>
+</HEAD>
+<BODY>
+
+<HR WIDTH="100%">
+<BR><B>5. Алгоритми</B>
+<BR><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER>&nbsp; Сортиране
+чрез селекция
+<BR>&nbsp;Намираме най-малкия елемент и го поставяме на място.
+<BR><B><TT><FONT COLOR="#993300">// selsort.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void swap(int&amp; x, int&amp; y)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; int temp = x;&nbsp;&nbsp; x =
+y;&nbsp;&nbsp; y = temp;&nbsp; }</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int min_position(vector&lt;int>&amp; a,
+int from, int to)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int min_pos = from;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = from + 1; i &lt;=
+to; i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+(a[i] &lt; a[min_pos]) min_pos = i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return min_pos;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void selection_sort(vector&lt;int>&amp;
+a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int next; /* the next position
+to be set to the minimum */</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (next = 0; next &lt; a.size()
+- 1; next++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; /* find the position
+of the minimum */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int min_pos
+= min_position(a, next, a.size() - 1);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (min_pos
+!= next)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+swap(a[min_pos], a[next]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void print(vector&lt;int> a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++) cout &lt;&lt; a[i] &lt;&lt; " ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);
+}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; v[i] = rand_int(1, 100);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; selection_sort(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Измерване
+на времето за работа и анализ на&nbsp; ефективността на алгоритъма за сортиране
+чрез&nbsp; селекция
+
+<P><B><TT><FONT COLOR="#993300">// sorttime.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">#include "ccc_time.cpp"</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void swap(int&amp; x, int&amp; y)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; int temp = x;&nbsp;&nbsp; x =
+y;&nbsp;&nbsp; y = temp;&nbsp; }</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int min_position(vector&lt;int>&amp; a,
+int from, int to)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int min_pos = from;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = from + 1; i &lt;=
+to; i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+(a[i] &lt; a[min_pos]) min_pos = i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return min_pos;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void selection_sort(vector&lt;int>&amp;
+a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int next;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (next = 0; next &lt;
+a.size() - 1; next++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int min_pos
+= min_position(a, next, a.size() - 1);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (min_pos
+!= next)&nbsp; swap(a[min_pos], a[next]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* PURPOSE: Set the seed of the random
+number generator</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">*/</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;
+}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter vector
+size: ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(n);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++) v[i] = rand_int(1, 100);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time before;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; selection_sort(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time after;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Elapsed time
+= " &lt;&lt; after.seconds_from(before)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt; " seconds\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Сортиране
+чрез сливане
+<BR><B><TT><FONT COLOR="#993300">// mergesort.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void merge(vector&lt;int>&amp; a, int from,
+int mid, int to)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n = to - from + 1; /*
+size of the range to be merged */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* merge both halves into a temporary
+vector b */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> b(n);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i1 = from;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* next element to consider in the first
+half */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i2 = mid + 1;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* next element to consider in the second
+half */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int j = 0; /* next open position
+in b */</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">/* as long as neither i1 nor i2 past the
+end, move the smaller&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; element into b */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (i1 &lt;= mid &amp;&amp;
+i2 &lt;= to)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; if (a[i1] &lt; a[i2])&nbsp;&nbsp;&nbsp;
+{&nbsp; b[j] = a[i1];&nbsp;&nbsp; i1++;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp; b[j] = a[i2];&nbsp;&nbsp; i2++;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; j++;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* note that only one of the two while
+loops below is executed */</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">/* copy any remaining entries of the first
+half */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (i1 &lt;= mid)&nbsp;&nbsp;
+{&nbsp; b[j] = a[i1];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i1++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+j++;&nbsp;&nbsp; }</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">/* copy any remaining entries of the second
+half */</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (i2 &lt;= to)&nbsp;&nbsp;
+{&nbsp; b[j] = a[i2];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i2++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+j++;&nbsp;&nbsp; }</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">/* copy back from the temporary vector
+*/</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (j = 0; j &lt; n; j++)&nbsp;&nbsp;
+a[from + j] = b[j];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void merge_sort(vector&lt;int>&amp; a,
+int from, int to)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (from == to) return;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int mid = (from + to) / 2;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">/* sort the first and the second half
+*/</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge_sort(a, from, mid);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge_sort(a, mid + 1, to);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge(a, from, mid, to);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void print(vector&lt;int> a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)&nbsp; cout &lt;&lt; a[i] &lt;&lt; " ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;&nbsp;
+}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v[i] =
+rand_int(1, 100);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge_sort(v, 0, v.size()
+- 1);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Анализ на
+алгоритъма за сортиране чрез сливане
+
+<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> Търсене в
+несортирани и сортирани данни
+<BR><B><TT><FONT COLOR="#993300">// lsearch.cpp</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int linear_search(vector&lt;int> v, int
+a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+(v[i] == a) return i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return -1;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void print(vector&lt;int> a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)&nbsp; cout &lt;&lt; a[i] &lt;&lt; " ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;
+}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+i++) v[i] = rand_int(1, 100);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter number
+to search for: ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int j = linear_search(v,
+n);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Found in position
+" &lt;&lt; j &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+<BR>
+<HR WIDTH="100%">
+</BODY>
+</HTML>

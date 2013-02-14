@@ -1,0 +1,307 @@
+// LISTND.H
+// ListNode template definition
+#ifndef LISTND_H
+#define LISTND_H
+
+template<class NODETYPE>
+class ListNode {
+   friend class List<NODETYPE>; // make List a friend
+public:
+   ListNode(const NODETYPE &);  // constructor
+   NODETYPE getData() const;    // return the data in the node
+private:
+   NODETYPE data;               // data
+   ListNode *nextPtr;           // next node in the list
+};
+
+// Constructor
+template<class NODETYPE>
+ListNode<NODETYPE>::ListNode(const NODETYPE &info)
+{
+   data = info;
+   nextPtr = 0;
+}
+
+// Return a copy of the data in the node
+template<class NODETYPE>
+NODETYPE ListNode<NODETYPE>::getData() const { return data;}
+
+#endif
+------// LIST.H
+// Template List class definition
+#ifndef LIST_H
+#define LIST_H
+
+#include <iostream.h>
+#include <assert.h>
+#include "listnd.h"
+
+template<class NODETYPE>
+class List {
+public:
+   List();      // constructor
+   ~List();     // destructor
+   void insertAtFront(const NODETYPE &);
+   void insertAtBack(const NODETYPE &);
+   int removeFromFront(NODETYPE &);
+   int removeFromBack(NODETYPE &);
+   int isEmpty() const;
+   void print() const;
+private:
+   ListNode<NODETYPE> *firstPtr;  // pointer to first node
+   ListNode<NODETYPE> *lastPtr;   // pointer to last node
+
+   // Utility function to allocate a new node
+   ListNode<NODETYPE> *getNewNode(const NODETYPE &);
+};
+
+// Default constructor
+template<class NODETYPE>
+List<NODETYPE>::List() { firstPtr = lastPtr = 0; }
+
+// Destructor
+template<class NODETYPE>
+List<NODETYPE>::~List()
+{
+   if (!isEmpty()) {    // List is not empty
+      cout << "Destroying nodes ... " << endl;
+
+      ListNode<NODETYPE> *currentPtr = firstPtr, *tempPtr;
+
+      while (currentPtr != 0) {  // delete remaining nodes
+         tempPtr = currentPtr;
+         cout << tempPtr->data << endl;
+         currentPtr = currentPtr->nextPtr;
+         delete tempPtr;
+      }
+   }
+
+   cout << "All nodes destroyed" << endl << endl;
+}
+
+// Insert a node at the front of the list
+template<class NODETYPE>
+void List<NODETYPE>::insertAtFront(const NODETYPE &value)
+{
+   ListNode<NODETYPE> *newPtr = getNewNode(value);
+
+   if (isEmpty())  // List is empty
+      firstPtr = lastPtr = newPtr;
+   else {          // List is not empty
+      newPtr->nextPtr = firstPtr;
+      firstPtr = newPtr;
+   }
+}
+
+// Insert a node at the back of the list
+template<class NODETYPE>
+void List<NODETYPE>::insertAtBack(const NODETYPE &value)
+{
+   ListNode<NODETYPE> *newPtr = getNewNode(value);
+
+   if (isEmpty())  // List is empty
+      firstPtr = lastPtr = newPtr;
+   else {          // List is not empty
+      lastPtr->nextPtr = newPtr;
+      lastPtr = newPtr;
+   }
+}
+
+// Delete a node from the front of the list
+template<class NODETYPE>
+int List<NODETYPE>::removeFromFront(NODETYPE &value)
+{
+   if (isEmpty())             // List is empty
+      return 0;               // delete unsuccessful
+   else {
+      ListNode<NODETYPE> *tempPtr = firstPtr;
+
+      if (firstPtr == lastPtr)
+         firstPtr = lastPtr = 0;
+      else
+         firstPtr = firstPtr->nextPtr;
+
+      value = tempPtr->data;  // data being removed
+      delete tempPtr;
+      return 1;               // delete successful
+   }
+}
+
+// Delete a node from the back of the list
+template<class NODETYPE>
+int List<NODETYPE>::removeFromBack(NODETYPE &value)
+{
+   if (isEmpty())
+      return 0;   // delete unsuccessful
+   else {
+      ListNode<NODETYPE> *tempPtr = lastPtr;
+
+      if (firstPtr == lastPtr)
+         firstPtr = lastPtr = 0;
+      else {
+         ListNode<NODETYPE> *currentPtr = firstPtr;
+
+         while (currentPtr->nextPtr != lastPtr)
+            currentPtr = currentPtr->nextPtr;
+
+         lastPtr = currentPtr;
+         currentPtr->nextPtr = 0;
+      }
+
+      value = tempPtr->data;
+      delete tempPtr;
+      return 1;   // delete successful
+   }
+}
+
+// Is the List empty?
+template<class NODETYPE>
+int List<NODETYPE>::isEmpty() const { return firstPtr == 0; }
+
+// Return a pointer to a newly allocated node
+template<class NODETYPE>
+ListNode<NODETYPE> *List<NODETYPE>::getNewNode(const NODETYPE &value)
+{
+   ListNode<NODETYPE> *ptr = new ListNode<NODETYPE>(value);
+   assert(ptr != 0);
+   return ptr;
+}
+
+// Display the contents of the List
+template<class NODETYPE>
+void List<NODETYPE>::print() const
+{
+   if (isEmpty()) {
+      cout << "The list is empty" << endl << endl;
+      return;
+   }
+
+   ListNode<NODETYPE> *currentPtr = firstPtr;
+
+   cout << "The list is: ";
+
+   while (currentPtr != 0) {
+      cout << currentPtr->data << ' ';
+      currentPtr = currentPtr->nextPtr;
+   }
+
+   cout << endl << endl;
+}
+
+#endif
+------
+// DRIVER.CPP
+// List class test
+#include <iostream.h>
+#include "list.h"
+
+void testIntegerList();  // driver for integer List
+void testFloatList();    // driver for float List
+void instructions();     // instructions to user
+
+main()
+{
+   testIntegerList();    // test the integer List
+   testFloatList();      // test the float List
+
+   return 0;
+}
+
+// Function to test an integer List
+void testIntegerList()
+{
+   cout << "Testing a List of integer values" << endl;
+   List<int> integerList;
+
+   instructions();
+   int choice, value;
+
+   do {
+      cout << "? ";
+      cin >> choice;
+
+      switch (choice) {
+         case 1:
+            cout << "Enter an integer: ";
+            cin >> value;
+            integerList.insertAtFront(value);
+            integerList.print();
+            break;
+         case 2:
+            cout << "Enter an integer: ";
+            cin >> value;
+            integerList.insertAtBack(value);
+            integerList.print();
+            break;
+         case 3:
+            if (integerList.removeFromFront(value))
+               cout << value << " removed from list" << endl;
+
+            integerList.print();
+            break;
+         case 4:
+            if (integerList.removeFromBack(value))
+               cout << value << " removed from list" << endl;
+
+            integerList.print();
+            break;
+      }
+   } while (choice != 5);
+
+   cout << "End test of integer List" << endl;
+}
+
+// Function to test a float List
+void testFloatList()
+{
+   cout << "Testing a List of floating point values" << endl;
+   List<float> floatList;
+
+   instructions();
+   int choice;
+   float value;
+
+   do {
+      cout << "? ";
+      cin >> choice;
+
+      switch (choice) {
+         case 1:
+            cout << "Enter a floating point value: ";
+            cin >> value;
+            floatList.insertAtFront(value);
+            floatList.print();
+            break;
+         case 2:
+            cout << "Enter a floating point value: ";
+            cin >> value;
+            floatList.insertAtBack(value);
+            floatList.print();
+            break;
+         case 3:
+            if (floatList.removeFromFront(value))
+               cout << value << " removed from list" << endl;
+
+            floatList.print();
+            break;
+         case 4:
+            if (floatList.removeFromBack(value))
+               cout << value << " removed from list" << endl;
+
+            floatList.print();
+            break;
+      }
+   } while (choice != 5);
+
+   cout << "End test of float List" << endl;
+}
+
+void instructions()
+{
+   cout << "Enter one of the following:" << endl
+        << "  1 to insert at beginning of list" << endl
+        << "  2 to insert at end of list" << endl
+        << "  3 to delete from beginning of list" << endl
+        << "  4 to delete from end of list" << endl
+        << "  5 to end list processing" << endl;
+}

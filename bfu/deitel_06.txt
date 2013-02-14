@@ -1,0 +1,333 @@
+// EMPLOY2.H
+// Abstract base class Employee
+#ifndef EMPLOY2_H
+#define EMPLOY2_H
+
+class Employee {
+public:
+   Employee(const char *, const char *);
+   ~Employee();
+   const char *getFirstName() const;
+   const char *getLastName() const;
+
+   // Pure virtual functions make Employee abstract base class.
+   virtual float earnings() const = 0; // pure virtual
+   virtual void print() const = 0;     // pure virtual
+
+private:
+   char *firstName;
+   char *lastName;
+};
+
+#endif
+------
+// EMPLOY2.CPP
+// Member function definitions for
+// abstract base class Employee.
+//
+// Note: No definitions given for pure virtual functions.
+#include <iostream.h>
+#include <string.h>
+#include <assert.h>
+#include "employ2.h"
+
+// Constructor dynamically allocates space for the
+// first and last name and uses strcpy to copy
+// the first and last names into the object.
+Employee::Employee(const char *first, const char *last)
+{
+   firstName = new char[ strlen(first) + 1 ];
+   assert(firstName != 0);    // test that new worked
+   strcpy(firstName, first);
+
+   lastName = new char[ strlen(last) + 1 ];
+   assert(lastName != 0);     // test that new worked
+   strcpy(lastName, last);
+}
+
+// Destructor deallocates dynamically allocated memory
+Employee::~Employee()
+{
+   delete [] firstName;
+   delete [] lastName;
+}
+
+// Return a pointer to the first name
+const char *Employee::getFirstName() const
+{
+   // Const prevents caller from modifying private data.
+   // Caller should copy returned string before destructor 
+   // deletes dynamic storage to prevent undefined pointer.
+
+   return firstName;   // caller must delete memory
+}
+
+// Return a pointer to the last name
+const char *Employee::getLastName() const
+{
+   // Const prevents caller from modifying private data.
+   // Caller should copy returned string before destructor 
+   // deletes dynamic storage to prevent undefined pointer.
+
+   return lastName;   // caller must delete memory
+}
+-------------------
+// BOSS1.H
+// Boss class derived from Employee
+#ifndef BOSS1_H
+#define BOSS1_H
+#include "employ2.h"
+
+class Boss : public Employee {
+public:
+   Boss(const char *, const char *, float = 0.0);
+   void setWeeklySalary(float);
+   virtual float earnings() const;
+   virtual void print() const;
+private:
+   float weeklySalary; 
+};
+
+#endif
+------
+// BOSS1.CPP
+// Member function definitions for class Boss
+#include <iostream.h>
+#include "boss1.h"
+
+// Constructor function for class Boss
+Boss::Boss(const char *first, const char *last, float s)
+   : Employee(first, last)  // call base-class constructor
+{ weeklySalary = s > 0 ? s : 0; }
+
+// Set the Boss's salary
+void Boss::setWeeklySalary(float s)
+   { weeklySalary = s > 0 ? s : 0; }
+
+// Get the Boss's pay
+float Boss::earnings() const { return weeklySalary; }
+
+// Print the Boss's name 
+void Boss::print() const
+{
+   cout << endl << "             Boss: " << getFirstName()
+        << ' ' << getLastName();
+}
+-------------------
+// COMMIS1.H
+// CommissionWorker class derived from Employee
+#ifndef COMMIS1_H
+#define COMMIS1_H
+#include "employ2.h"
+
+class CommissionWorker : public Employee {
+public:
+   CommissionWorker(const char *, const char *,
+                    float = 0.0, float = 0.0, unsigned = 0);
+   void setSalary(float);
+   void setCommission(float);
+   void setQuantity(unsigned);
+   virtual float earnings() const;
+   virtual void print() const;
+
+private:
+   float salary;       // base salary per week
+   float commission;   // amount per item sold
+   unsigned quantity;  // total items sold for week
+};
+
+#endif
+------
+// COMMIS1.CPP
+// Member function definitions for class CommissionWorker
+#include <iostream.h>
+#include "commis1.h"
+
+// Constructor for class CommissionWorker
+CommissionWorker::CommissionWorker(const char *first,
+        const char *last, float s, float c, unsigned q)
+   : Employee(first, last)  // call base-class constructor
+{
+   salary = s > 0 ? s : 0;
+   commission = c > 0 ? c : 0;
+   quantity = q > 0 ? q : 0;
+}
+
+// Set CommissionWorker's weekly base salary
+void CommissionWorker::setSalary(float s) 
+   { salary = s > 0 ? s : 0; }
+
+// Set CommissionWorker's commission
+void CommissionWorker::setCommission(float c)
+   { commission = c > 0 ? c : 0; }
+
+// Set CommissionWorker's quantity sold
+void CommissionWorker::setQuantity(unsigned q)
+   { quantity = q > 0 ? q : 0; }
+
+// Determine CommissionWorker's earnings
+float CommissionWorker::earnings() const
+   { return salary + commission * quantity; }
+
+// Print the CommissionWorker's name 
+void CommissionWorker::print() const
+{
+   cout << endl << "Commission worker: " << getFirstName()
+        << ' ' << getLastName();
+}
+--------------------
+// PIECE1.H
+// PieceWorker class derived from Employee
+#ifndef PIECE1_H
+#define PIECE1_H
+#include "employ2.h"
+
+class PieceWorker : public Employee {
+public:
+   PieceWorker(const char *, const char *, float = 0.0, unsigned = 0);
+   void setWage(float);
+   void setQuantity(unsigned);
+   virtual float earnings() const;
+   virtual void print() const;
+private:
+   float wagePerPiece; // wage for each piece output
+   unsigned quantity;  // output for week
+};
+
+#endif
+------
+// PIECE1.CPP
+// Member function definitions for class PieceWorker
+#include <iostream.h>
+#include "piece1.h"
+
+// Constructor for class PieceWorker
+PieceWorker::PieceWorker(const char *first, const char *last, 
+                         float w, unsigned q)
+   : Employee(first, last)  // call base-class constructor
+{
+   wagePerPiece = w > 0 ? w : 0;
+   quantity = q > 0 ? q : 0;
+}
+
+// Set the wage
+void PieceWorker::setWage(float w) { wagePerPiece = w > 0 ? w : 0; }
+
+// Set the number of items output
+void PieceWorker::setQuantity(unsigned q)
+   { quantity = q > 0 ? q : 0; }
+
+// Determine the PieceWorker's earnings
+float PieceWorker::earnings() const
+   { return quantity * wagePerPiece; }
+
+// Print the PieceWorker's name 
+void PieceWorker::print() const
+{
+   cout << endl << "     Piece worker: " << getFirstName()
+        << ' ' << getLastName();
+}
+--------------------
+// HOURLY1.H
+// Definition of class HourlyWorker
+#ifndef HOURLY1_H
+#define HOURLY1_H
+#include "employ2.h"
+
+class HourlyWorker : public Employee {
+public:
+   HourlyWorker(const char *, const char *, 
+                float = 0.0, float = 0.0);
+   void setWage(float);
+   void setHours(float);
+   virtual float earnings() const;
+   virtual void print() const;
+private:
+   float wage;   // wage per hour
+   float hours;  // hours worked for week
+};
+
+#endif
+------
+// HOURLY1.CPP
+// Member function definitions for class HourlyWorker
+#include <iostream.h>
+#include "hourly1.h"
+
+// Constructor for class HourlyWorker
+HourlyWorker::HourlyWorker(const char *first, const char *last,
+                           float w, float h)
+   : Employee(first, last)   // call base-class constructor
+{
+   wage = w > 0 ? w : 0;
+   hours = h >= 0 && h < 168 ? h : 0;
+}
+
+// Set the wage
+void HourlyWorker::setWage(float w) { wage = w > 0 ? w : 0; }
+
+// Set the hours worked
+void HourlyWorker::setHours(float h)
+   { hours = h >= 0 && h < 168 ? h : 0; }
+
+// Get the HourlyWorker's pay
+float HourlyWorker::earnings() const { return wage * hours; }
+
+// Print the HourlyWorker's name 
+void HourlyWorker::print() const
+{
+   cout << endl << "    Hourly worker: " << getFirstName()
+        << ' ' << getLastName();
+}
+------------------------
+// FIG10_1.CPP
+// Driver for Employee hierarchy
+
+#include <iostream.h>
+#include <iomanip.h>
+#include "employ2.h"
+#include "boss1.h"
+#include "commis1.h"
+#include "piece1.h"
+#include "hourly1.h"
+
+main()
+{
+   // set output formatting
+   cout << setiosflags(ios::showpoint) << setprecision(2);
+
+   Employee *ptr;  // base-class pointer
+
+   Boss b("John", "Smith", 800.00);
+   ptr = &b;  // base-class pointer to derived-class object
+   ptr->print();                           // dynamic binding
+   cout << " earned $" << ptr->earnings(); // dynamic binding
+   b.print();                              // static binding
+   cout << " earned $" << b.earnings();    // static binding
+
+   CommissionWorker c("Sue", "Jones", 200.0, 3.0, 150);
+   ptr = &c;  // base-class pointer to derived-class object
+   ptr->print();                           // dynamic binding
+   cout << " earned $" << ptr->earnings(); // dynamic binding
+   c.print();                              // static binding
+   cout << " earned $" << c.earnings();    // static binding
+
+   PieceWorker p("Bob", "Lewis", 2.5, 200);
+   ptr = &p;  // base-class pointer to derived-class object
+   ptr->print();                           // dynamic binding
+   cout << " earned $" << ptr->earnings(); // dynamic binding
+   p.print();                              // static binding
+   cout << " earned $" << p.earnings();    // static binding
+
+   HourlyWorker h("Karen", "Price", 13.75, 40);
+   ptr = &h;  // base-class pointer to derived-class object
+   ptr->print();                           // dynamic binding
+   cout << " earned $" << ptr->earnings(); // dynamic binding
+   h.print();                              // static binding
+   cout << " earned $" << h.earnings();    // static binding
+
+   cout << endl;
+
+   return 0;
+}
+-----------------------------------------------------

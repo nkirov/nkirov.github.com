@@ -1,0 +1,101 @@
+// POINT2.H
+// Definition of class Point
+#ifndef POINT2_H
+#define POINT2_H
+
+class Point {
+public:
+   Point(float = 0.0, float = 0.0);  // default constructor
+   ~Point();    // destructor
+protected:      // accessible by derived classes
+   float x, y;  // x and y coordinates of Point
+};
+
+#endif
+-------------
+// POINT2.CPP
+// Member function definitions for class Point
+#include <iostream.h>
+#include "point2.h"
+
+// Constructor for class Point
+Point::Point(float a, float b)
+{
+   x = a;
+   y = b;
+
+   cout << "Point  constructor: "
+        << '[' << x << ", " << y << ']' << endl;
+}
+
+// Destructor for class Point
+Point::~Point()
+{
+   cout << "Point  destructor:  "
+        << '[' << x << ", " << y << ']' << endl;
+}
+------
+// CIRCLE2.H
+// Definition of class Circle
+#ifndef CIRCLE2_H
+#define CIRCLE2_H
+
+#include "point2.h"
+#include <iomanip.h>
+
+class Circle : public Point {
+public:
+   // default constructor
+   Circle(float r = 0.0, float x = 0, float y = 0);
+
+   ~Circle();      // destructor
+private:
+   float radius;   // radius of Circle
+};
+
+#endif
+-------
+// CIRCLE2.CPP
+// Member function definitions for class Circle
+#include "circle2.h"
+
+// Constructor for Circle calls constructor for Point
+Circle::Circle(float r, float a, float b)
+   : Point(a, b)   // call base-class constructor
+{
+   radius = r;
+
+   cout << "Circle constructor: radius is "
+        << radius << " [" << a << ", " << b << ']' << endl;
+}
+
+// Destructor for class Circle
+Circle::~Circle()
+{
+   cout << "Circle destructor:  radius is "
+        << radius << " [" << x << ", " << y << ']' << endl;
+}
+--------
+// FIG9_7.CPP
+// Demonstrate when base-class and derived-class
+// constructors and destructors are called.
+
+#include <iostream.h>
+#include "point2.h"
+#include "circle2.h"
+
+main()
+{
+   // Show constructor and destructor calls for Point
+   {
+      Point p(1.1, 2.2);
+   }
+
+   cout << endl;
+   Circle circle1(4.5, 7.2, 2.9);
+   cout << endl;
+   Circle circle2(10, 5, 5);
+   cout << endl;
+   return 0;
+}
+-----------------------------------

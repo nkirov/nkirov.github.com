@@ -1,0 +1,381 @@
+\medskip
+\eng{1}
+Кой тип данни може да се постави на мястото на ...
+така, че стойността на променливата \verb|pti^| да стане 10 или 8?
+ \vspace{-2mm}\begin{verbatim}
+var pti: ^longint;
+    ptr: ...;
+    i: longint;
+begin
+   i:=MemAvail;
+   New(pti); New(ptr);
+   pti^:=i-MemAvail;
+end.
+ \end{verbatim}\vspace{-6mm}
+
++ \verb|^longint|
+
+- \verb|^real|
+
++ \verb|^single|
+
+- \verb|^double|
+
+- \verb|^comp|
+
++ \verb|^integer|
+
+- \verb|^byte|
+
+- \verb|^shortint|
+
++ \verb|^word|
+
+- \verb|longint|
+
+- \verb|real|
+
+- \verb|integer|
+
+- \verb|byte|
+
+- \verb|shortint|
+
+- \verb|word|
+
+- \verb|pointer|
+
+\medskip
+\eng{2}
+Кой оператор може да се постави на мястото на ...
+така, че при изпълнение на програмата на екрана да се
+отпечата \verb|Oops!| при условие, че в текущата директория
+има файл с име \verb|alabala|.
+ \vspace{-2mm}\begin{verbatim}
+const ...;
+var f: file of real;
+begin
+   assign(f,name);
+   {$I-}reset(f);{$I+}
+   if IOresult<>0 then writeln('Oops!')
+                  else close(f);
+end.
+ \end{verbatim}\vspace{-6mm}
+
+- \verb|name='alabala'|
+
+- \verb|name=alabala|
+
++ \verb|name='balabala'|
+
++ \verb|name='balabalab'|
+
++ \verb|name='ala.bala'|
+
++ \verb|name='ala.bal.a'|
+
+- \verb|name=''|
+
++ \verb|name=' '|
+
++ \verb|name='input'|
+
++ \verb|name='output'|
+
+
+\medskip
+\eng{3}
+Кой оператор може да се постави на мястото на ...
+така, че при изпълнение на програмата на екрана да се
+отпечата \verb|Oops!| при условие, че в текущата директория
+има файл с име \verb|alabala|.
+ \vspace{-2mm}\begin{verbatim}
+const ...;
+var f: text;
+begin
+   assign(f,name);
+   {$I-}rewrite(f);{$I+}
+   if IOresult<>0 then writeln('Oops!')
+                  else close(f);
+end.
+ \end{verbatim}\vspace{-6mm}
+
+- \verb|name='alabala'|
+
+- \verb|name=alabala|
+
+- \verb|name='balabala'|
+
+- \verb|name='tova_e_file'|
+
+- \verb|name='ala.bala'|
+
++ \verb|name='ala.bal.a'|
+
+- \verb|name=''|
+
++ \verb|name=' '|
+
+- \verb|name='input'|
+
+- \verb|name='output'|
+
++ \verb|name='ala*bala'|
+
++ \verb|name='alabala?'|
+
+
+\medskip
+\eng{4}
+Отбележете  правилните дефиниции на типове данни
+(в секция \verb|type|).
+
++ \verb|aset=set of char|
+
+- \verb|izb=(o, t, t, f)|
+
++ \verb|arec=record x,y,z:^byte end|
+
++ \verb|st20=string[2]|
+
+- \verb|stl=string[]|
+
+- \verb|st8=string(8)|
+
+- \verb|ole0=(1..10,11..20)|
+
++ \verb|ole00=set of 1..20|
+
+- \verb|role=set of real|
+
+- \verb|record p:char; q:byte end|
+
+- \verb|abxyy=record x,y:real|
+
+- \verb|bo=string[boolean]|
+
+- \verb|box=case of char|
+
+- \verb|Mxy=integer of string|
+
++ \verb|BigString=^string|
+
++ \verb|bpt=^boolean|
+
+- \verb|f: text|
+
++ \verb|ftype=text|
+
++ \verb|pttype=pointer|
+
++ \verb|apt=array[1..10] of pointer|
+
++ \verb|fr=file of real|
+
+- \verb|file=file of integer|
+
++ \verb|arF=record f:file end|
+
++ \verb|FF=file of record f:file end|
+
+
+\medskip
+\eng{5}
+Дадени са следните дефиниции:
+ \vspace{-2mm}\begin{verbatim}
+type  stype=array[1..10] of string[20];
+      ptstype=^stype;
+var   pts: ^string;
+      ptm: ptstype;
+const st: string='This is a string';
+ \end{verbatim}\vspace{-6mm}
+Верни ли са операторите за присвояване?
+
+- \verb|pts:=ptm[1]|
+
+- \verb|pts:=^ptm[1]|
+
++ \verb|st:=ptm^[1]|
+
++ \verb|ptm^[1]:=st|
+
++ \verb|ptm^[1][9]:=st[1]|
+
++ \verb|pts:=@st|
+
+- \verb|st:=@pts|
+
++ \verb|pts:=@ptm^[1]|
+
+- \verb|@st:=pts|
+
+- \verb|ptm^[1]:=@st|
+
+\medskip
+\eng{6}
+Кои от следните идентификатори са стандартни функции или процедури
+за работа с \eng{heap}-а и/или с адреси от паметта на компютъра.
+
++ \verb|MemAvail|
+
++ \verb|MaxAvail|
+
++ \verb|GetMEM|
+
++ \verb|FreeMEM|
+
++ \verb|NEW|
+
++ \verb|Mark|
+
++ \verb|Release|
+
++ \verb|Dispose|
+
+- \verb|Dispoze|
+
+- \verb|BlockRead|
+
+- \verb|Reset|
+
+- \verb|Assign|
+
+- \verb|Truncate|
+
+- \verb|Memory|
+
+- \verb|Heap|
+
++ \verb|Addr|
+
++ \verb|Ptr|
+
++ \verb|Ofs|
+
++ \verb|Seg|
+
+- \verb|Pointer|
+
+- \verb|Nil|
+
+
+\medskip
+\eng{7}
+Кои от следните стандартни функции или процедури
+имат или могат да имат за първи фактически параметър променлива от
+тип \verb|text| ?
+
+- \verb|FindFirst|
+
+- \verb|FreeMEM|
+
+- \verb|Length|
+
+- \verb|BlockRead|
+
+- \verb|BlockWrite|
+
++ \verb|Reset|
+
++ \verb|Assign|
+
++ \verb|Rewrite|
+
+- \verb|Seek|
+
+- \verb|Truncate|
+
+- \verb|Delete|
+
+- \verb|Copy|
+
+- \verb|FilePos|
+
++ \verb|Writeln|
+
++ \verb|Readln|
+
+- \verb|Pointer|
+
+- \verb|Nil|
+
+
+\medskip
+\eng{8}
+Кои от следните дефиниции могат да се използват за работа със
+свързани списъци?
+
+- \verb|al=record s:string; pr:^al end|
+
+- \verb|az=record s:string; pr:^string end|
+
+- \verb|as=string|
+
++ \verb|ak=record a:real; k:pointer end|
+
++ \verb|varL: record a:real; av:pointer end|
+
+- \verb|vL: ^record c: char; a:pointer end|
+
+- \verb|pvar: record p:pointer end|
+
++ \verb|p:record a:byte; p:pointer end|
+
++ \verb|M=record a:pointer; b,c,d: real end|
+
+
+\medskip
+\eng{9}
+Дадена е следната програма
+ \vspace{-2mm}\begin{verbatim}
+uses DOS;
+var SR: SearchRec;
+    mask: string;
+begin
+   SR.name:='';
+   mask:=...;
+   FindFirst(mask,AnyFile, SR);
+   writeln(SR.name);
+end.
+ \end{verbatim}\vspace{-6mm}
+Нека последната успешно изпълнена ДОС команда е
+ \vspace{-2mm}\begin{verbatim}
+copy my.pas a:
+ \end{verbatim}\vspace{-6mm}
+и дискетата още се намира в дискетното устройство. Какво може да се
+постави на мястото на ..., за да бъде в сила \verb|SR.name>''| ?
+
++ \verb|'*.pas'|
+
++ \verb|'my.pas'|
+
++ \verb|'my.*'|
+
++ \verb|'*.*'|
+
++ \verb|'a:*.pas'|
+
++ \verb|'c:*.pas'|
+
++ \verb|'a:*.*'|
+
++ \verb|'c:\*.*'|
+
++ \verb|'a:\*.*'|
+
+- \verb|'m.*'|
+
+- \verb|''|
+
++ \verb|'*.?as'|
+
++ \verb|'??.???'|
+
++ \verb|'m?.pas'|
+
++ \verb|'?y.*|
+
+- \verb|'*.p'|
+
+
+

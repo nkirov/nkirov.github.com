@@ -1,0 +1,611 @@
+\medskip
+\eng{1}
+Отбележете  правилните дефиниции на типове данни
+(в секция \verb|type|).
+
++ \verb|aset=set of char|
+
++ \verb|A=array[boolean] of boolean|
+
++ \verb|izb=(one, two, three, four)|
+
++ \verb|arec=record x,y,z:byte end|
+
++ \verb|pts=^string|
+
++ \verb|st20=string[2]|
+
+- \verb|stf=string[300]|
+
+- \verb|stl=string[]|
+
+- \verb|st8=string(8)|
+
+- \verb|ole0=(1..10,11..20)|
+
+- \verb|ole10=set of (1..10)|
+
++ \verb|ole00=set of 1..20|
+
+- \verb|role=set of real|
+
+- \verb|record p:char; q:byte end|
+
+- \verb|abxyy=record x,y:real|
+
+- \verb|bo=string[boolean]|
+
+- \verb|bou=case of char|
+
++ \verb|pti=^integer|
+
+- \verb|Mxy=integer of string|
+
+- \verb|TeX=string[25]|
+
+- \verb|BigString=string[256]|
+
+- \verb|SmallSet0=set of ('A','B')|
+
+- \verb|SmallSet1=set of ['A','B']|
+
++ \verb|SmallSet2=set of (A, B)|
+
+- \verb|SmallSet3=set of [A, B]|
+
++ \verb|rpt=^real|
+
++ \verb|bpt=^boolean|
+
+
+\medskip
+\eng{2}
+Дадени са следните дефиниции:
+ \vspace{-1mm}\begin{verbatim}
+type
+ numb=(one,two,three);
+ nset=set of numb;
+ point=record
+        ix,iy: integer;
+       end;
+ square=array[1..4] of point;
+ figure=record
+         nu: numb;
+         ns: nset;
+         P,Q: point;
+         sq: square;
+         asq: array[byte] of square;
+         case byte of
+           0: (case0, case1: char);
+          10: (case10: point);
+         end;
+var M: array[-1..2] of figure;
+ \end{verbatim}\vspace{-4mm}
+Отбележете верните твърдения.
+
++ \verb|M[1].nu|   е от тип  \verb|numb|
+
+- \verb|M[1].nu|   е от тип  \verb|nset|
+
+- \verb|M[-1].nu|   е от тип  \verb|square|
+
++ \verb|M[2].ns|    е от тип  \verb|nset|
+
+- \verb|M[0].ns|    е от тип  \verb|numb|
+
++ \verb|M[0].P|    е от тип  \verb|point|
+
++ \verb|M[0].Q|    е от тип  \verb|point|
+
+- \verb|M[2].Q|    е от тип  \verb|integer|'
+
++ \verb|M[2].Q.ix|    е от тип  \verb|integer|
+
+- \verb|M[1].Q.ix|    е от тип  \verb|point|
+
+- \verb|M[1].asq|    е от тип  \verb|square|
+
+- \verb|M[1].asq|    е от тип  \verb|point|
+
++ \verb|M[1].asq[1]|    е от тип  \verb|square|
+
+- \verb|M[1].asq[255]|    е от тип  \verb|byte|
+
+- \verb|M[1].asq[0].ix|    е от тип  \verb|byte|
+
++ \verb|M[0].asq[0].ix|    е от тип  \verb|integer|
+
+- \verb|M[-1].asq[1].iy|    е от тип  \verb|point|
+
+- \verb|M[1].asq[10].iy|    е от тип  \verb|square|
+
++ \verb|M[1].asq[10].iy|    е от тип  \verb|integer|
+
+- \verb|M[1].asq[10].iy|    е от тип  \verb|numb|
+
++ \verb|M[2].case10| е от тип \verb|point|
+
+- \verb|M[2].case10| е от тип \verb|byte|
+
++ \verb|M[2].case10.ix| е от тип \verb|integer|
+
+- \verb|M[2].case10.ix| е от тип \verb|byte|
+
+- \verb|M[2].case10.iy| е от тип \verb|real|
+
++ \verb|M[1].case1|  е от тип \verb|char|
+
++ \verb|M[1].case0|  е от тип \verb|char|
+
+- \verb|M[2].case0|  е от тип \verb|byte|
+
+- \verb|M[-1].case0|  е от тип \verb|point|
+
+
+
+
+\medskip
+\eng{3}
+Дадени са следните дефиниции:
+ \vspace{-1mm}\begin{verbatim}
+type
+  numb=(one,two,three);
+  nset=set of numb;
+  point=record
+          ix,iy: integer;
+        end;
+  square=array[1..4] of point;
+  figure=record
+           nu: numb;
+           ns: nset;
+           P,Q: point;
+           sq: square;
+           asq: array[byte] of square;
+           case byte of
+             0: (case0, case1: char);
+            10: (case10: point);
+           end;
+var M: array[-1..1] of figure;
+ \end{verbatim}\vspace{-4mm}
+При тези дефиниции отбележете съществуващите
+(правилно написани) променливи:
+
++ \verb|M|
+
++ \verb|M[0].nu|
+
++ \verb|M[0].asq|
+
++ \verb|M[0].P|
+
++ \verb|M[-1].asq[0]|
+
++ \verb|M[-1].ASQ[10].ix|
+
++ \verb|m[0].P.IX|
+
++ \verb|m[1].p.iy|
+
++ \verb|m[1].case0|
+
++ \verb|m[1].case10.ix|
+
+- \verb|m[3].nu|
+
+- \verb|m[1].p.nu|
+
+- \verb|M.case0|
+
+- \verb|M.asq[1].ix|
+
+- \verb|M[0].ix|
+
+- \verb|M[0].iy|
+
+- \verb|M[1].P.Q|
+
+- \verb|M[0].nu.one|
+
+- \verb|M[2].case1|
+
+- \verb|M[2].asq[1].iy|
+
+- \verb|M[0].asq[256].iy|
+
+- \verb|M[1].case|
+
+- \verb|M[-1].ns.two|
+
+\medskip
+\eng{4}
+Дадени са следните дефиниции:
+ \vspace{-1mm}\begin{verbatim}
+type tmas=array[byte] of integer;
+     tzap=record
+            pt: ^integer;
+            pmas: ^tmas;
+          end;
+var mas: ^tmas;
+    zap: tzap;
+ \end{verbatim}\vspace{-4mm}
+Кои от следните променливи са тип \verb|integer|?
+
++ \verb|mas^[200]|
+
+- \verb|mas|
+
+- \verb|mas^|
+
+- \verb|zap|
+
+- \verb|zap.pt|
+
++ \verb|zap.pt^|
+
+- \verb|zap.pmas|
+
+- \verb|zap.pmas^|
+
++ \verb|zap.pmas^[100]|
+
+
+\medskip
+\eng{5}
+Дадени са следните дефиниции:
+ \vspace{-1mm}\begin{verbatim}
+type tmas=array[byte] of integer;
+     tzap=record
+            pt: ^integer;
+            pmas: ^tmas;
+          end;
+var mas: ^tmas;
+    zap: tzap;
+ \end{verbatim}\vspace{-4mm}
+Отбележете променливите от тип \verb|pointer|.
+
++ \verb|mas|
+
+- \verb|mas^|
+
+- \verb|mas[10]|
+
+- \verb|mas^[10]|
+
+- \verb|mas[10]^|
+
+- \verb|^mas|
+
+- \verb|^mas[10]|
+
+- \verb|^mas^[10]|
+
+- \verb|^mas[10]^|
+
+- \verb|zap|
+
+- \verb|zap^|
+
+- \verb|zap^.pt|
+
+- \verb|zap^.pt^|
+
+- \verb|zap.^pt|
+
++ \verb|zap.pt|
+
++ \verb|zap.pmas|
+
+- \verb|zap^.pmas|
+
+- \verb|zap.^pmas|
+
+- \verb|zap.pmas^[255]|
+
+- \verb|zap.pmas^[300]|
+
+- \verb|zap.pmas[100]^|
+
+- \verb|^zap|
+
+- \verb|^zap.pmas|
+
+- \verb|^zap.pmas^[10]|
+
+
+\medskip
+\eng{6}
+Дадени са следните дефиниции:
+ \vspace{-1mm}\begin{verbatim}
+type mastype=array[1..10] of real;
+     ptmastype=^mastype;
+var ptr: ^real;
+    ptmas: ptmastype;
+    r: real;
+ \end{verbatim}\vspace{-4mm}
+Верни ли са операторите за присвояване?
+
++ \verb|ptr^:=r|
+
++ \verb|ptmas^[5]:=r|
+
+- \verb|ptmas^[1]:=ptr|
+
++ \verb|ptmas^[1]:=1|
+
+- \verb|ptr:=ptmas^[10]|
+
++ \verb|ptr^:=ptmas^[1]|
+
+- \verb|ptr:=r|
+
+- \verb|ptmas:=r|
+
++ \verb|ptmas^[2]:=ptr^|
+
++ \verb|ptr^:=101.1|
+
+- \verb|ptr:=1002|
+
++ \verb|r:=ptr^|
+
+- \verb|r:=ptr|
+
+- \verb|r:=ptmas|
+
+- \verb|r:=ptmas^|
+
++ \verb|r:=ptmas^[10]|
+
++ \verb|r:=10001|
+
+
+\medskip
+\eng{7}
+Дадени са следните дефиниции:
+ \vspace{-1mm}\begin{verbatim}
+type mra=array[boolean] of char;
+     mrd=record
+           i,j: ^char;
+           p: string;
+     end;
+var n: ^mra;
+    m: array[boolean] of mrd;
+    p: string;
+ \end{verbatim}\vspace{-4mm}
+Отбележете променливите от тип \verb|char|.
+
+- \verb|n|
+
+- \verb|n^|
+
++ \verb|n^[true]|
+
++ \verb|n^[false]|
+
+- \verb|m|
+
+- \verb|m[true]|
+
+- \verb|m[false]|
+
+- \verb|m[true].i|
+
+- \verb|m[false].j|
+
++ \verb|m[true].i^|
+
++ \verb|m[false].j^|
+
+- \verb|m[false].p|
+
++ \verb|m[true].p[25]|
+
+
+
+\medskip
+\eng{8}
+Кои от следните идентификатори са стандартни процедури, които
+имат изходен параметър от тип  \verb|string|:
+
++ \verb|delete|
+
+- \verb|pos|
+
++ \verb|insert|
+
+- \verb|copy|
+
+- \verb|paste|
+
+- \verb|ord|
+
+- \verb|char|
+
+- \verb|chr|
+
++ \verb|str|
+
+- \verb|val|
+
+- \verb|value|
+
+- \verb|string|
+
+- \verb|remove|
+
+- \verb|length|
+
+
+
+\medskip
+\eng{9}
+При кои оператор или блок, поставен на мястото на $\ldots$
+програмата ще отпечати числото 15:
+ \vspace{-1mm}\begin{verbatim}
+function recurs(k:integer):integer;
+begin
+   if k=0 then ...
+          else recurs:=k+recurs(k-1);
+end;
+begin
+   writeln(recurs(5));
+end.
+ \end{verbatim}\vspace{-4mm}
+
+- \verb|k:=k+1|
+
++ \verb|begin k:=1; recurs:=0 end|
+
++ \verb|recurs:=0|
+
++ \verb|begin k:=k-1; recurs:=0 end|
+
++ \verb|begin k:=k-2; recurs:=0 end|
+
+- \verb|k:=k-2|
+
+- \verb|k:=k-1|
+
+- \verb|k:=0|
+
++ \verb|recurs:=k|
+
+- \verb|recurs:=1|
+
+- \verb|recurs:=k-1|
+
+- \verb|recurs:=-1|
+
+- \verb|begin k:=k-1; recurs:=1 end|
+
+- \verb|begin k:=k+1; recurs:=-1 end|
+
+- \verb|begin k:=recurs(0); recurs:=0 end|
+
+- \verb|k:=recurs(1)|
+
+- \verb|recurs(0)|
+
+- \verb|recurs:=recurs(0)|
+
+- \verb|recurs:=recurs(5)|
+
+
+\medskip
+\eng{10}
+Кои редове представляват правилна инициализация на променливи
+в секцията \verb|const|:
+
+
+- \verb|i=10|
+
++ \verb|s: set of char=[]|
+
++ \verb|st: string='Ala bala'|
+
++ \verb|izb: (one, two, three, four)=two|
+
++ \verb|R:record x,y:real end=(x:10;y:20)|
+
+- \verb|F:record x,y:real end=(10; 20)|
+
++ \verb|ch: char='A'|
+
++ \verb|intt: integer=10|
+
++ \verb|rrt: real=3.14|
+
+- \verb|rr=3.14|
+
+- \verb|stt='Ala bala'|
+
++ \verb|iizb: (o1,o2,o3,o4)=(o1)|
+
+- \verb|iiizb: (o1,o2,o3,o4)=(o1,o2)|
+
+- \verb|iiiizb: (o1,o2,o3,o4)=(o1;o2)|
+
+- \verb|sso: set of byte=(1, 0)|
+
+- \verb|sto: set of byte=[1]|
+
++ \verb|bbo1: set of boolean=[]|
+
+- \verb|bbo: set of boolean=[0]|
+
+- \verb|b12: boolean=[true]|
+
++ \verb|bbb: boolean=(true)|
+
+- \verb|ar:array[1..2] of boolean=(true)|
+
++ \verb|A:array[1..2] of boolean=(true,false)|
+
+- \verb|L:array[1..2] of boolean=[true, false]|
+
+- \verb|P:array[byte] of boolean=(true, false)|
+
+- \verb|I:array[-1..1] of char=('a','b')|
+
++ \verb|O:array[-1..1] of char=('a','b','c')|
+
++ \verb|Q:array[boolean] of char=('z','-')|
+
+- \verb|G:array[byte] of char=(0:'z'; 1:'-')|
+
+\medskip
+\eng{11}
+Дадена следната програма с липсващ ред:
+ \vspace{-1mm}\begin{verbatim}
+const test1:string='This is test1.';
+var k: byte;
+begin
+   ...
+   k:=pos('e',test1);
+   writeln(k);
+end.
+ \end{verbatim}\vspace{-4mm}
+При кой оператор, поставен на мястото на $\ldots$, програмата
+ще отпечати числото 10 или числото 2.
+
+- \verb|delete(test1,1,1)|
+
++ \verb|delete(test1,1,8)|
+
+- \verb|insert('A ',test1,1)|
+
++ \verb|delete(test1,length(test1),1)|
+
+- \verb|test1[10]:='E'|
+
++ \verb|test1[10]:='e'|
+
++ \verb|test1[2]:='e'|
+
++ \verb|test1[11]:='e'|
+
++ \verb|test1:=copy('test1',1,10)|
+
++ \verb|test1:=copy(test1,1,10)|
+
++ \verb|test1:=copy(test1,1,100)|
+
+- \verb|test1:=copy(test1,2,11)|
+
+- \verb|test1:=copy(test1,8,2)|
+
++ \verb|test1:=copy(test1,9,2)|
+
++ \verb|test1:=test1+'test1'|
+
++ \verb|test1:='test1'+test1|
+
++ \verb|test1:='123456789e'|
+
++ \verb|test1:='1'+copy(test1,2,10)|
+
++ \verb|test1:='1'+copy(test1,10,1)|
+
+- \verb|test1:=copy(test1,1,1)+test1|
+
++ \verb|test1:='test1'+test1[length(test1)]|

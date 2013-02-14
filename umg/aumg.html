@@ -1,0 +1,345 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+   <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+   <title>umg</title>
+</head>
+<body>
+<a href="../index.html">Nikolay Kirov</a>
+<br><a href="../res_en.html">Research interests</a>
+<br><a href="../umg.html">Mesh generators and finite element solvers</a>
+<br><a href="Sems.html">Unstructured mesh generators and a finite element
+solver</a>
+<h3>
+Automatic unstructured mesh generation.</h3>
+
+<h4>
+Triangle and tetrahedral meshing</h4>
+<b>Octree</b>
+<table CELLPADDING=6 COLS=2 WIDTH="100%" >
+<tr>
+<td>Cubes containing the geometric model are recursively subdivided until
+the desired resolution is reached. Irregular cells are then created where
+cubes intersect the surface. Tetrahedra are generated from both the irregular
+cells on the boundary and the internal regular cells.</td>
+
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="fig1.gif" height=208 width=204></td>
+</tr>
+</table>
+
+<p><b>Advancing front</b>
+<table CELLPADDING=6 COLS=2 WIDTH="100%" >
+<tr>
+<td>The tetrahedra are built progressively inward from the triangulated
+surface. An active front is maintained where new tetrahedra are formed.
+As the algorithm progresses, the front will advance to fill the remainder
+of the area with triangles. Also required intersection checks to ensure
+that triangles do not overlap as opposing fronts advance toward each other.</td>
+
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="fig2.gif" height=265 width=399></td>
+</tr>
+</table>
+
+<p><b>Delaunay</b>
+<br>The Delaunay criteria: Any node must not be contained within the circumsphere
+of any tetrahedra within the mesh. Mesh the boundary of the geometry model
+to provide an initial set of nodes. The boundary nodes are then triangulated
+according to the Delaunay criterion. Nodes are then inserted incrementally
+into the existing mesh, redefining the triangles or tetrahedra locally
+as each new node is inserted to maintain the Delaunay criterion.
+<table CELLPADDING=6 COLS=2 WIDTH="100%" >
+<tr>
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="fig3a.gif" height=223 width=204></td>
+
+<td>
+<center><img SRC="fig3.gif" height=227 width=351></center>
+</td>
+</tr>
+</table>
+
+<p>Methods:
+<br>- define nodes from a regular grid of points;
+<br>- nodes be recursively inserted at triangle or tetrahedral centroids;
+<br>- nodes at element circumcircle/circumsphere centers;
+<br>- advancing front approach to node insertion;
+<br>- point insertion along edges.
+<br>&nbsp;
+<h3>
+The mesh quality</h3>
+The <b>aspect ratio</b> (a.r.) of the triangle or tetrahedron is the length
+of the longest edge divided by the length of the shortest altitude.
+<br><img SRC="fig11.gif" height=134 width=524>
+<p>a.r. = 2/<font face="symbol">&Ouml;</font>3&nbsp; <font face="symbol">&raquo;</font>
+1.15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+a.r. =&nbsp; 4
+<br>&nbsp;
+<p>The minimum angle <font face="symbol">a</font>, gives a bound of <font face="symbol">p</font>-2<font face="symbol">a</font>
+of maximum angle and guarantees an aspect ratio between |1/sin<font face="symbol">a</font>|
+and |2/sin<font face="symbol">a</font>|.
+<br>&nbsp;
+<table CELLPADDING=6 COLS=2 WIDTH="100%" >
+<tr>
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="fig9.gif" height=205 width=469></td>
+
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="fig10.gif" height=324 width=334></td>
+</tr>
+</table>
+
+<p>A skinny triangle will have a circumcircle much lager than its shortest
+edge. Tetrahedra can have roughly equal length edges, a reasonably sized
+circumsphere, and yet be arbitrary skinny.
+<p><b>Definition.</b>
+<br>A tetrahedral shape measure is a continuous function that evaluates
+the quality of a tetrahedron. It must be invariant under translation, rotation,
+reflection and uniform scaling of the tetrahedron. It must be maximum for
+the regular tetrahedron and it must be minimum for a degenerate tetrahedron.
+There is no local maximum other than the global maximum for a regular tetrahedron
+and there is no local minimum other than the global minimum for a degenerate
+tetrahedron. For the easy of comparison, it should be scaled to the interval
+[0,1], and be 1 for the regular tetrahedron and 0 for a degenerate tetrahedron.
+<p>An aspect ratio function, defining by
+<center><table>
+<tr VALIGN=CENTER>
+<td NOWRAP><font face="symbol">g </font>=</td>
+
+<td NOWRAP>
+<table CELLSPACING=0 CELLPADDING=0 >
+<tr>
+<td ALIGN=CENTER NOWRAP>12</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<table BORDER=0 CELLSPACING=0 WIDTH="100%" >
+<tr>
+<td></td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td ALIGN=CENTER NOWRAP>6</td>
+</tr>
+</table>
+</td>
+
+<td NOWRAP><font size=+2>&middot;</font></td>
+
+<td NOWRAP>
+<table CELLSPACING=0 CELLPADDING=0 >
+<tr>
+<td ALIGN=CENTER NOWRAP>radius of inscribed sphere</td>
+</tr>
+
+<tr>
+<td BGCOLOR="#000000">
+<table BORDER=0 CELLSPACING=0 WIDTH="100%" >
+<tr>
+<td></td>
+</tr>
+</table>
+</td>
+</tr>
+
+<tr>
+<td ALIGN=CENTER NOWRAP>length of largest edge</td>
+</tr>
+</table>
+</td>
+</tr>
+</table></center>
+is a tetrahedral shape measure but minimum dihedral angle is not (according
+to the definition).
+<br>&nbsp;
+<h3>
+Mesh post-processing</h3>
+<b>Smoothing</b>
+<br>Smoothing includes any method that adjust node locations while maintaining
+the element connectivity.
+<table CELLPADDING=6 COLS=2 WIDTH="100%" >
+<tr>
+<td>Methods:
+<br>&nbsp;- Laplacian smoothing} - an internal nodes placed at the average
+location of any other node connected to it by an edge;</td>
+
+<td>
+<center><img SRC="fig4.gif" height=209 width=208></center>
+</td>
+</tr>
+</table>
+&nbsp;- optimization-based smoothing techniques measure the quality of
+the surrounding elements to a node and attempt to optimize by computing
+the local gradient of the element quality with respect to the node location;
+<br>&nbsp;- physically-based methods - reposition nodes using simulated
+physically based attraction or repulsion force.
+<p><b>Cleanup</b>
+<br>Cleanup methods improve the quality of the mesh by making local changes
+to the element connectivities.
+<br>Topological improvement:
+<li>
+In 2D - simple diagonal swaps.</li>
+
+<br><img SRC="fig5.gif" height=195 width=557>
+<li>
+In 3D -- swapping two adjacent interior tetrahedra sharing the same face.</li>
+
+<br>&nbsp;
+<table CELLPADDING=6 COLS=2 WIDTH="100%" >
+<tr>
+<td><img SRC="fig7.gif" height=390 width=489></td>
+
+<td ALIGN=CENTER VALIGN=CENTER><img SRC="fig8.gif" height=230 width=513></td>
+</tr>
+</table>
+
+<p>Topological improvement -&nbsp; attempt to optimize the number of edges
+sharing a single node (node degree).
+<p><b>Refinement</b>
+<br>Refinement effectively reduces the local element size.
+<li>
+&nbsp;Edge bisection involves splitting individual edges in the triangulation.</li>
+
+<li>
+&nbsp;Point insertion - to insert a single node at the centroid of an existing
+element, dividing the triangle into 3 or tetrahedron into 4.</li>
+
+<br><img SRC="fig6.gif" height=199 width=565>
+<br>&nbsp;
+<li>
+Template - a specific decomposition of the triangle.</li>
+
+<br>- decompose a triangle into 4 similar triangles by inserting a new
+node at each of its edges;
+<br>- decompose tetrahedron into 8 tetrahedra where each face of the tetrahedron
+has been decomposed into 4 similar triangles.
+<br><img SRC="fig12.gif" height=96 width=542>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;<i> red refinement&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+green refinement</i>
+<br>&nbsp;
+<h3>
+Triangle</h3>
+[J. R. Shewchuk, Carnegie Mellon University]
+<br><b><tt>Triangle</tt></b> is a C-program for 2D mesh generation and
+construction of Delaunay triangulation and constrained Delaunay triangulation.
+\smallskip Main features:
+<li>
+&nbsp;user-specified constraints on angles and triangle areas;</li>
+
+<li>
+user-specified holes and concavities;</li>
+
+<li>
+use of exact arithmetic to improve robustness.</li>
+
+<br><b><tt>Triangle</tt></b>'s input is a planar straight line graph (PSLG)
+defined to be a collection of vertices and segments, where the endpoints
+of every segment are included in the list of vertices.
+<p><b><tt># unite square</tt></b>
+<br><b><tt>4 2 0 1</tt></b>
+<br><b><tt>1 0.0 0.0 1</tt></b>
+<br><b><tt>2 0.0 1.0 1</tt></b>
+<br><b><tt>3 1.0 1.0 1</tt></b>
+<br><b><tt>4 1.0 0.0 1</tt></b>
+<br><b><tt>4 1</tt></b>
+<br><b><tt>1 1 2 1</tt></b>
+<br><b><tt>2 2 3 1</tt></b>
+<br><b><tt>3 3 4 1</tt></b>
+<br><b><tt>4 4 1 1</tt></b>
+<br><b><tt>0</tt></b>
+<h3>
+QMG</h3>
+[Stephan A. Vavasis, Cornell University]
+<br>The Quality Mesh Generator (QMG) package does finite element mesh generation
+in two and three dimensions. The package includes <i>geometric modeling
+software</i>, <i>the mesh generator</i> itself and a simple finite element
+solver.&nbsp; QMG consists of 60 MATLAB function and uses the scripting
+capabilities of MATLAB software package. The QMG handles complicated topology.
+The domain can have <i>holes</i> and quite complex <i>internal boundaries</i>.
+Input data have to be presented in form of a&nbsp; <b><tt>brep</tt></b>.
+A&nbsp; <b><tt>brep</tt></b> is a geometric object that is specified by
+its boundary faces. All breps must have <i>flat boundaries</i>, i.e. every
+element of the boundary must be a subset of a linear affine space. Abstractly,
+a <b><tt>brep</tt></b> is an acyclic directed graph. Every node in the
+graph stands for a face of the brep. The term "face'' refers to a vertex,
+edge or facet. The interior of the brep is also considered a face. Each
+of these faces has some information associated to it (for instance, vertices
+have their space coordinates associated with them). The arcs of the directed
+graph indicate boundary relationships. For example, an edge that is bounded
+by two vertices has arcs to those two vertices to indicate the bounding
+relation. A facet has arcs to the edges that act as its boundary.
+<p><b><tt># unite cube</tt></b>
+<br><b><tt>&lt; brep</tt></b>
+<br><b><tt>&nbsp;&lt; 3 3</tt></b>
+<br><b><tt>&nbsp;&nbsp; &lt; (</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_0 (&lt; point (0.0 0.0 0.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_1 (&lt; point (1.0 0.0 0.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_2 (&lt; point (0.0 1.0 0.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_3 (&lt; point (0.0 0.0 1.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_4 (&lt; point (1.0 1.0 0.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_5 (&lt; point (0.0 1.0 1.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_6 (&lt; point (1.0 0.0 1.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; &lt; v0_7 (&lt; point (1.0 1.0 1.0)
+>) () () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; )&nbsp; &lt; (</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_0 () (v0_0
+v0_1) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_1 () (v0_0
+v0_2) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_2 () (v0_0
+v0_3) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_3 () (v0_1
+v0_4) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_4 () (v0_1
+v0_6) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_5 () (v0_2
+v0_4) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_6 () (v0_2
+v0_5) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_7 () (v0_3
+v0_5) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_8 () (v0_3
+v0_6) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_9 () (v0_4
+v0_7) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_10 () (v0_5
+v0_7) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt; e1_11 () (v0_6
+v0_7) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; )&nbsp; &lt; (</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt; f2_0 () (e1_0 e1_1 e1_5 e1_3 ) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt; f2_1 () (e1_7 e1_10 e1_11 e1_8 ) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt; f2_2 () (e1_0 e1_4 e1_8 e1_2 ) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt; f2_3 () (e1_1 e1_2 e1_7 e1_6 ) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt; f2_4 () (e1_5 e1_9 e1_10 e1_6 ) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt; f2_5 () (e1_3 e1_4 e1_11 e1_9 ) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+) &lt; (</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt; d3_0 () (f2_0 f2_1 f2_2 f2_3 f2_4 f2_5) () ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+) nil</tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ></tt></b>
+<br><b><tt>&nbsp;&nbsp;&nbsp;&nbsp; ></tt></b>
+<br><b><tt>&nbsp; ></tt></b>
+<br>
+<hr />
+</body>
+</html>

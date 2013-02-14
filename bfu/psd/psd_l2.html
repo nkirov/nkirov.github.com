@@ -1,0 +1,675 @@
+<HTML>
+<HEAD>
+   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1251">
+   <META NAME="Author" CONTENT="Nikolay Kirov">
+   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <TITLE>Pec2</TITLE>
+</HEAD>
+<BODY>
+
+<HR WIDTH="100%">
+<BR><B>2.&nbsp;</B> <B>Вектори и масиви</B>
+<BR><IMG SRC="bullet.gif"  ALIGN=CENTER>&nbsp; Използване на вектори за
+съхраняване на данни
+<BR>* Векторът е множество от данни от един и същи вид и последователна
+номерация на данните
+<BR>-- дефиниция
+<BR><B><TT><FONT COLOR="#009900">vector&lt;double> salaries(10);</FONT></TT></B>
+<BR>-- използване
+<BR><B><TT><FONT COLOR="#009900">salaries[4] = 355;</FONT></TT></B>
+<BR>-- номериране на индекси
+<BR><B><TT><FONT COLOR="#009900">salaries[0] </FONT></TT></B><FONT COLOR="#000000">-
+първи елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">salaries[1] </FONT></TT></B><FONT COLOR="#000000">-
+втори елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">salaries[2] </FONT></TT></B><FONT COLOR="#000000">-
+трети елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">salaries[3] </FONT></TT></B><FONT COLOR="#000000">-
+четвърти елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">...</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">salaries[9] </FONT></TT></B><FONT COLOR="#000000">-
+десети елемент</FONT>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Индекси на вектори
+<BR>* Граници на индексите - от <B><TT>0</TT></B> до размерността на вектора
+<B><TT>-1</TT></B>
+<BR>Грешка при "излизане извън границите на вектора".
+<BR>* Член-функция за получаване на размерността на вектора
+<BR><B><TT><FONT COLOR="#009900">vector&lt;double> salaries(10);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">...</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">for (i = 0; i &lt; salaries.size(); i++)
+</FONT><FONT COLOR="#000000">оператор</FONT></TT></B>
+<BR>Типичен цикъл за обхождане на елементите на вектора.
+<BR>Вектор с 0 елементи:
+<BR><B><TT><FONT COLOR="#009900">vector&lt;double> salaries;</FONT></TT></B>
+<BR>* Член-функции за увеличаване и намаляване на размера на вектора
+<BR><B><TT><FONT COLOR="#009900">salaries.push_back(</FONT><FONT COLOR="#000000">елемент</FONT><FONT COLOR="#009900">);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">salaries.pop_back();</FONT></TT></B>
+
+<P>Четат се заплати на служители и се чертае графика на заплатите:
+<BR><B><TT><FONT COLOR="#3333FF">#include "ccc_win.cpp"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{ vector&lt;double> salaries;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; bool more = true;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; while (more)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; { double s = cwin.get_double("Please
+enter a salary, 0 to quit: ");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp; if (s == 0) more =
+false;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp; else salaries.push_back(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; double highest = salaries[0];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; for (i = 1; i &lt; salaries.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp; if (salaries[i]
+> highest) highest = salaries[i];</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp; cwin.coord(0, 0, highest, salaries.size());</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; for (i = 0; i &lt; salaries.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; {&nbsp; Point left(0, i);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp; Point right(salaries[i],
+i);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp; Line bar(left,
+right);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp; Message label(left,
+salaries[i]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+bar &lt;&lt; label;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Векторите като параметри и стойности
+на функции
+<BR>*&nbsp; Средно аритметично на елементите на вектор:
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">double average(</FONT><FONT COLOR="#000099">vector&lt;double>
+v</FONT><FONT COLOR="#3333FF">)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; if (</FONT><FONT COLOR="#000099">v.size()</FONT><FONT COLOR="#3333FF">
+== 0) return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; double sum = 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; </FONT><FONT COLOR="#000099">v.size()</FONT><FONT COLOR="#3333FF">;
+i++)&nbsp; sum = sum + </FONT><FONT COLOR="#000099">v[i]</FONT><FONT COLOR="#3333FF">;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return sum / </FONT><FONT COLOR="#000099">v.size()</FONT><FONT COLOR="#3333FF">;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; </FONT><FONT COLOR="#000099">vector&lt;double>
+salaries(5)</FONT><FONT COLOR="#3333FF">;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[0] = 35000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[1] = 63000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[2] = 48000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[3] = 78000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[4] = 51500.0;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; double avgsal = average(</FONT><FONT COLOR="#000099">salaries</FONT><FONT COLOR="#3333FF">);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "The average
+salary is " &lt;&lt; avgsal &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P>*&nbsp; Промяна на стойностите на елементите на вектор:<B><TT><FONT COLOR="#3333FF">&nbsp;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void raise_salaries(</FONT><FONT COLOR="#000099">vector&lt;double>&amp;
+s</FONT><FONT COLOR="#3333FF">, double p)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; s.size();
+i++) </FONT><FONT COLOR="#000099">s[i] = s[i] * (1 + p/100)</FONT><FONT COLOR="#3333FF">;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;double> salaries(5);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[0] = 35000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[1] = 63000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[2] = 48000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[3] = 78000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[4] = 51500.0;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; raise_salaries(salaries, 4.5);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; salaries.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+salaries[i] &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+<BR>&nbsp;
+<BR>* Функцията връща вектор - всички стойности, които попадат в определен
+интервал.
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">vector&lt;double> between(vector&lt;double>
+v, double low, double high)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{ vector&lt;double> result;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; for (i = 0; i &lt; v.size(); i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; if (low &lt;= v[i] and v[i] &lt;=
+high) result.push_back(v[i]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp; return result;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;double> salaries(5);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[0] = 35000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[1] = 63000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[2] = 48000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[3] = 78000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[4] = 51500.0;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; vector&lt;double> midrange_salaries</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = between(salaries,
+45000.0, 65000.0);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; midrange_salaries.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+midrange_salaries[i] &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Прости алгоритми за вектори: намиране
+на стойност, броене и др.
+<BR>* Намиране на стойност:
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int find_first_greater(vector&lt;double>
+a, double t)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int i = 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; while (i &lt; a.size())</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; {&nbsp; if (a[i] > t)&nbsp;&nbsp;
+return i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;
+i++;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return -1;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;double> salaries(5);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[0] = 35000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[1] = 63000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[2] = 48000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[3] = 78000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[4] = 51500.0;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i = find_first_greater(salaries,
+50000);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; if (i > 0)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "The
+first salary above 50000 is at index " &lt;&lt; i</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt; " and is " &lt;&lt; salaries[i] &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P>* Броене:
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int count_greater(vector&lt;double> a,
+double t)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int count = 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+(a[i] > t)&nbsp;&nbsp; count++;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return count;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;double> salaries(5);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[0] = 35000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[1] = 63000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[2] = 48000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[3] = 78000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[4] = 51500.0;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int count = count_greater(salaries,
+50000);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cout &lt;&lt; count &lt;&lt;
+" salaries are above 50000\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><FONT COLOR="#000000">* Намиране на всички съответствия:</FONT>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include "ccc_empl.cpp"</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">vector&lt;int> find_all_greater(vector&lt;double>
+a, double t)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;int> pos;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; {&nbsp; if (a[i] > t)&nbsp;
+pos.push_back(i);&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return pos;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;double> salaries(5);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[0] = 35000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[1] = 63000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[2] = 48000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[3] = 78000.0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; salaries[4] = 51500.0;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; vector&lt;int> matches = find_all_greater(salaries,
+50000);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int j;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "These are
+the salaries above 50000:\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (j = 0; j &lt; matches.size();
+j++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+salaries[matches[j]] &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><FONT COLOR="#000000">* Отстраняване на елемент от вектор:</FONT>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void erase(vector&lt;string>&amp; a, int
+pos)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = pos; i &lt; a.size()
+- 1; i++) a[i] = a[i + 1];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; a.pop_back();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void print(vector&lt;string> a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"[" &lt;&lt; i &lt;&lt; "] " &lt;&lt; a[i] &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;string> staff(5);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[0] = "Cracker, Carl";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[1] = "Hacker, Harry";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[2] = "Lam, Larry";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[3] = "Reindeer, Rudolf";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[4] = "Sandman, Susan";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; print(staff);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int pos;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "Remove which
+element? ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cin >> pos;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; erase(staff, pos);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; print(staff);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><FONT COLOR="#000000">* Вмъкване на елемент на вектор:</FONT>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;string></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;vector></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void insert(vector&lt;string>&amp; a, int
+pos, string s)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int last = a.size() - 1;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; a.push_back(a[last]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = last; i > pos; i--)
+a[i] = a[i - 1];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; a[pos] = s;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void print(vector&lt;string> a)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"[" &lt;&lt; i &lt;&lt; "] " &lt;&lt; a[i] &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; vector&lt;string> staff(5);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[0] = "Cracker, Carl";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[1] = "Hacker, Harry";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[2] = "Lam, Larry";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[3] = "Reindeer, Rudolf";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; staff[4] = "Sandman, Susan";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; print(staff);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int pos;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "Insert before
+which element? ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cin >> pos;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; insert(staff, pos, "New, Nina");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; print(staff);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+<BR><IMG SRC="bullet.gif"  ALIGN=CENTER> Успоредни вектори и вектор от
+обекти
+<BR>Задачата за най-добро отношение цена-качество на компютри.<B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">#include "ccc_win.cpp"</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; vector&lt;string> names;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;double> prices;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> scores;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string more;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; do</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; string n = cwin.get_string("Product
+name:");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; names.push_back(n);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+p = cwin.get_double("Price:");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prices.push_back(p);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s =
+cwin.get_int("Score:");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scores.push_back(s);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; more =
+cwin.get_string("More data? (y/n)");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; } while (more == "y");</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; const double MAX_PRICE = 10000;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; const double MAX_SCORE =
+100;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cwin.coord(0, 0, MAX_PRICE,
+MAX_SCORE);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; names.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; Message label(Point(prices[i],
+scores[i]), names[i]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+label.get_start() &lt;&lt; label;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+<BR>Решение с използване на вектор от обекти.
+<BR><B><TT><FONT COLOR="#000099">#include "ccc_win.cpp"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">class Product&nbsp;&nbsp; {</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">public:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Product();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; void read();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; void get_price() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; void plot() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">private:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double price;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int score;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string name;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">};</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">Product::Product()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; price = 1000;&nbsp;&nbsp; score
+= 0;&nbsp;&nbsp; }</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void Product::read()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; name = cwin.get_string("Product
+name:");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; price = cwin.get_double("Price:");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; score = cwin.get_int("Score:");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void Product::plot() const</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; Message label(Point(price, score),
+name);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cwin &lt;&lt; label.get_start()
+&lt;&lt; label;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; vector&lt;Product> data;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string more;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; do</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; Product c;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c.read();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data.push_back(c);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; more =
+cwin.get_string("More data? (y/n)");</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; } while (more == "y");</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; const double MAX_PRICE = 10000;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; const double MAX_SCORE =
+100;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cwin.coord(0, 0, MAX_PRICE,
+MAX_SCORE);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; data.size();
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; data[i].plot();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Векторите като данни на обект
+<BR>* Програма за чертаене на многоъгълници:
+<BR><B><TT><FONT COLOR="#3333FF">#include "ccc_win.cpp"</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">class Polygon</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">public:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; Polygon();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; void add_point(Point p);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; void plot() const;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">private:</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; vector&lt;Point> corners;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">};</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">Polygon::Polygon() {}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void Polygon::add_point(Point p) {&nbsp;
+corners.push_back(p); }</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void Polygon::plot() const</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int n = corners.size();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; n; i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cwin &lt;&lt;
+Line(corners[i], corners[(i + 1) % n]);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; Polygon triangle;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; triangle.add_point(Point(1,
+1));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; triangle.add_point(Point(3,
+4));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; triangle.add_point(Point(2,
+6));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; triangle.plot();</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; const double PI = 3.141592653589793;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; Polygon pentagon;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; 5; i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pentagon.add_point(Point(cos(2
+* PI * i / 5),</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sin(2 * PI * i / 5)));</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; pentagon.plot();</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+<BR>
+<HR WIDTH="100%">
+<BR><IMG SRC="bullet.gif"  ALIGN=CENTER> Дефиниране и използване на масиви,
+масивите като параметри
+<BR>* Дефиниране и използване:
+<BR>&nbsp;-- дефиниция
+<BR><B><TT><FONT COLOR="#009900">double salaries[10];</FONT></TT></B>
+<BR>-- използване
+<BR><B><TT><FONT COLOR="#009900">salaries[4] = 355;</FONT></TT></B>
+<BR>-- номериране на индекси
+<BR><B><TT><FONT COLOR="#009900">salaries[0] </FONT></TT></B><FONT COLOR="#000000">-
+първи елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">salaries[1] </FONT></TT></B><FONT COLOR="#000000">-
+втори елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">salaries[2] </FONT></TT></B><FONT COLOR="#000000">-
+трети елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">salaries[3] </FONT></TT></B><FONT COLOR="#000000">-
+четвърти елемент</FONT>
+<BR><B><TT><FONT COLOR="#009900">...</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">salaries[9] </FONT></TT></B><FONT COLOR="#000000">-
+десети елемент</FONT>
+
+<P>Обхождане на елементите на масив:
+<BR><B><TT><FONT COLOR="#000099">const int SAL_MAXSIZE = 10;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">double sal[SAL_MAXSIZE];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">int sal_size = 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">bool more = true;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">while (more and sal_size &lt; SAL_MAXSIZE)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{ cout &lt;&lt; "Enter salary or 0 to
+quit";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; double x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; cin >> x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; if (cin.fail()) more = false</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; else</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp; {&nbsp; sal[sal_size] = x;&nbsp;&nbsp;
+sal_size++;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P>* Mасивите като параметри на функции
+<BR>Масивите винаги се предават по псевдоним.
+<BR><B><TT><FONT COLOR="#009900">double maximum(const double a[], int a_size)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">{&nbsp; if (a_size == 0) return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp;&nbsp; double highest = a[0];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp;&nbsp; for (i = 1; i &lt; a_size;
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (a[i]
+> highest) highest = a[i];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">&nbsp;&nbsp; return highest;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#009900">}</FONT></TT></B>
+<BR>Следващата програма чете заплати от стандартен вход и отпечатва максималната
+заплата.
+<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">void read_data(double a[], int a_maxsize,
+int&amp; a_size)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; a_size = 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double x;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (a_size &lt; a_maxsize
+and (cin >> x))</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; a[a_size] = x;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+a_size++;&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">double maximum(const double a[], int a_size)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; if (a_size == 0) return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double highest = a[0];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 1; i &lt; a_size;
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (a[i]
+> highest) highest = a[i];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return highest;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">{&nbsp; const int SALARIES_MAXSIZE = 100;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double salaries[SALARIES_MAXSIZE];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int salaries_size = 0;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+all salary data: ";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; read_data(salaries, SALARIES_MAXSIZE,
+salaries_size);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (salaries_size == SALARIES_MAXSIZE
+and not cin.fail())</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"Sorry--extra data ignored\n";</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; double maxsal = maximum(salaries,
+salaries_size);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "The maximum
+salary is " &lt;&lt; maxsal &lt;&lt; "\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Масиви от символи
+<BR><B><TT><FONT COLOR="#006600">char input = 'y';</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">char greeting[6] = "Hello";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">char greeting[] = "Hello";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#006600">char greeting[10] = "Hello";</FONT></TT></B>
+<BR>Проблемът със символа за край на низ при използване на масиви от символи.
+
+<P><IMG SRC="bullet.gif"  ALIGN=CENTER> Двумерни масиви
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iostream></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;iomanip></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">#include &lt;cmath></FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">using namespace std;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">const int BALANCES_ROWS = 11;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">const int BALANCES_COLS = 6;</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">double future_value(double initial_balance,
+double p, int nyear)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; double b = initial_balance * pow(1
++ p/12/100, 12*nyear);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return b;&nbsp;&nbsp; }</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">void print_table(const double table[][BALANCES_COLS],
+int table_rows)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; int i, j;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; cout &lt;&lt; fixed &lt;&lt;
+setprecision(2);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; table_rows;
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; {&nbsp; for (j = 0; j &lt;
+BALANCES_COLS; j++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout &lt;&lt; setw(10) &lt;&lt; table[i][j];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+"\n";</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; }</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">int main()</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">{&nbsp; double balances[BALANCES_ROWS][BALANCES_COLS];</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int i;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; int j;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; for (i = 0; i &lt; BALANCES_ROWS;
+i++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (j
+= 0; j &lt; BALANCES_COLS; j++)</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+balances[i][j] = future_value(10000, 5 + i * 0.5,</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+5 + j * 5);</FONT></TT></B>
+
+<P><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; print_table(balances, BALANCES_ROWS);</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">&nbsp;&nbsp; return 0;</FONT></TT></B>
+<BR><B><TT><FONT COLOR="#3333FF">}</FONT></TT></B>
+
+<P>
+<HR WIDTH="100%">
+</BODY>
+</HTML>

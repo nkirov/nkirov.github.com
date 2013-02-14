@@ -1,0 +1,69 @@
+ class Vector {
+ public:
+    enum { max = 32000 };
+    class Range { };  // особая ситуация индекса
+    class Size { };   // особая ситуация "неверный размер"
+    Vector(int);
+    int& operator[](int i);
+// ...
+ private:
+    int* p;
+    int sz;
+ };
+---------------------
+ Vector::Vector(int s)
+ {
+  if (s<0 || max<s) throw Size();
+// ...
+ }
+
+ int& Vector::operator[](int i)
+ {
+  if (o<=i && i <sz) return p[i];
+  throw Range(i);
+ }
+---------
+ void f()
+ {
+  try { use_vectors(); }
+  catch (Vector::Range) {
+// исправить индекс и попробовать опять:
+             f(); }
+  catch (Vector::Size) {
+             cerr << "Ошибка в конструкторе Vector::Size";
+             exit(99); }
+// сюда мы попадем, если вообще не было особых ситуаций
+// или после обработки особой ситуации Range
+ }
+--------------------------------------------
+ class Vector {
+// ...
+ public:
+    class Range {
+     public:
+           int index;
+           Range(int i) : index(i) { }
+    };
+// ...
+    int& operator[](int i)
+// ...
+ };
+
+ int Vector::operator[](int i)
+ {
+  if (o<=i && i <sz) return p[i];
+  throw Range(i);
+ }
+--------------------
+ void  f(Vector& v)
+ {
+// ...
+  try {
+       do_something(v);
+      }
+      catch (Vector::Range r ) {
+         cerr << "недопустимый индекс" << r.index << '\n';
+// ...
+      }
+// ...
+ }

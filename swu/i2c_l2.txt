@@ -1,0 +1,65 @@
+2. Последователни файлове
+
+-- Видове достъп до файлове
+
+-- Текстови файлове
+
+-- Отваряне и затваряне на файлове 
+
+-- Четене от файл 
+ - I вариант:
+#include <fstream.h>
+ifstream fp;
+void main()
+{
+ char filename[]="a.txt";
+ char ch;
+ fp.open(filename,ios::in);
+ if (!fp) cout<<"Не съществува такъв файл";
+ else
+ {
+  while (fp.get(ch)) cout<<ch; 
+  fp.close();
+ }
+}
+ - II вариант:
+#include <fstream.h>
+ifstream fp;
+void main()
+{
+ char filename[]="a.txt";
+ char st[80];
+ fp.open(filename,ios::in);
+ if (!fp) cout<<"Не съществува такъв файл";
+ else
+ {
+  while (fp.eof()) 
+  {
+   fp >> st;
+   cout << st << '\n'; 
+  }
+  fp.close();
+ }
+}
+
+-- Записване във файл 
+#include <fstream.h>
+ofstream fo;
+void main()
+{
+ fo.open("b.txt",ios::out);
+ fo << "Запис във файла";  
+ fo.close();
+}
+
+-- Допълване към файл
+
+#include <fstream.h>
+ofstream fa;
+void main()
+{
+ fa.open("c.txt",ios::app);
+ fa << "Запис в съществуващ файл след последния запис";  
+ fa.close();
+}
+--

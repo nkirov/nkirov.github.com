@@ -1,0 +1,219 @@
+// SHAPE.H
+// Definition of abstract base class Shape
+#ifndef SHAPE_H
+#define SHAPE_H
+
+class Shape {
+public:
+   virtual float area() const { return 0.0; }
+   virtual float volume() const { return 0.0; }
+   virtual void printShapeName() const = 0;   // pure virtual
+   virtual void print() const = 0;            // pure virtual
+};
+
+#endif
+------
+// POINT1.H
+// Definition of class Point
+#ifndef POINT1_H
+#define POINT1_H
+#include <iostream.h>
+#include "shape.h"
+
+class Point : public Shape {
+   friend ostream &operator<<(ostream &, const Point &);
+public:
+   Point(float = 0, float = 0);  // default constructor
+   void setPoint(float, float);
+   float getX() const { return x; }
+   float getY() const { return y; }
+   virtual void printShapeName() const { cout << "Point: "; }
+   virtual void print() const;
+private:
+   float x, y;   // x and y coordinates of Point
+};
+
+#endif                                          
+------
+// POINT1.CPP
+// Member function definitions for class Point
+#include <iostream.h>
+#include "point1.h"
+
+Point::Point(float a, float b) { setPoint(a, b); }
+
+void Point::setPoint(float a, float b)
+{
+   x = a;
+   y = b;
+}
+
+void Point::print() const { cout << '[' << x << ", " << y << ']'; }
+
+ostream &operator<<(ostream &output, const Point &p)
+{
+   p.print();       // call print to output the object
+
+   return output;   // enables concatenated calls
+}
+----------------------------
+// CIRCLE1.H
+// Definition of class Circle
+#ifndef CIRCLE1_H
+#define CIRCLE1_H
+#include "point1.h"
+
+class Circle : public Point {
+   friend ostream &operator<<(ostream &, const Circle &);
+public:
+   // default constructor
+   Circle(float r = 0.0, float x = 0.0, float y = 0.0);
+
+   void setRadius(float);
+   float getRadius() const;
+   virtual float area() const;
+   virtual void printShapeName() const { cout << "Circle: "; }
+   virtual void print() const;
+private:
+   float radius;   // radius of Circle
+};
+
+#endif
+------
+// CIRCLE1.CPP
+// Member function definitions for class Circle
+#include <iostream.h>
+#include <iomanip.h>
+#include "circle1.h"
+
+Circle::Circle(float r, float a, float b)
+   : Point(a, b)  // call base-class constructor
+{ radius = r > 0 ? r : 0; }
+
+void Circle::setRadius(float r) { radius = r > 0 ? r : 0; }
+
+float Circle::getRadius() const { return radius; }
+
+float Circle::area() const { return 3.14159 * radius * radius; }
+
+void Circle::print() const
+{
+   cout << '[' << getX() << ", " << getY() 
+        << "]; Radius=" << setiosflags(ios::showpoint)
+        << setprecision(2) << radius;
+}
+
+ostream &operator<<(ostream &output, const Circle &c)
+{
+   c.print();       // call print to output the object
+   return output;   // enables concatenated calls
+}
+------------------
+// CYLINDR1.H
+// Definition of class Cylinder
+#ifndef CYLINDR1_H
+#define CYLINDR1_H
+#include "circle1.h"
+
+class Cylinder : public Circle {
+   friend ostream &operator<<(ostream &, const Cylinder &);
+public:
+   // default constructor
+   Cylinder(float h = 0.0, float r = 0.0,
+       float x = 0.0, float y = 0.0);
+
+   void setHeight(float);
+   virtual float area() const;
+   virtual float volume() const;
+   virtual void printShapeName() const { cout << "Cylinder: "; }
+   virtual void print() const;
+private:
+   float height;   // height of Cylinder
+};
+
+#endif
+------
+// CYLINDR1.CPP
+// Member and friend function definitions for class Cylinder
+#include <iostream.h>
+#include <iomanip.h>
+#include "cylindr1.h"
+
+Cylinder::Cylinder(float h, float r, float x, float y)
+   : Circle(r, x, y)  // call base-class constructor
+{ height = h > 0 ? h : 0; }
+
+void Cylinder::setHeight(float h) { height = h > 0 ? h : 0; }
+
+float Cylinder::area() const
+{
+   // surface area of Cylinder
+   return 2 * Circle::area() +
+          2 * 3.14159 * Circle::getRadius() * height;
+}
+
+float Cylinder::volume() const { return Circle::area() * height; }
+
+void Cylinder::print() const
+{
+   cout << '[' << getX() << ", " << getY()
+        << "]; Radius=" << setiosflags(ios::showpoint)
+        << setprecision(2) << getRadius()
+        << "; Height=" << height;
+}
+
+ostream &operator<<(ostream &output, const Cylinder& c)
+{
+   c.print();       // call print to output the object
+   return output;   // enables concatenated calls
+}
+-----------------
+// FIG10_2.CPP
+// Driver for point, circle, cylinder hierarchy
+#include <iostream.h>
+#include <iomanip.h>
+#include "shape.h"
+#include "point1.h"
+#include "circle1.h"
+#include "cylindr1.h"
+
+main()
+{
+   Point point(7, 11);                  // create a Point
+   Circle circle(3.5, 22, 8);           // create a Circle
+   Cylinder cylinder(10, 3.3, 10, 10);  // create a Cylinder
+
+   point.printShapeName();     // static binding
+   cout << point << endl;
+
+   circle.printShapeName();    // static binding
+   cout << circle << endl;
+
+   cylinder.printShapeName();  // static binding
+   cout << cylinder << "\n\n";
+
+   cout << setiosflags(ios::showpoint) << setprecision(2);
+   Shape *arrayOfShapes[3];    // array of base-class pointers
+
+   // aim arrayOfShapes[0] at derived-class Point object
+   // aim arrayOfShapes[1] at derived-class Circle object
+   // aim arrayOfShapes[2] at derived-class Cylinder object
+   arrayOfShapes[0] = &point;
+   arrayOfShapes[1] = &circle;
+   arrayOfShapes[2] = &cylinder;
+
+   // Loop through arrayOfShapes and print the shape name,
+   // area, and volume of each object to which the array points
+   // using dynamic binding.
+   for (int i = 0; i < 3; i++) {
+      arrayOfShapes[i]->printShapeName();
+      cout << endl;
+      arrayOfShapes[i]->print();
+      cout << "\nArea = " << arrayOfShapes[i]->area()
+           << "\nVolume = " << arrayOfShapes[i]->volume()
+           << endl << endl;
+   }
+
+   return 0;
+}
+----------------------------------------------------

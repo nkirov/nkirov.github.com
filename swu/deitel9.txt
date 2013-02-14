@@ -1,0 +1,347 @@
+// POINT.H
+// Definition of class Point
+#ifndef POINT_H
+#define POINT_H
+
+class Point {
+   friend ostream &operator<<(ostream &, const Point &);
+public:
+   Point(float = 0, float = 0);      // default constructor
+   void setPoint(float, float);      // set coordinates
+   float getX() const { return x; }  // get x coordinate
+   float getY() const { return y; }  // get y coordinate
+protected:         // accessible by derived classes
+   float x, y;     // x and y coordinates of the Point
+};
+
+#endif
+------------------------
+// POINT.CPP
+// Member functions for class Point
+#include <iostream.h>
+#include "point.h"
+
+// Constructor for class Point
+Point::Point(float a, float b) { setPoint(a, b); }
+
+// Set x and y coordinates of Point
+void Point::setPoint(float a, float b)
+{
+   x = a;
+   y = b;
+}
+
+// Output Point (with overloaded stream insertion operator)
+ostream &operator<<(ostream &output, const Point &p)
+{
+   output << '[' << p.x << ", " << p.y << ']';
+
+   return output;   // enables concatenated calls
+}
+-----------------
+// CIRCLE.H
+// Definition of class Circle
+#ifndef CIRCLE_H
+#define CIRCLE_H
+
+#include <iostream.h>
+#include <iomanip.h>
+#include "point.h"
+
+class Circle : public Point {  // Circle inherits from Point
+   friend ostream &operator<<(ostream &, const Circle &);
+public:
+   // default constructor
+   Circle(float r = 0.0, float x = 0, float y = 0);
+
+   void setRadius(float);      // set radius
+   float getRadius() const;    // return radius
+   float area() const;         // calculate area
+protected:
+   float radius;
+};
+
+#endif
+---------------
+// CIRCLE.CPP
+// Member function definitions for class Circle
+#include "circle.h"
+
+// Constructor for Circle calls constructor for Point
+// with a member initializer then initializes radius.
+Circle::Circle(float r, float a, float b)
+   : Point(a, b)       // call base-class constructor
+{ radius = r; }
+
+// Set radius of Circle
+void Circle::setRadius(float r) { radius = r; }
+
+// Get radius of Circle
+float Circle::getRadius() const { return radius; }
+
+// Calculate area of Circle
+float Circle::area() const
+   { return 3.14159 * radius * radius; }
+
+// Output a Circle in the form:
+// Center = [x, y]; Radius = #.##
+ostream &operator<<(ostream &output, const Circle &c)
+{
+   output << "Center = [" << c.x << ", " << c.y
+          << "]; Radius = " << setiosflags(ios::showpoint)
+          << setprecision(2) << c.radius;
+
+   return output;   // enables concatenated calls
+}
+-----------------
+// FIG9_4.CPP
+// Casting base-class pointers to derived-class pointers
+#include <iostream.h>
+#include <iomanip.h>
+#include "point.h"
+#include "circle.h"
+
+main()
+{
+   Point *pointPtr, p(3.5, 5.3);
+   Circle *circlePtr, c(2.7, 1.2, 8.9);
+
+   cout << "Point p: " << p << endl << "Circle c: " << c << endl;
+
+   // Treat a Circle as a Point (see only the base class part)
+   pointPtr = &c;   // assign address of Circle to pointPtr
+   cout << endl << "Circle c (via *pointPtr): " 
+        << *pointPtr << endl;
+
+   // Treat a Circle as a Circle (with some casting)
+   pointPtr = &c;   // assign address of Circle to pointPtr
+   circlePtr = (Circle *) pointPtr;  // cast base to derived
+   cout << endl << "Circle c (via *circlePtr): " << endl
+        << *circlePtr << endl << "Area of c (via circlePtr): "
+        << circlePtr->area() << endl;
+
+   // DANGEROUS: Treat a Point as a Circle
+   pointPtr = &p;   // assign address of Point to pointPtr
+   circlePtr = (Circle *) pointPtr;  // cast base to derived
+   cout << endl << "Point p (via *circlePtr): "  
+        << endl << *circlePtr << endl 
+        << "Area of object circlePtr points to: "
+        << circlePtr->area() << endl;
+
+   return 0;
+}
+--------------------------------------------------------
+--------------------------------------------------------
+// EMPLOY.H
+// Definition of class Employee
+#ifndef EMPLOY_H
+#define EMPLOY_H
+
+class Employee {
+public:
+   Employee(const char*, const char*);  // constructor
+   void print() const;  // output first and last name
+   ~Employee();         // destructor
+private:
+   char *firstName;     // dynamically allocated string
+   char *lastName;      // dynamically allocated string
+};
+
+#endif
+---------
+// EMPLOY.CPP
+// Member function definitions for class Employee
+#include <string.h>
+#include <iostream.h>
+#include <assert.h>
+#include "employ.h"
+
+// Constructor dynamically allocates space for the
+// first and last name and uses strcpy to copy
+// the first and last names into the object.
+Employee::Employee(const char *first, const char *last)
+{
+   firstName = new char[ strlen(first) + 1 ];
+   assert(firstName != 0); // terminate if memory not allocated
+   strcpy(firstName, first);
+
+   lastName = new char[ strlen(last) + 1 ];
+   assert(lastName != 0);  // terminate if memory not allocated
+   strcpy(lastName, last);
+}
+
+// Output employee name
+void Employee::print() const
+   { cout << firstName << ' ' << lastName; }
+
+// Destructor deallocates dynamically allocated memory
+Employee::~Employee()
+{
+   delete [] firstName;   // reclaim dynamic memory
+   delete [] lastName;    // reclaim dynamic memory
+}
+-----------
+// HOURLY.H
+// Definition of class HourlyWorker
+#ifndef HOURLY_H
+#define HOURLY_H
+
+#include "employ.h"
+
+class HourlyWorker : public Employee {
+public:
+   HourlyWorker(const char*, const char*, float, float);
+   float getPay() const;  // calculate and return salary
+   void print() const;    // redefined base-class print
+private:
+   float wage;            // wage per hour
+   float hours;           // hours worked for week
+};
+
+#endif
+---------
+// HOURLY_B.CPP
+// Member function definitions for class HourlyWorker
+#include <iostream.h>
+#include <iomanip.h>
+#include "hourly.h"
+
+// Constructor for class HourlyWorker
+HourlyWorker::HourlyWorker(const char *first, const char *last,
+                           float initHours, float initWage)
+   : Employee(first, last)   // call base-class constructor
+{
+   hours = initHours;
+   wage = initWage;
+}
+
+// Get the HourlyWorker's pay
+float HourlyWorker::getPay() const { return wage * hours; }
+
+// Print the HourlyWorker's name and pay
+void HourlyWorker::print() const
+{
+   cout << "HourlyWorker::print()" << endl;
+
+   Employee::print();   // call base-class print function
+
+   cout << " is an hourly worker with pay of"
+        << " $" << setiosflags(ios::showpoint)
+        << setprecision(2) << getPay() << endl;
+}
+-----------
+// FIG9_5.CPP
+// Redefining a base-class member function in a 
+// derived class.
+#include <iostream.h>
+#include "hourly.h"
+
+main()
+{
+   HourlyWorker h("Bob", "Smith", 40.0, 7.50);
+   h.print();
+   return 0;
+}
+-------------------------------------------------------
+-------------------------------------------------------
+// POINT2.H
+// Definition of class Point
+#ifndef POINT2_H
+#define POINT2_H
+
+class Point {
+public:
+   Point(float = 0.0, float = 0.0);  // default constructor
+   ~Point();    // destructor
+protected:      // accessible by derived classes
+   float x, y;  // x and y coordinates of Point
+};
+
+#endif
+-------------
+// POINT2.CPP
+// Member function definitions for class Point
+#include <iostream.h>
+#include "point2.h"
+
+// Constructor for class Point
+Point::Point(float a, float b)
+{
+   x = a;
+   y = b;
+
+   cout << "Point  constructor: "
+        << '[' << x << ", " << y << ']' << endl;
+}
+
+// Destructor for class Point
+Point::~Point()
+{
+   cout << "Point  destructor:  "
+        << '[' << x << ", " << y << ']' << endl;
+}
+------
+// CIRCLE2.H
+// Definition of class Circle
+#ifndef CIRCLE2_H
+#define CIRCLE2_H
+
+#include "point2.h"
+#include <iomanip.h>
+
+class Circle : public Point {
+public:
+   // default constructor
+   Circle(float r = 0.0, float x = 0, float y = 0);
+
+   ~Circle();      // destructor
+private:
+   float radius;   // radius of Circle
+};
+
+#endif
+-------
+// CIRCLE2.CPP
+// Member function definitions for class Circle
+#include "circle2.h"
+
+// Constructor for Circle calls constructor for Point
+Circle::Circle(float r, float a, float b)
+   : Point(a, b)   // call base-class constructor
+{
+   radius = r;
+
+   cout << "Circle constructor: radius is "
+        << radius << " [" << a << ", " << b << ']' << endl;
+}
+
+// Destructor for class Circle
+Circle::~Circle()
+{
+   cout << "Circle destructor:  radius is "
+        << radius << " [" << x << ", " << y << ']' << endl;
+}
+--------
+// FIG9_7.CPP
+// Demonstrate when base-class and derived-class
+// constructors and destructors are called.
+
+#include <iostream.h>
+#include "point2.h"
+#include "circle2.h"
+
+main()
+{
+   // Show constructor and destructor calls for Point
+   {
+      Point p(1.1, 2.2);
+   }
+
+   cout << endl;
+   Circle circle1(4.5, 7.2, 2.9);
+   cout << endl;
+   Circle circle2(10, 5, 5);
+   cout << endl;
+   return 0;
+}
+-------------------------------------------------------
