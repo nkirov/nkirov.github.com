@@ -1,0 +1,182 @@
+//3. Копиране и константи: почленно копиране; 
+//обекти константи и константи членове на тип клас - 
+//функции и данни.
+//
+// FIG6_12.CPP 
+// Demonstrating that class objects can be assigned
+// to each other using default memberwise copy
+#include <iostream.h>
+
+// Simple Date class
+class Date {
+public:
+   Date(int = 1, int = 1, int = 1990);  // default constructor
+   void print();
+private:
+   int month;
+   int day;
+   int year;
+};
+
+// Simple Date constructor with no range checking
+Date::Date(int m, int d, int y)
+{   month = m;   day = d;   year = y;  }
+
+// Print the Date in the form mm-dd-yyyy
+void Date::print() 
+   { cout << month << '-' << day << '-' << year; }
+
+main()
+{  Date date1(7, 4, 1993), date2;  // d2 defaults to 1/1/90
+
+   cout << "date1 = ";
+   date1.print();
+   cout << endl << "date2 = ";
+   date2.print();
+
+   date2 = date1;   // assignment by default memberwise copy
+   cout << endl << endl 
+        << "After default memberwise copy, date2 = ";
+   date2.print();
+   cout << endl;
+   return 0;
+}
+------------------------------------------------------
+// Fig. 7.1: time5.h
+// Declaration of the class Time.
+// Member functions defined in time5.cpp
+#ifndef TIME5_H
+#define TIME5_H
+
+class Time {
+public:
+   Time( int = 0, int = 0, int = 0 );  // default constructor
+// set functions
+   void setTime( int, int, int );  // set time
+   void setHour( int );     // set hour
+   void setMinute( int );   // set minute
+   void setSecond( int );   // set second
+// get functions (normally declared const)
+   int getHour() const;     // return hour
+   int getMinute() const;   // return minute
+   int getSecond() const;   // return second
+// print functions (normally declared const)
+   void printMilitary() const;  // print military time
+   void printStandard();        // print standard time
+private:
+   int hour;              // 0 - 23
+   int minute;            // 0 - 59
+   int second;            // 0 - 59
+};
+#endif
+----------------------
+// Fig. 7.1: time5.cpp
+// Member function definitions for Time class.
+#include <iostream.h>
+#include "time5.h"
+
+// Constructor function to initialize private data.
+// Default values are 0 (see class definition).
+Time::Time( int hr, int min, int sec ) 
+   { setTime( hr, min, sec ); }
+
+// Set the values of hour, minute, and second.
+void Time::setTime( int h, int m, int s )
+{ setHour( h );  setMinute( m );  setSecond( s ); }
+
+// Set the hour value
+void Time::setHour( int h ) 
+   { hour = ( h >= 0 && h < 24 ) ? h : 0; }
+
+// Set the minute value
+void Time::setMinute( int m ) 
+   { minute = ( m >= 0 && m < 60 ) ? m : 0; }
+
+// Set the second value
+void Time::setSecond( int s )
+   { second = ( s >= 0 && s < 60 ) ? s : 0; }
+
+// Get the hour value
+int Time::getHour() const { return hour; }
+
+// Get the minute value
+int Time::getMinute() const { return minute; }
+
+// Get the second value
+int Time::getSecond() const { return second; }
+
+// Display military format time: HH:MM:SS
+void Time::printMilitary() const
+{  cout << ( hour < 10 ? "0" : "" ) << hour << ":"
+        << ( minute < 10 ? "0" : "" ) << minute;
+}
+
+// Display standard format time: HH:MM:SS AM (or PM)
+void Time::printStandard()
+{  cout << ( ( hour == 12 ) ? 12 : hour % 12 ) << ":"
+        << ( minute < 10 ? "0" : "" ) << minute << ":"
+        << ( second < 10 ? "0" : "" ) << second
+        << ( hour < 12 ? " AM" : " PM" );
+}
+-------------------------
+// Fig. 7.1: fig07_01.cpp
+// Attempting to access a const object with
+// non-const member functions.
+#include <iostream.h>
+#include "time5.h"
+
+int main()
+{
+   Time wakeUp( 6, 45, 0 );       // non-constant object
+   const Time noon( 12, 0, 0 );   // constant object
+
+// MEMBER FUNCTION   OBJECT
+   wakeUp.setHour( 18 );  // non-const         non-const
+   noon.setHour( 12 );    // non-const         const
+   wakeUp.getHour();      // const             non-const
+   noon.getMinute();      // const             const
+   noon.printMilitary();  // const             const
+   noon.printStandard();  // non-const         const
+   return 0;
+}
+---------------------------------------------------
+// Fig. 7.2: fig07_02.cpp
+// Using a member initializer to initialize a
+// constant of a built-in data type.
+
+#include <iostream.h>
+
+class Increment {
+public:
+   Increment( int c = 0, int i = 1 );
+   void addIncrement() { count += increment; }
+   void print() const;
+private:
+   int count;
+   const int increment;     // const data member
+};
+
+// Constructor for class Increment
+Increment::Increment( int c, int i )
+   : increment( i )          // initializer for const member
+{ count = c; }
+
+// Print the data
+void Increment::print() const
+{  cout << "count = " << count
+        << ", increment = " << increment << endl;
+}
+
+int main()
+{  Increment value( 10, 5 );
+   cout << "Before incrementing: ";
+   value.print();
+
+   for ( int j = 0; j < 3; j++ ) {
+      value.addIncrement();
+      cout << "After increment " << j << ": ";
+      value.print();
+   }
+   return 0;
+}
+-----------------------------------------------------

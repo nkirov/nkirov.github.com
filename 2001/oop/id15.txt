@@ -1,0 +1,180 @@
+//15. Входни и изходни потоци: заглавни файлове и класове в 
+//потоковата библиотека; потоков вход и изход - операции и функции;
+//потокови манипулатори; състояния на потоците.  
+//
+// Fig. 11.8: fig11_08.cpp
+// Printing the address stored in a char* variable
+#include <iostream.h>
+
+int main()
+{
+   char *string = "test";
+
+   cout << "Value of string is: " << string
+        << "\nValue of static_cast< void *>( string ) is: " 
+        << static_cast< void *>( string ) << endl;
+   return 0;
+}
+-----------------------------------------------------
+// fig11_11.cpp 
+// Stream extraction operator returning 
+// false on end-of-file. 
+#include <iostream.h>
+
+main()
+{
+   int grade, highestGrade = -1;
+   cout << "Enter grade (enter end-of-file to end): ";
+   while (cin >> grade) {
+      if (grade > highestGrade)
+         highestGrade = grade;
+      cout << "Enter grade (enter end-of-file to end): ";
+   }
+   cout << endl << "Highest grade is: " << highestGrade 
+        << endl;
+   return 0;
+}
+-----------------------------------------------------
+// fig11_12.cpp 
+// Using member functions get, put, and eof.
+#include <iostream.h>
+
+main()
+{
+   int c;
+   cout << "Before input, cin.eof() is " << cin.eof() << endl
+        << "Enter a sentence followed by end-of-file:" << endl;
+   while ( ( c = cin.get() ) != EOF)
+      cout.put(c);
+   cout << endl << "EOF in this system is: " << c << endl;
+   cout << "After input, cin.eof() is " << cin.eof() << endl;
+   return 0;
+}
+-----------------------------------------------------
+// Fig. 11.13: fig11_13.cpp 
+// Contrasting input of a string with cin and cin.get.
+#include <iostream.h>
+
+int main()
+{
+   const int SIZE = 80;
+   char buffer1[ SIZE ], buffer2[ SIZE ];
+
+   cout << "Enter a sentence:\n";
+   cin >> buffer1;
+   cout << "\nThe string read with cin was:\n"
+        << buffer1 << "\n\n";
+ 
+   cin.get( buffer2, SIZE );
+   cout << "The string read with cin.get was:\n" 
+        << buffer2 << endl;
+   return 0;
+}
+-----------------------------------------------------
+// Fig. 11.15: fig11_15.cpp 
+// Unformatted I/O with read, gcount and write.
+#include <iostream.h>
+
+int main()
+{
+   const int SIZE = 80;
+   char buffer[ SIZE ];
+
+   cout << "Enter a sentence:\n";
+   cin.read( buffer, 20 );
+   cout << "\nThe sentence entered was:\n";
+   cout.write( buffer, cin.gcount() );
+   cout << endl;
+   return 0;
+}
+-----------------------------------------------------
+// Fig. 11.19: fig11_19.cpp 
+// Creating and testing user-defined, nonparameterized 
+// stream manipulators.
+#include <iostream.h>
+
+// bell manipulator (using escape sequence \a)
+ostream& bell( ostream& output ) { return output << '\a'; }
+
+// ret manipulator (using escape sequence \r)
+ostream& ret( ostream& output ) { return output << '\r'; }
+
+// tab manipulator (using escape sequence \t)
+ostream& tab( ostream& output ) { return output << '\t'; }
+
+// endLine manipulator (using escape sequence \n
+// and the flush member function)
+ostream& endLine( ostream& output ) 
+{ 
+   return output << '\n' << flush;
+}
+
+int main()
+{
+   cout << "Testing the tab manipulator:" << endLine
+        << 'a' << tab << 'b' << tab << 'c' << endLine
+        << "Testing the ret and bell manipulators:"
+        << endLine << "..........";
+   cout << bell;
+   cout << ret << "-----" << endLine;
+   return 0;
+}
+-----------------------------------------------------
+// fig11_28.cpp 
+// Demonstrating the flags member function.
+#include <iostream.h>
+
+main()
+{
+   int i = 1000;
+   double d = 0.0947628;
+
+   cout << "The value of the flags variable is: "
+        << cout.flags() << endl
+        << "Print int and double in original format:" << endl
+        << i << '\t' << d << endl << endl;
+   long originalFormat = cout.flags(ios::oct | ios::scientific);
+   cout << "The value of the flags variable is: "
+        << cout.flags() << endl
+        << "Print int and double in a new format" << endl
+        << "specified using the flags member function:" << endl
+        << i << '\t' << d << endl << endl;
+   cout.flags(originalFormat);
+   cout << "The value of the flags variable is: "
+        << cout.flags() << endl
+        << "Print values in original format again:" << endl
+        << i << '\t' << d << endl;
+   return 0;
+}
+-----------------------------------------------------
+// Fig. 11.29: fig11_29.cpp 
+// Testing error states.
+#include <iostream.h>
+
+int main()
+{
+   int x;
+   cout << "Before a bad input operation:"
+        << "\ncin.rdstate(): " << cin.rdstate()
+        << "\n    cin.eof(): " << cin.eof() 
+        << "\n   cin.fail(): " << cin.fail()
+        << "\n    cin.bad(): " << cin.bad() 
+        << "\n   cin.good(): " << cin.good()
+        << "\n\nExpects an integer, but enter a character: ";
+   cin >> x;
+
+   cout << "\nEnter a bad input operation:" 
+        << "\ncin.rdstate(): " << cin.rdstate() 
+        << "\n    cin.eof(): " << cin.eof()
+        << "\n   cin.fail(): " << cin.fail()
+        << "\n    cin.bad(): " << cin.bad() 
+        << "\n   cin.good(): " << cin.good() << "\n\n";
+
+   cin.clear();
+  
+   cout << "After cin.clear()" 
+        << "\ncin.fail(): " << cin.fail() 
+        << "\ncin.good(): " << cin.good() << endl;
+   return 0;
+}
+-----------------------------------------------------

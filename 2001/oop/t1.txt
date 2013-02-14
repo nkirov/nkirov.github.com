@@ -1,0 +1,132 @@
+
+
+Отбележете правилните оператори и операции, като предполагаме, че
+променливите са от необходимите вградени (стандартни) типове на С++.
+
++ t = r?b:n;
+- r = y:i?p;
+
+
+
+Дадена е следната програма:
+
+class CreateAndDestroy {
+public:
+   CreateAndDestroy(int v) { data = v; }
+   ~CreateAndDestroy();
+private:
+   int data; };
+//
+CreateAndDestroy c1(1);
+//
+void main()
+{  CreateAndDestroy c2(2);
+   static CreateAndDestroy c3(3);
+   CreateAndDestroy c4(4);
+}
+
+Отбележете верните твърдения.
+
++ c3 е локална променлива.
+- Променливата c4 се създава преди променливата c2.
+
+
+
+
+Даден е следният клас:
+
+class Count {
+   friend void setX(Count &c, int val);
+public:
+   Count() { x = 0; }
+   void print() const { cout << x << endl; }
+private:
+   int x;   };
+
+В програмата няма друга променлива с име x и друга функция с име print().
+Може ли в тялото на функцията setX да се срещат следните оператори?
+
++ val = c.x;
+- val.print();
+
+
+
+
+Даден е следният клас:
+
+class Exam {
+public:
+   Exam(int a=0) { x = a; }
+   void print() const;
+private:
+   int x;  };
+
+Вярно ли е използването на указател this в тялото на член-функцията
+print() на класа Exam?
+
++ cout << (*this).x;
+- cout << (*this)->x;
+
+
+
+Даден е обект t:
+
+class Time {
+public:
+   Time(int = 0, int = 0, int = 0);
+   Time &setHour(int);
+   Time &setMinute(int);
+   Time &setSecond(int);
+   int getHour() const;
+   int getMinute() const;
+   int getSecond() const;
+private:
+   int hour; int minute; int second;
+} t;
+
+Отбележете вярното използване на каскада в главна функция main.
+
++ t.setSecond(0).setMinute(0).setHour(12);
+- setHour(3).setMinute(15);
+
+
+
+Дадена е следната дефиниция на клас и обекти от класа:
+
+class PhNum {
+friend ostream &operator<<(ostream &,
+                           const PhNum &);
+friend istream &operator>>(istream &,PhNum &);
+public:
+   char areaCode[4];
+private:
+   char exchange[4];
+   char line[5];
+} ph1, ph2;
+
+Отбележете операторите, които съдържат поне една предефинирана
+в класа операция.
+
++ cout << ph2;
+- cin >> ph1.areaCode;
+
+
+
+
+Дадена е част от дефиницията на класа Ar и обекти от този клас:
+
+class Ar {
+friend ostream &operator<<(ostream&, const Ar&);
+public:   ...
+   const Ar &operator=(const Ar &);
+   int operator==(const Ar &) const;
+   int operator!=(const Ar &) const;
+   int &operator[](int);
+   ...
+} a1, a2, *pa;
+
+Отбележете операторите, които съдържат поне една предефинирана
+в класа операция.
+
++ cout << a1;
+- pa = &a1;

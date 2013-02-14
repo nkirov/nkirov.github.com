@@ -1,0 +1,355 @@
+//20. Потоци и работа с файлове: йерархия на данни; последователни файлове; файлове с
+//    пряк достъп; работа с низови потоци 
+//
+// Fig. 14.8: fig14_08.cpp
+// Credit inquiry program
+#include <iostream.h>
+#include <fstream.h>
+#include <iomanip.h>
+#include <stdlib.h> 
+
+enum RequestType { ZERO_BALANCE = 1, CREDIT_BALANCE, 
+                   DEBIT_BALANCE, END };
+int getRequest();
+bool shouldDisplay( int, double );
+void outputLine( int, const char *, double );
+
+int main()
+{   // ifstream constructor opens the file
+   ifstream inClientFile( "clients.dat", ios::in );
+   if ( !inClientFile ) {
+      cerr << "File could not be opened" << endl;
+      exit( 1 );
+   }
+   int request, account;
+   char name[ 30 ];
+   double balance;
+   cout << "Enter request\n"
+        << " 1 - List accounts with zero balances\n"
+        << " 2 - List accounts with credit balances\n"
+        << " 3 - List accounts with debit balances\n" 
+        << " 4 - End of run";
+   request = getRequest();
+
+   while ( request != END ) {
+      switch ( request ) {
+         case ZERO_BALANCE:
+            cout << "\nAccounts with zero balances:\n"; break;
+         case CREDIT_BALANCE:
+            cout << "\nAccounts with credit balances:\n"; break;
+         case DEBIT_BALANCE:
+            cout << "\nAccounts with debit balances:\n"; break;
+      }
+      inClientFile >> account >> name >> balance;
+
+      while ( !inClientFile.eof() ) {
+         if ( shouldDisplay( request, balance ) )
+            outputLine( account, name, balance );
+         inClientFile >> account >> name >> balance;
+      }     
+      inClientFile.clear();    // reset eof for next input
+      inClientFile.seekg( 0 ); // move to beginning of file
+      request = getRequest();
+   }
+   cout << "End of run." << endl;
+   return 0;   // ifstream destructor closes the file
+}
+int getRequest()
+{  int request;
+   do { cout << "\n? ";      cin >> request;
+      } while( request < ZERO_BALANCE && request > END );
+   return request;
+}
+bool shouldDisplay( int type, double balance )
+{  if (type == CREDIT_BALANCE && balance < 0) return true;
+   if (type == DEBIT_BALANCE && balance  > 0) return true;
+   if (type == ZERO_BALANCE && balance == 0 ) return true;
+   return false;
+}
+void outputLine( int acct, const char *name, double bal )
+{  cout << setiosflags( ios::left ) << setw( 10 ) << acct
+        << setw( 13 ) << name << setw( 7 ) << setprecision( 2 )
+        << resetiosflags( ios::left )
+        << setiosflags( ios::fixed | ios::showpoint )
+        << bal << '\n';
+}
+----------------------------------------------------------------
+// Fig. 14.11: clntdata.h
+// Definition of struct clientData used in 
+// Figs. 14.11, 14.12, 14.14 and 14.15.
+#ifndef CLNTDATA_H
+#define CLNTDATA_H
+
+struct clientData {
+   int accountNumber;
+   char lastName[ 15 ];
+   char firstName[ 10 ];
+   float balance;
+};
+#endif
+------
+// Fig. 14.11: fig14_11.cpp
+// Creating a randomly accessed file sequentially
+#include <iostream.h>
+#include <fstream.h>
+#include <stdlib.h>
+#include "clntdata.h"
+
+int main()
+{  ofstream outCredit( "credit.dat", ios::out );
+   if ( !outCredit ) {
+      cerr << "File could not be opened." << endl;
+      exit( 1 );
+   }
+   clientData blankClient = { 0, "", "", 0.0 };
+
+   for ( int i = 0; i < 100; i++ )
+      outCredit.write( 
+         reinterpret_cast<const char *>( &blankClient ), 
+         sizeof( clientData ) );
+   return 0;
+}
+----------------------------------------------------------------
+// Fig. 14.12: fig14_12.cpp
+// Writing to a random access file
+#include <iostream.h>
+#include <fstream.h>
+#include <stdlib.h>
+#include "clntdata.h"
+
+int main()
+{  ofstream outCredit( "credit.dat", ios::ate );
+   if ( !outCredit ) {
+      cerr << "File could not be opened." << endl;
+      exit( 1 );
+   }
+   cout << "Enter account number "
+        << "(1 to 100, 0 to end input)\n? ";
+
+   clientData client;
+   cin >> client.accountNumber;
+
+   while ( client.accountNumber > 0 && 
+           client.accountNumber <= 100 ) {
+      cout << "Enter lastname, firstname, balance\n? ";
+      cin >> client.lastName >> client.firstName 
+          >> client.balance;
+
+   outCredit.seekp((client.accountNumber-1)*sizeof(clientData));
+   outCredit.write(reinterpret_cast<const char *>( &client ), 
+                   sizeof( clientData ) );
+
+      cout << "Enter account number\n? ";
+      cin >> client.accountNumber;
+   }
+   return 0;
+}
+----------------------------------------------------------------
+// Fig. 14.14: fig14_14.cpp
+// Reading a random access file sequentially
+#include <iostream.h>
+#include <iomanip.h>
+#include <fstream.h>
+#include <stdlib.h>
+#include "clntdata.h"
+
+void outputLine( ostream&, const clientData & );
+
+int main()
+{  ifstream inCredit( "credit.dat", ios::in );
+   if ( !inCredit ) {
+      cerr << "File could not be opened." << endl;
+      exit( 1 );
+   }
+   cout << setiosflags( ios::left ) << setw( 10 ) << "Account"
+        << setw( 16 ) << "Last Name" << setw( 11 )
+        << "First Name" << resetiosflags( ios::left )
+        << setw( 10 ) << "Balance" << endl;
+   clientData client;
+   inCredit.read( reinterpret_cast<char *>( &client ), 
+                  sizeof( clientData ) );
+   while ( inCredit && !inCredit.eof() ) {
+
+      if (client.accountNumber!=0) outputLine(cout,client);
+
+      inCredit.read( reinterpret_cast<char *>( &client ),
+                     sizeof( clientData ) );
+   }
+   return 0;
+}
+void outputLine( ostream &output, const clientData &c )
+{  output << setiosflags( ios::left ) << setw( 10 ) 
+          << c.accountNumber << setw( 16 ) << c.lastName 
+          << setw( 11 ) << c.firstName << setw( 10 ) 
+          << setprecision( 2 ) << resetiosflags( ios::left )
+          << setiosflags( ios::fixed | ios::showpoint ) 
+          << c.balance << '\n';
+}
+----------------------------------------------------------------
+// Fig. 14.15: fig14_15.cpp
+// This program reads a random access file sequentially,
+// updates data already written to the file, creates new
+// data to be placed in the file, and deletes data
+// already in the file.
+#include <iostream.h>
+#include <fstream.h>
+#include <iomanip.h>
+#include <stdlib.h>
+#include "clntdata.h"
+
+int enterChoice();
+void textFile( fstream& );
+void updateRecord( fstream& );
+void newRecord( fstream& );
+void deleteRecord( fstream& );
+void outputLine( ostream&, const clientData & );
+int getAccount( const char * );
+
+enum Choices { TEXTFILE = 1, UPDATE, NEW, DELETE, END };
+
+int main()
+{  fstream inOutCredit( "credit.dat", ios::in | ios::out );
+   if ( !inOutCredit ) {
+      cerr << "File could not be opened." << endl;
+      exit ( 1 );
+   }
+   int choice;
+   while ( ( choice = enterChoice() ) != END ) {
+      switch ( choice ) {
+         case TEXTFILE:
+            textFile( inOutCredit ); break;
+         case UPDATE:
+            updateRecord( inOutCredit ); break;
+         case NEW:
+            newRecord( inOutCredit ); break;
+         case DELETE:
+            deleteRecord( inOutCredit ); break;
+         default:
+            cerr << "Incorrect choice\n"; break;
+      }
+      inOutCredit.clear();  // resets end-of-file indicator
+   }
+   return 0;
+}
+// Prompt for and input menu choice
+int enterChoice()
+{  cout << "\nEnter your choice" << endl
+        << "1 - store a formatted text file of accounts\n"
+        << "    called \"print.txt\" for printing\n"
+        << "2 - update an account\n"
+        << "3 - add a new account\n"
+        << "4 - delete an account\n"
+        << "5 - end program\n? ";
+   int menuChoice;
+   cin >> menuChoice;
+   return menuChoice;
+}
+// Create formatted text file for printing
+void textFile( fstream &readFromFile )
+{  ofstream outPrintFile( "print.txt", ios::out );
+   if ( !outPrintFile ) {
+      cerr << "File could not be opened." << endl;
+      exit( 1 );
+   }
+   outPrintFile << setiosflags( ios::left ) << setw( 10 ) 
+       << "Account" << setw( 16 ) << "Last Name" << setw( 11 )
+       << "First Name" << resetiosflags( ios::left ) 
+       << setw( 10 ) << "Balance" << endl;
+   readFromFile.seekg( 0 );
+
+   clientData client;
+   readFromFile.read( reinterpret_cast<char *>( &client ),
+                      sizeof( clientData ) );
+
+   while ( !readFromFile.eof() ) {
+      if ( client.accountNumber != 0 )
+         outputLine( outPrintFile, client );
+
+      readFromFile.read( reinterpret_cast<char *>( &client ), 
+                         sizeof( clientData ) );
+   }
+}
+// Update an account's balance
+void updateRecord( fstream &updateFile )
+{  int account = getAccount( "Enter account to update" );
+   updateFile.seekg( ( account - 1 ) * sizeof( clientData ) );
+
+   clientData client;
+   updateFile.read( reinterpret_cast<char *>( &client ), 
+                    sizeof( clientData ) );
+   if ( client.accountNumber != 0 ) {
+      outputLine( cout, client );
+      cout << "\nEnter charge (+) or payment (-): ";
+
+      float transaction;    // charge or payment
+      cin >> transaction;   // should validate
+      client.balance += transaction;
+      outputLine( cout, client );
+      updateFile.seekp( ( account-1 ) * sizeof( clientData ) );
+      updateFile.write( 
+         reinterpret_cast<const char *>( &client ), 
+         sizeof( clientData ) );
+   }
+   else  cerr << "Account #" << account 
+              << " has no information." << endl; 
+}
+// Create and insert new record
+void newRecord( fstream &insertInFile )
+{  int account = getAccount( "Enter new account number" );
+   insertInFile.seekg( ( account-1 ) * sizeof( clientData ) );
+
+   clientData client;
+   insertInFile.read( reinterpret_cast<char *>( &client ), 
+                      sizeof( clientData ) );
+   if ( client.accountNumber == 0 ) {
+      cout << "Enter lastname, firstname, balance\n? ";
+      cin >> client.lastName >> client.firstName 
+          >> client.balance;
+      client.accountNumber = account;
+      insertInFile.seekp( ( account - 1 ) * 
+                          sizeof( clientData ) );
+      insertInFile.write( 
+         reinterpret_cast<const char *>( &client ), 
+         sizeof( clientData ) );
+   }
+   else  cerr << "Account #" << account
+              << " already contains information." << endl;
+}
+// Delete an existing record
+void deleteRecord( fstream &deleteFromFile )
+{  int account = getAccount( "Enter account to delete" );
+   deleteFromFile.seekg( (account-1) * sizeof( clientData ) );
+
+   clientData client;
+   deleteFromFile.read( reinterpret_cast<char *>( &client ), 
+                        sizeof( clientData ) );
+   if ( client.accountNumber != 0 ) {
+      clientData blankClient = { 0, "", "", 0.0 };
+
+      deleteFromFile.seekp( ( account - 1) * 
+                            sizeof( clientData ) );
+      deleteFromFile.write( 
+         reinterpret_cast<const char *>( &blankClient ), 
+         sizeof( clientData ) );
+      cout << "Account #" << account << " deleted." << endl;
+   }
+   else cerr << "Account #" << account << " is empty." << endl;
+}
+// Output a line of client information
+void outputLine( ostream &output, const clientData &c )
+{  output << setiosflags( ios::left ) << setw( 10 ) 
+          << c.accountNumber << setw( 16 ) << c.lastName 
+          << setw( 11 ) << c.firstName << setw( 10 ) 
+          << setprecision( 2 ) << resetiosflags( ios::left )
+          << setiosflags( ios::fixed | ios::showpoint ) 
+          << c.balance << '\n';
+}
+// Get an account number from the keyboard
+int getAccount( const char *prompt )
+{  int account;
+   do { cout << prompt << " (1 - 100): ";
+        cin >> account;
+      } while ( account < 1 || account > 100 );
+   return account;
+}
+----------------------------------------------------------------

@@ -1,0 +1,84 @@
+<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.73 [en] (Win95; I) [Netscape]">
+   <title>Pec2</title>
+</head>
+<body>
+
+<hr WIDTH="100%">
+<br><b><font size=+1>12. Параметри на функция, странични ефекти, процедури.&nbsp;
+Параметри псевдоними.</font></b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Параметри
+на функции
+<br>* Формални параметри&nbsp; - параметри-променливи, декларират се при
+дефиницията на функцията
+<br>* Фактически параметри - изрази за инициализация на параметрите-променливи,
+задават се при извикване на функцията
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Процедури
+<br>* Функция, която не връща стойност се нарича процедура.
+<br>* Процедура за отпечатване на обект от тип <tt><font color="#009900">Time</font></tt>
+<br><b><tt><font color="#3333FF">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#3333FF">#include &lt;iomanip></font></tt></b>
+<br><b><tt><font color="#3333FF">using namespace std;</font></tt></b>
+<br><b><tt><font color="#3333FF">#include "ccc_time.cpp"</font></tt></b>
+<p><b><tt><font color="#3333FF">void print_time(Time t)</font></tt></b>
+<br><b><tt><font color="#3333FF">/*</font><font color="#000099"> PURPOSE:&nbsp;
+Print a time in the format h:mm:ss</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RECEIVES: t - the time to
+print</font></tt></b>
+<br><b><tt><font color="#3333FF">*/</font></tt></b>
+<br><b><tt><font color="#3333FF">{&nbsp; cout &lt;&lt; t.get_hours() &lt;&lt;
+":";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; if (t.get_minutes() &lt;
+10) cout &lt;&lt; "0";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; t.get_minutes()
+&lt;&lt; ":";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; if (t.get_seconds() &lt;
+10) cout &lt;&lt; "0";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; t.get_seconds();</font></tt></b>
+<br><b><tt><font color="#3333FF">}</font></tt></b>
+<p><b><tt><font color="#3333FF">int main()</font></tt></b>
+<br><b><tt><font color="#3333FF">{&nbsp; Time liftoff(7, 0, 15);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; Time now;</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "Liftoff: ";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; print_time(liftoff);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "\n";</font></tt></b>
+<p><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "Now: ";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; print_time(now);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#3333FF">}</font></tt></b>
+<p><img SRC="bullet.gif" height=18 width=20 align=ABSBOTTOM> Параметри-псевдоними
+<br>* Параметър-псевдоним не е нова променлива, а псевдоним на съществуваща
+променлива в извикващата функция.
+<br><b><tt><font color="#3333FF">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#3333FF">using namespace std;</font></tt></b>
+<br><b><tt><font color="#3333FF">#include "ccc_empl.cpp"</font></tt></b>
+<p><b><tt><font color="#3333FF">void raise_salary(Employee&amp; e, double
+by)</font></tt></b>
+<br><b><tt><font color="#3333FF">/* </font><font color="#000099">PURPOSE:&nbsp;
+Raise an employee salary</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp; RECEIVES: e - employee receiving
+raise</font></tt></b>
+<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+by - the percentage of the raise</font></tt></b>
+<br><b><tt><font color="#3333FF">*/</font></tt></b>
+<br><b><tt><font color="#3333FF">{&nbsp; double new_salary = e.get_salary()
+* (1 + by / 100);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; e.set_salary(new_salary);</font></tt></b>
+<br><b><tt><font color="#3333FF">}</font></tt></b>
+<p><b><tt><font color="#3333FF">int main()</font></tt></b>
+<br><b><tt><font color="#3333FF">{&nbsp; Employee harry("Hacker, Harry",
+45000.00);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; raise_salary(harry, 5);</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; cout &lt;&lt; "New salary:
+" &lt;&lt; harry.get_salary() &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#3333FF">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#3333FF">}</font></tt></b>
+<p>
+<hr WIDTH="100%">
+</body>
+</html>
