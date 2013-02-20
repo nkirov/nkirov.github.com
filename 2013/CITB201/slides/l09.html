@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1251">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>l09</title>
+  </head>
+  <body>
+    <center>
+      <h3> <b>9. Въведение в структури от данни I<br>
+        </b></h3>
+    </center>
+    <p><br>
+      <img alt="" src="../b5.gif" height="18" width="20">&nbsp; Свързани
+      списъци. <br>
+      &nbsp;&nbsp;&nbsp; Всяка стойност се съхранява в отделен блок от
+      паметта, заедно с местоположението на съседните блокове в
+      последователността. Този начин на съхранение позволява лесно да се
+      вмъкне или отстрани елемент, без да се местят другите елементи.
+      Както знаем, това е невъзможно, ако се използва вектор (вж
+      12.&nbsp; Вектори).&nbsp; В стандартната библиотека шаблони (STL)
+      на С++ има реализация на линейната структура свързан списък -
+      шаблонът <b><tt><font color="#000099">list</font></tt></b>. Във
+      всеки елемент на свързания списък се съхранява данна и две връзки
+      - съм следващия елемент ат списъка и към предишнея елемент от
+      списъка. </p>
+    <center>
+      <p><img src="list1.GIF" height="98" width="628"></p>
+    </center>
+    <p>Вмъкването и изтриването на елемент от свързания списък става
+      лесно - променят се стойностите на няколко връзки. </p>
+    <center>
+      <p><img src="list2.GIF" height="226" width="637"> </p>
+      <p><img src="list3.GIF" height="169" width="637"></p>
+    </center>
+    <p><b><tt><font color="#000099">// list1.cpp</font></tt></b> <br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;list&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; list&lt;string&gt;
+            staff;&nbsp;&nbsp;&nbsp;&nbsp; </font><font color="#000000">/*
+            шаблон за списък */</font></tt></b> </p>
+    <p><b><tt><font color="#000099">&nbsp;&nbsp;
+            staff.push_back("Cracker, Carl");</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Hacker,
+            Harry");</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Lam,
+            Larry");</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;
+            staff.push_back("Sandman, Susan");</font></tt></b> </p>
+    <p><b><tt><font color="#000099">&nbsp;&nbsp;
+            list&lt;string&gt;::iterator pos;</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      <b><tt><font color="#000000">/* итератор на списък */</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">/* добавя елемент на четвърто място
+            */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.insert(pos,
+            "Reindeer, Rudolf");</font></tt></b> </p>
+    <p><b><tt><font color="#000099">/* отстранява втория елемент */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.erase(pos);</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">/* добавя елемент на последно място
+            */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.end();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.insert(pos,
+            "Zeider, Zeev");</font></tt></b> </p>
+    <p><b><tt><font color="#000000">/* обхождане на списък */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (pos =
+            staff.begin(); pos != staff.end(); pos++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; *pos &lt;&lt; "\n";</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      <b><tt><font color="#000000">/* извежда съдържание на текущата
+            позиция */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b>
+      <table border="" cellpadding="4" width="100%">
+        <tbody>
+          <tr>
+            <td><b><tt><font color="#993300">Cracker, Carl</font></tt></b>
+              <br>
+              <b><tt><font color="#993300">Lam, Larry</font></tt></b> <br>
+              <b><tt><font color="#993300">Reindeer, Rudolf</font></tt></b>
+              <br>
+              <b><tt><font color="#993300">Sandman, Susan</font></tt></b>
+              <br>
+              <b><tt><font color="#993300">Zeider, Zeev</font></tt></b></td>
+          </tr>
+        </tbody>
+      </table>
+    </p>
+    <p> </p>
+    <hr width="100%">
+  </body>
+</html>
