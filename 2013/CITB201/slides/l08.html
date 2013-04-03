@@ -38,9 +38,13 @@
     <b><tt><font color="#006600">outstr &lt;&lt; setprecision(8)
           &lt;&lt; sqrt(2);</font></tt></b> <br>
     <b><tt><font color="#006600">string output = outstr.str();</font></tt></b>
-    <p>Пример: Преобразуване на момент от време в низ. <br>
-      <b><tt><font color="#000099">// <a
-              href="../../NETB151/sources/ch12/readtime.cpp">readtime.cpp</a></font></tt></b><a
+    <p><b>Пример:</b> Преобразуване на момент от време в низ. В САЩ има
+      два формата за записване на време с разлика в часовете: <i><br>
+        - am/pm</i> - денонощието започва с 12 am следват 1-11 am, 12 pm
+      и 1-11 pm.<br>
+      - <i>military </i>- часовете са от 00 до 23. <b><tt><font
+            color="#000099"><br>
+            // <a href="../../NETB151/sources/ch12/readtime.cpp">readtime.cpp</a></font></tt></b><a
         href="../../NETB151/sources/ch12/readtime.cpp"> </a><br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
       <br>
@@ -271,6 +275,7 @@ key
 
 
 
+
             = string_to_int(arg.substr(2, arg.length() - 2));</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
@@ -293,6 +298,7 @@ if
 
 
 
+
             (infile.fail()) open_file_error(arg);</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
       <br>
@@ -302,6 +308,7 @@ if
             outfile.open(arg.c_str());</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 if
+
 
 
 
@@ -417,7 +424,56 @@ if
     <hr width="100%"> <br>
     <img alt="" src="../b5.gif" height="18" width="20"> Произволен
     (пряк) достъп. <br>
-    - файлове с променлива или фиксирана дължина на записа: <br>
+    Последователен достъп означава, че можем да четем/пишем от/във файл
+    само последователно - елемент след елемент, байт след байт.<br>
+    Сега бихме искали да можем да четем и пишем на всяко място във
+    файла, което се нарича пряк или произволен достъп.<br>
+    <br>
+    <img alt="" src="../../NETB151/slides/ch12/images/random_access.png"
+      height="242" width="733"><br>
+    - <font color="#000000">включване на заглавен файл:</font> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; #include
+          &lt;fstream&gt;</font></tt></b> <br>
+    - дефиниране на файлова променлива за четене и писане: <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fstream fs;</font></tt></b>
+    <br>
+    Във всеки файл са дефинирани две срециални позиции: <br>
+    <ul>
+      <li>get - позиция за четене,</li>
+      <li>put - позиция за писане.</li>
+    </ul>
+    <img alt="" src="../../NETB151/slides/ch12/images/get_put.png"
+      height="295" width="444"><br>
+    <br>
+    - преместване на позициите за четене и писане: <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n = 10;</font></tt></b>
+    <br>
+    <b><tt><font color="#009900">/* преместване на позицията за четене
+          10 байта след началото на файла */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekg(n,
+          ios::beg);</font></tt></b> <br>
+    <b><tt><font color="#009900">/* преместване на позицията за писане
+          10 байта след началото на файла */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+          ios::beg);</font></tt></b> <br>
+    <b><tt><font color="#009900">/* преместване на позицията за писане в
+          края на файла */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+          ios::end);</font></tt></b> <br>
+    <b><tt><font color="#009900">/* преместване на позицията за писане
+          10 байта напред относно текущата позиция */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+          ios::cur);</font></tt></b> <br>
+    - намиране на текущите позициите за четене и писане: <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n;</font></tt></b>
+    <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellg();</font></tt></b>
+    <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellp();</font></tt></b><br>
+    Дължината на файл можем да получим по следния начин:<br>
+    <font size="+1">
+      <pre>fs.seekg(0, ios::end);<br>long file_length = fs.tellg();</pre>
+    </font>- файлове с променлива или фиксирана дължина на записа: <br>
     &nbsp;
     <table border="" cellpadding="2" cellspacing="0">
       <tbody>
@@ -452,39 +508,8 @@ if
         </tr>
       </tbody>
     </table>
-    <p>- <font color="#000000">включване на заглавен файл:</font> <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; #include
-            &lt;fstream&gt;</font></tt></b> <br>
-      - дефиниране на файлова променлива за четене и писане: <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fstream fs;</font></tt></b>
-      <br>
-      - преместване на позициите за четене и писане: <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n = 10;</font></tt></b>
-      <br>
-      <b><tt><font color="#009900">/* преместване на позицията за четене
-            10 байта след началото на файла */</font></tt></b> <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekg(n,
-            ios::beg);</font></tt></b> <br>
-      <b><tt><font color="#009900">/* преместване на позицията за писане
-            10 байта след началото на файла */</font></tt></b> <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
-            ios::beg);</font></tt></b> <br>
-      <b><tt><font color="#009900">/* преместване на позицията за писане
-            в края на файла */</font></tt></b> <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
-            ios::end);</font></tt></b> <br>
-      <b><tt><font color="#009900">/* преместване на позицията за писане
-            10 байта напред относно текущата позиция */</font></tt></b>
-      <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
-            ios::cur);</font></tt></b> <br>
-      - намиране на текущите позициите за четене и писане: <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n;</font></tt></b>
-      <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellg();</font></tt></b>
-      <br>
-      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellp();</font></tt></b>
-    </p>
+    <p><br>
+      <b><tt><font color="#009900"></font></tt></b> </p>
     <p>* Програма за четене на файлови записи, съдържащи име на служител
       и заплата и промяна на заплатата на даден служител.&nbsp;</p>
     <p>Примерен файл: <a href="../../NETB151/sources/ch12/employee.dat"><b><tt>employee.dat</tt></b></a><br>
@@ -588,6 +613,7 @@ if
       <font color="#000000">Файл <b><tt><a
               href="../../NETB151/sources/ch12/data.txt">data.txt</a> </tt></b>преди
 
+
         изпълнение на програмата<b><tt>:</tt></b></font>
       <table bgcolor="#CCCCCC" border="" cellpadding="4">
         <tbody>
@@ -615,6 +641,7 @@ Tompson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
       </table>
       <font color="#000000">Файл <b><tt><a
               href="../../NETB151/sources/ch12/data.txt">data.txt</a> </tt></b>след
+
 
         изпълнение на програмата<b><tt>:</tt></b></font>
       <table bgcolor="#CCCCCC" border="" cellpadding="4">
