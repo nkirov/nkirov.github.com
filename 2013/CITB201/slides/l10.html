@@ -35,6 +35,7 @@
     <p>Когато итераторът задава позиция "след последния елемент",
       стойността на&nbsp; <tt>position</tt> е <tt>NULL</tt>.&nbsp; <br>
       Функциите <tt>begin</tt> и <tt>end</tt> от класа <tt>List</tt>&nbsp;
+
       връщат итератори:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold;">Iterator</span> <span style="font-weight: bold;">List</span>::begin() {<br>   <span style="font-weight: bold;">Iterator</span> iter;<br>   iter.position = first;<br>   iter.last = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">return</span> iter;<br>}<br><br><span style="font-weight: bold;">Iterator</span> <span style="font-weight: bold;">List</span>::end() {<br>   <span style="font-weight: bold;">Iterator</span> iter;<br>   iter.position = NULL;<br>   iter.last = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">return</span> iter;</pre>
@@ -108,19 +109,19 @@
       <b><tt><font color="#000099">class Iterator;</font></tt></b> <br>
       <b><tt>/* <font color="#993300">елемент на свързания списък</font>
           */</tt></b> <br>
-      <b><tt><font color="#000099">class Link {</font></tt></b> <br>
+      <b><tt><font color="#000099">class Node {</font></tt></b> <br>
       <b><tt><font color="#000099">public:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Link(string);</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; Node(string);</font></tt></b>
       <br>
       <b><tt><font color="#000099">private:</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp; string data;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Link* previous;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; Node* previous;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Link* next;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; Node* next;</font></tt></b>
       <br>
       <b><tt><font color="#000099">/* член-функциите на класовете List и
-            Iterator имат достъп до частните членове на класа Link */</font></tt></b>
+            Iterator имат достъп до частните членове на класа Node */</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp;&nbsp; friend class List;</font></tt></b>
       <br>
@@ -143,9 +144,9 @@
             end();&nbsp;&nbsp; /* край на свързания списък */</font></tt></b>
       <br>
       <b><tt><font color="#000099">private:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Link* first;&nbsp; /*
+      <b><tt><font color="#000099">&nbsp;&nbsp; Node* first;&nbsp; /*
             първи елемент на свързания списък */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Link* last;&nbsp;&nbsp;
+      <b><tt><font color="#000099">&nbsp;&nbsp; Node* last;&nbsp;&nbsp;
             /* последен елемент на свързания списък */</font></tt></b> <br>
       <b><tt><font color="#000099">};</font></tt></b> </p>
     <p><b><tt><font color="#000099">class Iterator {</font></tt></b> <br>
@@ -163,9 +164,9 @@
       <b><tt><font color="#000099">&nbsp;&nbsp; bool not_equal(Iterator)
             const; /* реализира операция != */</font></tt></b> <br>
       <b><tt><font color="#000099">private:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Link* position; /* текущ
+      <b><tt><font color="#000099">&nbsp;&nbsp; Node* position; /* текущ
             елемент на свързания списък */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Link*
+      <b><tt><font color="#000099">&nbsp;&nbsp; Node*
             last;&nbsp;&nbsp;&nbsp;&nbsp; /* последен елемент на
             свързания списък */</font></tt></b> <br>
       <b><tt><font color="#000099">/* член-функциите на класа List имат
@@ -173,7 +174,7 @@
       <b><tt><font color="#000099">&nbsp;&nbsp; friend class List;</font></tt></b>
       <br>
       <b><tt><font color="#000099">};</font></tt></b> </p>
-    <p><b><tt><font color="#000099">Link::Link(string s)</font></tt></b>
+    <p><b><tt><font color="#000099">Node::Node(string s)</font></tt></b>
       <br>
       <b><tt><font color="#000099">/* ПОЛУЧАВА: s - данната, която ще се
             съхранява в този елемент */</font></tt></b> <br>
@@ -191,20 +192,26 @@
       <b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: s - данната,
             която ще се добави</font></tt></b> <br>
       <b><tt><font color="#000099">*/</font></tt></b> <br>
-      <b><tt><font color="#000099">{ Link* newlink = new Link(s);</font></tt></b>
+      <b><tt><font color="#000099">{ Node* newnode = new Node(s);</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp; if (last ==
             NULL)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             /* </font>празен свързан списък<font color="#000099"> */</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; { first = newlink; last =
-            newlink; }</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; else</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; { newlink-&gt;previous = last;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; { first = </font></tt></b><b><tt><font
+            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;
+            last = </font></tt></b><b><tt><font color="#000099"><b><tt><font
+                  color="#000099">newnode</font></tt></b>; }</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last-&gt;next =
-            newlink;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last = newlink;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; else</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; { </font></tt></b><b><tt><font
+            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>-&gt;previous
+            = last;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last-&gt;next = </font></tt></b><b><tt><font
+            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last = </font></tt></b><b><tt><font
+            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp; }</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
@@ -218,29 +225,30 @@
 s
 
 
+
             - данната, която ще се вмъкне</font></tt></b> <br>
       <b><tt><font color="#000099">*/</font></tt></b> <br>
       <b><tt><font color="#000099">{ if (iter.position == NULL) /*
             вмъкване в края */</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp; { push_back(s);&nbsp;
             return;&nbsp; }</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Link* after = iter.position;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; Node* after = iter.position;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; Link* before =
+      <b><tt><font color="#000099">&nbsp; Node* before =
             after-&gt;previous;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Link* newlink = new Link(s);</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; Node*&nbsp; = new Node(s);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; newlink-&gt;previous = before;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; newnode-&gt;previous = before;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; newlink-&gt;next = after;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; newnode-&gt;next = after;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; after-&gt;previous = newlink;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; after-&gt;previous = newnode;</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp; if (before == NULL) first =
-            newlink; /* вмъкване в началото */</font></tt></b> <br>
+            newnode; /* вмъкване в началото */</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;
             else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            before-&gt;next = newlink;</font></tt></b> <br>
+            before-&gt;next = newnode;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void List::erase(Iterator iter)</font></tt></b>
       <br>
@@ -252,11 +260,11 @@ s
       <b><tt><font color="#000099">*/</font></tt></b> <br>
       <b><tt><font color="#000099">{ assert(iter.position != NULL);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; Link* remove = iter.position;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; Node* remove = iter.position;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; Link* before =
+      <b><tt><font color="#000099">&nbsp; Node* before =
             remove-&gt;previous;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Link* after = remove-&gt;next;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; Node* after = remove-&gt;next;</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp; if (remove == first) first =
             after;/* изтриване на първия елемент */</font></tt></b> <br>
@@ -329,6 +337,7 @@ s
 position
 
 
+
             = position-&gt;previous;</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp; assert(position != NULL);</font></tt></b>
       <br>
@@ -398,7 +407,7 @@ position
         <tbody>
           <tr>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -414,7 +423,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -430,7 +439,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -446,7 +455,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -472,7 +481,7 @@ position
         <tbody>
           <tr>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -488,7 +497,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -504,7 +513,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -520,7 +529,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -536,7 +545,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -560,7 +569,7 @@ position
         <tbody>
           <tr>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -576,7 +585,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -592,7 +601,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
@@ -608,7 +617,7 @@ position
               </table>
             </td>
             <td>
-              <table border="" cellpadding="2" cellspacing="0"
+              <table cellspacing="0" border="" cellpadding="2"
                 width="100%">
                 <tbody>
                   <tr>
