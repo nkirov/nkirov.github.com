@@ -4,30 +4,28 @@
 using namespace std;
 
 /* forward declarations */
-template<typename T> class List;
-template<typename T> class Iterator;
+class List;
+class Iterator;
 
 /** A class to hold the nodes of the linked list.
 */
-template<typename T>
 class Node {
 public:
    /** Constructs a node for a given data value.
        @param s the data to store in this node
    */
-   Node(T s);
+   Node(string s);
 private:
-   T data;
-   Node<T>* previous;
-   Node<T>* next;
-friend class List<T>;
-friend class Iterator<T>;
+   string data;
+   Node* previous;
+   Node* next;
+friend class List;
+friend class Iterator;
 };
    
 /** An iterator denotes a position in the list or
     past the end of the list.
 */
-template<typename T>
 class Iterator {
 public:
    /** Constructs an iterator that is not attached to any list.
@@ -37,7 +35,7 @@ public:
        @return the value of the Node to which the iterator 
        points
    */
-   T operator*() const;
+   string operator*() const;
    /** Advances the iterator to the next position.
    */
    void operator++(int dummy);
@@ -48,22 +46,21 @@ public:
        @param b the iterator to compare with this iterator
        @return true if this iterator and b are equal
    */
-   bool operator==(Iterator<T> b) const;
+   bool operator==(Iterator b) const;
    /** Compares two iterators.
        @param b the iterator to compare with this iterator
        @return true if this iterator and b are not equal
    */
-   bool operator!=(Iterator<T> b) const;
+   bool operator!=(Iterator b) const;
 private:
-   Node<T>* position;
-   Node<T>* last;
-friend class List<T>;
+   Node* position;
+   Node* last;
+friend class List;
 };
 
 /** A linked list of values of a given type.
     @param T the type of the list values
 */
-template<typename T>
 class List {
 public:
    /** Constructs an empty list.
@@ -72,7 +69,7 @@ public:
    /** Constructs a list as a copy of another list.
        @param b the list to copy
    */
-   List(const List<T>& b);
+   List(const List& b);
    /** Deletes all nodes of this list.
    */
    ~List();
@@ -80,63 +77,59 @@ public:
        @param b the list to assign
        @return a reference to this list
    */
-   List<T>& operator=(const List<T>& b);
+   List& operator=(const List& b);
    /** Appends an element to the list.
        @param s the value to append
    */
-   void push_back(T s);
+   void push_back(string s);
    /** Inserts an element into the list.
        @param iter the position before which to insert
        @param s the value to append
    */
-   void insert(Iterator<T> iter, T s);
+   void insert(Iterator iter, string s);
    /** Removes an element from the list.
        @param i the position to remove
        @return an iterator pointing to the element after the
        erased element
    */
-   Iterator<T> erase(Iterator<T> i);
+   Iterator erase(Iterator i);
    /** Gets the beginning position of the list.
        @return an iterator pointing to the beginning of the list
    */
-   Iterator<T> begin();
+   Iterator begin() const;
    /** Gets the past-the-end position of the list.
        @return an iterator pointing past the end of the list
    */
-   Iterator<T> end();
+   Iterator end() const;
 
 private:
    /** Copies another list to this list.
        @param b the list to copy
    */
-   void copy(const List<T>& b);
+   void copy(const List& b);
    /** Deletes all nodes of this list.
    */
    void free();
-   Node<T>* first;
-   Node<T>* last;
+   Node* first;
+   Node* last;
 };
 
-template<typename T>
-List<T>::List()
+List::List()
 {  first = NULL;
    last = NULL;
 }
 
-template<typename T>
-List<T>::~List()
+List::~List()
 {  free();
 }
 
-template<typename T>
-List<T>::List(const List<T>& b)
+List::List(const List& b)
 {  first = NULL;
    last = NULL;
    copy(b);
 }
 
-template<typename T>
-List<T>& List<T>::operator=(const List<T>& b)
+List& List::operator=(const List& b)
 {  if (this != &b)
    {  free();
       copy(b);
@@ -144,9 +137,8 @@ List<T>& List<T>::operator=(const List<T>& b)
    return *this;
 }
 
-template<typename T>
-void List<T>::push_back(T s)
-{  Node<T>* newnode = new Node<T>(s);
+void List::push_back(string s)
+{  Node* newnode = new Node(s);
    if (last == NULL) /* list is empty */
    {  first = newnode;
       last = newnode;
@@ -158,16 +150,15 @@ void List<T>::push_back(T s)
    }
 }
 
-template<typename T>
-void List<T>::insert(Iterator<T> iter, T s)
+void List::insert(Iterator iter, string s)
 {  if (iter.position == NULL)
    {  push_back(s);
       return;
    }
 
-   Node<T>* after = iter.position;
-   Node<T>* before = after->previous;
-   Node<T>* newnode = new Node<T>(s);
+   Node* after = iter.position;
+   Node* before = after->previous;
+   Node* newnode = new Node(s);
    newnode->previous = before;
    newnode->next = after;
    after->previous = newnode;
@@ -177,13 +168,12 @@ void List<T>::insert(Iterator<T> iter, T s)
       before->next = newnode;
 }
 
-template<typename T>
-Iterator<T> List<T>::erase(Iterator<T> i)
-{  Iterator<T> iter = i;
+Iterator List::erase(Iterator i)
+{  Iterator iter = i;
    assert(iter.position != NULL);
-   Node<T>* remove = iter.position;
-   Node<T>* before = remove->previous;
-   Node<T>* after = remove->next;
+   Node* remove = iter.position;
+   Node* before = remove->previous;
+   Node* after = remove->next;
    
    if (remove == first) first = after;
    else          before->next = after;
@@ -195,77 +185,66 @@ Iterator<T> List<T>::erase(Iterator<T> i)
    return iter;
 }
 
-template<typename T>
-Iterator<T> List<T>::begin()
-{  Iterator<T> iter;
+Iterator List::begin() const
+{  Iterator iter;
    iter.position = first;
    iter.last = last;
    return iter;
 }
 
-template<typename T>
-Iterator<T> List<T>::end()
-{  Iterator<T> iter;
+Iterator List::end() const
+{  Iterator iter;
    iter.position = NULL;
    iter.last = last;
    return iter;
 }
 
-template<typename T>
-Iterator<T>::Iterator()
+Iterator::Iterator()
 {  position = NULL;
    last = NULL;
 }
 
-template<typename T>
-T Iterator<T>::operator*() const
+string Iterator::operator*() const
 {  assert(position != NULL);
    return position->data;
 }
 
-template<typename T>
-void Iterator<T>::operator++(int dummy)
+void Iterator::operator++(int dummy)
 {  assert(position != NULL);
    position = position->next;
 }
 
-template<typename T>
-void Iterator<T>::operator--(int dummy)
+void Iterator::operator--(int dummy)
 {  if (position == NULL) position = last;
    else                  position = position->previous;
    assert(position != NULL);
 }
 
-template<typename T>
-bool Iterator<T>::operator==(Iterator<T> b) const
+bool Iterator::operator==(Iterator b) const
 {  return position == b.position;
 }
 
-template<typename T>
-bool Iterator<T>::operator!=(Iterator<T> b) const
+bool Iterator::operator!=(Iterator b) const
 {  return position != b.position;
 }
 
-template<typename T>
-Node<T>::Node(T s)
+Node::Node(string s)
 {  data = s;
    previous = NULL;
    next = NULL;
 }
 
-template<typename T>
-void List<T>::copy(const List<T>& b)
-{  for (Iterator<T> p = b.begin(); p != b.end(); p++)
+void List::copy(const List& b)
+{  for (Iterator p = b.begin(); p != b.end(); p++)
       push_back(*p);
 }
 
-template<typename T>
-void List<T>::free()
+void List::free()
 {  while (begin() != end()) erase(begin());
 }
 
 int main()
-{  List<string> staff;
+{  List staff;
 
    staff.push_back("Cracker, Carl");
    staff.push_back("Hacker, Harry");
@@ -273,7 +252,7 @@ int main()
    staff.push_back("Sandman, Susan");
 
    /* add a value in fourth place */
-   Iterator<string> pos;
+   Iterator pos;
    pos = staff.begin();
    pos++;
    pos++;

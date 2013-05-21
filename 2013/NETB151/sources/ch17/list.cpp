@@ -122,12 +122,12 @@ public:
       Gets the beginning position of the list.
       @return an iterator pointing to the beginning of the list
    */
-   Iterator<T> begin();
+   Iterator<T> begin() const;
    /**
       Gets the past-the-end position of the list.
       @return an iterator pointing past the end of the list
    */
-   Iterator<T> end();
+   Iterator<T> end() const;
 
 private:
    /**
@@ -237,7 +237,7 @@ Iterator<T> List<T>::erase(Iterator<T> i)
 }
 
 template<typename T>
-Iterator<T> List<T>::begin()
+Iterator<T> List<T>::begin() const
 {  
    Iterator<T> iter;
    iter.position = first;
@@ -246,7 +246,7 @@ Iterator<T> List<T>::begin()
 }
 
 template<typename T>
-Iterator<T> List<T>::end()
+Iterator<T> List<T>::end() const
 {  
    Iterator<T> iter;
    iter.position = NULL;

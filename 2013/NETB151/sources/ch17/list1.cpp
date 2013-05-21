@@ -29,8 +29,8 @@ public:
    void push_back(T s);
    void insert(Iterator iter, T s);
    Iterator erase(Iterator i);
-   Iterator begin();
-   Iterator end();
+   Iterator begin() const;
+   Iterator end() const;
 private:
    void copy(const List<T>& b);
    void free();
@@ -131,7 +131,7 @@ typename List<T>::Iterator List<T>::erase(Iterator i)
 }
 
 template<typename T>
-typename List<T>::Iterator List<T>::begin()
+typename List<T>::Iterator List<T>::begin() const
 {  Iterator iter;
    iter.position = first;
    iter.last = last;
@@ -139,7 +139,7 @@ typename List<T>::Iterator List<T>::begin()
 }
 
 template<typename T>
-typename List<T>::Iterator List<T>::end()
+typename List<T>::Iterator List<T>::end() const
 {  Iterator iter;
    iter.position = NULL;
    iter.last = last;
