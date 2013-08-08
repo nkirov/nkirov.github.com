@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>vector2</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: vector2</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#0000FF>// ...						// out-of-class definitions</font>
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;
+<font color=#A000A0>void</font> ArrayVector&lt;Object&gt;::
+<font color=#000000>removeAtRank</font>(<font color=#A000A0>int</font> r) {				<font color=#0000FF>// remove element at given rank</font>
+  <font color=#00A000>for</font> (<font color=#A000A0>int</font> i = r; i &lt; sz-1; i++)
+    a[i] = a[i+1];				<font color=#0000FF>// shift elements down</font>
+  sz--;
+}
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;
+<font color=#A000A0>void</font> ArrayVector&lt;Object&gt;::
+<font color=#000000>insertAtRank</font>(<font color=#A000A0>int</font> r, <font color=#A000A0>const</font> Object& e) {		<font color=#0000FF>// insert element at given rank</font>
+  <font color=#00A000>if</font> (sz == capacity) <font color=#000000>overflow</font>();		<font color=#0000FF>// handle overflow</font>
+  <font color=#00A000>for</font> (<font color=#A000A0>int</font> i = sz-1; i &gt;= r; i--)
+    a[i+1] = a[i];				<font color=#0000FF>// shift elements up</font>
+  a[r] = e;
+  sz++;
+}
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;
+<font color=#A000A0>void</font> ArrayVector&lt;Object&gt;::
+<font color=#000000>overflow</font>() {					<font color=#0000FF>// handle overflow by resizing</font>
+  capacity *= 2;				<font color=#0000FF>// double capacity</font>
+  Object* b = <font color=#A000A0>new</font> Object[capacity];
+  <font color=#00A000>for</font> (<font color=#A000A0>int</font> i = 0; i &lt; sz; i++) {		<font color=#0000FF>// copy contents to new array</font>
+    b[i] = a[i];
+  }
+  <font color=#A000A0>delete</font> [] a;					<font color=#0000FF>// discard old array</font>
+  a = b;					<font color=#0000FF>// make b the new array</font>
+}
+</dl>
+</body></html>

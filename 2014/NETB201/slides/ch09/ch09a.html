@@ -1,0 +1,495 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=ISO-8859-1"
+      http-equiv="content-type">
+    <title>Chapter 9</title>
+  </head>
+  <body>
+    <h2>Chapter 9: Search Trees I</h2>
+    <big>We study several alternative data structures based on trees for
+      realizing <span style="font-style: italic;">ordered dictionary</span>.
+      The fundamental operations in an ordered
+      dictionary ADT are:</big>
+    <ul>
+      <li><big><span style="font-family: monospace;">find(<span
+              style="font-style: italic;">k</span>)</span> -
+          Return the position of an item with key </big><big
+          style="font-style: italic;"><span style="font-family:
+            monospace;">k</span></big><big>,
+          and return a null
+          position if no such item exists. </big></li>
+      <li><big><span style="font-family: monospace;">findAll(<span
+              style="font-style: italic;">k</span>)</span> -
+          Return an iterator of positions for all items with key <span
+            style="font-family: monospace; font-style: italic;">k</span>,
+          and
+          return a null position
+          if no such item exists. </big></li>
+      <li><big><span style="font-family: monospace;">insertItem(<span
+              style="font-style: italic;">k</span>,<span
+              style="font-style: italic;">e</span>)</span>
+          - Inserts an item with element <span style="font-family:
+            monospace; font-style: italic;">e</span>
+          and key <span style="font-family: monospace; font-style:
+            italic;">k</span>.</big></li>
+      <li><big><span style="font-family: monospace;">removeElement(<span
+              style="font-style: italic;">k</span>)</span>
+          - Remove an item with key <span style="font-family:
+            monospace; font-style: italic;">k</span>.
+          An error condition occurs if there is no such item.</big></li>
+      <li><big><span style="font-family: monospace;">removeAllElements(<span
+              style="font-style: italic;">k</span>)</span>
+          - Remove all items with key equal to <span
+            style="font-family: monospace; font-style: italic;">k</span>.</big></li>
+      <li><big><span style="font-family: monospace;">closestBefore(k)</span>-
+          Return a position of an item with the largest key less than or
+          equal to <span style="font-family: monospace;">k.</span></big></li>
+      <li><big><span style="font-family: monospace;">closestAfter(k)</span>
+          - Return a position of an item with
+          the smallest key greater than or equal to <span
+            style="font-family: monospace;">k.</span></big></li>
+    </ul>
+    <h3>9.1 Binary Search Trees (reminder)<br>
+    </h3>
+    <big>
+    </big>
+    <ul>
+      <li><big>A binary search tree is a binary tree storing keys (or
+          key-element pairs) at its internal nodes and satisfying the
+          following
+          property:</big></li>
+      <ul>
+        <li><big>Let <span style="font-style: italic;">u</span>, <span
+              style="font-style: italic;">v</span>, and <span
+              style="font-style: italic;">w</span> be three nodes such
+            that <span style="font-style: italic;">u</span> is in the
+            left subtree of <span style="font-style: italic;">v</span>
+            and <span style="font-style: italic;">w</span> is in the
+            right subtree of <span style="font-style: italic;">v</span>.<br>
+            We have <span style="font-family: monospace;">key</span>(<span
+              style="font-style: italic;">u</span>) &#8804; <span
+              style="font-family: monospace;">key</span>(<span
+              style="font-style: italic;">v</span>) &#8804; <span
+              style="font-family: monospace;">key</span>(<span
+              style="font-style: italic;">w</span>)</big></li>
+        <li><big>External nodes do not store items</big></li>
+      </ul>
+      <li><big>Inorder traversal visits the keys of its dictionary in
+          non-decreasing
+          order.</big></li>
+    </ul>
+    <img style="width: 373px; height: 176px;" alt="" src="pic1.jpg"><br>
+    <big style="font-weight: bold;"><br>
+      9.1.1 Searching</big><big><br>
+    </big>
+    <ul>
+      <li><big>To search for a key <span style="font-style: italic;">k</span>,
+          we trace a downward path starting at the root</big></li>
+      <li><big>The next node visited depends on the outcome of the <span
+            style="font-style: italic;">comparison</span> of <span
+            style="font-style: italic;">k</span> with the key
+          of the current node</big></li>
+      <li><big>If we reach a leaf, the key is not found and we return a
+          null position</big></li>
+    </ul>
+    <table style="text-align: left; width: 334px; height: 201px;"
+      border="1" cellpadding="2" cellspacing="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big><span
+                style="font-weight: bold;">Algorithm</span> <span
+                style="color: rgb(204, 0, 0);"><span style="font-style:
+                  italic;">find </span>(<span style="font-style:
+                  italic;">k</span>, <span style="font-style: italic;">v</span>)</span><br>
+              &nbsp;&nbsp;&nbsp; if <span style="font-style: italic;
+                color: rgb(0, 51, 51);">T.isExternal </span><span
+                style="color: rgb(0, 51, 51);">(<span style="font-style:
+                  italic;">v</span>)</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
+                style="color: rgb(0, 51, 51);"><span style="font-style:
+                  italic;">Position</span>(<span style="font-style:
+                  italic;">null</span>)</span><br>
+              &nbsp;&nbsp; if <span style="font-style: italic; color:
+                rgb(0, 51, 51);">k</span><span style="color: rgb(0, 51,
+                51);"> &lt; </span><span style="font-style: italic;
+                color: rgb(0, 51, 51);">key</span><span style="color:
+                rgb(0, 51, 51);">(</span><span style="font-style:
+                italic; color: rgb(0, 51, 51);">v</span><span
+                style="color: rgb(0, 51, 51);">)</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
+                style="color: rgb(204, 0, 0);"><span style="font-style:
+                  italic;">find</span>(<span style="font-style: italic;">k</span>,
+                <span style="font-style: italic;">T.leftChild</span>(<span
+                  style="font-style: italic;">v</span>))</span><br>
+              &nbsp;&nbsp; else if <span style="color: rgb(0, 51, 51);"><span
+                  style="font-style: italic;">k</span> = <span
+                  style="font-style: italic;">key</span>(<span
+                  style="font-style: italic;">v</span>)</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
+                style="color: rgb(0, 51, 51);"><span style="font-style:
+                  italic;">Position</span>(<span style="font-style:
+                  italic;">v</span>)</span><br>
+              &nbsp;&nbsp; else <span style="color: rgb(0, 51, 51);">{
+                <span style="font-style: italic;">k</span> &gt; <span
+                  style="font-style: italic;">key</span>(<span
+                  style="font-style: italic;">v</span>) }</span><br>
+              return <span style="color: rgb(0, 51, 51);"><span
+                  style="font-style: italic; color: rgb(204, 0, 0);">find</span><span
+                  style="color: rgb(204, 0, 0);">(</span><span
+                  style="font-style: italic; color: rgb(204, 0, 0);">k</span><span
+                  style="color: rgb(204, 0, 0);">, </span><span
+                  style="font-style: italic; color: rgb(204, 0, 0);">T.rightChild</span><span
+                  style="color: rgb(204, 0, 0);">(</span><span
+                  style="font-style: italic; color: rgb(204, 0, 0);">v</span><span
+                  style="color: rgb(204, 0, 0);">))</span></span><br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><big>Example: <span style="font-family: monospace;">find(4)</span></big></li>
+    </ul>
+    <big>
+      <img style="width: 390px; height: 185px;" alt="" src="pic2.jpg"><br>
+      <br>
+      <span style="font-weight: bold;">Analysis of Binary Tree Searching<br>
+      </span></big>
+    <ul>
+      <li><big>Function<span style="font-family: monospace;"> find(k)</span>
+          on
+          dictionary <span style="font-style: italic;">D</span> runs <span
+            style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">h</span>)
+          time, where <span style="font-style: italic;">h</span> is the
+          height
+          of the binary search tree <span style="font-style: italic;">T</span>
+          used to implement <span style="font-style: italic;">D</span>.<span
+            style="font-weight: bold;"></span></big></li>
+    </ul>
+    <h4><big> 9.1.2 Update Operations</big></h4>
+    <big><span style="font-weight: bold;">Insertion</span><br>
+    </big>
+    <ul>
+      <li><big>To perform operation <span style="font-family:
+            monospace;">insertItem</span>(<span style="font-style:
+            italic;">k</span>, <span style="font-style: italic;">e</span>),
+          we search for key <span style="font-style: italic;">k</span></big></li>
+      <li><big>Assume <span style="font-style: italic;">k</span> is not
+          already in the tree, and let <span style="font-style:
+            italic;">w</span>
+          be the
+          leaf reached by the search</big></li>
+      <li><big>We insert <span style="font-style: italic;">k</span> at
+          node <span style="font-style: italic;">w</span> and expand <span
+            style="font-style: italic;">w</span> into an internal node</big></li>
+      <li><big>Example: insert 5</big></li>
+    </ul>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 375px;
+              height: 199px;" alt="" src="pic3.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 396px;
+              height: 227px;" alt="" src="pic4.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><br>
+      <span style="font-weight: bold;">Removal</span><br>
+    </big>
+    <ul>
+      <li><big>To perform operation <span style="font-family:
+            monospace;">removeElement</span>(<span style="font-style:
+            italic;">k</span>), we search for key <span
+            style="font-style: italic;">k</span></big></li>
+      <li><big>Assume key <span style="font-style: italic;">k</span> is
+          in
+          the tree, and let let <span style="font-style: italic;">v</span>
+          be
+          the node storing <span style="font-style: italic;">k</span></big></li>
+      <li><big>If node <span style="font-style: italic;">v</span> has a
+          leaf child <span style="font-style: italic;">w</span>, we
+          remove <span style="font-style: italic;">v</span> and <span
+            style="font-style: italic;">w</span> from the tree with
+          operation <span style="font-family: monospace;">removeAboveExternal</span>(<span
+            style="font-style: italic;">w</span>)</big></li>
+      <li><big>Example: remove 4</big></li>
+    </ul>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 394px;
+              height: 227px;" alt="" src="pic5.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 379px;
+              height: 173px;" alt="" src="pic6.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><big>We consider the case where the key <span
+            style="font-style: italic;">k</span> to be removed is stored
+          at a node <span style="font-style: italic;">v</span> whose
+          children are <span style="font-style: italic;">both</span>
+          internal</big></li>
+      <ul>
+        <li><big>we find the internal node <span style="font-style:
+              italic;">w</span> that follows <span style="font-style:
+              italic;">v</span> in an inorder traversal</big></li>
+        <li><big>we copy <span style="font-family: monospace;">key</span>(<span
+              style="font-style: italic;">w</span>) into node <span
+              style="font-style: italic;">v</span></big></li>
+        <li><big>we remove node <span style="font-style: italic;">w</span>
+            and its left child <span style="font-style: italic;">z</span>
+            (which
+            must be a leaf) by means of operation <span
+              style="font-family: monospace;">removeAboveExternal</span>(<span
+              style="font-style: italic;">z</span>)</big></li>
+      </ul>
+      <li><big>Example: remove 3<span style="font-weight: bold;"></span></big></li>
+    </ul>
+    <big><span style="font-weight: bold;">
+      </span></big>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 376px;
+              height: 254px;" alt="" src="pic7.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 380px;
+              height: 189px;" alt="" src="pic8.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"><br>
+        Best-case versus Worst-case</span><br>
+    </big>
+    <ul>
+      <li><big>Consider a dictionary with <span style="font-style:
+            italic;">n</span>
+          items implemented by means of a
+          binary search tree of height <span style="font-style:
+            italic;">h</span></big></li>
+      <ul>
+        <li><big>the space used is <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>)</big></li>
+        <li><big>methods <span style="font-family: monospace;">findElement()</span>,
+            <span style="font-family: monospace;">insertItem()</span>
+            and <span style="font-family: monospace;">removeElement()</span>
+            take <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">h</span>)
+            time</big></li>
+      </ul>
+      <li><big>The height is <span style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span>) in the worst case and
+          <span style="font-style: italic;">O</span>(log <span
+            style="font-style: italic;">n</span>) in the best case</big></li>
+    </ul>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 339px;
+              height: 238px;" alt="" src="add1.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 426px;
+              height: 189px;" alt="" src="add2.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4><big>9.1.3 C++ Implementation</big></h4>
+    <big><span style="font-weight: bold;">A Binary Search Tree in C++<br>
+      </span><a href="9.2_BinarySearchTree.h-Position.html">html-9.2</a>
+      (Position)<br>
+      <a href="9.3_BinarySearchTree.h-BST1.html">html-9.3</a> (BST1)<br>
+      <a href="9.4_BinarySearchTree.h-BST2.html">html-9.4</a> (BST2)<br>
+      <a href="9.5_BinarySearchTree.h-BST3.html">html-9.5</a> (BST3)<br>
+      <a href="9.6_BinarySearchTree.h-BST4.html">html-9.6</a> (BST4)<br>
+      <br>
+      <a style="font-family: monospace;" href="except.h">except.h</a><span
+        style="font-family: monospace;">&nbsp; - &nbsp; </span><a
+        style="font-family: monospace;" href="LBTree.h">LBTree.h</a><span
+        style="font-family: monospace;">&nbsp;&nbsp; - &nbsp; </span><a
+        style="font-family: monospace;" href="BSTree.cpp">BSTree.cpp</a></big><br>
+    <hr style="width: 100%; height: 2px;">
+    <h3>9.2 AVL Trees</h3>
+    <ul>
+      <li><big><span style="font-weight: bold;">Height-Balance Property</span>:
+          For every internal node <span style="font-style: italic;">v</span>
+          of <span style="font-style: italic;">T</span> </big><big>the
+          heights of the
+          children of <span style="font-style: italic;">v</span> can
+          differ by
+          at most 1.</big></li>
+      <li><big>An AVL Tree is a binary search tree with </big><big>Height-Balance
+          Property</big><big>.</big></li>
+      <li><big>Adel'son-Vel'skii and Landis (&#1040;&#1076;&#1077;&#1083;&#1100;&#1089;&#1086;&#1085;-&#1042;&#1077;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;,
+          &#1051;&#1072;&#1085;&#1076;&#1080;&#1089; - 1968)</big></li>
+      <li><big><span style="font-style: italic;">Proposition:</span>
+          The height of an AVL tree storing <span style="font-style:
+            italic;">n</span>
+          keys is <span style="font-style: italic;">O</span>(log <span
+            style="font-style: italic;">n</span>).</big></li>
+    </ul>
+    <div style="text-align: center;"><img style="width: 522px; height:
+        391px;" alt="" src="avl01.jpg"><span style="font-style: italic;"></span><span
+        style="font-style: italic;"></span><span style="font-style:
+        italic;"></span><br>
+    </div>
+    <big><span style="font-weight: bold;">Insertion in an AVL Tree<br>
+      </span></big>
+    <ul>
+      <li><big><span style="font-family: monospace;">expandExternal</span>(<span
+            style="font-style: italic;">w</span>)</big></li>
+      <li><big>Let <span style="font-style: italic;">z</span> be the
+          first
+          node we encounter in going up from <span style="font-style:
+            italic;">w</span>
+          toward the root of <span style="font-style: italic;">T</span>,
+          such
+          that <span style="font-style: italic;">z</span> is
+          unbalanced.</big></li>
+      <li><big>Let <span style="font-style: italic;">y</span> denote
+          the
+          child of <span style="font-style: italic;">z</span> with
+          higher height.</big></li>
+      <li><big>Let <span style="font-style: italic;">x</span> be the
+          child
+          of <span style="font-style: italic;">y</span> </big><big>with
+          higher
+          height.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">Trinode Restructuring after an
+        Insertion</span><br>
+    </big>
+    <ul>
+      <li><big>Let (<span style="font-style: italic;">a, b, c</span>) be
+          an
+          inorder listing of <span style="font-style: italic;">x, y, z</span>,
+          perform the rotations
+          needed to make <span style="font-style: italic;">b</span> the
+          topmost
+          node of the three.</big></li>
+      <li><big><span style="font-style: italic;">Example:</span><br>
+        </big></li>
+    </ul>
+    <div style="text-align: center;"><img style="width: 734px; height:
+        465px;" alt="" src="avl02.jpg"><br>
+    </div>
+    <ul>
+      <li><big>There are 4 possible ways of mapping (x, y, z) to
+          (a,b,c).</big></li>
+    </ul>
+    <div style="text-align: center;"><img style="width: 1070px; height:
+        479px;" alt="" src="avl03.jpg"><br>
+    </div>
+    <ul style="font-style: italic;">
+      <li><big>Example:</big></li>
+    </ul>
+    <div style="text-align: center;"><img style="width: 897px; height:
+        623px;" alt="" src="avl04.jpg"><br>
+    </div>
+    <br>
+    <big style="font-weight: bold;">Removal in an AVL Tree</big><br>
+    <ul>
+      <li><big><span style="font-family: monospace;">removeElement</span>(<span
+            style="font-style: italic;">k</span>)</big></li>
+      <li><big>Removal begins as in a binary search tree, which means
+          the
+          node removed
+          will become an empty external node.</big></li>
+      <li><big>Its parent, <span style="font-style: italic;">w</span>,
+          may
+          cause an imbalance.</big></li>
+      <li style="font-style: italic;"><big>Example:</big></li>
+    </ul>
+    <div style="text-align: center;"><img style="width: 689px; height:
+        411px;" alt="" src="av05.jpg"><br>
+    </div>
+    <br>
+    <big><span style="font-weight: bold;">Rebalancing after a Removal</span><br>
+    </big>
+    <ul>
+      <li><big>Let <span style="font-style: italic;">z</span> be the
+          first
+          unbalanced node encountered while traveling up the
+          tree from <span style="font-style: italic;">w</span>. </big></li>
+      <li><big>Also, let <span style="font-style: italic;">y</span> be
+          the
+          child of <span style="font-style: italic;">z</span> with the
+          larger
+          height, and </big></li>
+      <li><big>let <span style="font-style: italic;">x</span> be the
+          child
+          of <span style="font-style: italic;">y</span> with the larger
+          height.</big></li>
+      <li><big>We perform <span style="font-family: monospace;">restructure</span>(<span
+            style="font-style: italic;">x</span>) to restore balance at
+          <span style="font-style: italic;">z</span>.</big></li>
+      <li><big>As this restructuring may upset the balance of another
+          node
+          higher in
+          the tree, we must continue checking for balance until the root
+          of <span style="font-style: italic;">T</span> is
+          reached</big></li>
+    </ul>
+    <div style="text-align: center;"><img style="width: 865px; height:
+        365px;" alt="" src="avl06.jpg"><br>
+    </div>
+    <big><span style="font-weight: bold;"><br>
+        Running Times for AVL Trees</span><br>
+    </big>
+    <ul>
+      <li><big>a single restructure is <span style="font-style:
+            italic;">O</span>(1)</big></li>
+      <ul>
+        <li><big>using a linked-structure binary tree</big></li>
+      </ul>
+      <li><big>find is <span style="font-style: italic;">O</span>(log <span
+            style="font-style: italic;">n</span>)</big></li>
+      <ul>
+        <li><big>height of tree is <span style="font-style: italic;">O</span>(log
+
+            <span style="font-style: italic;">n</span>), no restructures
+            needed</big></li>
+      </ul>
+      <li><big>insert is <span style="font-style: italic;">O</span>(log
+          <span style="font-style: italic;">n</span>)</big></li>
+      <ul>
+        <li><big>initial find is <span style="font-style: italic;">O</span>(log
+
+            <span style="font-style: italic;">n</span>)</big></li>
+        <li><big>Restructuring up the tree, maintaining heights is <span
+              style="font-style: italic;">O</span>(log <span
+              style="font-style: italic;">n</span>)</big></li>
+      </ul>
+      <li><big>remove is <span style="font-style: italic;">O</span>(log
+          <span style="font-style: italic;">n</span>)</big></li>
+      <ul>
+        <li><big>initial find is <span style="font-style: italic;">O</span>(log
+
+            <span style="font-style: italic;">n</span>)</big></li>
+        <li><big>Restructuring up the tree, maintaining heights is <span
+              style="font-style: italic;">O</span>(log <span
+              style="font-style: italic;">n</span>)</big></li>
+      </ul>
+    </ul>
+    <h4><big>9.2.2 C++ Implementation</big></h4>
+    <big><a href="9.8_AVLTree.h-AVLItem.html">html-9.8</a>
+      (AVL Item)<br>
+      <a href="9.9_AVLTree.h-AVLTree2.html">html-9.9</a> (AVL Tree 2)<br>
+      <a href="9.10_AVLTree.h-AVLTree1.html">html-9.10</a> (AVL Tree 1)<a
+        href="9.5_BinarySearchTree.h-BST3.html"></a><br>
+    </big>
+    <hr style="width: 100%; height: 2px;"><br>
+  </body>
+</html>

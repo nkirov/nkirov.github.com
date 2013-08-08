@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html
+	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
+	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>Merger2</title>
+</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: Merger2</font></h2>
+</center><br><dl><dd><pre>
+
+<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object, <font color=#A000A0>typename</font> Sequence&gt;
+<font color=#A000A0>void</font> Merger&lt;Object, Sequence&gt;:: 			<font color=#0000FF>// generic merge function</font>
+<font color=#000000>merger</font>(<font color=#A000A0>const</font> Sequence& A, <font color=#A000A0>const</font> Sequence& B, Sequence& C) {
+  iterA = A.<font color=#000000>elements</font>();					<font color=#0000FF>// A's elements</font>
+  iterB = B.<font color=#000000>elements</font>();					<font color=#0000FF>// B's elements</font>
+  <font color=#A000A0>bool</font> aExists = <font color=#000000>getFromA</font>();				<font color=#0000FF>// test for more in A</font>
+  <font color=#A000A0>bool</font> bExists = <font color=#000000>getFromB</font>();				<font color=#0000FF>// test for more in B</font>
+  <font color=#00A000>while</font> (aExists && bExists) {				<font color=#0000FF>// main merging loop</font>
+    <font color=#00A000>if</font> (a &lt; b) { <font color=#000000>aIsLess</font>(a, C); aExists = <font color=#000000>getFromA</font>(); } <font color=#0000FF>// a is smaller</font>
+    <font color=#00A000>else</font> <font color=#00A000>if</font> (a == b) {					<font color=#0000FF>// both are equal</font>
+      <font color=#000000>bothEqual</font>(a, b, C);
+      aExists = <font color=#000000>getFromA</font>();
+      bExists = <font color=#000000>getFromB</font>();
+    }
+    <font color=#00A000>else</font> { <font color=#000000>bIsLess</font>(b, C); bExists = <font color=#000000>getFromB</font>(); }	<font color=#0000FF>// b is smaller</font>
+  }							<font color=#0000FF>// copy remainders</font>
+  <font color=#00A000>while</font> (aExists) { <font color=#000000>aIsLess</font>(a, C); aExists = <font color=#000000>getFromA</font>(); }
+  <font color=#00A000>while</font> (bExists) { <font color=#000000>bIsLess</font>(b, C); bExists = <font color=#000000>getFromB</font>(); }
+}
+</dl>
+</body></html>
