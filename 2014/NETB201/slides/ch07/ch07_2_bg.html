@@ -1,373 +1,366 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-  <meta content="text/html; charset=ISO-8859-1"
- http-equiv="content-type">
-  <title>Chapter 7</title>
-</head>
-<body>
-<big> </big>
-<h2>Chapter 7: Priority Queues - II<br>
-</h2>
-<h2>7.3 Heaps</h2>
-<ul>
-  <li><big>An efficient realization of a priority queue uses a
-(nonlinear)
-data structure called a heap </big><big>&#8722;</big><big> performs both
-insertions and removals in <span style="font-style: italic;">logarithmic</span>
-time <span style="font-style: italic;">O</span>(log <span
- style="font-style: italic;">n</span>).</big></li>
-</ul>
-<big>
-<span style="font-weight: bold;"> 7.3.1 The Heap Data
-Structure</span><br>
-</big>
-<ul>
-  <li><big>A heap is a binary tree storing keys at its<span
- style="font-style: italic;"> internal</span> nodes
-and satisfying the following properties:</big></li>
-  <ul>
-    <li><big><span style="font-style: italic;">Heap-Order</span>: for
-every internal node <span style="font-style: italic;">v</span> other
-than the root, <span style="font-family: monospace;">key</span>(<span
- style="font-style: italic;">v</span>) &#8805; <span
- style="font-family: monospace;">key</span>(<span
- style="font-family: monospace;">parent</span>(<span
- style="font-style: italic;">v</span>))</big></li>
-    <li><big><span style="font-style: italic;">Complete Binary Tree</span>:
-let
-      <span style="font-style: italic;">h</span> be the height of the
-heap</big></li>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="content-type">
+    <title>Chapter 7</title>
+  </head>
+  <body>
+    <big> </big>
+    <h2>&#1055;&#1088;&#1080;&#1086;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072; - &#1074;&#1090;&#1086;&#1088;&#1072; &#1095;&#1072;&#1089;&#1090;<br>
+    </h2>
+    <h2>&#1061;&#1080;&#1087;</h2>
     <ul>
-      <li><big>for <span style="font-style: italic;">i</span> = 0, &#8230; ,
-        <span style="font-style: italic;">h</span> &#8722; 2, there are 2<sup><span
- style="font-style: italic;">i</span></sup> nodes of depth <span
- style="font-style: italic;">i</span></big></li>
-      <li><big>at depth <span style="font-style: italic;">h </span>&#8722;
-1,
-the internal nodes are to the left of the
-external nodes</big></li>
+      <li><big>&#1045;&#1076;&#1085;&#1072; &#1077;&#1092;&#1077;&#1082;&#1090;&#1080;&#1074;&#1085;&#1072; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1085;&#1072; &#1087;&#1088;&#1080;&#1086;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072; &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;
+          (&#1085;&#1077;&#1083;&#1080;&#1085;&#1077;&#1081;&#1085;&#1072;) &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1072; &#1086;&#1090; &#1076;&#1072;&#1085;&#1085;&#1080;, &#1085;&#1072;&#1088;&#1077;&#1095;&#1077;&#1085;&#1072; &#1093;&#1080;&#1087; (&#1082;&#1091;&#1087;&#1095;&#1080;&#1085;&#1072;) -
+          &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072; &#1080; &#1076;&#1074;&#1077;&#1090;&#1077; - &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1080; &#1080;&#1079;&#1074;&#1072;&#1078;&#1076;&#1072;&#1085;&#1077; &#1079;&#1072; &#1083;&#1086;&#1075;&#1072;&#1088;&#1080;&#1090;&#1084;&#1080;&#1095;&#1085;&#1086;
+          &#1074;&#1088;&#1077;&#1084;&#1077;&nbsp;</big><big><span style="font-style: italic;">O</span>(log
+
+          <span style="font-style: italic;">n</span>).</big></li>
     </ul>
-  </ul>
-  <li><big>The <span style="font-style: italic;">last node</span> of a
-heap is the rightmost internal node of
-depth <span style="font-style: italic;">h</span> &#8722; 1</big></li>
-</ul>
-<big><img style="width: 374px; height: 271px;" alt="" src="pic1.jpg"></big><br>
-<big><span style="font-weight: bold;">Proposition 7.5:</span> A heap <span
- style="font-style: italic;">T</span>
-storing <span style="font-style: italic;">n</span> keys has height <span
- style="font-style: italic;">h</span> = [log(<span
- style="font-style: italic;">n</span> + 1)].<br>
-Proof: (we apply the complete binary tree property)<br>
-</big>
-<ul>
-  <li><big>Let <span style="font-style: italic;">h</span> be the
-height of a heap storing <span style="font-style: italic;">n</span>
-keys</big></li>
-  <li><big>Since there are 2<sup><span style="font-style: italic;">i</span></sup>
-keys at depth <span style="font-style: italic;">i </span>= 0, &#8230; , <span
- style="font-style: italic;">h</span> &#8722;2 and at least one key at
-depth <span style="font-style: italic;">h</span> &#8722;1, we have <span
- style="font-style: italic;">n</span> &#8805; 1 + 2 + 4 +&#8230; + 2<sup><span
- style="font-style: italic;">h</span> &#8722;2</sup> + 1 =&nbsp; </big><big>2<sup><span
- style="font-style: italic;">h</span> &#8722;1</sup></big><big>, thus, <span
- style="font-style: italic;">n</span> &#8805; 2<sup><span
- style="font-style: italic;">h</span> &#8722; 1</sup>, i.e. <span
- style="font-style: italic;">h</span> &#8804; log <span
- style="font-style: italic;">n</span> + 1</big><big><sup> </sup></big></li>
-  <li><big>Since for complete binary tree when there are </big><big>2<sup><span
- style="font-style: italic;">h</span> &#8722; 1</sup></big><big>&nbsp; keys
-at depth </big><big><span style="font-style: italic;">h</span> &#8722;1</big><big>,
-we
-have
-    <span style="font-style: italic;">n</span> </big><big>&#8804;</big><big>
-1 + 2 + 4 +&#8230; + 2<sup><span style="font-style: italic;">h</span> &#8722;1</sup>
-=&nbsp; </big><big>2<sup><span style="font-style: italic;">h</span> </sup></big><big>&#8722;</big><big>1,</big><big>
-thus, <span style="font-style: italic;">n</span> </big><big>&#8804;</big><big>
-2<sup><span style="font-style: italic;">h</span></sup> </big><big>&#8722;</big><big>1</big><big>,
-i.e.
+    <big> <span style="font-weight: bold;"> &#1057;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1072; &#1086;&#1090; &#1076;&#1072;&#1085;&#1085;&#1080; &#1093;&#1080;&#1087;</span><br>
+    </big>
+    <ul>
+      <li><big>&#1061;&#1080;&#1087; &#1077; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;, &#1087;&#1072;&#1079;&#1077;&#1097;&#1086; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1074;&#1098;&#1074; &#1074;&#1090;&#1088;&#1077;&#1096;&#1085;&#1080;&#1090;&#1077; &#1074;&#1098;&#1079;&#1083;&#1080; &#1080;
+          &#1080;&#1084;&#1072;&#1097;&#1086; &#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1090;&#1077; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;:</big></li>
+      <ul>
+        <li><big><span style="font-style: italic;">&#1061;&#1080;&#1087;-&#1085;&#1072;&#1088;&#1077;&#1076;&#1073;&#1072;
+              (Heap-Order)</span>: &#1079;&#1072; &#1074;&#1089;&#1077;&#1082;&#1080; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; <span
+              style="font-style: italic;">v</span> &#1082;&#1086;&#1081;&#1090;&#1086; &#1085;&#1077; &#1077; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072;, <span
+              style="font-family: monospace;">key</span>(<span
+              style="font-style: italic;">v</span>) &#8805; <span
+              style="font-family: monospace;">key</span>(<span
+              style="font-family: monospace;">parent</span>(<span
+              style="font-style: italic;">v</span>));</big></li>
+        <li><big><span style="font-style: italic;">&#1055;&#1098;&#1083;&#1085;&#1086; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;
+              (Complete Binary Tree)</span>: &#1085;&#1077;&#1082;&#1072; <span
+              style="font-style: italic;">h</span> &#1077; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072;
+            &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;:</big></li>
+        <ul>
+          <li><big>&#1079;&#1072; <span style="font-style: italic;">i</span> = 0, …
+              , <span style="font-style: italic;">h</span> &#8722; 2, &#1080;&#1084;&#1072; 2<sup><span
+                  style="font-style: italic;">i</span></sup> &#1074;&#1098;&#1079;&#1077;&#1083;&#1072; &#1077;
+              &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">i;</span></big></li>
+          <li><big>&#1079;&#1072; &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">h </span>&#8722;
+              1, &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1085;&#1080;&#1090;&#1077; &#1074;&#1098;&#1079;&#1083;&#1080; &#1089;&#1072; &#1085;&#1072;&#1083;&#1103;&#1074;&#1086; &#1086;&#1090; &#1074;&#1098;&#1085;&#1096;&#1085;&#1080;&#1090;&#1077; &#1074;&#1098;&#1079;&#1083;&#1080;.</big></li>
+        </ul>
+      </ul>
+      <li><big>&#1055;&#1086;&#1089;&#1083;&#1077;&#1076;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; (<span style="font-style: italic;">last
+            node</span>) &#1085;&#1072; &#1093;&#1080;&#1087;&#1072; &#1077; &#1085;&#1072;&#1081;-&#1076;&#1077;&#1089;&#1085;&#1080;&#1103; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; &#1085;&#1072;
+          &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">h</span> &#8722; 1.</big></li>
+    </ul>
+    <big><img style="width: 374px; height: 271px;" alt="" src="pic1.jpg"></big><br>
+    <big><span style="font-weight: bold;"></span>&#1058;&#1074;&#1098;&#1088;&#1076;&#1077;&#1085;&#1080;&#1077;: &#1061;&#1080;&#1087; <span
+        style="font-style: italic;">T</span> &#1089;&#1098;&#1076;&#1098;&#1088;&#1078;&#1072;&#1097; <span
+        style="font-style: italic;">n</span> &#1082;&#1083;&#1102;&#1095;&#1072; &#1080;&#1084;&#1072; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072; <span
+        style="font-style: italic;">h</span> = [log(<span
+        style="font-style: italic;">n</span> + 1)].<br>
+      &#1044;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1077;&#1083;&#1089;&#1090;&#1074;&#1086;: (&#1087;&#1088;&#1080;&#1083;&#1072;&#1075;&#1072;&#1084;&#1077; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1090;&#1086; &#1087;&#1098;&#1083;&#1085;&#1086; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;)</big><br>
+    <ul>
+      <li><big>&#1058;&#1098;&#1081; &#1082;&#1072;&#1090;&#1086; &#1080;&#1084;&#1072; 2<sup><span style="font-style: italic;">i</span></sup>
+          &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1089; &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">i </span>=
+          0, … , <span style="font-style: italic;">h</span> &#8722;2 &#1080; &#1087;&#1086;&#1085;&#1077;
+          &#1077;&#1076;&#1080;&#1085; &#1082;&#1083;&#1102;&#1095; &#1089; &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">h</span>
+          &#8722;1, &#1080;&#1084;&#1072;&#1084;&#1077; <span style="font-style: italic;">n</span> &#8805; 1 + 2
+          + 4 +… + 2<sup><span style="font-style: italic;">h</span> &#8722;2</sup>
+          + 1 =&nbsp; </big><big>2<sup><span style="font-style:
+              italic;">h</span> &#8722;1</sup></big><big>, &#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1085;&#1086; <span
+            style="font-style: italic;">n</span> &#8805; 2<sup><span
+              style="font-style: italic;">h</span> &#8722; 1</sup>, &#1090;.&#1077;. <span
+            style="font-style: italic;">h</span> </big><font size="+1">&#8805;</font><big>
+          log <span style="font-style: italic;">n</span> + 1.</big><big><sup>
+          </sup></big></li>
+      <li><big>&#1054;&#1090; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1090;&#1072; &#1079;&#1072; &#1087;&#1098;&#1083;&#1085;&#1086; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1080;&#1084;&#1072; </big><big>2<sup><span
+              style="font-style: italic;">h</span> &#8722; 1</sup></big><big>&nbsp;
 
-    <span style="font-style: italic;">h</span> &#8804; log (<span
- style="font-style: italic;">n</span> + 1)</big></li>
-</ul>
-<big>
-<img style="width: 669px; height: 240px;" alt="" src="pic2.jpg"><br>
-<br>
-<span style="font-weight: bold;">7.3.2 Implementing a
-Priority Queue with a Heap</span><br>
-</big>
-<ul>
-  <li><big>We can use a heap to implement a priority queue</big></li>
-  <li><big>We store a (<span style="font-family: monospace;">key</span>,
+          &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1089; &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; </big><big><span style="font-style:
+            italic;">h</span> &#8722;1</big><big>, &#1080;&#1084;&#1072;&#1084;&#1077; <span
+            style="font-style: italic;">n</span> </big><big>&#8804;</big><big>
+          1 + 2 + 4 +… + 2<sup><span style="font-style: italic;">h</span>
+            &#8722;1</sup> =&nbsp; </big><big>2<sup><span style="font-style:
+              italic;">h</span> </sup></big><big>&#8722;</big><big>1,</big><big>
+          &#1089;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1085;&#1086; <span style="font-style: italic;">n</span> </big><big>&#8804;</big><big>
+          2<sup><span style="font-style: italic;">h</span></sup> </big><big>&#8722;</big><big>1</big><big>,
+          &#1090;.&#1077;. <span style="font-style: italic;">h</span> &#8804; log (<span
+            style="font-style: italic;">n</span> + 1).</big></li>
+    </ul>
+    <big> <img style="width: 669px; height: 240px;" alt=""
+        src="pic2.jpg"><br>
+      <br>
+      <span style="font-weight: bold;">&#1056;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1085;&#1072; &#1087;&#1088;&#1080;&#1086;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072;
+        &#1089; &#1093;&#1080;&#1087;</span><br>
+    </big>
+    <ul>
+      <li><big>&#1065;&#1077; &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1084;&#1077; &#1093;&#1080;&#1087; &#1079;&#1072; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1085;&#1072; &#1087;&#1088;&#1086;&#1080;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072;.<br>
+        </big></li>
+      <li><big>&#1065;&#1077; &#1089;&#1098;&#1093;&#1088;&#1072;&#1085;&#1103;&#1074;&#1072;&#1084;&#1077; (<span style="font-family: monospace;">key</span>,
+          <span style="font-family: monospace;">element</span>) &#1086;&#1073;&#1077;&#1082;&#1090;&#1080;
+          &#1074;&#1098;&#1074; &#1074;&#1089;&#1077;&#1082;&#1080; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
+      <li><big>&#1065;&#1077; &#1087;&#1072;&#1079;&#1080;&#1084; (&#1089;&#1083;&#1077;&#1076;&#1080;&#1084;) &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;&#1090;&#1072; &#1085;&#1072; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1103; &#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
+    </ul>
+    <big><img style="width: 678px; height: 258px;" alt="" src="pic3.jpg"><br>
+      &nbsp; <span style="font-weight: bold;">&#1055;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1103;&#1085;&#1077; &#1085;&#1072; &#1093;&#1080;&#1087; &#1089;
+        &#1074;&#1077;&#1082;&#1090;&#1086;&#1088;</span><br>
+    </big>
+    <ul>
+      <li><big>&#1065;&#1077; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1080;&#1084; &#1093;&#1080;&#1087; &#1089; <span style="font-style: italic;">n</span>
+          &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1082;&#1072;&#1090;&#1086; &#1074;&#1077;&#1082;&#1090;&#1086;&#1088; &#1089; &#1076;&#1098;&#1083;&#1078;&#1080;&#1085;&#1072; <span style="font-style:
+            italic;">n</span> + 1.</big></li>
+      <li><big>&#1047;&#1072; &#1074;&#1098;&#1079;&#1077;&#1083; &#1089; &#1088;&#1072;&#1085;&#1075; <span style="font-style: italic;">i</span></big></li>
+      <ul>
+        <li><big>&#1083;&#1103;&#1074;&#1086;&#1090;&#1086; &#1076;&#1077;&#1090;&#1077; &#1077; &#1089; &#1088;&#1072;&#1085;&#1075; 2<span style="font-style: italic;">i,</span></big></li>
+        <li><big>&#1076;&#1103;&#1089;&#1085;&#1086;&#1090;&#1086; &#1076;&#1077;&#1090;&#1077; &#1077; &#1089; &#1088;&#1077;&#1085;&#1075; 2<span style="font-style:
+              italic;">i</span> +1.</big></li>
+      </ul>
+      <li><big>&#1042;&#1088;&#1098;&#1079;&#1082;&#1080;&#1090;&#1077; &#1084;&#1077;&#1078;&#1076;&#1091; &#1074;&#1098;&#1079;&#1083;&#1080;&#1090;&#1077; &#1085;&#1077; &#1089;&#1077; &#1087;&#1072;&#1089;&#1103;&#1090; &#1076;&#1080;&#1088;&#1077;&#1082;&#1090;&#1085;&#1086;.</big></li>
+      <li><big>&#1051;&#1080;&#1089;&#1090;&#1072;&#1090;&#1072; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1085;&#1077; &#1089;&#1072; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1077;&#1085;&#1080; &#1074;&#1098;&#1074; &#1074;&#1077;&#1082;&#1090;&#1086;&#1088;&#1072;.</big></li>
+      <li><big>&#1050;&#1083;&#1077;&#1090;&#1082;&#1072;&#1090;&#1072; &#1089; &#1088;&#1072;&#1085;&#1075; 0 &#1085;&#1077; &#1089;&#1077; &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;.</big></li>
+      <li><big>&#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <span style="font-family: monospace;">insertItem</span>
+          &#1089;&#1098;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1072; &#1085;&#1072; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1089; &#1088;&#1072;&#1085;&#1075; <span style="font-style:
+            italic;">n</span> + 1.</big></li>
+      <li><big>&#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <span style="font-family: monospace;">removeMin</span>
+          &#1089;&#1098;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1072; &#1085;&#1072; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077; &#1089; &#1088;&#1072;&#1085;&#1075; 1.</big></li>
+      <li><big>&#1044;&#1086;&#1073;&#1080;&#1074;&#1072;&#1084;&#1077; &#1093;&#1080;&#1087; &#1089;&#1086;&#1088;&#1090;&#1080;&#1088;&#1072;&#1085;&#1077; "&#1085;&#1072; &#1084;&#1103;&#1089;&#1090;&#1086;" (&#1073;&#1077;&#1079; &#1076;&#1086;&#1087;&#1098;&#1083;&#1085;&#1080;&#1090;&#1077;&#1083;&#1085;&#1072;
+          &#1087;&#1072;&#1084;&#1077;&#1090;).</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"><img style="width: 351px;
+          height: 329px;" alt="" src="pic4.jpg"><br>
+        &#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;</span><br>
+    </big>
+    <ul>
+      <li><big>&#1052;&#1077;&#1090;&#1086;&#1076;&#1098;&#1090; <span style="font-family: monospace;">insertItem</span>
+          &#1085;&#1072; &#1087;&#1088;&#1080;&#1086;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072; &#1040;&#1058;&#1044; &#1089;&#1098;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1072; &#1085;&#1072; &#1076;&#1086;&#1073;&#1072;&#1074;&#1103;&#1085;&#1077; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095; <span
+            style="font-style: italic;">k</span> &#1082;&#1098;&#1084; &#1093;&#1080;&#1087;&#1072;.</big></li>
+      <li><big>&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; &#1079;&#1072; &#1076;&#1086;&#1073;&#1072;&#1074;&#1103;&#1085;&#1077; &#1089;&#1077; &#1089;&#1098;&#1089;&#1090;&#1086;&#1080; &#1086;&#1090; 3 &#1089;&#1090;&#1098;&#1087;&#1082;&#1080;:</big></li>
+      <ul>
+        <li><big>&#1085;&#1072;&#1084;&#1080;&#1088;&#1072;&#1085;&#1077; &#1085;&#1072; &#1074;&#1098;&#1079;&#1077;&#1083; &#1079;&#1072; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; <span style="font-style:
+              italic;">z </span>(&#1085;&#1086;&#1074;&#1080;&#1103;&#1090; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;);</big></li>
+        <li><big>&#1047;&#1072;&#1087;&#1080;&#1089;&#1074;&#1072;&#1084;&#1077; <span style="font-style: italic;">k</span> &#1074;
+            <span style="font-style: italic;">z</span> &#1080; &#1088;&#1072;&#1079;&#1096;&#1080;&#1088;&#1103;&#1074;&#1072;&#1084;&#1077; <span
+              style="font-style: italic;">z</span> &#1076;&#1086; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;;</big></li>
+        <li><big>&#1042;&#1098;&#1079;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;&#1084;&#1077; &#1093;&#1080;&#1087;-&#1085;&#1072;&#1088;&#1077;&#1076;&#1073;&#1072;&#1090;&#1072; (&#1076;&#1072;&#1076;&#1077;&#1085;&#1086; &#1087;&#1086;-&#1076;&#1086;&#1083;&#1091;).</big></li>
+      </ul>
+    </ul>
+    <big><span style="font-weight: bold;"><br style="font-weight: bold;">
+      </span></big>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 365px;
+              height: 200px;" alt="" src="pic5.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 378px;
+              height: 185px;" alt="" src="pic6.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"></span><span
+        style="font-weight: bold;"><br>
+        "&#1041;&#1098;&#1083;&#1073;&#1091;&#1082;&#1072;&#1085;&#1077; &#1085;&#1072;&#1075;&#1086;&#1088;&#1077;" &#1089;&#1083;&#1077;&#1076; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;</span><br>
+    </big>
+    <ul>
+      <li><big>&#1057;&#1083;&#1077;&#1076; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1085;&#1086;&#1074; &#1082;&#1083;&#1102;&#1095; <span style="font-style:
+            italic;">k</span>, &#1093;&#1080;&#1087;-&#1085;&#1072;&#1088;&#1077;&#1076;&#1073;&#1072;&#1090;&#1072; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1089;&#1077; &#1085;&#1072;&#1088;&#1091;&#1096;&#1080;.</big></li>
+      <li><big>&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; "&#1073;&#1098;&#1083;&#1073;&#1091;&#1082;&#1072;&#1085;&#1077; &#1085;&#1072;&#1075;&#1086;&#1088;&#1077;" (upheap) &#1074;&#1098;&#1079;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;
+          &#1093;&#1080;&#1087;-&#1085;&#1072;&#1088;&#1077;&#1076;&#1073;&#1072;&#1090;&#1072; &#1095;&#1088;&#1077;&#1079; &#1088;&#1072;&#1079;&#1084;&#1103;&#1085;&#1072; &#1085;&#1072; <span style="font-style:
+            italic;">k</span> &#1087;&#1086; &#1087;&#1098;&#1090;&#1103; &#1085;&#1072;&#1075;&#1086;&#1088;&#1077; (&#1082;&#1098;&#1084; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;) &#1086;&#1090;
+          &#1074;&#1098;&#1079;&#1077;&#1083;&#1072; &#1085;&#1072; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;.<br>
+        </big></li>
+      <li><big><big><font size="+1">&#1056;&#1072;&#1079;&#1084;&#1103;&#1085;&#1072;&#1090;&#1072; &#1089;&#1077; </font></big>&#1087;&#1088;&#1077;&#1082;&#1088;&#1072;&#1090;&#1103;&#1074;&#1072;,
 
+          &#1082;&#1086;&#1075;&#1072;&#1090;&#1086; &#1082;&#1083;&#1102;&#1095;&#1098;&#1090;</big><big><big> <font size="+1"><span
+                style="font-style: italic;">k</span></font> </big>&#1076;&#1086;&#1089;&#1090;&#1080;&#1075;&#1085;&#1077;
 
-    <span style="font-family: monospace;">element</span>) item at each
-internal node</big></li>
-  <li><big>We keep track of the position of the last node</big></li>
-</ul>
-<big><img style="width: 678px; height: 258px;" alt="" src="pic3.jpg"><br>
-<span style="font-weight: bold;">The Vector Representation
-of a Heap</span><br>
-</big>
-<ul>
-  <li><big>We can represent a heap with <span
- style="font-style: italic;">n</span> keys by means of a vector of
-length <span style="font-style: italic;">n</span> + 1</big></li>
-  <li><big>For the node at rank <span style="font-style: italic;">i</span></big></li>
-  <ul>
-    <li><big>the left child is at rank 2<span
- style="font-style: italic;">i</span></big></li>
-    <li><big>the right child is at rank 2<span
- style="font-style: italic;">i</span> +1</big></li>
-  </ul>
-  <li><big>Links between nodes are not explicitly stored</big></li>
-  <li><big>The leaves are not represented</big></li>
-  <li><big>The cell of at rank 0 is not used</big></li>
-  <li><big>Operation <span style="font-family: monospace;">insertItem</span>
-corresponds to inserting at rank <span style="font-style: italic;">n</span>
-+ 1</big></li>
-  <li><big>Operation <span style="font-family: monospace;">removeMin</span>
-corresponds to removing at rank 1</big></li>
-  <li><big>Yields in-place heap-sort</big></li>
-</ul>
-<big><span style="font-weight: bold;"><img
- style="width: 351px; height: 329px;" alt="" src="pic4.jpg"><br>
-Insertion</span><br>
-</big>
-<ul>
-  <li><big>Method <span style="font-family: monospace;">insertItem</span>
-of the priority queue ADT corresponds to
-the insertion of a key <span style="font-style: italic;">k</span> to
-the heap</big></li>
-  <li><big>The insertion algorithm consists of three steps</big></li>
-  <ul>
-    <li><big>Find the insertion node <span style="font-style: italic;">z
+          &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1080;&#1083;&#1080; &#1074;&#1098;&#1079;&#1077;&#1083;, &#1095;&#1080;&#1081;&#1090;&#1086; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083; &#1077; &#1089;&nbsp; &#1082;&#1083;&#1102;&#1095; &#1087;&#1086;-&#1084;&#1072;&#1083;&#1098;&#1082; &#1080;&#1083;&#1080;
+          &#1088;&#1072;&#1074;&#1077;&#1085; &#1085;&#1072;&nbsp;<span style="font-style: italic;">k.</span></big></li>
+      <li><big>&#1058;&#1098;&#1081; &#1082;&#1072;&#1090;&#1086; &#1093;&#1080;&#1087;&#1098;&#1090; &#1080;&#1084;&#1072; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style:
+            italic;">O</span>(log <span style="font-style: italic;">n</span>),
 
+        </big><big><font size="+1">&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; "&#1073;&#1098;&#1083;&#1073;&#1091;&#1082;&#1072;&#1085;&#1077; &#1085;&#1072;&#1075;&#1086;&#1088;&#1077;"</font>
+          &#1089;&#1077; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072; &#1079;&#1072; <span style="font-style: italic;">O</span>(log
+          <span style="font-style: italic;">n</span>) &#1074;&#1088;&#1077;&#1084;&#1077;.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 375px;
+              height: 181px;" alt="" src="pic7.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 375px;
+              height: 188px;" alt="" src="pic8.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"></span><span
+        style="font-weight: bold;">&#1055;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077;</span><br>
+    </big>
+    <ul>
+      <li><big>&#1052;&#1077;&#1090;&#1086;&#1076;&#1098;&#1090; <span style="font-family: monospace;">removeMin</span>
+          &#1085;&#1072; &#1087;&#1088;&#1080;&#1086;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072;&#1090;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072; &#1040;&#1058;&#1044; &#1089;&#1098;&#1086;&#1091;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1072; &#1085;&#1072; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095;&#1072;
+          &#1085;&#1072; &#1082;&#1086;&#1088;&#1077;&#1085; &#1086;&#1090; &#1093;&#1080;&#1087;&#1072;.</big></li>
+      <li><big>&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; &#1079;&#1072; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077; &#1089;&#1077; &#1089;&#1098;&#1089;&#1090;&#1086;&#1080; &#1086;&#1090; 3 &#1089;&#1090;&#1098;&#1087;&#1082;&#1080;:</big></li>
+      <ul>
+        <li><big>&#1047;&#1072;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095;&#1072; &#1085;&#1072; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1089; &#1082;&#1083;&#1102;&#1095;&#1072; &#1085;&#1072; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1103;
+            &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">w.</span></big></li>
+        <li><big>&#1057;&#1074;&#1080;&#1074;&#1072;&#1084;&#1077; <span style="font-style: italic;">w</span> &#1080;
+            &#1085;&#1077;&#1075;&#1086;&#1074;&#1080;&#1090;&#1077; &#1076;&#1077;&#1094;&#1072; &#1074; &#1077;&#1076;&#1085;&#1086; &#1083;&#1080;&#1089;&#1090;&#1086;.</big></li>
+        <li><big>&#1042;&#1098;&#1079;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;&#1084;&#1077; &#1093;&#1080;&#1087;-&#1085;&#1072;&#1088;&#1077;&#1076;&#1073;&#1072;&#1090;&#1072; (&#1076;&#1072;&#1076;&#1077;&#1085;&#1086; &#1087;&#1086;-&#1076;&#1086;&#1083;&#1091;).</big></li>
+      </ul>
+    </ul>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 301px;
+              height: 193px;" alt="" src="pic9.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 308px;
+              height: 182px;" alt="" src="pic10.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;">"&#1041;&#1098;&#1083;&#1073;&#1091;&#1082;&#1072;&#1085;&#1077; &#1085;&#1072;&#1076;&#1086;&#1083;&#1091;" &#1089;&#1083;&#1077;&#1076;
+        &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077;</span><br>
+    </big>
+    <ul>
+      <li><big>&#1057;&#1083;&#1077;&#1076; &#1079;&#1072;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095;&#1072; &#1085;&#1072; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1089; &#1082;&#1102;&#1095;&#1072; </big><big><big><font
+              size="+1"> <span style="font-style: italic;">k</span></font>
+          </big>&#1085;&#1072; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1103; &#1074;&#1098;&#1079;&#1077;&#1083;, &#1093;&#1080;&#1087;-&#1085;&#1072;&#1088;&#1077;&#1076;&#1073;&#1072;&#1090;&#1072; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1089;&#1077; &#1085;&#1072;&#1088;&#1091;&#1096;&#1080;.</big></li>
+      <li><big>&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; "&#1073;&#1098;&#1083;&#1073;&#1091;&#1082;&#1072;&#1085;&#1077; &#1085;&#1072;&#1076;&#1086;&#1083;&#1091;" (downheap) &#1074;&#1098;&#1079;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;
+          &#1093;&#1080;&#1087;-&#1085;&#1072;&#1088;&#1077;&#1076;&#1073;&#1072;&#1090;&#1072; &#1095;&#1088;&#1077;&#1079; &#1088;&#1072;&#1079;&#1084;&#1103;&#1085;&#1072; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095;&#1072; <span style="font-style:
+            italic;">k</span> &#1087;&#1086; &#1087;&#1098;&#1090;&#1103; &#1085;&#1072;&#1076;&#1086;&#1083;&#1091; (&#1082;&#1098;&#1084; &#1083;&#1080;&#1089;&#1090;&#1072;&#1090;&#1072;) &#1086;&#1090; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072;.</big></li>
+      <li><big>&#1056;&#1072;&#1079;&#1084;&#1103;&#1085;&#1072;&#1090;&#1072; &#1089;&#1077; &#1087;&#1088;&#1077;&#1082;&#1088;&#1072;&#1090;&#1103;&#1074;&#1072; &#1082;&#1086;&#1075;&#1072;&#1090;&#1086; <span style="font-style:
+            italic;">k</span> &#1076;&#1086;&#1089;&#1090;&#1080;&#1075;&#1085;&#1077; &#1083;&#1080;&#1089;&#1090;&#1086; &#1080;&#1083;&#1080; &#1074;&#1098;&#1079;&#1077;&#1083;, &#1095;&#1080;&#1081;&#1090;&#1086; &#1076;&#1077;&#1094;&#1072; &#1080;&#1084;&#1072;&#1090;
+          &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1087;&#1086;-&#1075;&#1086;&#1083;&#1077;&#1084;&#1080; &#1080;&#1083;&#1080; &#1088;&#1072;&#1074;&#1085;&#1080; &#1085;&#1072; <span style="font-style:
+            italic;">k</span></big></li>
+      <li><big>&#1058;&#1098;&#1081; &#1082;&#1072;&#1090;&#1086; &#1093;&#1080;&#1087;&#1098;&#1090; &#1080;&#1084;&#1072; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style:
+            italic;">O</span>(log <span style="font-style: italic;">n</span>),
 
-      </span>(the new last node)</big></li>
-    <li><big>Store <span style="font-style: italic;">k</span> at <span
- style="font-style: italic;">z</span> and expand <span
- style="font-style: italic;">z</span> into an internal node</big></li>
-    <li><big>Restore the heap-order property (discussed next)</big></li>
-  </ul>
-</ul>
-<big><span style="font-weight: bold;"><br style="font-weight: bold;">
-</span></big>
-<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;"><img
- style="width: 365px; height: 200px;" alt="" src="pic5.jpg"><br>
-      </td>
-      <td style="vertical-align: top;"><img
- style="width: 378px; height: 185px;" alt="" src="pic6.jpg"><br>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<big><span style="font-weight: bold;"></span><span
- style="font-weight: bold;"><br>
-Up-Heap Bubbling after an
-Insertion</span><br>
-</big>
-<ul>
-  <li><big>After the insertion of a new key <span
- style="font-style: italic;">k</span>, the <span
- style="font-style: italic;">heap-order property</span>
-may be violated</big></li>
-  <li><big>Algorithm upheap restores the heap-order property by
-swapping <span style="font-style: italic;">k</span> along an upward
-path from the insertion node</big></li>
-  <li><big>Upheap terminates when the key <span
- style="font-style: italic;">k</span> reaches the root or a node
-whose parent has a key smaller than or equal to <span
- style="font-style: italic;">k</span></big></li>
-  <li><big>Since a heap has height <span style="font-style: italic;">O</span>(log
+        </big><big><font size="+1">&#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; "&#1073;&#1098;&#1083;&#1073;&#1091;&#1082;&#1072;&#1085;&#1077; &#1085;&#1072;&#1076;&#1086;&#1083;&#1091;"</font>
+          &#1089;&#1077; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072; &#1079;&#1072; <span style="font-style: italic;">O</span>(log
+          <span style="font-style: italic;">n</span>) &#1074;&#1088;&#1077;&#1084;&#1077;.</big></li>
+    </ul>
+    <table style="text-align: left; width: 100%;" border="0"
+      cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img style="width: 302px;
+              height: 185px;" alt="" src="pic11.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"><img style="width: 298px;
+              height: 193px;" alt="" src="pic12.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"></span><span
+        style="font-weight: bold;"><br>
+        &#1040;&#1085;&#1072;&#1083;&#1080;&#1079;<br>
+        <br>
+        <big></big></span></big>
+    <table style="text-align: left; width: 693px; height: 149px;"
+      border="1" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big><span
+                style="font-weight: bold;">Function</span><br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span
+                style="font-weight: bold;">Time</span><br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>size(),
 
+              isEmpty()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>minElement(),
 
-    <span style="font-style: italic;">n</span>), upheap runs in <span
- style="font-style: italic;">O</span>(log <span
- style="font-style: italic;">n</span>) time</big></li>
-</ul>
-<big><span style="font-weight: bold;"></span></big>
-<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;"><img
- style="width: 375px; height: 181px;" alt="" src="pic7.jpg"><br>
-      </td>
-      <td style="vertical-align: top;"><img
- style="width: 375px; height: 188px;" alt="" src="pic8.jpg"><br>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<big><span style="font-weight: bold;"></span><span
- style="font-weight: bold;">Removal</span><br>
-</big>
-<ul>
-  <li><big>Method <span style="font-family: monospace;">removeMin</span>
-of the priority queue ADT corresponds to
-the removal of the root key from the heap</big></li>
-  <li><big>The removal algorithm consists of three steps</big></li>
-  <ul>
-    <li><big>Replace the root key with the key of the last node <span
- style="font-style: italic;">w</span></big></li>
-    <li><big>Compress <span style="font-style: italic;">w</span> and
-its children into a leaf</big></li>
-    <li><big>Restore the heap-order property (discussed next)</big></li>
-  </ul>
-</ul>
-<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;"><img
- style="width: 301px; height: 193px;" alt="" src="pic9.jpg"><br>
-      </td>
-      <td style="vertical-align: top;"><img
- style="width: 308px; height: 182px;" alt="" src="pic10.jpg"><br>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<big><span style="font-weight: bold;">Down-Heap Bubbling after a Removal</span><br>
-</big>
-<ul>
-  <li><big>After replacing the root key with the key <span
- style="font-style: italic;">k</span> of the last node,
-the <span style="font-style: italic;">heap-order property</span> may
-be violated</big></li>
-  <li><big>Algorithm downheap restores the heap-order property by
-swapping key <span style="font-style: italic;">k</span> along a
-downward path from the root</big></li>
-  <li><big>Downheap terminates when key <span
- style="font-style: italic;">k</span> reaches a leaf or a node whose
-children have keys greater than or equal to <span
- style="font-style: italic;">k</span></big></li>
-  <li><big>Since a heap has height <span style="font-style: italic;">O</span>(log
+              minKey()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertItem(k,e)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeMin()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <big style="font-weight: bold;">C++ &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;<br>
+      <br>
+    </big><big><a href="7.7_HeapTree.h-HeapTree.html">html-7.7</a>
+      (HeapTree)<br>
+      <a href="7.8_HeapPriorityQueue.h-HPQ1.html">html-7.8</a> (HPQ1)<br>
+      <a href="7.9_HeapPriorityQueue.h-HPQ2.html">html-7.<span
+          style="text-decoration: underline;">9</span></a> (HPQ2)<br>
+      <br>
+      <a
+href="http://students.ceid.upatras.gr/%7Eperisian/data_structure/HeapSort/heap_applet.html">Heap
+Structure
 
+        Applet Demonstration</a><br>
+      <a
+href="http://ccism.pc.athabascau.ca/html/lo/repos/comp272/applets/heap/index.html">Heap
 
-    <span style="font-style: italic;">n</span>), downheap runs in <span
- style="font-style: italic;">O</span>(log <span
- style="font-style: italic;">n</span>) time</big></li>
-</ul>
-<table style="text-align: left; width: 100%;" border="0" cellpadding="2"
- cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;"><img
- style="width: 302px; height: 185px;" alt="" src="pic11.jpg"><br>
-      </td>
-      <td style="vertical-align: top;"><img
- style="width: 298px; height: 193px;" alt="" src="pic12.jpg"><br>
-      </td>
-    </tr>
-  </tbody>
-</table>
-<big><span style="font-weight: bold;"></span><span
- style="font-weight: bold;"><br>
-Analysis<br>
-<br>
-<big></big></span></big>
-<table style="text-align: left; width: 693px; height: 149px;" border="1"
- cellpadding="2" cellspacing="2">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;"><big><span
- style="font-weight: bold;">Function</span><br>
-      </big></td>
-      <td style="vertical-align: top;"><big><span
- style="font-weight: bold;">Time</span><br>
-      </big></td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top; font-family: monospace;"><big>size(),
-isEmpty()<br>
-      </big></td>
-      <td style="vertical-align: top;"><big><span
- style="font-style: italic;">O</span>(1)<br>
-      </big></td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top; font-family: monospace;"><big>minElement(),
-minKey()<br>
-      </big></td>
-      <td style="vertical-align: top;"><big><span
- style="font-style: italic;">O</span>(1)<br>
-      </big></td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top; font-family: monospace;"><big>insertItem(k,e)<br>
-      </big></td>
-      <td style="vertical-align: top;"><big><span
- style="font-style: italic;">O</span>(log <span
- style="font-style: italic;">n</span>)<br>
-      </big></td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top; font-family: monospace;"><big>removeMin()<br>
-      </big></td>
-      <td style="vertical-align: top;"><big><span
- style="font-style: italic;">O</span>(log <span
- style="font-style: italic;">n</span>)<br>
-      </big></td>
-    </tr>
-  </tbody>
-</table>
-<br>
-<big style="font-weight: bold;">7.3.3 C++ Implementation<br>
-<br>
-</big><big><a href="7.7_HeapTree.h-HeapTree.html">html-7.7</a>
-(HeapTree)<br>
-<a href="7.8_HeapPriorityQueue.h-HPQ1.html">html-7.8</a> (HPQ1)<br>
-<a href="7.9_HeapPriorityQueue.h-HPQ2.html">html-7.<span
- style="text-decoration: underline;">9</span></a> (HPQ2)<br>
-<br>
-<a
- href="http://students.ceid.upatras.gr/%7Eperisian/data_structure/HeapSort/heap_applet.html">Heap
-Structure Applet Demonstration</a><br>
-<a
- href="http://ccism.pc.athabascau.ca/html/lo/repos/comp272/applets/heap/index.html">Heap
-Demonstration</a><br>
-<br>
-</big><big style="font-weight: bold;"> 7.3.4 Heap-Sort</big><big><br>
-</big>
-<ul>
-  <li><big>Consider a priority queue with <span
- style="font-style: italic;">n</span> items implemented by means
-of a heap</big></li>
-  <ul>
-    <li><big>the space used is <span style="font-style: italic;">O</span>(<span
- style="font-style: italic;">n</span>)</big></li>
-    <li><big>methods <span style="font-family: monospace;">insertItem</span>
-and <span style="font-family: monospace;">removeMin</span> take <span
- style="font-style: italic;">O</span>(log <span
- style="font-style: italic;">n</span>) time</big></li>
-    <li><big>methods <span style="font-family: monospace;">size</span>,
+        Demonstration</a><br>
+      <br>
+    </big><big style="font-weight: bold;"> &#1057;&#1086;&#1088;&#1080;&#1088;&#1072;&#1085;&#1077; &#1089; &#1093;&#1080;&#1087;</big><big><br>
+    </big>
+    <ul>
+      <li><big>&#1056;&#1072;&#1079;&#1075;&#1083;&#1077;&#1078;&#1076;&#1072;&#1084;&#1077; &#1087;&#1088;&#1080;&#1086;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072; &#1089; <span
+            style="font-style: italic;">n</span> &#1086;&#1073;&#1077;&#1082;&#1090;&#1080;, &#1088;&#1072;&#1077;&#1083;&#1080;&#1079;&#1080;&#1088;&#1072;&#1085;&#1072;
+          &#1082;&#1072;&#1090;&#1086; &#1093;&#1080;&#1087;:</big></li>
+      <ul>
+        <li><big>&#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1085;&#1072;&#1090;&#1072; &#1087;&#1072;&#1084;&#1077;&#1090; &#1077; <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>);</big></li>
+        <li><big>&#1084;&#1077;&#1090;&#1086;&#1076;&#1080;&#1090;&#1077; <span style="font-family: monospace;">insertItem</span>
+            &#1080; <span style="font-family: monospace;">removeMin</span>
+            &#1086;&#1090;&#1085;&#1077;&#1084;&#1072;&#1090; <span style="font-style: italic;">O</span>(log <span
+              style="font-style: italic;">n</span>) &#1074;&#1088;&#1077;&#1084;&#1077;.</big></li>
+        <li><big>&#1084;&#1077;&#1090;&#1086;&#1076;&#1080;&#1090;&#1077; <span style="font-family: monospace;">size</span>,
+            <span style="font-family: monospace;">isEmpty</span>, <span
+              style="font-family: monospace;">minKey</span> &#1080; <span
+              style="font-family: monospace;">minElement</span> &#1086;&#1090;&#1085;&#1077;&#1084;&#1072;&#1090;
+            <span style="font-style: italic;">O</span>(1) &#1074;&#1088;&#1077;&#1084;&#1077;.</big></li>
+      </ul>
+      <li><big>&#1048;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1081;&#1090;&#1077; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1080;&#1088;&#1072;&#1085;&#1072; &#1089; &#1093;&#1080;&#1087; &#1087;&#1088;&#1080;&#1086;&#1088;&#1080;&#1090;&#1077;&#1090;&#1085;&#1072; &#1086;&#1087;&#1072;&#1096;&#1082;&#1072;, &#1084;&#1086;&#1078;&#1077;&#1084;
+          &#1076;&#1072; &#1089;&#1086;&#1088;&#1090;&#1080;&#1088;&#1072;&#1084;&#1077; &#1084;&#1085;&#1086;&#1078;&#1077;&#1089;&#1090;&#1074;&#1086; &#1086;&#1090; <span style="font-style: italic;">n</span>
+          &#1077;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;&#1072; &#1079;&#1072; <span style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span> log <span
+            style="font-style: italic;">n</span>) &#1074;&#1088;&#1077;&#1084;&#1077;.</big></li>
+      <li><big>&#1055;&#1086;&#1083;&#1091;&#1095;&#1077;&#1085;&#1080;&#1103; &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084; &#1089;&#1077; &#1085;&#1072;&#1088;&#1080;&#1095;&#1072; &#1089;&#1086;&#1088;&#1090;&#1080;&#1088;&#1072;&#1085;&#1077; &#1089; &#1093;&#1080;&#1087;.</big></li>
+      <li><big>&#1057;&#1086;&#1088;&#1090;&#1080;&#1088;&#1072;&#1085;&#1077;&#1090;&#1086; &#1089; &#1093;&#1080;&#1087; &#1077; &#1084;&#1085;&#1086;&#1075;&#1086; &#1087;&#1086;-&#1073;&#1098;&#1088;&#1079;&#1086;, &#1086;&#1090;&#1082;&#1086;&#1083;&#1082;&#1086;&#1090;&#1086;
+          &#1082;&#1074;&#1072;&#1076;&#1088;&#1072;&#1090;&#1080;&#1095;&#1085;&#1080;&#1090;&#1077; &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1084;&#1080; &#1079;&#1072; &#1089;&#1086;&#1088;&#1090;&#1080;&#1088;&#1072;&#1085;&#1077;, &#1082;&#1072;&#1090;&#1086; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1080; &#1080;&#1079;&#1073;&#1086;&#1088;.</big></li>
+    </ul>
+    <a href="http://www.schau-online.de/projects/heapsort/index.html"><big>Heapsort
 
-
-      <span style="font-family: monospace;">isEmpty</span>, <span
- style="font-family: monospace;">minKey</span>, and <span
- style="font-family: monospace;">minElement</span> take <span
- style="font-style: italic;">O</span>(1) time</big></li>
-  </ul>
-  <li><big>Using a heap-based priority queue, we can sort a sequence of
-    <span style="font-style: italic;">n</span> elements in <span
- style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>
-log <span style="font-style: italic;">n</span>) time</big></li>
-  <li><big>The resulting algorithm is called heap-sort</big></li>
-  <li><big>Heap-sort is much faster than quadratic sorting algorithms,
-such as insertion-sort and selection-sort</big></li>
-</ul>
-<a href="http://www.schau-online.de/projects/heapsort/index.html"><big>Heapsort
-Applet</big></a><br>
-<hr style="width: 100%; height: 2px;"><br>
-<big>
-</big>
-<hr style="width: 100%; height: 2px;">
-</body>
+        Applet</big></a><br>
+    <hr style="width: 100%; height: 2px;"><br>
+    <big> </big>
+    <hr style="width: 100%; height: 2px;">
+  </body>
 </html>
