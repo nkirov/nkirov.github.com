@@ -1,337 +1,769 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-  <meta content="text/html; charset=ISO-8859-1"
- http-equiv="content-type">
-  <title>Chapter 3</title>
-</head>
-<body>
-<h2>Chapter 3: Analysis Tools</h2>
-<a href="../../pdf/Analysis.pdf">Analysis.pdf</a><br>
-<h4><img style="width: 484px; height: 180px;" alt="" src="pic01.jpg"><br>
-</h4>
-<ul>
-  <li style="font-weight: bold;">An algorithmis a step-by-step
-procedure for solving a problem in a
-finite amount of time.</li>
-  <li><span style="font-weight: bold;">Most algorithms transform input
-objects into output objects.</span> </li>
-</ul>
-<h4>3.1 Running Time and Pseudo-Code</h4>
-3.1.1 How Should Running Time be Measured?<br>
-<br>
-Experimental Studies<br>
-<ul>
-  <li>Write a program implementing the algorithm</li>
-  <li>Run the program with inputs of varying size and composition</li>
-  <li>Use a function, like the built-in clock() function, to get an
-accurate measure of the actual running time</li>
-  <li>Plot the results</li>
-</ul>
-<img style="width: 401px; height: 422px;" alt="" src="pic02.jpg"><br>
-Limitations of Experiments<br>
-<ul>
-  <li>It is necessary to implement the algorithm, which may be difficult</li>
-  <li>Results may not be indicative of the running time on other inputs
-not included in the experiment. </li>
-  <li>In order to compare two algorithms, the same hardware and
-software environments must be used</li>
-</ul>
-Running Time<br>
-<ul>
-  <li>The running time of an algorithm typically grows with the input
-size.</li>
-  <li>Average case time is often difficult to determine.</li>
-  <li>We focus on the worst case running time.</li>
-  <ul>
-    <li>Easier to analyze</li>
-    <li>Crucial to applications such as games, finance and robotics</li>
-  </ul>
-</ul>
-Theoretical Analysis<br>
-<ul>
-  <li>Uses a high-level description of the algorithm instead of an
-implementation</li>
-  <li>Characterizes running time as a function of the input size, n.</li>
-  <li>Takes into account all possible inputs</li>
-  <li>Allows us to evaluate the speed of an algorithm independent of
-the hardware/software environment</li>
-</ul>
-3.1.2 Pseudo-Code<br>
-A program code unrelated to the hardware of a particular computer and
-requiring conversion to the code used by the computer before the
-program can be used. No strict syntax rules, designed for humans, not
-for computers.<br>
-<ul>
-  <li>High-level description of an algorithm</li>
-  <li>More structured than English prose</li>
-  <li>Less detailed than a program</li>
-  <li>Preferred notation for describing algorithms</li>
-  <li>Hides program design issues</li>
-</ul>
-<span style="font-weight: bold;"></span>
-Example<br>
-Algorithm arrayMax(A, n)<br>
-Input: array A of n integers<br>
-Output: maximum element of A<br>
-currentMax &#8592; A[0]<br>
-for i&#8592;1 to n&#8722;1do <br>
-if A[i] &gt;currentMax then <br>
-currentMax&#8592;A[i]<br>
-return currentMax<br>
-<br>
-Pseudocode Details<br>
-Control flow<br>
-&#1048708;if&#8230;then&#8230;[else&#8230;]<br>
-&#1048708;while&#8230;do&#8230;<br>
-&#1048708;repeat&#8230;until&#8230;<br>
-&#1048708;for&#8230;do&#8230;<br>
-&#1048708;Indentation replaces braces <br>
-<br>
-Method declaration<br>
-Algorithm method(arg[, arg&#8230;])Input&#8230;Output&#8230;Method/Function
-callvar.method (arg[, arg&#8230;])<br>
-Return valuereturnexpression<br>
-Expressions&#8592; Assignment (like = in C++)<br>
-= Equality testing (like == in C++)<br>
-n<sup>2</sup> Superscripts and other mathematical formatting allowed<br>
-<br>
-<ul>
-  <li>Basic computations performed by an algorithm</li>
-  <li>Identifiable in pseudocode</li>
-  <li>Largely independent from the programming language</li>
-  <li>Exact definition not important (we will see why later)</li>
-  <li>Assumed to take a constant amount of time<br>
-  </li>
-</ul>
-Examples:<br>
-<ul>
-  <li>&#1048708;Evaluating an expression</li>
-  <li>&#1048708;Assigning a value to a variable</li>
-  <li>&#1048708;Indexing into an array</li>
-  <li>&#1048708;Calling a method</li>
-  <li>&#1048708;Returning from a method</li>
-</ul>
-<h4><br>
-</h4>
-<h4>3.4 Analysis of Algorithms</h4>
-3.4.1 Counting Primitive Operations<br>
-By inspecting the pseudocode, we can determine the maximum number of
-primitive operations executed by an algorithm, as a function of the
-input size.<br>
-<br>
-<table style="text-align: left; width: 466px; height: 228px;" border="1"
- cellpadding="2" cellspacing="0">
-  <tbody>
-    <tr>
-      <td style="vertical-align: top;">Algorithm arrayMax(A, n)</td>
-      <td style="vertical-align: top;">Number of operationas<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">currentMax&#8592;A[0]</td>
-      <td style="vertical-align: top; text-align: center;">2</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">for i&#8592;1 to n&#8722;1do</td>
-      <td style="vertical-align: top; text-align: center;">2 + <span
- style="font-style: italic;">n</span></td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">if A[i] &gt;currentMax then</td>
-      <td style="vertical-align: top; text-align: center;">2(<span
- style="font-style: italic;">n</span> &#8722; 1)</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">currentMax&#8592;A[i]</td>
-      <td style="vertical-align: top; text-align: center;">2(<span
- style="font-style: italic;">n</span> &#8722; 1)</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">{ increment counter i}</td>
-      <td style="vertical-align: top; text-align: center;">2(<span
- style="font-style: italic;">n</span> &#8722;1)</td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;">return currentMax<br>
-      </td>
-      <td style="vertical-align: top; text-align: center;">1<br>
-      </td>
-    </tr>
-    <tr>
-      <td style="vertical-align: top;"><br>
-      </td>
-      <td style="vertical-align: top; text-align: center;">Total 7<span
- style="font-style: italic;">n</span> &#8722; 1</td>
-    </tr>
-  </tbody>
-</table>
-<br>
-Estimating Running Time<br>
-Algorithm arrayMax executes 7<span style="font-style: italic;">n</span>&#8722;1
-primitive operations in the worst case. Define:<br>
-<span style="font-style: italic;">a</span> = Time taken by the fastest
-primitive operation<br>
-<span style="font-style: italic;">b</span> = Time taken by the slowest
-primitive operation<br>
-Let T(<span style="font-style: italic;">n</span>) be worst-case time of
-arrayMax.Then<br>
-<span style="font-style: italic;">a </span>(7<span
- style="font-style: italic;">n</span> &#8722; 1) &#8804; <span
- style="font-style: italic;">T</span>(<span style="font-style: italic;">n</span>)
-&#8804; <span style="font-style: italic;">b</span>(7<span
- style="font-style: italic;">n</span> &#8722; 1)<br>
-Hence, the running time <span style="font-style: italic;">T</span>(<span
- style="font-style: italic;">n</span>) is bounded by two linear
-functions<br>
-<br>
-Growth Rate of Running Time<br>
-Changing the hardware/ software environment <br>
-&#1048708;Affects <span style="font-style: italic;">T</span>(<span
- style="font-style: italic;">n</span>)by a constant factor, but<br>
-&#1048708;Does not alter the growth rate of <span style="font-style: italic;">T</span>(<span
- style="font-style: italic;">n</span>)<br>
-The linear growth rate of the running time <span
- style="font-style: italic;">T</span>(<span style="font-style: italic;">n</span>)
-is an intrinsic property of algorithm arrayMax<br>
-<h4><span style="font-weight: bold;">3.5 Asymptotic Notation</span></h4>
-<h4><span style="font-weight: bold;"></span></h4>
-<span style="font-weight: bold;">Big-Oh</span><br>
-Given functions <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) and <span
- style="font-style: italic;">g</span>(<span style="font-style: italic;">n</span>),
-we say that <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) is <span
- style="font-style: italic;">O</span>(<span style="font-style: italic;">g</span>(<span
- style="font-style: italic;">n</span>)) if <span
- style="font-weight: bold;">there are</span> positive constants <span
- style="font-style: italic;">c</span> and <span
- style="font-style: italic;">N</span>
-&gt; 0 such that <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) &lt; <span
- style="font-style: italic;">c</span> <span style="font-style: italic;">g</span>(<span
- style="font-style: italic;">n</span>) for <span
- style="font-style: italic;">n</span> &gt; <span
- style="font-style: italic;">N</span>.<br>
-<span style="font-style: italic;">Example 1</span>: 2<span
- style="font-style: italic;">n</span> +10 is O(n)<br>
-2<span style="font-style: italic;">n</span> +10 &#8804; <span
- style="font-style: italic;">cn; </span>(<span
- style="font-style: italic;">c</span> &#8722; 2) <span
- style="font-style: italic;">n</span> &#8805;10; n
-&#8805; 10/(<span style="font-style: italic;">c</span> &#8722; 2)<br>
-Pick c = 3 and <span style="font-style: italic;">N</span><sub></sub> =
-10.<br>
-<span style="font-style: italic;">Example 2</span>: the function <span
- style="font-style: italic;">n</span><sup>2</sup> is not <span
- style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)&#1048708;<br>
-<span style="font-style: italic;">n</span><sup>2</sup> &#8804; <span
- style="font-style: italic;">c</span> <span style="font-style: italic;">n;
-</span><span style="font-style: italic;">n</span> &#8804; <span
- style="font-style: italic;">c</span><br>
-The above inequality cannot be satisfied since <span
- style="font-style: italic;">c</span> must be a constant<br>
-<span style="font-style: italic;">Example 3</span>: 7<span
- style="font-style: italic;">n</span> - 2 is <span
- style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
-need c &gt; 0 and N &#8805; 1 such that 7<span style="font-style: italic;">n </span>-
-2 &#8804; <span style="font-style: italic;">c</span> <span
- style="font-style: italic;">n</span> for <span
- style="font-style: italic;">n</span> &#8805; <span
- style="font-style: italic;">N</span><br>
-this is true for <span style="font-style: italic;">c</span> = 7 and <span
- style="font-style: italic;">N</span> = 1<br>
-<span style="font-style: italic;">Example 4</span>: 3<span
- style="font-style: italic;">n</span><sup>3</sup>+ 20<span
- style="font-style: italic;">n</span><sup>2</sup>+ 5 is <span
- style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span><sup>3</sup>)<br>
-need <span style="font-style: italic;">c</span> &gt; 0 and <span
- style="font-style: italic;">N</span> &#8805; 1 such that 3<span
- style="font-style: italic;">n</span><sup>3</sup>+ 20<span
- style="font-style: italic;">n</span><sup>2</sup>+ 5 &#8804; <span
- style="font-style: italic;">c n</span><sup>3</sup> for <span
- style="font-style: italic;">n</span> &#8805; <span
- style="font-style: italic;">N</span><br>
-this is true for <span style="font-style: italic;">c</span> = 4 and <span
- style="font-style: italic;">N</span> = 21<br>
-<span style="font-style: italic;">Example 5</span>: <br>
-3 log <span style="font-style: italic;">n</span> + log log <span
- style="font-style: italic;">n</span> is <span
- style="font-style: italic;">O</span>(log <span
- style="font-style: italic;">n</span>)<br>
-need <span style="font-style: italic;">c</span> &gt; 0 and <span
- style="font-style: italic;">N</span> &#8805; 1 such that 3 log <span
- style="font-style: italic;">n</span> + log log <span
- style="font-style: italic;">n</span> &#8804; <span
- style="font-style: italic;">c</span> log <span
- style="font-style: italic;">n</span> for <span
- style="font-style: italic;">n</span> &#8805; <span
- style="font-style: italic;">N</span><br>
-this is true for <span style="font-style: italic;">c</span> = 4 and <span
- style="font-style: italic;">N</span> = 2<br>
-<span style="font-weight: bold;">Big-Omega<br>
-</span> <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) is \Omega(<span
- style="font-style: italic;">g</span>(<span style="font-style: italic;">n</span>))
-if <span style="font-weight: bold;">there
-is</span> a constant <span style="font-style: italic;">c</span> &gt; 0
-and an integer constant <span style="font-style: italic;">N</span>
-&gt; 0 such that <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) &gt; <span
- style="font-style: italic;">c</span> <span style="font-style: italic;">g</span>(<span
- style="font-style: italic;">n</span>) for <span
- style="font-style: italic;">n</span> &gt; <span
- style="font-style: italic;">N</span>.<span style="font-weight: bold;"><br>
-Big-Theta<br>
-</span> <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) is \Theta(<span
- style="font-style: italic;">g</span>(<span style="font-style: italic;">n</span>))
-if <span style="font-weight: bold;">there
-are</span> constants <span style="font-style: italic;">c</span>' &gt;
-0 and <span style="font-style: italic;">c</span>" &gt; 0 and an
-integer constant <span style="font-style: italic;">N</span>
-&gt; 0 such that <span style="font-style: italic;">c</span>'<span
- style="font-style: italic;">g</span>(<span style="font-style: italic;">n</span>)
-&lt;&nbsp; <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) &lt; <span
- style="font-style: italic;">c</span>" <span
- style="font-style: italic;">g</span>(<span style="font-style: italic;">n</span>)
-for <span style="font-style: italic;">n</span> &gt; <span
- style="font-style: italic;">N</span>.<span style="font-weight: bold;"><br>
-<br>
-little-oh<br>
-</span><span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) is <span
- style="font-style: italic;">o</span>(<span style="font-style: italic;">g</span>(<span
- style="font-style: italic;">n</span>)) if, <span
- style="font-weight: bold;">for any</span>
-constant <span style="font-style: italic;">c</span> &gt; 0, there is
-an integer constant <span style="font-style: italic;">N</span> &gt; 0
-such that <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>)
-&lt; <span style="font-style: italic;">c</span> <span
- style="font-style: italic;">g</span>(<span style="font-style: italic;">n</span>)
-for <span style="font-style: italic;">n</span> &gt; <span
- style="font-style: italic;">N</span>.<span style="font-weight: bold;"><br>
-little-omega<br>
-</span><span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) is \omega(<span
- style="font-style: italic;">g</span>(<span style="font-style: italic;">n</span>))
-if, <span style="font-weight: bold;">for
-any</span> constant <span style="font-style: italic;">c</span> &gt; 0,
-there is an integer constant <span style="font-style: italic;">N</span>
-&gt; 0
-such that <span style="font-style: italic;">f</span>(<span
- style="font-style: italic;">n</span>) &lt; <span
- style="font-style: italic;">c</span> <span style="font-style: italic;">g</span>(<span
- style="font-style: italic;">n</span>) for <span
- style="font-style: italic;">n</span> &gt; <span
- style="font-style: italic;">N</span>.<span style="font-weight: bold;"><br>
-</span>
-<h4>3.6 Asymptotic Analysis
-</h4>
-<span style="font-weight: bold;"></span>
-<hr style="width: 100%; height: 2px;"><br>
-<br>
-</body>
+  <head>
+    <meta content="text/html; charset=windows-1252"
+      http-equiv="content-type">
+    <title>Chapter 3</title>
+  </head>
+  <body>
+    <h2>Chapter 3: Analysis Tools</h2>
+    <a href="../../pdf/Analysis.pdf">Analysis.pdf</a><br>
+    <h4><img style="width: 484px; height: 180px;" alt="" src="pic01.jpg"><br>
+    </h4>
+    <ul>
+      <li><font size="+1">An algorithm is a step-by-step
+          procedure for solving a problem in a
+          finite amount of time.</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Most algorithms transform input
+          objects into output objects.</font></li>
+    </ul>
+    <h4><font size="+1">
+        Experimental Studies</font></h4>
+    <h4><font size="+1">
+      </font></h4>
+    <ul>
+      <li><font size="+1">Write a program implementing the algorithm</font></li>
+      <li><font size="+1">Run the program with inputs of varying size
+          and composition</font></li>
+      <li><font size="+1">Use a function, like the built-in </font><font
+          size="+1"><tt>clock()</tt></font><font size="+1"> function, to
+          get an
+          accurate measure of the actual running time</font></li>
+      <li><font size="+1">Plot the results</font></li>
+    </ul>
+    <font size="+1">
+    </font><img style="width: 401px; height: 422px;" alt=""
+      src="pic02.jpg"><br>
+    <h3>
+      <font size="+1">Limitations of Experiments</font></h3>
+    <h3><font size="+1">
+      </font></h3>
+    <ul>
+      <li><font size="+1">It is necessary to implement the algorithm,
+          which may be difficult</font></li>
+      <li><font size="+1">Results may not be indicative of the running
+          time on other inputs
+          not included in the experiment. </font></li>
+      <li><font size="+1">In order to compare two algorithms, the same
+          hardware and
+          software environments must be used</font></li>
+    </ul>
+    <h3><font size="+1">
+        Running Time</font></h3>
+    <h3><font size="+1">
+      </font></h3>
+    <ul>
+      <li><font size="+1">The running time of an algorithm typically
+          grows with the input
+          size.</font></li>
+      <li><font size="+1">Average case time is often difficult to
+          determine.</font></li>
+      <li><font size="+1">We focus on the worst case running time.</font></li>
+      <ul>
+        <li><font size="+1">Easier to analyze</font></li>
+        <li><font size="+1">Crucial to applications such as games,
+            finance and robotics</font></li>
+      </ul>
+    </ul>
+    <h3><font size="+1">
+        Theoretical Analysis</font></h3>
+    <h3><font size="+1">
+      </font></h3>
+    <ul>
+      <font size="+1"> </font>
+      <li><font size="+1">Uses a high-level description of the algorithm
+          instead of an
+          implementation</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Characterizes running time as a function of
+          the input size, n.</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Takes into account all possible inputs</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Allows us to evaluate the speed of an
+          algorithm independent of
+          the hardware/software environment</font></li>
+    </ul>
+    <h3>
+      <font size="+1">Pseudo-Code</font></h3>
+    <font size="+1">
+      A program code unrelated to the hardware of a particular computer
+      and
+      requiring conversion to the code used by the computer before the
+      program can be used. No strict syntax rules, designed for humans,
+      not
+      for computers.<br>
+    </font>
+    <ul>
+      <li><font size="+1">High-level description of an algorithm</font></li>
+      <li><font size="+1">More structured than English prose</font></li>
+      <li><font size="+1">Less detailed than a program</font></li>
+      <li><font size="+1">Preferred notation for describing algorithms</font></li>
+      <li><font size="+1">Hides program design issues</font></li>
+    </ul>
+    <font size="+1">
+      <span style="font-weight: bold;"></span>
+      <i>Example</i></font>:<br>
+    <br>
+    <tt><font size="+1"><b>Algorithm</b> arrayMax(A, n)<br>
+        <b>Input:</b> array A of n integers<br>
+        <b>Output:</b> maximum element of A<br>
+        currentMax &lt;- A[0]<br>
+        <b>for</b> i &lt;- 1 <b>to</b> n&#8722;1 <b>do</b> <br>
+        <b>&nbsp; </b><b>if</b> A[i] &gt; currentMax <b>then </b>currentMax
+        &lt;- A[i]<br>
+        &nbsp;&nbsp;&nbsp;
+        <b>return</b> currentMax</font></tt><br>
+    <h3>
+      <font size="+1">Pseudocode Details</font></h3>
+    <ul>
+      <li><font size="+1">
+          Control flow</font></li>
+    </ul>
+    <b><font size="+1"><tt>if…then…[else…]</tt><tt><br>
+        </tt><tt>
+          while…do…</tt><tt><br>
+        </tt><tt>
+          repeat…until…</tt><tt><br>
+        </tt><tt>
+          for…do…</tt></font></b><font size="+1"><br>
+      Indentation replaces braces </font><br>
+    <ul>
+      <li>
+        <font size="+1">Method declaration</font></li>
+    </ul>
+    <font size="+1">
+      Algorithm method(arg[, arg…])<br>
+      Input…<br>
+      Output…<br>
+    </font>
+    <ul>
+      <li><font size="+1">Method/Function
+          call </font></li>
+    </ul>
+    <b><font size="+1"><tt>var.method (arg[, arg…])</tt></font></b><font
+      size="+1"><br>
+    </font>
+    <ul>
+      <li><font size="+1">
+          Return value </font></li>
+    </ul>
+    <b><font size="+1"><tt>return</tt></font></b><font size="+1">
+      expression<br>
+    </font>
+    <ul>
+      <li><font size="+1">
+          Expressions</font></li>
+    </ul>
+    <font size="+1"><tt>&lt;</tt><tt>-</tt></font><font size="+1">
+      Assignment (like </font><font size="+1"><tt>=</tt></font><font
+      size="+1"> in C++)<br>
+    </font><font size="+1"><tt>=</tt></font><font size="+1"> Equality
+      testing (like </font><font size="+1"><tt>==</tt></font><font
+      size="+1"> in C++)<br>
+    </font><font size="+1"><tt>n</tt></font><font size="+1"><sup>2</sup>
+      Superscripts and other mathematical formatting allowed<br>
+    </font><br>
+    <h3>The Random Access Machine - (RAM) Model</h3>
+    <ul>
+      <li><big>A CPU</big></li>
+      <li><big>An potentially unbounded bank of memory cells, each of
+          which can hold an arbitrary number or character</big></li>
+      <li><big>Memory cells are numbered and accessing any cell in
+          memory takes unit time.</big></li>
+    </ul>
+    <h3><font size="+1">Primitive Operations</font></h3>
+    <h3><font size="+1">
+      </font></h3>
+    <ul>
+      <li><font size="+1">Basic computations performed by an algorithm</font></li>
+      <li><font size="+1">Identifiable in pseudocode</font></li>
+      <li><font size="+1">Largely independent from the programming
+          language</font></li>
+      <li><font size="+1">Exact definition not important (we will see
+          why later)</font></li>
+      <li><font size="+1">Assumed to take a constant amount of time in
+          the RAM model<br>
+        </font> </li>
+    </ul>
+    <font size="+1">
+      <i>Examples:</i><br>
+    </font>
+    <ul>
+      <font size="+1"> </font>
+      <li><font size="+1">Evaluating an expression</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Assigning a value to a variable</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Indexing into an array</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Calling a method</font></li>
+      <font size="+1"> </font>
+      <li><font size="+1">Returning from a method</font></li>
+    </ul>
+    <h3>
+      <font size="+1">Counting Primitive Operations</font></h3>
+    <font size="+1">
+      By inspecting the pseudocode, we can determine the maximum number
+      of
+      primitive operations executed by an algorithm, as a function of
+      the
+      input size.<br>
+    </font><br>
+    <table style="text-align: left; width: 466px; height: 228px;"
+      border="1" cellpadding="2" cellspacing="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">Algorithm arrayMax(A, n)</td>
+          <td style="vertical-align: top;">Number of operationas<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>currentMax &lt;- A[0]</tt></td>
+          <td style="vertical-align: top; text-align: center;">2</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt><b>for</b> i</tt><tt><tt>
+                &lt;- </tt>1 <b>to</b> n&#8722;1 <b>do</b></tt></td>
+          <td style="vertical-align: top; text-align: center;">2 + <span
+              style="font-style: italic;">n</span></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt><b>if</b> A[i] &gt;
+              currentMax <b>then</b></tt></td>
+          <td style="vertical-align: top; text-align: center;">2(<span
+              style="font-style: italic;">n</span> &#8722; 1)</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>currentMax</tt><tt><tt>
+                &lt;- </tt>A[i]</tt></td>
+          <td style="vertical-align: top; text-align: center;">2(<span
+              style="font-style: italic;">n</span> &#8722; 1)</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>{ increment counter i}</tt></td>
+          <td style="vertical-align: top; text-align: center;">2(<span
+              style="font-style: italic;">n</span> &#8722;1)</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt><b>return</b> currentMax</tt><tt><br>
+            </tt> </td>
+          <td style="vertical-align: top; text-align: center;">1<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><br>
+          </td>
+          <td style="vertical-align: top; text-align: center;">Total 7<span
+              style="font-style: italic;">n</span> &#8722; 1</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <h3>
+      <font size="+1">Estimating Running Time</font></h3>
+    <ul>
+      <li><font size="+1">
+          Algorithm </font><font size="+1"><tt>arrayMax</tt></font><font
+          size="+1"> executes 7<span style="font-style: italic;">n</span>&#8722;1
+primitive
+          operations in the worst case. Define:<span style="font-style:
+            italic;"></span></font></li>
+    </ul>
+    <font size="+1"><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; a</span> = Time taken by
+      the fastest
+      primitive operation</font><br>
+    <font size="+1"><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; b</span> = Time taken by
+      the slowest
+      primitive operation</font>
+    <ul>
+      <li><font size="+1">
+          Let <i>T</i>(<span style="font-style: italic;">n</span>) be
+          worst-case time of
+        </font><font size="+1"><tt>arrayMax</tt></font><font size="+1">.Then&nbsp;<span
+            style="font-style: italic;"></span></font></li>
+    </ul>
+    <font size="+1"><span style="font-style: italic;">&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; a </span>(7<span
+        style="font-style: italic;">n</span> &#8722; 1) &#8804; <span
+        style="font-style: italic;">T</span>(<span style="font-style:
+        italic;">n</span>)
+      &#8804; <span style="font-style: italic;">b</span>(7<span
+        style="font-style: italic;">n</span> &#8722; 1)</font>
+    <ul>
+      <li><font size="+1">
+          Hence, the running time <span style="font-style: italic;">T</span>(<span
+            style="font-style: italic;">n</span>) is bounded by two
+          linear
+          functions</font></li>
+    </ul>
+    <font size="+1">
+    </font>
+    <h3><font size="+1">
+        Growth Rate of Running Time</font></h3>
+    <font size="+1">
+      Changing the hardware/ software environment <br>
+    </font>
+    <ul>
+      <li><font size="+1">
+          Affects <span style="font-style: italic;">T</span>(<span
+            style="font-style: italic;">n</span>)by a constant factor,
+          but</font></li>
+      <li><font size="+1">
+          Does not alter the growth rate of <span style="font-style:
+            italic;">T</span>(<span style="font-style: italic;">n</span>)</font></li>
+    </ul>
+    <font size="+1">
+      The linear growth rate of the running time <span
+        style="font-style: italic;">T</span>(<span style="font-style:
+        italic;">n</span>)
+      is an intrinsic property of algorithm </font><font size="+1"><tt>arrayMax</tt></font><br>
+    <h3><font size="+1">Growth Rates</font></h3>
+    <center>
+      <table cols="6" border="1" cellpadding="4" cellspacing="0"
+        width="59%">
+        <tbody>
+          <tr>
+            <td>
+              <center>Function / <span style="font-style: italic;">n</span><br>
+              </center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>10</center>
+            </td>
+            <td>
+              <center>100</center>
+            </td>
+            <td>
+              <center>1000</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center>log <i>n</i></center>
+            </td>
+            <td>
+              <center>0</center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>3.32</center>
+            </td>
+            <td>
+              <center>6.64</center>
+            </td>
+            <td>
+              <center>9.96</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n</i></center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>10</center>
+            </td>
+            <td>
+              <center>100</center>
+            </td>
+            <td>
+              <center>1000</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n</i> log <i>n</i></center>
+            </td>
+            <td>
+              <center>0</center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>33.2</center>
+            </td>
+            <td>
+              <center>664</center>
+            </td>
+            <td>
+              <center>9996</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n</i><sup>2</sup></center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>4</center>
+            </td>
+            <td>
+              <center>100</center>
+            </td>
+            <td>
+              <center>10<sup>4</sup></center>
+            </td>
+            <td>
+              <center>10<sup>6</sup></center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n</i><sup>3</sup></center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>8</center>
+            </td>
+            <td>
+              <center>1000</center>
+            </td>
+            <td>
+              <center>10<sup>6</sup></center>
+            </td>
+            <td>
+              <center>10<sup>9</sup></center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center>2<i><sup>n</sup></i></center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>4</center>
+            </td>
+            <td>
+              <center>1024</center>
+            </td>
+            <td>
+              <center>10<sup>30</sup></center>
+            </td>
+            <td>
+              <center>10<sup>300</sup></center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n</i>!</center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>3628800</center>
+            </td>
+            <td>
+              <center>10<sup>157</sup></center>
+            </td>
+            <td>
+              <center>10<sup>2567</sup></center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n<sup>n</sup></i></center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>4</center>
+            </td>
+            <td>
+              <center>10<sup>10</sup></center>
+            </td>
+            <td>
+              <center>10<sup>200</sup></center>
+            </td>
+            <td>
+              <center>10<sup>3000</sup></center>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+    <p><br>
+    </p>
+    <h3><font size="+1">Constant Factors</font></h3>
+    <font size="+1">The growth rate is not affected by<br>
+    </font>
+    <ul>
+      <li><font size="+1">constant factors or </font></li>
+      <li><font size="+1">lower-order terms</font></li>
+    </ul>
+    <font size="+1"><i>Examples:</i><br>
+    </font>
+    <ul>
+      <li><font size="+1">10<sup>2</sup><i>n</i>+10<sup>5 </sup>is a
+          linear function</font></li>
+      <li><font size="+1">10<sup>5</sup><i>n</i><sup>2</sup>+10<sup>8</sup><i>n</i>
+          is a quadratic function</font></li>
+    </ul>
+    <hr size="2" width="100%">
+    <h3><span style="font-weight: bold;">Asymptotic Notation</span></h3>
+    <h4><span style="font-weight: bold;"></span></h4>
+    <span style="font-weight: bold;">Big-Oh</span><br>
+    <br>
+    <font size="+1">Given functions <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) and <span
+        style="font-style: italic;">g</span>(<span style="font-style:
+        italic;">n</span>),
+      we say that <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) is <span
+        style="font-style: italic;">O</span>(<span style="font-style:
+        italic;">g</span>(<span style="font-style: italic;">n</span>))
+      if <span style="font-weight: bold;">there are</span> positive
+      constants <span style="font-style: italic;">c</span> and <span
+        style="font-style: italic;">N</span>
+      &gt; 0 such that <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) &lt; <span
+        style="font-style: italic;">c</span> <span style="font-style:
+        italic;">g</span>(<span style="font-style: italic;">n</span>)
+      for <span style="font-style: italic;">n</span> &gt; <span
+        style="font-style: italic;">N</span>.<br>
+      <span style="font-style: italic;"><br>
+        Example 1</span>: 2<span style="font-style: italic;">n</span>
+      +10 is <i>O</i>(<i>n</i>)<br>
+      2<span style="font-style: italic;">n</span> +10 &#8804; <span
+        style="font-style: italic;">cn; </span>(<span
+        style="font-style: italic;">c</span> &#8722; 2) <span
+        style="font-style: italic;">n</span> &#8805;10; <i>n</i>
+      &#8805; 10/(<span style="font-style: italic;">c</span> &#8722; 2)<br>
+      Pick <i>c</i> = 3 and <span style="font-style: italic;">N</span>
+      =
+      10.<br>
+      <span style="font-style: italic;"><br>
+        Example 2</span>: the function <span style="font-style:
+        italic;">n</span><sup>2</sup> is not <span style="font-style:
+        italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+      <span style="font-style: italic;">n</span><sup>2</sup> &#8804; <span
+        style="font-style: italic;">c</span> <span style="font-style:
+        italic;">n;
+      </span><span style="font-style: italic;">n</span> &#8804; <span
+        style="font-style: italic;">c</span><br>
+      The above inequality cannot be satisfied since <span
+        style="font-style: italic;">c</span> must be a constant<br>
+      <span style="font-style: italic;"><br>
+        Example 3</span>: 7<span style="font-style: italic;">n</span> <i>-</i>
+      2 is <span style="font-style: italic;">O</span>(<span
+        style="font-style: italic;">n</span>)<br>
+      need <i>c</i> &gt; 0 and <i>N</i> &#8805; 1 such that 7<span
+        style="font-style: italic;">n </span><i>-</i>
+      2 &#8804; <span style="font-style: italic;">c</span> <span
+        style="font-style: italic;">n</span> for <span
+        style="font-style: italic;">n</span> &#8805; <span style="font-style:
+        italic;">N</span><br>
+      this is true for <span style="font-style: italic;">c</span> = 7
+      and <span style="font-style: italic;">N</span> = 1<br>
+      <span style="font-style: italic;"><br>
+        Example 4</span>: 3<span style="font-style: italic;">n</span><sup>3</sup>+
+      20<span style="font-style: italic;">n</span><sup>2</sup>+ 5 is <span
+        style="font-style: italic;">O</span>(<span style="font-style:
+        italic;">n</span><sup>3</sup>)<br>
+      need <span style="font-style: italic;">c</span> &gt; 0 and <span
+        style="font-style: italic;">N</span> &#8805; 1 such that 3<span
+        style="font-style: italic;">n</span><sup>3</sup>+ 20<span
+        style="font-style: italic;">n</span><sup>2</sup>+ 5 &#8804; <span
+        style="font-style: italic;">cn</span><sup>3</sup> for <span
+        style="font-style: italic;">n</span> &#8805; <span style="font-style:
+        italic;">N</span><br>
+      this is true for <span style="font-style: italic;">c</span> = 4
+      and <span style="font-style: italic;">N</span> = 21<br>
+      <span style="font-style: italic;"><br>
+        Example 5</span>: <br>
+      3 log <span style="font-style: italic;">n</span> + log log <span
+        style="font-style: italic;">n</span> is <span
+        style="font-style: italic;">O</span>(log <span
+        style="font-style: italic;">n</span>)<br>
+      need <span style="font-style: italic;">c</span> &gt; 0 and <span
+        style="font-style: italic;">N</span> &#8805; 1 such that 3 log <span
+        style="font-style: italic;">n</span> + log log <span
+        style="font-style: italic;">n</span> &#8804; <span style="font-style:
+        italic;">c</span> log <span style="font-style: italic;">n</span>
+      for <span style="font-style: italic;">n</span> &#8805; <span
+        style="font-style: italic;">N</span><br>
+      this is true for <span style="font-style: italic;">c</span> = 4
+      and <span style="font-style: italic;">N</span> = 2<br>
+    </font>
+    <h3><font size="+1">Relatives of Big-Oh</font></h3>
+    <font size="+1">Big-Omega<br>
+      <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) is </font><font size="+1"><font
+        size="+1">&#937;</font>(<span style="font-style: italic;">g</span>(<span
+        style="font-style: italic;">n</span>))
+      if there
+      is a constant <span style="font-style: italic;">c</span> &gt; 0
+      and an integer constant <span style="font-style: italic;">N</span>
+      &gt; 0 such that <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) &gt; <span
+        style="font-style: italic;">c</span> <span style="font-style:
+        italic;">g</span>(<span style="font-style: italic;">n</span>)
+      for <span style="font-style: italic;">n</span> &gt; <span
+        style="font-style: italic;">N</span>.<br>
+      <br>
+      Big-Theta<br>
+      <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) is </font><font size="+1"><font
+        size="+1">&#920;</font>(<span style="font-style: italic;">g</span>(<span
+        style="font-style: italic;">n</span>))
+      if there
+      are constants <span style="font-style: italic;">c</span>' &gt;
+      0 and <span style="font-style: italic;">c</span>" &gt; 0 and an
+      integer constant <span style="font-style: italic;">N</span>
+      &gt; 0 such that <span style="font-style: italic;">c</span>'<span
+        style="font-style: italic;">g</span>(<span style="font-style:
+        italic;">n</span>)
+      &lt;&nbsp; <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) &lt; <span
+        style="font-style: italic;">c</span>"<span style="font-style:
+        italic;">g</span>(<span style="font-style: italic;">n</span>)
+      for <span style="font-style: italic;">n</span> &gt; <span
+        style="font-style: italic;">N</span>.<br>
+      <br>
+      little-oh<br>
+      <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) is <span
+        style="font-style: italic;">o</span>(<span style="font-style:
+        italic;">g</span>(<span style="font-style: italic;">n</span>))
+      if, for any
+      constant <span style="font-style: italic;">c</span> &gt; 0, there
+      is
+      an integer constant <span style="font-style: italic;">N</span>
+      &gt; 0
+      such that <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>)
+      &lt; <span style="font-style: italic;">c</span> <span
+        style="font-style: italic;">g</span>(<span style="font-style:
+        italic;">n</span>)
+      for <span style="font-style: italic;">n</span> &gt; <span
+        style="font-style: italic;">N</span>.<br>
+      <br>
+      little-omega<br>
+      <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) is </font><font size="+1"><font
+        size="+1">&#969;</font>(<span style="font-style: italic;">g</span>(<span
+        style="font-style: italic;">n</span>))
+      if, for
+      any constant <span style="font-style: italic;">c</span> &gt; 0,
+      there is an integer constant <span style="font-style: italic;">N</span>
+      &gt; 0
+      such that <span style="font-style: italic;">f</span>(<span
+        style="font-style: italic;">n</span>) &lt; <span
+        style="font-style: italic;">c</span> <span style="font-style:
+        italic;">g</span>(<span style="font-style: italic;">n</span>)
+      for <span style="font-style: italic;">n</span> &gt; <span
+        style="font-style: italic;">N</span>.<br>
+    </font>
+    <h3><font size="+1">Intuition for Asymptotic Notation</font></h3>
+    <font size="+1"><b></b>Big-Oh<br>
+      <i>f</i>(<i>n</i>) is <i>O</i>(<i>g</i>(<i>n</i>)) if <i>f</i>(<i>n</i>)
+      is asymptotically less than or equal to <i>g</i>(<i>n</i>)<br>
+      <br>
+      big-Omega<br>
+    </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font> is
+      &#937;(<i>g</i>(<i>n</i>)) if </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font>
+      is asymptotically greater than or equal to </font><font size="+1"><font
+        size="+1"><i>g</i>(<i>n</i>)<br>
+        <br>
+      </font>big-Theta<br>
+    </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font> is
+      &#920;(<i>g</i>(<i>n</i>)) if </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font>
+      is asymptotically equal to </font><font size="+1"><font size="+1"><i>g</i>(<i>n</i>)<br>
+        <br>
+      </font>little-oh<br>
+    </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font> is
+      o(<i>g</i>(<i>n</i>)) if </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font>
+      is asymptotically strictly less than <i>g</i>(<i>n</i>)<br>
+      <br>
+      little-omega<br>
+    </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font>) is
+      &#969;(<i>g</i>(<i>n</i>)) if </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)
+      </font>is asymptotically strictly greater than <i>g</i>(<i>n</i>)<br>
+      <br>
+      <b>Example Uses of the Relatives of Big-Oh<br>
+        <br>
+      </b><i>Example 1: </i>5<i>n</i><sup>2</sup> is &#937;(<i>n</i></font><font
+      size="+1"><font size="+1"><sup>2</sup></font>)<br>
+      <i>f</i>(<i>n</i>) is &#937;(<i>g</i>(<i>n</i>)) if there is a constant
+      <i>c</i> &gt; 0 and an integer constant <i>N</i> &#8805; 1 such that <i>f</i>(<i>n</i>)
+      &#8805; <i>c</i><i> </i><i>g</i>(<i>n</i>) for <i>n</i> &#8805; <i>N</i><br>
+      let <i>c</i> = 5 and <i>N</i> = 1<br>
+      <br>
+      <i>Example 2:</i> </font><font size="+1"><font size="+1">5<i>n</i><sup>2
+        </sup></font>is </font><font size="+1"><font size="+1">&#937;</font>(<i>n</i>)<br>
+    </font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font> is
+      &#937;(<i>g</i>(<i>n</i>)) if there is a constant <i>c</i> &gt; 0 and
+      an integer constant <i>N</i> &#8805; 1 such that <i>f</i>(<i>n</i>) &#8805;<i>c</i>
+      <i>g</i>(<i>n</i>) for <i>n</i> &#8805; <i>N</i><br>
+      let <i>c</i> = 1 and <i>N</i> = 1, </font><font size="+1"><font
+        size="+1">5<i>n</i><sup>2&nbsp;</sup></font></font><font
+      size="+1"><font size="+1">&#8805;</font> </font><font size="+1"><i>n</i></font><br>
+    <br>
+    <font size="+1"><font size="+1"><i>Example 3:</i> </font><font
+        size="+1"><font size="+1">5<i>n</i><sup>2 </sup></font>is </font></font><font
+      size="+1"><font size="+1"><font size="+1">&#969;</font>(<i>n</i>)<br>
+      </font></font><font size="+1"><font size="+1"><i>f</i>(<i>n</i>)</font>
+      is &#969;(<i>g</i>(<i>n</i>)) if, for any constant <i>c</i> &gt; 0,
+      there is an integer constant <i>N</i> &#8805; 0 such that <i>f</i>(<i>n</i>)
+      &#8805;<i>c</i> <i>g</i>(<i>n</i>) for <i>n</i> &#8805; <i>N</i><br>
+      need 5<i>N</i><sup>2</sup> &#8805; <i>c</i><i>N</i> <i>-</i> given <i>c</i>,
+      then <i>N</i> that satisfies <i>N</i> &#8805; <i>c</i>/5 &#8805; 0<b><br>
+      </b><span style="font-weight: bold;">
+      </span>
+    </font>
+    <h4><font size="+1">
+      </font></h4>
+    <font size="+1">
+      <span style="font-weight: bold;"></span>
+    </font>
+    <hr style="width: 100%; height: 2px;"><br>
+  </body>
 </html>
