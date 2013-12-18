@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1251">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>l12</title>
+  </head>
+  <body>
+    <h2>12. Динамично оптимиране - I<br>
+    </h2>
+    <h3>Задача за раницата [8.2.1]<br>
+    </h3>
+    <p>Дадена е раница с вместимост <i>M</i> килограма и <i>N</i>
+      предмета, всеки от които се характеризира с две числа - тегло <i>m<sub>i</sub></i>
+      и стойност <i>c<sub>i</sub></i>. Да се избере такова множество от
+      предмети, чиято стойност е максимална, а сумата от теглата не
+      надвишава <i>M</i>.</p>
+    <p>Дефинираме рекурентна целева функция: </p>
+    <center>
+      <p><i>F</i>(0) = 0;&nbsp; <i>F</i>(<i>i</i>) = max { <i>c<sub>j</sub></i>
+        + <i>F</i>(<i>i - m<sub>j</sub></i>),&nbsp; <i>j = </i>1, 2,
+        ..., <i>N</i>,&nbsp; <i>m<sub>j</sub> &#8804; i </i>},<i> i &gt; </i>0</p>
+    </center>
+    <p>Методът на динамичното оптимиране изисква последователно
+      пресмятане на стойностите на <i>F</i>(<i>i</i>), като за това
+      пресмятане се използват вече пресметнатите стойности за по-малки <i>i</i>.<br>
+    </p>
+    <p><a href="sources/knapsack.cpp">Програма на С++ за решаване на
+        задачата.</a><br>
+    </p>
+    <p>Да разгледаме примера: <br>
+    </p>
+    <blockquote>
+      <pre>N = 8;<br>index&nbsp; 1&nbsp; 2&nbsp; 3&nbsp; 4&nbsp; 5&nbsp; 6&nbsp; 7&nbsp; 8<br>m[8]   3, 7, 6, 1, 2, 4, 5, 5<br>c[8]   5, 3, 9, 1, 1, 2, 5, 2<br>M = 8;<br><br>Fn[0] = 0;<br>Fn[1] = max{<span style="color: rgb(0, 102, 0);">c[4]+Fn[0]</span>} = 1;   <br>       set[1][4]=1;    set[1] = {0,0,0,1,0,0,0}<br><br>Fn[2] = max{<span style="color: rgb(255, 0, 0);">c[4]+Fn[1]</span><span style="color: rgb(0, 102, 0);"></span>,<span style="color: rgb(255, 0, 0);"> </span><span style="color: rgb(0, 102, 0);">c[5]+Fn[0]</span><span style="color: rgb(255, 0, 0);"></span>} = 1<br>       set[2][5]=1;    set[2] = {0,0,0,0,1,0,0}<br><br>Fn[3] = max{<span style="color: rgb(0, 153, 0);">c[1]+Fn[0]</span>, c[4]+Fn[2], c[5]+Fn[1]} = <br>        max{<span style="color: rgb(0, 153, 0);">5   +0</span>,     1   +1,     1   +1} = 5<br>       set[3][1]=1;    set[3] = {1,0,0,0,0,0,0}<br><br>Fn[4] = max{<span style="color: rgb(0, 153, 0);">c[1]+Fn[1]</span>, c[4]+Fn[3], <span style="color: rgb(255, 0, 0);">c[5]+Fn[2]</span>, c[6]+Fn[0]} = <br>        max{<span style="color: rgb(0, 153, 0);">5   +1</span>,     1   +5,     <span style="color: rgb(255, 0, 0);">1   +1</span>,     2   +0} = 6<br>       set[4][1]=1;    set[4] = {1,0,0,1,0,0,0} <br><br>Fn[5] = max{<span style="color: rgb(0, 153, 0);">c[1]+Fn[2]</span>,<span style="color: rgb(255, 0, 0);">c[4]+Fn[4]</span>,c[5]+Fn[3],c[6]+Fn[1],c[7]+Fn[0],c[8]+Fn[0]} = <br>        max{<span style="color: rgb(0, 153, 0);">5   +1,</span>    <span style="color: rgb(255, 0, 0);">1   +6</span>,    1   +5,    2   +1,    5   +0,    2   +0} = 6<br>       set[5][1]=1;    set[5] = {1,0,0,0,1,0,0}<br><br>Fn[6] = max{<span style="color: rgb(255, 0, 0);">c[1]+Fn[3]</span>,<span style="color: rgb(0, 153, 0);">c[3]+Fn[0]</span>,c[4]+Fn[5],c[5]+Fn[4],c[6]+Fn[2],c[7]+Fn[2],c[8]+Fn[1]} = <br>        max{<span style="color: rgb(255, 0, 0);">5   +5</span>,    <span style="color: rgb(0, 153, 0);">9   +0</span>,    1   +5,    1   +6,    2   +1,    5    +1,   2   +1} = 9<br>       set[6][3]=1;    set[6] = {0,0,1,0,0,0,0}<br><br>Fn[7] = max{<span style="color: rgb(255, 0, 0);">c[1]+Fn[4]</span>,c[2]+Fn[0],<span style="color: rgb(51, 204, 0);">c[3]+Fn[1]</span>,c[4]+Fn[6],c[6]+Fn[5],c[7]+Fn[2],c[8]+Fn[2]} = <br>        max{<span style="color: rgb(255, 0, 0);">5   +6</span>,    5   +0,    <span style="color: rgb(0, 153, 0);">9   +1</span>,    1   +9,    2   +6,    5   +1,    2   +1} = 10<br>       set[7][3]=1;    set[7] = {0,0,1,1,0,0,0}<br><br>Fn[8] = max{<span style="color: rgb(255, 0, 0);">c[1]+Fn[5]</span>,c[2]+Fn[1],<span style="color: rgb(0, 153, 0);">c[3]+Fn[2]</span>,<span style="color: rgb(255, 0, 0);">c[4]+Fn[7]</span>,c[6]+Fn[4],c[7]+Fn[3],c[8]+Fn[3]} = <br>        max{<span style="color: rgb(255, 0, 0);">5   +6</span>,    5   +1,    <span style="color: rgb(0, 102, 0);">9   +1</span>,    <span style="color: rgb(255, 0, 0);">1   +10</span>,   2   +6,    5   +1,    2   +1} = 10<br>       set[8][3]=1;    set[8] = {0,0,1,0,1,0,0}<br></pre>
+    </blockquote>
+    <p> Варианти на алгоритъма за решаване на задчата: <br>
+    </p>
+    <ul>
+      <li>с пресмятане на решението за всички стойности на капацитете </li>
+      <li>без пресмятане на всички стойности на капацитета </li>
+    </ul>
+    <p>Варианти на задачата за раницата: <br>
+    </p>
+    <ul>
+      <li>с определен брой предмети от всеки вид </li>
+      <li>с неограничен брой предмети от всеки вид</li>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+    <h3>"Лесна" задача</h3>
+    <span style="font-size: 14pt;"></span><span style="font-size: 14pt;"></span><span
+      style="font-size: 14pt;" lang="BG">Зайче в беда</span>
+    <p class="MsoNormal" style="text-align: justify;"><span lang="BG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Веднъж
+малкото
+бяло
+зайче,
+
+
+
+
+
+        гонено от един ловец попаднало в лабиринт, които имал форма на
+        квадратна дъска <i>N </i>x <i>N</i>. В него чакал големия лош
+        вълк, които предварително изкопал дупки, където зайчето да падне
+        и той да го хване по-лесно. В последния момент зайчето с ужас
+        разбрало, че може да се движи само в посока надолу и надясно и
+        че изхода от лабиринта е чак в долния десен ъгъл на дъската.</span></p>
+    <p class="MsoNormal" style="text-align: justify;"><span lang="BG">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Зайчето
+трябвало
+да
+разбере
+
+
+
+
+
+        каква е вероятността да излезе от лабиринта без да падне в някоя
+        дупка. За целта трябвало да изчисли броя пътища от входа до
+        изхода на лабиринта, като успяло да се снабди с картата на този
+        лабиринт. Картата е зададена с размер <i>N</i>, като местата на
+        дупките са означени с 0, а проходимите места с 1. Напишете
+        програма,</span><span lang="BG"> която пресмята търсения брой
+        пътища.</span></p>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>
