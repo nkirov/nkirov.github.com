@@ -1,0 +1,292 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Streams</title>
+    <meta http-equiv="Content-Type" content="text/html;
+      charset=windows-1252">
+  </head>
+  <body style="color: rgb(0, 0, 0); background-color: rgb(255, 255,
+    255);">
+    <font> </font>
+    <h2>Chapter 12: Streams I<br>
+    </h2>
+    <h2>Lecture Goals</h2>
+    <ul>
+      <li><font size="+1">To be able to read and write files</font></li>
+      <li><font size="+1">To convert between strings and numbers using
+          string streams</font></li>
+    </ul>
+    <h2>Reading and Writing Text Files</h2>
+    <ul>
+      <li><font size="+1">To access a disk file, you need to open a file
+          variable.</font>
+        <ul>
+          <li><font size="+1">type <tt>ifstream</tt> for input
+              <blockquote>
+                <pre>ifstream input_data;</pre>
+              </blockquote>
+            </font></li>
+          <li><font size="+1">type <tt>ofstream</tt> for output</font></li>
+          <li><font size="+1">type <tt>fstream</tt> for both input and
+              output</font></li>
+        </ul>
+      </li>
+      <li><font size="+1">You must include the header file <tt>fstream</tt>
+          to use file variables. </font></li>
+      <li><font size="+1">To read anything from a file, you need to <i>open</i>
+          it - to connect a disk file and a file variable.&nbsp;
+          <blockquote>
+            <pre>input_data.open("input.dat");</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">To read from the file, use the name of the <tt>ifstream</tt>
+          variable in place of <tt>cin</tt>.
+          <blockquote>
+            <pre>int n;<br>double x;<br>input_data &gt;&gt; n &gt;&gt; x;</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">You read strings in the usual way.
+          <blockquote>
+            <pre>string s;<br>input_data &gt;&gt; s; /* read a word */<br>getline(input_data, s); /* read a line */</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul>
+      <li><font size="+1">You read in a single character with a <span
+            style="font-family: monospace;">get</span> method.
+          <blockquote>
+            <pre>char ch;<br>input_data.get(ch);</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">If you read a character and you regretted it,
+          you can <i>unget</i> it, so that the next input operation can
+          be read again.
+          <blockquote>
+            <pre>char ch;<br>input_data.get(ch);<br>if ('0' &lt;= ch &amp;&amp; ch &lt;= '9') /* it was a digit */<br>{  input_data.unget(); /* oops - didn't want to read it */<br>   int n;<br>   input_data &gt;&gt; n; /* read integer starting with ch */<br>}</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">This is called <i>one-character lookahead</i>:
+          at the next character in the input stream you can make a
+          decision what you want to read in next, but not more than one
+          character.</font></li>
+      <li><font size="+1">When you are done using a file, you should <i>close</i>
+          it.
+          <blockquote>
+            <pre>input_data.close();</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul>
+      <li><font size="+1">The file name that you give the <tt>open</tt>
+          command may be a string constant
+          <blockquote>
+            <pre>input_data.open("input.dat");</pre>
+          </blockquote>
+          <font size="+1">or a <tt>string</tt> variable that contains a
+            file name.</font>
+          <blockquote>
+            <pre><font size="+1">string input_name<font size="+1">; <br>cout &lt;&lt; </font>"Please enter the file name:"; <br>cin &gt;&gt; name;<br>ifstream input_data;<br>input_data.open(input_name);</font></pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">
+          <blockquote> </blockquote>
+        </font><br>
+      </li>
+      <li><font size="+1">Many compilers don't support <tt>string</tt>
+          parameters for the <tt>open</tt> function, so you must use
+          the <tt>c_str</tt> function to convert the parameter to a
+          character array.
+          <blockquote>
+            <pre>input_data.open(input_name.c_str());</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">File names can contain directory path
+          information, but you must supply the escape character for a
+          backslash.
+          <blockquote>
+            <pre>input_data.open("c:\\homework\\input.dat");</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul>
+      <li><font size="+1">(see <a
+            href="../../sources/ch12/readfile.cpp"><span
+              style="font-family: monospace;">readfile.cpp</span></a>)</font></li>
+      <li><font size="+1">Writing to a file is similar.</font></li>
+      <li><font size="+1">Open a file for writing.
+          <blockquote>
+            <pre>ofstream output_data;<br>output_data.open("output.dat");</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Send information to the file in the usual way.
+          <blockquote>
+            <pre>output_data &lt;&lt; n &lt;&lt; " " &lt;&lt; x &lt;&lt; "\n";</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">To write a single character to a file use
+          <blockquote>
+            <pre>output_data.put(ch);</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">When you are done, remember to close the file.
+          <blockquote>
+            <pre>output_data.close();</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">(see <a
+            href="../../sources/ch12/readwritefiles.cpp"><span
+              style="font-family: monospace;">readwritefiles.cpp</span></a>)</font></li>
+      <li><font size="+1">Always pass streams by reference!!</font></li>
+    </ul>
+    <h2>Reading Text Files (<a href="../../sources/ch12/maxval1.cpp"><tt>maxval1.cpp</tt></a>)</h2>
+    <iframe src="code/maxval1.cpp.html" height="80%" width="80%">Your
+      browser does not support the
+      &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+
+      tag.</iframe>
+    <hr style="width: 100%; height: 2px;">
+    <h2>The Inheritance Hierarchy of Stream Classes</h2>
+    <ul>
+      <li><font size="+1">The C++ input/output library consists of
+          several classes that are related by inheritance.</font></li>
+    </ul>
+    <blockquote><img src="images/stream_hierarchy.png"> </blockquote>
+    <ul>
+      <li><font size="+1">The standard <tt>cin</tt> and <tt>cout</tt>
+          objects belong to specialized system-dependent classes with
+          nonstandard names.</font></li>
+      <li><font size="+1">You can assume that <tt>cin</tt> belongs to a
+          class that is derived from <tt>istream</tt> and <tt>cout</tt>
+          belongs to a class derived from <tt>ostream</tt>.</font></li>
+      <li><font size="+1">Take advantage of the inheritance
+          relationships between the stream classes whenever you write
+          functions with stream parameters.
+          <blockquote>
+            <pre>double read_data(istream&amp; in);</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">You can now pass parameters of types derived
+          from <tt>istream</tt>, such as a <tt>ifstream</tt> object or
+          <tt>cin</tt>.
+          <blockquote>
+            <pre>max = read_data(infile);<br>max = read_data(cin);</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Remember to pass the streams by reference to
+          avoid <i>slicing</i>.</font> </li>
+    </ul>
+    <h2>The Inheritance Hierarchy of Stream Classes (<a
+        href="../../sources/ch12/maxval2.cpp"><tt>maxval2.cpp</tt></a>)</h2>
+    <iframe src="code/maxval2.cpp.html" height="80%" width="80%">Your
+      browser does not support the
+      &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+
+      tag.</iframe>
+    <hr style="width: 100%; height: 2px;">
+    <h2>String Streams</h2>
+    <ul>
+      <li><font size="+1">The <tt>istringstream</tt> class (<tt>#include&lt;sstream&gt;</tt>)
+          reads characters from a string, and the <tt>ostringstream</tt>
+          class writes characters to a string.</font></li>
+      <li><font size="+1">The string stream classes have the same
+          interface as the other stream classes (stream operators </font><font
+          size="+1"><span style="font-family: monospace;">&lt;&lt;</span></font><font
+          size="+1"> and </font><font size="+1"><span
+            style="font-family: monospace;">&gt;&gt;</span></font><font
+          size="+1">, member functions </font><font size="+1"><span
+            style="font-family: monospace;">put</span></font><font
+          size="+1"> and </font><font size="+1"><span
+            style="font-family: monospace;">get</span></font><font
+          size="+1"> etc.)<br>
+        </font></li>
+      <li><font size="+1">Using an <tt>istringstream</tt>, you can read
+          numbers that are stored in a <tt>string</tt> by using the <tt>&gt;&gt;</tt>
+          operator.
+          <blockquote>
+            <pre>string input = "January 23, 1955";<br>istringstream instr(input);<br>string month;<br>int day;<br>string comma;<br>int year;<br>instr &gt;&gt; month &gt;&gt; day &gt;&gt; comma &gt;&gt; year;</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Note that this input statement yields a day
+          and year as <i>integers</i>. Had we taken the string apart
+          with <tt>substr</tt>, we would have obtained only strings (</font><font
+          size="+1"><span style="font-family: monospace;">input.substr(8,2)</span></font><font
+          size="+1"> returns </font><font size="+1"><span
+            style="font-family: monospace;">"23"</span></font><font
+          size="+1">).<br>
+        </font></li>
+      <li><font size="+1">Converting <span style="font-style: italic;">strings</span>
+          that contain digits to their <span style="font-style:
+            italic;">integer</span> values is such a common operation
+          that it is useful to write a helper function for that purpose.
+          <blockquote>
+            <pre>int string_to_int(string s)<br>{  istringstream instr(s);<br>   int n;<br>   instr &gt;&gt; n;<br>   return n;<br>}</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul>
+      <li><font size="+1">By writing to a string stream, you can convert
+          numbers to strings.
+          <blockquote>
+            <pre>ostringstream outstr;</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">By using the </font><font size="+1"><span
+            style="font-family: monospace;">&lt;&lt;</span></font><font
+          size="+1"> operator, the number is converted into a sequence
+          of characters.
+          <blockquote>
+            <pre>outstr &lt;&lt; setprecision(5) &lt;&lt; sqrt(2);</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">To obtain a string from the stream, call the <tt>str</tt>
+          member function.
+          <blockquote>
+            <pre>string output = outstr.str();</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Example: (builds the string </font><font
+          size="+1"><span style="font-family: monospace;">"January 23,
+            1955"</span></font><font size="+1">)
+          <blockquote>
+            <pre>string month = "January";<br>int day = 23;<br>int year = 1955;<br>ostringstream outstr;<br>outstr &lt;&lt; month &lt;&lt; " " &lt;&lt; day &lt;&lt; "," &lt;&lt; year;<br>string output = outstr.str();</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Converting an integer into a string is such a
+          common operation that is useful to have a helper function for
+          it.
+          <blockquote>
+            <pre>string int_to_string(int n)<br>{  ostringstream outstr;<br>   outstr &lt;&lt; n;<br>   return outstr.str();<br>}</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul>
+      <li><font size="+1">A very common use of string streams is to
+          accept input one line at a time and then to analyze it
+          further.</font></li>
+      <li><font size="+1">A typical example is when the program accepts
+          input in a variety of formats.
+          <blockquote>
+            <pre>21:30<br>9:30 pm<br>9 am</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Digital clocks display a numeric
+          representation of time. Two numeric display formats are
+          commonly used on clocks:</font></li>
+      <ul>
+        <li><font size="+1">the 24-hour notation with hours ranging
+            00–23;</font></li>
+        <li><font size="+1">the 12-hour notation with am/pm indicator,
+            with hours indicated as 12 am, followed by 1 am – 11 am,
+            followed by 12 pm, followed by 1 pm – 11 pm (a notation
+            mostly used in the United States).</font></li>
+      </ul>
+    </ul>
+    <h2>String Streams (<a href="../../sources/ch12/readtime.cpp"><tt>readtime.cpp</tt></a>)</h2>
+    <iframe src="code/readtime.cpp.html" height="80%" width="80%">Your
+      browser does not support the
+      &amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+
+      tag.</iframe>
+    <hr>
+  </body>
+</html>
