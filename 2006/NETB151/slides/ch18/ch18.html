@@ -2,8 +2,7 @@
 <html>
 <head>
   <title>Graphical User Interfaces</title>
-  <meta http-equiv="Content-Type"
- content="text/html; charset=iso-8859-1">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body bgcolor="#ffffff" text="#000000">
 <h2>Chapter 18: Graphical User Interfaces</h2>
@@ -26,7 +25,8 @@ GUI programming.</font></li>
   <li><font size="+1">The most commonly used C++ GUI toolkit is the MFC
 (Microsoft Foundation Classes), which is used to write Microsoft
 Windows programs.</font></li>
-  <li><font size="+1">We will use a different toolkit, called wxWindows:</font>
+  <li>
+<font size="+1">We will use a different toolkit, called wxWindows:</font>
     <ul>
       <li><font size="+1">wxWindows is freely available.</font></li>
       <li><font size="+1">wxWindows runs on several platforms
@@ -84,7 +84,8 @@ class.
       <pre>DECLARE_APP(BasicAPP)<br>IMPLEMENT_APP(BasicAPP)</pre>
     </blockquote>
     </font></li>
-  <li><font size="+1">If you distribute the code into separate files </font>
+  <li>
+<font size="+1">If you distribute the code into separate files </font>
     <ul>
       <li><font size="+1">place <tt>DECLARE_APP</tt> in the <tt>.h</tt>
 file</font></li>
@@ -95,7 +96,8 @@ file</font></li>
   <li><font size="+1">The wxWindows toolkit supplies an <i>application</i>
     <i>framework</i> - several base classes from which programmers
 derive classes to specify the behavior of their application.</font></li>
-  <li><font size="+1">The application framework does complex work to
+  <li>
+<font size="+1">The application framework does complex work to
 interface with the operating system, but the programmer is insulated
 from these technical details. </font> </li>
   <li><font size="+1">The instructions for compiling a wxWindows
@@ -109,19 +111,22 @@ does not support the &amp;amp;lt;iframe&amp;amp;gt; tag.</iframe>
 <ul>
   <li><font size="+1">Again, we use inheritance to define our own, more
 interesting, type of frame.</font></li>
-  <li><font size="+1">This frame contains a text area into which users
+  <li>
+<font size="+1">This frame contains a text area into which users
 can type any text.</font><font size="+1">
     <blockquote>
       <pre>class TextFrame : public wxFrame<br>{<br>public:<br>   TextFrame();<br>private:<br>   wxTextCtrl* text;<br>};</pre>
     </blockquote>
-    </font></li>
+    </font>
+</li>
   <li><font size="+1">The constructor initializes the base class and
 the text control:
     <blockquote>
       <pre>TextFrame::TextFrame()<br>   : wxFrame(NULL, -1, "TextFrame")<br>{<br>   text = new wxTextCtrl(this, -1, "Type some text here!",<br>      wxDefaultPosition, wxDefaultSize, wxTE_MULTILINE);<br>}</pre>
     </blockquote>
     </font></li>
-  <li><font size="+1">Note that first parameter (<tt>this</tt>)
+  <li>
+<font size="+1">Note that first parameter (<tt>this</tt>)
 indicates that the parent of the text control is this frame.</font> </li>
   <li><font size="+1">The next two parameters indicate a default window
 ID and initial contents of the text control.</font></li>
@@ -134,14 +139,11 @@ style, which allows the text control to hold multiple lines of text.</font></li>
   <li><font size="+1">We have to make a slight change to the
 application class to show a <tt>TextFrame</tt>, not a <tt>wxFrame</tt>.
     <blockquote>
-      <pre>class TextApp : public wxApp<br>{<br>public:<br>   TextApp();<br>   virtual bool OnInit();<br>private:<br>   <font
- color="#0000ff">TextFrame</font>* frame;<br>};<br><br>TextApp::TextApp()<br>{<br>   frame = new <font
- color="#0000ff">TextFrame</font>();<br>}</pre>
+      <pre>class TextApp : public wxApp<br>{<br>public:<br>   TextApp();<br>   virtual bool OnInit();<br>private:<br>   <font color="#0000ff">TextFrame</font>* frame;<br>};<br><br>TextApp::TextApp()<br>{<br>   frame = new <font color="#0000ff">TextFrame</font>();<br>}</pre>
     </blockquote>
     </font></li>
 </ul>
-<h2>Adding a Text Control to the Frame (<a
- href="../../sources/ch18/text.cpp"><tt>text.cpp</tt></a>)</h2>
+<h2>Adding a Text Control to the Frame (<a href="../../sources/ch18/text.cpp"><tt>text.cpp</tt></a>)</h2>
 <iframe src="code/text.cpp.html" height="80%" width="80%">Your browser
 does not support the &amp;amp;lt;iframe&amp;amp;gt; tag.</iframe>
 <hr style="width: 100%; height: 2px;">
@@ -175,7 +177,8 @@ the menu bar of the frame, and append the menu.
     </blockquote>
     </font></li>
 </ul>
-<h2>Menus (<tt><a href="../../sources/ch18/menu.cpp">menu.cpp</a>)</tt></h2>
+<h2>Menus (<tt><a href="../../sources/ch18/menu.cpp">menu.cpp</a>)</tt>
+</h2>
 <iframe src="code/menu.cpp.html" height="80%" width="80%">Your browser
 does not support the &amp;amp;lt;iframe&amp;amp;gt; tag.</iframe>
 <hr style="width: 100%; height: 2px;">
@@ -231,13 +234,15 @@ matches the ID with a function.
       <pre>BEGIN_EVENT_TABLE(ButtonFrame, wxFrame)<br>   EVT_BUTTON(IS_SAY_HELLO, ButtonFrame::OnSayHello)<br>END_EVENT_TABLE()</pre>
     </blockquote>
     </font></li>
-  <li><font size="+1">When you construct a button, you specify the
+  <li>
+<font size="+1">When you construct a button, you specify the
 parent window, the button ID, and the button label.
     <blockquote>
       <pre>wxButton* hello_button = new wxButton(this,<br>   IS_SAY_HELLO, "Say Hello");</pre>
     </blockquote>
     </font> </li>
-  <li><font size="+1">The event handler has the same form as the menu
+  <li>
+<font size="+1">The event handler has the same form as the menu
 event handler.
     <blockquote>
       <pre>void ButtonFrame::OnSayHello(wxCommandEvent&amp; event)<br>{<br>   text-&gt;AppendText("Hello, World!\n");<br>}</pre>
@@ -288,7 +293,8 @@ function explain how the layout is maintained when the user resizes.
       <pre>wxBoxSizer* frame_sizer = new wxBoxSizer(wxVERTICAL);<br>frame_sizer-&gt;Add(text, 1, wxGROW);<br>frame_sizer-&gt;Add(button_sizer, 0, wxALIGN_CENTER);</pre>
     </blockquote>
     </font></li>
-  <li><font size="+1">The second parameter indicates the ratio of size
+  <li>
+<font size="+1">The second parameter indicates the ratio of size
 used in vertical components.</font>
     <ul>
       <li><font size="+1">0 means don't resize.</font></li>
@@ -297,7 +303,8 @@ another with parameter 2, the second would always use twice as much
 (vertical) space as the first.</font></li>
     </ul>
   </li>
-  <li><font size="+1">The third parameter describes horizontal growth
+  <li>
+<font size="+1">The third parameter describes horizontal growth
 behavior.</font>
     <ul>
       <li><font size="+1">The text control grows with the window.</font></li>
@@ -306,13 +313,15 @@ centered.</font></li>
     </ul>
   </li>
 </ul>
-<h2>Layout Management (<tt><a href="../../sources/ch18/button.cpp">button.cpp</a>)</tt></h2>
+<h2>Layout Management (<tt><a href="../../sources/ch18/button.cpp">button.cpp</a>)</tt>
+</h2>
 <iframe src="code/button.cpp.html" height="80%" width="80%">Your
 browser does not support the &amp;amp;lt;iframe&amp;amp;gt; tag.</iframe>
 <hr style="width: 100%; height: 2px;">
 <h2>Painting</h2>
 <ul>
-  <li><font size="+1">Drawing images in a windowing environment is not
+  <li>
+<font size="+1">Drawing images in a windowing environment is not
 quite as straightforward as you might think.</font>
     <ul>
       <li><font size="+1">What happens when a user re-sizes the window?
@@ -370,7 +379,8 @@ does not support the &amp;amp;lt;iframe&amp;amp;gt; tag.</iframe>
 <ul>
   <li><font size="+1">To handle mouse input in a graphical window, you
 install a function that is notified when mouse events occur.</font></li>
-  <li><font size="+1">There are several kinds of mouse events:</font>
+  <li>
+<font size="+1">There are several kinds of mouse events:</font>
     <ul>
       <li><font size="+1">motion</font></li>
       <li><font size="+1">dragging (moving while depressing a mouse
@@ -408,7 +418,8 @@ event, which eventually causes the paint function to be called.</font></li>
 be done - always refresh instead.</font></li>
 </ul>
 <ul>
-  <li><font size="+1">Depending on the number of corners that have
+  <li>
+<font size="+1">Depending on the number of corners that have
 already been specified, the paint handler draws </font>
     <ul>
       <li><font size="+1">a small circle for the first mouse click</font></li>
@@ -473,11 +484,14 @@ convert to a C string, which is then automatically converted to a <tt>wxString</
 destroy it.</font></li>
 </ul>
 <ul>
-  <li><font size="+1">Another convenient dialog is the text entry
+  <li>
+<font size="+1">Another convenient dialog is the text entry
 dialog that asks the user to supply a single line of text. </font>
-    <blockquote><font size="+1"> </font>
+    <blockquote>
+<font size="+1"> </font>
       <pre><font size="+1">wxTextEntryDialog* dialog = new wxTextEntryDialog(this,<br>   "What is your name?";<br>dialog-&gt;ShowModal();<br>string name = dialog-&gt;GetValue().c_str();<br>dialog-&gt;Destroy();</font></pre>
-      <font size="+1"> </font></blockquote>
+      <font size="+1"> </font>
+</blockquote>
     <font size="+1"> </font>
     <p></p>
     <blockquote><font size="+1"><img src="images/Dialog2.png"></font></blockquote>

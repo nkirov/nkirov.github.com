@@ -1,124 +1,133 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>os4</title>
 </head>
 <body>
-<b>14. Конкуренция: взаимно изключване и синхронизация</b>
-<br><b>Монитори. Предаване на съобщения. Задачата на бръснаря</b>
-<p>5.5 Монитори.
-<br>** Монитор със сигнал.
-<br>&nbsp;&nbsp;&nbsp; Мониторите са програмни модули, състоящи се от една
-или повече процедури, инициализация и локални данни. Главни характеристики:
-<br>&nbsp;&nbsp; 1. Локалните данни са достъпни само от процедурите на
-монитора.
-<br>&nbsp;&nbsp; 2. Един процес "влиза в монитора" като извика някоя от
-процедурите му.
-<br>&nbsp;&nbsp; 3. Само един процес може да се изпълнява в монитора, всеки
-друг процес чака да се "освободи" монитора.
-<br>&nbsp;&nbsp;&nbsp; Променливи на условия (condition variables). Функции
-с тези променливи:
-<br><b><tt><font color="#006600">- cwait(c)</font></tt></b>:&nbsp; Прекратяване
-изпълнението на процеса с условие <b><tt><font color="#006600">c</font></tt></b>.&nbsp;
-Мониторът е достъпен за друг процес;
-<br><b><tt><font color="#006600">- csignal(c)</font></tt></b>: Въобновяване
-на изпълнението на процеса, прекратен с <b><tt><font color="#006600">cwait</font></tt></b>
-със същото условие. Ако има няколко такива процеса се избира един от тях,
-ако няма - нищо не се прави.
-<br>&nbsp;&nbsp;&nbsp; Разлика със семафорите - сигналът се "загубва",
-ако няма чакащи процеси за този сигнал.
+<b>14. РљРѕРЅРєСѓСЂРµРЅС†РёСЏ: РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ Рё СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ</b>
+<br><b>РњРѕРЅРёС‚РѕСЂРё. РџСЂРµРґР°РІР°РЅРµ РЅР° СЃСЉРѕР±С‰РµРЅРёСЏ. Р—Р°РґР°С‡Р°С‚Р° РЅР° Р±СЂСЉСЃРЅР°СЂСЏ</b>
+<p>5.5 РњРѕРЅРёС‚РѕСЂРё.
+<br>** РњРѕРЅРёС‚РѕСЂ СЃСЉСЃ СЃРёРіРЅР°Р».
+<br>В В В  РњРѕРЅРёС‚РѕСЂРёС‚Рµ СЃР° РїСЂРѕРіСЂР°РјРЅРё РјРѕРґСѓР»Рё, СЃСЉСЃС‚РѕСЏС‰Рё СЃРµ РѕС‚ РµРґРЅР°
+РёР»Рё РїРѕРІРµС‡Рµ РїСЂРѕС†РµРґСѓСЂРё, РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Рё Р»РѕРєР°Р»РЅРё РґР°РЅРЅРё. Р“Р»Р°РІРЅРё С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё:
+<br>В В  1. Р›РѕРєР°Р»РЅРёС‚Рµ РґР°РЅРЅРё СЃР° РґРѕСЃС‚СЉРїРЅРё СЃР°РјРѕ РѕС‚ РїСЂРѕС†РµРґСѓСЂРёС‚Рµ РЅР°
+РјРѕРЅРёС‚РѕСЂР°.
+<br>В В  2. Р•РґРёРЅ РїСЂРѕС†РµСЃ "РІР»РёР·Р° РІ РјРѕРЅРёС‚РѕСЂР°" РєР°С‚Рѕ РёР·РІРёРєР° РЅСЏРєРѕСЏ РѕС‚
+РїСЂРѕС†РµРґСѓСЂРёС‚Рµ РјСѓ.
+<br>В В  3. РЎР°РјРѕ РµРґРёРЅ РїСЂРѕС†РµСЃ РјРѕР¶Рµ РґР° СЃРµ РёР·РїСЉР»РЅСЏРІР° РІ РјРѕРЅРёС‚РѕСЂР°, РІСЃРµРєРё
+РґСЂСѓРі РїСЂРѕС†РµСЃ С‡Р°РєР° РґР° СЃРµ "РѕСЃРІРѕР±РѕРґРё" РјРѕРЅРёС‚РѕСЂР°.
+<br>В В В  РџСЂРѕРјРµРЅР»РёРІРё РЅР° СѓСЃР»РѕРІРёСЏ (condition variables). Р¤СѓРЅРєС†РёРё
+СЃ С‚РµР·Рё РїСЂРѕРјРµРЅР»РёРІРё:
+<br><b><tt><font color="#006600">- cwait(c)</font></tt></b>:В  РџСЂРµРєСЂР°С‚СЏРІР°РЅРµ
+РёР·РїСЉР»РЅРµРЅРёРµС‚Рѕ РЅР° РїСЂРѕС†РµСЃР° СЃ СѓСЃР»РѕРІРёРµ <b><tt><font color="#006600">c</font></tt></b>.В 
+РњРѕРЅРёС‚РѕСЂСЉС‚ Рµ РґРѕСЃС‚СЉРїРµРЅ Р·Р° РґСЂСѓРі РїСЂРѕС†РµСЃ;
+<br><b><tt><font color="#006600">- csignal(c)</font></tt></b>: Р’СЉРѕР±РЅРѕРІСЏРІР°РЅРµ
+РЅР° РёР·РїСЉР»РЅРµРЅРёРµС‚Рѕ РЅР° РїСЂРѕС†РµСЃР°, РїСЂРµРєСЂР°С‚РµРЅ СЃ <b><tt><font color="#006600">cwait</font></tt></b>
+СЃСЉСЃ СЃСЉС‰РѕС‚Рѕ СѓСЃР»РѕРІРёРµ. РђРєРѕ РёРјР° РЅСЏРєРѕР»РєРѕ С‚Р°РєРёРІР° РїСЂРѕС†РµСЃР° СЃРµ РёР·Р±РёСЂР° РµРґРёРЅ РѕС‚ С‚СЏС…,
+Р°РєРѕ РЅСЏРјР° - РЅРёС‰Рѕ РЅРµ СЃРµ РїСЂР°РІРё.
+<br>В В В  Р Р°Р·Р»РёРєР° СЃСЉСЃ СЃРµРјР°С„РѕСЂРёС‚Рµ - СЃРёРіРЅР°Р»СЉС‚ СЃРµ "Р·Р°РіСѓР±РІР°",
+Р°РєРѕ РЅСЏРјР° С‡Р°РєР°С‰Рё РїСЂРѕС†РµСЃРё Р·Р° С‚РѕР·Рё СЃРёРіРЅР°Р».
 <br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F5-22.PDF">FIGURE
 5.22</a> ---
 <br><b><tt><font color="#003300">/* program producerconsumer */</font></tt></b>
 <br><b><tt><font color="#003300">monitor boundedbuffer;</font></tt></b>
-<br><b><tt><font color="#003300">char buffer[N];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">char buffer[N];В В В В В В В В 
 /* space for N items */</font></tt></b>
-<br><b><tt><font color="#003300">int nextin, nextout;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">int nextin, nextout;В В В 
 /* buffer pointers */</font></tt></b>
-<br><b><tt><font color="#003300">int count;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">int count;В В В В В В В В В В В В В 
 /* number of items in buffer */</font></tt></b>
-<br><b><tt><font color="#003300">int notfull, notempty;&nbsp; /* for synchronization
+<br><b><tt><font color="#003300">int notfull, notempty;В  /* for synchronization
 */</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td VALIGN=TOP><b><tt><font color="#003300">void append (char x)</font></tt></b>
+<td valign="TOP">
+<b><tt><font color="#003300">void append (char x)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (count == N)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;cwait(notfull); /* buffer is оull;*/</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">В if (count == N)</font></tt></b>
+<br><b><tt><font color="#003300">В cwait(notfull); /* buffer is Рѕull;*/</font></tt></b>
+<br><b><tt><font color="#003300">В В В В В В В В В В В В В В В В 
 /* avoid overflow */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;buffer[nextin] = x;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;nextin = (nextin + 1) % N;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;count++; /* one more item in buffer
+<br><b><tt><font color="#003300">В buffer[nextin] = x;</font></tt></b>
+<br><b><tt><font color="#003300">В nextin = (nextin + 1) % N;</font></tt></b>
+<br><b><tt><font color="#003300">В count++; /* one more item in buffer
 */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;csignal(notempty);&nbsp;</font></tt></b>
-<br><b><tt><font color="#003300">/* resume any&nbsp; waiting consumer */</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В csignal(notempty);В </font></tt></b>
+<br><b><tt><font color="#003300">/* resume anyВ  waiting consumer */</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td VALIGN=TOP><b><tt><font color="#003300">void take (char x)</font></tt></b>
+<td valign="TOP">
+<b><tt><font color="#003300">void take (char x)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (count == 0)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;cwait(notempty); /* buffer is empty;*/</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">В if (count == 0)</font></tt></b>
+<br><b><tt><font color="#003300">В cwait(notempty); /* buffer is empty;*/</font></tt></b>
+<br><b><tt><font color="#003300">В В В В В В В В В В В В В В В В В 
 /* avoid underflow */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;x = buffer[nextout];</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;nextout = (nextout + 1) % N;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;count--; /* one fewer item in buffer
+<br><b><tt><font color="#003300">В x = buffer[nextout];</font></tt></b>
+<br><b><tt><font color="#003300">В nextout = (nextout + 1) % N;</font></tt></b>
+<br><b><tt><font color="#003300">В count--; /* one fewer item in buffer
 */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;csignal(notfull);&nbsp;</font></tt></b>
-<br><b><tt><font color="#003300">/* resume any&nbsp; waiting producer */</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В csignal(notfull);В </font></tt></b>
+<br><b><tt><font color="#003300">/* resume anyВ  waiting producer */</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;/* monitor body */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;nextin = 0; nextout = 0; count =
+<br><b><tt><font color="#003300">В /* monitor body */</font></tt></b>
+<br><b><tt><font color="#003300">В nextin = 0; nextout = 0; count =
 0; /* buffer initially empty */</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#003300">void producer()</font></tt></b>
+<td>
+<b><tt><font color="#003300">void producer()</font></tt></b>
 <br><b><tt><font color="#003300">{ char x;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; produce(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; append(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В  while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В  {</font></tt></b>
+<br><b><tt><font color="#003300">В В  produce(x);</font></tt></b>
+<br><b><tt><font color="#003300">В В  append(x);</font></tt></b>
+<br><b><tt><font color="#003300">В  }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">void consumer()</font></tt></b>
+<td>
+<b><tt><font color="#003300">void consumer()</font></tt></b>
 <br><b><tt><font color="#003300">{ char x;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; take(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; consume(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В  while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В  {</font></tt></b>
+<br><b><tt><font color="#003300">В В  take(x);</font></tt></b>
+<br><b><tt><font color="#003300">В В  consume(x);</font></tt></b>
+<br><b><tt><font color="#003300">В  }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#003300">void main()</font></tt></b>
 <br><b><tt><font color="#003300">{ parbegin(producer, consumer);</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
-<br>** Монитори със съобщения и разпространение.
+<br>** РњРѕРЅРёС‚РѕСЂРё СЃСЉСЃ СЃСЉРѕР±С‰РµРЅРёСЏ Рё СЂР°Р·РїСЂРѕСЃС‚СЂР°РЅРµРЅРёРµ.
 <br>
-<hr WIDTH="100%">
-<br>5.6 Предаване на съобщения.
-<br>&nbsp;&nbsp;&nbsp; Синхронизация и комуникация са двата проблема на
-взаимодействащи си процеси - взаимно изключване и обмен на информация.
-Двете задачи се решават с обмен на съобщения. Дефинират се два примитива
-(процедури):
+<hr width="100%">
+<br>5.6 РџСЂРµРґР°РІР°РЅРµ РЅР° СЃСЉРѕР±С‰РµРЅРёСЏ.
+<br>В В В  РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ Рё РєРѕРјСѓРЅРёРєР°С†РёСЏ СЃР° РґРІР°С‚Р° РїСЂРѕР±Р»РµРјР° РЅР°
+РІР·Р°РёРјРѕРґРµР№СЃС‚РІР°С‰Рё СЃРё РїСЂРѕС†РµСЃРё - РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ Рё РѕР±РјРµРЅ РЅР° РёРЅС„РѕСЂРјР°С†РёСЏ.
+Р”РІРµС‚Рµ Р·Р°РґР°С‡Рё СЃРµ СЂРµС€Р°РІР°С‚ СЃ РѕР±РјРµРЅ РЅР° СЃСЉРѕР±С‰РµРЅРёСЏ. Р”РµС„РёРЅРёСЂР°С‚ СЃРµ РґРІР° РїСЂРёРјРёС‚РёРІР°
+(РїСЂРѕС†РµРґСѓСЂРё):
 <br><b><tt><font color="#006600">send(destination, message)</font></tt></b>
 <br><b><tt><font color="#006600">receive(source, message)</font></tt></b>
-<br>Съществуват различини възможности за реализация на тези 2 процедури:
-<br>&nbsp;
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+<br>РЎСЉС‰РµСЃС‚РІСѓРІР°С‚ СЂР°Р·Р»РёС‡РёРЅРё РІСЉР·РјРѕР¶РЅРѕСЃС‚Рё Р·Р° СЂРµР°Р»РёР·Р°С†РёСЏ РЅР° С‚РµР·Рё 2 РїСЂРѕС†РµРґСѓСЂРё:
+<br>В 
+<table border cellpadding="4" width="100%">
 <tr>
 <td><b>Synchronization</b></td>
 
-<td><b>Addressing&nbsp;</b></td>
+<td><b>AddressingВ </b></td>
 
 <td><b>Format</b></td>
 </tr>
@@ -132,39 +141,39 @@
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; blocking</td>
+<td>В В В  blocking</td>
 
-<td>&nbsp;&nbsp;&nbsp; send</td>
+<td>В В В  send</td>
 
-<td>Length&nbsp;</td>
+<td>LengthВ </td>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; nonblocking</td>
+<td>В В В  nonblocking</td>
 
-<td>&nbsp;&nbsp;&nbsp; receive</td>
+<td>В В В  receive</td>
 
-<td>&nbsp;&nbsp;&nbsp; fixed</td>
+<td>В В В  fixed</td>
 </tr>
 
 <tr>
 <td>Receive</td>
 
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; explicit</td>
+<td>В В В В В В В  explicit</td>
 
-<td>&nbsp;&nbsp;&nbsp; variable</td>
+<td>В В В  variable</td>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; blocking</td>
+<td>В В В  blocking</td>
 
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; implicit</td>
+<td>В В В В В В В  implicit</td>
 
 <td></td>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; nonblocking</td>
+<td>В В В  nonblocking</td>
 
 <td>Indirect</td>
 
@@ -172,9 +181,9 @@
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; test for arrival</td>
+<td>В В В  test for arrival</td>
 
-<td>&nbsp;&nbsp;&nbsp; static</td>
+<td>В В В  static</td>
 
 <td><b>Queuing Discipline</b></td>
 </tr>
@@ -182,7 +191,7 @@
 <tr>
 <td></td>
 
-<td>&nbsp;&nbsp;&nbsp; dynamic</td>
+<td>В В В  dynamic</td>
 
 <td>FIFO</td>
 </tr>
@@ -190,32 +199,33 @@
 <tr>
 <td></td>
 
-<td>&nbsp;&nbsp;&nbsp; ownership</td>
+<td>В В В  ownership</td>
 
 <td>Priority</td>
 </tr>
 </table>
-** Синхронизация.
-<br><b><tt>&nbsp;&nbsp;&nbsp; Send</tt></b> -&nbsp; процесът се блокира,
-докато събощението бъде получено (blocking send) или процесът не се блокира
+** РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ.
+<br><b><tt>В В В  Send</tt></b> -В  РїСЂРѕС†РµСЃСЉС‚ СЃРµ Р±Р»РѕРєРёСЂР°,
+РґРѕРєР°С‚Рѕ СЃСЉР±РѕС‰РµРЅРёРµС‚Рѕ Р±СЉРґРµ РїРѕР»СѓС‡РµРЅРѕ (blocking send) РёР»Рё РїСЂРѕС†РµСЃСЉС‚ РЅРµ СЃРµ Р±Р»РѕРєРёСЂР°
 (nonblocking send).
-<br><b><tt>&nbsp;&nbsp;&nbsp; Receive</tt></b> - ако съобщението е изпратено,
-то се получава и процесът продължава. Ако не е изпратено: процесът се блокира
-до изпращане и получавене на съобщението (blocking receive) или процесът
-продължава, изоставяйки опитите за получаването му (nonblocking receive).
-<br>&nbsp;&nbsp;&nbsp; Възможни са 3 комбинации :
+<br><b><tt>В В В  Receive</tt></b> - Р°РєРѕ СЃСЉРѕР±С‰РµРЅРёРµС‚Рѕ Рµ РёР·РїСЂР°С‚РµРЅРѕ,
+С‚Рѕ СЃРµ РїРѕР»СѓС‡Р°РІР° Рё РїСЂРѕС†РµСЃСЉС‚ РїСЂРѕРґСЉР»Р¶Р°РІР°. РђРєРѕ РЅРµ Рµ РёР·РїСЂР°С‚РµРЅРѕ: РїСЂРѕС†РµСЃСЉС‚ СЃРµ Р±Р»РѕРєРёСЂР°
+РґРѕ РёР·РїСЂР°С‰Р°РЅРµ Рё РїРѕР»СѓС‡Р°РІРµРЅРµ РЅР° СЃСЉРѕР±С‰РµРЅРёРµС‚Рѕ (blocking receive) РёР»Рё РїСЂРѕС†РµСЃСЉС‚
+РїСЂРѕРґСЉР»Р¶Р°РІР°, РёР·РѕСЃС‚Р°РІСЏР№РєРё РѕРїРёС‚РёС‚Рµ Р·Р° РїРѕР»СѓС‡Р°РІР°РЅРµС‚Рѕ РјСѓ (nonblocking receive).
+<br>В В В  Р’СЉР·РјРѕР¶РЅРё СЃР° 3 РєРѕРјР±РёРЅР°С†РёРё :
 <br>-- Blocking send, blocking receive;
-<br>-- Nonblocking send, blocking receive - най-често срещано, при грешка,
-могат де се генерират много съобщения;
+<br>-- Nonblocking send, blocking receive - РЅР°Р№-С‡РµСЃС‚Рѕ СЃСЂРµС‰Р°РЅРѕ, РїСЂРё РіСЂРµС€РєР°,
+РјРѕРіР°С‚ РґРµ СЃРµ РіРµРЅРµСЂРёСЂР°С‚ РјРЅРѕРіРѕ СЃСЉРѕР±С‰РµРЅРёСЏ;
 <br>-- Nonblocking send, nonblocking receive.
-<br>** Адресиране.
+<br>** РђРґСЂРµСЃРёСЂР°РЅРµ.
 <br>--- FIGURE 5.24 ---
-<br>** Формат на съобщенията.
+<br>** Р¤РѕСЂРјР°С‚ РЅР° СЃСЉРѕР±С‰РµРЅРёСЏС‚Р°.
 <br>--- FIGURE 5.25 ---
-<br>** Дисциплина на опашките.
-<p><b>5.6 Задачата на бръснаря.</b>
+<br>** Р”РёСЃС†РёРїР»РёРЅР° РЅР° РѕРїР°С€РєРёС‚Рµ.
+<p><b>5.6 Р—Р°РґР°С‡Р°С‚Р° РЅР° Р±СЂСЉСЃРЅР°СЂСЏ.</b>
 <br>--- FIGURE 5.16 ---
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

@@ -1,193 +1,213 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>l13</title>
 </head>
 <body>
 
-<hr WIDTH="100%">
-<p><b>13. ������������</b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> ������������
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> ���������
-�������
+<hr width="100%">
+<p><b>13. Полиморфизъм</b>
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Полиморфизъм
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Виртуални
+функции
+</p>
 <p><b><tt><font color="#000099">// clocks2.cpp</font></tt></b>
 <br><b><tt><font color="#000099">#include "ccc_win.cpp"</font></tt></b>
 <br><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
-<p><b><tt><font color="#000099">class WallClock&nbsp; {</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">class WallClock  {</font></tt></b>
 <br><b><tt><font color="#000099">public:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; WallClock() {}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; WallClock(string city_name,
+<br><b><tt><font color="#000099">   WallClock() {}</font></tt></b>
+<br><b><tt><font color="#000099">   WallClock(string city_name,
 double hour_diff,</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Point c,
+<br><b><tt><font color="#000099">      Point c,
 double r);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; virtual void draw() const;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Time get_time() const { return
+<br><b><tt><font color="#000099">   virtual void draw() const;</font></tt></b>
+<br><b><tt><font color="#000099">   Time get_time() const { return
 current_time; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Point get_center() const
+<br><b><tt><font color="#000099">   Point get_center() const
 { return center; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double get_radius() const
+<br><b><tt><font color="#000099">   double get_radius() const
 { return radius; }</font></tt></b>
 <br><b><tt><font color="#000099">private:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; string city;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Time current_time;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Point center;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double radius;</font></tt></b>
+<br><b><tt><font color="#000099">   string city;</font></tt></b>
+<br><b><tt><font color="#000099">   Time current_time;</font></tt></b>
+<br><b><tt><font color="#000099">   Point center;</font></tt></b>
+<br><b><tt><font color="#000099">   double radius;</font></tt></b>
 <br><b><tt><font color="#000099">};</font></tt></b>
-<p><b><tt><font color="#000099">class AnalogClock : public WallClock&nbsp;
+</p>
+<p><b><tt><font color="#000099">class AnalogClock : public WallClock 
 {</font></tt></b>
 <br><b><tt><font color="#000099">public:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; AnalogClock() {}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; AnalogClock(string city_name,
+<br><b><tt><font color="#000099">   AnalogClock() {}</font></tt></b>
+<br><b><tt><font color="#000099">   AnalogClock(string city_name,
 double hour_diff,</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Point c,
+<br><b><tt><font color="#000099">      Point c,
 double r);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; virtual void draw() const;</font></tt></b>
+<br><b><tt><font color="#000099">   virtual void draw() const;</font></tt></b>
 <br><b><tt><font color="#000099">private:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; void draw_hand(double angle,
+<br><b><tt><font color="#000099">   void draw_hand(double angle,
 double length) const;</font></tt></b>
 <br><b><tt><font color="#000099">};</font></tt></b>
-<p><b><tt><font color="#000099">class DigitalClock : public WallClock&nbsp;
+</p>
+<p><b><tt><font color="#000099">class DigitalClock : public WallClock 
 {</font></tt></b>
 <br><b><tt><font color="#000099">public:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; DigitalClock(); {}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; DigitalClock(string city_name,
+<br><b><tt><font color="#000099">   DigitalClock(); {}</font></tt></b>
+<br><b><tt><font color="#000099">   DigitalClock(string city_name,
 double hour_diff,</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Point c,
+<br><b><tt><font color="#000099">      Point c,
 double r, bool am_pm);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; virtual void draw() const;</font></tt></b>
+<br><b><tt><font color="#000099">   virtual void draw() const;</font></tt></b>
 <br><b><tt><font color="#000099">private:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; bool use_am_pm;</font></tt></b>
+<br><b><tt><font color="#000099">   bool use_am_pm;</font></tt></b>
 <br><b><tt><font color="#000099">};</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">const double PI = 3.141592653589793;</font></tt></b>
 <br><b><tt><font color="#000099">string int_to_string(int n)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; ostringstream outstr;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; outstr &lt;&lt; n;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return outstr.str();</font></tt></b>
+<br><b><tt><font color="#000099">   ostringstream outstr;</font></tt></b>
+<br><b><tt><font color="#000099">   outstr &lt;&lt; n;</font></tt></b>
+<br><b><tt><font color="#000099">   return outstr.str();</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">string time_to_string(int hours, int minutes,
 bool am_pm)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; string suffix;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (am_pm)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; if (hours &lt; 12)&nbsp;
+<br><b><tt><font color="#000099">   string suffix;</font></tt></b>
+<br><b><tt><font color="#000099">   if (am_pm)</font></tt></b>
+<br><b><tt><font color="#000099">   {  if (hours &lt; 12) 
 suffix = "am";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">      else            
 suffix = "pm";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; hours =
+<br><b><tt><font color="#000099">      hours =
 hours - 12;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (hours
+<br><b><tt><font color="#000099">      if (hours
 == 0) hours = 12;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; string result = int_to_string(hours)
+<br><b><tt><font color="#000099">   }</font></tt></b>
+<br><b><tt><font color="#000099">   string result = int_to_string(hours)
 + ":";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (minutes &lt; 10) result
+<br><b><tt><font color="#000099">   if (minutes &lt; 10) result
 = result + "0";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; result = result + int_to_string(minutes);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (am_pm) result = result
+<br><b><tt><font color="#000099">   result = result + int_to_string(minutes);</font></tt></b>
+<br><b><tt><font color="#000099">   if (am_pm) result = result
 + " " + suffix;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return result;</font></tt></b>
+<br><b><tt><font color="#000099">   return result;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">WallClock::WallClock(string city_name,
 double hour_diff,</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Point c, double r)</font></tt></b>
+<br><b><tt><font color="#000099">   Point c, double r)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; city = city_name;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; center = c;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; radius = r;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double SECONDS_PER_HOUR
+<br><b><tt><font color="#000099">   city = city_name;</font></tt></b>
+<br><b><tt><font color="#000099">   center = c;</font></tt></b>
+<br><b><tt><font color="#000099">   radius = r;</font></tt></b>
+<br><b><tt><font color="#000099">   const double SECONDS_PER_HOUR
 = 60 * 60;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; current_time.add_seconds(hour_diff
+<br><b><tt><font color="#000099">   current_time.add_seconds(hour_diff
 * SECONDS_PER_HOUR);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void WallClock::draw() const</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Point p = center;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; p.move(0, -radius);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin &lt;&lt; Message(p,
+<br><b><tt><font color="#000099">   Point p = center;</font></tt></b>
+<br><b><tt><font color="#000099">   p.move(0, -radius);</font></tt></b>
+<br><b><tt><font color="#000099">   cwin &lt;&lt; Message(p,
 city);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">AnalogClock::AnalogClock(string city_name,
 double hour_diff,</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Point c, double r)</font></tt></b>
+<br><b><tt><font color="#000099">   Point c, double r)</font></tt></b>
 <br><b><tt><font color="#000099">: WallClock(city_name, hour_diff, c, r)
 {}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void AnalogClock::draw_hand(double angle,
 double length) const</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double alpha = PI / 2 - 6
+<br><b><tt><font color="#000099">   double alpha = PI / 2 - 6
 * angle * PI / 180;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Point from = get_center();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Point to = from;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; to.move(cos(alpha) * get_radius()
+<br><b><tt><font color="#000099">   Point from = get_center();</font></tt></b>
+<br><b><tt><font color="#000099">   Point to = from;</font></tt></b>
+<br><b><tt><font color="#000099">   to.move(cos(alpha) * get_radius()
 * length,</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sin(alpha)
+<br><b><tt><font color="#000099">      sin(alpha)
 * get_radius() * length);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cwin &lt;&lt; Line(from, to);</font></tt></b>
+<br><b><tt><font color="#000099"> cwin &lt;&lt; Line(from, to);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void AnalogClock::draw() const</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; WallClock::draw();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin &lt;&lt; Circle(get_center(),
+<br><b><tt><font color="#000099">{  WallClock::draw();</font></tt></b>
+<br><b><tt><font color="#000099">   cwin &lt;&lt; Circle(get_center(),
 get_radius());</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double HOUR_HAND_LENGTH
+<br><b><tt><font color="#000099">   const double HOUR_HAND_LENGTH
 = 0.6;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double MINUTE_HAND_LENGTH
+<br><b><tt><font color="#000099">   const double MINUTE_HAND_LENGTH
 = 0.75;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; draw_hand(get_time().get_minutes(),
+<br><b><tt><font color="#000099">   draw_hand(get_time().get_minutes(),
 MINUTE_HAND_LENGTH);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; draw_hand((get_time().get_hours()
+<br><b><tt><font color="#000099">   draw_hand((get_time().get_hours()
 +</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; get_time().get_minutes()
+<br><b><tt><font color="#000099">      get_time().get_minutes()
 / 60.0) * 5, HOUR_HAND_LENGTH);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">DigitalClock::DigitalClock(string city_name,
 double hour_diff, Point c, double r, bool am_pm)</font></tt></b>
 <br><b><tt><font color="#000099">: WallClock(city_name, hour_diff, c, r)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; use_am_pm = am_pm;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">{  use_am_pm = am_pm;  
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void DigitalClock::draw() const</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; WallClock::draw();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; string time;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int hours = get_time().get_hours();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int minutes = get_time().get_minutes();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cwin &lt;&lt; Message(get_center(),
+<br><b><tt><font color="#000099">{  WallClock::draw();</font></tt></b>
+<br><b><tt><font color="#000099">   string time;</font></tt></b>
+<br><b><tt><font color="#000099">   int hours = get_time().get_hours();</font></tt></b>
+<br><b><tt><font color="#000099">   int minutes = get_time().get_minutes();</font></tt></b>
+<br><b><tt><font color="#000099">   cwin &lt;&lt; Message(get_center(),
 time_to_string(hours, minutes, use_am_pm));</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; vector&lt;WallClock*> clocks(6);</font></tt></b>
+<br><b><tt><font color="#000099">{  vector&lt;WallClock*&gt; clocks(6);</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* populate clocks */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[0] = new DigitalClock("San
+<br><b><tt><font color="#000099">   clocks[0] = new DigitalClock("San
 Jose",16,Point(-6.5,5), 3, false);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[1] = new AnalogClock("Taipei",7,
+<br><b><tt><font color="#000099">   clocks[1] = new AnalogClock("Taipei",7,
 Point(0,5), 3);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[2] = new AnalogClock("Berlin",1,
+<br><b><tt><font color="#000099">   clocks[2] = new AnalogClock("Berlin",1,
 Point(6.5,5), 3);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[3] = new AnalogClock("Cairo",2,
+<br><b><tt><font color="#000099">   clocks[3] = new AnalogClock("Cairo",2,
 Point(-6.5,-5), 3);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[4] = new DigitalClock("New
+<br><b><tt><font color="#000099">   clocks[4] = new DigitalClock("New
 York",19, Point(0,-5), 3, true);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; clocks[5] = new AnalogClock("Bombay",4.5,
+<br><b><tt><font color="#000099">   clocks[5] = new AnalogClock("Bombay",4.5,
 Point(6.5,-5), 3);</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; clocks.size();
+</p>
+<p><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; clocks.size();
 i++) (*clocks[i]).draw();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> ������ �����
-���������
-<br>��� ������� ������: ������ "�" � ������ "���", ����������� ���� ��������������
-� ��������� (���������).
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Връзки между
+класовете
+<br>Две основни връзки: връзка "е" и връзка "има", реализирани чрез наследственост
+и включване (агрегация).
 <br><b><tt><font color="#006600">class Car: public Vehicle</font></tt></b>
 <br><b><tt><font color="#006600">{ ...</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; private:</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vector&lt;Tire>
+<br><b><tt><font color="#006600">   private:</font></tt></b>
+<br><b><tt><font color="#006600">      vector&lt;Tire&gt;
 tires;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ...</font></tt></b>
+<br><b><tt><font color="#006600">      ...</font></tt></b>
 <br><b><tt><font color="#006600">};</font></tt></b>
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

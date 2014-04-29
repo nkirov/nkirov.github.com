@@ -1,238 +1,143 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <meta content="text/html; charset=ISO-8859-1"
- http-equiv="Content-Type">
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <title>l4</title>
 </head>
 <body>
-<span class="Apple-style-span"
- style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;">
-<h3 style="font-weight: normal;">4.&nbsp; &#1056;&#1077;&#1082;&#1091;&#1088;&#1089;&#1080;&#1103; &#1080; &#1080;&#1090;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;:
-&#1092;&#1072;&#1082;&#1090;&#1086;&#1088;&#1080;&#1077;&#1083;; &#1088;&#1077;&#1076;&#1080;&#1094;&#1072; &#1085;&#1072; &#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1080;; &#1085;&#1072;&#1081;-&#1075;&#1086;&#1083;&#1103;&#1084; &#1086;&#1073;&#1097; &#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;; &#1085;&#1072;&#1081;-&#1084;&#1072;&#1083;&#1082;&#1086; &#1086;&#1073;&#1097;&#1086;
-&#1082;&#1088;&#1072;&#1090;&#1085;&#1086;</h3>
-<p>**&nbsp; &#1053;&#1072;&#1081;-&#1075;&#1086;&#1083;&#1103;&#1084; &#1086;&#1073;&#1097; &#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083; [1.2.3]<span
- class="Apple-converted-space">&nbsp;</span><br>
-* &#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084; &#1085;&#1072; &#1045;&#1074;&#1082;&#1083;&#1080;&#1076; &#1079;&#1072; &#1085;&#1072;&#1084;&#1080;&#1088;&#1072;&#1085;&#1077; &#1085;&#1072; &#1085;&#1072;&#1081;-&#1075;&#1086;&#1083;&#1103;&#1084; &#1086;&#1073;&#1097; &#1076;&#1077;&#1083;&#1080;&#1090;&#1077;&#1083;<span
- class="Apple-converted-space">&nbsp;</span><br>
-&nbsp;<b><tt><font color="#000099">// gcd.cpp</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">#include &lt;iostream&gt;<span
- class="Apple-converted-space">&nbsp;</span><br>
-using namespace std;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+<span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;">
+<h3 style="font-weight: normal;">4.  Рекурсия и итерация:
+факториел; редица на Фибоначи; най-голям общ делител; най-малко общо
+кратно</h3>
+<p>**  Най-голям общ делител [1.2.3]<span class="Apple-converted-space"> </span><br>
+* Алгоритъм на Евклид за намиране на най-голям общ делител<span class="Apple-converted-space"> </span><br>
+ <b><tt><font color="#000099">// gcd.cpp</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">#include &lt;iostream&gt;<span class="Apple-converted-space"> </span><br>
+using namespace std;</font></tt></b><span class="Apple-converted-space"> </span><br>
 </p>
-<p><b><tt><font color="#000099">unsigned gcd1(unsigned a, unsigned b)</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{ unsigned swap;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; while (b &gt; 0) { swap = b; b =
-a%b; a = swap; }</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; return a;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<p><b><tt><font color="#000099">unsigned gcd1(unsigned a, unsigned b)</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{ unsigned swap;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  while (b &gt; 0) { swap = b; b =
+a%b; a = swap; }</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  return a;</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099">}</font></tt></b></p>
-<p><b><tt><font color="#000099">unsigned gcd2(unsigned a, unsigned b)</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<p><b><tt><font color="#000099">unsigned gcd2(unsigned a, unsigned b)</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099">{ return (0 == b) ? a : gcd2(b, a%b); }</font></tt></b></p>
-<p><b><tt><font color="#000099">int main()</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{ const unsigned a = 1, b = 125;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; cout &lt;&lt; gcd1(a, b) &lt;&lt;
-endl;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; cout &lt;&lt; gcd2(a, b) &lt;&lt;
-endl;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-* &#1044;&#1072; &#1089;&#1077; &#1085;&#1072;&#1087;&#1080;&#1096;&#1077; &#1084;&#1077;&#1090;&#1086;&#1076;&#1072; &#1089;&#1072;&#1084;&#1086; &#1089; &#1080;&#1079;&#1074;&#1072;&#1078;&#1076;&#1072;&#1085;&#1077;.<br>
+<p><b><tt><font color="#000099">int main()</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{ const unsigned a = 1, b = 125;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  cout &lt;&lt; gcd1(a, b) &lt;&lt;
+endl;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  cout &lt;&lt; gcd2(a, b) &lt;&lt;
+endl;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  return 0;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
+* Да се напише метода само с изваждане.<br>
 </p>
-<hr width="100%"><font style="color: rgb(0, 0, 0);" color="#000099">**&nbsp;
-&#1042;&#1088;&#1098;&#1097;&#1072;&#1085;&#1077; &#1086;&#1090; &#1088;&#1077;&#1082;&#1091;&#1088;&#1089;&#1080;&#1103; &#1080; &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1087;&#1088;&#1086;&#1084;&#1077;&#1085;&#1083;&#1080;&#1074;&#1080;&#1090;&#1077;<span
- class="Apple-converted-space">&nbsp;</span></font><font
- style="color: rgb(0, 0, 0);" color="#000099">[1.2.5]</font><br>
-<font style="color: rgb(0, 0, 0);" color="#000099">* &#1056;&#1077;&#1082;&#1091;&#1088;&#1089;&#1080;&#1074;&#1085;&#1086;
-&#1086;&#1090;&#1087;&#1077;&#1095;&#1072;&#1090;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1094;&#1080;&#1092;&#1088;&#1080;&#1090;&#1077; &#1085;&#1072; &#1095;&#1080;&#1089;&#1083;&#1086;<span class="Apple-converted-space">&nbsp;</span></font><br>
-<b><tt><font color="#000099">// digit2.cpp</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<hr width="100%">
+<font style="color: rgb(0, 0, 0);" color="#000099">** 
+Връщане от рекурсия и използване на променливите<span class="Apple-converted-space"> </span></font><font style="color: rgb(0, 0, 0);" color="#000099">[1.2.5]</font><br>
+<font style="color: rgb(0, 0, 0);" color="#000099">* Рекурсивно
+отпечатване на цифрите на число<span class="Apple-converted-space"> </span></font><br>
+<b><tt><font color="#000099">// digit2.cpp</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099">#include &lt;iostream&gt;<br>
 using std::cout;<br>
 </font></tt></b>
-<p><b><tt><font color="#000099">void printN(unsigned n)</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{ if (n &gt;= 10) printN(n/10);</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; cout &lt;&lt; n%10;;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">int main()</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{ unsigned m = 1234;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; printN(m);</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<p><b><tt><font color="#000099">void printN(unsigned n)</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{ if (n &gt;= 10) printN(n/10);</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  cout &lt;&lt; n%10;;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">int main()</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{ unsigned m = 1234;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  printN(m);</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  return 0;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
 </p>
-<p><font style="color: rgb(0, 0, 0);" color="#000099">* &#1055;&#1088;&#1077;&#1089;&#1084;&#1103;&#1090;&#1072;&#1085;&#1077; &#1085;&#1072;<span
- class="Apple-converted-space">&nbsp;</span><span
- style="font-style: italic;">n</span>! &#1080; &#1080;&#1079;&#1089;&#1083;&#1077;&#1076;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1077;&#1092;&#1077;&#1082;&#1090;&#1080;&#1074;&#1085;&#1086;&#1089;&#1090;&#1090;&#1072; &#1085;&#1072;
-&#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1080;&#1090;&#1077; [1.2.5]</font></p>
-<b><tt><font color="#000099">/* &#1044;&#1074;&#1072; &#1074;&#1072;&#1088;&#1080;&#1072;&#1085;&#1090;&#1072; &#1079;&#1072; &#1087;&#1088;&#1077;&#1089;&#1084;&#1103;&#1090;&#1072;&#1085;&#1077; &#1085;&#1072; n!
-[1.2.5] */</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+<p><font style="color: rgb(0, 0, 0);" color="#000099">* Пресмятане на<span class="Apple-converted-space"> </span><span style="font-style: italic;">n</span>! и изследване на ефективността на
+реализациите [1.2.5]</font></p>
+<b><tt><font color="#000099">/* Два варианта за пресмятане на n!
+[1.2.5] */</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099">// fact.cpp</font></tt></b><br>
-<b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b><span class="Apple-converted-space"> </span><br>
 <br>
-<b><tt><font color="#000099">unsigned long fact1(unsigned i)</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{ if (1 == i) return 1;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; return i * fact1(i - 1);</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<b><tt><font color="#000099">unsigned long fact1(unsigned i)</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{ if (1 == i) return 1;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  return i * fact1(i - 1);</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
 <br>
-<b><tt><font color="#000099">unsigned i;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">unsigned long fact2()</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{<span class="Apple-converted-space">&nbsp;</span><br>
-&nbsp;&nbsp;&nbsp; if (1 == i) return 1;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span><b><tt><font
- color="#000099">return i-- * fact2(); // --i*fact();</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<b><tt><font color="#000099">unsigned i;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">unsigned long fact2()</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{<span class="Apple-converted-space"> </span><br>
+    if (1 == i) return 1;</font></tt></b><span class="Apple-converted-space"> </span><br>
+       <span class="Apple-converted-space"> </span><b><tt><font color="#000099">return i-- * fact2(); // --i*fact();</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
 <br>
 <b><tt><font color="#000099">const unsigned n = 6;</font></tt></b><br>
-<b><tt><font color="#000099">int main()</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{<span class="Apple-converted-space">&nbsp;</span><br>
-</font></tt></b><b><tt><font color="#000099">&nbsp; std::cout &lt;&lt;
+<b><tt><font color="#000099">int main()</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{<span class="Apple-converted-space"> </span><br>
+</font></tt></b><b><tt><font color="#000099">  std::cout &lt;&lt;
 "fact1: " &lt;&lt; n &lt;&lt; "! = " &lt;&lt; fact1(n) &lt;&lt; endl;<br>
-&nbsp;<span class="Apple-converted-space">&nbsp;</span></font></tt></b><b><tt><font
- color="#000099">i=n; // i=n+1;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; std::cout &lt;&lt; "fact2: "
+ <span class="Apple-converted-space"> </span></font></tt></b><b><tt><font color="#000099">i=n; // i=n+1;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  std::cout &lt;&lt; "fact2: "
 &lt;&lt; n &lt;&lt; "! = " &lt;&lt; fact2(n) &lt;&lt; endl;</font></tt></b><br>
-<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<hr width="100%"><font style="color: rgb(0, 0, 0);" color="#000099">**
-&#1056;&#1077;&#1082;&#1091;&#1088;&#1089;&#1080;&#1103; &#1080; &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1075;&#1083;&#1086;&#1073;&#1072;&#1083;&#1085;&#1080; &#1087;&#1088;&#1086;&#1084;&#1077;&#1085;&#1083;&#1080;&#1074;&#1080;<span
- class="Apple-converted-space">&nbsp;</span></font><font
- style="color: rgb(0, 0, 0);" color="#000099">[1.2.5]<br>
-* &#1047;&#1072; &#1076;&#1072;&#1076;&#1077;&#1085;&#1086; &#1077;&#1089;&#1090;&#1077;&#1089;&#1090;&#1074;&#1077;&#1085;&#1086; &#1095;&#1080;&#1089;&#1083;&#1086;<span style="font-style: italic;"><span
- class="Apple-converted-space">&nbsp;</span>n</span><span
- class="Apple-converted-space">&nbsp;</span>(<span
- style="font-style: italic;">n</span><span class="Apple-converted-space">&nbsp;</span>&lt;
-9) &#1076;&#1072; &#1089;&#1077; &#1086;&#1090;&#1087;&#1077;&#1095;&#1072;&#1090;&#1072;&#1090; &#1074; &#1085;&#1072;&#1088;&#1072;&#1089;&#1090;&#1074;&#1072;&#1097; &#1080; &#1085;&#1072;&#1084;&#1072;&#1083;&#1103;&#1074;&#1072;&#1097; &#1088;&#1077;&#1076; &#1095;&#1080;&#1089;&#1083;&#1072;&#1090;&#1072; 10<sup><span
- style="font-style: italic;">k</span></sup></font><font
- style="color: rgb(0, 0, 0);" color="#000099"><span
- class="Apple-converted-space">&nbsp;</span>(0 &lt;<span
- class="Apple-converted-space">&nbsp;</span><span
- style="font-style: italic;">k</span><span class="Apple-converted-space">&nbsp;</span>&lt;<span
- class="Apple-converted-space">&nbsp;</span><span
- style="font-style: italic;">n</span>).<span
- class="Apple-converted-space">&nbsp;</span></font><font
- style="color: rgb(0, 0, 0);" color="#000099"><sup><span
- style="font-style: italic;"></span></sup><br>
-</font><b><tt><font color="#000099">// print0.cpp</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">#include&nbsp; &lt;iostream&gt;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<b><tt><font color="#000099">  return 0;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
+<hr width="100%">
+<font style="color: rgb(0, 0, 0);" color="#000099">**
+Рекурсия и използване на глобални променливи<span class="Apple-converted-space"> </span></font><font style="color: rgb(0, 0, 0);" color="#000099">[1.2.5]<br>
+* За дадено естествено число<span style="font-style: italic;"><span class="Apple-converted-space"> </span>n</span><span class="Apple-converted-space"> </span>(<span style="font-style: italic;">n</span><span class="Apple-converted-space"> </span>&lt;
+9) да се отпечатат в нарастващ и намаляващ ред числата 10<sup><span style="font-style: italic;">k</span></sup></font><font style="color: rgb(0, 0, 0);" color="#000099"><span class="Apple-converted-space"> </span>(0 &lt;<span class="Apple-converted-space"> </span><span style="font-style: italic;">k</span><span class="Apple-converted-space"> </span>&lt;<span class="Apple-converted-space"> </span><span style="font-style: italic;">n</span>).<span class="Apple-converted-space"> </span></font><font style="color: rgb(0, 0, 0);" color="#000099"><sup><span style="font-style: italic;"></span></sup><br>
+</font><b><tt><font color="#000099">// print0.cpp</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">#include  &lt;iostream&gt;</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099">using std::cout;<br>
 </font></tt></b><b><tt><font color="#000099">using std::cin;<br>
 </font></tt></b><b><tt><font color="#000099">using std::endl;</font></tt></b><br>
 <br>
-<b><tt><font color="#000099">const unsigned n = 6;</font></tt></b>&nbsp;<span
- class="Apple-converted-space">&nbsp;</span><br>
+<b><tt><font color="#000099">const unsigned n = 6;</font></tt></b> <span class="Apple-converted-space"> </span><br>
 <br>
 <b><tt><font color="#000099">void printRed1(unsigned k, unsigned long
-res)</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{ cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; if (k &lt; n) printRed1(k + 1,
-res*10);</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+res)</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{ cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  if (k &lt; n) printRed1(k + 1,
+res*10);</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">unsigned k = 0;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">void printRed2(unsigned long res)</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{</font></tt></b>&nbsp;<span
- class="Apple-converted-space">&nbsp;</span><b><tt><font color="#000099">k++;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; if (k &lt; n) printRed2(res*10);</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<p><b><tt><font color="#000099">unsigned k = 0;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">void printRed2(unsigned long res)</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{</font></tt></b> <span class="Apple-converted-space"> </span><b><tt><font color="#000099">k++;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  if (k &lt; n) printRed2(res*10);</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099">}</font></tt></b></p>
-<p><b><tt><font color="#000099">unsigned long res = 1;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">void printRed3()</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{</font></tt></b>&nbsp;<span
- class="Apple-converted-space">&nbsp;</span><b><tt><font color="#000099">k++;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; res *= 10;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp;<span class="Apple-converted-space">&nbsp;</span></font></tt></b><b><tt><font
- color="#000099">cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; if (k &lt; n) printRed3();</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp;<span class="Apple-converted-space">&nbsp;</span></font></tt></b><b><tt><font
- color="#000099">cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp; res /= 10;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+<p><b><tt><font color="#000099">unsigned long res = 1;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">void printRed3()</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{</font></tt></b> <span class="Apple-converted-space"> </span><b><tt><font color="#000099">k++;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  res *= 10;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099"> <span class="Apple-converted-space"> </span></font></tt></b><b><tt><font color="#000099">cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  if (k &lt; n) printRed3();</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099"> <span class="Apple-converted-space"> </span></font></tt></b><b><tt><font color="#000099">cout &lt;&lt; res &lt;&lt; " ";</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">  res /= 10;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
 <b><tt><font color="#000099"><br>
-int main()</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">{</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp;printRed1(1,10);</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span>&nbsp;<span
- class="Apple-converted-space">&nbsp;</span><b><tt><font color="#000099">cout
-&lt;&lt; endl;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp;printRed2(10);</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span>&nbsp; &nbsp;&nbsp;<span
- class="Apple-converted-space">&nbsp;</span><b><tt><font color="#000099">cout
-&lt;&lt; endl;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp;k = 0;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp;printRed3();</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span>&nbsp; &nbsp; &nbsp;
-&nbsp;&nbsp;<span class="Apple-converted-space">&nbsp;</span><b><tt><font
- color="#000099">cout &lt;&lt; endl;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">&nbsp;return 0;</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
-<b><tt><font color="#000099">}</font></tt></b><span
- class="Apple-converted-space">&nbsp;</span><br>
+int main()</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">{</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099"> printRed1(1,10);</font></tt></b><span class="Apple-converted-space"> </span> <span class="Apple-converted-space"> </span><b><tt><font color="#000099">cout
+&lt;&lt; endl;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099"> printRed2(10);</font></tt></b><span class="Apple-converted-space"> </span>    <span class="Apple-converted-space"> </span><b><tt><font color="#000099">cout
+&lt;&lt; endl;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099"> k = 0;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099"> printRed3();</font></tt></b><span class="Apple-converted-space"> </span>     
+  <span class="Apple-converted-space"> </span><b><tt><font color="#000099">cout &lt;&lt; endl;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099"> return 0;</font></tt></b><span class="Apple-converted-space"> </span><br>
+<b><tt><font color="#000099">}</font></tt></b><span class="Apple-converted-space"> </span><br>
 </p>
-<hr width="100%"><a href="../NETB151/slides/ch14/ch14.html">&#1056;&#1077;&#1076;&#1080;&#1094;&#1072; &#1085;&#1072;
-&#1060;&#1080;&#1073;&#1086;&#1085;&#1072;&#1095;&#1080;</a> (<a
- href="http://bg.wikipedia.org/wiki/%D0%A0%D0%B5%D0%B4%D0%B8%D1%86%D0%B0_%D0%BD%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D0%B8">&#1059;&#1080;&#1082;&#1080;&#1087;&#1077;&#1076;&#1080;&#1103;</a>)
+<hr width="100%">
+<a href="../NETB151/slides/ch14/ch14.html">Редица на
+Фибоначи</a> (<a href="http://bg.wikipedia.org/wiki/%D0%A0%D0%B5%D0%B4%D0%B8%D1%86%D0%B0_%D0%BD%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D0%B8">Уикипедия</a>)
 (<a href="http://en.wikipedia.org/wiki/Fibonacci_number">Wikipedia</a>)<br>
 <p>0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, <br>
 </p>
 </span><br>
-<span style="font-style: italic;">F</span>(<span
- style="font-style: italic;">n</span>+1) = F(<span
- style="font-style: italic;">n</span>-1) + <span
- style="font-style: italic;">F</span>(<span style="font-style: italic;">n</span>)
+<span style="font-style: italic;">F</span>(<span style="font-style: italic;">n</span>+1) = F(<span style="font-style: italic;">n</span>-1) + <span style="font-style: italic;">F</span>(<span style="font-style: italic;">n</span>)
 <br>
 <br>
 <hr style="width: 100%; height: 2px;">

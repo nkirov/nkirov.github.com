@@ -1,49 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>SSPQL2</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SSPQL2</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: SSPQL2</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-  <font color=#0000FF>// ... (continuation of SortedSeqPriorityQueueLoc)</font>
-  <font color=#A000A0>void</font> <font color=#000000>removeMin</font>()					<font color=#0000FF>// remove minimum</font>
-      <font color=#00A000>throw</font>(EmptyContainerException) {
-    Locator minLoc = <font color=#000000>min</font>();				<font color=#0000FF>// get locator to min</font>
-    <font color=#000000>remove</font>(minLoc);					<font color=#0000FF>// remove it</font>
+  <font color="#0000FF">// ... (continuation of SortedSeqPriorityQueueLoc)</font>
+  <font color="#A000A0">void</font> <font color="#000000">removeMin</font>()					<font color="#0000FF">// remove minimum</font>
+      <font color="#00A000">throw</font>(EmptyContainerException) {
+    Locator minLoc = <font color="#000000">min</font>();				<font color="#0000FF">// get locator to min</font>
+    <font color="#000000">remove</font>(minLoc);					<font color="#0000FF">// remove it</font>
   }
-  <font color=#A000A0>void</font> <font color=#000000>replaceElement</font>(Locator& loc, <font color=#A000A0>const</font> Element& newElement)
-      <font color=#00A000>throw</font>(InvalidPositionException) {			<font color=#0000FF>// replace an element</font>
-    <font color=#00A000>if</font> (loc.<font color=#000000>isNull</font>())
-      <font color=#00A000>throw</font> <font color=#000000>InvalidPositionException</font>(<font color=#0000FF>"Replacement using null locator"</font>);
-    loc.locItem-&gt;item.<font color=#000000>setElement</font>(newElement);		<font color=#0000FF>// modify the element</font>
+  <font color="#A000A0">void</font> <font color="#000000">replaceElement</font>(Locator&amp; loc, <font color="#A000A0">const</font> Element&amp; newElement)
+      <font color="#00A000">throw</font>(InvalidPositionException) {			<font color="#0000FF">// replace an element</font>
+    <font color="#00A000">if</font> (loc.<font color="#000000">isNull</font>())
+      <font color="#00A000">throw</font> <font color="#000000">InvalidPositionException</font>(<font color="#0000FF">"Replacement using null locator"</font>);
+    loc.locItem-&gt;item.<font color="#000000">setElement</font>(newElement);		<font color="#0000FF">// modify the element</font>
   }
-  <font color=#A000A0>void</font> <font color=#000000>replaceKey</font>(Locator& loc, <font color=#A000A0>const</font> Key& newKey)	<font color=#0000FF>// replace a key</font>
-      <font color=#00A000>throw</font>(InvalidPositionException) {
-    <font color=#00A000>if</font> (loc.<font color=#000000>isNull</font>())
-      <font color=#00A000>throw</font> <font color=#000000>InvalidPositionException</font>(<font color=#0000FF>"Replacement using null locator"</font>);
-    S.<font color=#000000>remove</font>(loc.locItem-&gt;pos);				<font color=#0000FF>// remove from sequence</font>
-    loc.locItem-&gt;item.<font color=#000000>setKey</font>(newKey);			<font color=#0000FF>// modify the key</font>
-    <font color=#000000>locInsert</font>(loc.locItem);				<font color=#0000FF>// reinsert in sequence</font>
+  <font color="#A000A0">void</font> <font color="#000000">replaceKey</font>(Locator&amp; loc, <font color="#A000A0">const</font> Key&amp; newKey)	<font color="#0000FF">// replace a key</font>
+      <font color="#00A000">throw</font>(InvalidPositionException) {
+    <font color="#00A000">if</font> (loc.<font color="#000000">isNull</font>())
+      <font color="#00A000">throw</font> <font color="#000000">InvalidPositionException</font>(<font color="#0000FF">"Replacement using null locator"</font>);
+    S.<font color="#000000">remove</font>(loc.locItem-&gt;pos);				<font color="#0000FF">// remove from sequence</font>
+    loc.locItem-&gt;item.<font color="#000000">setKey</font>(newKey);			<font color="#0000FF">// modify the key</font>
+    <font color="#000000">locInsert</font>(loc.locItem);				<font color="#0000FF">// reinsert in sequence</font>
   }
-  <font color=#0000FF>// ... (housekeeping and other functions omitted)</font>
+  <font color="#0000FF">// ... (housekeeping and other functions omitted)</font>
 };
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Key, <font color=#A000A0>typename</font> Element, <font color=#A000A0>typename</font> Comp&gt;
-<font color=#A000A0>void</font> SortedSeqPriorityQueueLoc&lt;Key, Element, Comp&gt;::
-<font color=#000000>locInsert</font>(LocItemPtr locItem) {				<font color=#0000FF>// insert utility</font>
-  Position& pos = locItem-&gt;pos;				<font color=#0000FF>// insertion position</font>
-  Key k = locItem-&gt;<font color=#000000>key</font>();				<font color=#0000FF>// key to insert</font>
-  <font color=#00A000>if</font> (S.<font color=#000000>isEmpty</font>())
-    pos = S.<font color=#000000>insertFirst</font>(locItem);			<font color=#0000FF>// if empty insert first</font>
-  <font color=#00A000>else</font> <font color=#00A000>if</font> (<font color=#000000>comp</font>(k, <font color=#000000>key</font>(S.<font color=#000000>last</font>())) &gt; 0)			<font color=#0000FF>// greater than last?</font>
-    pos = S.<font color=#000000>insertAfter</font>(S.<font color=#000000>last</font>(), locItem);		<font color=#0000FF>// insert at end</font>
-  <font color=#00A000>else</font> {
-    Position curr = S.<font color=#000000>first</font>();				<font color=#0000FF>// start search</font>
-    <font color=#00A000>while</font> (<font color=#000000>comp</font>(k, <font color=#000000>key</font>(curr)) &gt; 0)			<font color=#0000FF>// skip over small keys</font>
-      curr = S.<font color=#000000>after</font>(curr);
-    pos = S.<font color=#000000>insertBefore</font>(curr, locItem);		<font color=#0000FF>// insert here</font>
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Key, <font color="#A000A0">typename</font> Element, <font color="#A000A0">typename</font> Comp&gt;
+<font color="#A000A0">void</font> SortedSeqPriorityQueueLoc&lt;Key, Element, Comp&gt;::
+<font color="#000000">locInsert</font>(LocItemPtr locItem) {				<font color="#0000FF">// insert utility</font>
+  Position&amp; pos = locItem-&gt;pos;				<font color="#0000FF">// insertion position</font>
+  Key k = locItem-&gt;<font color="#000000">key</font>();				<font color="#0000FF">// key to insert</font>
+  <font color="#00A000">if</font> (S.<font color="#000000">isEmpty</font>())
+    pos = S.<font color="#000000">insertFirst</font>(locItem);			<font color="#0000FF">// if empty insert first</font>
+  <font color="#00A000">else</font> <font color="#00A000">if</font> (<font color="#000000">comp</font>(k, <font color="#000000">key</font>(S.<font color="#000000">last</font>())) &gt; 0)			<font color="#0000FF">// greater than last?</font>
+    pos = S.<font color="#000000">insertAfter</font>(S.<font color="#000000">last</font>(), locItem);		<font color="#0000FF">// insert at end</font>
+  <font color="#00A000">else</font> {
+    Position curr = S.<font color="#000000">first</font>();				<font color="#0000FF">// start search</font>
+    <font color="#00A000">while</font> (<font color="#000000">comp</font>(k, <font color="#000000">key</font>(curr)) &gt; 0)			<font color="#0000FF">// skip over small keys</font>
+      curr = S.<font color="#000000">after</font>(curr);
+    pos = S.<font color="#000000">insertBefore</font>(curr, locItem);		<font color="#0000FF">// insert here</font>
   }
 }
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>

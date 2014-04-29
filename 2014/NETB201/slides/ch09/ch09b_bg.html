@@ -1,609 +1,569 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="content-type">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>Chapter 9</title>
   </head>
   <body>
-    <h2><b>&#1058;&#1098;&#1088;&#1089;&#1077;&#1097;&#1080; &#1076;&#1098;&#1088;&#1074;&#1072;&#1090;&#1072; - &#1074;&#1090;&#1086;&#1088;&#1072; &#1095;&#1072;&#1089;&#1090;</b></h2>
-    <h3>&#1052;&#1085;&#1086;&#1075;&#1086;&#1082;&#1072;&#1085;&#1072;&#1083;&#1085;&#1080; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1080; &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072; (Multi-Way Search Trees)</h3>
-    <big><span style="font-weight: bold;">&#1044;&#1077;&#1092;&#1080;&#1085;&#1080;&#1094;&#1080;&#1103;</span><br>
+    <h2><b>Търсещи дървата - втора част</b></h2>
+    <h3>Многоканални търсещи дървета (Multi-Way Search Trees)</h3>
+    <big><span style="font-weight: bold;">Дефиниция</span><br>
     </big>
     <ul>
-      <li><big>&#1042;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">v</span> &#1086;&#1090;
-          &#1085;&#1072;&#1088;&#1077;&#1076;&#1077;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1089;&#1077; &#1085;&#1072;&#1088;&#1080;&#1095;&#1072; <span style="font-style: italic;">d</span>-&#1074;&#1098;&#1079;&#1077;&#1083;,
+      <li><big>Възел <span style="font-style: italic;">v</span> от
+          наредено дърво се нарича <span style="font-style: italic;">d</span>-възел,
 
 
 
 
-          &#1072;&#1082;&#1086; <span style="font-style: italic;">v</span> &#1080;&#1084;&#1072; <span
-            style="font-style: italic;">d</span> &#1076;&#1077;&#1094;&#1072;. <br>
+          ако <span style="font-style: italic;">v</span> има <span style="font-style: italic;">d</span> деца. <br>
         </big></li>
-      <li><big>&#1052;&#1085;&#1086;&#1075;&#1086;&#1082;&#1072;&#1085;&#1072;&#1083;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; (<span style="font-style:
-            italic;">multi-way search tree</span>) &#1077; &#1085;&#1072;&#1088;&#1077;&#1076;&#1077;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;
-          &#1090;&#1072;&#1082;&#1086;&#1074;&#1072;, &#1095;&#1077;:</big></li>
+      <li><big>Многоканално търсещо дърво (<span style="font-style:
+            italic;">multi-way search tree</span>) е наредено дърво
+          такова, че:</big></li>
       <ul>
-        <li><big>&#1042;&#1089;&#1077;&#1082;&#1080; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">v</span>
-            &#1080;&#1084;&#1072; &#1085;&#1072;&#1081;-&#1084;&#1072;&#1083;&#1082;&#1086; &#1076;&#1074;&#1077; &#1076;&#1077;&#1094;&#1072; (<span style="font-style: italic;">d</span>-&#1074;&#1098;&#1079;&#1077;&#1083;
+        <li><big>Всеки вътрешен възел <span style="font-style: italic;">v</span>
+            има най-малко две деца (<span style="font-style: italic;">d</span>-възел
 
 
 
 
-            &#1089; d &gt;= 2);</big></li>
-        <li><big><span style="font-style: italic;">v</span> &#1089;&#1098;&#1076;&#1098;&#1088;&#1078;&#1072; <span
-              style="font-style: italic;">d</span> &#8722; 1 &#1076;&#1074;&#1086;&#1081;&#1082;&#1080;
-            &#1082;&#1083;&#1102;&#1095;-&#1077;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; (<span style="font-style: italic;">k<sub>i</sub></span>,
-            <span style="font-style: italic;">e<sub>i</sub></span>)&nbsp;
+            с d &gt;= 2);</big></li>
+        <li><big><span style="font-style: italic;">v</span> съдържа <span style="font-style: italic;">d</span> − 1 двойки
+            ключ-елемент (<span style="font-style: italic;">k<sub>i</sub></span>,
+            <span style="font-style: italic;">e<sub>i</sub></span>) 
 
 
 
 
-            (<span style="font-style: italic;">d</span> &#1077; &#1073;&#1088;&#1086;&#1103;&#1090; &#1085;&#1072;
-            &#1076;&#1077;&#1094;&#1072;&#1090;&#1072;), &#1095;&#1083;&#1077;&#1085;&#1086;&#1074;&#1077; &#1085;&#1072; &#1088;&#1077;&#1095;&#1085;&#1080;&#1082;&#1072;;<br>
+            (<span style="font-style: italic;">d</span> е броят на
+            децата), членове на речника;<br>
           </big></li>
-        <li><big>&#1047;&#1072; &#1074;&#1098;&#1079;&#1077;&#1083; &#1089; &#1076;&#1077;&#1094;&#1072; <span style="font-style: italic;">v</span><sub>1</sub>,
+        <li>
+<big>За възел с деца <span style="font-style: italic;">v</span><sub>1</sub>,
             <span style="font-style: italic;">v</span><sub>2</sub></big><big>,</big><big>
-            �, <span style="font-style: italic;">v<sub>d</sub></span>
-            &#1089;&#1098;&#1076;&#1098;&#1088;&#1078;&#1072;&#1097; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; <span style="font-style: italic;">k</span><sub>1</sub>
+            …, <span style="font-style: italic;">v<sub>d</sub></span>
+            съдържащ ключове <span style="font-style: italic;">k</span><sub>1</sub>
             &lt; <span style="font-style: italic;">k</span><sub>2 &lt;
-            </sub>� &lt; <span style="font-style: italic;">k<sub>d</sub></span><sub>&#8722;1</sub>:</big></li>
+            </sub>… &lt; <span style="font-style: italic;">k<sub>d</sub></span><sub>−1</sub>:</big>
+</li>
         <ul>
-          <li><big>&#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;&#1090;&#1077; &#1074; &#1087;&#1086;&#1076;&#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1085;&#1072; <span style="font-style:
-                italic;">v</span><sub>1</sub> &#1089;&#1072; &#1087;&#1086;-&#1084;&#1072;&#1083;&#1082;&#1080; &#1086;&#1090;&nbsp;<span
-                style="font-style: italic;">k</span><sub>1</sub>;</big></li>
-          <li><big>&#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;&#1090;&#1077; &#1074; &#1087;&#1086;&#1076;&#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1085;&#1072; <span style="font-style:
-                italic;">v<sub>i</sub></span> &#1089;&#1072; &#1084;&#1077;&#1078;&#1076;&#1091; <span
-                style="font-style: italic;">k<sub>i</sub></span><sub>&#8722;1</sub>
-              &#1080; <span style="font-style: italic;">k<sub>i</sub> </span>(<span
-                style="font-style: italic;">i</span> = 2, �, <span
-                style="font-style: italic;">d</span> &#8722; 1);</big></li>
-          <li><big>&#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;&#1090;&#1077; &#1074; &#1087;&#1086;&#1076;&#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1085;&#1072; <span style="font-style:
-                italic;">v<sub>d</sub></span> &#1089;&#1072; &#1087;&#1086;-&#1075;&#1086;&#1083;&#1077;&#1085;&#1080; &#1086;&#1090; <span
-                style="font-style: italic;">k<sub>d</sub></span><sub>&#8722;1</sub>.</big></li>
+          <li><big>ключовете в поддървото на <span style="font-style:
+                italic;">v</span><sub>1</sub> са по-малки от <span style="font-style: italic;">k</span><sub>1</sub>;</big></li>
+          <li><big>ключовете в поддървото на <span style="font-style:
+                italic;">v<sub>i</sub></span> са между <span style="font-style: italic;">k<sub>i</sub></span><sub>−1</sub>
+              и <span style="font-style: italic;">k<sub>i</sub> </span>(<span style="font-style: italic;">i</span> = 2, …, <span style="font-style: italic;">d</span> − 1);</big></li>
+          <li><big>ключовете в поддървото на <span style="font-style:
+                italic;">v<sub>d</sub></span> са по-голени от <span style="font-style: italic;">k<sub>d</sub></span><sub>−1</sub>.</big></li>
         </ul>
-        <li><big>&#1051;&#1080;&#1089;&#1090;&#1072;&#1090;&#1072; &#1085;&#1077; &#1089;&#1098;&#1076;&#1098;&#1088;&#1078;&#1072;&#1090; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;.</big></li>
+        <li><big>Листата не съдържат ключове.</big></li>
       </ul>
     </ul>
-    <div style="text-align: center;"><big><img style="width: 646px;
+    <div style="text-align: center;">
+<big><img style="width: 646px;
           height: 206px;" alt="" src="pic11.jpg"></big><br>
-      <big></big></div>
+      <big></big>
+</div>
     <ul>
-      <li><big>&#1055;&#1086;&#1085;&#1103;&#1090;&#1080;&#1077;&#1090;&#1086; inorder &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1085;&#1077; &#1079;&#1072; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1080; &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072; &#1089;&#1077;
-          &#1088;&#1072;&#1079;&#1096;&#1080;&#1088;&#1103;&#1074;&#1072; &#1079;&#1072; &#1084;&#1085;&#1086;&#1075;&#1086;&#1082;&#1072;&#1085;&#1072;&#1083;&#1085;&#1080; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1080; &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072;.</big></li>
-      <li><big>&#1055;&#1086;&#1089;&#1077;&#1097;&#1072;&#1074;&#1072;&#1084;&#1077; &#1076;&#1074;&#1086;&#1081;&#1082;&#1072;&#1090;&#1072; (<span style="font-style: italic;">k<sub>i</sub></span>,
-          <span style="font-style: italic;">e<sub>i</sub></span>) &#1085;&#1072;
-          &#1074;&#1098;&#1079;&#1077;&#1083;&#1072; <span style="font-style: italic;">v</span> &#1084;&#1077;&#1078;&#1076;&#1091;
-          &#1088;&#1077;&#1082;&#1091;&#1088;&#1089;&#1080;&#1074;&#1085;&#1080;&#1090;&#1077; &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1085;&#1080;&#1103; &#1085;&#1072; &#1087;&#1086;&#1076;&#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072;&#1090;&#1072; &#1085;&#1072;&nbsp;<span
-            style="font-style: italic;">v</span> &#1089; &#1082;&#1086;&#1088;&#1077;&#1085;&#1080; &#1076;&#1077;&#1094;&#1072;&#1090;&#1072; &#1084;&#1091; <span
-            style="font-style: italic;">v<sub>i</sub></span> &#1080; <span
-            style="font-style: italic;">v<sub>i</sub></span><sub>+1</sub>.</big></li>
-      <li><big>&#1058;&#1086;&#1074;&#1072; (inorder) &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1085;&#1077; &#1085;&#1072; &#1084;&#1085;&#1086;&#1075;&#1086;&#1082;&#1072;&#1085;&#1072;&#1083;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;
-          &#1085;&#1072;&#1088;&#1077;&#1078;&#1076;&#1072; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;&#1090;&#1077; &#1074; &#1088;&#1072;&#1089;&#1090;&#1103;&#1097; &#1088;&#1077;&#1076;.<span style="font-weight:
+      <li><big>Понятието inorder обхождане за двоични дървета се
+          разширява за многоканални търсещи дървета.</big></li>
+      <li><big>Посещаваме двойката (<span style="font-style: italic;">k<sub>i</sub></span>,
+          <span style="font-style: italic;">e<sub>i</sub></span>) на
+          възела <span style="font-style: italic;">v</span> между
+          рекурсивните обхождания на поддърветата на <span style="font-style: italic;">v</span> с корени децата му <span style="font-style: italic;">v<sub>i</sub></span> и <span style="font-style: italic;">v<sub>i</sub></span><sub>+1</sub>.</big></li>
+      <li><big>Това (inorder) обхождане на многоканално търсещо дърво
+          нарежда ключовете в растящ ред.<span style="font-weight:
             bold;"></span></big></li>
     </ul>
-    <div style="text-align: center;"><big><span style="font-weight:
-          bold;"><img style="width: 649px; height: 238px;" alt=""
-            src="pic12.jpg"></span></big><br>
-      <big><span style="font-weight: bold;"></span></big></div>
-    <big><span style="font-weight: bold;">&#1058;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1074; &#1084;&#1085;&#1086;&#1075;&#1086;&#1082;&#1072;&#1085;&#1072;&#1083;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086;
-        &#1076;&#1098;&#1088;&#1074;&#1086;</span></big><big><br>
+    <div style="text-align: center;">
+<big><span style="font-weight:
+          bold;"><img style="width: 649px; height: 238px;" alt="" src="pic12.jpg"></span></big><br>
+      <big><span style="font-weight: bold;"></span></big>
+</div>
+    <big><span style="font-weight: bold;">Търсене в многоканално търсещо
+        дърво</span></big><big><br>
       <br>
-      &#1055;&#1086;&#1076;&#1086;&#1073;&#1085;&#1086; &#1077; &#1085;&#1072; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1074; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1080; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1080; &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072;.</big>
+      Подобно е на търсене в двоични търсещи дървета.</big>
     <ul>
-      <li><big>&#1047;&#1072; &#1074;&#1089;&#1077;&#1082;&#1080; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; &#1089; &#1076;&#1077;&#1094;&#1072; <span style="font-style:
-            italic;">v</span><sub>1</sub></big><big>,</big><big> <span
-            style="font-style: italic;">v</span><sub>2</sub></big><big>,
-        </big><big>�, <span style="font-style: italic;">v<sub>d</sub></span>
-          &#1080; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; <span style="font-style: italic;">k</span><sub>1</sub></big><big>,</big><big>
+      <li>
+<big>За всеки вътрешен възел с деца <span style="font-style:
+            italic;">v</span><sub>1</sub></big><big>,</big><big> <span style="font-style: italic;">v</span><sub>2</sub></big><big>,
+        </big><big>…, <span style="font-style: italic;">v<sub>d</sub></span>
+          и ключове <span style="font-style: italic;">k</span><sub>1</sub></big><big>,</big><big>
           <span style="font-style: italic;">k</span><sub>2</sub></big><big>,
-        </big><big>�</big><big>,</big><big> <span style="font-style:
-            italic;">k<sub>d</sub></span><sub>&#8722;1</sub> &#1082;&#1086;&#1075;&#1072;&#1090;&#1086;:</big></li>
+        </big><big>…</big><big>,</big><big> <span style="font-style:
+            italic;">k<sub>d</sub></span><sub>−1</sub> когато:</big>
+</li>
       <ul>
-        <li><big><span style="font-style: italic;">k</span> = <span
-              style="font-style: italic;">k<sub>i</sub></span> (<span
-              style="font-style: italic;">i</span> = 1, �, <span
-              style="font-style: italic;">d</span> &#8722; 1): &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086;
-            &#1079;&#1072;&#1074;&#1098;&#1088;&#1096;&#1074;&#1072; &#1091;&#1089;&#1087;&#1077;&#1096;&#1085;&#1086;;</big></li>
-        <li><big><span style="font-style: italic;">k</span> &lt; <span
-              style="font-style: italic;">k</span><sub>1</sub>:
-            &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086; &#1087;&#1088;&#1086;&#1076;&#1098;&#1083;&#1078;&#1072;&#1074;&#1072; &#1089; &#1076;&#1077;&#1090;&#1077;&#1090;&#1086; <span style="font-style:
-              italic;">v</span><sub>1</sub></big><big>;</big></li>
-        <li><big><span style="font-style: italic;">k<sub>i</sub></span><sub>&#8722;1</sub>
+        <li><big><span style="font-style: italic;">k</span> = <span style="font-style: italic;">k<sub>i</sub></span> (<span style="font-style: italic;">i</span> = 1, …, <span style="font-style: italic;">d</span> − 1): търсенето
+            завършва успешно;</big></li>
+        <li>
+<big><span style="font-style: italic;">k</span> &lt; <span style="font-style: italic;">k</span><sub>1</sub>:
+            търсенето продължава с детето <span style="font-style:
+              italic;">v</span><sub>1</sub></big><big>;</big>
+</li>
+        <li>
+<big><span style="font-style: italic;">k<sub>i</sub></span><sub>−1</sub>
             &lt; <span style="font-style: italic;">k</span> </big><big>
             &lt; <span style="font-style: italic;">k<sub>i</sub></span>
             (</big><big><span style="font-style: italic;">i</span> = 2,
-            �, <span style="font-style: italic;">d</span> &#8722; 1</big><big>):
+            …, <span style="font-style: italic;">d</span> − 1</big><big>):
 
 
 
 
-            &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086; &#1087;&#1088;&#1086;&#1076;&#1098;&#1083;&#1078;&#1072;&#1074;&#1072; &#1089; &#1076;&#1077;&#1090;&#1077;&#1090;&#1086; <span style="font-style:
-              italic;">v<sub>i</sub></span></big><big>;</big></li>
-        <li><big><span style="font-style: italic;">k</span> &gt; <span
-              style="font-style: italic;">k<sub>d</sub></span><sub>&#8722;1</sub>:
-            &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086; &#1087;&#1088;&#1086;&#1076;&#1098;&#1083;&#1078;&#1072;&#1074;&#1072; &#1089; &#1076;&#1077;&#1090;&#1077;&#1090;&#1086; <span style="font-style:
-              italic;">v<sub>d</sub></span></big><big>.</big></li>
+            търсенето продължава с детето <span style="font-style:
+              italic;">v<sub>i</sub></span></big><big>;</big>
+</li>
+        <li>
+<big><span style="font-style: italic;">k</span> &gt; <span style="font-style: italic;">k<sub>d</sub></span><sub>−1</sub>:
+            търсенето продължава с детето <span style="font-style:
+              italic;">v<sub>d</sub></span></big><big>.</big>
+</li>
       </ul>
-      <li><big>&#1044;&#1086;&#1089;&#1090;&#1080;&#1075;&#1072;&#1085;&#1077;&#1090;&#1086; &#1076;&#1086; &#1074;&#1098;&#1085;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; &#1079;&#1072;&#1074;&#1098;&#1088;&#1096;&#1074;&#1072; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086; &#1085;&#1077;&#1091;&#1089;&#1087;&#1077;&#1096;&#1085;&#1086;.</big></li>
-      <li><big><span style="color: rgb(51, 102, 102);">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;:</span>
+      <li><big>Достигането до външен възел завършва търсенето неуспешно.</big></li>
+      <li><big><span style="color: rgb(51, 102, 102);">Пример:</span>
           search for 30</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 652px; height:
+    <div style="text-align: center;">
+<img style="width: 652px; height:
         206px;" alt="" src="pic13.jpg"><big><span style="font-weight:
           bold;"></span></big><br>
     </div>
     <hr style="width: 100%; height: 2px;">
-    <h3>(2,4) &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072;</h3>
+    <h3>(2,4) дървета</h3>
     <big> </big>
     <ul>
-      <li><big>(2,4) &#1076;&#1098;&#1088;&#1074;&#1086;<span style="font-style: italic;"></span> (2-4
-          &#1076;&#1098;&#1088;&#1074;&#1086; &#1080;&#1083;&#1080; 2-3-4 &#1076;&#1098;&#1088;&#1074;&#1086;) &#1077;&nbsp; <span style="font-style:
-            italic;">&#1084;&#1085;&#1086;&#1075;&#1086;&#1082;&#1072;&#1085;&#1072;&#1083;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;</span> &#1089;&#1098;&#1089; &#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1090;&#1077;
-          &#1089;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;:</big></li>
+      <li><big>(2,4) дърво<span style="font-style: italic;"></span> (2-4
+          дърво или 2-3-4 дърво) е  <span style="font-style:
+            italic;">многоканално търсещо дърво</span> със следните
+          сойства:</big></li>
       <ul>
-        <li><big><span style="font-style: italic;">&#1056;&#1072;&#1079;&#1084;&#1077;&#1088; &#1085;&#1072; &#1074;&#1098;&#1079;&#1077;&#1083;
-              (Node-Size Property)</span>:&nbsp; &#1074;&#1089;&#1077;&#1082;&#1080; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;
-            &#1080;&#1084;&#1072; &#1085;&#1072;&#1081;-&#1084;&#1085;&#1086;&#1075;&#1086; &#1095;&#1077;&#1090;&#1080;&#1088;&#1080; &#1076;&#1077;&#1094;&#1072; (&#1080; &#1085;&#1072;&#1081;-&#1084;&#1072;&#1083;&#1082;&#1086; &#1076;&#1074;&#1077;).<br>
+        <li><big><span style="font-style: italic;">Размер на възел
+              (Node-Size Property)</span>:  всеки вътрешен възел
+            има най-много четири деца (и най-малко две).<br>
           </big></li>
-        <li><big><span style="font-style: italic;">&#1044;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; (Depth
-              Property)</span>: &#1074;&#1089;&#1080;&#1095;&#1082;&#1080; &#1074;&#1098;&#1085;&#1096;&#1085;&#1080; &#1074;&#1098;&#1079;&#1083;&#1080; &#1080;&#1084;&#1072;&#1090; &#1077;&#1076;&#1085;&#1072;&#1082;&#1074;&#1072;
-            &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072;.</big></li>
+        <li><big><span style="font-style: italic;">Дълбочина (Depth
+              Property)</span>: всички външни възли имат еднаква
+            дълбочина.</big></li>
       </ul>
-      <li><big>&#1042; &#1079;&#1072;&#1074;&#1080;&#1089;&#1080;&#1084;&#1086;&#1089;&#1090; &#1086;&#1090; &#1073;&#1088;&#1086;&#1103; &#1085;&#1072; &#1076;&#1077;&#1094;&#1072;&#1090;&#1072;, &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; &#1085;&#1072; (2,4)
-          &#1076;&#1098;&#1088;&#1074;&#1086; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1073;&#1098;&#1076;&#1077; 2-&#1074;&#1098;&#1079;&#1077;&#1083;, 3-&#1074;&#1098;&#1079;&#1077;&#1083; &#1080;&#1083;&#1080; 4-&#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
+      <li><big>В зависимост от броя на децата, вътрешен възел на (2,4)
+          дърво може да бъде 2-възел, 3-възел или 4-възел.</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 696px; height:
+    <div style="text-align: center;">
+<img style="width: 696px; height:
         181px;" alt="" src="pic14.jpg"><br>
     </div>
     <ul>
-      <li><big><span style="color: rgb(0, 102, 0);">&#1058;&#1077;&#1086;&#1088;&#1077;&#1084;&#1072;:</span>
-          (2,4) &#1076;&#1098;&#1088;&#1074;&#1086; &#1089; <span style="font-style: italic;">n</span>
-          &#1095;&#1083;&#1077;&#1085;&#1072; &#1080;&#1084;&#1072; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">O</span>(log
+      <li><big><span style="color: rgb(0, 102, 0);">Теорема:</span>
+          (2,4) дърво с <span style="font-style: italic;">n</span>
+          члена има височина <span style="font-style: italic;">O</span>(log
 
 
 
 
           <span style="font-style: italic;">n</span>).</big></li>
-      <li style="color: rgb(0, 102, 0);"><big>&#1044;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1077;&#1083;&#1089;&#1090;&#1074;&#1086;:</big></li>
+      <li style="color: rgb(0, 102, 0);"><big>Доказателство:</big></li>
       <ul>
-        <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">h</span> &#1077;
-            &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086; &#1089; <span style="font-style:
-              italic;">n</span> &#1082;&#1083;&#1102;&#1095;&#1072;.<br>
+        <li><big>Нека <span style="font-style: italic;">h</span> е
+            височината на (2,4) дърво с <span style="font-style:
+              italic;">n</span> ключа.<br>
           </big></li>
-        <li><big>&#1058;&#1098;&#1081; &#1082;&#1072;&#1090;&#1086; &#1080;&#1084;&#1072; &#1085;&#1072;&#1081;-&#1084;&#1072;&#1083;&#1082;&#1086; 2<sup style="font-style:
-              italic;">i</sup> &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1085;&#1072; &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; <span
-              style="font-style: italic;">i</span> = 0, � , <span
-              style="font-style: italic;">h</span> &#8722;1 &#1080; &#1085;&#1103;&#1084;&#1072; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1085;&#1072;
-            &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">h</span>, &#1080;&#1084;&#1072;&#1084;&#1077;<br>
+        <li>
+<big>Тъй като има най-малко 2<sup style="font-style:
+              italic;">i</sup> ключове на дълбочина <span style="font-style: italic;">i</span> = 0, … , <span style="font-style: italic;">h</span> −1 и няма ключове на
+            дълбочина <span style="font-style: italic;">h</span>, имаме<br>
           </big>
           <div style="text-align: center;"><big><span style="font-style:
-                italic;">n </span>&#8805; 1 + 2 + 4 +� + 2<sup><span
-                  style="font-style: italic;">h</span>&#8722;1</sup> = 2<sup><span
-                  style="font-style: italic;">h</span></sup> &#8722; 1</big></div>
+                italic;">n </span>≥ 1 + 2 + 4 +… + 2<sup><span style="font-style: italic;">h</span>−1</sup> = 2<sup><span style="font-style: italic;">h</span></sup> − 1</big></div>
         </li>
-        <li><big>&#1057;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1085;&#1086; <span style="font-style: italic;">h</span>
-            &#8804; log (<span style="font-style: italic;">n</span> + 1).</big></li>
+        <li><big>Следователно <span style="font-style: italic;">h</span>
+            ≤ log (<span style="font-style: italic;">n</span> + 1).</big></li>
       </ul>
-      <li><big>&#1058;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1074; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086; &#1089; <span style="font-style:
-            italic;">n</span> &#1082;&#1083;&#1102;&#1095;&#1072; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span
-            style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>).<br>
+      <li><big>Търсене в (2,4) дърво с <span style="font-style:
+            italic;">n</span> ключа отнема време <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
         </big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 660px; height:
+    <div style="text-align: center;">
+<img style="width: 660px; height:
         194px;" alt="" src="pic15.jpg"><br>
     </div>
-    <big style="font-weight: bold;">&#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1079;&#1072; &#1087;&#1088;&#1086;&#1084;&#1103;&#1085;&#1072; (Update
+    <big style="font-weight: bold;">Операции за промяна (Update
       Operations)<br>
       <br>
-    </big><big><span style="font-weight: bold;">&#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;</span><br>
+    </big><big><span style="font-weight: bold;">Вмъкване</span><br>
     </big>
     <ul>
-      <li><big>&#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1084;&#1077; (&#1076;&#1086;&#1073;&#1072;&#1074;&#1103;&#1084;&#1077;) &#1085;&#1086;&#1074; &#1095;&#1083;&#1077;&#1085; (<span style="font-style:
+      <li><big>Вмъкваме (добавяме) нов член (<span style="font-style:
             italic;">k</span>, <span style="font-style: italic;">e</span>)
-          &#1082;&#1098;&#1084; &#1074;&#1098;&#1079;&#1077;&#1083;&#1072;, &#1082;&#1086;&#1081;&#1090;&#1086; &#1077; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;<span style="font-style: italic;"></span>
-          <span style="font-style: italic;">v</span> &#1085;&#1072; &#1083;&#1080;&#1089;&#1090;o&#1090;&#1086;,
-          &#1076;&#1086;&#1089;&#1090;&#1080;&#1075;&#1085;&#1072;&#1090;&#1086; &#1087;&#1088;&#1080; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095; <span style="font-style:
+          към възела, който е родител<span style="font-style: italic;"></span>
+          <span style="font-style: italic;">v</span> на листoто,
+          достигнато при търсенето на ключ <span style="font-style:
             italic;">k.</span></big></li>
       <ul>
-        <li><big>&#1057;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1090;&#1086; &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072; &#1089;&#1077; &#1079;&#1072;&#1087;&#1072;&#1079;&#1074;&#1072;.</big></li>
-        <li><big>&#1052;&#1086;&#1078;&#1077; &#1076;&#1072; &#1074;&#1098;&#1079;&#1085;&#1080;&#1082;&#1085;&#1077; &#1087;&#1088;&#1077;&#1090;&#1086;&#1074;&#1072;&#1088;&#1074;&#1072;&#1085;&#1077; (<span style="font-style:
-              italic;">overflow</span>), &#1090;.&#1077;. &#1074;&#1098;&#1079;&#1077;&#1083; <span
-              style="font-style: italic;">v</span> &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1089;&#1090;&#1072;&#1085;&#1077;
-            5-&#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
+        <li><big>Свойството дълбочина се запазва.</big></li>
+        <li><big>Може да възникне претоварване (<span style="font-style:
+              italic;">overflow</span>), т.е. възел <span style="font-style: italic;">v</span> може да стане
+            5-възел.</big></li>
       </ul>
-      <li><big><span style="color: rgb(0, 153, 0);">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;:</span>
-          &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095; 30 &#1087;&#1088;&#1077;&#1076;&#1080;&#1079;&#1074;&#1080;&#1082;&#1074;&#1072; &#1087;&#1088;&#1077;&#1090;&#1086;&#1074;&#1072;&#1088;&#1074;&#1072;&#1085;&#1077;<br>
+      <li><big><span style="color: rgb(0, 153, 0);">Пример:</span>
+          вмъкване на ключ 30 предизвиква претоварване<br>
         </big></li>
     </ul>
-    <div style="text-align: center;"><big><img style="width: 593px;
+    <div style="text-align: center;">
+<big><img style="width: 593px;
           height: 291px;" alt="" src="pic16.jpg"></big><br>
-      <big></big></div>
+      <big></big>
+</div>
     <ul>
-      <li><big>&#1056;&#1077;&#1096;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072; &#1087;&#1088;&#1077;&#1090;&#1086;&#1074;&#1072;&#1088;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1077; &#1087;&#1088;&#1080;&#1083;&#1072;&#1075;&#1072;&#1085;&#1077; &#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;
-          &#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103;&#1085;&#1077; (<span style="font-style: italic; color: rgb(204,
+      <li><big>Решение на претоварването е прилагане на операция
+          разделяне (<span style="font-style: italic; color: rgb(204,
             51, 204); font-weight: bold;">split</span>):</big></li>
       <ul>
-        <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">v</span><sub>1</sub></big><big>,
-          </big><big>�</big><big>,</big><big> <span style="font-style:
-              italic;">v</span><sub>5</sub> &#1089;&#1072; &#1076;&#1077;&#1094;&#1072;&#1090;&#1072; &#1085;&#1072; <span
-              style="font-style: italic;">v</span> &#1080; <span
-              style="font-style: italic;">k</span><sub>1</sub></big><big>,
-          </big><big>�</big><big>,</big><big> <span style="font-style:
-              italic;">k</span><sub>4</sub> &#1089;&#1072; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;&#1090;&#1077; &#1085;&#1072; <span
-              style="font-style: italic;">v.</span></big></li>
-        <li><big>&#1042;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">v</span>
-            &#1079;&#1072;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072;&#1084;&#1077; &#1089; &#1074;&#1098;&#1079;&#1083;&#1080; <span style="font-style: italic;">v</span>'
-            &#1080; <span style="font-style: italic;">v</span>".</big></li>
-        <li><big><span style="font-style: italic;">v</span>' &#1077; 3-&#1074;&#1098;&#1079;&#1077;&#1083; &#1089;
-            &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; <span style="font-style: italic;">k</span><sub>1</sub></big><big>,</big><big>
-            <span style="font-style: italic;">k</span><sub>2</sub> &#1080;
-            &#1076;&#1077;&#1094;&#1072; </big><big><span style="font-style: italic;">v</span><sub>1</sub></big><big>,</big><big>
+        <li>
+<big>Нека <span style="font-style: italic;">v</span><sub>1</sub></big><big>,
+          </big><big>…</big><big>,</big><big> <span style="font-style:
+              italic;">v</span><sub>5</sub> са децата на <span style="font-style: italic;">v</span> и <span style="font-style: italic;">k</span><sub>1</sub></big><big>,
+          </big><big>…</big><big>,</big><big> <span style="font-style:
+              italic;">k</span><sub>4</sub> са ключовете на <span style="font-style: italic;">v.</span></big>
+</li>
+        <li><big>Възел <span style="font-style: italic;">v</span>
+            заместваме с възли <span style="font-style: italic;">v</span>'
+            и <span style="font-style: italic;">v</span>".</big></li>
+        <li>
+<big><span style="font-style: italic;">v</span>' е 3-възел с
+            ключове <span style="font-style: italic;">k</span><sub>1</sub></big><big>,</big><big>
+            <span style="font-style: italic;">k</span><sub>2</sub> и
+            деца </big><big><span style="font-style: italic;">v</span><sub>1</sub></big><big>,</big><big>
           </big><big><span style="font-style: italic;">v</span><sub>2</sub></big><big>,</big><big>
-          </big><big><span style="font-style: italic;">v</span><sub>3.</sub></big></li>
-        <li><big><span style="font-style: italic;">v</span>" &#1077; 2-&#1074;&#1098;&#1079;&#1077;&#1083; &#1089;
-            &#1082;&#1083;&#1102;&#1095; </big><big><span style="font-style: italic;">k</span><sub>4</sub></big><big>
-            &#1080; &#1076;&#1077;&#1094;&#1072; </big><big><span style="font-style: italic;">v</span><sub>4</sub></big><big>,</big><big>
-          </big><big><span style="font-style: italic;">v</span><sub>5.</sub></big></li>
-        <li><big>&#1050;&#1083;&#1102;&#1095; </big><big><span style="font-style: italic;">k</span><sub>3</sub></big><big>
-            &#1089;&#1077; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072; &#1074; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1103; <span style="font-style: italic;">u</span>
-            &#1085;&#1072; <span style="font-style: italic;">v</span>, &#1082;&#1072;&#1090;&#1086; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072;
-            &#1074;&#1098;&#1079;&#1085;&#1080;&#1082;&#1085;&#1077; &#1085;&#1086;&#1074; &#1082;&#1086;&#1088;&#1077;&#1085;.</big></li>
+          </big><big><span style="font-style: italic;">v</span><sub>3.</sub></big>
+</li>
+        <li>
+<big><span style="font-style: italic;">v</span>" е 2-възел с
+            ключ </big><big><span style="font-style: italic;">k</span><sub>4</sub></big><big>
+            и деца </big><big><span style="font-style: italic;">v</span><sub>4</sub></big><big>,</big><big>
+          </big><big><span style="font-style: italic;">v</span><sub>5.</sub></big>
+</li>
+        <li>
+<big>Ключ </big><big><span style="font-style: italic;">k</span><sub>3</sub></big><big>
+            се вмъква в родителя <span style="font-style: italic;">u</span>
+            на <span style="font-style: italic;">v</span>, като може да
+            възникне нов корен.</big>
+</li>
       </ul>
-      <li><big>&#1055;&#1088;&#1077;&#1087;&#1098;&#1083;&#1074;&#1072;&#1085;&#1077; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1089;&#1077; &#1087;&#1086;&#1103;&#1074;&#1080; &#1074; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1089;&#1082;&#1080;&#1103; &#1074;&#1098;&#1079;&#1077;&#1083; <i>u</i>,
-          &#1079;&#1072; &#1082;&#1086;&#1081;&#1090;&#1086; &#1090;&#1088;&#1103;&#1073;&#1074;&#1072; &#1086;&#1090;&#1085;&#1086;&#1074;&#1086; &#1076;&#1072; &#1089;&#1077; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1080; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103;&#1085;&#1077;. &#1058;&#1072;&#1082;&#1072;
-          &#1087;&#1088;&#1077;&#1087;&#1098;&#1083;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1089;&#1077; "&#1088;&#1072;&#1079;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1080;" &#1076;&#1086; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;.<span
-            style="font-style: italic;"></span></big></li>
+      <li><big>Препълване може да се появи в родителския възел <i>u</i>,
+          за който трябва отново да се приложи операция разделяне. Така
+          препълването може да се "разпространи" до корена на дървото.<span style="font-style: italic;"></span></big></li>
     </ul>
-    <div style="text-align: center;"><big><img style="width: 748px;
+    <div style="text-align: center;">
+<big><img style="width: 748px;
           height: 196px;" alt="" src="pic17.jpg"></big><br>
-      <big></big></div>
+      <big></big>
+</div>
     <big>
-      <table style="text-align: left; width: 539px; height: 155px;"
-        cellpadding="4" cellspacing="0" border="1">
+      <table style="text-align: left; width: 539px; height: 155px;" cellpadding="4" cellspacing="0" border="1">
         <tbody>
           <tr>
-            <td style="vertical-align: top;"><big>Algorithm <span
-                  style="color: rgb(204, 0, 0);"><span
-                    style="font-style: italic;">insertItem</span>(<span
-                    style="font-style: italic;">k</span>, <span
-                    style="font-style: italic;">e</span>)</span><br>
+            <td style="vertical-align: top;"><big>Algorithm <span style="color: rgb(204, 0, 0);"><span style="font-style: italic;">insertItem</span>(<span style="font-style: italic;">k</span>, <span style="font-style: italic;">e</span>)</span><br>
                 <span style="color: rgb(51, 102, 102);">1.We search for
                   key </span><span style="font-style: italic; color:
                   rgb(51, 102, 102);">k</span><span style="color:
-                  rgb(51, 102, 102);"> to locate the insertion node </span><span
-                  style="font-style: italic; color: rgb(51, 102, 102);">v</span><br>
+                  rgb(51, 102, 102);"> to locate the insertion node </span><span style="font-style: italic; color: rgb(51, 102, 102);">v</span><br>
                 <span style="color: rgb(51, 102, 102);">2.We add the new
-                  item (<span style="font-style: italic;">k</span>, <span
-                    style="font-style: italic;">e</span>) at node <span
-                    style="font-style: italic;">v</span></span><br>
+                  item (<span style="font-style: italic;">k</span>, <span style="font-style: italic;">e</span>) at node <span style="font-style: italic;">v</span></span><br>
                 <span style="color: rgb(51, 102, 102);">3.</span> while
-                <span style="color: rgb(51, 102, 102);"><span
-                    style="font-style: italic;">overflow</span>(<span
-                    style="font-style: italic;">v</span>)</span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if <span
-                  style="color: rgb(51, 102, 102);"><span
-                    style="font-style: italic;">isRoot</span>(<span
-                    style="font-style: italic;">v</span>)</span><br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span
-                  style="color: rgb(51, 102, 102);"> create a new empty
+                <span style="color: rgb(51, 102, 102);"><span style="font-style: italic;">overflow</span>(<span style="font-style: italic;">v</span>)</span><br>
+                        if <span style="color: rgb(51, 102, 102);"><span style="font-style: italic;">isRoot</span>(<span style="font-style: italic;">v</span>)</span><br>
+           <span style="color: rgb(51, 102, 102);"> create a new empty
                   root above <span style="font-style: italic;">v</span></span><br>
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
-                  style="color: rgb(51, 102, 102);"><span
-                    style="font-style: italic;">v</span> &#8592; <span
-                    style="font-style: italic;">split</span>(<span
-                    style="font-style: italic;">v</span>)</span><br>
+                        <span style="color: rgb(51, 102, 102);"><span style="font-style: italic;">v</span> ← <span style="font-style: italic;">split</span>(<span style="font-style: italic;">v</span>)</span><br>
               </big></td>
           </tr>
         </tbody>
       </table>
       <span style="font-weight: bold;"><br>
-        &#1040;&#1085;&#1072;&#1083;&#1080;&#1079; &#1085;&#1072; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1074; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086;</span><br>
+        Анализ на вмъкването в (2,4) дърво</span><br>
     </big>
     <ul>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">T</span> &#1077; (2,4)
-          &#1076;&#1098;&#1088;&#1074;&#1086; &#1089; <span style="font-style: italic;">n</span> &#1082;&#1083;&#1102;&#1095;&#1072;.</big></li>
+      <li><big>Нека <span style="font-style: italic;">T</span> е (2,4)
+          дърво с <span style="font-style: italic;">n</span> ключа.</big></li>
       <ul>
-        <li><big>&#1044;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; <span style="font-style: italic;">T</span> &#1080;&#1084;&#1072;
-            &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&nbsp; <span style="font-style: italic;">O</span>(log
+        <li><big>Дървото <span style="font-style: italic;">T</span> има
+            височина  <span style="font-style: italic;">O</span>(log
 
 
 
             <span style="font-style: italic;">n</span>).<br>
           </big></li>
-        <li><big>&#1058;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086; &#1077; &#1079;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(log
+        <li><big>Търсенето е за време <span style="font-style: italic;">O</span>(log
 
 
 
 
 
-            <span style="font-style: italic;">n</span>), &#1079;&#1072;&#1097;&#1086;&#1090;&#1086; &#1089;&#1077;
-            &#1087;&#1086;&#1089;&#1077;&#1097;&#1072;&#1074;&#1072;&#1090; <span style="font-style: italic;">O</span>(log <span
-              style="font-style: italic;">n</span>) &#1074;&#1098;&#1079;&#1083;&#1080;.</big></li>
-        <li><big>&#1042;&#1098;&#1079;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1085;&#1072; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1090;&#1086; "&#1088;&#1072;&#1079;&#1084;&#1077;&#1088; &#1079;&#1072; &#1074;&#1098;&#1079;&#1077;&#1083;" (</big><big
-            style="font-style: italic;">Node-Size Property</big><big>)
-            &#1089;&#1090;&#1072;&#1074;&#1072; &#1079;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(log
+            <span style="font-style: italic;">n</span>), защото се
+            посещават <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>) възли.</big></li>
+        <li>
+<big>Възстановяването на свойството "размер за възел" (</big><big style="font-style: italic;">Node-Size Property</big><big>)
+            става за време <span style="font-style: italic;">O</span>(log
 
 
 
 
 
-            <span style="font-style: italic;">n</span>), &#1079;&#1072;&#1097;&#1086;&#1090;&#1086; &#1074;&#1089;&#1077;&#1103;&#1082;&#1072;
-            &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103;&#1085;&#1077; (<span style="font-style: italic;">split</span>)
-            &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(1)
-            &#1080; &#1089;&#1077; &#1087;&#1088;&#1080;&#1083;&#1072;&#1075;&#1072; &#1085;&#1077; &#1087;&#1086;&#1074;&#1077;&#1095;&#1077; &#1086;&#1090; <span style="font-style: italic;">O</span>(log
+            <span style="font-style: italic;">n</span>), защото всеяка
+            операция разделяне (<span style="font-style: italic;">split</span>)
+            отнема време <span style="font-style: italic;">O</span>(1)
+            и се прилага не повече от <span style="font-style: italic;">O</span>(log
 
 
 
-            <span style="font-style: italic;">n</span>) &#1087;&#1098;&#1090;&#1080;.</big></li>
+            <span style="font-style: italic;">n</span>) пъти.</big>
+</li>
       </ul>
-      <li><big>&#1057;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1085;&#1086; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1074; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086; &#1089;&#1090;&#1072;&#1074;&#1072; &#1079;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span
-            style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>).<br>
+      <li><big>Следователно вмъкването в (2,4) дърво става за време <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
         </big></li>
     </ul>
-    <big> </big><big><span style="font-weight: bold;">&#1055;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077;
+    <big> </big><big><span style="font-weight: bold;">Премахване
         (Removal)</span><br>
     </big>
     <ul>
-      <li><big>&#1053;&#1077;&#1082;&#1072; &#1082;&#1083;&#1102;&#1095;&#1098;&#1090;, &#1082;&#1086;&#1081;&#1090;&#1086; &#1097;&#1077; &#1080;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1084;&#1077; &#1077; &#1074;&#1098;&#1074; &#1074;&#1098;&#1079;&#1077;&#1083; &#1089; &#1076;&#1077;&#1090;&#1077; &#1083;&#1080;&#1089;&#1090;,
-          &#1074; &#1087;&#1088;&#1086;&#1090;&#1080;&#1074;&#1077;&#1085; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081; &#1079;&#1072;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072;&#1084;&#1077; &#1082;&#1083;&#1102;&#1095;&#1072; &#1089; &#1085;&#1077;&#1075;&#1086;&#1074;&#1080;&#1103; &#1085;&#1072;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1082; (&#1080;&#1083;&#1080;
-          &#1087;&#1088;&#1077;&#1076;&#1096;&#1077;&#1089;&#1090;&#1074;&#1077;&#1085;&#1080;&#1082;) &#1087;&#1088;&#1080; inorder &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1085;&#1077; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; (&#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;&#1090;&#1077;) &#1080;
-          &#1089;&#1083;&#1077;&#1076; &#1090;&#1086;&#1074;&#1072; &#1075;&#1086; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1084;&#1077;.</big></li>
-      <li><big><span style="color: rgb(0, 153, 0);">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;:</span> &#1079;&#1072; &#1076;&#1072;
-          &#1080;&#1079;&#1090;&#1088;&#1080;&#1077;&#1084; &#1082;&#1083;&#1102;&#1095; 24, &#1085;&#1080;&#1077; &#1075;&#1086; &#1079;&#1072;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072;&#1084;&#1077; &#1089; 27 (inorder &#1085;&#1072;&#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1082;)</big></li>
+      <li><big>Нека ключът, който ще изтриваме е във възел с дете лист,
+          в противен случай заместваме ключа с неговия наследник (или
+          предшественик) при inorder обхождане на дървото (ключовете) и
+          след това го премахваме.</big></li>
+      <li><big><span style="color: rgb(0, 153, 0);">Пример:</span> за да
+          изтрием ключ 24, ние го заместваме с 27 (inorder наследник)</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 561px; height:
+    <div style="text-align: center;">
+<img style="width: 561px; height:
         280px;" alt="" src="pic18.jpg"><br>
     </div>
     <ul>
-      <li><big>&#1048;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095; &#1086;&#1090; &#1074;&#1098;&#1079;&#1077;&#1083;&#1072; <span style="font-style:
-            italic;">v</span> &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1076;&#1086;&#1074;&#1077;&#1076;&#1077; &#1076;&#1086; &#1080;&#1079;&#1087;&#1088;&#1072;&#1079;&#1074;&#1072;&#1085;&#1077; (<span
-            style="font-style: italic;">underflow</span>), &#1082;&#1086;&#1075;&#1072;&#1090;&#1086; <span
-            style="font-style: italic;">v</span> &#1089;&#1090;&#1072;&#1074;&#1072; 1-&#1074;&#1098;&#1079;&#1077;&#1083; &#1089; &#1077;&#1076;&#1085;&#1086;
-          &#1076;&#1077;&#1090;&#1077; &#1080; &#1073;&#1077;&#1079; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;.</big></li>
-      <li><big>&#1047;&#1072; &#1089;&#1087;&#1088;&#1072;&#1074;&#1103;&#1085;&#1077; &#1072; &#1080;&#1079;&#1087;&#1088;&#1072;&#1079;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086;, &#1088;&#1072;&#1079;&#1075;&#1083;&#1077;&#1078;&#1076;&#1072;&#1084;&#1077; &#1076;&#1074;&#1072; &#1089;&#1083;&#1091;&#1095;&#1072;&#1103;:</big></li>
-      <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 1: &#1089;&#1098;&#1089;&#1077;&#1076;&#1077;&#1085; &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072; &#1085;&#1072; <span
-            style="font-style: italic;">v</span> &#1077; 2-&#1074;&#1098;&#1079;&#1077;&#1083;</big></li>
+      <li><big>Изтриване на ключ от възела <span style="font-style:
+            italic;">v</span> може да доведе до изпразване (<span style="font-style: italic;">underflow</span>), когато <span style="font-style: italic;">v</span> става 1-възел с едно
+          дете и без ключове.</big></li>
+      <li><big>За справяне а изпразването, разглеждаме два случая:</big></li>
+      <li><big>Случай 1: съседен брат/сестра на <span style="font-style: italic;">v</span> е 2-възел</big></li>
       <ul>
         <li><big><span style="font-style: italic;"><span style="color:
-                rgb(204, 51, 204); font-weight: bold;">&#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;
-                &#1089;&#1090;&#1086;&#1087;&#1103;&#1074;&#1072;&#1085;&#1077; (fusion</span>):</span></big></li>
-        <ol>
-          <li><big>&#1089;&#1083;&#1080;&#1074;&#1072; &#1089;&#1077; <span style="font-style: italic;">v</span>
-              &#1089;&#1098;&#1089; &#1089;&#1098;&#1089;&#1077;&#1076;&#1085;&#1080;&#1103; &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072; <span style="font-style:
+                rgb(204, 51, 204); font-weight: bold;">Операция
+                стопяване (fusion</span>):</span></big></li>
+        </ul>
+</ul>
+<ol>
+          <li><big>слива се <span style="font-style: italic;">v</span>
+              със съседния брат/сестра <span style="font-style:
                 italic;">w;</span></big></li>
-          <li><big>&#1087;&#1088;&#1077;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072; &#1089;&#1077; &#1082;&#1083;&#1102;&#1095; &#1086;&#1090; <span style="font-style:
-                italic;">u</span> &#1074; &#1089;&#1083;&#1077;&#1090;&#1080;&#1103; &#1074;&#1098;&#1079;&#1077;&#1083; <span
-                style="font-style: italic;">v</span>'.</big></li>
+          <li><big>премества се ключ от <span style="font-style:
+                italic;">u</span> в слетия възел <span style="font-style: italic;">v</span>'.</big></li>
         </ol>
-        <li><big><font size="+1">&#1048;&#1079;&#1087;&#1088;&#1072;&#1079;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1089;&#1077; &#1087;&#1086;&#1103;&#1074;&#1080; &#1087;&#1086; &#1087;&#1098;&#1090;&#1103;
-              &#1082;&#1098;&#1084; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1080; &#1086;&#1090;&#1085;&#1086;&#1074;&#1086; &#1076;&#1072; &#1090;&#1088;&#1103;&#1073;&#1074;&#1072; &#1076;&#1072; &#1089;&#1077; &#1087;&#1088;&#1080;&#1083;&#1086;&#1078;&#1080; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;
-              &#1089;&#1090;&#1086;&#1087;&#1103;&#1074;&#1072;&#1085;&#1077;.&nbsp;</font><span style="font-style: italic;"></span></big></li>
-      </ul>
-    </ul>
-    <div style="text-align: center;"><img style="width: 761px; height:
+        <li><big><font size="+1">Изпразването може да се появи по пътя
+              към корена и отново да трябва да се приложи операция
+              стопяване. </font><span style="font-style: italic;"></span></big></li>
+      
+    
+    <div style="text-align: center;">
+<img style="width: 761px; height:
         172px;" alt="" src="pic19.jpg"><br>
     </div>
     <ul>
-      <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 2: &#1089;&#1098;&#1089;&#1077;&#1076;&#1085;&#1080;&#1103; &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072; <span style="font-style:
-            italic;">w</span> &#1085;&#1072; <span style="font-style: italic;">v</span>
-          &#1077; 3-&#1074;&#1098;&#1079;&#1077;&#1083; &#1080;&#1083;&#1080; 4-&#1074;&#1098;&#1079;&#1077;&#1083;</big></li>
+      <li><big>Случай 2: съседния брат/сестра <span style="font-style:
+            italic;">w</span> на <span style="font-style: italic;">v</span>
+          е 3-възел или 4-възел</big></li>
       <ul>
-        <li><big><span style="font-style: italic;"><span
-                style="font-weight: bold; color: rgb(204, 51, 204);">&#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;
+        <li><big><span style="font-style: italic;"><span style="font-weight: bold; color: rgb(204, 51, 204);">Операция
 
 
-                &#1090;&#1088;&#1072;&#1085;&#1089;&#1092;&#1077;&#1088; (transfer)</span></span>:</big></li>
-        <ol>
-          <li><big>&#1087;&#1088;&#1077;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072; &#1089;&#1077; &#1076;&#1077;&#1090;&#1077;&#1090;&#1086; &#1085;&#1072; <span style="font-style:
-                italic;">w</span> &#1080; &#1090;&#1086; &#1089;&#1090;&#1072;&#1074;&#1072; &#1076;&#1077;&#1090;&#1077; &#1085;&#1072; <span
-                style="font-style: italic;">v;</span></big></li>
-          <li><big>&#1087;&#1088;&#1077;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072; &#1089;&#1077; &#1082;&#1083;&#1102;&#1095; &#1086;&#1090; <span style="font-style:
-                italic;">u</span> &#1074;&#1098;&#1074; <span style="font-style: italic;">v;</span></big></li>
-          <li><big>&#1087;&#1088;&#1077;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072; &#1089;&#1077; &#1082;&#1083;&#1102;&#1095; &#1086;&#1090; <span style="font-style:
-                italic;">w</span> &#1074; <span style="font-style: italic;">u.</span></big></li>
+                трансфер (transfer)</span></span>:</big></li>
+        </ul>
+</ul>
+<ol>
+          <li><big>премества се детето на <span style="font-style:
+                italic;">w</span> и то става дете на <span style="font-style: italic;">v;</span></big></li>
+          <li><big>премества се ключ от <span style="font-style:
+                italic;">u</span> във <span style="font-style: italic;">v;</span></big></li>
+          <li><big>премества се ключ от <span style="font-style:
+                italic;">w</span> в <span style="font-style: italic;">u.</span></big></li>
         </ol>
-        <li><big>&#1057;&#1083;&#1077;&#1076; &#1090;&#1072;&#1079;&#1080; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1085;&#1103;&#1084;&#1072; &#1080;&#1079;&#1087;&#1088;&#1072;&#1079;&#1074;&#1072;&#1085;&#1077;.</big></li>
-      </ul>
-    </ul>
-    <div style="text-align: center;"><img style="width: 742px; height:
+        <li><big>След тази операция няма изпразване.</big></li>
+      
+    
+    <div style="text-align: center;">
+<img style="width: 742px; height:
         182px;" alt="" src="pic20.jpg"><br>
     </div>
     <br>
-    <big><span style="font-weight: bold;">&#1040;&#1085;&#1072;&#1083;&#1080;&#1079; &#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077;
-        &#1074; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086;</span></big><br>
+    <big><span style="font-weight: bold;">Анализ на операция премахване
+        в (2,4) дърво</span></big><br>
     <ul>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">T</span> &#1077; (2,4)
-          &#1076;&#1098;&#1088;&#1074;&#1086; (&#1088;&#1077;&#1095;&#1085;&#1080;&#1082;) &#1089; <span style="font-style: italic;">n</span>
-          &#1095;&#1083;&#1077;&#1085;&#1072; (&#1082;&#1083;&#1102;&#1095;&#1072;).<br>
+      <li><big>Нека <span style="font-style: italic;">T</span> е (2,4)
+          дърво (речник) с <span style="font-style: italic;">n</span>
+          члена (ключа).<br>
         </big></li>
       <ul>
-        <li><big>&#1044;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; <span style="font-style: italic;">T</span> &#1080;&#1084;&#1072;
-            &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">O</span>(log <span
-              style="font-style: italic;">n</span>).<br>
+        <li><big>Дървото <span style="font-style: italic;">T</span> има
+            височина <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
           </big></li>
       </ul>
-      <li><big>&#1047;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1080;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077;:</big></li>
+      <li><big>За операция изтриване:</big></li>
       <ul>
-        <li><big>&#1055;&#1086;&#1089;&#1077;&#1090;&#1077;&#1085;&#1080; &#1089;&#1072; <span style="font-style: italic;">O</span>(log
+        <li><big>Посетени са <span style="font-style: italic;">O</span>(log
 
 
 
 
-            <span style="font-style: italic;">n</span>) &#1074;&#1098;&#1079;&#1083;&#1080; &#1079;&#1072; &#1076;&#1072; &#1089;&#1077;
-            &#1085;&#1072;&#1084;&#1077;&#1088;&#1080; &#1074;&#1098;&#1079;&#1077;&#1083;&#1072;, &#1086;&#1090; &#1082;&#1086;&#1081;&#1090;&#1086; &#1097;&#1077; &#1073;&#1098;&#1076;&#1077; &#1080;&#1079;&#1090;&#1088;&#1080;&#1090; &#1082;&#1083;&#1102;&#1095;.</big></li>
-        <li><big>&#1055;&#1088;&#1077;&#1087;&#1098;&#1083;&#1074;&#1072;&#1085;&#1077; &#1089;&#1077; &#1086;&#1073;&#1088;&#1072;&#1073;&#1086;&#1090;&#1074;&#1072; &#1089; &#1088;&#1077;&#1076;&#1080;&#1094;&#1072; &#1086;&#1090; &#1085;&#1072;&#1081;-&#1084;&#1085;&#1086;&#1075;&#1086; <span
-              style="font-style: italic;">O</span>(log <span
-              style="font-style: italic;">n</span>) &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1089;&#1090;&#1086;&#1087;&#1103;&#1074;&#1072;&#1085;&#1077;,
-            &#1089;&#1083;&#1077;&#1076;&#1074;&#1072;&#1085;&#1080; &#1086;&#1090; &#1085;&#1072;&#1081;-&#1084;&#1085;&#1086;&#1075;&#1086; &#1077;&#1076;&#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1090;&#1088;&#1072;&#1085;&#1089;&#1092;&#1077;&#1088;.</big></li>
-        <li><big>&#1042;&#1089;&#1103;&#1082;&#1072; &#1077;&#1076;&#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1089;&#1090;&#1086;&#1087;&#1103;&#1074;&#1072;&#1085;&#1077; &#1080;&#1083;&#1080; &#1090;&#1088;&#1072;&#1085;&#1089;&#1092;&#1077;&#1088; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077;
+            <span style="font-style: italic;">n</span>) възли за да се
+            намери възела, от който ще бъде изтрит ключ.</big></li>
+        <li><big>Препълване се обработва с редица от най-много <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>) операции стопяване,
+            следвани от най-много една операция трансфер.</big></li>
+        <li><big>Всяка една операция стопяване или трансфер отнема време
             <span style="font-style: italic;">O</span>(1).<br>
           </big></li>
       </ul>
-      <li><big>&#1057;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1085;&#1086; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095; &#1086;&#1090; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072;
-          &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>).<br>
+      <li><big>Следователно премахването на ключ от (2,4) дърво отнема
+          време <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
         </big></li>
     </ul>
     <hr style="width: 100%; height: 2px;">
-    <h3><font color="#ff0000">&#1063;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</font>-&#1095;&#1077;&#1088;&#1085;&#1080; &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072;</h3>
+    <h3>
+<font color="#ff0000">Червено</font>-черни дървета</h3>
     <big> </big>
     <ul>
-      <li><big><font color="#ff0000">&#1063;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</font>-&#1095;<b>&#1077;&#1088;&#1085;&#1086;</b> &#1076;&#1098;&#1088;&#1074;&#1086; &#1077;
-          &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1103;&#1085;&#1077; &#1085;&#1072; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086; &#1087;&#1086;&#1089;&#1088;&#1077;&#1076;&#1089;&#1090;&#1074;&#1086;&#1084; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;, &#1095;&#1080;&#1081;&#1090;&#1086;
-          &#1074;&#1098;&#1079;&#1083;&#1080; &#1089;&#1072; &#1086;&#1094;&#1074;&#1077;&#1090;&#1077;&#1085;&#1080; <font color="#ff0000">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</font> &#1080;&#1083;&#1080; <b>&#1095;&#1077;&#1088;&#1085;&#1086;</b>.<span
-            style="font-weight: bold;"></span></big></li>
-      <li><big>&#1042; &#1089;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1077; &#1089; &#1085;&#1077;&#1075;&#1086;&#1074;&#1086;&#1090;&#1086; &#1072;&#1089;&#1086;&#1094;&#1080;&#1080;&#1088;&#1072;&#1085;&#1086; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086;, <font
-            color="#ff0000">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</font>-&#1095;&#1077;&#1088;&#1085;&#1086;&#1090;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1080;&#1084;&#1072;:</big></li>
+      <li><big><font color="#ff0000">Червено</font>-ч<b>ерно</b> дърво е
+          представяне на (2,4) дърво посредством двоично дърво, чийто
+          възли са оцветени <font color="#ff0000">червено</font> или <b>черно</b>.<span style="font-weight: bold;"></span></big></li>
+      <li><big>В сравнение с неговото асоциирано (2,4) дърво, <font color="#ff0000">червено</font>-черното дърво има:</big></li>
       <ul>
-        <li><big>&#1089;&#1098;&#1097;&#1086;&#1090;&#1086; &#1083;&#1086;&#1075;&#1072;&#1088;&#1080;&#1090;&#1084;&#1080;&#1095;&#1085;&#1086; &#1074;&#1088;&#1077;&#1084;&#1077; &#1079;&#1072; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072; &#1086;&#1089;&#1085;&#1086;&#1074;&#1085;&#1080;&#1090;&#1077;
-            &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1085;&#1072; &#1088;&#1077;&#1095;&#1085;&#1080;&#1082; &#1040;&#1058;&#1044;;</big></li>
-        <li><big>&#1087;&#1086;-&#1083;&#1077;&#1089;&#1085;&#1086; &#1089;&#1077; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1080;&#1088;&#1072; &#1089; &#1077;&#1076;&#1085;&#1086;&#1090;&#1080;&#1087;&#1085;&#1080; (&#1089; &#1090;&#1086;&#1095;&#1085;&#1086;&#1089;&#1090; &#1076;&#1086; &#1094;&#1074;&#1103;&#1090;)
-            &#1074;&#1098;&#1079;&#1083;&#1080;.</big></li>
+        <li><big>същото логаритмично време за изпълнение на основните
+            операции на речник АТД;</big></li>
+        <li><big>по-лесно се реализира с еднотипни (с точност до цвят)
+            възли.</big></li>
       </ul>
     </ul>
-    <div style="text-align: center;"><img style="width: 733px; height:
+    <div style="text-align: center;">
+<img style="width: 733px; height:
         265px;" alt="" src="rb1.jpg"><br>
     </div>
     <br>
     <ul>
-      <li><big><font color="#ff0000">&#1063;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</font>-<span
-            style="font-weight: bold;">&#1095;&#1077;&#1088;&#1085;&#1086;</span> &#1076;&#1098;&#1088;&#1074;&#1086; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1073;&#1098;&#1076;&#1077;
-          &#1076;&#1077;&#1092;&#1080;&#1085;&#1080;&#1088;&#1072;&#1085;&#1086; &#1082;&#1072;&#1090;&#1086; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1089;&#1098;&#1089; &#1089;&#1083;&#1077;&#1076;&#1085;&#1080;&#1090;&#1077; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;::</big></li>
+      <li><big><font color="#ff0000">Червено</font>-<span style="font-weight: bold;">черно</span> дърво може да бъде
+          дефинирано като двоично дърво със следните свойства::</big></li>
       <ul>
         <li><big><span style="font-style: italic;">Root Property</span>:
-            &#1082;&#1086;&#1088;&#1077;&#1085;&#1098;&#1090; &#1077; <b>&#1095;&#1077;&#1088;&#1077;&#1085;</b>;<span style="font-weight: bold;"></span></big></li>
+            коренът е <b>черен</b>;<span style="font-weight: bold;"></span></big></li>
         <li><big><span style="font-style: italic;">External Property</span>:
-            &#1083;&#1080;&#1089;&#1090;&#1072;&#1090;&#1072; &#1089;&#1072; <b>&#1095;&#1077;&#1088;&#1085;&#1080;</b>;<span style="font-weight: bold;"></span></big></li>
+            листата са <b>черни</b>;<span style="font-weight: bold;"></span></big></li>
         <li><big><span style="font-style: italic;">Internal Propert</span>y:
-&#1076;&#1077;&#1094;&#1072;&#1090;&#1072;
+децата
 
 
-            &#1085;&#1072; <font color="#ff0000">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;</font> &#1074;&#1098;&#1079;&#1077;&#1083; &#1089;&#1072; <b>&#1095;&#1077;&#1088;&#1085;&#1080;</b>;<span
-              style="font-weight: bold;"></span></big></li>
+            на <font color="#ff0000">червен</font> възел са <b>черни</b>;<span style="font-weight: bold;"></span></big></li>
         <li><big><span style="font-style: italic;">Depth Propert</span>y:
-&#1074;&#1089;&#1080;&#1095;&#1082;&#1080;
+всички
 
 
-            &#1083;&#1080;&#1089;&#1090;&#1072; &#1080;&#1084;&#1072;&#1090; &#1077;&#1076;&#1085;&#1072;&#1082;&#1074;&#1072; <b>&#1095;&#1077;&#1088;&#1085;&#1072;</b> &#1076;&#1098;&#1083;&#1073;&#1086;&#1095;&#1080;&#1085;&#1072;.</big></li>
+            листа имат еднаква <b>черна</b> дълбочина.</big></li>
       </ul>
     </ul>
-    <div style="text-align: center;"><img style="width: 464px; height:
+    <div style="text-align: center;">
+<img style="width: 464px; height:
         226px;" alt="" src="rb2.jpg"><br>
     </div>
     <ul>
-      <li><big><span style="color: rgb(0, 102, 0);">&#1058;&#1077;&#1086;&#1088;&#1077;&#1084;&#1072;:</span> <font
-            color="#ff0000">&#1063;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;-</font>&#1095;&#1077;&#1088;&#1085;&#1086;<span
-            style="font-weight: bold;"></span> &#1076;&#1098;&#1088;&#1074;&#1086; &#1089; <span
-            style="font-style: italic;">n</span> &#1095;&#1083;&#1077;&#1085;&#1072; (&#1082;&#1083;&#1102;&#1095;&#1072;) &#1080;&#1084;&#1072;
-          &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072; <span style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>).</big></li>
-      <li style="color: rgb(0, 102, 0);"><big>&#1044;&#1086;&#1082;&#1072;&#1079;&#1072;&#1090;&#1077;&#1083;&#1089;&#1090;&#1074;&#1086;:</big></li>
+      <li><big><span style="color: rgb(0, 102, 0);">Теорема:</span> <font color="#ff0000">Червено-</font>черно<span style="font-weight: bold;"></span> дърво с <span style="font-style: italic;">n</span> члена (ключа) има
+          височина <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).</big></li>
+      <li style="color: rgb(0, 102, 0);"><big>Доказателство:</big></li>
       <ul>
-        <li><big>&#1042;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072; <span style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;<font
-                color="#000000">-&#1095;&#1077;&#1088;&#1085;&#1086;</font></span><span
-              style="font-weight: bold;"></span> &#1076;&#1098;&#1088;&#1074;&#1086; &#1077; &#1085;&#1072;&#1081;-&#1084;&#1085;&#1086;&#1075;&#1086; &#1076;&#1074;&#1072;
-            &#1087;&#1098;&#1090;&#1080; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086;, &#1082;&#1086;&#1103;&#1090;&#1086; &#1077; <span
-              style="font-style: italic;">O</span>(log <span
-              style="font-style: italic;">n</span>).</big></li>
+        <li><big>Височината на <span style="color: rgb(204, 0, 0);">червено<font color="#000000">-черно</font></span><span style="font-weight: bold;"></span> дърво е най-много два
+            пъти височината на (2,4) дърво, която е <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).</big></li>
       </ul>
-      <li><big>&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; &#1079;&#1072; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1074; </big><big><span style="color:
-            rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;<font color="#000000">-&#1095;&#1077;&#1088;&#1085;&#1086;</font></span><span
-            style="font-weight: bold;"></span></big><big> &#1076;&#1098;&#1088;&#1074;&#1086; &#1077; &#1089;&#1098;&#1097;&#1080;&#1103;,
-          &#1082;&#1072;&#1082;&#1090;&#1086; &#1074; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1080; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077;&nbsp;<span
-            style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>).<br>
-        </big></li>
+      <li>
+<big>Алгоритъмът за търсене в </big><big><span style="color:
+            rgb(204, 0, 0);">червено<font color="#000000">-черно</font></span><span style="font-weight: bold;"></span></big><big> дърво е същия,
+          както в двоично търсещо дърво и отнема време <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
+        </big>
+</li>
     </ul>
-    <big style="font-weight: bold;"> &#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1079;&#1072; &#1086;&#1073;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;&#1085;&#1077;<br>
+    <big style="font-weight: bold;"> Операции за обновяване<br>
       <br>
-    </big><big><span style="font-weight: bold;">&#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;</span><br>
+    </big><big><span style="font-weight: bold;">Вмъкване</span><br>
     </big>
     <ul>
-      <li><big>&#1047;&#1072; &#1076;&#1072; &#1074;&#1084;&#1098;&#1082;&#1085;&#1077;&#1084; (&#1076;&#1086;&#1073;&#1072;&#1074;&#1080;&#1084;) &#1095;&#1083;&#1077;&#1085; &#1089; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <span
-            style="font-family: monospace;">insertItem</span>(<span
-            style="font-style: italic;">k</span>, <span
-            style="font-style: italic;">e</span>), &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072;&#1084;&#1077;
-          &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; &#1079;&#1072; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1079;&#1072; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1080; &#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1084;&#1077;
-          &#1085;&#1086;&#1074;&#1080;&#1103; &#1074;&#1098;&#1079;&#1077;&#1083; <i>z</i> <span style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;</span>,
-          &#1072;&#1082;&#1086; <span style="font-style: italic;">z</span> &#1085;&#1077; &#1077; &#1082;&#1086;&#1088;&#1077;&#1085;.</big></li>
+      <li><big>За да вмъкнем (добавим) член с операция <span style="font-family: monospace;">insertItem</span>(<span style="font-style: italic;">k</span>, <span style="font-style: italic;">e</span>), изпълняваме
+          алгоритъмът за вмъкване за двоично търсещо дърво и оцветяваме
+          новия възел <i>z</i> <span style="color: rgb(204, 0, 0);">червен</span>,
+          ако <span style="font-style: italic;">z</span> не е корен.</big></li>
       <ul>
-        <li><big>&#1058;&#1072;&#1082;&#1072; &#1079;&#1072;&#1087;&#1072;&#1079;&#1074;&#1072;&#1084;&#1077; &#1087;&#1098;&#1088;&#1074;&#1080;&#1090;&#1077; &#1090;&#1088;&#1080; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072; &#1085;&#1072; <font
-              color="#ff0000">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</font>-<b>&#1095;&#1077;&#1088;&#1085;&#1086;</b> &#1076;&#1098;&#1088;&#1074;&#1086;.</big></li>
-        <li><big>&#1040;&#1082;&#1086; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1103;&#1090; <span style="font-style: italic;">v</span>
-            &#1085;&#1072; <span style="font-style: italic;">z</span> &#1077; <b>&#1095;&#1077;&#1088;&#1077;&#1085;</b>,
-            &#1090;&#1086; &#1080; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1086;&#1090;&#1086; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086; &#1077; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1077;&#1085;&#1086;.</big></li>
-        <li><big>&#1040;&#1082;&#1086; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1103;&#1090; <span style="font-style: italic;">v</span>
-            &#1085;&#1072; <span style="font-style: italic;">z</span> &#1077;&nbsp;</big><big><span
-              style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;</span>, &#1080;&#1084;&#1072;&#1084;&#1077; <span
-              style="color: rgb(255, 0, 0); font-style: italic;">&#1076;&#1074;&#1086;&#1081;&#1085;&#1086;
-              &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span><span style="font-style: italic;"> </span>(&#1090;.&#1077;.
+        <li><big>Така запазваме първите три свойства на <font color="#ff0000">червено</font>-<b>черно</b> дърво.</big></li>
+        <li><big>Ако родителят <span style="font-style: italic;">v</span>
+            на <span style="font-style: italic;">z</span> е <b>черен</b>,
+            то и последното свойство е изпълнено.</big></li>
+        <li>
+<big>Ако родителят <span style="font-style: italic;">v</span>
+            на <span style="font-style: italic;">z</span> е </big><big><span style="color: rgb(204, 0, 0);">червен</span>, имаме <span style="color: rgb(255, 0, 0); font-style: italic;">двойно
+              червено</span><span style="font-style: italic;"> </span>(т.е.
 
 
-            &#1085;&#1072;&#1088;&#1091;&#1096;&#1072;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1086;&#1090;&#1086; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;<span style="font-style:
-              italic;"></span>), &#1082;&#1086;&#1077;&#1090;&#1086; &#1080;&#1079;&#1080;&#1089;&#1082;&#1074;&#1072; &#1088;&#1077;&#1086;&#1088;&#1075;&#1072;&#1085;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;.</big></li>
+            нарушаване на последното свойство<span style="font-style:
+              italic;"></span>), което изисква реорганизация на дървото.</big>
+</li>
       </ul>
-      <li><big><span style="color: rgb(0, 102, 0);">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;:</span>
-          &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; 4 &#1087;&#1086;&#1088;&#1072;&#1078;&#1076;&#1072; <span style="color: rgb(255, 0, 0);
-            font-style: italic;">&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span>:</big></li>
+      <li><big><span style="color: rgb(0, 102, 0);">Пример:</span>
+          вмъкване на 4 поражда <span style="color: rgb(255, 0, 0);
+            font-style: italic;">двойно червено</span>:</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 687px; height:
+    <div style="text-align: center;">
+<img style="width: 687px; height:
         216px;" alt="" src="rb22.jpg"><br>
     </div>
     <ul>
-      <li><big>&#1053;&#1077;&#1082;&#1072; &#1080;&#1084;&#1072;&#1084;&#1077; <span style="color: rgb(255, 0, 0);
-            font-style: italic;">&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span><span
-            style="color: rgb(255, 0, 0);"> </span>&#1089; &#1076;&#1077;&#1090;&#1077; <span
-            style="font-style: italic;">z</span> &#1080; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083; <span
-            style="font-style: italic;">v</span>, &#1080; &#1085;&#1077;&#1082;&#1072; <span
-            style="font-style: italic;">w</span> &#1077; &#1073;&#1088;&#1072;&#1090;&#1098;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072;&#1090;&#1072; &#1085;&#1072; <span
-            style="font-style: italic;">v</span>:</big></li>
+      <li><big>Нека имаме <span style="color: rgb(255, 0, 0);
+            font-style: italic;">двойно червено</span><span style="color: rgb(255, 0, 0);"> </span>с дете <span style="font-style: italic;">z</span> и родител <span style="font-style: italic;">v</span>, и нека <span style="font-style: italic;">w</span> е братът/сестрата на <span style="font-style: italic;">v</span>:</big></li>
     </ul>
-    <table style="text-align: left; width: 100%;" cellpadding="2"
-      cellspacing="2" border="0">
+    <table style="text-align: left; width: 100%;" cellpadding="2" cellspacing="2" border="0">
       <tbody>
         <tr>
-          <td style="vertical-align: top;"><img style="width: 219px;
+          <td style="vertical-align: top;">
+<img style="width: 219px;
               height: 219px;" alt="" src="rb3.jpg"><br>
           </td>
           <td style="vertical-align: middle;">
             <ul>
-              <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 1: <span style="font-style: italic;">w</span>
-                  &#1077; <b>&#1095;&#1077;&#1088;&#1077;&#1085;</b>:</big></li>
+              <li><big>Случай 1: <span style="font-style: italic;">w</span>
+                  е <b>черен</b>:</big></li>
               <ul>
-                <li><big>&nbsp;<span style="color: rgb(255, 0, 0);
-                      font-style: italic;">&#1044;&#1074;&#1086;&#1081;&#1085;o &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span> &#1077;
-                    &#1085;&#1077;&#1087;&#1088;&#1072;&#1074;&#1080;&#1083;&#1085;&#1086; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1103;&#1085;&#1077; &#1085;&#1072; 4-&#1074;&#1098;&#1079;&#1077;&#1083;</big></li>
-                <li><big><span style="color: rgb(51, 51, 255);"><font
-                        color="#000000">&#1057; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;</font> &#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103;
-                      (restructuring)</span> &#1087;&#1088;&#1086;&#1084;&#1077;&#1085;&#1103;&#1084;&#1077; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1103;&#1085;&#1077;&#1090;&#1086; &#1085;&#1072;
-                    4-&#1074;&#1098;&#1079;&#1077;&#1083; </big><big>&#1074;&nbsp; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086;.</big></li>
+                <li><big> <span style="color: rgb(255, 0, 0);
+                      font-style: italic;">Двойнo червено</span> е
+                    неправилно представяне на 4-възел</big></li>
+                <li>
+<big><span style="color: rgb(51, 51, 255);"><font color="#000000">С операция</font> реконструкция
+                      (restructuring)</span> променяме представянето на
+                    4-възел </big><big>в  (2,4) дърво.</big>
+</li>
               </ul>
             </ul>
           </td>
         </tr>
         <tr>
-          <td style="vertical-align: top;"><img style="width: 210px;
+          <td style="vertical-align: top;">
+<img style="width: 210px;
               height: 193px;" alt="" src="rb4.jpg"><br>
           </td>
           <td style="vertical-align: middle;">
             <ul>
-              <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 2: <span style="font-style: italic;">w</span>
-                  &#1077; &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;:<span style="color: rgb(204, 0, 0);"></span></big></li>
+              <li><big>Случай 2: <span style="font-style: italic;">w</span>
+                  е червен:<span style="color: rgb(204, 0, 0);"></span></big></li>
               <ul>
                 <li><big><span style="color: rgb(255, 0, 0); font-style:
-                      italic;">&#1044;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span> &#1089;&#1098;&#1086;&#1090;&#1074;&#1077;&#1090;&#1089;&#1090;&#1074;&#1072; &#1085;&#1072;
-                    &#1087;&#1088;&#1077;&#1087;&#1098;&#1083;&#1074;&#1072;&#1085;&#1077;.</big></li>
-                <li><big><span style="color: rgb(51, 51, 255);"><font
-                        color="#000000">&#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;</font> &#1087;&#1088;&#1077;&#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1085;&#1077;
-                      (recoloring) </span>&#1077; &#1077;&#1082;&#1074;&#1080;&#1074;&#1072;&#1083;&#1077;&#1085;&#1090;&#1085;&#1072; &#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;
-                    &#1088;&#1077;&#1079;&#1076;&#1077;&#1083;&#1103;&#1085;&#1077; (<span style="color: rgb(204, 51, 204);">split)
+                      italic;">Двойно червено</span> съответства на
+                    препълване.</big></li>
+                <li><big><span style="color: rgb(51, 51, 255);"><font color="#000000">Операция</font> преоцветяване
+                      (recoloring) </span>е еквивалентна на операция
+                    резделяне (<span style="color: rgb(204, 51, 204);">split)
 
 
-                    </span>&#1085;&#1072; 5-&#1074;&#1098;&#1079;&#1077;&#1083; &#1074;&nbsp; (2,4) &#1076;&#1098;&#1088;&#1074;&#1086;.<span
-                      style="color: rgb(204, 51, 204);"><br>
+                    </span>на 5-възел в  (2,4) дърво.<span style="color: rgb(204, 51, 204);"><br>
                     </span></big></li>
               </ul>
             </ul>
@@ -614,289 +574,258 @@
     <big><br>
     </big>
     <ul>
-      <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 1: &#1056;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103; (<span style="color: rgb(51, 51,
-            255);">restructuring)</span> &#1085;&#1072; <span style="color:
-            rgb(255, 0, 0); font-style: italic;">&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span>,
-          &#1082;&#1086;&#1075;&#1072;&#1090;&#1086;<font size="+1"> </font></big><big><big><span
-              style="color: rgb(204, 0, 0);"><font size="+1">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1080;&#1103;&#1090;</font>
-            </span></big>&#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083; <i>v</i> &#1080;&#1084;&#1072; <b>&#1095;&#1077;&#1088;&#1077;&#1085;</b> &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072;
-          <i>w</i>.</big></li>
+      <li>
+<big>Случай 1: Реконструкция (<span style="color: rgb(51, 51,
+            255);">restructuring)</span> на <span style="color:
+            rgb(255, 0, 0); font-style: italic;">двойно червено</span>,
+          когато<font size="+1"> </font></big><big><big><span style="color: rgb(204, 0, 0);"><font size="+1">червеният</font>
+            </span></big>родител <i>v</i> има <b>черен</b> брат/сестра
+          <i>w</i>.</big>
+</li>
     </ul>
     <ul>
-      <li><big>&#1048;&#1084;&#1072; 4 &#1082;&#1086;&#1085;&#1092;&#1080;&#1075;&#1091;&#1088;&#1072;&#1094;&#1080;&#1080; &#1074; &#1079;&#1072;&#1074;&#1080;&#1089;&#1080;&#1084;&#1086;&#1089;&#1090; &#1086;&#1090; &#1076;&#1072;&#1083;&#1080;&nbsp; <span
-            style="color: rgb(255, 0, 0); font-style: italic;">&#1076;&#1074;&#1086;&#1081;&#1085;&#1086;&#1090;&#1086;
-            &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span> &#1077; &#1083;&#1103;&#1074;&#1086; &#1080;&#1083;&#1080; &#1076;&#1103;&#1089;&#1085;&#1086; (&#1076;&#1103;&#1089;&#1085;&#1086;-&#1083;&#1103;&#1074;&#1086;, &#1083;&#1103;&#1074;&#1086;-&#1076;&#1103;&#1089;&#1085;&#1086;,
-          &#1083;&#1103;&#1074;&#1086;-&#1083;&#1103;&#1074;&#1086; &#1080; &#1076;&#1103;&#1089;&#1085;&#1086;-&#1076;&#1103;&#1089;&#1085;&#1086;).</big></li>
+      <li><big>Има 4 конфигурации в зависимост от дали  <span style="color: rgb(255, 0, 0); font-style: italic;">двойното
+            червено</span> е ляво или дясно (дясно-ляво, ляво-дясно,
+          ляво-ляво и дясно-дясно).</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 704px; height:
+    <div style="text-align: center;">
+<img style="width: 704px; height:
         319px;" alt="" src="rb6.jpg"><br>
     </div>
     <ul>
-      <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 2: &#1055;&#1088;&#1077;&#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1085;&#1077; (<span style="color: rgb(51, 51,
-            255);">recoloring)</span> &#1085;&#1072; <span style="font-style:
-            italic; color: rgb(255, 0, 0);">&#1076;&#1074;&#1080;&#1081;&#1085;&#1086; </span><span
-            style="color: rgb(204, 0, 0);"><span style="font-style:
-              italic; color: rgb(255, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span></span>,
-          &#1082;&#1086;&#1075;&#1072;&#1090;&#1086; <span style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1080;&#1103;&#1090;</span>
-          &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083; &#1080;&#1084;&#1072; <font color="#ff0000">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;</font> &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072;.</big></li>
-      <li><big>&#1056;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083;&#1103;&#1090; <span style="font-style: italic;">v</span> &#1080;
-          &#1085;&#1077;&#1075;&#1086;&#1074;&#1080;&#1103;&#1090; &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072; <span style="font-style: italic;">w</span>
-          &#1089;&#1090;&#1072;&#1074;&#1072;&#1090; <b>&#1095;&#1077;&#1088;&#1085;&#1080;</b>, &#1074;&#1098;&#1079;&#1077;&#1083;&#1098;&#1090; &#1076;&#1103;&#1076;&#1086;/&#1073;&#1072;&#1073;&#1072;&nbsp;<span
-            style="font-style: italic;">u</span> &#1089;&#1090;&#1072;&#1074;&#1072; <span
-            style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;</span>, &#1086;&#1089;&#1074;&#1077;&#1085; &#1072;&#1082;&#1086; &#1085;&#1077; &#1077;
-          &#1082;&#1086;&#1088;&#1077;&#1085;.</big></li>
-      <li><big><span style="font-style: italic; color: rgb(255, 0, 0);">&#1044;&#1074;&#1086;&#1081;&#1085;&#1086;&#1090;&#1086;
+      <li><big>Случай 2: Преоцветяване (<span style="color: rgb(51, 51,
+            255);">recoloring)</span> на <span style="font-style:
+            italic; color: rgb(255, 0, 0);">двийно </span><span style="color: rgb(204, 0, 0);"><span style="font-style:
+              italic; color: rgb(255, 0, 0);">червено</span></span>,
+          когато <span style="color: rgb(204, 0, 0);">червеният</span>
+          родител има <font color="#ff0000">червен</font> брат/сестра.</big></li>
+      <li><big>Родителят <span style="font-style: italic;">v</span> и
+          неговият брат/сестра <span style="font-style: italic;">w</span>
+          стават <b>черни</b>, възелът дядо/баба <span style="font-style: italic;">u</span> става <span style="color: rgb(204, 0, 0);">червен</span>, освен ако не е
+          корен.</big></li>
+      <li><big><span style="font-style: italic; color: rgb(255, 0, 0);">Двойното
 
 
-          </span><span style="color: rgb(204, 0, 0);"><span
-              style="font-style: italic; color: rgb(255, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;&nbsp;</span></span>&#1084;&#1086;&#1078;&#1077;
+          </span><span style="color: rgb(204, 0, 0);"><span style="font-style: italic; color: rgb(255, 0, 0);">червено </span></span>може
 
 
-          &#1076;&#1072; &#1088;&#1072;&#1079;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1080; &#1087;&#1086; &#1087;&#1098;&#1090;&#1103; &#1082;&#1098;&#1084; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072;.<span style="font-style:
+          да разпространи по пътя към корена.<span style="font-style:
             italic;"></span></big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 588px; height:
+    <div style="text-align: center;">
+<img style="width: 588px; height:
         255px;" alt="" src="rb7.jpg"><br>
     </div>
-    <big><span style="font-weight: bold;"> &#1040;&#1085;&#1072;&#1083;&#1080;&#1079; &#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1074;
-      </span></big><big><span style="font-weight: bold;"><span
-          style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;<font color="#000000">-&#1095;&#1077;&#1088;&#1085;&#1086;</font></span></span></big><big><span
-        style="font-weight: bold;"> &#1076;&#1098;&#1088;&#1074;&#1086;</span></big>
+    <big><span style="font-weight: bold;"> Анализ на операция вмъкване в
+      </span></big><big><span style="font-weight: bold;"><span style="color: rgb(204, 0, 0);">червено<font color="#000000">-черно</font></span></span></big><big><span style="font-weight: bold;"> дърво</span></big>
     <ul>
-      <li><big>&#1042;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072; <span style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;<font
-              color="#000000"><b>-&#1095;&#1077;&#1088;&#1085;&#1086;</b></font></span><span
-            style="font-weight: bold;"></span> &#1076;&#1098;&#1088;&#1074;&#1086; &#1077; <span
-            style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>).<br>
+      <li><big>Височината на <span style="color: rgb(204, 0, 0);">червено<font color="#000000"><b>-черно</b></font></span><span style="font-weight: bold;"></span> дърво е <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
         </big></li>
-      <li><big>&#1058;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(log
+      <li><big>Търсенето отнема време <span style="font-style: italic;">O</span>(log
 
 
 
 
 
-          <span style="font-style: italic;">n</span>), &#1079;&#1072;&#1097;&#1086;&#1090;&#1086; &#1089;&#1072;
-          &#1087;&#1086;&#1089;&#1077;&#1090;&#1077;&#1085;&#1080; <span style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>) &#1074;&#1098;&#1079;&#1083;&#1080;.</big></li>
-      <li><big>&#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1074; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span
-            style="font-style: italic;">O</span>(1).<br>
+          <span style="font-style: italic;">n</span>), защото са
+          посетени <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>) възли.</big></li>
+      <li><big>Вмъкване в двоично дърво отнема време <span style="font-style: italic;">O</span>(1).<br>
         </big></li>
-      <li><big>&#1042;&#1098;&#1079;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1085;&#1072; <font color="#ff0000">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</font>-<b>&#1095;&#1077;&#1088;&#1085;&#1086;</b>&#1090;&#1086;
+      <li><big>Възстановяването на <font color="#ff0000">червено</font>-<b>черно</b>то
 
 
-          &#1076;&#1098;&#1088;&#1074;&#1086; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(log
+          дърво отнема време <span style="font-style: italic;">O</span>(log
 
 
 
 
 
-          <span style="font-style: italic;">n</span>) &#1079;&#1072;&#1097;&#1086;&#1090;&#1086;:</big></li>
+          <span style="font-style: italic;">n</span>) защото:</big></li>
       <ul>
-        <li><big><span style="font-style: italic;">O</span>(log <span
-              style="font-style: italic;">n</span>) &#1087;&#1088;&#1077;&#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1085;&#1080;&#1103;,
-            &#1074;&#1089;&#1103;&#1082;&#1086; &#1086;&#1090; &#1082;&#1086;&#1080;&#1090;&#1086; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style:
-              italic;">O</span>(1) &#1080;<br>
+        <li><big><span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>) преоцветявания,
+            всяко от които отнема време <span style="font-style:
+              italic;">O</span>(1) и<br>
           </big></li>
-        <li><big>&#1085;&#1072;&#1081;-&#1084;&#1085;&#1086;&#1075;&#1086; &#1077;&#1076;&#1085;&#1072; &#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103; &#1079;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span
-              style="font-style: italic;">O</span>(1).<br>
+        <li><big>най-много една реконструкция за време <span style="font-style: italic;">O</span>(1).<br>
           </big></li>
       </ul>
-      <li><big>&#1057;&#1083;&#1077;&#1076;&#1086;&#1074;&#1072;&#1090;&#1077;&#1083;&#1085;&#1086; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1074; <span style="color:
-            rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;<font color="#000000">-<b>&#1095;&#1077;&#1088;&#1085;&#1086;</b></font></span><span
-            style="font-weight: bold;"></span> &#1076;&#1098;&#1088;&#1074;&#1086; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077;<span
-            style="font-style: italic;"> O</span>(log <span
-            style="font-style: italic;">n</span>).<br>
+      <li><big>Следователно операция вмъкване в <span style="color:
+            rgb(204, 0, 0);">червено<font color="#000000">-<b>черно</b></font></span><span style="font-weight: bold;"></span> дърво отнема време<span style="font-style: italic;"> O</span>(log <span style="font-style: italic;">n</span>).<br>
         </big></li>
     </ul>
-    <big><span style="font-weight: bold;">&#1055;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077; (Removal)</span><br>
+    <big><span style="font-weight: bold;">Премахване (Removal)</span><br>
     </big>
     <ul>
-      <li><big>&#1055;&#1098;&#1088;&#1074;&#1072; &#1089;&#1090;&#1098;&#1087;&#1082;&#1072; &#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;&#1090;&#1072; <span style="font-family:
+      <li><big>Първа стъпка на операцията <span style="font-family:
             monospace;">remove</span>(<span style="font-style: italic;">k</span>)
-          &#1077; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072; &#1072;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1072; &#1079;&#1072; &#1080;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077; &#1074; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1072; &#1079;&#1072;
-          &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;.</big></li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">v</span> &#1077;
-          &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; &#1079;&#1072; &#1080;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077;, <span style="font-style:
-            italic;">w</span> &#1077; &#1076;&#1077;&#1090;&#1077; &#1085;&#1072; <i>v</i> &#1079;&#1072; &#1080;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077; &#1080; <span
-            style="font-style: italic;">r</span> &#1077; &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072; &#1085;&#1072; <span
-            style="font-style: italic;">w.</span></big></li>
+          е изпълнение на алгоритъма за изтриване в двоично дърва за
+          търсене.</big></li>
+      <li><big>Нека <span style="font-style: italic;">v</span> е
+          вътрешен възел за изтриване, <span style="font-style:
+            italic;">w</span> е дете на <i>v</i> за изтриване и <span style="font-style: italic;">r</span> е брат/сестра на <span style="font-style: italic;">w.</span></big></li>
       <ul>
-        <li><big>&#1040;&#1082;&#1086; <span style="font-style: italic;">v</span> &#1080;&#1083;&#1080; <span
-              style="font-style: italic;">r</span> &#1077; <span
-              style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;</span>, &#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1084;&#1077; <span
-              style="font-style: italic;">r</span> &#1074; <b>&#1095;&#1077;&#1088;&#1085;&#1086;</b> &#1080; &#1089;&#1084;&#1077;
-            &#1075;&#1086;&#1090;&#1086;&#1074;&#1080;.</big></li>
-        <li><big>&#1040;&#1082;&#1086; <span style="font-style: italic;">v</span> &#1080; <span
-              style="font-style: italic;">r</span> &#1089;&#1072; <b>&#1095;&#1077;&#1088;&#1085;&#1080;</b>,
-            &#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1084;&#1077;&nbsp;<span style="font-style: italic;">r</span> &#1074;
-            <b>&#1095;&#1077;&#1088;&#1085;&#1086;</b> &#1080; &#1087;&#1086;&#1083;&#1091;&#1095;&#1072;&#1074;&#1072;&#1084;&#1077; <b>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1085;&#1086;</b>, &#1082;&#1086;&#1077;&#1090;&#1086;
-            &#1085;&#1072;&#1088;&#1091;&#1096;&#1072;&#1074;&#1072; &#1087;&#1086;&#1089;&#1083;&#1077;&#1076;&#1085;&#1086;&#1090;&#1086; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086; &#1080; &#1090;&#1088;&#1103;&#1073;&#1074;&#1072; &#1076;&#1072; &#1088;&#1077;&#1086;&#1088;&#1075;&#1072;&#1085;&#1080;&#1079;&#1080;&#1088;&#1072;&#1084;&#1077;
-            &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;.</big></li>
+        <li><big>Ако <span style="font-style: italic;">v</span> или <span style="font-style: italic;">r</span> е <span style="color: rgb(204, 0, 0);">червен</span>, оцветяваме <span style="font-style: italic;">r</span> в <b>черно</b> и сме
+            готови.</big></li>
+        <li><big>Ако <span style="font-style: italic;">v</span> и <span style="font-style: italic;">r</span> са <b>черни</b>,
+            оцветяваме <span style="font-style: italic;">r</span> в
+            <b>черно</b> и получаваме <b>двойно черно</b>, което
+            нарушава последното свойство и трябва да реорганизираме
+            дървото.</big></li>
       </ul>
-      <li><big><span style="color: rgb(0, 102, 0);">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;: &#1048;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086;
-            &#1085;&#1072; &#1082;&#1083;&#1102;&#1095; 8 &#1074;&#1086;&#1076;&#1080; &#1076;&#1086; <b>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1085;&#1086;</b></span><b><span
-              style="font-style: italic;"></span></b>.</big></li>
+      <li><big><span style="color: rgb(0, 102, 0);">Пример: Изтриването
+            на ключ 8 води до <b>двойно черно</b></span><b><span style="font-style: italic;"></span></b>.</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 637px; height:
+    <div style="text-align: center;">
+<img style="width: 637px; height:
         183px;" alt="" src="rb8.jpg"><br>
     </div>
     <ul>
-      <li><big>&#1040;&#1083;&#1075;&#1086;&#1088;&#1080;&#1090;&#1098;&#1084;&#1098;&#1090; &#1079;&#1072; &#1088;&#1077;&#1096;&#1072;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; <b>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1085;&#1086;</b> &#1079;&#1072;
-          &#1074;&#1098;&#1079;&#1077;&#1083;&nbsp;<span style="font-style: italic;">w</span> &#1089;
-          &#1073;&#1088;&#1072;&#1090;/&#1089;&#1077;&#1089;&#1090;&#1088;&#1072; <span style="font-style: italic;">y</span> &#1089;&#1077;
-          &#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103; &#1085;&#1072; 3 &#1089;&#1083;&#1091;&#1095;&#1072;&#1103;:</big></li>
-      <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 1: <span style="font-style: italic;">y</span> &#1077; <span
-            style="font-weight: bold;">&#1095;&#1077;&#1088;&#1077;&#1085; </span>&#1080; &#1080;&#1084;&#1072; <span
-            style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;</span> &#1076;&#1077;&#1090;&#1077;</big></li>
+      <li><big>Алгоритъмът за решаване на <b>двойно черно</b> за
+          възел <span style="font-style: italic;">w</span> с
+          брат/сестра <span style="font-style: italic;">y</span> се
+          разделя на 3 случая:</big></li>
+      <li><big>Случай 1: <span style="font-style: italic;">y</span> е <span style="font-weight: bold;">черен </span>и има <span style="color: rgb(204, 0, 0);">червено</span> дете</big></li>
       <ul>
-        <li><big>&#1048;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072;&#1084;&#1077; &#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103; (<span style="color: rgb(51,
-              51, 255);">restructuring)</span>, &#1077;&#1082;&#1074;&#1080;&#1074;&#1072;&#1083;&#1077;&#1085;&#1090;&#1085;&#1072; &#1085;&#1072; &#1090;&#1088;&#1072;&#1085;&#1089;&#1092;&#1077;&#1088;
-            (<font color="#cc33cc">transfer</font>), &#1080; &#1089;&#1084;&#1077; &#1075;&#1086;&#1090;&#1086;&#1074;&#1080;.</big></li>
+        <li><big>Изпълняваме реконструкция (<span style="color: rgb(51,
+              51, 255);">restructuring)</span>, еквивалентна на трансфер
+            (<font color="#cc33cc">transfer</font>), и сме готови.</big></li>
       </ul>
-      <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 2: <span style="font-style: italic;">y</span> &#1077; <span
-            style="font-weight: bold;">&#1095;&#1077;&#1088;&#1077;&#1085;</span> &#1080; &#1085;&#1077;&#1075;&#1086;&#1074;&#1080;&#1090;&#1077; &#1076;&#1077;&#1094;&#1072; &#1089;&#1072; <span
-            style="font-weight: bold;">&#1095;&#1077;&#1088;&#1085;&#1080;.</span></big></li>
+      <li><big>Случай 2: <span style="font-style: italic;">y</span> е <span style="font-weight: bold;">черен</span> и неговите деца са <span style="font-weight: bold;">черни.</span></big></li>
       <ul>
-        <li><big>&#1048;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072;&#1084;&#1077; &#1087;&#1088;&#1077;&#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1085;&#1077; (<span style="color: rgb(51,
-              51, 255);">recoloring)</span>, &#1077;&#1082;&#1074;&#1080;&#1074;&#1072;&#1083;&#1077;&#1085;&#1090;&#1085;&#1086; &#1085;&#1072; &#1089;&#1090;&#1086;&#1087;&#1103;&#1074;&#1072;&#1085;&#1077; (<span
-              style="color: rgb(204, 51, 204);">fusion</span>) &#1074;</big><big>
-            (2,4) &#1076;&#1098;&#1088;&#1074;&#1086;</big><big>, &#1089;&#1083;&#1077;&#1076; &#1082;&#1086;&#1077;&#1090;&#1086; <b>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1085;&#1086;</b> &#1084;&#1086;&#1078;&#1077;
-            &#1076;&#1072; &#1089;&#1077; &#1088;&#1072;&#1079;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1080; &#1082;&#1098;&#1084; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;.</big></li>
+        <li>
+<big>Изпълняваме преоцветяване (<span style="color: rgb(51,
+              51, 255);">recoloring)</span>, еквивалентно на стопяване (<span style="color: rgb(204, 51, 204);">fusion</span>) в</big><big>
+            (2,4) дърво</big><big>, след което <b>двойно черно</b> може
+            да се разпространи към корена на дървото.</big>
+</li>
       </ul>
-      <li><big>&#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 3: <span style="font-style: italic;">y</span> &#1077; <span
-            style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;.</span></big></li>
+      <li><big>Случай 3: <span style="font-style: italic;">y</span> е <span style="color: rgb(204, 0, 0);">червен.</span></big></li>
       <ul>
-        <li><big>&#1048;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072;&#1084;&#1077; &#1085;&#1072;&#1075;&#1083;&#1072;&#1089;&#1103;&#1074;&#1072;&#1085;&#1077; <span style="color: rgb(51,
-              51, 255);">(adjustment)</span>, &#1077;&#1082;&#1074;&#1080;&#1074;&#1072;&#1083;&#1077;&#1085;&#1090;&#1085;&#1086; &#1085;&#1072; &#1080;&#1079;&#1073;&#1086;&#1088; &#1085;&#1072;
-            &#1076;&#1088;&#1091;&#1075;&#1086; &#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1103;&#1085;&#1077; &#1085;&#1072; 3-&#1074;&#1098;&#1079;&#1077;&#1083;, &#1089;&#1083;&#1077;&#1076; &#1082;&#1086;&#1077;&#1090;&#1086; &#1097;&#1077; &#1089;&#1077; &#1087;&#1086;&#1103;&#1074;&#1080; &#1057;&#1083;&#1091;&#1095;&#1072;&#1081;
-            1 &#1080;&#1083;&#1080; &#1057;&#1083;&#1091;&#1095;&#1072;&#1081; 2.</big></li>
+        <li><big>Изпълняваме нагласяване <span style="color: rgb(51,
+              51, 255);">(adjustment)</span>, еквивалентно на избор на
+            друго представяне на 3-възел, след което ще се появи Случай
+            1 или Случай 2.</big></li>
       </ul>
-      <li><big>&#1048;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077; &#1074; <span style="color: rgb(204, 0, 0);">&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;<font
-              color="#000000">-<b>&#1095;&#1077;&#1088;&#1085;&#1086;</b></font></span><span
-            style="font-weight: bold;"></span> &#1076;&#1098;&#1088;&#1074;&#1086; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span
-            style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>).<br>
+      <li><big>Изтриване в <span style="color: rgb(204, 0, 0);">червено<font color="#000000">-<b>черно</b></font></span><span style="font-weight: bold;"></span> дърво отнема време <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
         </big></li>
     </ul>
-    <big> </big><big><span style="font-weight: bold;"><span
-          style="color: rgb(204, 0, 0);"></span>&#1056;&#1077;&#1086;&#1088;&#1075;&#1072;&#1085;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1085;&#1072;
-        &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;-&#1095;&#1077;&#1088;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;<br>
+    <big> </big><big><span style="font-weight: bold;"><span style="color: rgb(204, 0, 0);"></span>Реорганизация на
+        червено-черно дърво<br>
         <br>
-      </span><span style="color: rgb(255, 0, 0); font-weight: bold;">&#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;
-(&#1076;&#1074;&#1086;&#1081;&#1085;&#1086;
+      </span><span style="color: rgb(255, 0, 0); font-weight: bold;">Вмъкване
+(двойно
 
 
-        &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;)</span><br>
+        червено)</span><br>
     </big>
-    <table style="text-align: left; width: 100%;" cellpadding="2"
-      cellspacing="2" border="1">
+    <table style="text-align: left; width: 100%;" cellpadding="2" cellspacing="2" border="1">
       <tbody>
         <tr>
           <td style="vertical-align: top; color: rgb(255, 0, 0);
-            font-weight: bold;"><big>&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;-&#1095;&#1077;&#1088;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;<br>
+            font-weight: bold;"><big>червено-черно дърво<br>
             </big></td>
           <td style="vertical-align: top; color: rgb(255, 0, 0);
-            font-weight: bold;"><big>(2,4) &#1076;&#1098;&#1088;&#1074;&#1086;<br>
+            font-weight: bold;"><big>(2,4) дърво<br>
             </big></td>
           <td style="vertical-align: top; color: rgb(255, 0, 0);
-            font-weight: bold;"><big>&#1088;&#1077;&#1079;&#1091;&#1083;&#1090;&#1072;&#1090;<br>
+            font-weight: bold;"><big>резултат<br>
             </big></td>
         </tr>
         <tr>
           <td style="vertical-align: top; background-color: rgb(255,
-            255, 204); color: rgb(51, 51, 255);"><big>&#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103;
+            255, 204); color: rgb(51, 51, 255);"><big>реконструкция
               (restructuring)</big></td>
           <td style="vertical-align: top; background-color: rgb(255,
-            255, 204);"><big>&#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1103;&#1085;&#1077; &#1085;&#1072; 4-&#1074;&#1098;&#1079;&#1077;&#1083;<br>
+            255, 204);"><big>представяне на 4-възел<br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(255,
-            255, 204);"><big>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;&#1090;&#1086; &#1080;&#1079;&#1095;&#1077;&#1079;&#1074;&#1072;<br>
+            255, 204);"><big>двойно червеното изчезва<br>
             </big></td>
         </tr>
         <tr>
           <td style="vertical-align: top; background-color: rgb(204,
-            255, 255);"><big><span style="color: rgb(51, 51, 255);">&#1087;&#1088;&#1077;&#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1085;&#1077;
+            255, 255);"><big><span style="color: rgb(51, 51, 255);">преоцветяване
 
 
                 (recoloring)</span><br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(204,
-            255, 255);"><big><span style="color: rgb(204, 51, 204);">&#1088;&#1072;&#1079;&#1076;&#1077;&#1083;&#1103;&#1085;&#1077;
+            255, 255);"><big><span style="color: rgb(204, 51, 204);">разделяне
 
 
                 (split)</span><br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(204,
-            255, 255);"><big>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;&#1090;&#1086; &#1080;&#1079;&#1095;&#1077;&#1079;&#1074;&#1072; &#1080;&#1083;&#1080; &#1089;&#1077;
-              &#1088;&#1072;&#1079;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1103;&#1074;&#1072;<br>
+            255, 255);"><big>двойно червеното изчезва или се
+              разпространява<br>
             </big></td>
         </tr>
       </tbody>
     </table>
     <big><br>
-      <span style="font-weight: bold;">&#1055;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077; (&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1085;&#1086;)</span><br>
+      <span style="font-weight: bold;">Премахване (двойно черно)</span><br>
     </big>
-    <table style="text-align: left; width: 100%;" cellpadding="2"
-      cellspacing="2" border="1">
+    <table style="text-align: left; width: 100%;" cellpadding="2" cellspacing="2" border="1">
       <tbody>
         <tr>
-          <td style="vertical-align: top; font-weight: bold;"><big>&#1095;&#1077;&#1088;&#1074;&#1077;&#1085;&#1086;-&#1095;&#1077;&#1088;&#1085;&#1086;
+          <td style="vertical-align: top; font-weight: bold;"><big>червено-черно
 
 
               tree action<br>
             </big></td>
           <td style="vertical-align: top; font-weight: bold;"><big>(2,4)
               tree action</big></td>
-          <td style="vertical-align: top; font-weight: bold;"><big>&#1088;&#1077;&#1079;&#1091;&#1083;&#1090;&#1072;&#1090;<br>
+          <td style="vertical-align: top; font-weight: bold;"><big>резултат<br>
             </big></td>
         </tr>
         <tr>
           <td style="vertical-align: top; background-color: rgb(255,
-            255, 204);"><big><span style="color: rgb(51, 51, 255);">&#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103;
+            255, 204);"><big><span style="color: rgb(51, 51, 255);">реконструкция
 
 
                 (restructuring)</span><br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(255,
-            255, 204);"><big><span style="color: rgb(204, 51, 204);">&#1090;&#1088;&#1072;&#1085;&#1089;&#1092;&#1077;&#1088;
+            255, 204);"><big><span style="color: rgb(204, 51, 204);">трансфер
 
 
                 (transfer)</span><br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(255,
-            255, 204);"><big>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1085;&#1086;&#1090;&#1086; &#1080;&#1079;&#1095;&#1077;&#1079;&#1074;&#1072;<br>
+            255, 204);"><big>двойно черното изчезва<br>
             </big></td>
         </tr>
         <tr>
           <td style="vertical-align: top; background-color: rgb(204,
-            255, 255);"><big><span style="color: rgb(51, 51, 255);">&#1087;&#1088;&#1077;&#1086;&#1094;&#1074;&#1072;&#1090;&#1103;&#1074;&#1072;&#1085;&#1077;
+            255, 255);"><big><span style="color: rgb(51, 51, 255);">преоцватяване
 
 
                 (recoloring)</span><br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(204,
-            255, 255);"><big><span style="color: rgb(204, 51, 204);">&#1089;&#1090;&#1086;&#1087;&#1103;&#1074;&#1072;&#1085;&#1077;
+            255, 255);"><big><span style="color: rgb(204, 51, 204);">стопяване
 
 
                 (fusion)</span><br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(204,
-            255, 255);"><big>&#1076;&#1074;&#1086;&#1081;&#1085;&#1086; &#1095;&#1077;&#1088;&#1085;&#1086;&#1090;&#1086; &#1080;&#1079;&#1095;&#1077;&#1079;&#1074;&#1072; &#1080;&#1083;&#1080; &#1089;&#1077;
-              &#1088;&#1072;&#1079;&#1087;&#1088;&#1086;&#1089;&#1090;&#1088;&#1072;&#1085;&#1103;&#1074;&#1072;<br>
+            255, 255);"><big>двойно черното изчезва или се
+              разпространява<br>
             </big></td>
         </tr>
         <tr>
           <td style="vertical-align: top; background-color: rgb(255,
-            204, 204);"><big><span style="color: rgb(51, 51, 255);">&#1085;&#1072;&#1084;&#1077;&#1089;&#1090;&#1074;&#1072;&#1085;&#1077;
+            204, 204);"><big><span style="color: rgb(51, 51, 255);">наместване
 
 
                 (adjustment)</span><br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(255,
-            204, 204);"><big>&#1087;&#1088;&#1077;&#1076;&#1089;&#1090;&#1072;&#1074;&#1103;&#1085;&#1077; &#1085;&#1072; 3-&#1074;&#1098;&#1079;&#1077;&#1083;<br>
+            204, 204);"><big>представяне на 3-възел<br>
             </big></td>
           <td style="vertical-align: top; background-color: rgb(255,
-            204, 204);"><big>&#1089;&#1083;&#1077;&#1076;&#1074;&#1072; &#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103; &#1080;&#1083;&#1080; &#1087;&#1088;&#1077;&#1086;&#1094;&#1074;&#1077;&#1090;&#1103;&#1074;&#1072;&#1085;&#1077;</big><br>
+            204, 204);">
+<big>следва реконструкция или преоцветяване</big><br>
           </td>
         </tr>
       </tbody>
@@ -906,8 +835,7 @@
     <big><a href="9.11_RBTree.h-RBItem.html">html-9.11</a> (RBItem)<br>
       <a href="9.12_RBTree.h-RBTree1.html">html-9.12</a> (RBTree1)<br>
       <a href="9.13_RBTree.h-RBTree2.html">html-9.13</a> (RBTree2)<br>
-      <a href="9.14_RBTree.h-RBTree3.html">html-9.14</a> (RBTree3)</big><big
-      style="font-weight: bold;"><br>
+      <a href="9.14_RBTree.h-RBTree3.html">html-9.14</a> (RBTree3)</big><big style="font-weight: bold;"><br>
       <br>
     </big>
     <hr style="width: 100%; height: 2px;">

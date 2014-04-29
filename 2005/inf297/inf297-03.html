@@ -1,38 +1,36 @@
 <!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-  <meta http-equiv="Content-Type"
- content="text/html; charset=windows-1251">
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <meta name="Author" content="Nikolay Kirov">
-  <meta name="GENERATOR"
- content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
-  <title>СХО297-03</title>
+  <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
+  <title>РЎРҐРћ297-03</title>
 </head>
 <body>
-<b>Динамично оптимиране - числа на Фибоначи и биномни коефициенти
+<b>Р”РёРЅР°РјРёС‡РЅРѕ РѕРїС‚РёРјРёСЂР°РЅРµ - С‡РёСЃР»Р° РЅР° Р¤РёР±РѕРЅР°С‡Рё Рё Р±РёРЅРѕРјРЅРё РєРѕРµС„РёС†РёРµРЅС‚Рё
 [8.3.1,
 8.3.2]</b>
-<p><b>Числа на Фибоначи</b>
+<p><b>Р§РёСЃР»Р° РЅР° Р¤РёР±РѕРЅР°С‡Рё</b>
 <br>
-* Числа на Фибоначи: <i>F</i>(0) = <i>F</i>(1) = 1 и <i>F</i>(<i>i</i>)<i><sub>
-</sub></i>= <i>F</i>(<i>i-</i>1) + <i>F</i>(<i>i-</i>2) за <i>i</i>
+* Р§РёСЃР»Р° РЅР° Р¤РёР±РѕРЅР°С‡Рё: <i>F</i>(0) = <i>F</i>(1) = 1 Рё <i>F</i>(<i>i</i>)<i><sub>
+</sub></i>= <i>F</i>(<i>i-</i>1) + <i>F</i>(<i>i-</i>2) Р·Р° <i>i</i>
 &gt; 1.
 </p>
 <center>1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, ...</center>
-* Класически рекурсивен неефективен алгоритъм:
+* РљР»Р°СЃРёС‡РµСЃРєРё СЂРµРєСѓСЂСЃРёРІРµРЅ РЅРµРµС„РµРєС‚РёРІРµРЅ Р°Р»РіРѕСЂРёС‚СЉРј:
 <br>
 <b><tt><font color="#006600">unsigned long fib(unsigned n)</font></tt></b>
 <br>
 <b><tt><font color="#006600">{ if (n &lt; 2) return 1;</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp; return fib(n - 1) + fib(n - 2);</font></tt></b>
+<b><tt><font color="#006600">В  return fib(n - 1) + fib(n - 2);</font></tt></b>
 <br>
 <b><tt><font color="#006600">}</font></tt></b>
 <br>
-&nbsp;&nbsp;&nbsp; Експоненциална сложност - многократно извикване на
-функцията с един и същи аргумент!<br>
-<p>* Динамично програмиране - със запомняне на вече пресметнатите
-стойности:
+В В В  Р•РєСЃРїРѕРЅРµРЅС†РёР°Р»РЅР° СЃР»РѕР¶РЅРѕСЃС‚ - РјРЅРѕРіРѕРєСЂР°С‚РЅРѕ РёР·РІРёРєРІР°РЅРµ РЅР°
+С„СѓРЅРєС†РёСЏС‚Р° СЃ РµРґРёРЅ Рё СЃСЉС‰Рё Р°СЂРіСѓРјРµРЅС‚!<br>
+<p>* Р”РёРЅР°РјРёС‡РЅРѕ РїСЂРѕРіСЂР°РјРёСЂР°РЅРµ - СЃСЉСЃ Р·Р°РїРѕРјРЅСЏРЅРµ РЅР° РІРµС‡Рµ РїСЂРµСЃРјРµС‚РЅР°С‚РёС‚Рµ
+СЃС‚РѕР№РЅРѕСЃС‚Рё:
 </p>
 <p><b><tt><font color="#000099">#include &lt;stdio.h&gt;</font></tt></b>
 <br>
@@ -46,11 +44,11 @@
 <br>
 <b><tt><font color="#000099">{ if (n &lt; 2) m[n] = 1;</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; else if (0 == m[n]) m[n] =
+<b><tt><font color="#000099">В  else if (0 == m[n]) m[n] =
 fibMemo(n - 1)
 + fibMemo(n - 2);</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; return m[n];</font></tt></b>
+<b><tt><font color="#000099">В  return m[n];</font></tt></b>
 <br>
 <b><tt><font color="#000099">}</font></tt></b>
 </p>
@@ -58,27 +56,28 @@ fibMemo(n - 1)
 <br>
 <b><tt><font color="#000099">{ memset(m, 0, MAX*sizeof(*m));</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; scanf("%u", &amp;n);</font></tt></b>
+<b><tt><font color="#000099">В  scanf("%u", &amp;n);</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; printf("\n%u-тото число на Фибоначи
-е: %lu", n, fibMemo(n));</font></tt></b>
+<b><tt><font color="#000099">В  printf("\n%u-С‚РѕС‚Рѕ С‡РёСЃР»Рѕ РЅР° Р¤РёР±РѕРЅР°С‡Рё
+Рµ: %lu", n, fibMemo(n));</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<b><tt><font color="#000099">В  return 0;</font></tt></b>
 <br>
 <b><tt><font color="#000099">}</font></tt></b>
 <br>
-&nbsp;&nbsp;&nbsp; Линейна сложност - всяка стойност се пресмята само
-веднаж.<br>
+В В В  Р›РёРЅРµР№РЅР° СЃР»РѕР¶РЅРѕСЃС‚ - РІСЃСЏРєР° СЃС‚РѕР№РЅРѕСЃС‚ СЃРµ РїСЂРµСЃРјСЏС‚Р° СЃР°РјРѕ
+РІРµРґРЅР°Р¶.<br>
 </p>
-<p>* Друга формула за пресмянате на<span style="font-style: italic;"> n</span>-тото
-число на Фибоначи - със запомняне
-на вече пресметнате стойност.
+<p>* Р”СЂСѓРіР° С„РѕСЂРјСѓР»Р° Р·Р° РїСЂРµСЃРјСЏРЅР°С‚Рµ РЅР°<span style="font-style: italic;"> n</span>-С‚РѕС‚Рѕ
+С‡РёСЃР»Рѕ РЅР° Р¤РёР±РѕРЅР°С‡Рё - СЃСЉСЃ Р·Р°РїРѕРјРЅСЏРЅРµ
+РЅР° РІРµС‡Рµ РїСЂРµСЃРјРµС‚РЅР°С‚Рµ СЃС‚РѕР№РЅРѕСЃС‚.
 </p>
-<blockquote><i>F</i>(<i>n</i>) = <i>F</i><sup>2</sup>(<i>n</i>/2) + <i>F</i><sup>2</sup>(<i>n</i>/2
-- 1), за <i>n</i> четно; <br>
+<blockquote>
+<i>F</i>(<i>n</i>) = <i>F</i><sup>2</sup>(<i>n</i>/2) + <i>F</i><sup>2</sup>(<i>n</i>/2
+- 1), Р·Р° <i>n</i> С‡РµС‚РЅРѕ; <br>
   <i>F</i>(<i>n</i>) = <i>F</i>(<i>n</i> - 1) + <i>F</i>(<i>n</i> -
 2),
-за <i>n</i> нечетно.</blockquote>
+Р·Р° <i>n</i> РЅРµС‡РµС‚РЅРѕ.</blockquote>
 <b><tt><font color="#000099">#include &lt;stdio.h&gt;</font></tt></b>
 <br>
 <b><tt><font color="#000099">#define MAX 250</font></tt></b>
@@ -93,16 +92,16 @@ fibMemo(n - 1)
 <br>
 <b><tt><font color="#000099">{ if (n &lt; 2) m[n] = 1;</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; else if (0 == m[n])</font></tt></b>
+<b><tt><font color="#000099">В  else if (0 == m[n])</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; if (1 == n%2)
+<b><tt><font color="#000099">В В В В  if (1 == n%2)
 m[n] = fMemo(n - 1) + fMemo(n - 2);</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; else m[n] =
+<b><tt><font color="#000099">В В В В  else m[n] =
 SQR(fMemo(n/2)
 + fMemo(n/2 - 1));</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; return m[n];</font></tt></b>
+<b><tt><font color="#000099">В  return m[n];</font></tt></b>
 <br>
 <b><tt><font color="#000099">}</font></tt></b>
 <br>
@@ -110,56 +109,59 @@ SQR(fMemo(n/2)
 <br>
 <b><tt><font color="#000099">{ memset(m, 0, MAX*sizeof(*m));</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; scanf("%u", &amp;n);</font></tt></b>
+<b><tt><font color="#000099">В  scanf("%u", &amp;n);</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; printf("\n%u-тото число на Фибоначи
-е: %lu", n, fibMemo(n));</font></tt></b>
+<b><tt><font color="#000099">В  printf("\n%u-С‚РѕС‚Рѕ С‡РёСЃР»Рѕ РЅР° Р¤РёР±РѕРЅР°С‡Рё
+Рµ: %lu", n, fibMemo(n));</font></tt></b>
 <br>
-<b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
+<b><tt><font color="#000099">В  return 0;</font></tt></b>
 <br>
 <b><tt><font color="#000099">}</font></tt></b>
 <br>
-&nbsp;&nbsp;&nbsp; Логаритмична сложност.
+В В В  Р›РѕРіР°СЂРёС‚РјРёС‡РЅР° СЃР»РѕР¶РЅРѕСЃС‚.
 <br>
 </p>
-<hr width="100%"><b>Биномни коефициенти</b>
-<p>&nbsp;&nbsp;&nbsp; Нека <i>C</i>(<i>n</i>, <i>k</i>) е биномният
-коефициент
-"<i>n</i> над <i>k</i>" или комбинации без повторения от <i>n</i>
-елемента
-<i>k</i>-ти клас.&nbsp; Общата формула е: <i>C</i>(<i>n</i>, <i>k</i>)
-= <i>n</i>!/((<i>n - k</i>)! <i>k</i>!), а от триъгълника на Паскал
-имаме
-и рекурентна формула:
+<hr width="100%">
+<b>Р‘РёРЅРѕРјРЅРё РєРѕРµС„РёС†РёРµРЅС‚Рё</b>
+<p>В В В  РќРµРєР° <i>C</i>(<i>n</i>, <i>k</i>) Рµ Р±РёРЅРѕРјРЅРёСЏС‚
+РєРѕРµС„РёС†РёРµРЅС‚
+"<i>n</i> РЅР°Рґ <i>k</i>" РёР»Рё РєРѕРјР±РёРЅР°С†РёРё Р±РµР· РїРѕРІС‚РѕСЂРµРЅРёСЏ РѕС‚ <i>n</i>
+РµР»РµРјРµРЅС‚Р°
+<i>k</i>-С‚Рё РєР»Р°СЃ.В  РћР±С‰Р°С‚Р° С„РѕСЂРјСѓР»Р° Рµ: <i>C</i>(<i>n</i>, <i>k</i>)
+= <i>n</i>!/((<i>n - k</i>)! <i>k</i>!), Р° РѕС‚ С‚СЂРёСЉРіСЉР»РЅРёРєР° РЅР° РџР°СЃРєР°Р»
+РёРјР°РјРµ
+Рё СЂРµРєСѓСЂРµРЅС‚РЅР° С„РѕСЂРјСѓР»Р°:
 </p>
-<center><i>C</i>(<i>n</i>, <i>k</i>) = 1,&nbsp; за <i>k</i> = 0 или <i>k
+<center>
+<i>C</i>(<i>n</i>, <i>k</i>) = 1,В  Р·Р° <i>k</i> = 0 РёР»Рё <i>k
 = n</i>;
 <br>
 <i>C</i>(<i>n</i>, <i>k</i>) = <i>C</i>(<i>n </i>- 1, <i>k </i>-
 1) + <i>C</i>(<i>n -</i> 1,
-<i>k</i>),&nbsp; за <i>0 &lt; k &lt; n</i>;
+<i>k</i>),В  Р·Р° <i>0 &lt; k &lt; n</i>;
 <br>
-<i>C</i>(<i>n</i>, <i>k</i>) = 0,&nbsp; за <i>k</i> &gt; <i>n.</i></center>
-* Рекурсивен неефективен алгоритъм:
+<i>C</i>(<i>n</i>, <i>k</i>) = 0,В  Р·Р° <i>k</i> &gt; <i>n.</i>
+</center>
+* Р РµРєСѓСЂСЃРёРІРµРЅ РЅРµРµС„РµРєС‚РёРІРµРЅ Р°Р»РіРѕСЂРёС‚СЉРј:
 <br>
 <b><tt><font color="#006600">unsigned long binom(unsigned n, unsigned
 k)</font></tt></b>
 <br>
 <b><tt><font color="#006600">{ if (k &gt; n) return 0;</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp; if (k == 0 || k == n) return 1;</font></tt></b>
+<b><tt><font color="#006600">В  if (k == 0 || k == n) return 1;</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp; return binom(n - 1, k - 1) +
+<b><tt><font color="#006600">В  return binom(n - 1, k - 1) +
 binom(n - 1,
 k);</font></tt></b>
 <br>
 <b><tt><font color="#006600">}</font></tt></b>
-<p>* Динамично програмиране - със запомняне на вече пресметнатите
-стойности.
+<p>* Р”РёРЅР°РјРёС‡РЅРѕ РїСЂРѕРіСЂР°РјРёСЂР°РЅРµ - СЃСЉСЃ Р·Р°РїРѕРјРЅСЏРЅРµ РЅР° РІРµС‡Рµ РїСЂРµСЃРјРµС‚РЅР°С‚РёС‚Рµ
+СЃС‚РѕР№РЅРѕСЃС‚Рё.
 <br>
-&nbsp;&nbsp;&nbsp; Не е необходимо да се пази цялата таблица&nbsp;
-<i>C</i>(<i>n</i>, <i>k</i>), а само един ред от таблицата -
-предишния.
+В В В  РќРµ Рµ РЅРµРѕР±С…РѕРґРёРјРѕ РґР° СЃРµ РїР°Р·Рё С†СЏР»Р°С‚Р° С‚Р°Р±Р»РёС†Р°В 
+<i>C</i>(<i>n</i>, <i>k</i>), Р° СЃР°РјРѕ РµРґРёРЅ СЂРµРґ РѕС‚ С‚Р°Р±Р»РёС†Р°С‚Р° -
+РїСЂРµРґРёС€РЅРёСЏ.
 <br>
 <b><tt><font color="#006600">#define MAX 200</font></tt></b>
 <br>
@@ -171,27 +173,27 @@ k)</font></tt></b>
 <br>
 <b><tt><font color="#006600">{ unsigned i, j;</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp; for (i = 0; i &lt;= n; i++)</font></tt></b>
+<b><tt><font color="#006600">В  for (i = 0; i &lt;= n; i++)</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp; { m[i] = 1;</font></tt></b>
+<b><tt><font color="#006600">В  { m[i] = 1;</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; if (i &gt; 1)</font></tt></b>
+<b><tt><font color="#006600">В В В  if (i &gt; 1)</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; { if (k &lt; i - 1) j =
+<b><tt><font color="#006600">В В В  { if (k &lt; i - 1) j =
 k; else j = i - 1;</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (;
+<b><tt><font color="#006600">В В В В В  for (;
 j &gt;= 1; j--) m[j] += m[j - 1];</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+<b><tt><font color="#006600">В В В  }</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<b><tt><font color="#006600">В  }</font></tt></b>
 <br>
-<b><tt><font color="#006600">&nbsp; return m[k];</font></tt></b>
+<b><tt><font color="#006600">В  return m[k];</font></tt></b>
 <br>
 <b><tt><font color="#006600">}</font></tt></b>
 <br>
-<font color="#000000">&nbsp;&nbsp;&nbsp; Пример: <i>n</i> = 4,<i> k</i>
+<font color="#000000">В В В  РџСЂРёРјРµСЂ: <i>n</i> = 4,<i> k</i>
 = 3; <i>C</i>(4,3) = 4.</font>
 </p>
 <center>
@@ -201,7 +203,8 @@ j &gt;= 1; j--) m[j] += m[j - 1];</font></tt></b>
       <td>i</td>
       <td>j</td>
       <td>m <br>
-      <font color="#000000">0 1 2 3 4</font></td>
+      <font color="#000000">0 1 2 3 4</font>
+</td>
     </tr>
     <tr>
       <td>0</td>
@@ -226,114 +229,98 @@ j &gt;= 1; j--) m[j] += m[j - 1];</font></tt></b>
     <tr>
       <td>4</td>
       <td>3</td>
-      <td><font color="#000000">1 4 6 4 1&nbsp;</font></td>
+      <td><font color="#000000">1 4 6 4 1В </font></td>
     </tr>
   </tbody>
 </table>
 </center>
-<font color="#000000">&nbsp;&nbsp;&nbsp; Този алгоритъм има сложност <i>O</i>(<i>nk</i>).</font>
+<font color="#000000">В В В  РўРѕР·Рё Р°Р»РіРѕСЂРёС‚СЉРј РёРјР° СЃР»РѕР¶РЅРѕСЃС‚ <i>O</i>(<i>nk</i>).</font>
 <br>
-<font color="#000000">&nbsp;&nbsp;&nbsp; Да се реализира рекурсивен
-вариант, основан на динамичното програмиране.</font>
+<font color="#000000">В В В  Р”Р° СЃРµ СЂРµР°Р»РёР·РёСЂР° СЂРµРєСѓСЂСЃРёРІРµРЅ
+РІР°СЂРёР°РЅС‚, РѕСЃРЅРѕРІР°РЅ РЅР° РґРёРЅР°РјРёС‡РЅРѕС‚Рѕ РїСЂРѕРіСЂР°РјРёСЂР°РЅРµ.</font>
 <br>
-<hr><b>&nbsp;&nbsp;&nbsp; Задача: </b> (ЗИМНИ МАТЕМАТИЧЕСКИ ПРАЗНИЦИ,
-БУРГАС, 29 януари
-2005, ТЕМА
-ЗА ГРУПА А (12 КЛАС))
-Дадени са N дъски с правоъгълна форма, номерирани с
-числата от 1 до N (N &lt; 2000). Дъските са с еднаква ширина, но с
-различна височина, като K-тата дъска е висока K дециметра. Подреждаме
-вертикално N-те дъски една до друга, така че да образуваме ограда. В
-зависимост от начина на подреждането се образуват участъци с
-последователно намаляващи дължини на дъските. Тези участъците
-обикновенно са повече от един, но може и цялата преграда да образува
-само един участък. Възможно е някои участъци да се състоят само от една
-дъска. Например, ако подредим 9 дъски, така че височините им да
-образуват последователността 6, 4, 2, 5, 3, 9, 7, 2, 1, 8, имаме 4
-такива участъка 6, 4, 2; 5, 3; 9, 7, 2, 1 и 8. Колко от всичките
-възможни наредби на дъските ще образуват преграда, съдържаща точно P
-участъка (0 &lt; P &lt; N + 1). <br>
-&nbsp;&nbsp;&nbsp; Напишете програма, която решава тази задача.
-Програмата трябва да прочете от стандартния вход стойностите на N и P,
-разделени с един интервал и да изведе на стандартния изход търсения
-брой прегради по модул 1020847 (т.е. остатъка на търсения брой при
-деление на 1020847).<br>
+<hr>
+<b>В В В  Р—Р°РґР°С‡Р°: </b> (Р—РРњРќР РњРђРўР•РњРђРўРР§Р•РЎРљР РџР РђР—РќРР¦Р,
+Р‘РЈР Р“РђРЎ, 29 СЏРЅСѓР°СЂРё
+2005, РўР•РњРђ
+Р—Рђ Р“Р РЈРџРђ Рђ (12 РљР›РђРЎ))
+Р”Р°РґРµРЅРё СЃР° N РґСЉСЃРєРё СЃ РїСЂР°РІРѕСЉРіСЉР»РЅР° С„РѕСЂРјР°, РЅРѕРјРµСЂРёСЂР°РЅРё СЃ
+С‡РёСЃР»Р°С‚Р° РѕС‚ 1 РґРѕ N (N &lt; 2000). Р”СЉСЃРєРёС‚Рµ СЃР° СЃ РµРґРЅР°РєРІР° С€РёСЂРёРЅР°, РЅРѕ СЃ
+СЂР°Р·Р»РёС‡РЅР° РІРёСЃРѕС‡РёРЅР°, РєР°С‚Рѕ K-С‚Р°С‚Р° РґСЉСЃРєР° Рµ РІРёСЃРѕРєР° K РґРµС†РёРјРµС‚СЂР°. РџРѕРґСЂРµР¶РґР°РјРµ
+РІРµСЂС‚РёРєР°Р»РЅРѕ N-С‚Рµ РґСЉСЃРєРё РµРґРЅР° РґРѕ РґСЂСѓРіР°, С‚Р°РєР° С‡Рµ РґР° РѕР±СЂР°Р·СѓРІР°РјРµ РѕРіСЂР°РґР°. Р’
+Р·Р°РІРёСЃРёРјРѕСЃС‚ РѕС‚ РЅР°С‡РёРЅР° РЅР° РїРѕРґСЂРµР¶РґР°РЅРµС‚Рѕ СЃРµ РѕР±СЂР°Р·СѓРІР°С‚ СѓС‡Р°СЃС‚СЉС†Рё СЃ
+РїРѕСЃР»РµРґРѕРІР°С‚РµР»РЅРѕ РЅР°РјР°Р»СЏРІР°С‰Рё РґСЉР»Р¶РёРЅРё РЅР° РґСЉСЃРєРёС‚Рµ. РўРµР·Рё СѓС‡Р°СЃС‚СЉС†РёС‚Рµ
+РѕР±РёРєРЅРѕРІРµРЅРЅРѕ СЃР° РїРѕРІРµС‡Рµ РѕС‚ РµРґРёРЅ, РЅРѕ РјРѕР¶Рµ Рё С†СЏР»Р°С‚Р° РїСЂРµРіСЂР°РґР° РґР° РѕР±СЂР°Р·СѓРІР°
+СЃР°РјРѕ РµРґРёРЅ СѓС‡Р°СЃС‚СЉРє. Р’СЉР·РјРѕР¶РЅРѕ Рµ РЅСЏРєРѕРё СѓС‡Р°СЃС‚СЉС†Рё РґР° СЃРµ СЃСЉСЃС‚РѕСЏС‚ СЃР°РјРѕ РѕС‚ РµРґРЅР°
+РґСЉСЃРєР°. РќР°РїСЂРёРјРµСЂ, Р°РєРѕ РїРѕРґСЂРµРґРёРј 9 РґСЉСЃРєРё, С‚Р°РєР° С‡Рµ РІРёСЃРѕС‡РёРЅРёС‚Рµ РёРј РґР°
+РѕР±СЂР°Р·СѓРІР°С‚ РїРѕСЃР»РµРґРѕРІР°С‚РµР»РЅРѕСЃС‚С‚Р° 6, 4, 2, 5, 3, 9, 7, 2, 1, 8, РёРјР°РјРµ 4
+С‚Р°РєРёРІР° СѓС‡Р°СЃС‚СЉРєР° 6, 4, 2; 5, 3; 9, 7, 2, 1 Рё 8. РљРѕР»РєРѕ РѕС‚ РІСЃРёС‡РєРёС‚Рµ
+РІСЉР·РјРѕР¶РЅРё РЅР°СЂРµРґР±Рё РЅР° РґСЉСЃРєРёС‚Рµ С‰Рµ РѕР±СЂР°Р·СѓРІР°С‚ РїСЂРµРіСЂР°РґР°, СЃСЉРґСЉСЂР¶Р°С‰Р° С‚РѕС‡РЅРѕ P
+СѓС‡Р°СЃС‚СЉРєР° (0 &lt; P &lt; N + 1). <br>
+В В В  РќР°РїРёС€РµС‚Рµ РїСЂРѕРіСЂР°РјР°, РєРѕСЏС‚Рѕ СЂРµС€Р°РІР° С‚Р°Р·Рё Р·Р°РґР°С‡Р°.
+РџСЂРѕРіСЂР°РјР°С‚Р° С‚СЂСЏР±РІР° РґР° РїСЂРѕС‡РµС‚Рµ РѕС‚ СЃС‚Р°РЅРґР°СЂС‚РЅРёСЏ РІС…РѕРґ СЃС‚РѕР№РЅРѕСЃС‚РёС‚Рµ РЅР° N Рё P,
+СЂР°Р·РґРµР»РµРЅРё СЃ РµРґРёРЅ РёРЅС‚РµСЂРІР°Р» Рё РґР° РёР·РІРµРґРµ РЅР° СЃС‚Р°РЅРґР°СЂС‚РЅРёСЏ РёР·С…РѕРґ С‚СЉСЂСЃРµРЅРёСЏ
+Р±СЂРѕР№ РїСЂРµРіСЂР°РґРё РїРѕ РјРѕРґСѓР» 1020847 (С‚.Рµ. РѕСЃС‚Р°С‚СЉРєР° РЅР° С‚СЉСЂСЃРµРЅРёСЏ Р±СЂРѕР№ РїСЂРё
+РґРµР»РµРЅРёРµ РЅР° 1020847).<br>
 <br>
-<table style="width: 100%; text-align: left;" border="1" cellpadding="2"
- cellspacing="2">
+<table style="width: 100%; text-align: left;" border="1" cellpadding="2" cellspacing="2">
   <tbody>
     <tr>
-      <td style="vertical-align: top;">ПРИМЕР 1<br>
-Вход<br style="font-family: monospace;">
+      <td style="vertical-align: top;">РџР РРњР•Р  1<br>
+Р’С…РѕРґ<br style="font-family: monospace;">
       <span style="font-family: monospace;">4 3</span><br>
-Изход<br>
+РР·С…РѕРґ<br>
       <span style="font-family: monospace;">11</span><br>
       </td>
-      <td style="vertical-align: top;">ПРИМЕР 2<br>
-Вход<br>
+      <td style="vertical-align: top;">РџР РРњР•Р  2<br>
+Р’С…РѕРґ<br>
       <span style="font-family: monospace;">20 2</span><br>
-Изход<br>
+РР·С…РѕРґ<br>
       <span style="font-family: monospace;">27708 </span><br>
       </td>
     </tr>
   </tbody>
 </table>
 <br>
-<span style="font-weight: bold;">Решение:</span><br>
-&nbsp;&nbsp;&nbsp; Решаваме задачата по метода на динамичното
-оптимиране. Нека е
-дефинирана функция T(P,Q), която връща колко са пермутациите на P
-елемента, в които има точно Q намаляващи подредици. Тогава T(N,K) е
-отговорът на задачата. Допускаме, че когато искаме да изчислим T(P,Q),
-сме изчислили всички стойности T(R,S), за R&nbsp; &lt; P и S &lt;=
-Q.&nbsp; <br>
-&nbsp;&nbsp;&nbsp; Да разсъждаваме по следния начин. Нека имаме една
-пермутация на P-1 елемента и започнем да добавяме числото P на всички
-възможни места. Тогава ако го добавим някъде във вече обособена
-намаляваща подредица, тя ще се разцепи на две, а ако го добавим точно
-преди началото на намаляваща подредица, броят на намаляващите редици в
-пермутацията ще се запази. Освен това поради начина на добавяме няма да
-повторим пермутации на P елемента. Понеже имаме изискването редиците да
-бъдат точно Q на брой, а местата, на които няма промяна в броя редици,
-са точно Q, то за T(P,Q) получаваме следната рекурентна формула:
+<span style="font-weight: bold;">Р РµС€РµРЅРёРµ:</span><br>
+В В В  Р РµС€Р°РІР°РјРµ Р·Р°РґР°С‡Р°С‚Р° РїРѕ РјРµС‚РѕРґР° РЅР° РґРёРЅР°РјРёС‡РЅРѕС‚Рѕ
+РѕРїС‚РёРјРёСЂР°РЅРµ. РќРµРєР° Рµ
+РґРµС„РёРЅРёСЂР°РЅР° С„СѓРЅРєС†РёСЏ T(P,Q), РєРѕСЏС‚Рѕ РІСЂСЉС‰Р° РєРѕР»РєРѕ СЃР° РїРµСЂРјСѓС‚Р°С†РёРёС‚Рµ РЅР° P
+РµР»РµРјРµРЅС‚Р°, РІ РєРѕРёС‚Рѕ РёРјР° С‚РѕС‡РЅРѕ Q РЅР°РјР°Р»СЏРІР°С‰Рё РїРѕРґСЂРµРґРёС†Рё. РўРѕРіР°РІР° T(N,K) Рµ
+РѕС‚РіРѕРІРѕСЂСЉС‚ РЅР° Р·Р°РґР°С‡Р°С‚Р°. Р”РѕРїСѓСЃРєР°РјРµ, С‡Рµ РєРѕРіР°С‚Рѕ РёСЃРєР°РјРµ РґР° РёР·С‡РёСЃР»РёРј T(P,Q),
+СЃРјРµ РёР·С‡РёСЃР»РёР»Рё РІСЃРёС‡РєРё СЃС‚РѕР№РЅРѕСЃС‚Рё T(R,S), Р·Р° RВ  &lt; P Рё S &lt;=
+Q.В  <br>
+В В В  Р”Р° СЂР°Р·СЃСЉР¶РґР°РІР°РјРµ РїРѕ СЃР»РµРґРЅРёСЏ РЅР°С‡РёРЅ. РќРµРєР° РёРјР°РјРµ РµРґРЅР°
+РїРµСЂРјСѓС‚Р°С†РёСЏ РЅР° P-1 РµР»РµРјРµРЅС‚Р° Рё Р·Р°РїРѕС‡РЅРµРј РґР° РґРѕР±Р°РІСЏРјРµ С‡РёСЃР»РѕС‚Рѕ P РЅР° РІСЃРёС‡РєРё
+РІСЉР·РјРѕР¶РЅРё РјРµСЃС‚Р°. РўРѕРіР°РІР° Р°РєРѕ РіРѕ РґРѕР±Р°РІРёРј РЅСЏРєСЉРґРµ РІСЉРІ РІРµС‡Рµ РѕР±РѕСЃРѕР±РµРЅР°
+РЅР°РјР°Р»СЏРІР°С‰Р° РїРѕРґСЂРµРґРёС†Р°, С‚СЏ С‰Рµ СЃРµ СЂР°Р·С†РµРїРё РЅР° РґРІРµ, Р° Р°РєРѕ РіРѕ РґРѕР±Р°РІРёРј С‚РѕС‡РЅРѕ
+РїСЂРµРґРё РЅР°С‡Р°Р»РѕС‚Рѕ РЅР° РЅР°РјР°Р»СЏРІР°С‰Р° РїРѕРґСЂРµРґРёС†Р°, Р±СЂРѕСЏС‚ РЅР° РЅР°РјР°Р»СЏРІР°С‰РёС‚Рµ СЂРµРґРёС†Рё РІ
+РїРµСЂРјСѓС‚Р°С†РёСЏС‚Р° С‰Рµ СЃРµ Р·Р°РїР°Р·Рё. РћСЃРІРµРЅ С‚РѕРІР° РїРѕСЂР°РґРё РЅР°С‡РёРЅР° РЅР° РґРѕР±Р°РІСЏРјРµ РЅСЏРјР° РґР°
+РїРѕРІС‚РѕСЂРёРј РїРµСЂРјСѓС‚Р°С†РёРё РЅР° P РµР»РµРјРµРЅС‚Р°. РџРѕРЅРµР¶Рµ РёРјР°РјРµ РёР·РёСЃРєРІР°РЅРµС‚Рѕ СЂРµРґРёС†РёС‚Рµ РґР°
+Р±СЉРґР°С‚ С‚РѕС‡РЅРѕ Q РЅР° Р±СЂРѕР№, Р° РјРµСЃС‚Р°С‚Р°, РЅР° РєРѕРёС‚Рѕ РЅСЏРјР° РїСЂРѕРјСЏРЅР° РІ Р±СЂРѕСЏ СЂРµРґРёС†Рё,
+СЃР° С‚РѕС‡РЅРѕ Q, С‚Рѕ Р·Р° T(P,Q) РїРѕР»СѓС‡Р°РІР°РјРµ СЃР»РµРґРЅР°С‚Р° СЂРµРєСѓСЂРµРЅС‚РЅР° С„РѕСЂРјСѓР»Р°:
 <br>
 <br>
 <div style="text-align: center;">T(P,Q) = Q*T(P-1,Q) +
 (P+1-Q)*T(P-1,Q-1).
 <br>
 </div>
-<p ,="" s="">Освен това
-Т(1,1) = 1,
-понеже ако имаме един единствен елемент, броят начини да образуваме
-една редица е точно 1.
+<p s="">РћСЃРІРµРЅ С‚РѕРІР°
+Рў(1,1) = 1,
+РїРѕРЅРµР¶Рµ Р°РєРѕ РёРјР°РјРµ РµРґРёРЅ РµРґРёРЅСЃС‚РІРµРЅ РµР»РµРјРµРЅС‚, Р±СЂРѕСЏС‚ РЅР°С‡РёРЅРё РґР° РѕР±СЂР°Р·СѓРІР°РјРµ
+РµРґРЅР° СЂРµРґРёС†Р° Рµ С‚РѕС‡РЅРѕ 1.
 <br>
-&nbsp;&nbsp;&nbsp; Сложността на описаното решение и от гледна точка на
-време, и от гледна точка на памет, е O(N<sup>2</sup>).
+В В В  РЎР»РѕР¶РЅРѕСЃС‚С‚Р° РЅР° РѕРїРёСЃР°РЅРѕС‚Рѕ СЂРµС€РµРЅРёРµ Рё РѕС‚ РіР»РµРґРЅР° С‚РѕС‡РєР° РЅР°
+РІСЂРµРјРµ, Рё РѕС‚ РіР»РµРґРЅР° С‚РѕС‡РєР° РЅР° РїР°РјРµС‚, Рµ O(N<sup>2</sup>).
 <br>
 </p>
-<p ,="" s="">Примерна реализация:
+<p s="">РџСЂРёРјРµСЂРЅР° СЂРµР°Р»РёР·Р°С†РёСЏ:
 <br>
 </p>
 <blockquote>
-  <pre><span style="font-weight: bold;">#include &lt;stdio.h&gt;</span><br
- style="font-weight: bold;"><stdio.h><span style="font-weight: bold;">#define MOD 1020847</span><br
- style="font-weight: bold;"><span style="font-weight: bold;">#define MAXN 2048</span><br
- style="font-weight: bold;"><br style="font-weight: bold;"><span
- style="font-weight: bold;">int t[MAXN][MAXN];</span><br
- style="font-weight: bold;"><span style="font-weight: bold;">int main() </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">{&nbsp; int N, P, i, j; </span><br
- style="font-weight: bold;"><span style="font-weight: bold;"> &nbsp; scanf("%d%d", &amp;N, &amp;P); </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">  &nbsp;t[1][1] = 1; </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">   for (i = 2; i &lt;= N;i++) </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">   &nbsp;&nbsp; for (j = 1; j &lt;= i; j++) </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">     &nbsp;&nbsp;&nbsp;&nbsp; t[i][j] = ((j * t[i - 1][j])%MOD + </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">                    ((i + 1 - j)*t[i - 1][j - 1])%MOD)%MOD; </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">   printf("%d\n", t[N][P]); </span><br
- style="font-weight: bold;"><span style="font-weight: bold;">  &nbsp;return 0;</span><br
- style="font-weight: bold;"><span style="font-weight: bold;">}</span><br></stdio.h></pre>
+  <pre><span style="font-weight: bold;">#include &lt;stdio.h&gt;</span><br style="font-weight: bold;"><stdio.h><span style="font-weight: bold;">#define MOD 1020847</span><br style="font-weight: bold;"><span style="font-weight: bold;">#define MAXN 2048</span><br style="font-weight: bold;"><br style="font-weight: bold;"><span style="font-weight: bold;">int t[MAXN][MAXN];</span><br style="font-weight: bold;"><span style="font-weight: bold;">int main() </span><br style="font-weight: bold;"><span style="font-weight: bold;">{В  int N, P, i, j; </span><br style="font-weight: bold;"><span style="font-weight: bold;"> В  scanf("%d%d", &amp;N, &amp;P); </span><br style="font-weight: bold;"><span style="font-weight: bold;">  В t[1][1] = 1; </span><br style="font-weight: bold;"><span style="font-weight: bold;">   for (i = 2; i &lt;= N;i++) </span><br style="font-weight: bold;"><span style="font-weight: bold;">   В В  for (j = 1; j &lt;= i; j++) </span><br style="font-weight: bold;"><span style="font-weight: bold;">     В В В В  t[i][j] = ((j * t[i - 1][j])%MOD + </span><br style="font-weight: bold;"><span style="font-weight: bold;">                    ((i + 1 - j)*t[i - 1][j - 1])%MOD)%MOD; </span><br style="font-weight: bold;"><span style="font-weight: bold;">   printf("%d\n", t[N][P]); </span><br style="font-weight: bold;"><span style="font-weight: bold;">  В return 0;</span><br style="font-weight: bold;"><span style="font-weight: bold;">}</span><br></stdio.h></pre>
 </blockquote>
-Автор: Слави Маринов (<a href="http://infoman.musala.com/"><span
- style="font-family: monospace;">http://infoman.musala.com/</span></a>)
+РђРІС‚РѕСЂ: РЎР»Р°РІРё РњР°СЂРёРЅРѕРІ (<a href="http://infoman.musala.com/"><span style="font-family: monospace;">http://infoman.musala.com/</span></a>)
 <hr>
 </body>
 </html>

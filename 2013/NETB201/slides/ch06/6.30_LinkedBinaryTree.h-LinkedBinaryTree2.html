@@ -1,48 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>LinkedBinaryTree2</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>LinkedBinaryTree2</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: LinkedBinaryTree2</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-  <font color=#0000FF>// ... (utilities for LinkedBinaryTree)</font>
-  NodePtr <font color=#000000>nodePtr</font>(<font color=#A000A0>const</font> Position& v) <font color=#A000A0>const</font> 		<font color=#0000FF>// convert to NodePtr</font>
-    { <font color=#00A000>return</font> v.node; }
-  <font color=#A000A0>bool</font> <font color=#000000>isExternal</font>(NodePtr n) <font color=#A000A0>const</font> 			<font color=#0000FF>// is node external?</font>
-    { <font color=#00A000>return</font> (n-&gt;left == NULL && n-&gt;right == NULL); }
-  <font color=#A000A0>bool</font> <font color=#000000>isInternal</font>(NodePtr n) <font color=#A000A0>const</font> 			<font color=#0000FF>// is node internal?</font>
-    { <font color=#00A000>return</font> ! <font color=#000000>isExternal</font>(n); }
-  <font color=#A000A0>bool</font> <font color=#000000>isRoot</font>(NodePtr n) <font color=#A000A0>const</font> 				<font color=#0000FF>// is node the root?</font>
-    { <font color=#00A000>return</font> (n == theRoot); }
-  <font color=#A000A0>void</font> <font color=#000000>setRoot</font>(NodePtr r)				<font color=#0000FF>// make r the root</font>
+  <font color="#0000FF">// ... (utilities for LinkedBinaryTree)</font>
+  NodePtr <font color="#000000">nodePtr</font>(<font color="#A000A0">const</font> Position&amp; v) <font color="#A000A0">const</font> 		<font color="#0000FF">// convert to NodePtr</font>
+    { <font color="#00A000">return</font> v.node; }
+  <font color="#A000A0">bool</font> <font color="#000000">isExternal</font>(NodePtr n) <font color="#A000A0">const</font> 			<font color="#0000FF">// is node external?</font>
+    { <font color="#00A000">return</font> (n-&gt;left == NULL &amp;&amp; n-&gt;right == NULL); }
+  <font color="#A000A0">bool</font> <font color="#000000">isInternal</font>(NodePtr n) <font color="#A000A0">const</font> 			<font color="#0000FF">// is node internal?</font>
+    { <font color="#00A000">return</font> ! <font color="#000000">isExternal</font>(n); }
+  <font color="#A000A0">bool</font> <font color="#000000">isRoot</font>(NodePtr n) <font color="#A000A0">const</font> 				<font color="#0000FF">// is node the root?</font>
+    { <font color="#00A000">return</font> (n == theRoot); }
+  <font color="#A000A0">void</font> <font color="#000000">setRoot</font>(NodePtr r)				<font color="#0000FF">// make r the root</font>
     { theRoot = r;  r-&gt;parent = NULL; }
-  <font color=#A000A0>void</font> <font color=#000000>replaceElement</font>(NodePtr n, <font color=#A000A0>const</font> Object& o)	<font color=#0000FF>// replace element</font>
+  <font color="#A000A0">void</font> <font color="#000000">replaceElement</font>(NodePtr n, <font color="#A000A0">const</font> Object&amp; o)	<font color="#0000FF">// replace element</font>
     { n-&gt;element = o; }
-  <font color=#A000A0>void</font> <font color=#000000>swapElements</font>(NodePtr n, NodePtr w) {		<font color=#0000FF>// swap elements</font>
+  <font color="#A000A0">void</font> <font color="#000000">swapElements</font>(NodePtr n, NodePtr w) {		<font color="#0000FF">// swap elements</font>
     Object temp = w-&gt;element;
     w-&gt;element = n-&gt;element;
     n-&gt;element = temp;	
   }
-  <font color=#A000A0>void</font> <font color=#000000>expandExternal</font>(NodePtr n) {			<font color=#0000FF>// expand external node</font>
-    n-&gt;left   = <font color=#A000A0>new</font> Node;	n-&gt;left-&gt;parent = n;
-    n-&gt;right  = <font color=#A000A0>new</font> Node;	n-&gt;right-&gt;parent = n;
+  <font color="#A000A0">void</font> <font color="#000000">expandExternal</font>(NodePtr n) {			<font color="#0000FF">// expand external node</font>
+    n-&gt;left   = <font color="#A000A0">new</font> Node;	n-&gt;left-&gt;parent = n;
+    n-&gt;right  = <font color="#A000A0">new</font> Node;	n-&gt;right-&gt;parent = n;
     sz += 2;
   }
-  NodePtr <font color=#000000>removeAboveExternal</font>(NodePtr n) {		<font color=#0000FF>// remove n and parent</font>
+  NodePtr <font color="#000000">removeAboveExternal</font>(NodePtr n) {		<font color="#0000FF">// remove n and parent</font>
     NodePtr p = n-&gt;parent;
-    NodePtr s = n-&gt;<font color=#000000>sibling</font>();
-    <font color=#00A000>if</font> (<font color=#000000>isRoot</font>(p)) <font color=#000000>setRoot</font>(s);				<font color=#0000FF>// p was root; now s is</font>
-    <font color=#00A000>else</font> {
-      NodePtr g = p-&gt;parent;				<font color=#0000FF>// the grandparent</font>
-      <font color=#00A000>if</font> (p == g-&gt;left)	    g-&gt;left  = s;		<font color=#0000FF>// replace parent by sibling</font>
-      <font color=#00A000>else</font> 		    g-&gt;right = s;
+    NodePtr s = n-&gt;<font color="#000000">sibling</font>();
+    <font color="#00A000">if</font> (<font color="#000000">isRoot</font>(p)) <font color="#000000">setRoot</font>(s);				<font color="#0000FF">// p was root; now s is</font>
+    <font color="#00A000">else</font> {
+      NodePtr g = p-&gt;parent;				<font color="#0000FF">// the grandparent</font>
+      <font color="#00A000">if</font> (p == g-&gt;left)	    g-&gt;left  = s;		<font color="#0000FF">// replace parent by sibling</font>
+      <font color="#00A000">else</font> 		    g-&gt;right = s;
       s-&gt;parent = g;
     }
-    <font color=#A000A0>delete</font> n; <font color=#A000A0>delete</font> p;					<font color=#0000FF>// delete removed nodes</font>
-    sz -= 2;						<font color=#0000FF>// two fewer nodes</font>
-    <font color=#00A000>return</font> s;
+    <font color="#A000A0">delete</font> n; <font color="#A000A0">delete</font> p;					<font color="#0000FF">// delete removed nodes</font>
+    sz -= 2;						<font color="#0000FF">// two fewer nodes</font>
+    <font color="#00A000">return</font> s;
   }
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>

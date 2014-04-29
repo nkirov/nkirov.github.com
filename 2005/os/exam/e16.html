@@ -1,86 +1,98 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>os5</title>
 </head>
 <body>
-<b>16. Конкуренция: "мъртва хватка" и "гладна смърт"</b>
-<br><b>Принцини на "мъртва хватка" (МХ).</b>
+<b>16. РљРѕРЅРєСѓСЂРµРЅС†РёСЏ: "РјСЉСЂС‚РІР° С…РІР°С‚РєР°" Рё "РіР»Р°РґРЅР° СЃРјСЉСЂС‚"</b>
+<br><b>РџСЂРёРЅС†РёРЅРё РЅР° "РјСЉСЂС‚РІР° С…РІР°С‚РєР°" (РњРҐ).</b>
 <p>--- FIGURE 6.1 ---
-<p><b>6.1 Принцини на "мъртва хватка" (МХ)</b>
-<br>&nbsp;&nbsp;&nbsp; Пример.
-<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<p><b>6.1 РџСЂРёРЅС†РёРЅРё РЅР° "РјСЉСЂС‚РІР° С…РІР°С‚РєР°" (РњРҐ)</b>
+<br>В В В  РџСЂРёРјРµСЂ.
+</p>
+<table cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#000000">PROCESS&nbsp; P&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Release A&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Release B&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<td>
+<b><tt><font color="#000000">PROCESSВ  PВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get AВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get BВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Release AВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Release BВ </font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 
-<td><b><tt><font color="#000000">PROCESS&nbsp; Q&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Release B&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Release A&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<td>
+<b><tt><font color="#000000">PROCESSВ  QВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get BВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get AВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Release BВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Release AВ </font></tt></b>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp; Възможни са следните сценарии:
-<br><b><tt>1. Q gets B,A -> Q releases B,A -> P executes</tt></b>
-<br><b><tt>2. Q gets B,A -> P blocks&nbsp; (A)&nbsp; -> Q releases B,A
--> P executes</tt></b>
-<br><b><tt>3. Q gets B&nbsp;&nbsp; -> P gets&nbsp;&nbsp;&nbsp;&nbsp; A&nbsp;&nbsp;
--> deadlock !</tt></b>
-<br><b><tt>4. P gets A&nbsp;&nbsp; -> Q gets&nbsp;&nbsp;&nbsp;&nbsp; B&nbsp;&nbsp;
--> deadlock !</tt></b>
-<br><b><tt>5. P gets A,B -> Q blocks&nbsp; (B)&nbsp; -> P releases A,B
--> Q executes</tt></b>
-<br><b><tt>6. P gets A,B -> P releases A,B -> Q executes</tt></b>
+В В В  Р’СЉР·РјРѕР¶РЅРё СЃР° СЃР»РµРґРЅРёС‚Рµ СЃС†РµРЅР°СЂРёРё:
+<br><b><tt>1. Q gets B,A -&gt; Q releases B,A -&gt; P executes</tt></b>
+<br><b><tt>2. Q gets B,A -&gt; P blocksВ  (A)В  -&gt; Q releases B,A
+-&gt; P executes</tt></b>
+<br><b><tt>3. Q gets BВ В  -&gt; P getsВ В В В  AВ В 
+-&gt; deadlock !</tt></b>
+<br><b><tt>4. P gets AВ В  -&gt; Q getsВ В В В  BВ В 
+-&gt; deadlock !</tt></b>
+<br><b><tt>5. P gets A,B -&gt; Q blocksВ  (B)В  -&gt; P releases A,B
+-&gt; Q executes</tt></b>
+<br><b><tt>6. P gets A,B -&gt; P releases A,B -&gt; Q executes</tt></b>
 <br>--- FIGURE 6.2 ---
-<table CELLPADDING=4 WIDTH="100%" >
+<table cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#000000">PROCESS P</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<td>
+<b><tt><font color="#000000">PROCESS P</font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get AВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get BВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
 <br><b><tt><font color="#006600">Release A</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
 <br><b><tt><font color="#006600">Release B</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 
-<td><b><tt><font color="#000000">PROCESS Q</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<td>
+<b><tt><font color="#000000">PROCESS Q</font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get BВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get AВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
 <br><b><tt><font color="#006600">Release B</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
 <br><b><tt><font color="#006600">Release A</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 </tr>
 </table>
 
-<p>&nbsp;&nbsp;&nbsp; Възможна промяна в работата на процеса - за избягване
-на МХ:
+<p>В В В  Р’СЉР·РјРѕР¶РЅР° РїСЂРѕРјСЏРЅР° РІ СЂР°Р±РѕС‚Р°С‚Р° РЅР° РїСЂРѕС†РµСЃР° - Р·Р° РёР·Р±СЏРіРІР°РЅРµ
+РЅР° РњРҐ:
 <br>--- FIGURE 6.3 ---
-<table CELLPADDING=4 WIDTH="100%" >
+</p>
+<table cellpadding="4" width="100%">
 <tr>
-<td VALIGN=CENTER><b><tt><font color="#000000">PROCESS P</font></tt></b>
+<td valign="CENTER">
+<b><tt><font color="#000000">PROCESS P</font></tt></b>
 <br><b><tt><font color="#006600">...</font></tt></b>
 <br><b><tt><font color="#006600">Get A</font></tt></b>
 <br><b><tt><font color="#006600">...</font></tt></b>
@@ -89,31 +101,37 @@
 <br><b><tt><font color="#006600">Get B</font></tt></b>
 <br><b><tt><font color="#006600">...</font></tt></b>
 <br><b><tt><font color="#006600">Release B</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 
-<td><b><tt><font color="#000000">PROCESS Q</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get B&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">Get A&nbsp;</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<td>
+<b><tt><font color="#000000">PROCESS Q</font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get BВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
+<br><b><tt><font color="#006600">Get AВ </font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
 <br><b><tt><font color="#006600">Release B</font></tt></b>
-<br><b><tt><font color="#006600">...&nbsp;</font></tt></b>
+<br><b><tt><font color="#006600">...В </font></tt></b>
 <br><b><tt><font color="#006600">Release A</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 </tr>
 </table>
 
-<p>** Многократно използваеми ресурси (Reusable Resources) -&nbsp; процесори,
-I/O канали, основна и допълнителна памет, устройства, структури от данни
-като файлове, бази данни и семафори.
-<p>&nbsp;&nbsp;&nbsp; Пример 1.
-<br>&nbsp;&nbsp;&nbsp; Два процеса P и Q използват ресурси магнитен диск
-D и магнитна лента T.
-<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+<p>** РњРЅРѕРіРѕРєСЂР°С‚РЅРѕ РёР·РїРѕР»Р·РІР°РµРјРё СЂРµСЃСѓСЂСЃРё (Reusable Resources) -В  РїСЂРѕС†РµСЃРѕСЂРё,
+I/O РєР°РЅР°Р»Рё, РѕСЃРЅРѕРІРЅР° Рё РґРѕРїСЉР»РЅРёС‚РµР»РЅР° РїР°РјРµС‚, СѓСЃС‚СЂРѕР№СЃС‚РІР°, СЃС‚СЂСѓРєС‚СѓСЂРё РѕС‚ РґР°РЅРЅРё
+РєР°С‚Рѕ С„Р°Р№Р»РѕРІРµ, Р±Р°Р·Рё РґР°РЅРЅРё Рё СЃРµРјР°С„РѕСЂРё.
+</p>
+<p>В В В  РџСЂРёРјРµСЂ 1.
+<br>В В В  Р”РІР° РїСЂРѕС†РµСЃР° P Рё Q РёР·РїРѕР»Р·РІР°С‚ СЂРµСЃСѓСЂСЃРё РјР°РіРЅРёС‚РµРЅ РґРёСЃРє
+D Рё РјР°РіРЅРёС‚РЅР° Р»РµРЅС‚Р° T.
+</p>
+<table cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><font color="#000000">Process P</font></b>
-<table BORDER=0 CELLPADDING=4 >
+<td>
+<b><font color="#000000">Process P</font></b>
+<table border="0" cellpadding="4">
 <tr>
 <td><b><font color="#006600">Step</font></b></td>
 
@@ -164,8 +182,9 @@ D и магнитна лента T.
 </table>
 </td>
 
-<td><b><font color="#000000">Process Q</font></b>
-<table CELLSPACING=0 CELLPADDING=4 >
+<td>
+<b><font color="#000000">Process Q</font></b>
+<table cellspacing="0" cellpadding="4">
 <tr>
 <td><b><font color="#006600">Step</font></b></td>
 
@@ -217,12 +236,13 @@ D и магнитна лента T.
 </td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp; МХ се получава при следния сценарии:
-<br><b><font color="#006600">&nbsp;&nbsp;&nbsp;<tt> p0 -> p1 -> q0 -> q1
--> p2(-) -> q2(-) -> MX</tt></font></b>
-<p>&nbsp;&nbsp;&nbsp; Пример 2.
-<br>&nbsp;&nbsp;&nbsp; Два процеса се конкурират за ресурс 200MB памет.
-<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+В В В  РњРҐ СЃРµ РїРѕР»СѓС‡Р°РІР° РїСЂРё СЃР»РµРґРЅРёСЏ СЃС†РµРЅР°СЂРёРё:
+<br><b><font color="#006600">В В В <tt> p0 -&gt; p1 -&gt; q0 -&gt; q1
+-&gt; p2(-) -&gt; q2(-) -&gt; MX</tt></font></b>
+<p>В В В  РџСЂРёРјРµСЂ 2.
+<br>В В В  Р”РІР° РїСЂРѕС†РµСЃР° СЃРµ РєРѕРЅРєСѓСЂРёСЂР°С‚ Р·Р° СЂРµСЃСѓСЂСЃ 200MB РїР°РјРµС‚.
+</p>
+<table cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
 <td><b><font color="#006600">Process P1</font></b></td>
 
@@ -230,33 +250,38 @@ D и магнитна лента T.
 </tr>
 
 <tr>
-<td><font color="#006600">...</font>
+<td>
+<font color="#006600">...</font>
 <br><font color="#006600">Request 80 MB</font>
 <br><font color="#006600">...</font>
-<br><font color="#006600">Request 60 MB</font></td>
+<br><font color="#006600">Request 60 MB</font>
+</td>
 
-<td><font color="#006600">...</font>
+<td>
+<font color="#006600">...</font>
 <br><font color="#006600">Request 70 MB</font>
 <br><font color="#006600">...</font>
-<br><font color="#006600">Request 80 MB</font></td>
+<br><font color="#006600">Request 80 MB</font>
+</td>
 </tr>
 </table>
-се конкурират за нея. При страртиране и на двата процеса се получава МХ
-при второто искане за памет.
-<p>** Условия за МХ.
-<br>&nbsp;&nbsp;&nbsp; 1. Взаимно изключване (mutual exclusion) - само
-един процес може да владее ресурс в даден момент.
-<br>&nbsp;&nbsp;&nbsp; 2. Владея и чакам (очакване на ресурси, hold and
-wait) - един процес блокира (владее) един ресурс, докато чака за друг.
-<br>&nbsp;&nbsp;&nbsp; 3. Няма отстъпки (непреразпределение, no preemtion)
-- един ресурс не може да бъде насилствено освободен от владението на процес.
-<br>&nbsp;&nbsp;&nbsp; МХ може да се появи при тези 3 условия, но може
-и да не се появи. Следващото условие е достатъчно за поява на МХ.
-<br>&nbsp;&nbsp;&nbsp; 4. Циклично чакане (circular wait) -&nbsp; затворена
-верига от процеси, като всеки процес владее пони един ресурс, за който
-чака следващият процес от веригата.
+СЃРµ РєРѕРЅРєСѓСЂРёСЂР°С‚ Р·Р° РЅРµСЏ. РџСЂРё СЃС‚СЂР°СЂС‚РёСЂР°РЅРµ Рё РЅР° РґРІР°С‚Р° РїСЂРѕС†РµСЃР° СЃРµ РїРѕР»СѓС‡Р°РІР° РњРҐ
+РїСЂРё РІС‚РѕСЂРѕС‚Рѕ РёСЃРєР°РЅРµ Р·Р° РїР°РјРµС‚.
+<p>** РЈСЃР»РѕРІРёСЏ Р·Р° РњРҐ.
+<br>В В В  1. Р’Р·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ (mutual exclusion) - СЃР°РјРѕ
+РµРґРёРЅ РїСЂРѕС†РµСЃ РјРѕР¶Рµ РґР° РІР»Р°РґРµРµ СЂРµСЃСѓСЂСЃ РІ РґР°РґРµРЅ РјРѕРјРµРЅС‚.
+<br>В В В  2. Р’Р»Р°РґРµСЏ Рё С‡Р°РєР°Рј (РѕС‡Р°РєРІР°РЅРµ РЅР° СЂРµСЃСѓСЂСЃРё, hold and
+wait) - РµРґРёРЅ РїСЂРѕС†РµСЃ Р±Р»РѕРєРёСЂР° (РІР»Р°РґРµРµ) РµРґРёРЅ СЂРµСЃСѓСЂСЃ, РґРѕРєР°С‚Рѕ С‡Р°РєР° Р·Р° РґСЂСѓРі.
+<br>В В В  3. РќСЏРјР° РѕС‚СЃС‚СЉРїРєРё (РЅРµРїСЂРµСЂР°Р·РїСЂРµРґРµР»РµРЅРёРµ, no preemtion)
+- РµРґРёРЅ СЂРµСЃСѓСЂСЃ РЅРµ РјРѕР¶Рµ РґР° Р±СЉРґРµ РЅР°СЃРёР»СЃС‚РІРµРЅРѕ РѕСЃРІРѕР±РѕРґРµРЅ РѕС‚ РІР»Р°РґРµРЅРёРµС‚Рѕ РЅР° РїСЂРѕС†РµСЃ.
+<br>В В В  РњРҐ РјРѕР¶Рµ РґР° СЃРµ РїРѕСЏРІРё РїСЂРё С‚РµР·Рё 3 СѓСЃР»РѕРІРёСЏ, РЅРѕ РјРѕР¶Рµ
+Рё РґР° РЅРµ СЃРµ РїРѕСЏРІРё. РЎР»РµРґРІР°С‰РѕС‚Рѕ СѓСЃР»РѕРІРёРµ Рµ РґРѕСЃС‚Р°С‚СЉС‡РЅРѕ Р·Р° РїРѕСЏРІР° РЅР° РњРҐ.
+<br>В В В  4. Р¦РёРєР»РёС‡РЅРѕ С‡Р°РєР°РЅРµ (circular wait) -В  Р·Р°С‚РІРѕСЂРµРЅР°
+РІРµСЂРёРіР° РѕС‚ РїСЂРѕС†РµСЃРё, РєР°С‚Рѕ РІСЃРµРєРё РїСЂРѕС†РµСЃ РІР»Р°РґРµРµ РїРѕРЅРё РµРґРёРЅ СЂРµСЃСѓСЂСЃ, Р·Р° РєРѕР№С‚Рѕ
+С‡Р°РєР° СЃР»РµРґРІР°С‰РёСЏС‚ РїСЂРѕС†РµСЃ РѕС‚ РІРµСЂРёРіР°С‚Р°.
 <br>--- FIGURE 6.5 ---
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

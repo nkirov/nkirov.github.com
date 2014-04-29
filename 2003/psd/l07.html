@@ -1,218 +1,241 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>l07</title>
 </head>
 <body>
 
-<hr WIDTH="100%">
-<p><b>7. Търсене, бързо сортиране</b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Търсене в
-несортирани и сортирани данни
+<hr width="100%">
+<p><b>7. РўСЉСЂСЃРµРЅРµ, Р±СЉСЂР·Рѕ СЃРѕСЂС‚РёСЂР°РЅРµ</b>
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> РўСЉСЂСЃРµРЅРµ РІ
+РЅРµСЃРѕСЂС‚РёСЂР°РЅРё Рё СЃРѕСЂС‚РёСЂР°РЅРё РґР°РЅРЅРё
 <br><b><tt><font color="#993300">// lsearch.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cstdlib></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;ctime></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
-<p><b><tt><font color="#000099">int linear_search(vector&lt;int> v, int
+</p>
+<p><b><tt><font color="#000099">int linear_search(vector&lt;int&gt; v, int
 a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+<br><b><tt><font color="#000099">В В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 0; i &lt; v.size();
 i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+<br><b><tt><font color="#000099">В В В В В В  if
 (v[i] == a) return i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return -1;</font></tt></b>
+<br><b><tt><font color="#000099">В В  return -1;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">void print(vector&lt;int> a)</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">void print(vector&lt;int&gt; a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
-i++)&nbsp; cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">В В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 0; i &lt; a.size();
+i++)В  cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "\n";</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">В В  int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">В В  srand(seed);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;
+<br><b><tt><font color="#000099">{В  return a + rand() % (b - a + 1);В 
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; rand_seed();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
+<br><b><tt><font color="#000099">В В  rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">В В  vector&lt;int&gt; v(20);</font></tt></b>
+<br><b><tt><font color="#000099">В В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 0; i &lt; v.size();
 i++) v[i] = rand_int(1, 100);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; print(v);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter number
+<br><b><tt><font color="#000099">В В  print(v);</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Enter number
 to search for: ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int j = linear_search(v,
+<br><b><tt><font color="#000099">В В  int n;</font></tt></b>
+<br><b><tt><font color="#000099">В В  cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">В В  int j = linear_search(v,
 n);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Found in position
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Found in position
 " &lt;&lt; j &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Двоично търсене
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Р”РІРѕРёС‡РЅРѕ С‚СЉСЂСЃРµРЅРµ
 <br><b><tt><font color="#993300">// bsearch.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cstdlib></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;ctime></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
-<p><b><tt><font color="#000099">int binary_search(vector&lt;int> v, int
+</p>
+<p><b><tt><font color="#000099">int binary_search(vector&lt;int&gt; v, int
 from, int to, int a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (from > to)&nbsp; return
+<br><b><tt><font color="#000099">В В  if (from &gt; to)В  return
 -1;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int mid = (from + to) / 2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int diff = v[mid] - a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (diff == 0) return mid;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В  int mid = (from + to) / 2;</font></tt></b>
+<br><b><tt><font color="#000099">В В  int diff = v[mid] - a;</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (diff == 0) return mid;В В В В В В В В В 
 /* v[mid] == a */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (diff &lt; 0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В  else if (diff &lt; 0)В В В В В В В В В В В В В В В В В 
 /* v[mid] &lt; a */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+<br><b><tt><font color="#000099">В В В В В  return
 binary_search(v, mid + 1, to, a);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+<br><b><tt><font color="#000099">В В  else</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  return
 binary_search(v, from, mid - 1, a);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">void print(vector&lt;int> a)</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">void print(vector&lt;int&gt; a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
+<br><b><tt><font color="#000099">В В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 0; i &lt; a.size();
 i++) cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "\n";</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">В В  int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">В В  srand(seed);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;
+<br><b><tt><font color="#000099">{В  return a + rand() % (b - a + 1);В 
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; rand_seed();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; v[0] = 1;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 1; i &lt; v.size();
+<br><b><tt><font color="#000099">В В  rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">В В  vector&lt;int&gt; v(20);</font></tt></b>
+<br><b><tt><font color="#000099">В В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  v[0] = 1;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 1; i &lt; v.size();
 i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В В В В В В 
 v[i] = v[i - 1] + rand_int(1, 10);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; print(v);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter number
+<br><b><tt><font color="#000099">В В  print(v);</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Enter number
 to search for: ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int j = binary_search(v,
+<br><b><tt><font color="#000099">В В  int n;</font></tt></b>
+<br><b><tt><font color="#000099">В В  cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">В В  int j = binary_search(v,
 0, v.size() - 1, n);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Found in position
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Found in position
 " &lt;&lt; j &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Търсене и
-сортиране на реални данни
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> РўСЉСЂСЃРµРЅРµ Рё
+СЃРѕСЂС‚РёСЂР°РЅРµ РЅР° СЂРµР°Р»РЅРё РґР°РЅРЅРё
 <br><b><tt><font color="#993300">// esearch.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;vector></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">#include "ccc_empl.cpp"</font></tt></b>
-<p><b><tt><font color="#000099">int binary_search(vector&lt;Employee> v,
+</p>
+<p><b><tt><font color="#000099">int binary_search(vector&lt;Employee&gt; v,
 int from, int to, string n)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (from > to) return -1;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int mid = (from + to) / 2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (v[mid].get_name() ==
-n)&nbsp; return mid;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (v[mid].get_name()
+<br><b><tt><font color="#000099">В В  if (from &gt; to) return -1;</font></tt></b>
+<br><b><tt><font color="#000099">В В  int mid = (from + to) / 2;</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (v[mid].get_name() ==
+n)В  return mid;</font></tt></b>
+<br><b><tt><font color="#000099">В В  else if (v[mid].get_name()
 &lt; n)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+<br><b><tt><font color="#000099">В В В В В  return
 binary_search(v, mid + 1, to, n);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+<br><b><tt><font color="#000099">В В  else</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  return
 binary_search(v, from, mid - 1, n);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;Employee> staff(5);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[0] = Employee("Cracker,
+<br><b><tt><font color="#000099">В В  vector&lt;Employee&gt; staff(5);</font></tt></b>
+<br><b><tt><font color="#000099">В В  staff[0] = Employee("Cracker,
 Carl", 48000.0);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[1] = Employee("Hacker,
+<br><b><tt><font color="#000099">В В  staff[1] = Employee("Hacker,
 Harry", 35000.0);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[2] = Employee("Lam,
+<br><b><tt><font color="#000099">В В  staff[2] = Employee("Lam,
 Larry", 78000.0);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[3] = Employee("Reindeer,
+<br><b><tt><font color="#000099">В В  staff[3] = Employee("Reindeer,
 Rudolf", 63000.0);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff[4] = Employee("Sandman,
+<br><b><tt><font color="#000099">В В  staff[4] = Employee("Sandman,
 Susan", 51500.0);</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter name
+</p>
+<p><b><tt><font color="#000099">В В  cout &lt;&lt; "Enter name
 of employee to search for: ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; string name;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; getline(cin, name);</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; int i = binary_search(staff,
+<br><b><tt><font color="#000099">В В  string name;</font></tt></b>
+<br><b><tt><font color="#000099">В В  getline(cin, name);</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">В В  int i = binary_search(staff,
 0, staff.size() - 1, name);</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; if (i >= 0)&nbsp; cout &lt;&lt;
+</p>
+<p><b><tt><font color="#000099">В В  if (i &gt;= 0)В  cout &lt;&lt;
 staff[i].get_name() &lt;&lt; " "</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В В В В В В В В В В В В В В В В В В В 
 &lt;&lt; staff[i].get_salary() &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В  elseВ В В В В В В В 
 cout &lt;&lt; "Not found.\n";</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER> Бързо сортиране
-<br>&nbsp;Бързо сортиране
-<br>&nbsp;А. Разделяне на дялове:
-<br>&nbsp;1. Избираме случаен елемент x от масива a
-<br>&nbsp;2. Преглеждаме масива отляво (от началото), докато достигнем
-до елемент >x
-<br>&nbsp;3. Преглеждаме масива отдясно (от края), докато достигнем до
-елемент &lt;x
-<br>&nbsp;4. Разменяме местата на двата елемента
-<br><b><tt><font color="#006600">vector&lt;int> a(n);</font></tt></b>
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Р‘СЉСЂР·Рѕ СЃРѕСЂС‚РёСЂР°РЅРµ
+<br>В Р‘СЉСЂР·Рѕ СЃРѕСЂС‚РёСЂР°РЅРµ
+<br>В Рђ. Р Р°Р·РґРµР»СЏРЅРµ РЅР° РґСЏР»РѕРІРµ:
+<br>В 1. РР·Р±РёСЂР°РјРµ СЃР»СѓС‡Р°РµРЅ РµР»РµРјРµРЅС‚ x РѕС‚ РјР°СЃРёРІР° a
+<br>В 2. РџСЂРµРіР»РµР¶РґР°РјРµ РјР°СЃРёРІР° РѕС‚Р»СЏРІРѕ (РѕС‚ РЅР°С‡Р°Р»РѕС‚Рѕ), РґРѕРєР°С‚Рѕ РґРѕСЃС‚РёРіРЅРµРј
+РґРѕ РµР»РµРјРµРЅС‚ &gt;x
+<br>В 3. РџСЂРµРіР»РµР¶РґР°РјРµ РјР°СЃРёРІР° РѕС‚РґСЏСЃРЅРѕ (РѕС‚ РєСЂР°СЏ), РґРѕРєР°С‚Рѕ РґРѕСЃС‚РёРіРЅРµРј РґРѕ
+РµР»РµРјРµРЅС‚ &lt;x
+<br>В 4. Р Р°Р·РјРµРЅСЏРјРµ РјРµСЃС‚Р°С‚Р° РЅР° РґРІР°С‚Р° РµР»РµРјРµРЅС‚Р°
+<br><b><tt><font color="#006600">vector&lt;int&gt; a(n);</font></tt></b>
 <br><b><tt><font color="#006600">void partition(int x)</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;int i=1, j=n;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;do</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; while (a[i] &lt; x) i++;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; while (a[j] > x) j--;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; if (i&lt;=j)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; { swap(a[i], a[j]);&nbsp; i++;
+<br><b><tt><font color="#006600">В int i=1, j=n;</font></tt></b>
+<br><b><tt><font color="#006600">В do</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  while (a[i] &lt; x) i++;</font></tt></b>
+<br><b><tt><font color="#006600">В  while (a[j] &gt; x) j--;</font></tt></b>
+<br><b><tt><font color="#006600">В  if (i&lt;=j)</font></tt></b>
+<br><b><tt><font color="#006600">В  { swap(a[i], a[j]);В  i++;
 j--; }</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;while (i&lt;=j);</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">В while (i&lt;=j);</font></tt></b>
 <br><b><tt><font color="#006600">}</font></tt></b>
-<p>Б. Сортиране - след като масивът се раздели, двата му дяла се подлагат
-на същата
-<br>обработка и това продължава, докато се получат дялове само с по един
-елемент.
+</p>
+<p>Р‘. РЎРѕСЂС‚РёСЂР°РЅРµ - СЃР»РµРґ РєР°С‚Рѕ РјР°СЃРёРІСЉС‚ СЃРµ СЂР°Р·РґРµР»Рё, РґРІР°С‚Р° РјСѓ РґСЏР»Р° СЃРµ РїРѕРґР»Р°РіР°С‚
+РЅР° СЃСЉС‰Р°С‚Р°
+<br>РѕР±СЂР°Р±РѕС‚РєР° Рё С‚РѕРІР° РїСЂРѕРґСЉР»Р¶Р°РІР°, РґРѕРєР°С‚Рѕ СЃРµ РїРѕР»СѓС‡Р°С‚ РґСЏР»РѕРІРµ СЃР°РјРѕ СЃ РїРѕ РµРґРёРЅ
+РµР»РµРјРµРЅС‚.
 <br><b><tt><font color="#000099">void quicksort(int left, int right)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;int i=left, j=right;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;int x=a[(i + j)/2];</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;do</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; while (a[i] &lt; x) i++;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; while (a[j] > x) j--;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; if (i&lt;=j)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; { swap(a[i], a[j]); i++; j--; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;while (i&lt;=j);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (left&lt;j) quicksort(left, j);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (i&lt;right) quicksort(i, right);</font></tt></b>
+<br><b><tt><font color="#000099">В int i=left, j=right;</font></tt></b>
+<br><b><tt><font color="#000099">В int x=a[(i + j)/2];</font></tt></b>
+<br><b><tt><font color="#000099">В do</font></tt></b>
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  while (a[i] &lt; x) i++;</font></tt></b>
+<br><b><tt><font color="#000099">В  while (a[j] &gt; x) j--;</font></tt></b>
+<br><b><tt><font color="#000099">В  if (i&lt;=j)</font></tt></b>
+<br><b><tt><font color="#000099">В  { swap(a[i], a[j]); i++; j--; }</font></tt></b>
+<br><b><tt><font color="#000099">В }</font></tt></b>
+<br><b><tt><font color="#000099">В while (i&lt;=j);</font></tt></b>
+<br><b><tt><font color="#000099">В if (left&lt;j) quicksort(left, j);</font></tt></b>
+<br><b><tt><font color="#000099">В if (i&lt;right) quicksort(i, right);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

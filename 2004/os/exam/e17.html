@@ -1,270 +1,331 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>os5</title>
 </head>
 <body>
-<b>17. Конкуренция: "мъртва хватка" и "гладна смърт"</b>
-<br><b>Предпазване от МХ. Избягване на МХ.</b>
-<p><b>6.2 Предпазване (prevention) от МХ</b>
-<br>** Взаимно изключване.
-<br>&nbsp;&nbsp;&nbsp;&nbsp; Не може да бъде избягнато.
-<br>** Владея и чакам.
-<br>&nbsp;&nbsp;&nbsp; Процесът чака за всички необходими ресурси - неефективно
-<br>** Няма отстъпки (no preemtion).
-<br>** Циклично чакане.
-<p><b>6.3 Избягване (avoidance) на МХ</b>
-<br>&nbsp;&nbsp;&nbsp; Два подхода при избягване на МХ:
-<br>&nbsp; -- да не се стартира процес, който води до МХ;
-<br>&nbsp; -- да не се дава ресурс на процес, ако това води до МХ.
-<br>&nbsp;&nbsp;&nbsp; Изисква се предварителна информация за необходимите
-расурси на всеки процес.
-<br>** Отказ за стартиране на процес.
-<br>&nbsp;&nbsp;&nbsp; Дадени са:
-<br><b><tt>&nbsp;&nbsp;&nbsp; C</tt></b> - матрица на исканията на всеки
-процес за всеки ресурс;
-<br><b><tt>&nbsp;&nbsp;&nbsp; R</tt></b>&nbsp; - вектор на всички налични
-ресурси;
-<br><b><tt>&nbsp;&nbsp;&nbsp; A</tt></b> - матрица на дадени на всеки процес
-ресурси (състояние на системата);
-<br><b><tt>&nbsp;&nbsp;&nbsp; V</tt></b> - вектор на свободните ресурси.
-<br>&nbsp;&nbsp;&nbsp; Стартираме процес, само ако всичките му необходими
-ресурси са "излишни", т.е. те са свободни в момента и при удовлетворяване
-на всички искания на всички активни процеси пак ще останат свободни.
-<br>Пример.
-<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<b>17. РљРѕРЅРєСѓСЂРµРЅС†РёСЏ: "РјСЉСЂС‚РІР° С…РІР°С‚РєР°" Рё "РіР»Р°РґРЅР° СЃРјСЉСЂС‚"</b>
+<br><b>РџСЂРµРґРїР°Р·РІР°РЅРµ РѕС‚ РњРҐ. РР·Р±СЏРіРІР°РЅРµ РЅР° РњРҐ.</b>
+<p><b>6.2 РџСЂРµРґРїР°Р·РІР°РЅРµ (prevention) РѕС‚ РњРҐ</b>
+<br>** Р’Р·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ.
+<br>В В В В  РќРµ РјРѕР¶Рµ РґР° Р±СЉРґРµ РёР·Р±СЏРіРЅР°С‚Рѕ.
+<br>** Р’Р»Р°РґРµСЏ Рё С‡Р°РєР°Рј.
+<br>В В В  РџСЂРѕС†РµСЃСЉС‚ С‡Р°РєР° Р·Р° РІСЃРёС‡РєРё РЅРµРѕР±С…РѕРґРёРјРё СЂРµСЃСѓСЂСЃРё - РЅРµРµС„РµРєС‚РёРІРЅРѕ
+<br>** РќСЏРјР° РѕС‚СЃС‚СЉРїРєРё (no preemtion).
+<br>** Р¦РёРєР»РёС‡РЅРѕ С‡Р°РєР°РЅРµ.
+</p>
+<p><b>6.3 РР·Р±СЏРіРІР°РЅРµ (avoidance) РЅР° РњРҐ</b>
+<br>В В В  Р”РІР° РїРѕРґС…РѕРґР° РїСЂРё РёР·Р±СЏРіРІР°РЅРµ РЅР° РњРҐ:
+<br>В  -- РґР° РЅРµ СЃРµ СЃС‚Р°СЂС‚РёСЂР° РїСЂРѕС†РµСЃ, РєРѕР№С‚Рѕ РІРѕРґРё РґРѕ РњРҐ;
+<br>В  -- РґР° РЅРµ СЃРµ РґР°РІР° СЂРµСЃСѓСЂСЃ РЅР° РїСЂРѕС†РµСЃ, Р°РєРѕ С‚РѕРІР° РІРѕРґРё РґРѕ РњРҐ.
+<br>В В В  РР·РёСЃРєРІР° СЃРµ РїСЂРµРґРІР°СЂРёС‚РµР»РЅР° РёРЅС„РѕСЂРјР°С†РёСЏ Р·Р° РЅРµРѕР±С…РѕРґРёРјРёС‚Рµ
+СЂР°СЃСѓСЂСЃРё РЅР° РІСЃРµРєРё РїСЂРѕС†РµСЃ.
+<br>** РћС‚РєР°Р· Р·Р° СЃС‚Р°СЂС‚РёСЂР°РЅРµ РЅР° РїСЂРѕС†РµСЃ.
+<br>В В В  Р”Р°РґРµРЅРё СЃР°:
+<br><b><tt>В В В  C</tt></b> - РјР°С‚СЂРёС†Р° РЅР° РёСЃРєР°РЅРёСЏС‚Р° РЅР° РІСЃРµРєРё
+РїСЂРѕС†РµСЃ Р·Р° РІСЃРµРєРё СЂРµСЃСѓСЂСЃ;
+<br><b><tt>В В В  R</tt></b>В  - РІРµРєС‚РѕСЂ РЅР° РІСЃРёС‡РєРё РЅР°Р»РёС‡РЅРё
+СЂРµСЃСѓСЂСЃРё;
+<br><b><tt>В В В  A</tt></b> - РјР°С‚СЂРёС†Р° РЅР° РґР°РґРµРЅРё РЅР° РІСЃРµРєРё РїСЂРѕС†РµСЃ
+СЂРµСЃСѓСЂСЃРё (СЃСЉСЃС‚РѕСЏРЅРёРµ РЅР° СЃРёСЃС‚РµРјР°С‚Р°);
+<br><b><tt>В В В  V</tt></b> - РІРµРєС‚РѕСЂ РЅР° СЃРІРѕР±РѕРґРЅРёС‚Рµ СЂРµСЃСѓСЂСЃРё.
+<br>В В В  РЎС‚Р°СЂС‚РёСЂР°РјРµ РїСЂРѕС†РµСЃ, СЃР°РјРѕ Р°РєРѕ РІСЃРёС‡РєРёС‚Рµ РјСѓ РЅРµРѕР±С…РѕРґРёРјРё
+СЂРµСЃСѓСЂСЃРё СЃР° "РёР·Р»РёС€РЅРё", С‚.Рµ. С‚Рµ СЃР° СЃРІРѕР±РѕРґРЅРё РІ РјРѕРјРµРЅС‚Р° Рё РїСЂРё СѓРґРѕРІР»РµС‚РІРѕСЂСЏРІР°РЅРµ
+РЅР° РІСЃРёС‡РєРё РёСЃРєР°РЅРёСЏ РЅР° РІСЃРёС‡РєРё Р°РєС‚РёРІРЅРё РїСЂРѕС†РµСЃРё РїР°Рє С‰Рµ РѕСЃС‚Р°РЅР°С‚ СЃРІРѕР±РѕРґРЅРё.
+<br>РџСЂРёРјРµСЂ.
+</p>
+<table cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#993300">Матрица C</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp; 2
-активен</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3
-активен</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° C</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  1В В  1В В  2
+Р°РєС‚РёРІРµРЅ</font></tt></b>
+<br><b><tt><font color="#993300">P2В  6В В  1В В  3
+Р°РєС‚РёРІРµРЅ</font></tt></b>
+<br><b><tt><font color="#993300">P3В  2В В  1В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P4В  4В В  0В В  2В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Матрица A</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 2</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° A</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  1В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  6В В  1В В  2</font></tt></b>
+<br><b><tt><font color="#993300">P3В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P4В  0В В  0В В  0В </font></tt></b>
+</td>
 </tr>
 
 <tr>
-<td><b><tt><font color="#993300">Вектор R</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-6&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ R</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+6В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Вектор V</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;&nbsp;
-4&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ V</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  2В В  2В В 
+4В </font></tt></b>
+</td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp;<i> Можем ли да стартираме процес </i><b><tt><font color="#993300">P3</font></tt></b><font color="#000000"><i>?
+В В В <i> РњРѕР¶РµРј Р»Рё РґР° СЃС‚Р°СЂС‚РёСЂР°РјРµ РїСЂРѕС†РµСЃ </i><b><tt><font color="#993300">P3</font></tt></b><font color="#000000"><i>?
 </i>-
-Да.</font>
-<br><i>&nbsp;&nbsp;&nbsp; Можем ли да стартираме процес </i><b><tt><font color="#993300">P4</font></tt></b><font color="#000000"><i>?
+Р”Р°.</font>
+<br><i>В В В  РњРѕР¶РµРј Р»Рё РґР° СЃС‚Р°СЂС‚РёСЂР°РјРµ РїСЂРѕС†РµСЃ </i><b><tt><font color="#993300">P4</font></tt></b><font color="#000000"><i>?
 </i>-
-Не.</font>
-<br>&nbsp;&nbsp;&nbsp; Тази стратегия е твърде песимистична - предполага
-се, че всички процеси ще искат всички необходими им ресурси едновременно.
-<p>** Отказ за даване на ресурс - алгоритъм на банкера.
-<br>&nbsp;&nbsp;&nbsp; Безопасно (сигурно) състояние на системата - съществува
-такава последователност от изпълнение на процесите, при която всички процеси
-завършват успешно (няма МХ). Опасно (несигурно) състояние - всяко друго.
-<p>&nbsp;&nbsp;&nbsp; Пример 1. Безопасно състояние и изпълнение на процесите:
-<br><b><tt><font color="#333333">Начално състояние</font></tt></b>
-<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+РќРµ.</font>
+<br>В В В  РўР°Р·Рё СЃС‚СЂР°С‚РµРіРёСЏ Рµ С‚РІСЉСЂРґРµ РїРµСЃРёРјРёСЃС‚РёС‡РЅР° - РїСЂРµРґРїРѕР»Р°РіР°
+СЃРµ, С‡Рµ РІСЃРёС‡РєРё РїСЂРѕС†РµСЃРё С‰Рµ РёСЃРєР°С‚ РІСЃРёС‡РєРё РЅРµРѕР±С…РѕРґРёРјРё РёРј СЂРµСЃСѓСЂСЃРё РµРґРЅРѕРІСЂРµРјРµРЅРЅРѕ.
+<p>** РћС‚РєР°Р· Р·Р° РґР°РІР°РЅРµ РЅР° СЂРµСЃСѓСЂСЃ - Р°Р»РіРѕСЂРёС‚СЉРј РЅР° Р±Р°РЅРєРµСЂР°.
+<br>В В В  Р‘РµР·РѕРїР°СЃРЅРѕ (СЃРёРіСѓСЂРЅРѕ) СЃСЉСЃС‚РѕСЏРЅРёРµ РЅР° СЃРёСЃС‚РµРјР°С‚Р° - СЃСЉС‰РµСЃС‚РІСѓРІР°
+С‚Р°РєР°РІР° РїРѕСЃР»РµРґРѕРІР°С‚РµР»РЅРѕСЃС‚ РѕС‚ РёР·РїСЉР»РЅРµРЅРёРµ РЅР° РїСЂРѕС†РµСЃРёС‚Рµ, РїСЂРё РєРѕСЏС‚Рѕ РІСЃРёС‡РєРё РїСЂРѕС†РµСЃРё
+Р·Р°РІСЉСЂС€РІР°С‚ СѓСЃРїРµС€РЅРѕ (РЅСЏРјР° РњРҐ). РћРїР°СЃРЅРѕ (РЅРµСЃРёРіСѓСЂРЅРѕ) СЃСЉСЃС‚РѕСЏРЅРёРµ - РІСЃСЏРєРѕ РґСЂСѓРіРѕ.
+</p>
+<p>В В В  РџСЂРёРјРµСЂ 1. Р‘РµР·РѕРїР°СЃРЅРѕ СЃСЉСЃС‚РѕСЏРЅРёРµ Рё РёР·РїСЉР»РЅРµРЅРёРµ РЅР° РїСЂРѕС†РµСЃРёС‚Рµ:
+<br><b><tt><font color="#333333">РќР°С‡Р°Р»РЅРѕ СЃСЉСЃС‚РѕСЏРЅРёРµ</font></tt></b>
+</p>
+<table cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#993300">Матрица C</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° C</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  3В В  2В В  2</font></tt></b>
+<br><b><tt><font color="#993300">P2В  6В В  1В В  3</font></tt></b>
+<br><b><tt><font color="#993300">P3В  3В В  1В В  4</font></tt></b>
+<br><b><tt><font color="#993300">P4В  4В В  2В В  2В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Матрица A</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 2</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° A</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  1В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  6В В  1В В  2</font></tt></b>
+<br><b><tt><font color="#993300">P3В  2В В  1В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P4В  0В В  0В В  2В </font></tt></b>
+</td>
 </tr>
 
 <tr>
-<td><b><tt><font color="#993300">Вектор R</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-6&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ R</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+6В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Вектор V</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
-1&nbsp;</font></tt></b></td>
-</tr>
-</table>
-<b><tt><font color="#333333">P2 се изпълнява и завършва</font></tt></b>
-<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
-<tr>
-<td><b><tt><font color="#993300">Матрица C</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
-
-<td><b><tt><font color="#993300">Матрица A</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
-</tr>
-
-<tr>
-<td><b><tt><font color="#993300">Вектор R</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-6&nbsp;</font></tt></b></td>
-
-<td><b><tt><font color="#993300">Вектор V</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 6&nbsp;&nbsp; 2&nbsp;&nbsp;
-3&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ V</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  0В В  1В В 
+1В </font></tt></b>
+</td>
 </tr>
 </table>
-<b><tt><font color="#333333">P1 се изпълнява и завършва</font></tt></b>
-<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<b><tt><font color="#333333">P2 СЃРµ РёР·РїСЉР»РЅСЏРІР° Рё Р·Р°РІСЉСЂС€РІР°</font></tt></b>
+<table cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#993300">Матрица C</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° C</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  3В В  2В В  2</font></tt></b>
+<br><b><tt><font color="#993300">P2В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P3В  3В В  1В В  4</font></tt></b>
+<br><b><tt><font color="#993300">P4В  4В В  2В В  2В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Матрица A</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° A</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  1В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P3В  2В В  1В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P4В  0В В  0В В  2В </font></tt></b>
+</td>
 </tr>
 
 <tr>
-<td><b><tt><font color="#993300">Вектор R</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-6&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ R</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+6В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Вектор V</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 7&nbsp;&nbsp; 2&nbsp;&nbsp;
-3&nbsp;</font></tt></b></td>
-</tr>
-</table>
-<b><tt><font color="#333333">P3 се изпълнява и завършва</font></tt></b>
-<table CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
-<tr>
-<td><b><tt><font color="#993300">Матрица C</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
-
-<td><b><tt><font color="#993300">Матрица A</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
-</tr>
-
-<tr>
-<td><b><tt><font color="#993300">Вектор R</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-6&nbsp;</font></tt></b></td>
-
-<td><b><tt><font color="#993300">Вектор V</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-4&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ V</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  6В В  2В В 
+3В </font></tt></b>
+</td>
 </tr>
 </table>
-<b><tt><font color="#333333">P4 се изпълнява и завършва</font></tt></b>
-<p>Пример 2. Опасно състояние и изпълнение на процесите:
-<br><b><tt><font color="#333333">Начално състояние</font></tt></b>
-<table COLS=2 WIDTH="100%" >
+<b><tt><font color="#333333">P1 СЃРµ РёР·РїСЉР»РЅСЏРІР° Рё Р·Р°РІСЉСЂС€РІР°</font></tt></b>
+<table cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#993300">Матрица C</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° C</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P3В  3В В  1В В  4</font></tt></b>
+<br><b><tt><font color="#993300">P4В  4В В  2В В  2В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Матрица A</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 1&nbsp;&nbsp; 0&nbsp;&nbsp; 0</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 5&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° A</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P3В  2В В  1В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P4В  0В В  0В В  2В </font></tt></b>
+</td>
 </tr>
 
 <tr>
-<td><b><tt><font color="#993300">Вектор R</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-6&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ R</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+6В </font></tt></b>
+</td>
 
-<td><b><tt><font color="#993300">Вектор V</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 1&nbsp;&nbsp; 1&nbsp;&nbsp;
-2&nbsp;</font></tt></b></td>
-</tr>
-</table>
-<b><tt><font color="#333333">На P1 се дават R1 и R3</font></tt></b>
-<table COLS=2 WIDTH="100%" >
-<tr>
-<td><b><tt><font color="#993300">Матрица C</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 3&nbsp;&nbsp; 2&nbsp;&nbsp; 2</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 6&nbsp;&nbsp; 1&nbsp;&nbsp; 3</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 3&nbsp;&nbsp; 1&nbsp;&nbsp; 4</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 4&nbsp;&nbsp; 2&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
-
-<td><b><tt><font color="#993300">Матрица A</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">P1&nbsp; 2&nbsp;&nbsp; 0&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P2&nbsp; 5&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P3&nbsp; 2&nbsp;&nbsp; 1&nbsp;&nbsp; 1</font></tt></b>
-<br><b><tt><font color="#993300">P4&nbsp; 0&nbsp;&nbsp; 0&nbsp;&nbsp; 2&nbsp;</font></tt></b></td>
-</tr>
-
-<tr>
-<td><b><tt><font color="#993300">Вектор R</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 9&nbsp;&nbsp; 3&nbsp;&nbsp;
-6&nbsp;</font></tt></b></td>
-
-<td><b><tt><font color="#993300">Вектор V</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp; R1&nbsp; R2&nbsp; R3</font></tt></b>
-<br><b><tt><font color="#993300">&nbsp;&nbsp;&nbsp; 0&nbsp;&nbsp; 1&nbsp;&nbsp;
-1&nbsp;</font></tt></b></td>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ V</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  7В В  2В В 
+3В </font></tt></b>
+</td>
 </tr>
 </table>
-<font color="#333333">&nbsp;&nbsp;&nbsp; На всеки процес му трябва <b><tt>R1</tt></b>
-за да завърши, а такъв няма. Това не е МХ, но може да се появи МХ. Ако
-някой процес освободи <b><tt>R1</tt></b>, МХ се избягва.</font>
+<b><tt><font color="#333333">P3 СЃРµ РёР·РїСЉР»РЅСЏРІР° Рё Р·Р°РІСЉСЂС€РІР°</font></tt></b>
+<table cellspacing="0" cellpadding="4" cols="2" width="100%">
+<tr>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° C</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P3В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P4В  4В В  2В В  2В </font></tt></b>
+</td>
+
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° A</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P3В  0В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P4В  0В В  0В В  2В </font></tt></b>
+</td>
+</tr>
+
+<tr>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ R</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+6В </font></tt></b>
+</td>
+
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ V</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+4В </font></tt></b>
+</td>
+</tr>
+</table>
+<b><tt><font color="#333333">P4 СЃРµ РёР·РїСЉР»РЅСЏРІР° Рё Р·Р°РІСЉСЂС€РІР°</font></tt></b>
+<p>РџСЂРёРјРµСЂ 2. РћРїР°СЃРЅРѕ СЃСЉСЃС‚РѕСЏРЅРёРµ Рё РёР·РїСЉР»РЅРµРЅРёРµ РЅР° РїСЂРѕС†РµСЃРёС‚Рµ:
+<br><b><tt><font color="#333333">РќР°С‡Р°Р»РЅРѕ СЃСЉСЃС‚РѕСЏРЅРёРµ</font></tt></b>
+</p>
+<table cols="2" width="100%">
+<tr>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° C</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  3В В  2В В  2</font></tt></b>
+<br><b><tt><font color="#993300">P2В  6В В  1В В  3</font></tt></b>
+<br><b><tt><font color="#993300">P3В  3В В  1В В  4</font></tt></b>
+<br><b><tt><font color="#993300">P4В  4В В  2В В  2В </font></tt></b>
+</td>
+
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° A</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  1В В  0В В  0</font></tt></b>
+<br><b><tt><font color="#993300">P2В  5В В  1В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P3В  2В В  1В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P4В  0В В  0В В  2В </font></tt></b>
+</td>
+</tr>
+
+<tr>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ R</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+6В </font></tt></b>
+</td>
+
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ V</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  1В В  1В В 
+2В </font></tt></b>
+</td>
+</tr>
+</table>
+<b><tt><font color="#333333">РќР° P1 СЃРµ РґР°РІР°С‚ R1 Рё R3</font></tt></b>
+<table cols="2" width="100%">
+<tr>
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° C</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  3В В  2В В  2</font></tt></b>
+<br><b><tt><font color="#993300">P2В  6В В  1В В  3</font></tt></b>
+<br><b><tt><font color="#993300">P3В  3В В  1В В  4</font></tt></b>
+<br><b><tt><font color="#993300">P4В  4В В  2В В  2В </font></tt></b>
+</td>
+
+<td>
+<b><tt><font color="#993300">РњР°С‚СЂРёС†Р° A</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">P1В  2В В  0В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P2В  5В В  1В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P3В  2В В  1В В  1</font></tt></b>
+<br><b><tt><font color="#993300">P4В  0В В  0В В  2В </font></tt></b>
+</td>
+</tr>
+
+<tr>
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ R</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  9В В  3В В 
+6В </font></tt></b>
+</td>
+
+<td>
+<b><tt><font color="#993300">Р’РµРєС‚РѕСЂ V</font></tt></b>
+<br><b><tt><font color="#993300">В В  R1В  R2В  R3</font></tt></b>
+<br><b><tt><font color="#993300">В В В  0В В  1В В 
+1В </font></tt></b>
+</td>
+</tr>
+</table>
+<font color="#333333">В В В  РќР° РІСЃРµРєРё РїСЂРѕС†РµСЃ РјСѓ С‚СЂСЏР±РІР° <b><tt>R1</tt></b>
+Р·Р° РґР° Р·Р°РІСЉСЂС€Рё, Р° С‚Р°РєСЉРІ РЅСЏРјР°. РўРѕРІР° РЅРµ Рµ РњРҐ, РЅРѕ РјРѕР¶Рµ РґР° СЃРµ РїРѕСЏРІРё РњРҐ. РђРєРѕ
+РЅСЏРєРѕР№ РїСЂРѕС†РµСЃ РѕСЃРІРѕР±РѕРґРё <b><tt>R1</tt></b>, РњРҐ СЃРµ РёР·Р±СЏРіРІР°.</font>
 <br>
-<hr WIDTH="100%">
+<hr width="100%">
 </body>
 </html>

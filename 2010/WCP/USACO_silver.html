@@ -1,8 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-  <meta content="text/html; charset=ISO-8859-1"
- http-equiv="Content-Type">
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
   <title>USACO_5</title>
 </head>
 <body>
@@ -27,7 +26,7 @@ INPUT FORMAT:<br>
 * Line 1: Two space-separated integers: N and M<br>
 <br>
 * Lines 2..M+1: Each line contains two space-separated integers
-that&nbsp; describe the competitors and results (the first integer, A,
+that  describe the competitors and results (the first integer, A,
 is the winner) of a single round of competition: A and B<br>
 <br>
 SAMPLE INPUT (file contest.in):<br>
@@ -43,7 +42,7 @@ SAMPLE INPUT (file contest.in):<br>
 OUTPUT FORMAT:<br>
 <br>
 * Line 1: A single integer representing the number of cows whose ranks<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; can be determined<br>
+        can be determined<br>
 <br>
 SAMPLE OUTPUT (file contest.out):<br>
 <br>
@@ -53,7 +52,7 @@ OUTPUT DETAILS:<br>
 <br>
 Cow 2 loses to cows 1, 3, and 4. Thus, cow 2 is no better than any of
 the cows 1, 3, and 4. Cow 5 loses to cow 2, so cow 2 is better than cow
-5.&nbsp; Thus, cow 2 must be fourth, and cow 5 must be fifth. The ranks
+5.  Thus, cow 2 must be fourth, and cow 5 must be fifth. The ranks
 of the other cows cannot be determined.<br>
 <br>
 First, note that the problem can be converted into a graph, with the
@@ -67,115 +66,92 @@ either by doing a BFS for O(NM) overall or Floyd-Warshall for O(N3)
 overall. Then, for each cow, we check if every other cow is connected
 to it, and if so, we increment our answer by 1.<br>
 The following is a sample solution:<br>
-<span style="font-family: monospace;">#include &lt;cstdio&gt;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">using namespace std;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">#include &lt;cstdio&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">using namespace std;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
 <span style="font-family: monospace;">FILE *fout = fopen
 ("contest.out", "w");</span><br style="font-family: monospace;">
 <span style="font-family: monospace;">FILE *fin = fopen ("contest.in",
 "r");</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">const int MAXN = 105;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">const int MAXN = 105;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">int N, M, total = 0;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">bool reach [MAXN][MAXN];</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">int N, M, total = 0;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">bool reach [MAXN][MAXN];</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">void main ()</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">{</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fscanf (fin,
+<span style="font-family: monospace;">void main ()</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    fscanf (fin,
 "%d %d", &amp;N, &amp;M);</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
 <span style="font-family: monospace;">// cows are 'connected' to
 themselves</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+<span style="font-family: monospace;">    for (int i =
 0; i &lt; N; i++)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;reach [i][i] =
+<span style="font-family: monospace;">    reach [i][i] =
 true;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">// read input</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; int a, b;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+<span style="font-family: monospace;">// read input</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    int a, b;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    for (int i =
 0; i &lt; M; i++)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; {</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;fscanf (fin, "%d %d", &amp;a, &amp;b);</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;a--, b--;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+ fscanf (fin, "%d %d", &amp;a, &amp;b);</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+ a--, b--;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;reach [a][b] = true;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">      
+ reach [a][b] = true;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
 <span style="font-family: monospace;">// use Floyd-Warshall to compute
 transitive closure</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int k =
+<span style="font-family: monospace;">    for (int k =
 0; k &lt; N; k++)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;for (int i = 0; i &lt; N; i++)</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;if (reach [i][k])</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;for (int j = 0; j &lt; N;
+<span style="font-family: monospace;">      
+ for (int i = 0; i &lt; N; i++)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+     if (reach [i][k])</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+         for (int j = 0; j &lt; N;
 j++)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;if
+<span style="font-family: monospace;">      
+             if
 (reach [k][j])</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;reach [i][j] = true;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">      
+           
+     reach [i][j] = true;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+<span style="font-family: monospace;">    for (int i =
 0; i &lt; N; i++)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; {</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;bool good = true;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+ bool good = true;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;// we can find
-the rank of a cow if all other cows are connected to it</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;for (int j = 0; j &lt; N; j++)</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;if (!reach [i][j] &amp;&amp; !reach [j][i])</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;{</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;good = false;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;break;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;}</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    // we can find
+the rank of a cow if all other cows are connected to it</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+ for (int j = 0; j &lt; N; j++)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+     if (!reach [i][j] &amp;&amp; !reach [j][i])</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+     {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+     good = false;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+     break;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+     }</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;if (good)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; &nbsp;total++;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">      
+ if (good)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">      
+     total++;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fprintf (fout,
+<span style="font-family: monospace;">    fprintf (fout,
 "%d\n", total);</span><br style="font-family: monospace;">
 <span style="font-family: monospace;">}</span><br>
 <hr style="width: 100%; height: 2px;">
@@ -188,7 +164,7 @@ The ultimate distance Bessie runs, though, depends on her 'exhaustion
 factor', which starts at 0. When she chooses to run in minute i, she
 will run exactly a distance of Di (1 &lt;= Di &lt;= 1,000) and her
 exhaustion factor will increase by 1 -- but must never be allowed to
-exceed M (1 &lt;= M &lt;= 500).&nbsp; If she chooses to rest, her
+exceed M (1 &lt;= M &lt;= 500).  If she chooses to rest, her
 exhaustion factor will decrease by 1 for each minute she rests. She
 cannot commence running again until her exhaustion factor reaches 0. At
 that point, she can choose to run or rest.<br>
@@ -250,76 +226,67 @@ minutes finished after running for k minutes and resting for another k
 minutes).<br>
 Thus, since we do M updates for each of the N minutes, our total
 complexity is O(NM). The following is a sample solution:<br>
-<span style="font-family: monospace;">#include &lt;cstdio&gt;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">using namespace std;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">#include &lt;cstdio&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">using namespace std;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
 <span style="font-family: monospace;">FILE *fout = fopen ("cowrun.out",
 "w");</span><br style="font-family: monospace;">
 <span style="font-family: monospace;">FILE *fin = fopen ("cowrun.in",
 "r");</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">const int MAXN = 10005;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">const int MAXN = 10005;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
 <span style="font-family: monospace;">int N, M, dist [MAXN], best
 [MAXN];</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">void main ()</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">{</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fscanf (fin,
+<span style="font-family: monospace;">void main ()</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    fscanf (fin,
 "%d %d", &amp;N, &amp;M);</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+<span style="font-family: monospace;">    for (int i =
 0; i &lt; N; i++)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 fscanf (fin, "%d", dist + i);</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+<span style="font-family: monospace;">    for (int i =
 0; i &lt; N; i++)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; {</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; &nbsp;// skip
+<span style="font-family: monospace;">    {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">     // skip
 the value</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if (best [i] &gt; best [i + 1])</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
+if (best [i] &gt; best [i + 1])</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">           
 best [i + 1] = best [i];</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 int sum = best [i], pos = i;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-for (int j = 0; j &lt; M &amp;&amp; pos &lt; N; j++)</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
+for (int j = 0; j &lt; M &amp;&amp; pos &lt; N; j++)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">       
 {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
-&nbsp;&nbsp;&nbsp; // update each value</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">   
+    // update each value</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">           
 sum += dist [i + j];</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">           
 pos += 2;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">           
 if (sum &gt; best [pos])</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">               
 best [pos] = sum;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fprintf (fout,
+<span style="font-family: monospace;">    fprintf (fout,
 "%d\n", best [N]);</span><br style="font-family: monospace;">
 <span style="font-family: monospace;">}</span><br>
 <br>
-<hr style="width: 100%; height: 2px;"><br>
+<hr style="width: 100%; height: 2px;">
+<br>
 <h3>Telephone Lines [Paul Christiano, 2007]</h3>
 Farmer John wants to set up a telephone line at his farm.
 Unfortunately, the phone company is uncooperative, so he needs to pay
@@ -327,12 +294,12 @@ for some of the cables required to connect his farm to the phone system.<br>
 <br>
 There are N (1 &lt;= N &lt;= 1,000) forlorn telephone poles
 conveniently numbered 1...N that are scattered around Farmer John's
-property; no cables connect any them.&nbsp; A total of P (1 &lt;= P
+property; no cables connect any them.  A total of P (1 &lt;= P
 &lt;= 10,000) pairs of poles can be connected by a cable; the rest are
 too far apart.<br>
 <br>
 The ith cable can connect the two distinct poles Ai and Bi, with length
-Li&nbsp;&nbsp;&nbsp; (1 &lt;= L_i &lt;= 1,000,000) units if used. The
+Li    (1 &lt;= L_i &lt;= 1,000,000) units if used. The
 input data set never names any {Ai,Bi} pair more than once. Pole 1 is
 already connected to the phone system, and pole N is at the farm. Poles
 1 and N need to be connected by a path of cables; the rest of the poles
@@ -352,7 +319,7 @@ INPUT FORMAT:<br>
 * Line 1: Three space-separated integers: N, P, and K<br>
 <br>
 * Lines 2..P+1: Line i+1 contains the three space-separated integers:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Ai, Bi, and Li<br>
+        Ai, Bi, and Li<br>
 <br>
 SAMPLE INPUT (file phoneline.in):<br>
 <br>
@@ -413,176 +380,132 @@ algorithm is O(E log2 V). (It's actually possible to compute the
 shortest path between two vertices in a graph where all edges have
 weight 0 or 1 in linear time, but that's not needed here.) <br>
 <br>
-<span style="font-family: monospace;">#include&lt;fstream&gt;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">#include&lt;vector&gt;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">#include&lt;fstream&gt;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">#include&lt;vector&gt;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">using namespace std;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">using namespace std;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">ifstream fin ("phoneline.in");</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">ofstream fout ("phoneline.out");</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">ifstream fin ("phoneline.in");</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">ofstream fout ("phoneline.out");</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">const int MAX = 1000 + 5;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">const int MAX = 1000 + 5;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">vector &lt;int&gt; a[MAX], b[MAX];</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">int&nbsp;&nbsp;&nbsp;&nbsp; e[MAX
+<span style="font-family: monospace;">vector &lt;int&gt; a[MAX], b[MAX];</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">int     e[MAX
 * 10];</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">bool mark[MAX];</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">int&nbsp; dis [MAX], saf[MAX],
+<span style="font-family: monospace;">bool mark[MAX];</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">int  dis [MAX], saf[MAX],
 head, tail;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">int n, k, D, M;</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">int n, k, D, M;</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">void dfs (int u)</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">{</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; dis[u] = D;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; mark[u] = true;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; saf[tail++] =
+<span style="font-family: monospace;">void dfs (int u)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    dis[u] = D;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    mark[u] = true;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    saf[tail++] =
 u;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+<span style="font-family: monospace;">    for (int i =
 0; i &lt; a[u].size (); i++) {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-if (!mark[a[u][i]] &amp;&amp; b[u][i] &lt;= M)</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
+if (!mark[a[u][i]] &amp;&amp; b[u][i] &lt;= M)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">           
 dfs (a[u][i]);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">void Bfs (int MM)</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">{</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; M = MM;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; memset (mark,
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">void Bfs (int MM)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    M = MM;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    memset (mark,
 0, sizeof mark);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; head = tail =
+<span style="font-family: monospace;">    head = tail =
 0;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; D = 0;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; dfs (n - 1);</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; while (head
+<span style="font-family: monospace;">    D = 0;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    dfs (n - 1);</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    while (head
 &lt; tail) {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 int k = saf[head++];</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-for (int i = 0; i &lt; a[k].size (); ++i) {</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
+for (int i = 0; i &lt; a[k].size (); ++i) {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">           
 if (!mark[a[k][i]]) {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">               
 D = dis[k] + 1;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">               
 dfs (a[k][i]);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">           
 }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
 <br style="font-family: monospace;">
-<span style="font-family: monospace;">void bs (int x, int y)</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">{</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; if (y == x +
+<span style="font-family: monospace;">void bs (int x, int y)</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    if (y == x +
 1) {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-fout &lt;&lt; e[y] &lt;&lt; endl;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
+fout &lt;&lt; e[y] &lt;&lt; endl;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">       
 exit (0);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
-int&nbsp;&nbsp;&nbsp;&nbsp; mid = (y + x) / 2;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; Bfs (e[mid]);</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; if (dis[0]
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">   
+int     mid = (y + x) / 2;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    Bfs (e[mid]);</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    if (dis[0]
 &lt;= k)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 bs (x, mid);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; else</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">    else</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">       
 bs (mid, y);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">void main () </span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">{</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; int ee;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; fin &gt;&gt; n
+<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">void main () </span><br style="font-family: monospace;">
+<span style="font-family: monospace;">{</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    int ee;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    fin &gt;&gt; n
 &gt;&gt; ee &gt;&gt; k;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
-int&nbsp;&nbsp;&nbsp;&nbsp; u, v, w;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; for (int i =
+<span style="font-family: monospace;">   
+int     u, v, w;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    for (int i =
 0; i &lt; ee; ++i) {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-fin &gt;&gt; u &gt;&gt; v &gt;&gt; w;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
+fin &gt;&gt; u &gt;&gt; v &gt;&gt; w;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">       
 u--;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 v--;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 a[u].push_back (v);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 b[u].push_back (w);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 a[v].push_back (u);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 b[v].push_back (w);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
 e[i + 1] = w;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; sort (e, e + 1
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    sort (e, e + 1
 + ee);</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; Bfs (0);</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; if (!mark[0]) {</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-fout &lt;&lt; "-1" &lt;&lt; endl;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">    Bfs (0);</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    if (!mark[0]) {</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">       
+fout &lt;&lt; "-1" &lt;&lt; endl;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">       
 return 0;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; if (dis[0]
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    if (dis[0]
 &lt;= k) {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-fout &lt;&lt; "0" &lt;&lt; endl;</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<span style="font-family: monospace;">       
+fout &lt;&lt; "0" &lt;&lt; endl;</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">       
 return 0;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
- style="font-family: monospace;">
-<span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; bs (0, ee);</span><br
- style="font-family: monospace;">
+<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
+<span style="font-family: monospace;">    bs (0, ee);</span><br style="font-family: monospace;">
 <span style="font-family: monospace;">}</span><br>
-<hr style="width: 100%; height: 2px;"><br>
+<hr style="width: 100%; height: 2px;">
+<br>
 <br>
 </body>
 </html>

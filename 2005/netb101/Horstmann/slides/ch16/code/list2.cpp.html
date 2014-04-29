@@ -1,252 +1,255 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html><body>
 <pre>
 <tt>
-001: <b><font color=#000080>#include</font></b> <font color=#FF0000>&lt;string&gt;</font>
-002: <b><font color=#000080>#include</font></b> <font color=#FF0000>&lt;iostream&gt;</font>
-003: <b><font color=#000080>#include</font></b> <font color=#FF0000>&lt;cassert&gt;</font>
+001: <b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;string&gt;</font>
+002: <b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;iostream&gt;</font>
+003: <b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;cassert&gt;</font>
 004: 
-005: <b><font color=#0000FF>using</font></b> <b><font color=#0000FF>namespace</font></b> std<font color=#990000>;</font>
+005: <b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;</font>
 006: 
-007: <b><font color=#0000FF>class</font></b> List<font color=#990000>;</font>
-008: <b><font color=#0000FF>class</font></b> Iterator<font color=#990000>;</font>
+007: <b><font color="#0000FF">class</font></b> List<font color="#990000">;</font>
+008: <b><font color="#0000FF">class</font></b> Iterator<font color="#990000">;</font>
 009: 
-010: <b><font color=#0000FF>class</font></b> Node
-011: <font color=#FF0000>{</font>
-012: <b><font color=#0000FF>public</font></b><font color=#990000>:</font>
-013:    <i><font color=#9A1900>/* </font></i>
-014: <i><font color=#9A1900>      Constructs a node with a given data value.</font></i>
-015: <i><font color=#9A1900>      @param s the data to store in this node</font></i>
-016: <i><font color=#9A1900>   */</font></i>
-017:    <b><font color=#000000>Node</font></b><font color=#990000>(</font>string s<font color=#990000>)</font><font color=#990000>;</font>
-018: <b><font color=#0000FF>private</font></b><font color=#990000>:</font>
-019:    string data<font color=#990000>;</font>
-020:    Node<font color=#990000>*</font> previous<font color=#990000>;</font>
-021:    Node<font color=#990000>*</font> next<font color=#990000>;</font>
-022: <b><font color=#0000FF>friend</font></b> <b><font color=#0000FF>class</font></b> List<font color=#990000>;</font>
-023: <b><font color=#0000FF>friend</font></b> <b><font color=#0000FF>class</font></b> Iterator<font color=#990000>;</font>
-024: <font color=#FF0000>}</font><font color=#990000>;</font>
+010: <b><font color="#0000FF">class</font></b> Node
+011: <font color="#FF0000">{</font>
+012: <b><font color="#0000FF">public</font></b><font color="#990000">:</font>
+013:    <i><font color="#9A1900">/* </font></i>
+014: <i><font color="#9A1900">      Constructs a node with a given data value.</font></i>
+015: <i><font color="#9A1900">      @param s the data to store in this node</font></i>
+016: <i><font color="#9A1900">   */</font></i>
+017:    <b><font color="#000000">Node</font></b><font color="#990000">(</font>string s<font color="#990000">)</font><font color="#990000">;</font>
+018: <b><font color="#0000FF">private</font></b><font color="#990000">:</font>
+019:    string data<font color="#990000">;</font>
+020:    Node<font color="#990000">*</font> previous<font color="#990000">;</font>
+021:    Node<font color="#990000">*</font> next<font color="#990000">;</font>
+022: <b><font color="#0000FF">friend</font></b> <b><font color="#0000FF">class</font></b> List<font color="#990000">;</font>
+023: <b><font color="#0000FF">friend</font></b> <b><font color="#0000FF">class</font></b> Iterator<font color="#990000">;</font>
+024: <font color="#FF0000">}</font><font color="#990000">;</font>
 025: 
-026: <b><font color=#0000FF>class</font></b> List
-027: <font color=#FF0000>{</font>
-028: <b><font color=#0000FF>public</font></b><font color=#990000>:</font>
-029:    <i><font color=#9A1900>/**</font></i>
-030: <i><font color=#9A1900>      Constructs an empty list;</font></i>
-031: <i><font color=#9A1900>   */</font></i>
-032:    <b><font color=#000000>List</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-033:    <i><font color=#9A1900>/**</font></i>
-034: <i><font color=#9A1900>      Appends an element to the list.</font></i>
-035: <i><font color=#9A1900>      @param s the value to append</font></i>
-036: <i><font color=#9A1900>   */</font></i>
-037:    <font color=#009900>void</font> <b><font color=#000000>push_back</font></b><font color=#990000>(</font>string s<font color=#990000>)</font><font color=#990000>;</font>
-038:    <i><font color=#9A1900>/**</font></i>
-039: <i><font color=#9A1900>      Inserts an element into the list.</font></i>
-040: <i><font color=#9A1900>      @param iter the position before which to insert</font></i>
-041: <i><font color=#9A1900>      @param s the value to append</font></i>
-042: <i><font color=#9A1900>   */</font></i>
-043:    <font color=#009900>void</font> <b><font color=#000000>insert</font></b><font color=#990000>(</font>Iterator iter<font color=#990000>,</font> string s<font color=#990000>)</font><font color=#990000>;</font>
-044:    <i><font color=#9A1900>/**</font></i>
-045: <i><font color=#9A1900>      Removes an element from the list.</font></i>
-046: <i><font color=#9A1900>      @param i the position to remove</font></i>
-047: <i><font color=#9A1900>      @return an iterator pointing to the element after the</font></i>
-048: <i><font color=#9A1900>      erased element</font></i>
-049: <i><font color=#9A1900>   */</font></i>
-050:    Iterator <b><font color=#000000>erase</font></b><font color=#990000>(</font>Iterator i<font color=#990000>)</font><font color=#990000>;</font>
-051:    <i><font color=#9A1900>/**</font></i>
-052: <i><font color=#9A1900>      Gets the beginning position of the list.</font></i>
-053: <i><font color=#9A1900>      @return an iterator pointing to the beginning of the list</font></i>
-054: <i><font color=#9A1900>   */</font></i>
-055:    Iterator <b><font color=#000000>begin</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-056:    <i><font color=#9A1900>/**</font></i>
-057: <i><font color=#9A1900>      Gets the past-the-end position of the list.</font></i>
-058: <i><font color=#9A1900>      @return an iterator pointing past the end of the list</font></i>
-059: <i><font color=#9A1900>   */</font></i>
-060:    Iterator <b><font color=#000000>end</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-061: <b><font color=#0000FF>private</font></b><font color=#990000>:</font>
-062:    Node<font color=#990000>*</font> first<font color=#990000>;</font>
-063:    Node<font color=#990000>*</font> last<font color=#990000>;</font>
-064: <font color=#FF0000>}</font><font color=#990000>;</font>
+026: <b><font color="#0000FF">class</font></b> List
+027: <font color="#FF0000">{</font>
+028: <b><font color="#0000FF">public</font></b><font color="#990000">:</font>
+029:    <i><font color="#9A1900">/**</font></i>
+030: <i><font color="#9A1900">      Constructs an empty list;</font></i>
+031: <i><font color="#9A1900">   */</font></i>
+032:    <b><font color="#000000">List</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+033:    <i><font color="#9A1900">/**</font></i>
+034: <i><font color="#9A1900">      Appends an element to the list.</font></i>
+035: <i><font color="#9A1900">      @param s the value to append</font></i>
+036: <i><font color="#9A1900">   */</font></i>
+037:    <font color="#009900">void</font> <b><font color="#000000">push_back</font></b><font color="#990000">(</font>string s<font color="#990000">)</font><font color="#990000">;</font>
+038:    <i><font color="#9A1900">/**</font></i>
+039: <i><font color="#9A1900">      Inserts an element into the list.</font></i>
+040: <i><font color="#9A1900">      @param iter the position before which to insert</font></i>
+041: <i><font color="#9A1900">      @param s the value to append</font></i>
+042: <i><font color="#9A1900">   */</font></i>
+043:    <font color="#009900">void</font> <b><font color="#000000">insert</font></b><font color="#990000">(</font>Iterator iter<font color="#990000">,</font> string s<font color="#990000">)</font><font color="#990000">;</font>
+044:    <i><font color="#9A1900">/**</font></i>
+045: <i><font color="#9A1900">      Removes an element from the list.</font></i>
+046: <i><font color="#9A1900">      @param i the position to remove</font></i>
+047: <i><font color="#9A1900">      @return an iterator pointing to the element after the</font></i>
+048: <i><font color="#9A1900">      erased element</font></i>
+049: <i><font color="#9A1900">   */</font></i>
+050:    Iterator <b><font color="#000000">erase</font></b><font color="#990000">(</font>Iterator i<font color="#990000">)</font><font color="#990000">;</font>
+051:    <i><font color="#9A1900">/**</font></i>
+052: <i><font color="#9A1900">      Gets the beginning position of the list.</font></i>
+053: <i><font color="#9A1900">      @return an iterator pointing to the beginning of the list</font></i>
+054: <i><font color="#9A1900">   */</font></i>
+055:    Iterator <b><font color="#000000">begin</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+056:    <i><font color="#9A1900">/**</font></i>
+057: <i><font color="#9A1900">      Gets the past-the-end position of the list.</font></i>
+058: <i><font color="#9A1900">      @return an iterator pointing past the end of the list</font></i>
+059: <i><font color="#9A1900">   */</font></i>
+060:    Iterator <b><font color="#000000">end</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+061: <b><font color="#0000FF">private</font></b><font color="#990000">:</font>
+062:    Node<font color="#990000">*</font> first<font color="#990000">;</font>
+063:    Node<font color="#990000">*</font> last<font color="#990000">;</font>
+064: <font color="#FF0000">}</font><font color="#990000">;</font>
 065: 
-066: <b><font color=#0000FF>class</font></b> Iterator
-067: <font color=#FF0000>{</font>
-068: <b><font color=#0000FF>public</font></b><font color=#990000>:</font>
-069:    <i><font color=#9A1900>/**</font></i>
-070: <i><font color=#9A1900>      Constructs an iterator that does not point into any list.</font></i>
-071: <i><font color=#9A1900>   */</font></i>
-072:    <b><font color=#000000>Iterator</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-073:    <i><font color=#9A1900>/**  </font></i>
-074: <i><font color=#9A1900>      Looks up the value at a position.</font></i>
-075: <i><font color=#9A1900>      @return the value of the node to which the iterator points</font></i>
-076: <i><font color=#9A1900>   */</font></i>
-077:    string <b><font color=#000000>get</font></b><font color=#990000>(</font><font color=#990000>)</font> <b><font color=#0000FF>const</font></b><font color=#990000>;</font>
-078:    <i><font color=#9A1900>/**</font></i>
-079: <i><font color=#9A1900>      Advances the iterator to the next node.</font></i>
-080: <i><font color=#9A1900>   */</font></i>
-081:    <font color=#009900>void</font> <b><font color=#000000>next</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-082:    <i><font color=#9A1900>/**</font></i>
-083: <i><font color=#9A1900>      Moves the iterator to the previous node.</font></i>
-084: <i><font color=#9A1900>   */</font></i>
-085:    <font color=#009900>void</font> <b><font color=#000000>previous</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-086:    <i><font color=#9A1900>/**</font></i>
-087: <i><font color=#9A1900>      Compares two iterators</font></i>
-088: <i><font color=#9A1900>      @param b the iterator to compare with this iterator</font></i>
-089: <i><font color=#9A1900>      @return true if this iterator and b are equal</font></i>
-090: <i><font color=#9A1900>   */</font></i>
-091:    <font color=#009900>bool</font> <b><font color=#000000>equals</font></b><font color=#990000>(</font>Iterator b<font color=#990000>)</font> <b><font color=#0000FF>const</font></b><font color=#990000>;</font>
-092: <b><font color=#0000FF>private</font></b><font color=#990000>:</font>
-093:    Node<font color=#990000>*</font> position<font color=#990000>;</font>
-094:    Node<font color=#990000>*</font> last<font color=#990000>;</font>
-095: <b><font color=#0000FF>friend</font></b> <b><font color=#0000FF>class</font></b> List<font color=#990000>;</font>
-096: <font color=#FF0000>}</font><font color=#990000>;</font>
+066: <b><font color="#0000FF">class</font></b> Iterator
+067: <font color="#FF0000">{</font>
+068: <b><font color="#0000FF">public</font></b><font color="#990000">:</font>
+069:    <i><font color="#9A1900">/**</font></i>
+070: <i><font color="#9A1900">      Constructs an iterator that does not point into any list.</font></i>
+071: <i><font color="#9A1900">   */</font></i>
+072:    <b><font color="#000000">Iterator</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+073:    <i><font color="#9A1900">/**  </font></i>
+074: <i><font color="#9A1900">      Looks up the value at a position.</font></i>
+075: <i><font color="#9A1900">      @return the value of the node to which the iterator points</font></i>
+076: <i><font color="#9A1900">   */</font></i>
+077:    string <b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+078:    <i><font color="#9A1900">/**</font></i>
+079: <i><font color="#9A1900">      Advances the iterator to the next node.</font></i>
+080: <i><font color="#9A1900">   */</font></i>
+081:    <font color="#009900">void</font> <b><font color="#000000">next</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+082:    <i><font color="#9A1900">/**</font></i>
+083: <i><font color="#9A1900">      Moves the iterator to the previous node.</font></i>
+084: <i><font color="#9A1900">   */</font></i>
+085:    <font color="#009900">void</font> <b><font color="#000000">previous</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+086:    <i><font color="#9A1900">/**</font></i>
+087: <i><font color="#9A1900">      Compares two iterators</font></i>
+088: <i><font color="#9A1900">      @param b the iterator to compare with this iterator</font></i>
+089: <i><font color="#9A1900">      @return true if this iterator and b are equal</font></i>
+090: <i><font color="#9A1900">   */</font></i>
+091:    <font color="#009900">bool</font> <b><font color="#000000">equals</font></b><font color="#990000">(</font>Iterator b<font color="#990000">)</font> <b><font color="#0000FF">const</font></b><font color="#990000">;</font>
+092: <b><font color="#0000FF">private</font></b><font color="#990000">:</font>
+093:    Node<font color="#990000">*</font> position<font color="#990000">;</font>
+094:    Node<font color="#990000">*</font> last<font color="#990000">;</font>
+095: <b><font color="#0000FF">friend</font></b> <b><font color="#0000FF">class</font></b> List<font color="#990000">;</font>
+096: <font color="#FF0000">}</font><font color="#990000">;</font>
 097: 
-098: Node<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>Node</font></b><font color=#990000>(</font>string s<font color=#990000>)</font>
-099: <font color=#FF0000>{</font>  
-100:    data <font color=#990000>=</font> s<font color=#990000>;</font>
-101:    previous <font color=#990000>=</font> NULL<font color=#990000>;</font>
-102:    next <font color=#990000>=</font> NULL<font color=#990000>;</font>
-103: <font color=#FF0000>}</font>
+098: Node<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">Node</font></b><font color="#990000">(</font>string s<font color="#990000">)</font>
+099: <font color="#FF0000">{</font>  
+100:    data <font color="#990000">=</font> s<font color="#990000">;</font>
+101:    previous <font color="#990000">=</font> NULL<font color="#990000">;</font>
+102:    next <font color="#990000">=</font> NULL<font color="#990000">;</font>
+103: <font color="#FF0000">}</font>
 104: 
-105: List<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>List</font></b><font color=#990000>(</font><font color=#990000>)</font>
-106: <font color=#FF0000>{</font>  
-107:    first <font color=#990000>=</font> NULL<font color=#990000>;</font>
-108:    last <font color=#990000>=</font> NULL<font color=#990000>;</font>
-109: <font color=#FF0000>}</font>
+105: List<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">List</font></b><font color="#990000">(</font><font color="#990000">)</font>
+106: <font color="#FF0000">{</font>  
+107:    first <font color="#990000">=</font> NULL<font color="#990000">;</font>
+108:    last <font color="#990000">=</font> NULL<font color="#990000">;</font>
+109: <font color="#FF0000">}</font>
 110: 
-111: <font color=#009900>void</font> List<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>push_back</font></b><font color=#990000>(</font>string s<font color=#990000>)</font>
-112: <font color=#FF0000>{</font>  
-113:    Node<font color=#990000>*</font> newnode <font color=#990000>=</font> <b><font color=#0000FF>new</font></b> <b><font color=#000000>Node</font></b><font color=#990000>(</font>s<font color=#990000>)</font><font color=#990000>;</font>
-114:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>last <font color=#990000>=</font><font color=#990000>=</font> NULL<font color=#990000>)</font> <i><font color=#9A1900>/* list is empty */</font></i>
-115:    <font color=#FF0000>{</font>  
-116:       first <font color=#990000>=</font> newnode<font color=#990000>;</font>
-117:       last <font color=#990000>=</font> newnode<font color=#990000>;</font>
-118:    <font color=#FF0000>}</font>
-119:    <b><font color=#0000FF>else</font></b>
-120:    <font color=#FF0000>{</font>  
-121:       newnode<font color=#990000>-</font><font color=#990000>&gt;</font>previous <font color=#990000>=</font> last<font color=#990000>;</font>
-122:       last<font color=#990000>-</font><font color=#990000>&gt;</font>next <font color=#990000>=</font> newnode<font color=#990000>;</font>
-123:       last <font color=#990000>=</font> newnode<font color=#990000>;</font>
-124:    <font color=#FF0000>}</font>
-125: <font color=#FF0000>}</font>
+111: <font color="#009900">void</font> List<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>string s<font color="#990000">)</font>
+112: <font color="#FF0000">{</font>  
+113:    Node<font color="#990000">*</font> newnode <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Node</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
+114:    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>last <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font> <i><font color="#9A1900">/* list is empty */</font></i>
+115:    <font color="#FF0000">{</font>  
+116:       first <font color="#990000">=</font> newnode<font color="#990000">;</font>
+117:       last <font color="#990000">=</font> newnode<font color="#990000">;</font>
+118:    <font color="#FF0000">}</font>
+119:    <b><font color="#0000FF">else</font></b>
+120:    <font color="#FF0000">{</font>  
+121:       newnode<font color="#990000">-</font><font color="#990000">&gt;</font>previous <font color="#990000">=</font> last<font color="#990000">;</font>
+122:       last<font color="#990000">-</font><font color="#990000">&gt;</font>next <font color="#990000">=</font> newnode<font color="#990000">;</font>
+123:       last <font color="#990000">=</font> newnode<font color="#990000">;</font>
+124:    <font color="#FF0000">}</font>
+125: <font color="#FF0000">}</font>
 126: 
-127: <font color=#009900>void</font> List<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>insert</font></b><font color=#990000>(</font>Iterator iter<font color=#990000>,</font> string s<font color=#990000>)</font>
-128: <font color=#FF0000>{</font>  
-129:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>iter<font color=#990000>.</font>position <font color=#990000>=</font><font color=#990000>=</font> NULL<font color=#990000>)</font>
-130:    <font color=#FF0000>{</font>  
-131:       <b><font color=#000000>push_back</font></b><font color=#990000>(</font>s<font color=#990000>)</font><font color=#990000>;</font>
-132:       <b><font color=#0000FF>return</font></b><font color=#990000>;</font>
-133:    <font color=#FF0000>}</font>
+127: <font color="#009900">void</font> List<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">insert</font></b><font color="#990000">(</font>Iterator iter<font color="#990000">,</font> string s<font color="#990000">)</font>
+128: <font color="#FF0000">{</font>  
+129:    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>iter<font color="#990000">.</font>position <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font>
+130:    <font color="#FF0000">{</font>  
+131:       <b><font color="#000000">push_back</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
+132:       <b><font color="#0000FF">return</font></b><font color="#990000">;</font>
+133:    <font color="#FF0000">}</font>
 134: 
-135:    Node<font color=#990000>*</font> after <font color=#990000>=</font> iter<font color=#990000>.</font>position<font color=#990000>;</font>
-136:    Node<font color=#990000>*</font> before <font color=#990000>=</font> after<font color=#990000>-</font><font color=#990000>&gt;</font>previous<font color=#990000>;</font>
-137:    Node<font color=#990000>*</font> newnode <font color=#990000>=</font> <b><font color=#0000FF>new</font></b> <b><font color=#000000>Node</font></b><font color=#990000>(</font>s<font color=#990000>)</font><font color=#990000>;</font>
-138:    newnode<font color=#990000>-</font><font color=#990000>&gt;</font>previous <font color=#990000>=</font> before<font color=#990000>;</font>
-139:    newnode<font color=#990000>-</font><font color=#990000>&gt;</font>next <font color=#990000>=</font> after<font color=#990000>;</font>
-140:    after<font color=#990000>-</font><font color=#990000>&gt;</font>previous <font color=#990000>=</font> newnode<font color=#990000>;</font>
-141:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>before <font color=#990000>=</font><font color=#990000>=</font> NULL<font color=#990000>)</font> <i><font color=#9A1900>/* insert at beginning */</font></i>
-142:       first <font color=#990000>=</font> newnode<font color=#990000>;</font>
-143:    <b><font color=#0000FF>else</font></b>
-144:       before<font color=#990000>-</font><font color=#990000>&gt;</font>next <font color=#990000>=</font> newnode<font color=#990000>;</font>
-145: <font color=#FF0000>}</font>
+135:    Node<font color="#990000">*</font> after <font color="#990000">=</font> iter<font color="#990000">.</font>position<font color="#990000">;</font>
+136:    Node<font color="#990000">*</font> before <font color="#990000">=</font> after<font color="#990000">-</font><font color="#990000">&gt;</font>previous<font color="#990000">;</font>
+137:    Node<font color="#990000">*</font> newnode <font color="#990000">=</font> <b><font color="#0000FF">new</font></b> <b><font color="#000000">Node</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
+138:    newnode<font color="#990000">-</font><font color="#990000">&gt;</font>previous <font color="#990000">=</font> before<font color="#990000">;</font>
+139:    newnode<font color="#990000">-</font><font color="#990000">&gt;</font>next <font color="#990000">=</font> after<font color="#990000">;</font>
+140:    after<font color="#990000">-</font><font color="#990000">&gt;</font>previous <font color="#990000">=</font> newnode<font color="#990000">;</font>
+141:    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>before <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font> <i><font color="#9A1900">/* insert at beginning */</font></i>
+142:       first <font color="#990000">=</font> newnode<font color="#990000">;</font>
+143:    <b><font color="#0000FF">else</font></b>
+144:       before<font color="#990000">-</font><font color="#990000">&gt;</font>next <font color="#990000">=</font> newnode<font color="#990000">;</font>
+145: <font color="#FF0000">}</font>
 146: 
-147: Iterator List<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>erase</font></b><font color=#990000>(</font>Iterator i<font color=#990000>)</font>
-148: <font color=#FF0000>{</font>  
-149:    Iterator iter <font color=#990000>=</font> i<font color=#990000>;</font>
-150:    <b><font color=#000000>assert</font></b><font color=#990000>(</font>iter<font color=#990000>.</font>position <font color=#990000>!</font><font color=#990000>=</font> NULL<font color=#990000>)</font><font color=#990000>;</font>
-151:    Node<font color=#990000>*</font> remove <font color=#990000>=</font> iter<font color=#990000>.</font>position<font color=#990000>;</font>
-152:    Node<font color=#990000>*</font> before <font color=#990000>=</font> remove<font color=#990000>-</font><font color=#990000>&gt;</font>previous<font color=#990000>;</font>
-153:    Node<font color=#990000>*</font> after <font color=#990000>=</font> remove<font color=#990000>-</font><font color=#990000>&gt;</font>next<font color=#990000>;</font>
-154:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>remove <font color=#990000>=</font><font color=#990000>=</font> first<font color=#990000>)</font>
-155:       first <font color=#990000>=</font> after<font color=#990000>;</font>
-156:    <b><font color=#0000FF>else</font></b>
-157:       before<font color=#990000>-</font><font color=#990000>&gt;</font>next <font color=#990000>=</font> after<font color=#990000>;</font>
-158:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>remove <font color=#990000>=</font><font color=#990000>=</font> last<font color=#990000>)</font>
-159:       last <font color=#990000>=</font> before<font color=#990000>;</font>
-160:    <b><font color=#0000FF>else</font></b>
-161:       after<font color=#990000>-</font><font color=#990000>&gt;</font>previous <font color=#990000>=</font> before<font color=#990000>;</font>
-162:    iter<font color=#990000>.</font>position <font color=#990000>=</font> after<font color=#990000>;</font>
-163:    <b><font color=#0000FF>delete</font></b> remove<font color=#990000>;</font>
-164:    <b><font color=#0000FF>return</font></b> iter<font color=#990000>;</font>
-165: <font color=#FF0000>}</font>
+147: Iterator List<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">erase</font></b><font color="#990000">(</font>Iterator i<font color="#990000">)</font>
+148: <font color="#FF0000">{</font>  
+149:    Iterator iter <font color="#990000">=</font> i<font color="#990000">;</font>
+150:    <b><font color="#000000">assert</font></b><font color="#990000">(</font>iter<font color="#990000">.</font>position <font color="#990000">!</font><font color="#990000">=</font> NULL<font color="#990000">)</font><font color="#990000">;</font>
+151:    Node<font color="#990000">*</font> remove <font color="#990000">=</font> iter<font color="#990000">.</font>position<font color="#990000">;</font>
+152:    Node<font color="#990000">*</font> before <font color="#990000">=</font> remove<font color="#990000">-</font><font color="#990000">&gt;</font>previous<font color="#990000">;</font>
+153:    Node<font color="#990000">*</font> after <font color="#990000">=</font> remove<font color="#990000">-</font><font color="#990000">&gt;</font>next<font color="#990000">;</font>
+154:    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>remove <font color="#990000">=</font><font color="#990000">=</font> first<font color="#990000">)</font>
+155:       first <font color="#990000">=</font> after<font color="#990000">;</font>
+156:    <b><font color="#0000FF">else</font></b>
+157:       before<font color="#990000">-</font><font color="#990000">&gt;</font>next <font color="#990000">=</font> after<font color="#990000">;</font>
+158:    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>remove <font color="#990000">=</font><font color="#990000">=</font> last<font color="#990000">)</font>
+159:       last <font color="#990000">=</font> before<font color="#990000">;</font>
+160:    <b><font color="#0000FF">else</font></b>
+161:       after<font color="#990000">-</font><font color="#990000">&gt;</font>previous <font color="#990000">=</font> before<font color="#990000">;</font>
+162:    iter<font color="#990000">.</font>position <font color="#990000">=</font> after<font color="#990000">;</font>
+163:    <b><font color="#0000FF">delete</font></b> remove<font color="#990000">;</font>
+164:    <b><font color="#0000FF">return</font></b> iter<font color="#990000">;</font>
+165: <font color="#FF0000">}</font>
 166: 
-167: Iterator List<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>begin</font></b><font color=#990000>(</font><font color=#990000>)</font>
-168: <font color=#FF0000>{</font>  
-169:    Iterator iter<font color=#990000>;</font>
-170:    iter<font color=#990000>.</font>position <font color=#990000>=</font> first<font color=#990000>;</font>
-171:    iter<font color=#990000>.</font>last <font color=#990000>=</font> last<font color=#990000>;</font>
-172:    <b><font color=#0000FF>return</font></b> iter<font color=#990000>;</font>
-173: <font color=#FF0000>}</font>
+167: Iterator List<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">begin</font></b><font color="#990000">(</font><font color="#990000">)</font>
+168: <font color="#FF0000">{</font>  
+169:    Iterator iter<font color="#990000">;</font>
+170:    iter<font color="#990000">.</font>position <font color="#990000">=</font> first<font color="#990000">;</font>
+171:    iter<font color="#990000">.</font>last <font color="#990000">=</font> last<font color="#990000">;</font>
+172:    <b><font color="#0000FF">return</font></b> iter<font color="#990000">;</font>
+173: <font color="#FF0000">}</font>
 174: 
-175: Iterator List<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>end</font></b><font color=#990000>(</font><font color=#990000>)</font>
-176: <font color=#FF0000>{</font>  
-177:    Iterator iter<font color=#990000>;</font>
-178:    iter<font color=#990000>.</font>position <font color=#990000>=</font> NULL<font color=#990000>;</font>
-179:    iter<font color=#990000>.</font>last <font color=#990000>=</font> last<font color=#990000>;</font>
-180:    <b><font color=#0000FF>return</font></b> iter<font color=#990000>;</font>
-181: <font color=#FF0000>}</font>
+175: Iterator List<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">end</font></b><font color="#990000">(</font><font color="#990000">)</font>
+176: <font color="#FF0000">{</font>  
+177:    Iterator iter<font color="#990000">;</font>
+178:    iter<font color="#990000">.</font>position <font color="#990000">=</font> NULL<font color="#990000">;</font>
+179:    iter<font color="#990000">.</font>last <font color="#990000">=</font> last<font color="#990000">;</font>
+180:    <b><font color="#0000FF">return</font></b> iter<font color="#990000">;</font>
+181: <font color="#FF0000">}</font>
 182: 
-183: Iterator<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>Iterator</font></b><font color=#990000>(</font><font color=#990000>)</font>
-184: <font color=#FF0000>{</font>  
-185:    position <font color=#990000>=</font> NULL<font color=#990000>;</font>
-186:    last <font color=#990000>=</font> NULL<font color=#990000>;</font>
-187: <font color=#FF0000>}</font>
+183: Iterator<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">Iterator</font></b><font color="#990000">(</font><font color="#990000">)</font>
+184: <font color="#FF0000">{</font>  
+185:    position <font color="#990000">=</font> NULL<font color="#990000">;</font>
+186:    last <font color="#990000">=</font> NULL<font color="#990000">;</font>
+187: <font color="#FF0000">}</font>
 188: 
-189: string Iterator<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>get</font></b><font color=#990000>(</font><font color=#990000>)</font> <b><font color=#0000FF>const</font></b>
-190: <font color=#FF0000>{</font>  
-191:    <b><font color=#000000>assert</font></b><font color=#990000>(</font>position <font color=#990000>!</font><font color=#990000>=</font> NULL<font color=#990000>)</font><font color=#990000>;</font>
-192:    <b><font color=#0000FF>return</font></b> position<font color=#990000>-</font><font color=#990000>&gt;</font>data<font color=#990000>;</font>
-193: <font color=#FF0000>}</font>
+189: string Iterator<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+190: <font color="#FF0000">{</font>  
+191:    <b><font color="#000000">assert</font></b><font color="#990000">(</font>position <font color="#990000">!</font><font color="#990000">=</font> NULL<font color="#990000">)</font><font color="#990000">;</font>
+192:    <b><font color="#0000FF">return</font></b> position<font color="#990000">-</font><font color="#990000">&gt;</font>data<font color="#990000">;</font>
+193: <font color="#FF0000">}</font>
 194: 
-195: <font color=#009900>void</font> Iterator<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>next</font></b><font color=#990000>(</font><font color=#990000>)</font>
-196: <font color=#FF0000>{</font>  
-197:    <b><font color=#000000>assert</font></b><font color=#990000>(</font>position <font color=#990000>!</font><font color=#990000>=</font> NULL<font color=#990000>)</font><font color=#990000>;</font>
-198:    position <font color=#990000>=</font> position<font color=#990000>-</font><font color=#990000>&gt;</font>next<font color=#990000>;</font>
-199: <font color=#FF0000>}</font>
+195: <font color="#009900">void</font> Iterator<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">next</font></b><font color="#990000">(</font><font color="#990000">)</font>
+196: <font color="#FF0000">{</font>  
+197:    <b><font color="#000000">assert</font></b><font color="#990000">(</font>position <font color="#990000">!</font><font color="#990000">=</font> NULL<font color="#990000">)</font><font color="#990000">;</font>
+198:    position <font color="#990000">=</font> position<font color="#990000">-</font><font color="#990000">&gt;</font>next<font color="#990000">;</font>
+199: <font color="#FF0000">}</font>
 200: 
-201: <font color=#009900>void</font> Iterator<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>previous</font></b><font color=#990000>(</font><font color=#990000>)</font>
-202: <font color=#FF0000>{</font>  
-203:    <b><font color=#0000FF>if</font></b> <font color=#990000>(</font>position <font color=#990000>=</font><font color=#990000>=</font> NULL<font color=#990000>)</font>
-204:       position <font color=#990000>=</font> last<font color=#990000>;</font>
-205:    <b><font color=#0000FF>else</font></b> 
-206:       position <font color=#990000>=</font> position<font color=#990000>-</font><font color=#990000>&gt;</font>previous<font color=#990000>;</font>
-207:    <b><font color=#000000>assert</font></b><font color=#990000>(</font>position <font color=#990000>!</font><font color=#990000>=</font> NULL<font color=#990000>)</font><font color=#990000>;</font>
-208: <font color=#FF0000>}</font>
+201: <font color="#009900">void</font> Iterator<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">previous</font></b><font color="#990000">(</font><font color="#990000">)</font>
+202: <font color="#FF0000">{</font>  
+203:    <b><font color="#0000FF">if</font></b> <font color="#990000">(</font>position <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font>
+204:       position <font color="#990000">=</font> last<font color="#990000">;</font>
+205:    <b><font color="#0000FF">else</font></b> 
+206:       position <font color="#990000">=</font> position<font color="#990000">-</font><font color="#990000">&gt;</font>previous<font color="#990000">;</font>
+207:    <b><font color="#000000">assert</font></b><font color="#990000">(</font>position <font color="#990000">!</font><font color="#990000">=</font> NULL<font color="#990000">)</font><font color="#990000">;</font>
+208: <font color="#FF0000">}</font>
 209: 
-210: <font color=#009900>bool</font> Iterator<font color=#990000>:</font><font color=#990000>:</font><b><font color=#000000>equals</font></b><font color=#990000>(</font>Iterator b<font color=#990000>)</font> <b><font color=#0000FF>const</font></b>
-211: <font color=#FF0000>{</font>  
-212:    <b><font color=#0000FF>return</font></b> position <font color=#990000>=</font><font color=#990000>=</font> b<font color=#990000>.</font>position<font color=#990000>;</font>
-213: <font color=#FF0000>}</font>
+210: <font color="#009900">bool</font> Iterator<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>Iterator b<font color="#990000">)</font> <b><font color="#0000FF">const</font></b>
+211: <font color="#FF0000">{</font>  
+212:    <b><font color="#0000FF">return</font></b> position <font color="#990000">=</font><font color="#990000">=</font> b<font color="#990000">.</font>position<font color="#990000">;</font>
+213: <font color="#FF0000">}</font>
 214: 
-215: <font color=#009900>int</font> <b><font color=#000000>main</font></b><font color=#990000>(</font><font color=#990000>)</font>
-216: <font color=#FF0000>{</font>  
-217:    List staff<font color=#990000>;</font>
+215: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+216: <font color="#FF0000">{</font>  
+217:    List staff<font color="#990000">;</font>
 218: 
-219:    staff<font color=#990000>.</font><b><font color=#000000>push_back</font></b><font color=#990000>(</font><font color=#FF0000>"Cracker, Carl"</font><font color=#990000>)</font><font color=#990000>;</font>
-220:    staff<font color=#990000>.</font><b><font color=#000000>push_back</font></b><font color=#990000>(</font><font color=#FF0000>"Hacker, Harry"</font><font color=#990000>)</font><font color=#990000>;</font>
-221:    staff<font color=#990000>.</font><b><font color=#000000>push_back</font></b><font color=#990000>(</font><font color=#FF0000>"Lam, Larry"</font><font color=#990000>)</font><font color=#990000>;</font>
-222:    staff<font color=#990000>.</font><b><font color=#000000>push_back</font></b><font color=#990000>(</font><font color=#FF0000>"Sandman, Susan"</font><font color=#990000>)</font><font color=#990000>;</font>
+219:    staff<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font><font color="#FF0000">"Cracker, Carl"</font><font color="#990000">)</font><font color="#990000">;</font>
+220:    staff<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font><font color="#FF0000">"Hacker, Harry"</font><font color="#990000">)</font><font color="#990000">;</font>
+221:    staff<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font><font color="#FF0000">"Lam, Larry"</font><font color="#990000">)</font><font color="#990000">;</font>
+222:    staff<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font><font color="#FF0000">"Sandman, Susan"</font><font color="#990000">)</font><font color="#990000">;</font>
 223: 
-224:    <i><font color=#9A1900>/* add a value in fourth place */</font></i>
+224:    <i><font color="#9A1900">/* add a value in fourth place */</font></i>
 225: 
-226:    Iterator pos<font color=#990000>;</font>
-227:    pos <font color=#990000>=</font> staff<font color=#990000>.</font><b><font color=#000000>begin</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-228:    pos<font color=#990000>.</font><b><font color=#000000>next</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-229:    pos<font color=#990000>.</font><b><font color=#000000>next</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-230:    pos<font color=#990000>.</font><b><font color=#000000>next</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+226:    Iterator pos<font color="#990000">;</font>
+227:    pos <font color="#990000">=</font> staff<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+228:    pos<font color="#990000">.</font><b><font color="#000000">next</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+229:    pos<font color="#990000">.</font><b><font color="#000000">next</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+230:    pos<font color="#990000">.</font><b><font color="#000000">next</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 231: 
-232:    staff<font color=#990000>.</font><b><font color=#000000>insert</font></b><font color=#990000>(</font>pos<font color=#990000>,</font> <font color=#FF0000>"Reindeer, Rudolf"</font><font color=#990000>)</font><font color=#990000>;</font>
+232:    staff<font color="#990000">.</font><b><font color="#000000">insert</font></b><font color="#990000">(</font>pos<font color="#990000">,</font> <font color="#FF0000">"Reindeer, Rudolf"</font><font color="#990000">)</font><font color="#990000">;</font>
 233: 
-234:    <i><font color=#9A1900>/* remove the value in second place */</font></i>
+234:    <i><font color="#9A1900">/* remove the value in second place */</font></i>
 235: 
-236:    pos <font color=#990000>=</font> staff<font color=#990000>.</font><b><font color=#000000>begin</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
-237:    pos<font color=#990000>.</font><b><font color=#000000>next</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font>
+236:    pos <font color="#990000">=</font> staff<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+237:    pos<font color="#990000">.</font><b><font color="#000000">next</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
 238: 
-239:    staff<font color=#990000>.</font><b><font color=#000000>erase</font></b><font color=#990000>(</font>pos<font color=#990000>)</font><font color=#990000>;</font>
+239:    staff<font color="#990000">.</font><b><font color="#000000">erase</font></b><font color="#990000">(</font>pos<font color="#990000">)</font><font color="#990000">;</font>
 240: 
-241:    <i><font color=#9A1900>/* print all values */</font></i>
+241:    <i><font color="#9A1900">/* print all values */</font></i>
 242: 
-243:    <b><font color=#0000FF>for</font></b> <font color=#990000>(</font>pos <font color=#990000>=</font> staff<font color=#990000>.</font><b><font color=#000000>begin</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>;</font> <font color=#990000>!</font>pos<font color=#990000>.</font><b><font color=#000000>equals</font></b><font color=#990000>(</font>staff<font color=#990000>.</font><b><font color=#000000>end</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>)</font><font color=#990000>;</font> pos<font color=#990000>.</font><b><font color=#000000>next</font></b><font color=#990000>(</font><font color=#990000>)</font><font color=#990000>)</font>
-244:       cout <font color=#990000>&lt;</font><font color=#990000>&lt;</font> pos<font color=#990000>.</font><b><font color=#000000>get</font></b><font color=#990000>(</font><font color=#990000>)</font> <font color=#990000>&lt;</font><font color=#990000>&lt;</font> <font color=#FF0000>"\n"</font><font color=#990000>;</font>
+243:    <b><font color="#0000FF">for</font></b> <font color="#990000">(</font>pos <font color="#990000">=</font> staff<font color="#990000">.</font><b><font color="#000000">begin</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> <font color="#990000">!</font>pos<font color="#990000">.</font><b><font color="#000000">equals</font></b><font color="#990000">(</font>staff<font color="#990000">.</font><b><font color="#000000">end</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font> pos<font color="#990000">.</font><b><font color="#000000">next</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font>
+244:       cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> pos<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#FF0000">"\n"</font><font color="#990000">;</font>
 245: 
-246:    <b><font color=#0000FF>return</font></b> <font color=#993399>0</font><font color=#990000>;</font>
-247: <font color=#FF0000>}</font>
+246:    <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+247: <font color="#FF0000">}</font>
 248: 
 </tt>
 </pre>
+</body></html>

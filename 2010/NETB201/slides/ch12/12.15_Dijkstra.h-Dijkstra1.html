@@ -1,48 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>Dijkstra1</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Dijkstra1</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: Dijkstra1</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Graph&gt;
-<font color=#A000A0>class</font> Dijkstra {
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local types</font>
-  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::Vertex	    Vertex;
-  <font color=#0000FF>// ... (other graph types omitted)</font>
-  <font color=#A000A0>typedef</font> PriorityQueue::Locator	    Locator;
-  <font color=#0000FF>// ... (insert LocatorX here)</font>
-  <font color=#A000A0>enum</font> { INFINITE = INT_MAX };				<font color=#0000FF>// infinite weight</font>
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// member data</font>
-  <font color=#A000A0>const</font> Graph&	    graph;				<font color=#0000FF>// the graph</font>
-  PriorityQueue	    Q;					<font color=#0000FF>// the priority queue</font>
-<font color=#A000A0>public</font>:
-  <font color=#000000>Dijkstra</font>(<font color=#A000A0>const</font> Graph& g) : <font color=#000000>graph</font>(g) { }		<font color=#0000FF>// constructor</font>
-  <font color=#A000A0>int</font> <font color=#000000>getDist</font>(<font color=#A000A0>const</font> Vertex& u) <font color=#A000A0>const</font> 			<font color=#0000FF>// final distance to u</font>
-    { <font color=#00A000>return</font> u.<font color=#000000>get</font>(<font color=#0000FF>"dist"</font>)-&gt;<font color=#000000>intValue</font>(); }
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local utilities</font>
-  <font color=#A000A0>int</font> <font color=#000000>weight</font>(<font color=#A000A0>const</font> Edge& e) <font color=#A000A0>const</font> 			<font color=#0000FF>// get edge weight</font>
-    { <font color=#00A000>return</font> e.<font color=#000000>get</font>(<font color=#0000FF>"weight"</font>)-&gt;<font color=#000000>intValue</font>(); }
-  <font color=#A000A0>void</font> <font color=#000000>setDist</font>(<font color=#A000A0>const</font> Vertex& v, <font color=#A000A0>int</font> d)			<font color=#0000FF>// set vertex distance</font>
-    { v.<font color=#000000>set</font>(<font color=#0000FF>"dist"</font>, <font color=#A000A0>new</font> <font color=#000000>Integer</font>(d)); }
-  <font color=#A000A0>void</font> <font color=#000000>setLoc</font>(<font color=#A000A0>const</font> Vertex& v, <font color=#A000A0>const</font> Locator& loc)	<font color=#0000FF>// set v's locator</font>
-    { v.<font color=#000000>set</font>(<font color=#0000FF>"loc"</font>, <font color=#A000A0>new</font> <font color=#000000>LocatorX</font>(loc)); }
-  <font color=#A000A0>bool</font> <font color=#000000>hasLoc</font>(<font color=#A000A0>const</font> Vertex& v) <font color=#A000A0>const</font> 			<font color=#0000FF>// does v have locator?</font>
-    { <font color=#00A000>return</font> v.<font color=#000000>has</font>(<font color=#0000FF>"loc"</font>); }
-  Locator <font color=#000000>getLoc</font>(<font color=#A000A0>const</font> Vertex& v) <font color=#A000A0>const</font> 		<font color=#0000FF>// get v's locator</font>
-    { <font color=#00A000>return</font> <font color=#A000A0>dynamic_cast</font>&lt;LocatorX*&gt;(v.<font color=#000000>get</font>(<font color=#0000FF>"loc"</font>))-&gt;<font color=#000000>getValue</font>(); }
-  <font color=#A000A0>void</font> <font color=#000000>destroyLoc</font>(<font color=#A000A0>const</font> Vertex& v) {			<font color=#0000FF>// remove locator attrib</font>
-    LocatorX* p = <font color=#A000A0>dynamic_cast</font>&lt;LocatorX*&gt;(v.<font color=#000000>get</font>(<font color=#0000FF>"loc"</font>));
-    <font color=#A000A0>delete</font> p;						<font color=#0000FF>// delete locator object</font>
-    v.<font color=#000000>destroy</font>(<font color=#0000FF>"loc"</font>);					<font color=#0000FF>// delete attribute</font>
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Graph&gt;
+<font color="#A000A0">class</font> Dijkstra {
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// local types</font>
+  <font color="#A000A0">typedef</font> <font color="#A000A0">typename</font> Graph::Vertex	    Vertex;
+  <font color="#0000FF">// ... (other graph types omitted)</font>
+  <font color="#A000A0">typedef</font> PriorityQueue::Locator	    Locator;
+  <font color="#0000FF">// ... (insert LocatorX here)</font>
+  <font color="#A000A0">enum</font> { INFINITE = INT_MAX };				<font color="#0000FF">// infinite weight</font>
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// member data</font>
+  <font color="#A000A0">const</font> Graph&amp;	    graph;				<font color="#0000FF">// the graph</font>
+  PriorityQueue	    Q;					<font color="#0000FF">// the priority queue</font>
+<font color="#A000A0">public</font>:
+  <font color="#000000">Dijkstra</font>(<font color="#A000A0">const</font> Graph&amp; g) : <font color="#000000">graph</font>(g) { }		<font color="#0000FF">// constructor</font>
+  <font color="#A000A0">int</font> <font color="#000000">getDist</font>(<font color="#A000A0">const</font> Vertex&amp; u) <font color="#A000A0">const</font> 			<font color="#0000FF">// final distance to u</font>
+    { <font color="#00A000">return</font> u.<font color="#000000">get</font>(<font color="#0000FF">"dist"</font>)-&gt;<font color="#000000">intValue</font>(); }
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// local utilities</font>
+  <font color="#A000A0">int</font> <font color="#000000">weight</font>(<font color="#A000A0">const</font> Edge&amp; e) <font color="#A000A0">const</font> 			<font color="#0000FF">// get edge weight</font>
+    { <font color="#00A000">return</font> e.<font color="#000000">get</font>(<font color="#0000FF">"weight"</font>)-&gt;<font color="#000000">intValue</font>(); }
+  <font color="#A000A0">void</font> <font color="#000000">setDist</font>(<font color="#A000A0">const</font> Vertex&amp; v, <font color="#A000A0">int</font> d)			<font color="#0000FF">// set vertex distance</font>
+    { v.<font color="#000000">set</font>(<font color="#0000FF">"dist"</font>, <font color="#A000A0">new</font> <font color="#000000">Integer</font>(d)); }
+  <font color="#A000A0">void</font> <font color="#000000">setLoc</font>(<font color="#A000A0">const</font> Vertex&amp; v, <font color="#A000A0">const</font> Locator&amp; loc)	<font color="#0000FF">// set v's locator</font>
+    { v.<font color="#000000">set</font>(<font color="#0000FF">"loc"</font>, <font color="#A000A0">new</font> <font color="#000000">LocatorX</font>(loc)); }
+  <font color="#A000A0">bool</font> <font color="#000000">hasLoc</font>(<font color="#A000A0">const</font> Vertex&amp; v) <font color="#A000A0">const</font> 			<font color="#0000FF">// does v have locator?</font>
+    { <font color="#00A000">return</font> v.<font color="#000000">has</font>(<font color="#0000FF">"loc"</font>); }
+  Locator <font color="#000000">getLoc</font>(<font color="#A000A0">const</font> Vertex&amp; v) <font color="#A000A0">const</font> 		<font color="#0000FF">// get v's locator</font>
+    { <font color="#00A000">return</font> <font color="#A000A0">dynamic_cast</font>&lt;LocatorX*&gt;(v.<font color="#000000">get</font>(<font color="#0000FF">"loc"</font>))-&gt;<font color="#000000">getValue</font>(); }
+  <font color="#A000A0">void</font> <font color="#000000">destroyLoc</font>(<font color="#A000A0">const</font> Vertex&amp; v) {			<font color="#0000FF">// remove locator attrib</font>
+    LocatorX* p = <font color="#A000A0">dynamic_cast</font>&lt;LocatorX*&gt;(v.<font color="#000000">get</font>(<font color="#0000FF">"loc"</font>));
+    <font color="#A000A0">delete</font> p;						<font color="#0000FF">// delete locator object</font>
+    v.<font color="#000000">destroy</font>(<font color="#0000FF">"loc"</font>);					<font color="#0000FF">// delete attribute</font>
   }
-  Vertex <font color=#000000>getVertex</font>(<font color=#A000A0>const</font> Locator& loc) <font color=#A000A0>const</font> 		<font color=#0000FF>// get locator vertex</font>
-    { <font color=#00A000>return</font> loc.<font color=#000000>element</font>(); }
-  <font color=#A000A0>int</font> <font color=#000000>getDist</font>(<font color=#A000A0>const</font> Locator& loc) <font color=#A000A0>const</font>			<font color=#0000FF>// get vertex distance</font>
-    { <font color=#00A000>return</font> loc.<font color=#000000>key</font>(); }
-<font color=#0000FF>// ... (insert run() here)</font>
+  Vertex <font color="#000000">getVertex</font>(<font color="#A000A0">const</font> Locator&amp; loc) <font color="#A000A0">const</font> 		<font color="#0000FF">// get locator vertex</font>
+    { <font color="#00A000">return</font> loc.<font color="#000000">element</font>(); }
+  <font color="#A000A0">int</font> <font color="#000000">getDist</font>(<font color="#A000A0">const</font> Locator&amp; loc) <font color="#A000A0">const</font>			<font color="#0000FF">// get vertex distance</font>
+    { <font color="#00A000">return</font> loc.<font color="#000000">key</font>(); }
+<font color="#0000FF">// ... (insert run() here)</font>
 };
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>

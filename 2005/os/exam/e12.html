@@ -1,139 +1,152 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>os4</title>
 </head>
 <body>
-<b>12. Конкуренция: взаимно изключване и синхронизация</b>
-<br><b>Семафори. Задача за взаимно изключване.</b>
-<br>&nbsp;
-<br><b>5.4 Семафори</b>
-<br>&nbsp;&nbsp; Основен принцип: два или повече процеса се кооперират
-в смисъл на прости сигнали така, че един процес може да бъде спрян на определено
-място и да остане в това състояние, докато не получи съответен сигнал.
-<br>&nbsp;&nbsp; За да изпрати сигнал чрез семафора&nbsp; <b><tt><font color="#006600">s</font></tt></b>,
-процесът трябва да изпълни примитива (процедурата) <b><tt><font color="#006600">signal(s)</font></tt></b>.
-За да получи сигнал от семафор <b><tt><font color="#006600">s</font></tt></b>,
-процесът трябва да изпълни <b><tt><font color="#006600">wait(s)</font></tt></b>&nbsp;
-и ако съответният сигнал още не е изпратен, да остане в състояние на чакане
-(блокиран).
-<p>&nbsp;&nbsp;&nbsp; Дефинирани са 3 действия с променливата семафор:
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1. Инициализира се с неотрицателно число.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 2. Примитива <b><tt><font color="#006600">wait(s)
-</font></tt></b>намалява
-стойността на <b><tt><font color="#006600">s</font></tt></b> с 1. Ако стойността
-стане отрицателна, процесът (изпълняващ <b><tt><font color="#006600">wait</font></tt></b>)
-се блокира.
-<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 3. Операцията <b><tt><font color="#006600">signal(s)
-</font></tt></b>увеличава
-стойността на <b><tt><font color="#006600">s</font></tt></b> с 1. Ако стойността
-не е положителна, процесът (блокиран с <b><tt><font color="#006600">wait</font></tt></b>)
-се разблокира.
-<br>&nbsp;&nbsp;&nbsp; Примитивите <b><tt><font color="#006600">wait </font></tt></b>и
+<b>12. РљРѕРЅРєСѓСЂРµРЅС†РёСЏ: РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ Рё СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ</b>
+<br><b>РЎРµРјР°С„РѕСЂРё. Р—Р°РґР°С‡Р° Р·Р° РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ.</b>
+<br>В 
+<br><b>5.4 РЎРµРјР°С„РѕСЂРё</b>
+<br>В В  РћСЃРЅРѕРІРµРЅ РїСЂРёРЅС†РёРї: РґРІР° РёР»Рё РїРѕРІРµС‡Рµ РїСЂРѕС†РµСЃР° СЃРµ РєРѕРѕРїРµСЂРёСЂР°С‚
+РІ СЃРјРёСЃСЉР» РЅР° РїСЂРѕСЃС‚Рё СЃРёРіРЅР°Р»Рё С‚Р°РєР°, С‡Рµ РµРґРёРЅ РїСЂРѕС†РµСЃ РјРѕР¶Рµ РґР° Р±СЉРґРµ СЃРїСЂСЏРЅ РЅР° РѕРїСЂРµРґРµР»РµРЅРѕ
+РјСЏСЃС‚Рѕ Рё РґР° РѕСЃС‚Р°РЅРµ РІ С‚РѕРІР° СЃСЉСЃС‚РѕСЏРЅРёРµ, РґРѕРєР°С‚Рѕ РЅРµ РїРѕР»СѓС‡Рё СЃСЉРѕС‚РІРµС‚РµРЅ СЃРёРіРЅР°Р».
+<br>В В  Р—Р° РґР° РёР·РїСЂР°С‚Рё СЃРёРіРЅР°Р» С‡СЂРµР· СЃРµРјР°С„РѕСЂР°В  <b><tt><font color="#006600">s</font></tt></b>,
+РїСЂРѕС†РµСЃСЉС‚ С‚СЂСЏР±РІР° РґР° РёР·РїСЉР»РЅРё РїСЂРёРјРёС‚РёРІР° (РїСЂРѕС†РµРґСѓСЂР°С‚Р°) <b><tt><font color="#006600">signal(s)</font></tt></b>.
+Р—Р° РґР° РїРѕР»СѓС‡Рё СЃРёРіРЅР°Р» РѕС‚ СЃРµРјР°С„РѕСЂ <b><tt><font color="#006600">s</font></tt></b>,
+РїСЂРѕС†РµСЃСЉС‚ С‚СЂСЏР±РІР° РґР° РёР·РїСЉР»РЅРё <b><tt><font color="#006600">wait(s)</font></tt></b>В 
+Рё Р°РєРѕ СЃСЉРѕС‚РІРµС‚РЅРёСЏС‚ СЃРёРіРЅР°Р» РѕС‰Рµ РЅРµ Рµ РёР·РїСЂР°С‚РµРЅ, РґР° РѕСЃС‚Р°РЅРµ РІ СЃСЉСЃС‚РѕСЏРЅРёРµ РЅР° С‡Р°РєР°РЅРµ
+(Р±Р»РѕРєРёСЂР°РЅ).
+<p>В В В  Р”РµС„РёРЅРёСЂР°РЅРё СЃР° 3 РґРµР№СЃС‚РІРёСЏ СЃ РїСЂРѕРјРµРЅР»РёРІР°С‚Р° СЃРµРјР°С„РѕСЂ:
+<br>В В В В В  1. РРЅРёС†РёР°Р»РёР·РёСЂР° СЃРµ СЃ РЅРµРѕС‚СЂРёС†Р°С‚РµР»РЅРѕ С‡РёСЃР»Рѕ.
+<br>В В В В В  2. РџСЂРёРјРёС‚РёРІР° <b><tt><font color="#006600">wait(s)
+</font></tt></b>РЅР°РјР°Р»СЏРІР°
+СЃС‚РѕР№РЅРѕСЃС‚С‚Р° РЅР° <b><tt><font color="#006600">s</font></tt></b> СЃ 1. РђРєРѕ СЃС‚РѕР№РЅРѕСЃС‚С‚Р°
+СЃС‚Р°РЅРµ РѕС‚СЂРёС†Р°С‚РµР»РЅР°, РїСЂРѕС†РµСЃСЉС‚ (РёР·РїСЉР»РЅСЏРІР°С‰ <b><tt><font color="#006600">wait</font></tt></b>)
+СЃРµ Р±Р»РѕРєРёСЂР°.
+<br>В В В В В  3. РћРїРµСЂР°С†РёСЏС‚Р° <b><tt><font color="#006600">signal(s)
+</font></tt></b>СѓРІРµР»РёС‡Р°РІР°
+СЃС‚РѕР№РЅРѕСЃС‚С‚Р° РЅР° <b><tt><font color="#006600">s</font></tt></b> СЃ 1. РђРєРѕ СЃС‚РѕР№РЅРѕСЃС‚С‚Р°
+РЅРµ Рµ РїРѕР»РѕР¶РёС‚РµР»РЅР°, РїСЂРѕС†РµСЃСЉС‚ (Р±Р»РѕРєРёСЂР°РЅ СЃ <b><tt><font color="#006600">wait</font></tt></b>)
+СЃРµ СЂР°Р·Р±Р»РѕРєРёСЂР°.
+<br>В В В  РџСЂРёРјРёС‚РёРІРёС‚Рµ <b><tt><font color="#006600">wait </font></tt></b>Рё
 <b><tt><font color="#006600">signal
-</font></tt></b>се предполат неделими, т.е. те не могат да бъдат прекъсвани.
+</font></tt></b>СЃРµ РїСЂРµРґРїРѕР»Р°С‚ РЅРµРґРµР»РёРјРё, С‚.Рµ. С‚Рµ РЅРµ РјРѕРіР°С‚ РґР° Р±СЉРґР°С‚ РїСЂРµРєСЉСЃРІР°РЅРё.
+</p>
 <p><b><tt><font color="#006600">struct semaphore {</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;int count;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;queueType queue;</font></tt></b>
+<br><b><tt><font color="#006600">В int count;</font></tt></b>
+<br><b><tt><font color="#006600">В queueType queue;</font></tt></b>
 <br><b><tt><font color="#006600">};</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#003300">void wait(semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#003300">void wait(semaphore s)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;s.count--;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (s.count &lt; 0)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">place_this_process_in_s.queue;</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; block_this_process;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;</font><font color="#003300">}</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В s.count--;</font></tt></b>
+<br><b><tt><font color="#003300">В if (s.count &lt; 0)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  </font><font color="#660000">place_this_process_in_s.queue;</font></tt></b>
+<br><b><tt><font color="#660000">В  block_this_process;</font></tt></b>
+<br><b><tt><font color="#006600">В </font><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">void signal(semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#003300">void signal(semaphore s)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;s.count++;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (s.count &lt;= 0)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; remove_a_process_from_s.queue(P);</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; place_the_process_on_ready_list(P);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В s.count++;</font></tt></b>
+<br><b><tt><font color="#003300">В if (s.count &lt;= 0)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#660000">В  remove_a_process_from_s.queue(P);</font></tt></b>
+<br><b><tt><font color="#660000">В  place_the_process_on_ready_list(P);</font></tt></b>
+<br><b><tt><font color="#003300">В }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
 
-<p>&nbsp;&nbsp;&nbsp; Пример.
+<p>В В В  РџСЂРёРјРµСЂ.
 <br>--- FIGURE 5.8 ---
-<br>Ако <b><tt><font color="#003300">s.count </font></tt></b>е отрицателно
-число (3, 6 и 7), -<font color="#003300"><b><tt>s.count</tt></b> е броят
-на чакащите на семафора&nbsp; <b><tt>s</tt></b> процеси, т.е. броят на
-процесите в опашката </font><b><tt><font color="#660000">s.queue</font></tt></b>.&nbsp;
-Ако <b><tt><font color="#003300">s.count </font></tt></b>е положително
-число (1), <font color="#003300"><b><tt>s.count</tt></b> е броят на процесите,
-които могат да минат през семафора, преди той да се затвори. Опашката </font><b><tt><font color="#660000">s.queue</font></tt></b>
-е празна. Ако <b><tt><font color="#003300">s.count </font></tt></b>е 1
-(1), то един процес минава и затваря семафора. Ако <b><tt><font color="#003300">s.count
-</font></tt></b>е
-0 (2, 4 и 5), то идващ процес се блокира и отива на опашката.
-<p>&nbsp;&nbsp; Двоични семафори - семафорът има две състояния - отворен
-(1) и затворен (0):
+<br>РђРєРѕ <b><tt><font color="#003300">s.count </font></tt></b>Рµ РѕС‚СЂРёС†Р°С‚РµР»РЅРѕ
+С‡РёСЃР»Рѕ (3, 6 Рё 7), -<font color="#003300"><b><tt>s.count</tt></b> Рµ Р±СЂРѕСЏС‚
+РЅР° С‡Р°РєР°С‰РёС‚Рµ РЅР° СЃРµРјР°С„РѕСЂР°В  <b><tt>s</tt></b> РїСЂРѕС†РµСЃРё, С‚.Рµ. Р±СЂРѕСЏС‚ РЅР°
+РїСЂРѕС†РµСЃРёС‚Рµ РІ РѕРїР°С€РєР°С‚Р° </font><b><tt><font color="#660000">s.queue</font></tt></b>.В 
+РђРєРѕ <b><tt><font color="#003300">s.count </font></tt></b>Рµ РїРѕР»РѕР¶РёС‚РµР»РЅРѕ
+С‡РёСЃР»Рѕ (1), <font color="#003300"><b><tt>s.count</tt></b> Рµ Р±СЂРѕСЏС‚ РЅР° РїСЂРѕС†РµСЃРёС‚Рµ,
+РєРѕРёС‚Рѕ РјРѕРіР°С‚ РґР° РјРёРЅР°С‚ РїСЂРµР· СЃРµРјР°С„РѕСЂР°, РїСЂРµРґРё С‚РѕР№ РґР° СЃРµ Р·Р°С‚РІРѕСЂРё. РћРїР°С€РєР°С‚Р° </font><b><tt><font color="#660000">s.queue</font></tt></b>
+Рµ РїСЂР°Р·РЅР°. РђРєРѕ <b><tt><font color="#003300">s.count </font></tt></b>Рµ 1
+(1), С‚Рѕ РµРґРёРЅ РїСЂРѕС†РµСЃ РјРёРЅР°РІР° Рё Р·Р°С‚РІР°СЂСЏ СЃРµРјР°С„РѕСЂР°. РђРєРѕ <b><tt><font color="#003300">s.count
+</font></tt></b>Рµ
+0 (2, 4 Рё 5), С‚Рѕ РёРґРІР°С‰ РїСЂРѕС†РµСЃ СЃРµ Р±Р»РѕРєРёСЂР° Рё РѕС‚РёРІР° РЅР° РѕРїР°С€РєР°С‚Р°.
+</p>
+<p>В В  Р”РІРѕРёС‡РЅРё СЃРµРјР°С„РѕСЂРё - СЃРµРјР°С„РѕСЂСЉС‚ РёРјР° РґРІРµ СЃСЉСЃС‚РѕСЏРЅРёСЏ - РѕС‚РІРѕСЂРµРЅ
+(1) Рё Р·Р°С‚РІРѕСЂРµРЅ (0):
 <br><b><tt><font color="#006600">struct binary_semaphore {</font></tt></b>
 <br><b><tt><font color="#006600">int value; /* = 0, 1 */</font></tt></b>
 <br><b><tt><font color="#006600">queueType queue;</font></tt></b>
 <br><b><tt><font color="#006600">};</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#006600">void waitB(binary_semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#006600">void waitB(binary_semaphore s)</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;if (s.value==1) s.value=0;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;else</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">place_this_process_in_s.queue;</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; block_this_process;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#006600">В if (s.value==1) s.value=0;</font></tt></b>
+<br><b><tt><font color="#006600">В else</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  </font><font color="#660000">place_this_process_in_s.queue;</font></tt></b>
+<br><b><tt><font color="#660000">В  block_this_process;</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#006600">void signalB(binary_semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#006600">void signalB(binary_semaphore s)</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;if (s.queue.is_empty()) s.value=1;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;else</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">remove_a_process_from
+<br><b><tt><font color="#006600">В if (s.queue.is_empty()) s.value=1;</font></tt></b>
+<br><b><tt><font color="#006600">В else</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  </font><font color="#660000">remove_a_process_from
 s.queue(P);</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; place_process_on_ready_list(P);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#660000">В  place_process_on_ready_list(P);</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 </tr>
 </table>
 
-<p>** Взаимно изключване - решение на задачата за ВИ със семафори.
+<p>** Р’Р·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ - СЂРµС€РµРЅРёРµ РЅР° Р·Р°РґР°С‡Р°С‚Р° Р·Р° Р’Р СЃСЉСЃ СЃРµРјР°С„РѕСЂРё.
 <br><b><tt><font color="#003300">/* program mutual_exclusion */</font></tt></b>
 <br><b><tt><font color="#003300">const int n; /* number of processes */</font></tt></b>
 <br><b><tt><font color="#003300">semaphore s = 1;</font></tt></b>
 <br><b><tt><font color="#003300">void P(int i)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; wait(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; &lt;critical section></font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; signal(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; &lt;remainder></font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#003300">В while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#003300">В  wait(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  &lt;critical section&gt;</font></tt></b>
+<br><b><tt><font color="#003300">В  signal(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  &lt;remainder&gt;</font></tt></b>
+<br><b><tt><font color="#003300">В }</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
 <br><b><tt><font color="#003300">void main()</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;parbegin(P(1), P(2),..., P(n));</font></tt></b>
+<br><b><tt><font color="#003300">В parbegin(P(1), P(2),..., P(n));</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
-<br>&nbsp;&nbsp;&nbsp; Стойността на променливата <b><tt><font color="#003300">s.count
-</font></tt></b>има
-следния смисъл:
-<br>- <b><tt><font color="#003300">s.count >= 0 </font></tt></b>е броят
-на процесите, които могат да изпълнят примитива <b><tt><font color="#006600">wait(s)</font></tt></b>без
-да бъдат блокирани (и няма изпълнение на <b><tt><font color="#006600">signal(s)</font></tt></b>);
-<br>- <b><tt><font color="#003300">s.count &lt; 0 </font></tt></b>е броят
-на процесите, чакащи в <b><tt><font color="#006600">s.queue.</font></tt></b>
+<br>В В В  РЎС‚РѕР№РЅРѕСЃС‚С‚Р° РЅР° РїСЂРѕРјРµРЅР»РёРІР°С‚Р° <b><tt><font color="#003300">s.count
+</font></tt></b>РёРјР°
+СЃР»РµРґРЅРёСЏ СЃРјРёСЃСЉР»:
+<br>- <b><tt><font color="#003300">s.count &gt;= 0 </font></tt></b>Рµ Р±СЂРѕСЏС‚
+РЅР° РїСЂРѕС†РµСЃРёС‚Рµ, РєРѕРёС‚Рѕ РјРѕРіР°С‚ РґР° РёР·РїСЉР»РЅСЏС‚ РїСЂРёРјРёС‚РёРІР° <b><tt><font color="#006600">wait(s)</font></tt></b>Р±РµР·
+РґР° Р±СЉРґР°С‚ Р±Р»РѕРєРёСЂР°РЅРё (Рё РЅСЏРјР° РёР·РїСЉР»РЅРµРЅРёРµ РЅР° <b><tt><font color="#006600">signal(s)</font></tt></b>);
+<br>- <b><tt><font color="#003300">s.count &lt; 0 </font></tt></b>Рµ Р±СЂРѕСЏС‚
+РЅР° РїСЂРѕС†РµСЃРёС‚Рµ, С‡Р°РєР°С‰Рё РІ <b><tt><font color="#006600">s.queue.</font></tt></b>
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

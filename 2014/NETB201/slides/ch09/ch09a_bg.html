@@ -1,167 +1,128 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
   <head>
-    <meta content="text/html; charset=windows-1252"
-      http-equiv="content-type">
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
     <title>Chapter 9 bg</title>
   </head>
   <body>
-    <h2><b>&#1058;&#1098;&#1088;&#1089;&#1077;&#1097;&#1080; &#1076;&#1098;&#1088;&#1074;&#1072;&#1090;&#1072; - &#1087;&#1098;&#1088;&#1074;&#1072; &#1095;&#1072;&#1089;&#1090;</b><br>
+    <h2>
+<b>Търсещи дървата - първа част</b><br>
     </h2>
-    <big>&#1065;&#1077; &#1080;&#1079;&#1091;&#1095;&#1080;&#1084; &#1085;&#1103;&#1082;&#1086;&#1083;&#1082;&#1086; &#1072;&#1083;&#1090;&#1077;&#1088;&#1085;&#1072;&#1090;&#1080;&#1074;&#1085;&#1080; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1080; &#1086;&#1090; &#1076;&#1072;&#1085;&#1085;&#1080;, &#1073;&#1072;&#1079;&#1080;&#1088;&#1072;&#1085;&#1080; &#1085;&#1072;
-      &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072; &#1079;&#1072; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1080;&#1088;&#1072;&#1085;&#1077; &#1085;&#1072;&#1088;&#1077;&#1076;&#1077;&#1085;&#1080; &#1088;&#1077;&#1095;&#1085;&#1080;&#1094;&#1080;. &#1054;&#1089;&#1085;&#1086;&#1074;&#1085;&#1080;&#1090;&#1077; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;
-      &#1085;&#1072;&#1088;&#1077;&#1076;&#1077;&#1085; &#1088;&#1077;&#1095;&#1085;&#1080;&#1082; &#1040;&#1058;&#1044; &#1089;&#1072;:</big>
+    <big>Ще изучим няколко алтернативни структури от данни, базирани на
+      дървета за реализиране наредени речници. Основните операции
+      нареден речник АТД са:</big>
     <ul>
-      <li><big><span style="font-family: monospace;">find(<span
-              style="font-style: italic;">k</span>)</span> - &#1042;&#1088;&#1098;&#1097;&#1072;
-          &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103;&#1090;&#1072; &#1085;&#1072; &#1077;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; &#1089; &#1082;&#1083;&#1102;&#1095; </big><big style="font-style:
+      <li>
+<big><span style="font-family: monospace;">find(<span style="font-style: italic;">k</span>)</span> - Връща
+          позицията на елемент с ключ </big><big style="font-style:
           italic;"><span style="font-family: monospace;">k</span></big><big>
-          &#1080;&#1083;&#1080; nullposition, &#1072;&#1082;&#1086; &#1085;&#1103;&#1084;&#1072; &#1090;&#1072;&#1082;&#1098;&#1074; &#1082;&#1083;&#1102;&#1095;. </big></li>
-      <li><big><span style="font-family: monospace;">findAll(<span
-              style="font-style: italic;">k</span>)</span> - &#1042;&#1088;&#1098;&#1097;&#1072;
-          &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1086;&#1085;&#1077;&#1085; &#1080;&#1090;&#1077;&#1088;&#1072;&#1090;&#1086;&#1088; &#1079;&#1072; &#1074;&#1089;&#1080;&#1095;&#1082;&#1080; &#1086;&#1073;&#1077;&#1082;&#1090;&#1080; &#1089; &#1082;&#1083;&#1102;&#1095; <span
-            style="font-family: monospace; font-style: italic;">k</span>.
+          или nullposition, ако няма такъв ключ. </big>
+</li>
+      <li><big><span style="font-family: monospace;">findAll(<span style="font-style: italic;">k</span>)</span> - Връща
+          позиционен итератор за всички обекти с ключ <span style="font-family: monospace; font-style: italic;">k</span>.
         </big></li>
-      <li><big><span style="font-family: monospace;">insertItem(<span
-              style="font-style: italic;">k</span>,<span
-              style="font-style: italic;">e</span>)</span> - &#1042;&#1084;&#1098;&#1082;&#1074;&#1072;
-          &#1086;&#1073;&#1077;&#1082;&#1090; (&#1076;&#1074;&#1086;&#1081;&#1082;&#1072;) &#1089; &#1077;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090; <span style="font-family: monospace;
-            font-style: italic;">e</span> &#1080; &#1082;&#1083;&#1102;&#1095; <span
-            style="font-family: monospace; font-style: italic;">k</span>.</big></li>
-      <li><big><span style="font-family: monospace;">removeElement(<span
-              style="font-style: italic;">k</span>)</span> - &#1048;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;
-          &#1086;&#1073;&#1077;&#1082;&#1090; &#1089; &#1082;&#1083;&#1102;&#1095; <span style="font-family: monospace; font-style:
-            italic;">k</span>. &#1042;&#1098;&#1079;&#1085;&#1080;&#1082;&#1074;&#1072; &#1075;&#1088;&#1077;&#1096;&#1082;&#1072;, &#1072;&#1082;&#1086; &#1085;&#1103;&#1084;&#1072; &#1090;&#1072;&#1082;&#1098;&#1074; &#1077;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;.</big></li>
-      <li><big><span style="font-family: monospace;">removeAllElements(<span
-              style="font-style: italic;">k</span>)</span> - &#1048;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;
-          &#1074;&#1089;&#1080;&#1095;&#1082;&#1080; &#1086;&#1073;&#1077;&#1082;&#1090;&#1080;, &#1095;&#1080;&#1081;&#1090;&#1086; &#1082;&#1083;&#1102;&#1095; &#1077; &#1088;&#1072;&#1074;&#1077;&#1085; &#1085;&#1072; <span
-            style="font-family: monospace; font-style: italic;">k</span>.</big></li>
+      <li><big><span style="font-family: monospace;">insertItem(<span style="font-style: italic;">k</span>,<span style="font-style: italic;">e</span>)</span> - Вмъква
+          обект (двойка) с елемент <span style="font-family: monospace;
+            font-style: italic;">e</span> и ключ <span style="font-family: monospace; font-style: italic;">k</span>.</big></li>
+      <li><big><span style="font-family: monospace;">removeElement(<span style="font-style: italic;">k</span>)</span> - Изтрива
+          обект с ключ <span style="font-family: monospace; font-style:
+            italic;">k</span>. Възниква грешка, ако няма такъв елемент.</big></li>
+      <li><big><span style="font-family: monospace;">removeAllElements(<span style="font-style: italic;">k</span>)</span> - Изтрива
+          всички обекти, чийто ключ е равен на <span style="font-family: monospace; font-style: italic;">k</span>.</big></li>
       <li><big><span style="font-family: monospace;">closestBefore(k)</span>-
-          &#1042;&#1088;&#1098;&#1097;&#1072; &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103; &#1085;&#1072; &#1086;&#1073;&#1077;&#1082;&#1090; &#1089; &#1085;&#1072;&#1081;-&#1075;&#1086;&#1083;&#1103;&#1084; &#1082;&#1083;&#1102;&#1095;, &#1087;&#1086;-&#1084;&#1072;&#1083;&#1098;&#1082; &#1080;&#1083;&#1080; &#1088;&#1072;&#1074;&#1077;&#1085; &#1085;&#1072;
+          Връща позиция на обект с най-голям ключ, по-малък или равен на
           <span style="font-family: monospace;">k.</span></big></li>
       <li><big><span style="font-family: monospace;">closestAfter(k)</span>
-          - &#1042;&#1088;&#1098;&#1097;&#1072; &#1087;&#1086;&#1079;&#1080;&#1094;&#1080;&#1103; &#1085;&#1072; &#1086;&#1073;&#1077;&#1082;&#1090; &#1089; &#1085;&#1072;&#1081;-&#1084;&#1072;&#1083;&#1098;&#1082; &#1082;&#1083;&#1102;&#1095;, &#1087;&#1086;-&#1075;&#1086;&#1083;&#1103;&#1084; &#1080;&#1083;&#1080; &#1088;&#1072;&#1074;&#1077;&#1085;
-          &#1085;&#1072; <span style="font-family: monospace;">k.</span></big></li>
+          - Връща позиция на обект с най-малък ключ, по-голям или равен
+          на <span style="font-family: monospace;">k.</span></big></li>
     </ul>
-    <h3>&#1044;&#1074;&#1086;&#1080;&#1095;&#1085;&#1080; &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072; &#1079;&#1072; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;<br>
+    <h3>Двоични дървета за търсене<br>
     </h3>
     <big> </big>
     <ul>
-      <li><big>&#1044;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1079;&#1072; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1077; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1079;&#1072; &#1089;&#1098;&#1093;&#1088;&#1072;&#1085;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072;
-          &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; (&#1080;&#1083;&#1080; &#1076;&#1074;&#1086;&#1081;&#1082;&#1080; &#1082;&#1083;&#1102;&#1095;-&#1077;&#1083;&#1077;&#1084;&#1077;&#1085;&#1090;) &#1074; &#1089;&#1074;&#1086;&#1080;&#1090;&#1077; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1085;&#1080; &#1074;&#1098;&#1079;&#1083;&#1080;,
-          &#1082;&#1086;&#1080;&#1090;&#1086; &#1080;&#1084;&#1072;&#1090; &#1089;&#1083;&#1077;&#1076;&#1085;&#1086;&#1090;&#1086; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1072;:</big></li>
+      <li><big>Двоично дърво за търсене е двоично дърво за съхранение на
+          ключове (или двойки ключ-елемент) в своите вътрешни възли,
+          които имат следното свойства:</big></li>
       <ul>
-        <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">u</span>, <span
-              style="font-style: italic;">v</span> &#1080; <span
-              style="font-style: italic;">w</span> &#1089;&#1072; &#1074;&#1098;&#1088;&#1093;&#1086;&#1074;&#1077; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;
-            &#1090;&#1072;&#1082;&#1080;&#1074;&#1072;, &#1095;&#1077;&nbsp; <span style="font-style: italic;">u</span>
-            &#1077; &#1074; &#1083;&#1103;&#1074;&#1086;&#1090;&#1086; &#1087;&#1086;&#1076;&#1076;&#1098;&#1088;&#1074;&#1086; &#1085;&#1072; <span style="font-style: italic;">v</span>
-            &#1080; <span style="font-style: italic;">w</span> &#1077; &#1074; &#1076;&#1103;&#1089;&#1085;&#1086;&#1090;&#1086;
-            &#1087;&#1086;&#1076;&#1076;&#1098;&#1088;&#1074;&#1086; &#1085;&#1072; <span style="font-style: italic;">v</span>.<br>
-            &#1058;&#1086;&#1075;&#1072;&#1074;&#1072; <span style="font-family: monospace;">key</span>(<span
-              style="font-style: italic;">u</span>) &#8804; <span
-              style="font-family: monospace;">key</span>(<span
-              style="font-style: italic;">v</span>) &#8804; <span
-              style="font-family: monospace;">key</span>(<span
-              style="font-style: italic;">w</span>);</big></li>
-        <li><big>&#1042;&#1098;&#1085;&#1096;&#1085;&#1080;&#1090;&#1077; &#1074;&#1098;&#1079;&#1083;&#1080; &#1085;&#1077; &#1089;&#1098;&#1093;&#1088;&#1072;&#1085;&#1103;&#1074;&#1072;&#1090; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;.</big></li>
+        <li><big>Нека <span style="font-style: italic;">u</span>, <span style="font-style: italic;">v</span> и <span style="font-style: italic;">w</span> са върхове на дървото
+            такива, че  <span style="font-style: italic;">u</span>
+            е в лявото поддърво на <span style="font-style: italic;">v</span>
+            и <span style="font-style: italic;">w</span> е в дясното
+            поддърво на <span style="font-style: italic;">v</span>.<br>
+            Тогава <span style="font-family: monospace;">key</span>(<span style="font-style: italic;">u</span>) ≤ <span style="font-family: monospace;">key</span>(<span style="font-style: italic;">v</span>) ≤ <span style="font-family: monospace;">key</span>(<span style="font-style: italic;">w</span>);</big></li>
+        <li><big>Външните възли не съхраняват ключове.</big></li>
       </ul>
-      <li><big>Inorder &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1085;&#1077; &#1087;&#1086;&#1089;&#1077;&#1097;&#1072;&#1074;&#1072; &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077;&#1090;&#1077; &#1085;&#1072; &#1088;&#1077;&#1095;&#1085;&#1080;&#1082;&#1072; &#1074;
-          &#1085;&#1077;&#1085;&#1072;&#1084;&#1072;&#1083;&#1103;&#1074;&#1072;&#1097; &#1088;&#1077;&#1076;.</big></li>
+      <li><big>Inorder обхождане посещава ключовете на речника в
+          ненамаляващ ред.</big></li>
     </ul>
     <img style="width: 373px; height: 176px;" alt="" src="pic1.jpg"><br>
     <big style="font-weight: bold;"><br>
-      &#1058;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;</big><big><br>
+      Търсене</big><big><br>
     </big>
     <ul>
-      <li><big>&#1047;&#1072; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1085;&#1072; &#1082;&#1083;&#1102;&#1095; <span style="font-style: italic;">k</span>,
-          &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1084;&#1077; &#1087;&#1098;&#1090; &#1085;&#1072;&#1076;&#1086;&#1083;&#1091;, &#1090;&#1088;&#1098;&#1075;&#1074;&#1072;&#1081;&#1082;&#1080; &#1086;&#1090; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072;.<br>
+      <li><big>За търсене на ключ <span style="font-style: italic;">k</span>,
+          обхождаме път надолу, тръгвайки от корена.<br>
         </big></li>
-      <li><big>&#1057;&#1083;&#1077;&#1076;&#1074;&#1072;&#1097;&#1080;&#1103;&#1090; &#1074;&#1098;&#1079;&#1077;&#1083; &#1079;&#1072; &#1087;&#1086;&#1089;&#1077;&#1097;&#1077;&#1085;&#1080;&#1077; &#1079;&#1072;&#1074;&#1080;&#1089;&#1080; &#1086;&#1090; &#1088;&#1077;&#1079;&#1091;&#1083;&#1090;&#1072;&#1090;&#1072; &#1086;&#1090;
-          &#1089;&#1088;&#1072;&#1074;&#1085;&#1077;&#1085;&#1080;&#1077;&#1090;&#1086; &#1085;&#1072; <span style="font-style: italic;">k</span> &#1089;
-          &#1082;&#1083;&#1102;&#1095;&#1072; &#1074; &#1090;&#1077;&#1082;&#1091;&#1097;&#1080;&#1103; &#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
-      <li><big>&#1040;&#1082;&#1086; &#1076;&#1086;&#1089;&#1090;&#1080;&#1075;&#1085;&#1077;&#1084; &#1083;&#1080;&#1089;&#1090;&#1086;, &#1082;&#1083;&#1102;&#1095;&#1098;&#1090; &#1085;&#1077; &#1077; &#1085;&#1072;&#1084;&#1077;&#1088;&#1077;&#1085; &#1080; &#1074;&#1088;&#1098;&#1097;&#1072;&#1084;&#1077;
+      <li><big>Следващият възел за посещение зависи от резултата от
+          сравнението на <span style="font-style: italic;">k</span> с
+          ключа в текущия възел.</big></li>
+      <li><big>Ако достигнем листо, ключът не е намерен и връщаме
           nullposition.</big></li>
     </ul>
-    <table style="text-align: left; width: 334px; height: 201px;"
-      cellpadding="2" cellspacing="0" border="1">
+    <table style="text-align: left; width: 334px; height: 201px;" cellpadding="2" cellspacing="0" border="1">
       <tbody>
         <tr>
-          <td style="vertical-align: top;"><big><span
-                style="font-weight: bold;">Algorithm</span> <span
-                style="color: rgb(204, 0, 0);"><span style="font-style:
+          <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="color: rgb(204, 0, 0);"><span style="font-style:
                   italic;">find </span>(<span style="font-style:
                   italic;">k</span>, <span style="font-style: italic;">v</span>)</span><br>
-              &nbsp;&nbsp;&nbsp; if <span style="font-style: italic;
-                color: rgb(0, 51, 51);">T.isExternal </span><span
-                style="color: rgb(0, 51, 51);">(<span style="font-style:
+                  if <span style="font-style: italic;
+                color: rgb(0, 51, 51);">T.isExternal </span><span style="color: rgb(0, 51, 51);">(<span style="font-style:
                   italic;">v</span>)</span><br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
-                style="color: rgb(0, 51, 51);"><span style="font-style:
+                      return <span style="color: rgb(0, 51, 51);"><span style="font-style:
                   italic;">Position</span>(<span style="font-style:
                   italic;">null</span>)</span><br>
-              &nbsp;&nbsp; if <span style="font-style: italic; color:
+                 if <span style="font-style: italic; color:
                 rgb(0, 51, 51);">k</span><span style="color: rgb(0, 51,
                 51);"> &lt; </span><span style="font-style: italic;
                 color: rgb(0, 51, 51);">key</span><span style="color:
                 rgb(0, 51, 51);">(</span><span style="font-style:
-                italic; color: rgb(0, 51, 51);">v</span><span
-                style="color: rgb(0, 51, 51);">)</span><br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
-                style="color: rgb(204, 0, 0);"><span style="font-style:
+                italic; color: rgb(0, 51, 51);">v</span><span style="color: rgb(0, 51, 51);">)</span><br>
+                      return <span style="color: rgb(204, 0, 0);"><span style="font-style:
                   italic;">find</span>(<span style="font-style: italic;">k</span>,
-                <span style="font-style: italic;">T.leftChild</span>(<span
-                  style="font-style: italic;">v</span>))</span><br>
-              &nbsp;&nbsp; else if <span style="color: rgb(0, 51, 51);"><span
-                  style="font-style: italic;">k</span> = <span
-                  style="font-style: italic;">key</span>(<span
-                  style="font-style: italic;">v</span>)</span><br>
-              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return <span
-                style="color: rgb(0, 51, 51);"><span style="font-style:
+                <span style="font-style: italic;">T.leftChild</span>(<span style="font-style: italic;">v</span>))</span><br>
+                 else if <span style="color: rgb(0, 51, 51);"><span style="font-style: italic;">k</span> = <span style="font-style: italic;">key</span>(<span style="font-style: italic;">v</span>)</span><br>
+                      return <span style="color: rgb(0, 51, 51);"><span style="font-style:
                   italic;">Position</span>(<span style="font-style:
                   italic;">v</span>)</span><br>
-              &nbsp;&nbsp; else <span style="color: rgb(0, 51, 51);">{
-                <span style="font-style: italic;">k</span> &gt; <span
-                  style="font-style: italic;">key</span>(<span
-                  style="font-style: italic;">v</span>) }</span><br>
-              return <span style="color: rgb(0, 51, 51);"><span
-                  style="font-style: italic; color: rgb(204, 0, 0);">find</span><span
-                  style="color: rgb(204, 0, 0);">(</span><span
-                  style="font-style: italic; color: rgb(204, 0, 0);">k</span><span
-                  style="color: rgb(204, 0, 0);">, </span><span
-                  style="font-style: italic; color: rgb(204, 0, 0);">T.rightChild</span><span
-                  style="color: rgb(204, 0, 0);">(</span><span
-                  style="font-style: italic; color: rgb(204, 0, 0);">v</span><span
-                  style="color: rgb(204, 0, 0);">))</span></span><br>
+                 else <span style="color: rgb(0, 51, 51);">{
+                <span style="font-style: italic;">k</span> &gt; <span style="font-style: italic;">key</span>(<span style="font-style: italic;">v</span>) }</span><br>
+              return <span style="color: rgb(0, 51, 51);"><span style="font-style: italic; color: rgb(204, 0, 0);">find</span><span style="color: rgb(204, 0, 0);">(</span><span style="font-style: italic; color: rgb(204, 0, 0);">k</span><span style="color: rgb(204, 0, 0);">, </span><span style="font-style: italic; color: rgb(204, 0, 0);">T.rightChild</span><span style="color: rgb(204, 0, 0);">(</span><span style="font-style: italic; color: rgb(204, 0, 0);">v</span><span style="color: rgb(204, 0, 0);">))</span></span><br>
             </big></td>
         </tr>
       </tbody>
     </table>
     <ul>
-      <li><big>&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;: <span style="font-family: monospace;">find(4)</span></big></li>
+      <li><big>Пример: <span style="font-family: monospace;">find(4)</span></big></li>
     </ul>
-    <big> <img style="width: 390px; height: 185px;" alt=""
-        src="pic2.jpg"><br>
+    <big> <img style="width: 390px; height: 185px;" alt="" src="pic2.jpg"><br>
       <br>
     </big>
     <ul>
-      <li><big>&#1060;&#1091;&#1085;&#1082;&#1094;&#1080;&#1103;&#1090;&#1072;<span style="font-family: monospace;"> find(k)</span>
-          &#1085;&#1072; &#1088;&#1077;&#1095;&#1085;&#1080;&#1082;&#1072; <span style="font-style: italic;">D</span> &#1089;&#1077;
-          &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072; &#1079;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(<span
-            style="font-style: italic;">h</span>), &#1082;&#1098;&#1076;&#1077;&#1090;&#1086; <span
-            style="font-style: italic;">h</span> &#1077; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072;
-          &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086;&#1090;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; <span style="font-style: italic;">T</span>
-          , &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1085;&#1086; &#1079;&#1072; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;&#1090;&#1072; &#1085;&#1072; <span style="font-style:
+      <li><big>Функцията<span style="font-family: monospace;"> find(k)</span>
+          на речника <span style="font-style: italic;">D</span> се
+          изпълнява за време <span style="font-style: italic;">O</span>(<span style="font-style: italic;">h</span>), където <span style="font-style: italic;">h</span> е височината на
+          двоичното търсещо дърво <span style="font-style: italic;">T</span>
+          , използвано за реализацията на <span style="font-style:
             italic;">D</span>.<span style="font-weight: bold;"></span></big></li>
     </ul>
     <ul>
     </ul>
-    <h4><big> &#1054;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080; &#1079;&#1072; &#1086;&#1073;&#1085;&#1086;&#1074;&#1103;&#1074;&#1072;&#1085;&#1077; (&#1072;&#1082;&#1090;&#1091;&#1072;&#1083;&#1080;&#1079;&#1080;&#1088;&#1072;&#1085;&#1077;)<br>
+    <h4><big> Операции за обновяване (актуализиране)<br>
       </big></h4>
-    <big><span style="font-weight: bold;">&#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077;</span><br>
+    <big><span style="font-weight: bold;">Вмъкване</span><br>
     </big>
     <ul>
-      <li><big>&#1047;&#1072; &#1076;&#1072; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1080;&#1084; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <span style="font-family:
+      <li><big>За да изпълним операция <span style="font-family:
             monospace;">insertItem</span>(<span style="font-style:
             italic;">k</span>, <span style="font-style: italic;">e</span>),
 
@@ -169,132 +130,123 @@
 
 
 
-          &#1090;&#1098;&#1088;&#1089;&#1080;&#1084; &#1089; &#1082;&#1083;&#1102;&#1095; <span style="font-style: italic;">k.</span></big></li>
-      <li><big>&#1055;&#1088;&#1080;&#1077;&#1084;&#1072;&#1084;&#1077;, &#1095;&#1077; <span style="font-style: italic;">k</span>
-          &#1085;&#1077; &#1077; &#1074; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1080; &#1085;&#1077;&#1082;&#1072; <span style="font-style: italic;">w</span>
-          &#1077; &#1083;&#1080;&#1089;&#1090;&#1086;&#1090;&#1086;, &#1076;&#1086;&#1089;&#1090;&#1080;&#1075;&#1085;&#1072;&#1090;&#1086; &#1087;&#1088;&#1080; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077;&#1090;&#1086;.</big></li>
-      <li><big>&#1055;&#1086;&#1089;&#1090;&#1072;&#1074;&#1103;&#1084;&#1077; <span style="font-style: italic;">k</span> &#1074;&#1098;&#1074;
-          &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">w</span> &#1080;
-          &#1088;&#1072;&#1079;&#1096;&#1080;&#1088;&#1103;&#1074;&#1072;&#1084;&#1077; <span style="font-style: italic;">w</span> &#1076;&#1086;
-          &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
-      <li><big>&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;: insert 5</big></li>
+          търсим с ключ <span style="font-style: italic;">k.</span></big></li>
+      <li><big>Приемаме, че <span style="font-style: italic;">k</span>
+          не е в дървото и нека <span style="font-style: italic;">w</span>
+          е листото, достигнато при търсенето.</big></li>
+      <li><big>Поставяме <span style="font-style: italic;">k</span> във
+          възел <span style="font-style: italic;">w</span> и
+          разширяваме <span style="font-style: italic;">w</span> до
+          вътрешен възел.</big></li>
+      <li><big>Пример: insert 5</big></li>
     </ul>
-    <table style="text-align: left; width: 100%;" cellpadding="2"
-      cellspacing="2" border="0">
+    <table style="text-align: left; width: 100%;" cellpadding="2" cellspacing="2" border="0">
       <tbody>
         <tr>
-          <td style="vertical-align: top;"><img style="width: 375px;
+          <td style="vertical-align: top;">
+<img style="width: 375px;
               height: 199px;" alt="" src="pic3.jpg"><br>
           </td>
-          <td style="vertical-align: top;"><img style="width: 396px;
+          <td style="vertical-align: top;">
+<img style="width: 396px;
               height: 227px;" alt="" src="pic4.jpg"><br>
           </td>
         </tr>
       </tbody>
     </table>
     <big><br>
-      <span style="font-weight: bold;">&#1048;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077;</span><br>
+      <span style="font-weight: bold;">Изтриване</span><br>
     </big>
     <ul>
-      <li><big><font size="+1">&#1047;&#1072; &#1076;&#1072; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1080;&#1084; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103;</font> <span
-            style="font-family: monospace;">removeElement</span>(<span
-            style="font-style: italic;">k</span>), &#1090;&#1098;&#1088;&#1089;&#1080;&#1084; &#1089; &#1082;&#1083;&#1102;&#1095; <span
-            style="font-style: italic;">k.</span></big></li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; &#1082;&#1083;&#1102;&#1095; <span style="font-style: italic;">k</span> &#1077; &#1074;
-          &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1080; &#1085;&#1077;&#1082;&#1072; <span style="font-style: italic;">v</span> &#1077;
-          &#1074;&#1098;&#1079;&#1077;&#1083;&#1098;&#1090;, &#1089;&#1098;&#1093;&#1088;&#1072;&#1085;&#1103;&#1074;&#1072;&#1097; <span style="font-style: italic;">k.</span></big></li>
-      <li><big>&#1040;&#1082;&#1086; &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">v</span> &#1080;&#1084;&#1072;
-          &#1076;&#1077;&#1090;&#1077; &#1083;&#1080;&#1089;&#1090;&#1086; <span style="font-style: italic;">w</span>,
-          &#1080;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1084;&#1077; <span style="font-style: italic;">v</span> &#1080; <span
-            style="font-style: italic;">w</span> &#1086;&#1090; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1089; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <span
-            style="font-family: monospace;">removeAboveExternal</span>(<span
-            style="font-style: italic;">w</span>).</big></li>
-      <li><big>&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;: remove 4</big></li>
+      <li><big><font size="+1">За да изпълним операция</font> <span style="font-family: monospace;">removeElement</span>(<span style="font-style: italic;">k</span>), търсим с ключ <span style="font-style: italic;">k.</span></big></li>
+      <li><big>Нека ключ <span style="font-style: italic;">k</span> е в
+          дървото и нека <span style="font-style: italic;">v</span> е
+          възелът, съхраняващ <span style="font-style: italic;">k.</span></big></li>
+      <li><big>Ако възел <span style="font-style: italic;">v</span> има
+          дете листо <span style="font-style: italic;">w</span>,
+          изтриваме <span style="font-style: italic;">v</span> и <span style="font-style: italic;">w</span> от дървото с операция <span style="font-family: monospace;">removeAboveExternal</span>(<span style="font-style: italic;">w</span>).</big></li>
+      <li><big>Пример: remove 4</big></li>
     </ul>
-    <table style="text-align: left; width: 100%;" cellpadding="2"
-      cellspacing="2" border="0">
+    <table style="text-align: left; width: 100%;" cellpadding="2" cellspacing="2" border="0">
       <tbody>
         <tr>
-          <td style="vertical-align: top;"><img style="width: 394px;
+          <td style="vertical-align: top;">
+<img style="width: 394px;
               height: 227px;" alt="" src="pic5.jpg"><br>
           </td>
-          <td style="vertical-align: top;"><img style="width: 379px;
+          <td style="vertical-align: top;">
+<img style="width: 379px;
               height: 173px;" alt="" src="pic6.jpg"><br>
           </td>
         </tr>
       </tbody>
     </table>
     <ul>
-      <li><big>&#1055;&#1088;&#1077;&#1076;&#1087;&#1086;&#1083;&#1072;&#1075;&#1072;&#1084;&#1077; &#1089;&#1083;&#1091;&#1095;&#1072;&#1103;, &#1082;&#1086;&#1075;&#1072;&#1090;&#1086; &#1082;&#1083;&#1102;&#1095;&#1098;&#1090; <span
-            style="font-style: italic;">k</span> &#1079;&#1072; &#1080;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1085;&#1077; &#1089;&#1077;
-          &#1089;&#1098;&#1093;&#1088;&#1072;&#1085;&#1103;&#1074;&#1072; &#1074;&#1098;&#1074; &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">v,</span>
-          &#1095;&#1080;&#1081;&#1090;&#1086; &#1076;&#1077;&#1094;&#1072; &#1089;&#1072; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1085;&#1080; &#1074;&#1098;&#1079;&#1083;&#1080;.</big></li>
-      <li><big>&#1053;&#1072;&#1084;&#1080;&#1088;&#1072;&#1084;&#1077; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style:
-            italic;">w</span>, &#1082;&#1086;&#1081;&#1090;&#1086; &#1089;&#1083;&#1077;&#1076;&#1074;&#1072; <span style="font-style:
-            italic;">v</span> &#1074; inorder &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1085;&#1077; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;.</big></li>
-      <li><big>&#1050;&#1086;&#1087;&#1080;&#1088;&#1072;&#1084;&#1077; <span style="font-family: monospace;">key</span>(<span
-            style="font-style: italic;">w</span>) &#1074;&#1098;&#1074; &#1074;&#1098;&#1079;&#1077;&#1083;&#1072; <span
-            style="font-style: italic;">v.</span></big></li>
-      <li><big>&#1048;&#1079;&#1090;&#1088;&#1080;&#1074;&#1072;&#1084;&#1077; &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">w</span>
-          &#1080; &#1085;&#1077;&#1075;&#1086;&#1074;&#1086;&#1090;&#1086; &#1083;&#1103;&#1074;&#1086; &#1076;&#1077;&#1090;&#1077;<span style="font-style: italic;"> z</span>
-          (&#1082;&#1086;&#1077;&#1090;&#1086; &#1077; &#1083;&#1080;&#1089;&#1090;&#1086;) &#1089; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <span style="font-family:
-            monospace;">removeAboveExternal</span>(<span
-            style="font-style: italic;">z</span>).</big></li>
-      <li><big>&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;: remove 3<span style="font-weight: bold;"></span></big></li>
+      <li><big>Предполагаме случая, когато ключът <span style="font-style: italic;">k</span> за изтриване се
+          съхранява във възел <span style="font-style: italic;">v,</span>
+          чийто деца са вътрешни възли.</big></li>
+      <li><big>Намираме вътрешен възел <span style="font-style:
+            italic;">w</span>, който следва <span style="font-style:
+            italic;">v</span> в inorder обхождане на дървото.</big></li>
+      <li><big>Копираме <span style="font-family: monospace;">key</span>(<span style="font-style: italic;">w</span>) във възела <span style="font-style: italic;">v.</span></big></li>
+      <li><big>Изтриваме възел <span style="font-style: italic;">w</span>
+          и неговото ляво дете<span style="font-style: italic;"> z</span>
+          (което е листо) с операция <span style="font-family:
+            monospace;">removeAboveExternal</span>(<span style="font-style: italic;">z</span>).</big></li>
+      <li><big>Пример: remove 3<span style="font-weight: bold;"></span></big></li>
     </ul>
     <big><span style="font-weight: bold;"> </span></big>
-    <table style="text-align: left; width: 100%;" cellpadding="2"
-      cellspacing="2" border="0">
+    <table style="text-align: left; width: 100%;" cellpadding="2" cellspacing="2" border="0">
       <tbody>
         <tr>
-          <td style="vertical-align: top;"><img style="width: 376px;
+          <td style="vertical-align: top;">
+<img style="width: 376px;
               height: 254px;" alt="" src="pic7.jpg"><br>
           </td>
-          <td style="vertical-align: top;"><img style="width: 380px;
+          <td style="vertical-align: top;">
+<img style="width: 380px;
               height: 189px;" alt="" src="pic8.jpg"><br>
           </td>
         </tr>
       </tbody>
     </table>
     <big><span style="font-weight: bold;"><br>
-        &#1053;&#1072;&#1081;-&#1076;&#1086;&#1073;&#1098;&#1088; &#1080; &#1085;&#1072;&#1081;-&#1083;&#1086;&#1096; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;</span><br>
+        Най-добър и най-лош случай</span><br>
     </big>
     <ul>
-      <li><big>&#1044;&#1072;&#1076;&#1077;&#1085; &#1077; &#1088;&#1077;&#1095;&#1085;&#1080;&#1082; &#1089; <span style="font-style: italic;">n</span>
-          &#1095;&#1083;&#1077;&#1085;&#1086;&#1074;&#1077;, &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1080;&#1088;&#1072;&#1085; &#1082;&#1072;&#1090;&#1086; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1089; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072; <span
-            style="font-style: italic;">h.</span></big></li>
+      <li><big>Даден е речник с <span style="font-style: italic;">n</span>
+          членове, реализиран като двоично търсещо дърво с височина <span style="font-style: italic;">h.</span></big></li>
       <ul>
-        <li><big>&#1048;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1085;&#1072;&#1090;&#1072; &#1087;&#1072;&#1084;&#1077;&#1090; &#1077; <span style="font-style: italic;">O</span>(<span
-              style="font-style: italic;">n</span>).</big></li>
-        <li><big>&#1052;&#1077;&#1090;&#1086;&#1076;&#1080;&#1090;&#1077; <span style="font-family: monospace;">findElement()</span>,
-            <span style="font-family: monospace;">insertItem()</span> &#1080;
+        <li><big>Използваната памет е <span style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>).</big></li>
+        <li><big>Методите <span style="font-family: monospace;">findElement()</span>,
+            <span style="font-family: monospace;">insertItem()</span> и
             <span style="font-family: monospace;">removeElement()</span>
-            &#1086;&#1090;&#1085;&#1077;&#1084;&#1072;&#1090; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style: italic;">O</span>(<span
-              style="font-style: italic;">h</span>).<br>
+            отнемат време <span style="font-style: italic;">O</span>(<span style="font-style: italic;">h</span>).<br>
           </big></li>
       </ul>
-      <li><big>&#1042;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1077; <span style="font-style:
+      <li><big>Височината на дървото е <span style="font-style:
             italic;">O</span>(<span style="font-style: italic;">n</span>)
-          &#1074; &#1085;&#1072;&#1081;-&#1083;&#1086;&#1096;&#1080;&#1103; &#1089;&#1083;&#1091;&#1095;&#1072;&#1081; &#1080; <span style="font-style: italic;">O</span>(log
+          в най-лошия случай и <span style="font-style: italic;">O</span>(log
 
 
-          <span style="font-style: italic;">n</span>) &#1074; &#1085;&#1072;&#1081;-&#1076;&#1086;&#1073;&#1088;&#1080;&#1103;
-          &#1089;&#1083;&#1091;&#1095;&#1072;&#1081;.</big></li>
+          <span style="font-style: italic;">n</span>) в най-добрия
+          случай.</big></li>
     </ul>
-    <table style="text-align: left; width: 100%;" cellpadding="2"
-      cellspacing="2" border="0">
+    <table style="text-align: left; width: 100%;" cellpadding="2" cellspacing="2" border="0">
       <tbody>
         <tr>
-          <td style="vertical-align: top;"><img style="width: 339px;
+          <td style="vertical-align: top;">
+<img style="width: 339px;
               height: 238px;" alt="" src="add1.jpg"><br>
           </td>
-          <td style="vertical-align: top;"><img style="width: 426px;
+          <td style="vertical-align: top;">
+<img style="width: 426px;
               height: 189px;" alt="" src="add2.jpg"><br>
           </td>
         </tr>
       </tbody>
     </table>
-    <h4><big>C++ &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;</big></h4>
+    <h4><big>C++ реализация</big></h4>
     <big><span style="font-weight: bold;">A Binary Search Tree in C++<br>
       </span><a href="9.2_BinarySearchTree.h-Position.html">html-9.2</a>
       (Position)<br>
@@ -303,147 +255,149 @@
       <a href="9.5_BinarySearchTree.h-BST3.html">html-9.5</a> (BST3)<br>
       <a href="9.6_BinarySearchTree.h-BST4.html">html-9.6</a> (BST4)<br>
       <br>
-      <a style="font-family: monospace;" href="except.h">except.h</a><span
-        style="font-family: monospace;">&nbsp; - &nbsp; </span><a
-        style="font-family: monospace;" href="LBTree.h">LBTree.h</a><span
-        style="font-family: monospace;">&nbsp;&nbsp; - &nbsp; </span><a
-        style="font-family: monospace;" href="BSTree.cpp">BSTree.cpp</a></big><br>
+      <a style="font-family: monospace;" href="except.h">except.h</a><span style="font-family: monospace;">  -   </span><a style="font-family: monospace;" href="LBTree.h">LBTree.h</a><span style="font-family: monospace;">   -   </span><a style="font-family: monospace;" href="BSTree.cpp">BSTree.cpp</a></big><br>
     <hr style="width: 100%; height: 2px;">
-    <h3>AVL &#1076;&#1098;&#1088;&#1074;&#1077;&#1090;&#1072;</h3>
+    <h3>AVL дървета</h3>
     <ul>
-      <li><big><span style="font-weight: bold;">&#1057;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1077;&#1085;
-            &#1073;&#1072;&#1083;&#1072;&#1085;&#1089; (Height-Balance Property)</span>: &#1047;&#1072; &#1074;&#1089;&#1077;&#1082;&#1080; &#1074;&#1098;&#1090;&#1088;&#1077;&#1096;&#1077;&#1085;
-          &#1074;&#1098;&#1079;&#1077;&#1083; <span style="font-style: italic;">v</span> &#1086;&#1090; <span
-            style="font-style: italic;">T</span> </big><big>&#1088;&#1072;&#1079;&#1083;&#1080;&#1082;&#1072;&#1090;&#1072;
-          &#1074;&#1098;&#1074; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1080;&#1090;&#1077; &#1085;&#1072; &#1076;&#1077;&#1094;&#1072;&#1090;&#1072; &#1084;&#1091; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1073;&#1098;&#1076;&#1077; &#1085;&#1072;&#1081;-&#1084;&#1085;&#1086;&#1075;&#1086; 1.</big></li>
-      <li><big>AVL &#1076;&#1098;&#1088;&#1074;&#1086; &#1077; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1089;&#1098;&#1089; &#1089;&#1074;&#1086;&#1081;&#1089;&#1090;&#1074;&#1086;&#1090;&#1086;
-          &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1077;&#1085; &#1073;&#1072;&#1083;&#1072;&#1085;&#1089;</big>.<br>
+      <li>
+<big><span style="font-weight: bold;">Свойство височинен
+            баланс (Height-Balance Property)</span>: За всеки вътрешен
+          възел <span style="font-style: italic;">v</span> от <span style="font-style: italic;">T</span> </big><big>разликата
+          във височините на децата му може да бъде най-много 1.</big>
+</li>
+      <li>
+<big>AVL дърво е двоично търсещо дърво със свойството
+          височинен баланс</big>.<br>
       </li>
-      <li><big>Adel'son-Vel'skii and Landis (&#1040;&#1076;&#1077;&#1083;&#1100;&#1089;&#1086;&#1085;-&#1042;&#1077;&#1083;&#1100;&#1089;&#1082;&#1080;&#1081;, &#1051;&#1072;&#1085;&#1076;&#1080;&#1089; -
+      <li><big>Adel'son-Vel'skii and Landis (Адельсон-Вельский, Ландис -
           1968).</big></li>
-      <li><big>&#1045;&#1076;&#1080;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; &#1074; &#1073;&#1072;&#1083;&#1072;&#1085;&#1089;&#1080;&#1088;&#1072;&#1085;, &#1072;&#1082;&#1086; &#1088;&#1072;&#1079;&#1083;&#1080;&#1082;&#1072;&#1090;&#1072; &#1074;&#1098;&#1074; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1080;&#1090;&#1077; &#1085;&#1072;
-          &#1076;&#1077;&#1094;&#1072;&#1090;&#1072; &#1084;&#1091; &#1077; &#1085;&#1072;&#1081;-&#1084;&#1085;&#1086;&#1075;&#1086; 1. </big><br>
+      <li>
+<big>Един възел в балансиран, ако разликата във височините на
+          децата му е най-много 1. </big><br>
       </li>
-      <li><big><span style="font-style: italic;">&#1058;&#1074;&#1098;&#1088;&#1076;&#1077;&#1085;&#1080;&#1077;:</span>
-          &#1042;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072; AVL &#1076;&#1098;&#1088;&#1074;&#1086;, &#1089;&#1098;&#1093;&#1088;&#1072;&#1085;&#1103;&#1074;&#1072;&#1097;&#1086; <span style="font-style:
-            italic;">n</span> &#1082;&#1083;&#1102;&#1095;&#1086;&#1074;&#1077; &#1077; <span style="font-style:
+      <li><big><span style="font-style: italic;">Твърдение:</span>
+          Височината на AVL дърво, съхраняващо <span style="font-style:
+            italic;">n</span> ключове е <span style="font-style:
             italic;">O</span>(log <span style="font-style: italic;">n</span>).</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 522px; height:
-        391px;" alt="" src="avl01.jpg"><span style="font-style: italic;"></span><span
-        style="font-style: italic;"></span><span style="font-style:
+    <div style="text-align: center;">
+<img style="width: 522px; height:
+        391px;" alt="" src="avl01.jpg"><span style="font-style: italic;"></span><span style="font-style: italic;"></span><span style="font-style:
         italic;"></span><br>
     </div>
-    <big><span style="font-weight: bold;">&#1042;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; &#1074; AVL &#1076;&#1098;&#1088;&#1074;&#1086;<br>
+    <big><span style="font-weight: bold;">Вмъкване в AVL дърво<br>
       </span></big>
     <ul>
-      <li><big><span style="font-family: monospace;">expandExternal</span>(<span
-            style="font-style: italic;">w</span>)</big></li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">z</span> &#1077;
-          &#1087;&#1098;&#1088;&#1074;&#1080;&#1103;&#1090; &#1074;&#1098;&#1079;&#1077;&#1083; &#1073;&#1098;&#1076;&#1077; &#1087;&#1098;&#1088;&#1074;&#1080;&#1103;&#1090; &#1085;&#1077;&#1073;&#1072;&#1083;&#1072;&#1085;&#1089;&#1080;&#1088;&#1072;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;, &#1082;&#1086;&#1081;&#1090;&#1086; &#1089;&#1088;&#1077;&#1097;&#1072;&#1084;&#1077;
-          &#1087;&#1086; &#1087;&#1098;&#1090;&#1103; &#1086;&#1090; <span style="font-style: italic;">w</span> &#1082;&#1098;&#1084;
-          &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1085;&#1072; <span style="font-style: italic;">T</span>.</big></li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">y</span> &#1086;&#1079;&#1085;&#1072;&#1095;&#1072;&#1074;&#1072;
-          &#1076;&#1077;&#1090;&#1077;&#1090;&#1086; &#1085;&#1072; <span style="font-style: italic;">z</span> &#1089;
-          &#1087;&#1086;-&#1075;&#1086;&#1083;&#1103;&#1084;&#1072; &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;.</big></li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">x</span> &#1077; &#1076;&#1077;&#1090;&#1077;&#1090;&#1086;
-          &#1085;&#1072; <span style="font-style: italic;">y</span> &#1089; &#1087;&#1086;-&#1075;&#1086;&#1083;&#1103;&#1084;&#1072;
-          &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;</big><big>.</big></li>
+      <li><big><span style="font-family: monospace;">expandExternal</span>(<span style="font-style: italic;">w</span>)</big></li>
+      <li><big>Нека <span style="font-style: italic;">z</span> е
+          първият възел бъде първият небалансиран възел, който срещаме
+          по пътя от <span style="font-style: italic;">w</span> към
+          корена на <span style="font-style: italic;">T</span>.</big></li>
+      <li><big>Нека <span style="font-style: italic;">y</span> означава
+          детето на <span style="font-style: italic;">z</span> с
+          по-голяма височина.</big></li>
+      <li>
+<big>Нека <span style="font-style: italic;">x</span> е детето
+          на <span style="font-style: italic;">y</span> с по-голяма
+          височина</big><big>.</big>
+</li>
     </ul>
-    <big><span style="font-weight: bold;">&#1058;&#1088;&#1080;&#1074;&#1098;&#1079;&#1077;&#1083;&#1085;&#1072; &#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103; &#1089;&#1083;&#1077;&#1076;
-        &#1074;&#1084;&#1098;&#1082;&#1074;&#1072;&#1085;&#1077; </span><br>
+    <big><span style="font-weight: bold;">Тривъзелна реконструкция след
+        вмъкване </span><br>
     </big>
     <ul>
-      <li><font size="+1"><tt>restructure(x)</tt></font><br>
+      <li>
+<font size="+1"><tt>restructure(x)</tt></font><br>
       </li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; (<span style="font-style: italic;">a, b, c</span>)
-          &#1089;&#1072; <span style="font-style: italic;">x, y, z</span> &#1074;
-          &#1088;&#1077;&#1076;&#1080;&#1094;&#1072;&#1090;&#1072; &#1087;&#1088;&#1080; inorder &#1086;&#1073;&#1093;&#1086;&#1078;&#1076;&#1072;&#1085;&#1077;. &#1048;&#1079;&#1074;&#1098;&#1088;&#1096;&#1074;&#1072;&#1084;&#1077; &#1088;&#1086;&#1090;&#1072;&#1094;&#1080;&#1103; &#1090;&#1072;&#1082;&#1072;&#1074;&#1072;, &#1095;&#1077;
-          <span style="font-style: italic;">b</span> &#1076;&#1072; &#1077; &#1085;&#1072;&#1081;-&#1075;&#1086;&#1088;&#1077; &#1074;
-          &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;.</big></li>
-      <li><big><span style="font-style: italic;">&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;:</span><br>
+      <li><big>Нека (<span style="font-style: italic;">a, b, c</span>)
+          са <span style="font-style: italic;">x, y, z</span> в
+          редицата при inorder обхождане. Извършваме ротация такава, че
+          <span style="font-style: italic;">b</span> да е най-горе в
+          дървото.</big></li>
+      <li><big><span style="font-style: italic;">Пример:</span><br>
         </big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 734px; height:
+    <div style="text-align: center;">
+<img style="width: 734px; height:
         465px;" alt="" src="avl02.jpg"><br>
     </div>
     <ul>
-      <li><big>&#1048;&#1084;&#1072; 4 &#1074;&#1098;&#1079;&#1084;&#1086;&#1078;&#1085;&#1080; &#1085;&#1072;&#1095;&#1080;&#1085;&#1072; &#1079;&#1072; &#1080;&#1079;&#1086;&#1073;&#1088;&#1072;&#1079;&#1103;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072;&nbsp; (x, y, z)
-          &#1074; (a, b, c).</big></li>
+      <li><big>Има 4 възможни начина за изобразяване на  (x, y, z)
+          в (a, b, c).</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 1070px; height:
+    <div style="text-align: center;">
+<img style="width: 1070px; height:
         479px;" alt="" src="avl03.jpg"><br>
     </div>
     <ul style="font-style: italic;">
-      <li><big>&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;:</big></li>
+      <li><big>Пример:</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 897px; height:
+    <div style="text-align: center;">
+<img style="width: 897px; height:
         623px;" alt="" src="avl04.jpg"><br>
     </div>
     <br>
-    <big style="font-weight: bold;">&#1055;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077; &#1085;&#1072; &#1074;&#1098;&#1079;&#1077;&#1083; &#1086;&#1090; AVL &#1076;&#1098;&#1088;&#1074;&#1086;</big><br>
+    <big style="font-weight: bold;">Премахване на възел от AVL дърво</big><br>
     <ul>
-      <li><big><span style="font-family: monospace;">removeElement</span>(<span
-            style="font-style: italic;">k</span>)</big></li>
-      <li><big>&#1055;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077;&#1090;&#1086; &#1079;&#1072;&#1087;&#1086;&#1095;&#1074;&#1072; &#1074; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086;&#1090;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1097;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;, &#1082;&#1086;&#1077;&#1090;&#1086;
-          &#1086;&#1079;&#1085;&#1072;&#1095;&#1072;&#1074;&#1072;, &#1095;&#1077; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1085;&#1072;&#1090;&#1080;&#1103; &#1074;&#1098;&#1079;&#1077;&#1083; &#1089;&#1090;&#1072;&#1074;&#1072; (&#1087;&#1088;&#1072;&#1079;&#1077;&#1085;) &#1074;&#1098;&#1085;&#1096;&#1077;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
-      <li><big>&#1053;&#1077;&#1075;&#1086;&#1074;&#1080;&#1103;&#1090; &#1088;&#1086;&#1076;&#1080;&#1090;&#1077;&#1083; <span style="font-style: italic;">w</span>
-          &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1089;&#1090;&#1072;&#1085;&#1077; &#1085;&#1077;&#1073;&#1072;&#1083;&#1072;&#1085;&#1089;&#1080;&#1088;&#1072;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083;.</big></li>
-      <li style="font-style: italic;"><big>&#1055;&#1088;&#1080;&#1084;&#1077;&#1088;:</big></li>
+      <li><big><span style="font-family: monospace;">removeElement</span>(<span style="font-style: italic;">k</span>)</big></li>
+      <li><big>Премахването започва в двоичното търсещо дърво, което
+          означава, че премахнатия възел става (празен) външен възел.</big></li>
+      <li><big>Неговият родител <span style="font-style: italic;">w</span>
+          може да стане небалансиран възел.</big></li>
+      <li style="font-style: italic;"><big>Пример:</big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 689px; height:
+    <div style="text-align: center;">
+<img style="width: 689px; height:
         411px;" alt="" src="av05.jpg"><br>
     </div>
     <br>
-    <big><span style="font-weight: bold;">&#1056;&#1077;&#1073;&#1072;&#1083;&#1072;&#1085;&#1089;&#1080;&#1088;&#1072;&#1085;&#1077; &#1089;&#1083;&#1077;&#1076; &#1087;&#1088;&#1077;&#1084;&#1072;&#1093;&#1074;&#1072;&#1085;&#1077;</span><br>
+    <big><span style="font-weight: bold;">Ребалансиране след премахване</span><br>
     </big>
     <ul>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">z</span> &#1077;
-          &#1087;&#1098;&#1088;&#1074;&#1080;&#1103;&#1090; &#1085;&#1077;&#1073;&#1072;&#1083;&#1072;&#1085;&#1089;&#1080;&#1088;&#1072;&#1085; &#1074;&#1098;&#1079;&#1077;&#1083; <i>w</i> &#1087;&#1086; &#1087;&#1098;&#1090;&#1103; &#1086;&#1090; <i>w</i> &#1082;&#1098;&#1084;
-          &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;. </big></li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">y</span> &#1077; &#1076;&#1077;&#1090;&#1077;&#1090;&#1086;
-          &#1085;&#1072; <span style="font-style: italic;">z</span> &#1089; &#1087;&#1086;-&#1075;&#1086;&#1083;&#1103;&#1084;&#1072;
-          &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;. </big></li>
-      <li><big>&#1053;&#1077;&#1082;&#1072; <span style="font-style: italic;">x</span> &#1077; &#1076;&#1077;&#1090;&#1077;&#1090;&#1086;
-          &#1085;&#1072; <span style="font-style: italic;">y</span> &#1089; &#1087;&#1086;-&#1075;&#1086;&#1083;&#1103;&#1084;&#1072;
-          &#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;.</big></li>
-      <li><big>&#1048;&#1079;&#1087;&#1098;&#1083;&#1085;&#1103;&#1074;&#1072;&#1084;&#1077; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1103; <span style="font-family:
+      <li><big>Нека <span style="font-style: italic;">z</span> е
+          първият небалансиран възел <i>w</i> по пътя от <i>w</i> към
+          корена на дървото. </big></li>
+      <li><big>Нека <span style="font-style: italic;">y</span> е детето
+          на <span style="font-style: italic;">z</span> с по-голяма
+          височина. </big></li>
+      <li><big>Нека <span style="font-style: italic;">x</span> е детето
+          на <span style="font-style: italic;">y</span> с по-голяма
+          височина.</big></li>
+      <li><big>Изпълняваме операция <span style="font-family:
             monospace;">restructure</span>(<span style="font-style:
-            italic;">x</span>) &#1079;&#1072; &#1076;&#1072; &#1074;&#1098;&#1079;&#1089;&#1090;&#1072;&#1085;&#1086;&#1074;&#1080;&#1084; &#1073;&#1072;&#1083;&#1072;&#1085;&#1089;&#1072; &#1085;&#1072; <span
-            style="font-style: italic;">z</span>.</big></li>
-      <li><big>&#1058;&#1098;&#1081; &#1082;&#1072;&#1090;&#1086; &#1090;&#1086;&#1074;&#1072; &#1087;&#1088;&#1077;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1080;&#1088;&#1072;&#1085;&#1077; &#1084;&#1086;&#1078;&#1077; &#1076;&#1072; &#1085;&#1072;&#1088;&#1091;&#1096;&#1072;&#1074;&#1072; &#1073;&#1072;&#1083;&#1072;&#1085;&#1089;&#1072;
-          &#1085;&#1072; &#1076;&#1088;&#1091;&#1075; &#1074;&#1098;&#1079;&#1077;&#1083; &#1087;&#1086;-&#1074;&#1080;&#1089;&#1086;&#1082;&#1086; &#1074; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086;, &#1090;&#1088;&#1103;&#1073;&#1074;&#1072; &#1076;&#1072; &#1087;&#1088;&#1086;&#1076;&#1098;&#1083;&#1078;&#1080;&#1084;
-          &#1087;&#1088;&#1086;&#1074;&#1077;&#1088;&#1082;&#1072;&#1090;&#1072; &#1079;&#1072; &#1073;&#1072;&#1083;&#1072;&#1085;&#1089; &#1076;&#1086; &#1076;&#1086;&#1089;&#1090;&#1080;&#1075;&#1072;&#1085;&#1077; &#1085;&#1072; &#1082;&#1086;&#1088;&#1077;&#1085;&#1072; &#1085;&#1072; <span
-            style="font-style: italic;">T</span>.<br>
+            italic;">x</span>) за да възстановим баланса на <span style="font-style: italic;">z</span>.</big></li>
+      <li><big>Тъй като това преструктуриране може да нарушава баланса
+          на друг възел по-високо в дървото, трябва да продължим
+          проверката за баланс до достигане на корена на <span style="font-style: italic;">T</span>.<br>
         </big></li>
     </ul>
-    <div style="text-align: center;"><img style="width: 865px; height:
+    <div style="text-align: center;">
+<img style="width: 865px; height:
         365px;" alt="" src="avl06.jpg"><br>
     </div>
     <big><span style="font-weight: bold;"><br>
-        &#1042;&#1088;&#1077;&#1084;&#1077;&#1085;&#1072; &#1079;&#1072; &#1080;&#1079;&#1087;&#1098;&#1083;&#1085;&#1077;&#1085;&#1080;&#1077; &#1085;&#1072; &#1086;&#1087;&#1077;&#1088;&#1072;&#1094;&#1080;&#1080;&#1090;&#1077; &#1085;&#1072; &#1088;&#1077;&#1095;&#1085;&#1080;&#1082; &#1040;&#1058;&#1044; &#1089; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;
-        &#1082;&#1072;&#1090;&#1086; AVL &#1076;&#1098;&#1088;&#1074;&#1086;</span><br>
+        Времена за изпълнение на операциите на речник АТД с реализация
+        като AVL дърво</span><br>
     </big>
     <ul>
-      <li><big>&#1045;&#1076;&#1085;&#1072; &#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1103; &#1086;&#1090;&#1085;&#1077;&#1084;&#1072; &#1074;&#1088;&#1077;&#1084;&#1077; <span style="font-style:
+      <li><big>Една реконструкция отнема време <span style="font-style:
             italic;">O</span>(1).</big></li>
       <ul>
-        <li><big>&#1082;&#1072;&#1090;&#1086; &#1080;&#1079;&#1087;&#1086;&#1083;&#1079;&#1074;&#1072;&#1084;&#1077; &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103; &#1085;&#1072; &#1076;&#1074;&#1086;&#1080;&#1095;&#1085;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086; &#1089;&#1098;&#1089;
-            &#1089;&#1074;&#1098;&#1088;&#1079;&#1072;&#1085;&#1072; &#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1072;</big></li>
+        <li><big>като използваме реализация на двоично дърво със
+            свързана структура</big></li>
       </ul>
-      <li><big>find &#1077; <span style="font-style: italic;">O</span>(log <span
-            style="font-style: italic;">n</span>)</big></li>
+      <li><big>find е <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>)</big></li>
       <ul>
-        <li><big>&#1074;&#1080;&#1089;&#1086;&#1095;&#1080;&#1085;&#1072;&#1090;&#1072; &#1085;&#1072; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; &#1077; <span style="font-style:
+        <li><big>височината на дървото е <span style="font-style:
               italic;">O</span>(log <span style="font-style: italic;">n</span>),
 
 
-            &#1085;&#1103;&#1084;&#1072; &#1088;&#1077;&#1082;&#1086;&#1085;&#1089;&#1090;&#1088;&#1091;&#1082;&#1094;&#1080;&#1080;</big></li>
+            няма реконструкции</big></li>
       </ul>
-      <li><big>insert &#1077; <span style="font-style: italic;">O</span>(log
+      <li><big>insert е <span style="font-style: italic;">O</span>(log
           <span style="font-style: italic;">n</span>)</big></li>
       <ul>
-        <li><big>&#1085;&#1072;&#1095;&#1072;&#1083;&#1085;&#1086;&#1090;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1077; <span style="font-style: italic;">O</span>(log
+        <li><big>началното търсене е <span style="font-style: italic;">O</span>(log
 
 
 
@@ -451,14 +405,12 @@
 
 
             <span style="font-style: italic;">n</span>)</big></li>
-        <li><big>&#1087;&#1088;&#1077;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1080;&#1088;&#1072;&#1085;&#1077; &#1085;&#1072;&#1075;&#1086;&#1088;&#1077; &#1087;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; - &#1085;&#1077; &#1087;&#1086;&#1074;&#1077;&#1095;&#1077; &#1086;&#1090; <span
-              style="font-style: italic;">O</span>(log <span
-              style="font-style: italic;">n</span>)</big></li>
+        <li><big>преструктуриране нагоре по дървото - не повече от <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>)</big></li>
       </ul>
-      <li><big>remove &#1077; <span style="font-style: italic;">O</span>(log
+      <li><big>remove е <span style="font-style: italic;">O</span>(log
           <span style="font-style: italic;">n</span>)</big></li>
       <ul>
-        <li><big>&#1085;&#1072;&#1095;&#1072;&#1083;&#1085;&#1086;&#1090;&#1086; &#1090;&#1098;&#1088;&#1089;&#1077;&#1085;&#1077; &#1077; <span style="font-style: italic;">O</span>(log
+        <li><big>началното търсене е <span style="font-style: italic;">O</span>(log
 
 
 
@@ -466,16 +418,15 @@
 
 
             <span style="font-style: italic;">n</span>)</big></li>
-        <li><big>&#1087;&#1088;&#1077;&#1089;&#1090;&#1088;&#1091;&#1082;&#1090;&#1091;&#1088;&#1080;&#1088;&#1072;&#1085;&#1077; &#1085;&#1072;&#1075;&#1086;&#1088;&#1077; &#1087;&#1086; &#1076;&#1098;&#1088;&#1074;&#1086;&#1090;&#1086; - &#1085;&#1077; &#1087;&#1086;&#1074;&#1077;&#1095;&#1077; &#1086;&#1090; <span
-              style="font-style: italic;">O</span>(log <span
-              style="font-style: italic;">n</span>)</big></li>
+        <li><big>преструктуриране нагоре по дървото - не повече от <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>)</big></li>
       </ul>
     </ul>
-    <h4><big>C++ &#1088;&#1077;&#1072;&#1083;&#1080;&#1079;&#1072;&#1094;&#1080;&#1103;</big></h4>
+    <h4><big>C++ реализация</big></h4>
     <big><a href="9.8_AVLTree.h-AVLItem.html">html-9.8</a> (AVL Item)<br>
       <a href="9.9_AVLTree.h-AVLTree2.html">html-9.9</a> (AVL Tree 2)<br>
       <a href="9.10_AVLTree.h-AVLTree1.html">html-9.10</a> (AVL Tree 1)<br>
     </big>
-    <hr style="width: 100%; height: 2px;"><br>
+    <hr style="width: 100%; height: 2px;">
+<br>
   </body>
 </html>

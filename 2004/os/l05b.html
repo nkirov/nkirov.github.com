@@ -1,172 +1,186 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>l05b</title>
 </head>
 <body>
-<b>5b. Конкуренция: взаимно изключване и синхронизация</b>
-<p>5.4 Семафори
-<br>&nbsp;&nbsp; Основен принцип: два или повече процеса се кооперират
-в смисъл на прости сигнали така, че един процес може да бъде спрян на определено
-място и да остане в това състояние, докато не получи съответен сигнал.
-<br>&nbsp;&nbsp; За да изпрати сигнал чрез семафора&nbsp; <b><tt><font color="#006600">s</font></tt></b>,
-процесът трябва да изпълни примитива (процедурата) <b><tt><font color="#006600">signal(s)</font></tt></b>.
-За да получи сигнал от семафор <b><tt><font color="#006600">s</font></tt></b>,
-процесът трябва да изпълни <b><tt><font color="#006600">wait(s)</font></tt></b>&nbsp;
-и ако съответният сигнал още не е изпратен, да остане в състояние на чакане
-(блокиран).
-<br>Дефинирани са 3 действия с променливата семафор:
-<br>&nbsp;&nbsp; 1. Инициализира се с неотрицателно число;
-<br>&nbsp;&nbsp; 2. Примитива <b><tt><font color="#006600">wait(s) </font></tt></b>намалява
-стойността на <b><tt><font color="#006600">s</font></tt></b> с 1. Ако стойността
-стане отрицателна, процесът (изпълняващ <b><tt><font color="#006600">wait</font></tt></b>)
-се блокира.
-<br>&nbsp;&nbsp; 3. Операцията <b><tt><font color="#006600">signal(s) </font></tt></b>увеличава
-стойността на <b><tt><font color="#006600">s</font></tt></b> с 1. Ако стойността
-не е положителна, процесът (блокиран с <b><tt><font color="#006600">wait</font></tt></b>)
-се разблокира.
-<br>&nbsp;&nbsp;&nbsp; Примитивите <b><tt><font color="#006600">wait </font></tt></b>и
+<b>5b. РљРѕРЅРєСѓСЂРµРЅС†РёСЏ: РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ Рё СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ</b>
+<p>5.4 РЎРµРјР°С„РѕСЂРё
+<br>В В  РћСЃРЅРѕРІРµРЅ РїСЂРёРЅС†РёРї: РґРІР° РёР»Рё РїРѕРІРµС‡Рµ РїСЂРѕС†РµСЃР° СЃРµ РєРѕРѕРїРµСЂРёСЂР°С‚
+РІ СЃРјРёСЃСЉР» РЅР° РїСЂРѕСЃС‚Рё СЃРёРіРЅР°Р»Рё С‚Р°РєР°, С‡Рµ РµРґРёРЅ РїСЂРѕС†РµСЃ РјРѕР¶Рµ РґР° Р±СЉРґРµ СЃРїСЂСЏРЅ РЅР° РѕРїСЂРµРґРµР»РµРЅРѕ
+РјСЏСЃС‚Рѕ Рё РґР° РѕСЃС‚Р°РЅРµ РІ С‚РѕРІР° СЃСЉСЃС‚РѕСЏРЅРёРµ, РґРѕРєР°С‚Рѕ РЅРµ РїРѕР»СѓС‡Рё СЃСЉРѕС‚РІРµС‚РµРЅ СЃРёРіРЅР°Р».
+<br>В В  Р—Р° РґР° РёР·РїСЂР°С‚Рё СЃРёРіРЅР°Р» С‡СЂРµР· СЃРµРјР°С„РѕСЂР°В  <b><tt><font color="#006600">s</font></tt></b>,
+РїСЂРѕС†РµСЃСЉС‚ С‚СЂСЏР±РІР° РґР° РёР·РїСЉР»РЅРё РїСЂРёРјРёС‚РёРІР° (РїСЂРѕС†РµРґСѓСЂР°С‚Р°) <b><tt><font color="#006600">signal(s)</font></tt></b>.
+Р—Р° РґР° РїРѕР»СѓС‡Рё СЃРёРіРЅР°Р» РѕС‚ СЃРµРјР°С„РѕСЂ <b><tt><font color="#006600">s</font></tt></b>,
+РїСЂРѕС†РµСЃСЉС‚ С‚СЂСЏР±РІР° РґР° РёР·РїСЉР»РЅРё <b><tt><font color="#006600">wait(s)</font></tt></b>В 
+Рё Р°РєРѕ СЃСЉРѕС‚РІРµС‚РЅРёСЏС‚ СЃРёРіРЅР°Р» РѕС‰Рµ РЅРµ Рµ РёР·РїСЂР°С‚РµРЅ, РґР° РѕСЃС‚Р°РЅРµ РІ СЃСЉСЃС‚РѕСЏРЅРёРµ РЅР° С‡Р°РєР°РЅРµ
+(Р±Р»РѕРєРёСЂР°РЅ).
+<br>Р”РµС„РёРЅРёСЂР°РЅРё СЃР° 3 РґРµР№СЃС‚РІРёСЏ СЃ РїСЂРѕРјРµРЅР»РёРІР°С‚Р° СЃРµРјР°С„РѕСЂ:
+<br>В В  1. РРЅРёС†РёР°Р»РёР·РёСЂР° СЃРµ СЃ РЅРµРѕС‚СЂРёС†Р°С‚РµР»РЅРѕ С‡РёСЃР»Рѕ;
+<br>В В  2. РџСЂРёРјРёС‚РёРІР° <b><tt><font color="#006600">wait(s) </font></tt></b>РЅР°РјР°Р»СЏРІР°
+СЃС‚РѕР№РЅРѕСЃС‚С‚Р° РЅР° <b><tt><font color="#006600">s</font></tt></b> СЃ 1. РђРєРѕ СЃС‚РѕР№РЅРѕСЃС‚С‚Р°
+СЃС‚Р°РЅРµ РѕС‚СЂРёС†Р°С‚РµР»РЅР°, РїСЂРѕС†РµСЃСЉС‚ (РёР·РїСЉР»РЅСЏРІР°С‰ <b><tt><font color="#006600">wait</font></tt></b>)
+СЃРµ Р±Р»РѕРєРёСЂР°.
+<br>В В  3. РћРїРµСЂР°С†РёСЏС‚Р° <b><tt><font color="#006600">signal(s) </font></tt></b>СѓРІРµР»РёС‡Р°РІР°
+СЃС‚РѕР№РЅРѕСЃС‚С‚Р° РЅР° <b><tt><font color="#006600">s</font></tt></b> СЃ 1. РђРєРѕ СЃС‚РѕР№РЅРѕСЃС‚С‚Р°
+РЅРµ Рµ РїРѕР»РѕР¶РёС‚РµР»РЅР°, РїСЂРѕС†РµСЃСЉС‚ (Р±Р»РѕРєРёСЂР°РЅ СЃ <b><tt><font color="#006600">wait</font></tt></b>)
+СЃРµ СЂР°Р·Р±Р»РѕРєРёСЂР°.
+<br>В В В  РџСЂРёРјРёС‚РёРІРёС‚Рµ <b><tt><font color="#006600">wait </font></tt></b>Рё
 <b><tt><font color="#006600">signal
-</font></tt></b>се предполат неделими, т.е. те те не могат да бъдат прекъсвани.
+</font></tt></b>СЃРµ РїСЂРµРґРїРѕР»Р°С‚ РЅРµРґРµР»РёРјРё, С‚.Рµ. С‚Рµ С‚Рµ РЅРµ РјРѕРіР°С‚ РґР° Р±СЉРґР°С‚ РїСЂРµРєСЉСЃРІР°РЅРё.
 <br><b><tt><font color="#006600">struct semaphore {</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;int count;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;queueType queue;</font></tt></b>
+<br><b><tt><font color="#006600">В int count;</font></tt></b>
+<br><b><tt><font color="#006600">В queueType queue;</font></tt></b>
 <br><b><tt><font color="#006600">};</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#003300">void wait(semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#003300">void wait(semaphore s)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;s.count--;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (s.count &lt; 0)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">place
+<br><b><tt><font color="#003300">В s.count--;</font></tt></b>
+<br><b><tt><font color="#003300">В if (s.count &lt; 0)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  </font><font color="#660000">place
 this process in s.queue;</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; block this process;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;</font><font color="#003300">}</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#660000">В  block this process;</font></tt></b>
+<br><b><tt><font color="#006600">В </font><font color="#003300">}</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">void signal(semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#003300">void signal(semaphore s)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;s.count++;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (s.count &lt;= 0)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; remove a process P from s.queue;</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; place process P on ready list;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В s.count++;</font></tt></b>
+<br><b><tt><font color="#003300">В if (s.count &lt;= 0)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#660000">В  remove a process P from s.queue;</font></tt></b>
+<br><b><tt><font color="#660000">В  place process P on ready list;</font></tt></b>
+<br><b><tt><font color="#003300">В }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
-Двоични семафори:
+Р”РІРѕРёС‡РЅРё СЃРµРјР°С„РѕСЂРё:
 <br><b><tt><font color="#006600">struct binary_semaphore {</font></tt></b>
 <br><b><tt><font color="#006600">enum (zero, one) value;</font></tt></b>
 <br><b><tt><font color="#006600">queueType queue;</font></tt></b>
 <br><b><tt><font color="#006600">};</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#006600">void waitB(binary_semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#006600">void waitB(binary_semaphore s)</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;if (s.value==one) s.value=zero;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;else</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">place
+<br><b><tt><font color="#006600">В if (s.value==one) s.value=zero;</font></tt></b>
+<br><b><tt><font color="#006600">В else</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  </font><font color="#660000">place
 this process in s.queue;</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; block this process;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#660000">В  block this process;</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#006600">void signalB(binary_semaphore s)</font></tt></b>
+<td>
+<b><tt><font color="#006600">void signalB(binary_semaphore s)</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;if (s.queue.is_empty()) s.value=one;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;else</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; </font><font color="#660000">remove
+<br><b><tt><font color="#006600">В if (s.queue.is_empty()) s.value=one;</font></tt></b>
+<br><b><tt><font color="#006600">В else</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  </font><font color="#660000">remove
 a process P from s.queue;</font></tt></b>
-<br><b><tt><font color="#660000">&nbsp; place process P on ready list;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#660000">В  place process P on ready list;</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 </tr>
 </table>
-** Взаимно изключване - решение на задачата за ВИ със семафори:
+** Р’Р·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ - СЂРµС€РµРЅРёРµ РЅР° Р·Р°РґР°С‡Р°С‚Р° Р·Р° Р’Р СЃСЉСЃ СЃРµРјР°С„РѕСЂРё:
 <br><b><tt><font color="#003300">/* program mutualexclusion */</font></tt></b>
 <br><b><tt><font color="#003300">const int n = /* number of processes */;</font></tt></b>
 <br><b><tt><font color="#003300">semaphore s = 1;</font></tt></b>
 <br><b><tt><font color="#003300">void P(int i)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; wait(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; /* critical section */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; signal(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; /* remainder */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#003300">В while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#003300">В  wait(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  /* critical section */</font></tt></b>
+<br><b><tt><font color="#003300">В  signal(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  /* remainder */</font></tt></b>
+<br><b><tt><font color="#003300">В }</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
 <br><b><tt><font color="#003300">void main()</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;parbegin(P(1), P(2),..., P(n));</font></tt></b>
+<br><b><tt><font color="#003300">В parbegin(P(1), P(2),..., P(n));</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
-<br>&nbsp;&nbsp;&nbsp; Стойността на променливата <b><tt><font color="#003300">s.count
-</font></tt></b>има
-следния смисъл:
-<br>- <b><tt><font color="#003300">s.count >= 0 </font></tt></b>е броят
-на процесите, които могат да изпълнят примитива <b><tt><font color="#006600">wait
-</font></tt></b>без
-да бъдат блокирани (и няма изпълнение на <b><tt><font color="#006600">signal</font></tt></b>);
-<br>- <b><tt><font color="#003300">s.count &lt; 0 </font></tt></b>е броят
-на процесите, чакащи в <b><tt><font color="#006600">s.queue.</font></tt></b>
-<p>** Задачата за производител/потребител.
-<br>&nbsp;&nbsp;&nbsp; Един или няколко производители генерират данни (записи,
-символи) и ги поставят в един буфер. Един потребител взема по една данна
-от буфера. Само един агент (производител или потребител) има достъп да
-буфера в даден момент.
-<br>* <b>Първи опит</b> за решение със семафори:
+<br>В В В  РЎС‚РѕР№РЅРѕСЃС‚С‚Р° РЅР° РїСЂРѕРјРµРЅР»РёРІР°С‚Р° <b><tt><font color="#003300">s.count
+</font></tt></b>РёРјР°
+СЃР»РµРґРЅРёСЏ СЃРјРёСЃСЉР»:
+<br>- <b><tt><font color="#003300">s.count &gt;= 0 </font></tt></b>Рµ Р±СЂРѕСЏС‚
+РЅР° РїСЂРѕС†РµСЃРёС‚Рµ, РєРѕРёС‚Рѕ РјРѕРіР°С‚ РґР° РёР·РїСЉР»РЅСЏС‚ РїСЂРёРјРёС‚РёРІР° <b><tt><font color="#006600">wait
+</font></tt></b>Р±РµР·
+РґР° Р±СЉРґР°С‚ Р±Р»РѕРєРёСЂР°РЅРё (Рё РЅСЏРјР° РёР·РїСЉР»РЅРµРЅРёРµ РЅР° <b><tt><font color="#006600">signal</font></tt></b>);
+<br>- <b><tt><font color="#003300">s.count &lt; 0 </font></tt></b>Рµ Р±СЂРѕСЏС‚
+РЅР° РїСЂРѕС†РµСЃРёС‚Рµ, С‡Р°РєР°С‰Рё РІ <b><tt><font color="#006600">s.queue.</font></tt></b>
+<p>** Р—Р°РґР°С‡Р°С‚Р° Р·Р° РїСЂРѕРёР·РІРѕРґРёС‚РµР»/РїРѕС‚СЂРµР±РёС‚РµР».
+<br>В В В  Р•РґРёРЅ РёР»Рё РЅСЏРєРѕР»РєРѕ РїСЂРѕРёР·РІРѕРґРёС‚РµР»Рё РіРµРЅРµСЂРёСЂР°С‚ РґР°РЅРЅРё (Р·Р°РїРёСЃРё,
+СЃРёРјРІРѕР»Рё) Рё РіРё РїРѕСЃС‚Р°РІСЏС‚ РІ РµРґРёРЅ Р±СѓС„РµСЂ. Р•РґРёРЅ РїРѕС‚СЂРµР±РёС‚РµР» РІР·РµРјР° РїРѕ РµРґРЅР° РґР°РЅРЅР°
+РѕС‚ Р±СѓС„РµСЂР°. РЎР°РјРѕ РµРґРёРЅ Р°РіРµРЅС‚ (РїСЂРѕРёР·РІРѕРґРёС‚РµР» РёР»Рё РїРѕС‚СЂРµР±РёС‚РµР») РёРјР° РґРѕСЃС‚СЉРї РґР°
+Р±СѓС„РµСЂР° РІ РґР°РґРµРЅ РјРѕРјРµРЅС‚.
+<br>* <b>РџСЉСЂРІРё РѕРїРёС‚</b> Р·Р° СЂРµС€РµРЅРёРµ СЃСЉСЃ СЃРµРјР°С„РѕСЂРё:
 <br><b><tt><font color="#003300">/* program producerconsumer */</font></tt></b>
 <br><b><tt><font color="#003300">int n;</font></tt></b>
 <br><b><tt><font color="#003300">binary_semaphore s = 1;</font></tt></b>
 <br><b><tt><font color="#003300">binary_semaphore delay = 0;</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td VALIGN=TOP><b><tt><font color="#003300">void producer()</font></tt></b>
+<td valign="TOP">
+<b><tt><font color="#003300">void producer()</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; produce();</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; waitB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; append();&nbsp; n++;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; if (n==1) signalB(delay);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; signalB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#003300">В  produce();</font></tt></b>
+<br><b><tt><font color="#003300">В  waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  append();В  n++;</font></tt></b>
+<br><b><tt><font color="#003300">В  if (n==1) signalB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">В  signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">void consumer()</font></tt></b>
+<td>
+<b><tt><font color="#003300">void consumer()</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;waitB(delay);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; waitB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; take();&nbsp; n--;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; signalB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; consume();</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; if (n==0) waitB(delay);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">В while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#003300">В  waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  take();В  n--;</font></tt></b>
+<br><b><tt><font color="#003300">В  signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  consume();</font></tt></b>
+<br><b><tt><font color="#003300">В  if (n==0) waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">В }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#003300">void main()</font></tt></b>
 <br><b><tt><font color="#003300">{ n = 0;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; parbegin(producer, consumer);</font></tt></b>
+<br><b><tt><font color="#003300">В  parbegin(producer, consumer);</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
-<br><font color="#000000">&nbsp;&nbsp;&nbsp; Семафорът </font><b><tt><font color="#006600">s</font></tt></b><font color="#000000">
-служи за взаимно изключване, семафорът </font><b><tt><font color="#006600">delay</font></tt></b><font color="#000000">
-- за чакане на потребителя когато буферът е празен. Проблем:</font>
-<table BORDER CELLPADDING=4 >
+<br><font color="#000000">В В В  РЎРµРјР°С„РѕСЂСЉС‚ </font><b><tt><font color="#006600">s</font></tt></b><font color="#000000">
+СЃР»СѓР¶Рё Р·Р° РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ, СЃРµРјР°С„РѕСЂСЉС‚ </font><b><tt><font color="#006600">delay</font></tt></b><font color="#000000">
+- Р·Р° С‡Р°РєР°РЅРµ РЅР° РїРѕС‚СЂРµР±РёС‚РµР»СЏ РєРѕРіР°С‚Рѕ Р±СѓС„РµСЂСЉС‚ Рµ РїСЂР°Р·РµРЅ. РџСЂРѕР±Р»РµРј:</font>
+<table border cellpadding="4">
 <tr>
-<td>&nbsp;</td>
+<td>В </td>
 
-<td>&nbsp;</td>
+<td>В </td>
 
-<td>&nbsp;</td>
+<td>В </td>
 
 <td>
 <center><b><tt>n</tt></b></center>
@@ -186,7 +200,7 @@ a process P from s.queue;</font></tt></b>
 <center>Init</center>
 </td>
 
-<td>&nbsp;</td>
+<td>В </td>
 
 <td>
 <center>0</center>
@@ -207,7 +221,7 @@ a process P from s.queue;</font></tt></b>
 </td>
 
 <td>
-<center>КС</center>
+<center>РљРЎ</center>
 </td>
 
 <td>
@@ -251,7 +265,7 @@ a process P from s.queue;</font></tt></b>
 </td>
 
 <td>
-<center>КС</center>
+<center>РљРЎ</center>
 </td>
 
 <td>
@@ -273,7 +287,7 @@ a process P from s.queue;</font></tt></b>
 </td>
 
 <td>
-<center>КС</center>
+<center>РљРЎ</center>
 </td>
 
 <td>
@@ -317,7 +331,7 @@ a process P from s.queue;</font></tt></b>
 </td>
 
 <td>
-<center>КС</center>
+<center>РљРЎ</center>
 </td>
 
 <td>
@@ -361,7 +375,7 @@ a process P from s.queue;</font></tt></b>
 </td>
 
 <td>
-<center>КС</center>
+<center>РљРЎ</center>
 </td>
 
 <td>
@@ -374,159 +388,173 @@ a process P from s.queue;</font></tt></b>
 </tr>
 </table>
 
-<p>* <b>Втори опит</b> - решение:
+<p>* <b>Р’С‚РѕСЂРё РѕРїРёС‚</b> - СЂРµС€РµРЅРёРµ:
 <br><b><tt><font color="#333300">int n;</font></tt></b>
 <br><b><tt><font color="#333300">binary_semaphore s = 1;</font></tt></b>
 <br><b><tt><font color="#333300">binary_semaphore delay = 0;</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td VALIGN=TOP><b><tt><font color="#003300">void producer()</font></tt></b>
+<td valign="TOP">
+<b><tt><font color="#003300">void producer()</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; produce();</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; waitB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; append();n++;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; if (n==1) signalB(delay);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; signalB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В {</font></tt></b>
+<br><b><tt><font color="#003300">В  produce();</font></tt></b>
+<br><b><tt><font color="#003300">В  waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В  append();n++;</font></tt></b>
+<br><b><tt><font color="#003300">В  if (n==1) signalB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">В  signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">void consumer()</font></tt></b>
-<br><b><tt><font color="#003300">{ int m;&nbsp; /* a local variable */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; waitB(delay);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; waitB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; take(); n--;&nbsp; m = n;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; signalB(s);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; consume();</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; if (m==0) waitB(delay);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<td>
+<b><tt><font color="#003300">void consumer()</font></tt></b>
+<br><b><tt><font color="#003300">{ int m;В  /* a local variable */</font></tt></b>
+<br><b><tt><font color="#003300">В  waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">В  while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В  {</font></tt></b>
+<br><b><tt><font color="#003300">В В  waitB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В В  take(); n--;В  m = n;</font></tt></b>
+<br><b><tt><font color="#003300">В В  signalB(s);</font></tt></b>
+<br><b><tt><font color="#003300">В В  consume();</font></tt></b>
+<br><b><tt><font color="#003300">В В  if (m==0) waitB(delay);</font></tt></b>
+<br><b><tt><font color="#003300">В  }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#003300">void main()</font></tt></b>
 <br><b><tt><font color="#003300">{ n = 0;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; parbegin (producer, consumer);</font></tt></b>
+<br><b><tt><font color="#003300">В  parbegin (producer, consumer);</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
 <br>--- FIGURE 5.16 ---
-<br>Варианти ва задачата - безкраен буфер и краен кръгов буфер.
-<p>** Задачата на бръснаря
+<br>Р’Р°СЂРёР°РЅС‚Рё РІР° Р·Р°РґР°С‡Р°С‚Р° - Р±РµР·РєСЂР°РµРЅ Р±СѓС„РµСЂ Рё РєСЂР°РµРЅ РєСЂСЉРіРѕРІ Р±СѓС„РµСЂ.
+<p>** Р—Р°РґР°С‡Р°С‚Р° РЅР° Р±СЂСЉСЃРЅР°СЂСЏ
 <br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F5-19.PDF">FIGURE
 5.19</a> ---
 <br>
-<hr WIDTH="100%">
-<br>5.5 Монитори.
-<br>** Монитор със сигнал.
-<br>&nbsp;&nbsp;&nbsp; Мониторите са програмни модули, състоящи се от една
-или повече процедури, инициализация и локални данни. Главни характеристики:
-<br>&nbsp;&nbsp; 1. Локалните данни са достъпни само от процедурите на
-монитора.
-<br>&nbsp;&nbsp; 2. Един процес "влиза в монитора" като извика някоя от
-процедурите му.
-<br>&nbsp;&nbsp; 3. Само един процес може да се изпълнява в монитора, всеки
-друг процес чака да се "освободи" монитора.
-<br>&nbsp;&nbsp;&nbsp; Променливи на условия (condition variables). Функции
-с тези променливи:
-<br><b><tt><font color="#006600">- cwait(c)</font></tt></b>:&nbsp; Прекратяване
-изпълнението на процеса с условие <b><tt><font color="#006600">c</font></tt></b>.&nbsp;
-Мониторът е достъпен за друг процес;
-<br><b><tt><font color="#006600">- csignal(c)</font></tt></b>: Въобновяване
-на изпълнението на процеса, прекратен с <b><tt><font color="#006600">cwait</font></tt></b>
-със същото условие. Ако има няколко такива процеса се избира един от тях,
-ако няма - нищо не се прави.
-<br>&nbsp;&nbsp;&nbsp; Разлика със семафорите - сигналът се "загубва",
-ако няма чакащи процеси за този сигнал.
+</p>
+<hr width="100%">
+<br>5.5 РњРѕРЅРёС‚РѕСЂРё.
+<br>** РњРѕРЅРёС‚РѕСЂ СЃСЉСЃ СЃРёРіРЅР°Р».
+<br>В В В  РњРѕРЅРёС‚РѕСЂРёС‚Рµ СЃР° РїСЂРѕРіСЂР°РјРЅРё РјРѕРґСѓР»Рё, СЃСЉСЃС‚РѕСЏС‰Рё СЃРµ РѕС‚ РµРґРЅР°
+РёР»Рё РїРѕРІРµС‡Рµ РїСЂРѕС†РµРґСѓСЂРё, РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ Рё Р»РѕРєР°Р»РЅРё РґР°РЅРЅРё. Р“Р»Р°РІРЅРё С…Р°СЂР°РєС‚РµСЂРёСЃС‚РёРєРё:
+<br>В В  1. Р›РѕРєР°Р»РЅРёС‚Рµ РґР°РЅРЅРё СЃР° РґРѕСЃС‚СЉРїРЅРё СЃР°РјРѕ РѕС‚ РїСЂРѕС†РµРґСѓСЂРёС‚Рµ РЅР°
+РјРѕРЅРёС‚РѕСЂР°.
+<br>В В  2. Р•РґРёРЅ РїСЂРѕС†РµСЃ "РІР»РёР·Р° РІ РјРѕРЅРёС‚РѕСЂР°" РєР°С‚Рѕ РёР·РІРёРєР° РЅСЏРєРѕСЏ РѕС‚
+РїСЂРѕС†РµРґСѓСЂРёС‚Рµ РјСѓ.
+<br>В В  3. РЎР°РјРѕ РµРґРёРЅ РїСЂРѕС†РµСЃ РјРѕР¶Рµ РґР° СЃРµ РёР·РїСЉР»РЅСЏРІР° РІ РјРѕРЅРёС‚РѕСЂР°, РІСЃРµРєРё
+РґСЂСѓРі РїСЂРѕС†РµСЃ С‡Р°РєР° РґР° СЃРµ "РѕСЃРІРѕР±РѕРґРё" РјРѕРЅРёС‚РѕСЂР°.
+<br>В В В  РџСЂРѕРјРµРЅР»РёРІРё РЅР° СѓСЃР»РѕРІРёСЏ (condition variables). Р¤СѓРЅРєС†РёРё
+СЃ С‚РµР·Рё РїСЂРѕРјРµРЅР»РёРІРё:
+<br><b><tt><font color="#006600">- cwait(c)</font></tt></b>:В  РџСЂРµРєСЂР°С‚СЏРІР°РЅРµ
+РёР·РїСЉР»РЅРµРЅРёРµС‚Рѕ РЅР° РїСЂРѕС†РµСЃР° СЃ СѓСЃР»РѕРІРёРµ <b><tt><font color="#006600">c</font></tt></b>.В 
+РњРѕРЅРёС‚РѕСЂСЉС‚ Рµ РґРѕСЃС‚СЉРїРµРЅ Р·Р° РґСЂСѓРі РїСЂРѕС†РµСЃ;
+<br><b><tt><font color="#006600">- csignal(c)</font></tt></b>: Р’СЉРѕР±РЅРѕРІСЏРІР°РЅРµ
+РЅР° РёР·РїСЉР»РЅРµРЅРёРµС‚Рѕ РЅР° РїСЂРѕС†РµСЃР°, РїСЂРµРєСЂР°С‚РµРЅ СЃ <b><tt><font color="#006600">cwait</font></tt></b>
+СЃСЉСЃ СЃСЉС‰РѕС‚Рѕ СѓСЃР»РѕРІРёРµ. РђРєРѕ РёРјР° РЅСЏРєРѕР»РєРѕ С‚Р°РєРёРІР° РїСЂРѕС†РµСЃР° СЃРµ РёР·Р±РёСЂР° РµРґРёРЅ РѕС‚ С‚СЏС…,
+Р°РєРѕ РЅСЏРјР° - РЅРёС‰Рѕ РЅРµ СЃРµ РїСЂР°РІРё.
+<br>В В В  Р Р°Р·Р»РёРєР° СЃСЉСЃ СЃРµРјР°С„РѕСЂРёС‚Рµ - СЃРёРіРЅР°Р»СЉС‚ СЃРµ "Р·Р°РіСѓР±РІР°",
+Р°РєРѕ РЅСЏРјР° С‡Р°РєР°С‰Рё РїСЂРѕС†РµСЃРё Р·Р° С‚РѕР·Рё СЃРёРіРЅР°Р».
 <br>--- <a href="http://www.math.bas.bg/~nkirov/bfu/Os/F5-22.PDF">FIGURE
 5.22</a> ---
 <br><b><tt><font color="#003300">/* program producerconsumer */</font></tt></b>
 <br><b><tt><font color="#003300">monitor boundedbuffer;</font></tt></b>
-<br><b><tt><font color="#003300">char buffer[N];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">char buffer[N];В В В В В В В В 
 /* space for N items */</font></tt></b>
-<br><b><tt><font color="#003300">int nextin, nextout;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">int nextin, nextout;В В В 
 /* buffer pointers */</font></tt></b>
-<br><b><tt><font color="#003300">int count;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">int count;В В В В В В В В В В В В В 
 /* number of items in buffer */</font></tt></b>
-<br><b><tt><font color="#003300">int notfull, notempty;&nbsp; /* for synchronization
+<br><b><tt><font color="#003300">int notfull, notempty;В  /* for synchronization
 */</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td VALIGN=TOP><b><tt><font color="#003300">void append (char x)</font></tt></b>
+<td valign="TOP">
+<b><tt><font color="#003300">void append (char x)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (count == N)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;cwait(notfull); /* buffer is оull;*/</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">В if (count == N)</font></tt></b>
+<br><b><tt><font color="#003300">В cwait(notfull); /* buffer is Рѕull;*/</font></tt></b>
+<br><b><tt><font color="#003300">В В В В В В В В В В В В В В В В 
 /* avoid overflow */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;buffer[nextin] = x;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;nextin = (nextin + 1) % N;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;count++; /* one more item in buffer
+<br><b><tt><font color="#003300">В buffer[nextin] = x;</font></tt></b>
+<br><b><tt><font color="#003300">В nextin = (nextin + 1) % N;</font></tt></b>
+<br><b><tt><font color="#003300">В count++; /* one more item in buffer
 */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;csignal(notempty);&nbsp;</font></tt></b>
-<br><b><tt><font color="#003300">/* resume any&nbsp; waiting consumer */</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В csignal(notempty);В </font></tt></b>
+<br><b><tt><font color="#003300">/* resume anyВ  waiting consumer */</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td VALIGN=TOP><b><tt><font color="#003300">void take (char x)</font></tt></b>
+<td valign="TOP">
+<b><tt><font color="#003300">void take (char x)</font></tt></b>
 <br><b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;if (count == 0)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;cwait(notempty); /* buffer is empty;*/</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#003300">В if (count == 0)</font></tt></b>
+<br><b><tt><font color="#003300">В cwait(notempty); /* buffer is empty;*/</font></tt></b>
+<br><b><tt><font color="#003300">В В В В В В В В В В В В В В В В В 
 /* avoid underflow */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;x = buffer[nextout];</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;nextout = (nextout + 1) % N;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;count--; /* one fewer item in buffer
+<br><b><tt><font color="#003300">В x = buffer[nextout];</font></tt></b>
+<br><b><tt><font color="#003300">В nextout = (nextout + 1) % N;</font></tt></b>
+<br><b><tt><font color="#003300">В count--; /* one fewer item in buffer
 */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;csignal(notfull);&nbsp;</font></tt></b>
-<br><b><tt><font color="#003300">/* resume any&nbsp; waiting producer */</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В csignal(notfull);В </font></tt></b>
+<br><b><tt><font color="#003300">/* resume anyВ  waiting producer */</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#003300">{</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;/* monitor body */</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;nextin = 0; nextout = 0; count =
+<br><b><tt><font color="#003300">В /* monitor body */</font></tt></b>
+<br><b><tt><font color="#003300">В nextin = 0; nextout = 0; count =
 0; /* buffer initially empty */</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#003300">void producer()</font></tt></b>
+<td>
+<b><tt><font color="#003300">void producer()</font></tt></b>
 <br><b><tt><font color="#003300">{ char x;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; produce(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; append(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В  while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В  {</font></tt></b>
+<br><b><tt><font color="#003300">В В  produce(x);</font></tt></b>
+<br><b><tt><font color="#003300">В В  append(x);</font></tt></b>
+<br><b><tt><font color="#003300">В  }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">void consumer()</font></tt></b>
+<td>
+<b><tt><font color="#003300">void consumer()</font></tt></b>
 <br><b><tt><font color="#003300">{ char x;</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; while (true)</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; take(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp;&nbsp; consume(x);</font></tt></b>
-<br><b><tt><font color="#003300">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#003300">}</font></tt></b></td>
+<br><b><tt><font color="#003300">В  while (true)</font></tt></b>
+<br><b><tt><font color="#003300">В  {</font></tt></b>
+<br><b><tt><font color="#003300">В В  take(x);</font></tt></b>
+<br><b><tt><font color="#003300">В В  consume(x);</font></tt></b>
+<br><b><tt><font color="#003300">В  }</font></tt></b>
+<br><b><tt><font color="#003300">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#003300">void main()</font></tt></b>
 <br><b><tt><font color="#003300">{ parbegin(producer, consumer);</font></tt></b>
 <br><b><tt><font color="#003300">}</font></tt></b>
-<br>** Монитори със съобщения и разпространение.
+<br>** РњРѕРЅРёС‚РѕСЂРё СЃСЉСЃ СЃСЉРѕР±С‰РµРЅРёСЏ Рё СЂР°Р·РїСЂРѕСЃС‚СЂР°РЅРµРЅРёРµ.
 <br>
-<hr WIDTH="100%">
-<br>5.6 Предаване на съобщения.
-<br>&nbsp;&nbsp;&nbsp; Синхронизация и комуникация са двата проблема на
-взаимодействащи си процеси - взаимно изключване и обмен на информация.
-Двете задачи се решават с обмен на съобщения. Дефинират се два примитива
-(процедури):
+<hr width="100%">
+<br>5.6 РџСЂРµРґР°РІР°РЅРµ РЅР° СЃСЉРѕР±С‰РµРЅРёСЏ.
+<br>В В В  РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ Рё РєРѕРјСѓРЅРёРєР°С†РёСЏ СЃР° РґРІР°С‚Р° РїСЂРѕР±Р»РµРјР° РЅР°
+РІР·Р°РёРјРѕРґРµР№СЃС‚РІР°С‰Рё СЃРё РїСЂРѕС†РµСЃРё - РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ Рё РѕР±РјРµРЅ РЅР° РёРЅС„РѕСЂРјР°С†РёСЏ.
+Р”РІРµС‚Рµ Р·Р°РґР°С‡Рё СЃРµ СЂРµС€Р°РІР°С‚ СЃ РѕР±РјРµРЅ РЅР° СЃСЉРѕР±С‰РµРЅРёСЏ. Р”РµС„РёРЅРёСЂР°С‚ СЃРµ РґРІР° РїСЂРёРјРёС‚РёРІР°
+(РїСЂРѕС†РµРґСѓСЂРё):
 <br><b><tt><font color="#006600">send(destination, message)</font></tt></b>
 <br><b><tt><font color="#006600">receive(source, message)</font></tt></b>
-<br>Съществуват различини възможности за реализация на тези 2 процедури:
-<br>&nbsp;
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+<br>РЎСЉС‰РµСЃС‚РІСѓРІР°С‚ СЂР°Р·Р»РёС‡РёРЅРё РІСЉР·РјРѕР¶РЅРѕСЃС‚Рё Р·Р° СЂРµР°Р»РёР·Р°С†РёСЏ РЅР° С‚РµР·Рё 2 РїСЂРѕС†РµРґСѓСЂРё:
+<br>В 
+<table border cellpadding="4" width="100%">
 <tr>
 <td><b>Synchronization</b></td>
 
-<td><b>Addressing&nbsp;</b></td>
+<td><b>AddressingВ </b></td>
 
 <td><b>Format</b></td>
 </tr>
@@ -540,39 +568,39 @@ a process P from s.queue;</font></tt></b>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; blocking</td>
+<td>В В В  blocking</td>
 
-<td>&nbsp;&nbsp;&nbsp; send</td>
+<td>В В В  send</td>
 
-<td>Length&nbsp;</td>
+<td>LengthВ </td>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; nonblocking</td>
+<td>В В В  nonblocking</td>
 
-<td>&nbsp;&nbsp;&nbsp; receive</td>
+<td>В В В  receive</td>
 
-<td>&nbsp;&nbsp;&nbsp; fixed</td>
+<td>В В В  fixed</td>
 </tr>
 
 <tr>
 <td>Receive</td>
 
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; explicit</td>
+<td>В В В В В В В  explicit</td>
 
-<td>&nbsp;&nbsp;&nbsp; variable</td>
+<td>В В В  variable</td>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; blocking</td>
+<td>В В В  blocking</td>
 
-<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; implicit</td>
+<td>В В В В В В В  implicit</td>
 
 <td></td>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; nonblocking</td>
+<td>В В В  nonblocking</td>
 
 <td>Indirect</td>
 
@@ -580,9 +608,9 @@ a process P from s.queue;</font></tt></b>
 </tr>
 
 <tr>
-<td>&nbsp;&nbsp;&nbsp; test for arrival</td>
+<td>В В В  test for arrival</td>
 
-<td>&nbsp;&nbsp;&nbsp; static</td>
+<td>В В В  static</td>
 
 <td><b>Queuing Discipline</b></td>
 </tr>
@@ -590,7 +618,7 @@ a process P from s.queue;</font></tt></b>
 <tr>
 <td></td>
 
-<td>&nbsp;&nbsp;&nbsp; dynamic</td>
+<td>В В В  dynamic</td>
 
 <td>FIFO</td>
 </tr>
@@ -598,218 +626,232 @@ a process P from s.queue;</font></tt></b>
 <tr>
 <td></td>
 
-<td>&nbsp;&nbsp;&nbsp; ownership</td>
+<td>В В В  ownership</td>
 
 <td>Priority</td>
 </tr>
 </table>
-** Синхронизация.
-<br><b><tt>&nbsp;&nbsp;&nbsp; Send</tt></b> -&nbsp; процесът се блокира,
-докато събощението бъде получено (blocking send) или процесът не се блокира
+** РЎРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ.
+<br><b><tt>В В В  Send</tt></b> -В  РїСЂРѕС†РµСЃСЉС‚ СЃРµ Р±Р»РѕРєРёСЂР°,
+РґРѕРєР°С‚Рѕ СЃСЉР±РѕС‰РµРЅРёРµС‚Рѕ Р±СЉРґРµ РїРѕР»СѓС‡РµРЅРѕ (blocking send) РёР»Рё РїСЂРѕС†РµСЃСЉС‚ РЅРµ СЃРµ Р±Р»РѕРєРёСЂР°
 (nonblocking send).
-<br><b><tt>&nbsp;&nbsp;&nbsp; Receive</tt></b> - ако съобщението е изпратено,
-то се получава и процесът продължава. Ако не е изпратено: процесът се блокира
-до изпращане и получавене на съобщението (blocking receive) или процесът
-продължава, изоставяйки опитите за получаването му (nonblocking receive).
-<br>&nbsp;&nbsp;&nbsp; Възможни са 3 комбинации :
+<br><b><tt>В В В  Receive</tt></b> - Р°РєРѕ СЃСЉРѕР±С‰РµРЅРёРµС‚Рѕ Рµ РёР·РїСЂР°С‚РµРЅРѕ,
+С‚Рѕ СЃРµ РїРѕР»СѓС‡Р°РІР° Рё РїСЂРѕС†РµСЃСЉС‚ РїСЂРѕРґСЉР»Р¶Р°РІР°. РђРєРѕ РЅРµ Рµ РёР·РїСЂР°С‚РµРЅРѕ: РїСЂРѕС†РµСЃСЉС‚ СЃРµ Р±Р»РѕРєРёСЂР°
+РґРѕ РёР·РїСЂР°С‰Р°РЅРµ Рё РїРѕР»СѓС‡Р°РІРµРЅРµ РЅР° СЃСЉРѕР±С‰РµРЅРёРµС‚Рѕ (blocking receive) РёР»Рё РїСЂРѕС†РµСЃСЉС‚
+РїСЂРѕРґСЉР»Р¶Р°РІР°, РёР·РѕСЃС‚Р°РІСЏР№РєРё РѕРїРёС‚РёС‚Рµ Р·Р° РїРѕР»СѓС‡Р°РІР°РЅРµС‚Рѕ РјСѓ (nonblocking receive).
+<br>В В В  Р’СЉР·РјРѕР¶РЅРё СЃР° 3 РєРѕРјР±РёРЅР°С†РёРё :
 <br>-- Blocking send, blocking receive;
-<br>-- Nonblocking send, blocking receive - най-често срещано, при грешка,
-могат де се генерират много съобщения;
+<br>-- Nonblocking send, blocking receive - РЅР°Р№-С‡РµСЃС‚Рѕ СЃСЂРµС‰Р°РЅРѕ, РїСЂРё РіСЂРµС€РєР°,
+РјРѕРіР°С‚ РґРµ СЃРµ РіРµРЅРµСЂРёСЂР°С‚ РјРЅРѕРіРѕ СЃСЉРѕР±С‰РµРЅРёСЏ;
 <br>-- Nonblocking send, nonblocking receive.
-<br>** Адресиране.
+<br>** РђРґСЂРµСЃРёСЂР°РЅРµ.
 <br>--- FIGURE 5.24 ---
-<br>** Формат на съобщенията.
+<br>** Р¤РѕСЂРјР°С‚ РЅР° СЃСЉРѕР±С‰РµРЅРёСЏС‚Р°.
 <br>--- FIGURE 5.25 ---
-<br>** Дисциплина на опашките.
+<br>** Р”РёСЃС†РёРїР»РёРЅР° РЅР° РѕРїР°С€РєРёС‚Рµ.
 <br>
-<hr WIDTH="100%">
-<br>5.7 Задачата на писатели/читатели
-<br>&nbsp;&nbsp;&nbsp; Данни (файл, блок от паметта) се използват от няколко
-процеса. Някои от процесите само четат тези данни - читетили, а други само
-променят данните - писатели. Следните условия трябва де се спазват:
-<br>&nbsp;&nbsp; 1. Произволен брой читатели могат да четат едновременно
-данните;
-<br>&nbsp;&nbsp; 2. Само един писател може да пише данни;
-<br>&nbsp;&nbsp; 3. Ако писател пише, никой читател не може да чете.
-<br>Ако всеки процес може и да пише и да чете, общото решение за ВИ работи.
-<br>Ако един процес може или само да чете, или само да пише - общото решение
-е неприемливо, а съществуват и много по-ефективни решения.
-<br>** Предимство на читателите.
+<hr width="100%">
+<br>5.7 Р—Р°РґР°С‡Р°С‚Р° РЅР° РїРёСЃР°С‚РµР»Рё/С‡РёС‚Р°С‚РµР»Рё
+<br>В В В  Р”Р°РЅРЅРё (С„Р°Р№Р», Р±Р»РѕРє РѕС‚ РїР°РјРµС‚С‚Р°) СЃРµ РёР·РїРѕР»Р·РІР°С‚ РѕС‚ РЅСЏРєРѕР»РєРѕ
+РїСЂРѕС†РµСЃР°. РќСЏРєРѕРё РѕС‚ РїСЂРѕС†РµСЃРёС‚Рµ СЃР°РјРѕ С‡РµС‚Р°С‚ С‚РµР·Рё РґР°РЅРЅРё - С‡РёС‚РµС‚РёР»Рё, Р° РґСЂСѓРіРё СЃР°РјРѕ
+РїСЂРѕРјРµРЅСЏС‚ РґР°РЅРЅРёС‚Рµ - РїРёСЃР°С‚РµР»Рё. РЎР»РµРґРЅРёС‚Рµ СѓСЃР»РѕРІРёСЏ С‚СЂСЏР±РІР° РґРµ СЃРµ СЃРїР°Р·РІР°С‚:
+<br>В В  1. РџСЂРѕРёР·РІРѕР»РµРЅ Р±СЂРѕР№ С‡РёС‚Р°С‚РµР»Рё РјРѕРіР°С‚ РґР° С‡РµС‚Р°С‚ РµРґРЅРѕРІСЂРµРјРµРЅРЅРѕ
+РґР°РЅРЅРёС‚Рµ;
+<br>В В  2. РЎР°РјРѕ РµРґРёРЅ РїРёСЃР°С‚РµР» РјРѕР¶Рµ РґР° РїРёС€Рµ РґР°РЅРЅРё;
+<br>В В  3. РђРєРѕ РїРёСЃР°С‚РµР» РїРёС€Рµ, РЅРёРєРѕР№ С‡РёС‚Р°С‚РµР» РЅРµ РјРѕР¶Рµ РґР° С‡РµС‚Рµ.
+<br>РђРєРѕ РІСЃРµРєРё РїСЂРѕС†РµСЃ РјРѕР¶Рµ Рё РґР° РїРёС€Рµ Рё РґР° С‡РµС‚Рµ, РѕР±С‰РѕС‚Рѕ СЂРµС€РµРЅРёРµ Р·Р° Р’Р СЂР°Р±РѕС‚Рё.
+<br>РђРєРѕ РµРґРёРЅ РїСЂРѕС†РµСЃ РјРѕР¶Рµ РёР»Рё СЃР°РјРѕ РґР° С‡РµС‚Рµ, РёР»Рё СЃР°РјРѕ РґР° РїРёС€Рµ - РѕР±С‰РѕС‚Рѕ СЂРµС€РµРЅРёРµ
+Рµ РЅРµРїСЂРёРµРјР»РёРІРѕ, Р° СЃСЉС‰РµСЃС‚РІСѓРІР°С‚ Рё РјРЅРѕРіРѕ РїРѕ-РµС„РµРєС‚РёРІРЅРё СЂРµС€РµРЅРёСЏ.
+<br>** РџСЂРµРґРёРјСЃС‚РІРѕ РЅР° С‡РёС‚Р°С‚РµР»РёС‚Рµ.
 <br><b><tt><font color="#006600">/* program readersandwriters */</font></tt></b>
 <br><b><tt><font color="#006600">int readcount;</font></tt></b>
 <br><b><tt><font color="#006600">semaphore x = 1, wsem = 1;</font></tt></b>
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#006600">void reader()</font></tt></b>
+<td>
+<b><tt><font color="#006600">void reader()</font></tt></b>
 <br><b><tt><font color="#006600">{ while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount++;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount == 1) wait(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; READUNIT();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount--;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount == 0) signal(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
-
-<td VALIGN=TOP><b><tt><font color="#006600">void writer()</font></tt></b>
-<br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; wait(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; WRITEUNIT();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; signal(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#006600">В  {</font></tt></b>
+<br><b><tt><font color="#006600">В В  wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">В В  readcount++;</font></tt></b>
+<br><b><tt><font color="#006600">В В  if (readcount == 1) wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В В  signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">В В  READUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">В В  wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">В В  readcount--;</font></tt></b>
+<br><b><tt><font color="#006600">В В  if (readcount == 0) signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В В  signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">В  }</font></tt></b>
 <br><b><tt><font color="#006600">}</font></tt></b>
-<br>&nbsp;
-<br>&nbsp;
-<p>&nbsp;</td>
+</td>
+
+<td valign="TOP">
+<b><tt><font color="#006600">void writer()</font></tt></b>
+<br><b><tt><font color="#006600">{</font></tt></b>
+<br><b><tt><font color="#006600">В while (true)</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В  WRITEUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">В  signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+<br>В 
+<br>В 
+<p>В </p>
+</td>
 </tr>
 </table>
 <b><tt><font color="#006600">void main()</font></tt></b>
 <br><b><tt><font color="#006600">{ readcount = 0;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; parbegin(reader, writer);</font></tt></b>
+<br><b><tt><font color="#006600">В  parbegin(reader, writer);</font></tt></b>
 <br><b><tt><font color="#006600">}</font></tt></b>
-<br>** Предимство на писателите.
+<br>** РџСЂРµРґРёРјСЃС‚РІРѕ РЅР° РїРёСЃР°С‚РµР»РёС‚Рµ.
 <br><b><tt><font color="#006600">/* program readersandwriters */</font></tt></b>
 <br><b><tt><font color="#006600">int readcount, writecount;</font></tt></b>
 <br><b><tt><font color="#006600">semaphore x = 1, y = 1, z = 1, wsem =
 1, rsem = 1;</font></tt></b>
-<br>&nbsp;
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<br>В 
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#006600">void reader()</font></tt></b>
+<td>
+<b><tt><font color="#006600">void reader()</font></tt></b>
 <br><b><tt><font color="#006600">{ while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(z);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(rsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount++;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount == 1) wait(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(rsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(z);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; READUNIT();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; wait(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; readcount--;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; if (readcount == 0) signal(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; signal(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#006600">В  {</font></tt></b>
+<br><b><tt><font color="#006600">В В  wait(z);</font></tt></b>
+<br><b><tt><font color="#006600">В В  wait(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">В В  wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">В В  readcount++;</font></tt></b>
+<br><b><tt><font color="#006600">В В  if (readcount == 1) wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В В  signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">В В  signal(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">В В  signal(z);</font></tt></b>
+<br><b><tt><font color="#006600">В В  READUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">В В  wait(x);</font></tt></b>
+<br><b><tt><font color="#006600">В В  readcount--;</font></tt></b>
+<br><b><tt><font color="#006600">В В  if (readcount == 0) signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В В  signal(x);</font></tt></b>
+<br><b><tt><font color="#006600">В  }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 
-<td VALIGN=TOP><b><tt><font color="#006600">void writer ()</font></tt></b>
+<td valign="TOP">
+<b><tt><font color="#006600">void writer ()</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; wait(y);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; writecount++;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; if (writecount == 1) wait(rsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; signal(y);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; wait(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; WRITEUNIT();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; signal(wsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; wait(y);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; writecount--;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; if (writecount == 0) signal(rsem);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; signal(y);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#006600">В while (true)</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  wait(y);</font></tt></b>
+<br><b><tt><font color="#006600">В  writecount++;</font></tt></b>
+<br><b><tt><font color="#006600">В  if (writecount == 1) wait(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">В  signal(y);</font></tt></b>
+<br><b><tt><font color="#006600">В  wait(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В  WRITEUNIT();</font></tt></b>
+<br><b><tt><font color="#006600">В  signal(wsem);</font></tt></b>
+<br><b><tt><font color="#006600">В  wait(y);</font></tt></b>
+<br><b><tt><font color="#006600">В  writecount--;</font></tt></b>
+<br><b><tt><font color="#006600">В  if (writecount == 0) signal(rsem);</font></tt></b>
+<br><b><tt><font color="#006600">В  signal(y);</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#006600">void main()</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;readcount = writecount = 0;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;parbegin (reader, writer);</font></tt></b>
+<br><b><tt><font color="#006600">В readcount = writecount = 0;</font></tt></b>
+<br><b><tt><font color="#006600">В parbegin (reader, writer);</font></tt></b>
 <br><b><tt><font color="#006600">}</font></tt></b>
-<br>&nbsp;&nbsp;&nbsp; Предназначение на семафорите:
-<br>- <b><tt><font color="#006600">x </font></tt></b>- коректната работа
-с <b><tt><font color="#006600">readcount;</font></tt></b>
-<br>- <b><tt><font color="#006600">y </font></tt></b>- коректната работа
-с <b><tt><font color="#006600">writecount;</font></tt></b>
+<br>В В В  РџСЂРµРґРЅР°Р·РЅР°С‡РµРЅРёРµ РЅР° СЃРµРјР°С„РѕСЂРёС‚Рµ:
+<br>- <b><tt><font color="#006600">x </font></tt></b>- РєРѕСЂРµРєС‚РЅР°С‚Р° СЂР°Р±РѕС‚Р°
+СЃ <b><tt><font color="#006600">readcount;</font></tt></b>
+<br>- <b><tt><font color="#006600">y </font></tt></b>- РєРѕСЂРµРєС‚РЅР°С‚Р° СЂР°Р±РѕС‚Р°
+СЃ <b><tt><font color="#006600">writecount;</font></tt></b>
 <br>- <b><tt><font color="#006600">z </font></tt></b>-
-<br>- <b><tt><font color="#006600">rsem </font></tt></b>- свободно за четене
-(няма писател);
-<br>- <b><tt><font color="#006600">wsem </font></tt></b>- свободно за писане
-(няма читатели).
-<p>*&nbsp; Решение на задачата с размяна на съобщения.
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=2 WIDTH="100%" >
+<br>- <b><tt><font color="#006600">rsem </font></tt></b>- СЃРІРѕР±РѕРґРЅРѕ Р·Р° С‡РµС‚РµРЅРµ
+(РЅСЏРјР° РїРёСЃР°С‚РµР»);
+<br>- <b><tt><font color="#006600">wsem </font></tt></b>- СЃРІРѕР±РѕРґРЅРѕ Р·Р° РїРёСЃР°РЅРµ
+(РЅСЏРјР° С‡РёС‚Р°С‚РµР»Рё).
+<p>*В  Р РµС€РµРЅРёРµ РЅР° Р·Р°РґР°С‡Р°С‚Р° СЃ СЂР°Р·РјСЏРЅР° РЅР° СЃСЉРѕР±С‰РµРЅРёСЏ.
+</p>
+<table border cellspacing="0" cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#006600">void readri()</font></tt></b>
+<td>
+<b><tt><font color="#006600">void readri()</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;message: rmsg;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; rmsg = i;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; send(readrequest, rmsg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; receive(mboxi, rmsg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; READUNIT;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; rmsg = i;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; send(finished, rmsg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#006600">В message: rmsg;</font></tt></b>
+<br><b><tt><font color="#006600">В while (true)</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  rmsg = i;</font></tt></b>
+<br><b><tt><font color="#006600">В  send(readrequest, rmsg);</font></tt></b>
+<br><b><tt><font color="#006600">В  receive(mboxi, rmsg);</font></tt></b>
+<br><b><tt><font color="#006600">В  READUNIT;</font></tt></b>
+<br><b><tt><font color="#006600">В  rmsg = i;</font></tt></b>
+<br><b><tt><font color="#006600">В  send(finished, rmsg);</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#006600">void writerj()</font></tt></b>
+<td>
+<b><tt><font color="#006600">void writerj()</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;message: rmsg;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; rmsg = i;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; send(writerequest, rmsg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; receive(mboxj, rmsg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; WRITEUNIT;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; rmsg = i;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; send(finished, rmsg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#006600">В message: rmsg;</font></tt></b>
+<br><b><tt><font color="#006600">В while (true)</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  rmsg = i;</font></tt></b>
+<br><b><tt><font color="#006600">В  send(writerequest, rmsg);</font></tt></b>
+<br><b><tt><font color="#006600">В  receive(mboxj, rmsg);</font></tt></b>
+<br><b><tt><font color="#006600">В  WRITEUNIT;</font></tt></b>
+<br><b><tt><font color="#006600">В  rmsg = i;</font></tt></b>
+<br><b><tt><font color="#006600">В  send(finished, rmsg);</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 </tr>
 </table>
 
 <p><b><tt><font color="#006600">void controller()</font></tt></b>
 <br><b><tt><font color="#006600">{ while(true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; { if (count > 0)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; { if (not empty(finished))</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { receive(finished,
+<br><b><tt><font color="#006600">В  { if (count &gt; 0)</font></tt></b>
+<br><b><tt><font color="#006600">В В В  { if (not empty(finished))</font></tt></b>
+<br><b><tt><font color="#006600">В В В В В  { receive(finished,
 msg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">В В В В В В В 
 count++;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
+<br><b><tt><font color="#006600">В В В В В  }</font></tt></b>
+<br><b><tt><font color="#006600">В В В В В  else if
 (not empty(writerequest))</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { receive(writerequest,
+<br><b><tt><font color="#006600">В В В В В  { receive(writerequest,
 msg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">В В В В В В В 
 writer.id = msg.id;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">В В В В В В В 
 count -= 100;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if
+<br><b><tt><font color="#006600">В В В В В  }</font></tt></b>
+<br><b><tt><font color="#006600">В В В В В  else if
 (not empty(readrequest))</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; { receive(readrequest,
+<br><b><tt><font color="#006600">В В В В В  { receive(readrequest,
 msg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">В В В В В В В 
 count--;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">В В В В В В В 
 send(msg.id, "OK");</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; if (count==0)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; { send(writer.id, "OK");</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; receive(finished,
+<br><b><tt><font color="#006600">В В В В В  }</font></tt></b>
+<br><b><tt><font color="#006600">В В В  }</font></tt></b>
+<br><b><tt><font color="#006600">В В В  if (count==0)</font></tt></b>
+<br><b><tt><font color="#006600">В В В  { send(writer.id, "OK");</font></tt></b>
+<br><b><tt><font color="#006600">В В В В В  receive(finished,
 msg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count =
+<br><b><tt><font color="#006600">В В В В В  count =
 100</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; while (count&lt;0)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; { receive(finished,
+<br><b><tt><font color="#006600">В В В  }</font></tt></b>
+<br><b><tt><font color="#006600">В В В  while (count&lt;0)</font></tt></b>
+<br><b><tt><font color="#006600">В В В  { receive(finished,
 msg);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; count++;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; }</font></tt></b>
+<br><b><tt><font color="#006600">В В В В В  count++;</font></tt></b>
+<br><b><tt><font color="#006600">В В В  }</font></tt></b>
+<br><b><tt><font color="#006600">В  }</font></tt></b>
 <br><b><tt><font color="#006600">}</font></tt></b>
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

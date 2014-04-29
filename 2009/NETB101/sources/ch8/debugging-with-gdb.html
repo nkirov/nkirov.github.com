@@ -1,6 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
   <title>Debugging "C++" Programs Using "gdb"</title>
 </head>
 <body>
@@ -58,7 +59,8 @@ us where in the code we are at a given point. It is possible to ask gdb
 to
 search for extra source files in some directory after launching it, but
 for now, it's easier to just invoke it from the correct directory.
-<hr size="4"><font color="brown">
+<hr size="4">
+<font color="brown">
 <h2>Setting breakpoints</h2>
 </font>
 <p>The problem with just running the code is that it keeps on running
@@ -71,33 +73,28 @@ break points using two methods:
 </p>
 <ol>
   <li> Specifying a specific line of code to stop in: <br>
-    <pre><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span
- style="font-weight: bold;"> break</span> 42</code><br></pre>
+    <pre><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"> break</span> 42</code><br></pre>
 will insert a break point at line 42, in the for loop of the main
 function. </li>
   <li> Specifying a function name, to break every time it is being
 called: <br>
     <br>
-    <code><span style="color: rgb(51, 51, 255);">(gdb)</span><span
- style="font-weight: bold;"> break</span> main </code> <br>
+    <code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"> break</span> main </code> <br>
     <br>
 this will set a break point right when starting the program (as the
 function "main" gets executed automatically on the beginning of any C
 or C++ program).</li>
   <li>We can get the list of all breakpoints:<br>
     <br>
-    <code><span style="color: rgb(51, 51, 255);">(gdb)</span><span
- style="font-weight: bold;"></span></code><code><span
- style="font-weight: bold;">info break</span></code> <br>
+    <code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"></span></code><code><span style="font-weight: bold;">info break</span></code> <br>
     <span style="font-family: monospace;">Num
-Type&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Disp
-Enb Address&nbsp;&nbsp;&nbsp; What</span><br
- style="font-family: monospace;">
-    <span style="font-family: monospace;">1&nbsp;&nbsp;
-breakpoint&nbsp;&nbsp;&nbsp;&nbsp; keep y&nbsp;&nbsp; 0x08048a33 in
+Type           Disp
+Enb Address    What</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">1  
+breakpoint     keep y   0x08048a33 in
 main at sqrtest2.cpp:42</span><br style="font-family: monospace;">
-    <span style="font-family: monospace;">2&nbsp;&nbsp;
-breakpoint&nbsp;&nbsp;&nbsp;&nbsp; keep y&nbsp;&nbsp; 0x08048a0c in
+    <span style="font-family: monospace;">2  
+breakpoint     keep y   0x08048a0c in
 main at sqrtest2.cpp:41</span><br>
   </li>
 </ol>
@@ -108,11 +105,7 @@ main at sqrtest2.cpp:41</span><br>
 <p>So lets see, we've invoked gdb, set breakpoints, then typed:
 <br>
 </p>
-<pre><code><span style="font-weight: bold;"></span><span
- style="font-weight: bold;"></span></code><code><span
- style="color: rgb(51, 51, 255);">(gdb)</span><span
- style="font-weight: bold;"></span></code><code><span
- style="font-weight: bold;"> run</span><br></code></pre>
+<pre><code><span style="font-weight: bold;"></span><span style="font-weight: bold;"></span></code><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"></span></code><code><span style="font-weight: bold;"> run</span><br></code></pre>
 Then the debugger gave something like the following:
 <br>
 <pre><code>Breakpoint 2, main () at sqrtest2.cpp:41<br>41      /*41*/     for (x = 0; x &lt;= 10; x = x + 0.5)</code><br></pre>
@@ -133,8 +126,7 @@ Now is your time to experiment with these options with our debug
 program, and
 see how they work. It is also useful to read the debuggers help, using
 the
-command "<span style="font-weight: bold;">help break</span>" and "<span
- style="font-weight: bold;">help breakpoints</span>" to learn how to
+command "<span style="font-weight: bold;">help break</span>" and "<span style="font-weight: bold;">help breakpoints</span>" to learn how to
 set several
 breakpoints, how to see what breakpoints are set, how to delete
 breakpoints,
@@ -142,7 +134,8 @@ and how to apply conditions to breakpoints (i.e. make them stop the
 program
 only if a certain expression evaluates to "true" when the breakpoint is
 reached).
-<hr size="4"><font color="brown">
+<hr size="4">
+<font color="brown">
 <h2>Printing variables and expressions</h2>
 </font>
 <p>Without being able to examine variables contents during program
@@ -152,10 +145,7 @@ the contents of a variable with a command like this:
 <br>
 <br>
 </p>
-<pre><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span
- style="font-weight: bold;"></span></code><code><span
- style="font-weight: bold;"> </span></code><code><span
- style="font-weight: bold;">print</span> x<br></code><br></pre>
+<pre><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"></span></code><code><span style="font-weight: bold;"> </span></code><code><span style="font-weight: bold;">print</span> x<br></code><br></pre>
 <p>And then you'll get a message like:
 <br>
 <br>
@@ -219,10 +209,7 @@ variable "x" in function "main", we can type the following two
 commands:
 <br>
 </p>
-<pre><code><span style="color: rgb(0, 0, 153);">(gdb)</span> <span
- style="font-weight: bold;">frame</span> 1<br>#1  0x08048a41 in main () at sqrtest2.cpp:42<br>42      /*42*/     {  double y = squareroot(x);<br><span
- style="color: rgb(0, 0, 153);">(gdb)</span> <span
- style="font-weight: bold;">print</span> x<br>$4 = 0.5<br></code></pre>
+<pre><code><span style="color: rgb(0, 0, 153);">(gdb)</span> <span style="font-weight: bold;">frame</span> 1<br>#1  0x08048a41 in main () at sqrtest2.cpp:42<br>42      /*42*/     {  double y = squareroot(x);<br><span style="color: rgb(0, 0, 153);">(gdb)</span> <span style="font-weight: bold;">print</span> x<br>$4 = 0.5<br></code></pre>
 The "<span style="font-weight: bold;">frame</span>" command tells the
 debugger to switch to the given stack
 frame
@@ -230,8 +217,7 @@ frame
 any
 print command invoked will use the context of that stack frame.
 Of-course, if
-we issue a "<span style="font-weight: bold;">step</span>" or "<span
- style="font-weight: bold;">next</span>" command, the program will
+we issue a "<span style="font-weight: bold;">step</span>" or "<span style="font-weight: bold;">next</span>" command, the program will
 continue at the
 top
 frame, not at the frame we requested to see. After all, the debugger
@@ -239,9 +225,9 @@ cannot
 "undo" all the calls and continue from there.<br>
 <br>
 To exit gdb type:<br>
-<pre><code><span style="color: rgb(0, 0, 153);">(gdb)<span
- style="color: rgb(0, 0, 0);"> quit</span></span></code></pre>
-<hr size="4"><font color="brown">
+<pre><code><span style="color: rgb(0, 0, 153);">(gdb)<span style="color: rgb(0, 0, 0);"> quit</span></span></code></pre>
+<hr size="4">
+<font color="brown">
 <h2>Debugging a crashed program</h2>
 </font>
 <p>One of the problems about debugging programs, has to do with
@@ -284,11 +270,9 @@ core
 file. When we get the debugger's prompt (assuming the core file was
 successfully
 read), we can issue commands such as "<span style="font-weight: bold;">print</span>",
-"<span style="font-weight: bold;">where</span>" or "<span
- style="font-weight: bold;">frame </span>X". We
+"<span style="font-weight: bold;">where</span>" or "<span style="font-weight: bold;">frame </span>X". We
 can not
-issue commands that imply execution (such as "<span
- style="font-weight: bold;">next</span>", or the invocation
+issue commands that imply execution (such as "<span style="font-weight: bold;">next</span>", or the invocation
 of
 function calls). In some situations, we will be able to see what caused
 the crash.

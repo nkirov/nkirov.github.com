@@ -1,50 +1,52 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>KMPmatch</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>KMPmatch</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: KMPmatch</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-  						<font color=#0000FF>// KMP algorithm</font>
-  <font color=#A000A0>int</font> <font color=#000000>KMPmatch</font>(<font color=#A000A0>const</font> string& text, <font color=#A000A0>const</font> string& pattern) {
-    <font color=#A000A0>int</font> n = text.<font color=#000000>size</font>();
-    <font color=#A000A0>int</font> m = pattern.<font color=#000000>size</font>();
-    vector&lt;<font color=#A000A0>int</font>&gt; fail = <font color=#000000>computeFailFunction</font>(pattern);
-    <font color=#A000A0>int</font> i = 0;					<font color=#0000FF>// text index</font>
-    <font color=#A000A0>int</font> j = 0;					<font color=#0000FF>// pattern index</font>
-    <font color=#00A000>while</font> (i &lt; n) {
-      <font color=#00A000>if</font> (pattern[j] == text[i]) {
-        <font color=#00A000>if</font> (j == m - 1)
-          <font color=#00A000>return</font> i - m + 1;			<font color=#0000FF>// found a match</font>
+  						<font color="#0000FF">// KMP algorithm</font>
+  <font color="#A000A0">int</font> <font color="#000000">KMPmatch</font>(<font color="#A000A0">const</font> string&amp; text, <font color="#A000A0">const</font> string&amp; pattern) {
+    <font color="#A000A0">int</font> n = text.<font color="#000000">size</font>();
+    <font color="#A000A0">int</font> m = pattern.<font color="#000000">size</font>();
+    vector&lt;<font color="#A000A0">int</font>&gt; fail = <font color="#000000">computeFailFunction</font>(pattern);
+    <font color="#A000A0">int</font> i = 0;					<font color="#0000FF">// text index</font>
+    <font color="#A000A0">int</font> j = 0;					<font color="#0000FF">// pattern index</font>
+    <font color="#00A000">while</font> (i &lt; n) {
+      <font color="#00A000">if</font> (pattern[j] == text[i]) {
+        <font color="#00A000">if</font> (j == m - 1)
+          <font color="#00A000">return</font> i - m + 1;			<font color="#0000FF">// found a match</font>
         i++;  j++;
       }
-      <font color=#00A000>else</font> <font color=#00A000>if</font> (j &gt; 0) j = fail[j - 1];
-      <font color=#00A000>else</font> i++;
+      <font color="#00A000">else</font> <font color="#00A000">if</font> (j &gt; 0) j = fail[j - 1];
+      <font color="#00A000">else</font> i++;
     } 
-    <font color=#00A000>return</font> -1;					<font color=#0000FF>// no match</font>
+    <font color="#00A000">return</font> -1;					<font color="#0000FF">// no match</font>
   }
 
-  vector&lt;<font color=#A000A0>int</font>&gt; <font color=#000000>computeFailFunction</font>(<font color=#A000A0>const</font> string& pattern) {
-    vector&lt;<font color=#A000A0>int</font>&gt; <font color=#000000>fail</font>(pattern.<font color=#000000>size</font>()); 
+  vector&lt;<font color="#A000A0">int</font>&gt; <font color="#000000">computeFailFunction</font>(<font color="#A000A0">const</font> string&amp; pattern) {
+    vector&lt;<font color="#A000A0">int</font>&gt; <font color="#000000">fail</font>(pattern.<font color="#000000">size</font>()); 
     fail[0] = 0;
-    <font color=#A000A0>int</font> m = pattern.<font color=#000000>size</font>();
-    <font color=#A000A0>int</font> j = 0;
-    <font color=#A000A0>int</font> i = 1;
-    <font color=#00A000>while</font> (i &lt; m) {
-      <font color=#00A000>if</font> (pattern[j] == pattern[i]) {		<font color=#0000FF>// j + 1 characters match</font>
+    <font color="#A000A0">int</font> m = pattern.<font color="#000000">size</font>();
+    <font color="#A000A0">int</font> j = 0;
+    <font color="#A000A0">int</font> i = 1;
+    <font color="#00A000">while</font> (i &lt; m) {
+      <font color="#00A000">if</font> (pattern[j] == pattern[i]) {		<font color="#0000FF">// j + 1 characters match</font>
         fail[i] = j + 1;
         i++;  j++;
       }
-      <font color=#00A000>else</font> <font color=#00A000>if</font> (j &gt; 0)				<font color=#0000FF>// j follows a matching prefix</font>
+      <font color="#00A000">else</font> <font color="#00A000">if</font> (j &gt; 0)				<font color="#0000FF">// j follows a matching prefix</font>
         j = fail[j - 1];
-      <font color=#00A000>else</font> {					<font color=#0000FF>// no match</font>
+      <font color="#00A000">else</font> {					<font color="#0000FF">// no match</font>
         fail[i] = 0;
         i++;
       }
     }
-    <font color=#00A000>return</font> fail;
+    <font color="#00A000">return</font> fail;
   }
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>

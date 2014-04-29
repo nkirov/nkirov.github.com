@@ -1,8 +1,7 @@
 <!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
   <head>
-    <meta http-equiv="Content-Type" content="text/html;
-      charset=windows-1251">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="Author" content="Nikolay Kirov">
     <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
       [Netscape]">
@@ -10,90 +9,85 @@
   </head>
   <body>
     <center>
-      <h3> <b>10. Реализация на свързани списъци</b></h3>
+      <h3> <b>10. Р РµР°Р»РёР·Р°С†РёСЏ РЅР° СЃРІСЉСЂР·Р°РЅРё СЃРїРёСЃСЉС†Рё</b>
+</h3>
     </center>
-    <p><img alt="" src="../b5.gif" height="18" width="20">&nbsp;
-      Реализация на свързани списъци - класове, итератори,&nbsp;
-      операции.&nbsp;</p>
-    <p>* Ще реализираме свързан списък с елементи - низове. <br>
-      * Всеки връх на списъка съдържа низ и два указателя - адреси на
-      предишен и следващ връх на свързания списък.<br>
+    <p><img alt="" src="../b5.gif" height="18" width="20">В 
+      Р РµР°Р»РёР·Р°С†РёСЏ РЅР° СЃРІСЉСЂР·Р°РЅРё СЃРїРёСЃСЉС†Рё - РєР»Р°СЃРѕРІРµ, РёС‚РµСЂР°С‚РѕСЂРё,В 
+      РѕРїРµСЂР°С†РёРё.В </p>
+    <p>* Р©Рµ СЂРµР°Р»РёР·РёСЂР°РјРµ СЃРІСЉСЂР·Р°РЅ СЃРїРёСЃСЉРє СЃ РµР»РµРјРµРЅС‚Рё - РЅРёР·РѕРІРµ. <br>
+      * Р’СЃРµРєРё РІСЂСЉС… РЅР° СЃРїРёСЃСЉРєР° СЃСЉРґСЉСЂР¶Р° РЅРёР· Рё РґРІР° СѓРєР°Р·Р°С‚РµР»СЏ - Р°РґСЂРµСЃРё РЅР°
+      РїСЂРµРґРёС€РµРЅ Рё СЃР»РµРґРІР°С‰ РІСЂСЉС… РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє.<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255); font-weight: bold;">class</span> <span style="font-weight: bold;">Node</span> {<br><span style="color: rgb(51, 102, 255); font-weight: bold;">public:</span><br>   <span style="font-weight: bold;">Node</span>(string s);<br><span style="color: rgb(51, 102, 255); font-weight: bold;">private:</span><br>   string data;<br>   <span style="font-weight: bold;">Node</span>* previous;<br>   <span style="font-weight: bold;">Node</span>* next;<br><span style="color: rgb(51, 51, 255); font-weight: bold;">friend class</span> <span style="font-weight: bold;">List</span>;<br><span style="color: rgb(51, 51, 255); font-weight: bold;">friend class</span> <span style="font-weight: bold;">Iterator</span>;<br>};</pre>
-    <p>* Ключовата дума <tt>friend</tt> означава, че класът <tt>Node</tt>
-      дава на член-функциите на класовете <tt>List</tt> и <tt>Iterator</tt>
-      достъп до частните си членове. <br>
-      * Всеки обект от класа <tt>List</tt> съдържа адресите на първия и
-      последния елемент на свързания списък.<br>
+    <p>* РљР»СЋС‡РѕРІР°С‚Р° РґСѓРјР° <tt>friend</tt> РѕР·РЅР°С‡Р°РІР°, С‡Рµ РєР»Р°СЃСЉС‚ <tt>Node</tt>
+      РґР°РІР° РЅР° С‡Р»РµРЅ-С„СѓРЅРєС†РёРёС‚Рµ РЅР° РєР»Р°СЃРѕРІРµС‚Рµ <tt>List</tt> Рё <tt>Iterator</tt>
+      РґРѕСЃС‚СЉРї РґРѕ С‡Р°СЃС‚РЅРёС‚Рµ СЃРё С‡Р»РµРЅРѕРІРµ. <br>
+      * Р’СЃРµРєРё РѕР±РµРєС‚ РѕС‚ РєР»Р°СЃР° <tt>List</tt> СЃСЉРґСЉСЂР¶Р° Р°РґСЂРµСЃРёС‚Рµ РЅР° РїСЉСЂРІРёСЏ Рё
+      РїРѕСЃР»РµРґРЅРёСЏ РµР»РµРјРµРЅС‚ РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє.<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">class</span> <span style="font-weight: bold;">List</span> {<br><span style="color: rgb(51, 51, 255); font-weight: bold;">public:</span><br>   <span style="font-weight: bold;">List</span>();<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> push_back(string s);<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> insert(<span style="font-weight: bold;">Iterator</span> pos, string s);<br>   <span style="font-weight: bold;">Iterator</span> erase(<span style="font-weight: bold;">Iterator</span> pos);<br>   <span style="font-weight: bold;">Iterator</span> begin();<br>   <span style="font-weight: bold;">Iterator</span> end();<br><span style="font-weight: bold; color: rgb(51, 51, 255);">private:</span><br>   <span style="font-weight: bold;">Node</span>* first;<br>   <span style="font-weight: bold;">Node</span>* last;<br>};</pre>
-    <p>* Когатo свързният списък е празен, двата указателя имат стойност
+    <p>* РљРѕРіР°С‚o СЃРІСЉСЂР·РЅРёСЏС‚ СЃРїРёСЃСЉРє Рµ РїСЂР°Р·РµРЅ, РґРІР°С‚Р° СѓРєР°Р·Р°С‚РµР»СЏ РёРјР°С‚ СЃС‚РѕР№РЅРѕСЃС‚
       <tt>NULL</tt>. <br>
-      * Итераторът задава позиция (на връх) в свързания списък.<br>
+      * РС‚РµСЂР°С‚РѕСЂСЉС‚ Р·Р°РґР°РІР° РїРѕР·РёС†РёСЏ (РЅР° РІСЂСЉС…) РІ СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє.<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255); font-weight: bold;">class</span> <span style="font-weight: bold;">Iterator</span> {<br><span style="font-weight: bold; color: rgb(51, 51, 255);">public:</span><br>   <span style="font-weight: bold;">Iterator</span>();<br>   string get() <span style="font-weight: bold; color: rgb(51, 51, 255);">const</span>;     /* use instead of * */<br>   <span style="font-weight: bold; color: rgb(51, 102, 255);">void</span> next();            /* use instead of ++ */<br>   <span style="font-weight: bold; color: rgb(51, 102, 255);">void</span> previous();        /* use instead of -- */<br>   <span style="font-weight: bold; color: rgb(51, 102, 255);">bool</span> equals(<span style="font-weight: bold;">Iterator</span> b) <span style="font-weight: bold; color: rgb(51, 51, 255);">const</span>; /* use instead of == */<br><span style="font-weight: bold; color: rgb(51, 51, 255);">private:</span><br>   <span style="font-weight: bold;">Node</span>* position;<br>   <span style="font-weight: bold;">Node</span>* last;<br><span style="font-weight: bold; color: rgb(51, 51, 255);">friend class</span> <span style="font-weight: bold;">List</span>;<br>};</pre>
-    <p>Когато итераторът задава позиция "след последния елемент",
-      стойността на&nbsp; <tt>position</tt> е <tt>NULL</tt>.&nbsp; <br>
-      Функциите <tt>begin</tt> и <tt>end</tt> от класа <tt>List</tt>&nbsp;
+    <p>РљРѕРіР°С‚Рѕ РёС‚РµСЂР°С‚РѕСЂСЉС‚ Р·Р°РґР°РІР° РїРѕР·РёС†РёСЏ "СЃР»РµРґ РїРѕСЃР»РµРґРЅРёСЏ РµР»РµРјРµРЅС‚",
+      СЃС‚РѕР№РЅРѕСЃС‚С‚Р° РЅР°В  <tt>position</tt> Рµ <tt>NULL</tt>.В  <br>
+      Р¤СѓРЅРєС†РёРёС‚Рµ <tt>begin</tt> Рё <tt>end</tt> РѕС‚ РєР»Р°СЃР° <tt>List</tt>В 
 
-      връщат итератори:<br>
+      РІСЂСЉС‰Р°С‚ РёС‚РµСЂР°С‚РѕСЂРё:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold;">Iterator</span> <span style="font-weight: bold;">List</span>::begin() {<br>   <span style="font-weight: bold;">Iterator</span> iter;<br>   iter.position = first;<br>   iter.last = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">return</span> iter;<br>}<br><br><span style="font-weight: bold;">Iterator</span> <span style="font-weight: bold;">List</span>::end() {<br>   <span style="font-weight: bold;">Iterator</span> iter;<br>   iter.position = NULL;<br>   iter.last = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">return</span> iter;</pre>
-    <p>Функцията <tt>next</tt> от класа <tt>Iterator</tt> премества
-      итератора на следващия елемент на списъка:<br>
+    <p>Р¤СѓРЅРєС†РёСЏС‚Р° <tt>next</tt> РѕС‚ РєР»Р°СЃР° <tt>Iterator</tt> РїСЂРµРјРµСЃС‚РІР°
+      РёС‚РµСЂР°С‚РѕСЂР° РЅР° СЃР»РµРґРІР°С‰РёСЏ РµР»РµРјРµРЅС‚ РЅР° СЃРїРёСЃСЉРєР°:<br>
     </p>
-    <img alt="" src="../../NETB151/slides/ch16/images/iterator_next.png"
-      height="537" width="879">
+    <img alt="" src="../../NETB151/slides/ch16/images/iterator_next.png" height="537" width="879">
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">Iterator</span>::next()<br>{  assert(position != NULL)<br>   position = position-&gt;next;<br>}</pre>
-    <p>* Подобна е функцията <tt>previous</tt>:<br>
+    <p>* РџРѕРґРѕР±РЅР° Рµ С„СѓРЅРєС†РёСЏС‚Р° <tt>previous</tt>:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">Iterator</span>::previous()<br>{  <span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (position == NULL) position = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">else</span>    position = position-&gt;previous;<br>   assert(position != NULL);<br>}</pre>
-    <p>* Реализация на функция <tt>push_back</tt> от класа <tt>List</tt>:<br>
+    <p>* Р РµР°Р»РёР·Р°С†РёСЏ РЅР° С„СѓРЅРєС†РёСЏ <tt>push_back</tt> РѕС‚ РєР»Р°СЃР° <tt>List</tt>:<br>
     </p>
-    <img alt="" src="../../NETB151/slides/ch16/images/appending.png"
-      height="362" width="868">
+    <img alt="" src="../../NETB151/slides/ch16/images/appending.png" height="362" width="868">
     <p><br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">List</span>::push_back(string s)<br>{  <span style="font-weight: bold;">Node</span>* newnode = <span style="font-weight: bold; color: rgb(51, 102, 255);">new</span> <span style="font-weight: bold;">Node</span>(s);<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (last == NULL) /* list is empty */<br>   {  first = newnode;<br>      last = newnode;<br>   }<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">else</span><br>   {  newnode-&gt;previous = last;<br>      last-&gt;next = newnode;<br>      last = newnode;<br>   }<br>}</pre>
-    <p>* Функцията <tt>insert</tt> променя данни на предишния и
-      следващия върхове - важен е редът на присвояванията.<br>
+    <p>* Р¤СѓРЅРєС†РёСЏС‚Р° <tt>insert</tt> РїСЂРѕРјРµРЅСЏ РґР°РЅРЅРё РЅР° РїСЂРµРґРёС€РЅРёСЏ Рё
+      СЃР»РµРґРІР°С‰РёСЏ РІСЉСЂС…РѕРІРµ - РІР°Р¶РµРЅ Рµ СЂРµРґСЉС‚ РЅР° РїСЂРёСЃРІРѕСЏРІР°РЅРёСЏС‚Р°.<br>
     </p>
-    <img alt="" src="../../NETB151/slides/ch16/images/insert_node.png"
-      height="402" width="834">
-    <p>* Специален случай за празен списък:<br>
+    <img alt="" src="../../NETB151/slides/ch16/images/insert_node.png" height="402" width="834">
+    <p>* РЎРїРµС†РёР°Р»РµРЅ СЃР»СѓС‡Р°Р№ Р·Р° РїСЂР°Р·РµРЅ СЃРїРёСЃСЉРє:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (iter.position == NULL)<br>{  push_back(s);<br>   <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">return</span></span>;<br>}</pre>
-    <p>* Създаваме указатели към двата съседни върха:<br>
+    <p>* РЎСЉР·РґР°РІР°РјРµ СѓРєР°Р·Р°С‚РµР»Рё РєСЉРј РґРІР°С‚Р° СЃСЉСЃРµРґРЅРё РІСЉСЂС…Р°:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold;">Node</span>* after = iter.position;<br><span style="font-weight: bold;">Node</span>* before = after-&gt;previous;</pre>
-    <p>* Инициализираме адресите на новия връх:<br>
+    <p>* РРЅРёС†РёР°Р»РёР·РёСЂР°РјРµ Р°РґСЂРµСЃРёС‚Рµ РЅР° РЅРѕРІРёСЏ РІСЂСЉС…:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">newnode-&gt;previous = before; // (1)<br>newnode-&gt;next = after;      // (2)</pre>
-    <p>* Променяме указателите за следващ и предишен на съседните
-      върхове:<br>
+    <p>* РџСЂРѕРјРµРЅСЏРјРµ СѓРєР°Р·Р°С‚РµР»РёС‚Рµ Р·Р° СЃР»РµРґРІР°С‰ Рё РїСЂРµРґРёС€РµРЅ РЅР° СЃСЉСЃРµРґРЅРёС‚Рµ
+      РІСЉСЂС…РѕРІРµ:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">after-&gt;previous = newnode;  // (3)<br><span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (before == NULL) /* insert at beginning */<br>   first = newnode;<br><span style="font-weight: bold; color: rgb(51, 51, 255);">else</span><br>   before-&gt;next = newnode;  // (4)</pre>
-    <p>* Реализация на функцията за изтриване на връх.<br>
-      <img alt="" src="../../NETB151/slides/ch16/images/remove_node.png"
-        height="251" width="851"><br>
+    <p>* Р РµР°Р»РёР·Р°С†РёСЏ РЅР° С„СѓРЅРєС†РёСЏС‚Р° Р·Р° РёР·С‚СЂРёРІР°РЅРµ РЅР° РІСЂСЉС….<br>
+      <img alt="" src="../../NETB151/slides/ch16/images/remove_node.png" height="251" width="851"><br>
     </p>
-    <p>* Дефинираме указатели за трите върха:<br>
+    <p>* Р”РµС„РёРЅРёСЂР°РјРµ СѓРєР°Р·Р°С‚РµР»Рё Р·Р° С‚СЂРёС‚Рµ РІСЉСЂС…Р°:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold;">Node</span>* remove = iter.position;<br><span style="font-weight: bold;">Node</span>* before = remove-&gt;previous;<br><span style="font-weight: bold;">Node</span>* after = remove-&gt;next;</pre>
-    <p>* Променяме предишния връх - "откачваме" върха, който ще трием, и
-      "закачваме" следващия връх.<br>
+    <p>* РџСЂРѕРјРµРЅСЏРјРµ РїСЂРµРґРёС€РЅРёСЏ РІСЂСЉС… - "РѕС‚РєР°С‡РІР°РјРµ" РІСЉСЂС…Р°, РєРѕР№С‚Рѕ С‰Рµ С‚СЂРёРµРј, Рё
+      "Р·Р°РєР°С‡РІР°РјРµ" СЃР»РµРґРІР°С‰РёСЏ РІСЂСЉС….<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (remove == first) first = after;<br><span style="font-weight: bold; color: rgb(51, 51, 255);">else</span>   before-&gt;next = after;</pre>
-    <p>* Аналогично и за следвашия връх:<br>
+    <p>* РђРЅР°Р»РѕРіРёС‡РЅРѕ Рё Р·Р° СЃР»РµРґРІР°С€РёСЏ РІСЂСЉС…:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (remove == last) last = before;<br><span style="font-weight: bold; color: rgb(51, 51, 255);">else</span>   after-&gt;previous = before;</pre>
-    <p>* Накрая изтриваме върха.<br>
+    <p>* РќР°РєСЂР°СЏ РёР·С‚СЂРёРІР°РјРµ РІСЉСЂС…Р°.<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">delete</span> remove;</pre>
-    <p>* Ето и целия текст на програмата: <br>
-      <b><tt><font color="#000099">// <a
-              href="../../NETB151/sources/ch16/list2.cpp">list2.cpp</a></font></tt></b><a
-        href="../../NETB151/sources/ch16/list2.cpp"> </a><br>
+    <p>* Р•С‚Рѕ Рё С†РµР»РёСЏ С‚РµРєСЃС‚ РЅР° РїСЂРѕРіСЂР°РјР°С‚Р°: <br>
+      <b><tt><font color="#000099">// <a href="../../NETB151/sources/ch16/list2.cpp">list2.cpp</a></font></tt></b><a href="../../NETB151/sources/ch16/list2.cpp"> </a><br>
       <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
       <br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
@@ -102,313 +96,311 @@
       <br>
       <b><tt><font color="#000099">using namespace std;</font></tt></b>
     </p>
-    <p><b><tt>/* <font color="#993300">декларации на класовете List и
-            Iterator за да могат да бъдат използвани при дефиниране на
+    <p><b><tt>/* <font color="#993300">РґРµРєР»Р°СЂР°С†РёРё РЅР° РєР»Р°СЃРѕРІРµС‚Рµ List Рё
+            Iterator Р·Р° РґР° РјРѕРіР°С‚ РґР° Р±СЉРґР°С‚ РёР·РїРѕР»Р·РІР°РЅРё РїСЂРё РґРµС„РёРЅРёСЂР°РЅРµ РЅР°
             List</font>*/</tt></b> <br>
       <b><tt><font color="#000099">class List;</font></tt></b> <br>
       <b><tt><font color="#000099">class Iterator;</font></tt></b> <br>
-      <b><tt>/* <font color="#993300">елемент на свързания списък</font>
+      <b><tt>/* <font color="#993300">РµР»РµРјРµРЅС‚ РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє</font>
           */</tt></b> <br>
       <b><tt><font color="#000099">class Node {</font></tt></b> <br>
       <b><tt><font color="#000099">public:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Node(string);</font></tt></b>
+      <b><tt><font color="#000099">В В  Node(string);</font></tt></b>
       <br>
       <b><tt><font color="#000099">private:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; string data;</font></tt></b>
+      <b><tt><font color="#000099">В В  string data;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Node* previous;</font></tt></b>
+      <b><tt><font color="#000099">В В  Node* previous;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Node* next;</font></tt></b>
+      <b><tt><font color="#000099">В В  Node* next;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* член-функциите на класовете List и
-            Iterator имат достъп до частните членове на класа Node */</font></tt></b>
+      <b><tt><font color="#000099">/* С‡Р»РµРЅ-С„СѓРЅРєС†РёРёС‚Рµ РЅР° РєР»Р°СЃРѕРІРµС‚Рµ List Рё
+            Iterator РёРјР°С‚ РґРѕСЃС‚СЉРї РґРѕ С‡Р°СЃС‚РЅРёС‚Рµ С‡Р»РµРЅРѕРІРµ РЅР° РєР»Р°СЃР° Node */</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; friend class List;</font></tt></b>
+      <b><tt><font color="#000099">В В  friend class List;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; friend class Iterator;</font></tt></b>
+      <b><tt><font color="#000099">В В  friend class Iterator;</font></tt></b>
       <br>
       <b><tt><font color="#000099">};</font></tt></b> </p>
     <p><b><tt><font color="#000099">class List {</font></tt></b> <br>
       <b><tt><font color="#000099">public:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; List();</font></tt></b>
+      <b><tt><font color="#000099">В В  List();</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; void push_back(string);</font></tt></b>
+      <b><tt><font color="#000099">В В  void push_back(string);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; void insert(Iterator,
+      <b><tt><font color="#000099">В В  void insert(Iterator,
             string);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; void erase(Iterator);</font></tt></b>
+      <b><tt><font color="#000099">В В  void erase(Iterator);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Iterator begin(); /*
-            начало на свързания списък */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Iterator
-            end();&nbsp;&nbsp; /* край на свързания списък */</font></tt></b>
+      <b><tt><font color="#000099">В В  Iterator begin(); /*
+            РЅР°С‡Р°Р»Рѕ РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  Iterator
+            end();В В  /* РєСЂР°Р№ РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє */</font></tt></b>
       <br>
       <b><tt><font color="#000099">private:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Node* first;&nbsp; /*
-            първи елемент на свързания списък */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Node* last;&nbsp;&nbsp;
-            /* последен елемент на свързания списък */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  Node* first;В  /*
+            РїСЉСЂРІРё РµР»РµРјРµРЅС‚ РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  Node* last;В В 
+            /* РїРѕСЃР»РµРґРµРЅ РµР»РµРјРµРЅС‚ РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє */</font></tt></b> <br>
       <b><tt><font color="#000099">};</font></tt></b> </p>
     <p><b><tt><font color="#000099">class Iterator {</font></tt></b> <br>
       <b><tt><font color="#000099">public:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Iterator();</font></tt></b>
+      <b><tt><font color="#000099">В В  Iterator();</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; string get() const; /*
-            реализира операция * за итератори */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; void
-            next();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*
-            реализира операция ++ за итератори */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; void
-            previous();&nbsp;&nbsp;&nbsp; /* реализира операция -- за
-            итератори */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; bool not_equal(Iterator)
-            const; /* реализира операция != */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  string get() const; /*
+            СЂРµР°Р»РёР·РёСЂР° РѕРїРµСЂР°С†РёСЏ * Р·Р° РёС‚РµСЂР°С‚РѕСЂРё */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  void
+            next();В В В В В В В  /*
+            СЂРµР°Р»РёР·РёСЂР° РѕРїРµСЂР°С†РёСЏ ++ Р·Р° РёС‚РµСЂР°С‚РѕСЂРё */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  void
+            previous();В В В  /* СЂРµР°Р»РёР·РёСЂР° РѕРїРµСЂР°С†РёСЏ -- Р·Р°
+            РёС‚РµСЂР°С‚РѕСЂРё */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  bool not_equal(Iterator)
+            const; /* СЂРµР°Р»РёР·РёСЂР° РѕРїРµСЂР°С†РёСЏ != */</font></tt></b> <br>
       <b><tt><font color="#000099">private:</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Node* position; /* текущ
-            елемент на свързания списък */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; Node*
-            last;&nbsp;&nbsp;&nbsp;&nbsp; /* последен елемент на
-            свързания списък */</font></tt></b> <br>
-      <b><tt><font color="#000099">/* член-функциите на класа List имат
-            достъп до частните членове на Iterator */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; friend class List;</font></tt></b>
+      <b><tt><font color="#000099">В В  Node* position; /* С‚РµРєСѓС‰
+            РµР»РµРјРµРЅС‚ РЅР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  Node*
+            last;В В В В  /* РїРѕСЃР»РµРґРµРЅ РµР»РµРјРµРЅС‚ РЅР°
+            СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє */</font></tt></b> <br>
+      <b><tt><font color="#000099">/* С‡Р»РµРЅ-С„СѓРЅРєС†РёРёС‚Рµ РЅР° РєР»Р°СЃР° List РёРјР°С‚
+            РґРѕСЃС‚СЉРї РґРѕ С‡Р°СЃС‚РЅРёС‚Рµ С‡Р»РµРЅРѕРІРµ РЅР° Iterator */</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  friend class List;</font></tt></b>
       <br>
       <b><tt><font color="#000099">};</font></tt></b> </p>
     <p><b><tt><font color="#000099">Node::Node(string s)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ПОЛУЧАВА: s - данната, която ще се
-            съхранява в този елемент */</font></tt></b> <br>
-      <b><tt><font color="#000099">{ data = s;&nbsp; previous =
-            NULL;&nbsp; next = NULL; }</font></tt></b> </p>
+      <b><tt><font color="#000099">/* РџРћР›РЈР§РђР’Рђ: s - РґР°РЅРЅР°С‚Р°, РєРѕСЏС‚Рѕ С‰Рµ СЃРµ
+            СЃСЉС…СЂР°РЅСЏРІР° РІ С‚РѕР·Рё РµР»РµРјРµРЅС‚ */</font></tt></b> <br>
+      <b><tt><font color="#000099">{ data = s;В  previous =
+            NULL;В  next = NULL; }</font></tt></b> </p>
     <p><b><tt><font color="#000099">List::List()</font></tt></b> <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: </font>конструира празен
-          свързан списък */</tt></b> <br>
+      <b><tt><font color="#000099">/* Р¦Р•Р›: </font>РєРѕРЅСЃС‚СЂСѓРёСЂР° РїСЂР°Р·РµРЅ
+          СЃРІСЉСЂР·Р°РЅ СЃРїРёСЃСЉРє */</tt></b> <br>
       <b><tt><font color="#000099">{ first = NULL; last = NULL; }</font></tt></b>
     </p>
     <p><b><tt><font color="#000099">void List::push_back(string s)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: добавя елемент към свързан
-            спесък</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: s - данната,
-            която ще се добави</font></tt></b> <br>
+      <b><tt><font color="#000099">/* Р¦Р•Р›: РґРѕР±Р°РІСЏ РµР»РµРјРµРЅС‚ РєСЉРј СЃРІСЉСЂР·Р°РЅ
+            СЃРїРµСЃСЉРє</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  РџРћР›РЈР§РђР’Рђ: s - РґР°РЅРЅР°С‚Р°,
+            РєРѕСЏС‚Рѕ С‰Рµ СЃРµ РґРѕР±Р°РІРё</font></tt></b> <br>
       <b><tt><font color="#000099">*/</font></tt></b> <br>
       <b><tt><font color="#000099">{ Node* newnode = new Node(s);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if (last ==
-            NULL)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            /* </font>празен свързан списък<font color="#000099"> */</font></tt></b>
+      <b><tt><font color="#000099">В  if (last ==
+            NULL)В В В В В В В В В В В 
+            /* </font>РїСЂР°Р·РµРЅ СЃРІСЉСЂР·Р°РЅ СЃРїРёСЃСЉРє<font color="#000099"> */</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; { first = </font></tt></b><b><tt><font
-            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;
-            last = </font></tt></b><b><tt><font color="#000099"><b><tt><font
-                  color="#000099">newnode</font></tt></b>; }</font></tt></b>
+      <b><tt><font color="#000099">В  { first = </font></tt></b><b><tt><font color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;
+            last = </font></tt></b><b><tt><font color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>; }</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; else</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; { </font></tt></b><b><tt><font
-            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>-&gt;previous
+      <b><tt><font color="#000099">В  else</font></tt></b> <br>
+      <b><tt><font color="#000099">В  { </font></tt></b><b><tt><font color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>-&gt;previous
             = last;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last-&gt;next = </font></tt></b><b><tt><font
-            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
+      <b><tt><font color="#000099">В В В  last-&gt;next = </font></tt></b><b><tt><font color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last = </font></tt></b><b><tt><font
-            color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
+      <b><tt><font color="#000099">В В В  last = </font></tt></b><b><tt><font color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; }</font></tt></b> <br>
+      <b><tt><font color="#000099">В  }</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void List::insert(Iterator iter,
             string s)</font></tt></b> <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: вмъква елемент в свързан
-            спесък</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: iter -
-            позицията, преди която да се вмъкне</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">/* Р¦Р•Р›: РІРјСЉРєРІР° РµР»РµРјРµРЅС‚ РІ СЃРІСЉСЂР·Р°РЅ
+            СЃРїРµСЃСЉРє</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  РџРћР›РЈР§РђР’Рђ: iter -
+            РїРѕР·РёС†РёСЏС‚Р°, РїСЂРµРґРё РєРѕСЏС‚Рѕ РґР° СЃРµ РІРјСЉРєРЅРµ</font></tt></b> <br>
+      <b><tt><font color="#000099">В В В В В В В В В В В В 
 s
 
 
 
-            - данната, която ще се вмъкне</font></tt></b> <br>
+            - РґР°РЅРЅР°С‚Р°, РєРѕСЏС‚Рѕ С‰Рµ СЃРµ РІРјСЉРєРЅРµ</font></tt></b> <br>
       <b><tt><font color="#000099">*/</font></tt></b> <br>
       <b><tt><font color="#000099">{ if (iter.position == NULL) /*
-            вмъкване в края */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; { push_back(s);&nbsp;
-            return;&nbsp; }</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Node* after = iter.position;</font></tt></b>
+            РІРјСЉРєРІР°РЅРµ РІ РєСЂР°СЏ */</font></tt></b> <br>
+      <b><tt><font color="#000099">В  { push_back(s);В 
+            return;В  }</font></tt></b> <br>
+      <b><tt><font color="#000099">В  Node* after = iter.position;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; Node* before =
+      <b><tt><font color="#000099">В  Node* before =
             after-&gt;previous;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Node*&nbsp; = new Node(s);</font></tt></b>
+      <b><tt><font color="#000099">В  Node*В  = new Node(s);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; newnode-&gt;previous = before;</font></tt></b>
+      <b><tt><font color="#000099">В  newnode-&gt;previous = before;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; newnode-&gt;next = after;</font></tt></b>
+      <b><tt><font color="#000099">В  newnode-&gt;next = after;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; after-&gt;previous = newnode;</font></tt></b>
+      <b><tt><font color="#000099">В  after-&gt;previous = newnode;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if (before == NULL) first =
-            newnode; /* вмъкване в началото */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;
-            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">В  if (before == NULL) first =
+            newnode; /* РІРјСЉРєРІР°РЅРµ РІ РЅР°С‡Р°Р»РѕС‚Рѕ */</font></tt></b> <br>
+      <b><tt><font color="#000099">В 
+            elseВ В В В В В В В 
             before-&gt;next = newnode;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void List::erase(Iterator iter)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: отстранява елемент от свързан
-            спесък</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: iter -
-            позицията на елемента, който ще се отстрани</font></tt></b>
+      <b><tt><font color="#000099">/* Р¦Р•Р›: РѕС‚СЃС‚СЂР°РЅСЏРІР° РµР»РµРјРµРЅС‚ РѕС‚ СЃРІСЉСЂР·Р°РЅ
+            СЃРїРµСЃСЉРє</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  РџРћР›РЈР§РђР’Рђ: iter -
+            РїРѕР·РёС†РёСЏС‚Р° РЅР° РµР»РµРјРµРЅС‚Р°, РєРѕР№С‚Рѕ С‰Рµ СЃРµ РѕС‚СЃС‚СЂР°РЅРё</font></tt></b>
       <br>
       <b><tt><font color="#000099">*/</font></tt></b> <br>
       <b><tt><font color="#000099">{ assert(iter.position != NULL);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; Node* remove = iter.position;</font></tt></b>
+      <b><tt><font color="#000099">В  Node* remove = iter.position;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; Node* before =
+      <b><tt><font color="#000099">В  Node* before =
             remove-&gt;previous;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Node* after = remove-&gt;next;</font></tt></b>
+      <b><tt><font color="#000099">В  Node* after = remove-&gt;next;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if (remove == first) first =
-            after;/* изтриване на първия елемент */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;
-            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">В  if (remove == first) first =
+            after;/* РёР·С‚СЂРёРІР°РЅРµ РЅР° РїСЉСЂРІРёСЏ РµР»РµРјРµРЅС‚ */</font></tt></b> <br>
+      <b><tt><font color="#000099">В 
+            elseВ В В В В В В В В 
             before-&gt;next = after;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; if (remove == last)&nbsp; last
-            = before;/* изтриване на последния елемент */</font></tt></b>
+      <b><tt><font color="#000099">В  if (remove == last)В  last
+            = before;/* РёР·С‚СЂРёРІР°РЅРµ РЅР° РїРѕСЃР»РµРґРЅРёСЏ РµР»РµРјРµРЅС‚ */</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;
-            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; after-&gt;previous =
+      <b><tt><font color="#000099">В 
+            elseВ В В В В  after-&gt;previous =
             before;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; iter.position = after;</font></tt></b>
+      <b><tt><font color="#000099">В  iter.position = after;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; delete remove;</font></tt></b>
+      <b><tt><font color="#000099">В  delete remove;</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">Iterator List::begin()</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ВРЪЩА: итератор, сочещ към
-            началната позиция на свързан списък */</font></tt></b> <br>
+      <b><tt><font color="#000099">/* Р’Р РЄР©Рђ: РёС‚РµСЂР°С‚РѕСЂ, СЃРѕС‡РµС‰ РєСЉРј
+            РЅР°С‡Р°Р»РЅР°С‚Р° РїРѕР·РёС†РёСЏ РЅР° СЃРІСЉСЂР·Р°РЅ СЃРїРёСЃСЉРє */</font></tt></b> <br>
       <b><tt><font color="#000099">{ Iterator iter;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; iter.position = first;</font></tt></b>
+      <b><tt><font color="#000099">В  iter.position = first;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; iter.last = last;</font></tt></b>
+      <b><tt><font color="#000099">В  iter.last = last;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return iter;</font></tt></b> <br>
+      <b><tt><font color="#000099">В  return iter;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">Iterator List::end()</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ВРЪЩА: итератор, сочещ след края
-            на списъка (NULL) */</font></tt></b> <br>
+      <b><tt><font color="#000099">/* Р’Р РЄР©Рђ: РёС‚РµСЂР°С‚РѕСЂ, СЃРѕС‡РµС‰ СЃР»РµРґ РєСЂР°СЏ
+            РЅР° СЃРїРёСЃСЉРєР° (NULL) */</font></tt></b> <br>
       <b><tt><font color="#000099">{ Iterator iter;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; iter.position = NULL;</font></tt></b>
+      <b><tt><font color="#000099">В  iter.position = NULL;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; iter.last = last;</font></tt></b>
+      <b><tt><font color="#000099">В  iter.last = last;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return iter;</font></tt></b> <br>
+      <b><tt><font color="#000099">В  return iter;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">Iterator::Iterator()</font></tt></b>
       <br>
-      <b><tt><font color="#000099">{&nbsp; position = NULL;&nbsp;&nbsp;
-            last = NULL;&nbsp; }</font></tt></b> </p>
+      <b><tt><font color="#000099">{В  position = NULL;В В 
+            last = NULL;В  }</font></tt></b> </p>
     <p><b><tt><font color="#000099">string Iterator::get() const</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ВРЪЩА: данната на елемента, който
-            сочи итератора */</font></tt></b> <br>
+      <b><tt><font color="#000099">/* Р’Р РЄР©Рђ: РґР°РЅРЅР°С‚Р° РЅР° РµР»РµРјРµРЅС‚Р°, РєРѕР№С‚Рѕ
+            СЃРѕС‡Рё РёС‚РµСЂР°С‚РѕСЂР° */</font></tt></b> <br>
       <b><tt><font color="#000099">{ assert(position != NULL);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return position-&gt;data;</font></tt></b>
+      <b><tt><font color="#000099">В  return position-&gt;data;</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void Iterator::next()</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: да премести итератора на
-            следващия елемент от списъка */</font></tt></b> <br>
+      <b><tt><font color="#000099">/* Р¦Р•Р›: РґР° РїСЂРµРјРµСЃС‚Рё РёС‚РµСЂР°С‚РѕСЂР° РЅР°
+            СЃР»РµРґРІР°С‰РёСЏ РµР»РµРјРµРЅС‚ РѕС‚ СЃРїРёСЃСЉРєР° */</font></tt></b> <br>
       <b><tt><font color="#000099">{ assert(position != NULL);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; position = position-&gt;next;</font></tt></b>
+      <b><tt><font color="#000099">В  position = position-&gt;next;</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void Iterator::previous()</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: да премести итератора на
-            предишния елемент от списъка */</font></tt></b> <br>
-      <b><tt><font color="#000099">{ if (position == NULL)&nbsp;
+      <b><tt><font color="#000099">/* Р¦Р•Р›: РґР° РїСЂРµРјРµСЃС‚Рё РёС‚РµСЂР°С‚РѕСЂР° РЅР°
+            РїСЂРµРґРёС€РЅРёСЏ РµР»РµРјРµРЅС‚ РѕС‚ СЃРїРёСЃСЉРєР° */</font></tt></b> <br>
+      <b><tt><font color="#000099">{ if (position == NULL)В 
             position = last;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;
-            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">В 
+            elseВ В В В В В В В В В В В В В В В В В 
 position
 
 
 
             = position-&gt;previous;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; assert(position != NULL);</font></tt></b>
+      <b><tt><font color="#000099">В  assert(position != NULL);</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">bool Iterator::not_equal(Iterator b)
             const</font></tt></b> <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: сравнява два итератора</font></tt></b>
+      <b><tt><font color="#000099">/* Р¦Р•Р›: СЃСЂР°РІРЅСЏРІР° РґРІР° РёС‚РµСЂР°С‚РѕСЂР°</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: b - вторият
-            итератор за сравнението</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: true ако този
-            итератор и b не са равни</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  РџРћР›РЈР§РђР’Рђ: b - РІС‚РѕСЂРёСЏС‚
+            РёС‚РµСЂР°С‚РѕСЂ Р·Р° СЃСЂР°РІРЅРµРЅРёРµС‚Рѕ</font></tt></b> <br>
+      <b><tt><font color="#000099">В В  Р’Р РЄР©Рђ: true Р°РєРѕ С‚РѕР·Рё
+            РёС‚РµСЂР°С‚РѕСЂ Рё b РЅРµ СЃР° СЂР°РІРЅРё</font></tt></b> <br>
       <b><tt><font color="#000099">*/</font></tt></b> <br>
       <b><tt><font color="#000099">{ return position != b.position; }</font></tt></b>
     </p>
     <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
       <b><tt><font color="#000099">{ List staff;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; staff.push_back("Cracker,
+      <b><tt><font color="#000099">В  staff.push_back("Cracker,
             Carl");</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; staff.push_back("Hacker,
+      <b><tt><font color="#000099">В  staff.push_back("Hacker,
             Harry");</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; staff.push_back("Lam, Larry");</font></tt></b>
+      <b><tt><font color="#000099">В  staff.push_back("Lam, Larry");</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; staff.push_back("Sandman,
+      <b><tt><font color="#000099">В  staff.push_back("Sandman,
             Susan");</font></tt></b> </p>
-    <p><b><tt><font color="#000099">/* добавя елемент на четвърто място
+    <p><b><tt><font color="#000099">/* РґРѕР±Р°РІСЏ РµР»РµРјРµРЅС‚ РЅР° С‡РµС‚РІСЉСЂС‚Рѕ РјСЏСЃС‚Рѕ
             */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Iterator pos;</font></tt></b>
+      <b><tt><font color="#000099">В  Iterator pos;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; pos = staff.begin();</font></tt></b>
+      <b><tt><font color="#000099">В  pos = staff.begin();</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; pos.next();&nbsp;&nbsp;
-            pos.next();&nbsp;&nbsp; pos.next();</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; staff.insert(pos, "Reindeer,
+      <b><tt><font color="#000099">В  pos.next();В В 
+            pos.next();В В  pos.next();</font></tt></b> <br>
+      <b><tt><font color="#000099">В  staff.insert(pos, "Reindeer,
             Rudolf");</font></tt></b> </p>
-    <p><b><tt><font color="#000099">/* отстранява втория елемент */</font></tt></b>
+    <p><b><tt><font color="#000099">/* РѕС‚СЃС‚СЂР°РЅСЏРІР° РІС‚РѕСЂРёСЏ РµР»РµРјРµРЅС‚ */</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; pos = staff.begin();</font></tt></b>
+      <b><tt><font color="#000099">В  pos = staff.begin();</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; pos.next();</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; staff.erase(pos);</font></tt></b>
+      <b><tt><font color="#000099">В  pos.next();</font></tt></b> <br>
+      <b><tt><font color="#000099">В  staff.erase(pos);</font></tt></b>
     </p>
-    <p><b><tt><font color="#000099">/* отпечатва свързания списък */</font></tt></b>
+    <p><b><tt><font color="#000099">/* РѕС‚РїРµС‡Р°С‚РІР° СЃРІСЉСЂР·Р°РЅРёСЏ СЃРїРёСЃСЉРє */</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; for (pos = staff.begin();
+      <b><tt><font color="#000099">В  for (pos = staff.begin();
             pos.not_equal(staff.end());</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">В В В В В В 
             pos.next()) cout &lt;&lt; pos.get() &lt;&lt; "\n";</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return 0;</font></tt></b> <br>
+      <b><tt><font color="#000099">В  return 0;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b>
-      <table border="" cellpadding="4" width="100%">
+      </p>
+<table border="" cellpadding="4" width="100%">
         <tbody>
           <tr>
-            <td><b><tt><font color="#993300">Cracker, Carl</font></tt></b>
+            <td>
+<b><tt><font color="#993300">Cracker, Carl</font></tt></b>
               <br>
               <b><tt><font color="#993300">Lam, Larry</font></tt></b> <br>
               <b><tt><font color="#993300">Reindeer, Rudolf</font></tt></b>
               <br>
-              <b><tt><font color="#993300">Sandman, Susan</font></tt></b></td>
+              <b><tt><font color="#993300">Sandman, Susan</font></tt></b>
+</td>
           </tr>
         </tbody>
       </table>
-    </p>
-    <p>Начално състояние на списъка:
-      <table cols="5" width="100%">
+    
+    <p>РќР°С‡Р°Р»РЅРѕ СЃСЉСЃС‚РѕСЏРЅРёРµ РЅР° СЃРїРёСЃСЉРєР°:
+      </p>
+<table cols="5" width="100%">
         <tbody>
           <tr>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Cracker, Carl</font></tt></b></td>
@@ -423,8 +415,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Hacker, Harry</font></tt></b></td>
@@ -439,8 +430,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Lam, Larry</font></tt></b></td>
@@ -455,8 +445,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Sandman, Susan</font></tt></b></td>
@@ -470,19 +459,20 @@ position
                 </tbody>
               </table>
             </td>
-            <td><br>
+            <td>
+<br>
             </td>
           </tr>
         </tbody>
       </table>
-    </p>
-    <p><font color="#000000">След добавяне на елемент на четвърто място:</font>
-      <table cols="5" width="100%">
+    
+    <p><font color="#000000">РЎР»РµРґ РґРѕР±Р°РІСЏРЅРµ РЅР° РµР»РµРјРµРЅС‚ РЅР° С‡РµС‚РІСЉСЂС‚Рѕ РјСЏСЃС‚Рѕ:</font>
+      </p>
+<table cols="5" width="100%">
         <tbody>
           <tr>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Cracker, Carl</font></tt></b></td>
@@ -497,8 +487,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Hacker, Harry</font></tt></b></td>
@@ -513,8 +502,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Lam, Larry</font></tt></b></td>
@@ -529,8 +517,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Reindeer, Rudolf</font></tt></b></td>
@@ -545,8 +532,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Sandman, Susan</font></tt></b></td>
@@ -563,14 +549,14 @@ position
           </tr>
         </tbody>
       </table>
-    </p>
-    <p><font color="#000000">След отстраняване на втория елемент:</font>
-      <table cols="5" width="100%">
+    
+    <p><font color="#000000">РЎР»РµРґ РѕС‚СЃС‚СЂР°РЅСЏРІР°РЅРµ РЅР° РІС‚РѕСЂРёСЏ РµР»РµРјРµРЅС‚:</font>
+      </p>
+<table cols="5" width="100%">
         <tbody>
           <tr>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Cracker, Carl</font></tt></b></td>
@@ -585,8 +571,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Lam, Larry</font></tt></b></td>
@@ -601,8 +586,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Reindeer, Rudolf</font></tt></b></td>
@@ -617,8 +601,7 @@ position
               </table>
             </td>
             <td>
-              <table cellspacing="0" border="" cellpadding="2"
-                width="100%">
+              <table cellspacing="0" border="" cellpadding="2" width="100%">
                 <tbody>
                   <tr>
                     <td><b><tt><font color="#000099">Sandman, Susan</font></tt></b></td>
@@ -632,12 +615,13 @@ position
                 </tbody>
               </table>
             </td>
-            <td><br>
+            <td>
+<br>
             </td>
           </tr>
         </tbody>
       </table>
-    </p>
+    
     <hr width="100%">
   </body>
 </html>

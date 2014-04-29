@@ -1,55 +1,57 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>DFS1</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>DFS1</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: DFS1</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Graph&gt;
-<font color=#A000A0>class</font> DFS {
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local types</font>
-  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::Vertex	    Vertex;
-  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::Edge		    Edge;
-  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::VertexIterator    VertexIterator;
-  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::EdgeIterator	    EdgeIterator;
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// member data</font>
-  <font color=#A000A0>const</font> Graph& G;					<font color=#0000FF>// the graph</font>
-  Object *visited, *unvisited;				<font color=#0000FF>// decorator values</font>
-<font color=#A000A0>public</font>:
-  <font color=#000000>DFS</font>(<font color=#A000A0>const</font> Graph& g) : <font color=#000000>G</font>(g)				<font color=#0000FF>// constructor</font>
-    { visited = <font color=#A000A0>new</font> Object; unvisited  = <font color=#A000A0>new</font> Object; }
-  <font color=#A000A0>void</font> <font color=#000000>initialize</font>() {					<font color=#0000FF>// initialize a new DFS</font>
-    VertexIterator V = G.<font color=#000000>vertices</font>();			<font color=#0000FF>// unmark everything</font>
-    <font color=#00A000>while</font> (V.<font color=#000000>hasNext</font>()) <font color=#000000>markUnvisited</font>(V.<font color=#000000>nextVertex</font>());
-    EdgeIterator E = G.<font color=#000000>edges</font>();
-    <font color=#00A000>while</font> (E.<font color=#000000>hasNext</font>()) <font color=#000000>markUnvisited</font>(E.<font color=#000000>nextEdge</font>());
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Graph&gt;
+<font color="#A000A0">class</font> DFS {
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// local types</font>
+  <font color="#A000A0">typedef</font> <font color="#A000A0">typename</font> Graph::Vertex	    Vertex;
+  <font color="#A000A0">typedef</font> <font color="#A000A0">typename</font> Graph::Edge		    Edge;
+  <font color="#A000A0">typedef</font> <font color="#A000A0">typename</font> Graph::VertexIterator    VertexIterator;
+  <font color="#A000A0">typedef</font> <font color="#A000A0">typename</font> Graph::EdgeIterator	    EdgeIterator;
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// member data</font>
+  <font color="#A000A0">const</font> Graph&amp; G;					<font color="#0000FF">// the graph</font>
+  Object *visited, *unvisited;				<font color="#0000FF">// decorator values</font>
+<font color="#A000A0">public</font>:
+  <font color="#000000">DFS</font>(<font color="#A000A0">const</font> Graph&amp; g) : <font color="#000000">G</font>(g)				<font color="#0000FF">// constructor</font>
+    { visited = <font color="#A000A0">new</font> Object; unvisited  = <font color="#A000A0">new</font> Object; }
+  <font color="#A000A0">void</font> <font color="#000000">initialize</font>() {					<font color="#0000FF">// initialize a new DFS</font>
+    VertexIterator V = G.<font color="#000000">vertices</font>();			<font color="#0000FF">// unmark everything</font>
+    <font color="#00A000">while</font> (V.<font color="#000000">hasNext</font>()) <font color="#000000">markUnvisited</font>(V.<font color="#000000">nextVertex</font>());
+    EdgeIterator E = G.<font color="#000000">edges</font>();
+    <font color="#00A000">while</font> (E.<font color="#000000">hasNext</font>()) <font color="#000000">markUnvisited</font>(E.<font color="#000000">nextEdge</font>());
   }
-  <font color=#A000A0>virtual</font> ~<font color=#000000>DFS</font>()
-    { <font color=#A000A0>delete</font> visited; <font color=#A000A0>delete</font> unvisited; }		<font color=#0000FF>// destructor</font>
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// marking utilities</font>
-  <font color=#A000A0>void</font> <font color=#000000>dfsTraversal</font>(<font color=#A000A0>const</font> Vertex& v) {			<font color=#0000FF>// generic DFS search</font>
-    <font color=#000000>startVisit</font>(v);					<font color=#0000FF>// visit v</font>
-    <font color=#000000>markVisited</font>(v);					<font color=#0000FF>// mark v visited</font>
-    EdgeIterator inEdges = G.<font color=#000000>incidentEdges</font>(v);
-    <font color=#00A000>while</font> (inEdges.<font color=#000000>hasNext</font>()) {				<font color=#0000FF>// try all its edges</font>
-      Edge e = inEdges.<font color=#000000>nextEdge</font>();
-      <font color=#00A000>if</font> (!<font color=#000000>isVisited</font>(e)) {				<font color=#0000FF>// new edge?</font>
-        <font color=#000000>markVisited</font>(e);					<font color=#0000FF>// mark it visited</font>
-        Vertex w = G.<font color=#000000>opposite</font>(v, e);			<font color=#0000FF>// get next vertex</font>
-        <font color=#00A000>if</font> (!<font color=#000000>isVisited</font>(w)) {				<font color=#0000FF>// unexplored?</font>
-          <font color=#000000>traverseDiscovery</font>(e, v);			<font color=#0000FF>// let's discover it</font>
-          <font color=#00A000>if</font> (!<font color=#000000>isDone</font>())
-            <font color=#000000>dfsTraversal</font>(w);				<font color=#0000FF>// continue traversal</font>
+  <font color="#A000A0">virtual</font> ~<font color="#000000">DFS</font>()
+    { <font color="#A000A0">delete</font> visited; <font color="#A000A0">delete</font> unvisited; }		<font color="#0000FF">// destructor</font>
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// marking utilities</font>
+  <font color="#A000A0">void</font> <font color="#000000">dfsTraversal</font>(<font color="#A000A0">const</font> Vertex&amp; v) {			<font color="#0000FF">// generic DFS search</font>
+    <font color="#000000">startVisit</font>(v);					<font color="#0000FF">// visit v</font>
+    <font color="#000000">markVisited</font>(v);					<font color="#0000FF">// mark v visited</font>
+    EdgeIterator inEdges = G.<font color="#000000">incidentEdges</font>(v);
+    <font color="#00A000">while</font> (inEdges.<font color="#000000">hasNext</font>()) {				<font color="#0000FF">// try all its edges</font>
+      Edge e = inEdges.<font color="#000000">nextEdge</font>();
+      <font color="#00A000">if</font> (!<font color="#000000">isVisited</font>(e)) {				<font color="#0000FF">// new edge?</font>
+        <font color="#000000">markVisited</font>(e);					<font color="#0000FF">// mark it visited</font>
+        Vertex w = G.<font color="#000000">opposite</font>(v, e);			<font color="#0000FF">// get next vertex</font>
+        <font color="#00A000">if</font> (!<font color="#000000">isVisited</font>(w)) {				<font color="#0000FF">// unexplored?</font>
+          <font color="#000000">traverseDiscovery</font>(e, v);			<font color="#0000FF">// let's discover it</font>
+          <font color="#00A000">if</font> (!<font color="#000000">isDone</font>())
+            <font color="#000000">dfsTraversal</font>(w);				<font color="#0000FF">// continue traversal</font>
         }
-        <font color=#00A000>else</font> 						<font color=#0000FF>// explored</font>
-          <font color=#000000>traverseBack</font>(e, v);				<font color=#0000FF>// process back edge</font>
+        <font color="#00A000">else</font> 						<font color="#0000FF">// explored</font>
+          <font color="#000000">traverseBack</font>(e, v);				<font color="#0000FF">// process back edge</font>
       }
     }
-    <font color=#000000>finishVisit</font>(v);					<font color=#0000FF>// all done</font>
+    <font color="#000000">finishVisit</font>(v);					<font color="#0000FF">// all done</font>
   }
-  <font color=#0000FF>// ... (insert overriden functions and marking utilities here)</font>
+  <font color="#0000FF">// ... (insert overriden functions and marking utilities here)</font>
 };
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>

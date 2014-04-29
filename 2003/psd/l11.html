@@ -1,299 +1,341 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>l11</title>
 </head>
 <body>
 
-<hr WIDTH="100%">
-<p><b>11. ���� ���������� �� �������� �������</b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER>&nbsp; �������������
-�� ��������� (��������)
-<br>** ������ �� ���� �������� �� �������� �� ������ ������������� (operator&nbsp;
+<hr width="100%">
+<p><b>11. Нова реализация на свързани списъци</b>
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER">  Предефиниране
+на оператори (операции)
+<br>** Даване на ново значение на операция се нарича предефиниране (operator 
 overloading).
-<br>** ���������� �� ������������ � �������� - ������ �� ����� ����.
-<br>** ������������� �� ������ � ������� ��������
-<br>** ���������� ��� ������
+<br>** Операциите се предефинират с аргумети - обекти от даден клас.
+<br>** Предефиниране на унарни и бинарни операции
+<br>** Използване във верига
 <br><b><tt><font color="#000099">// overload.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
 <br><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">long operator-(Time a, Time b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a.seconds_from(b);&nbsp;&nbsp;
+<br><b><tt><font color="#000099">{  return a.seconds_from(b);  
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">Time operator+(Time a, long sec)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; Time r = a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; r.add_seconds(sec);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return r;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">{  Time r = a;</font></tt></b>
+<br><b><tt><font color="#000099">   r.add_seconds(sec);</font></tt></b>
+<br><b><tt><font color="#000099">   return r;  }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool operator==(Time a, Time b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a.seconds_from(b) == 0;&nbsp;
+<br><b><tt><font color="#000099">{  return a.seconds_from(b) == 0; 
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool operator!=(Time a, Time b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a.seconds_from(b) != 0;&nbsp;
+<br><b><tt><font color="#000099">{  return a.seconds_from(b) != 0; 
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">ostream&amp; operator&lt;&lt;(ostream&amp;
 out, Time&amp; a)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; out &lt;&lt; a.get_hours() &lt;&lt;
+<br><b><tt><font color="#000099">{  out &lt;&lt; a.get_hours() &lt;&lt;
 ":";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a.get_minutes() &lt;
+<br><b><tt><font color="#000099">   if (a.get_minutes() &lt;
 10) out &lt;&lt; "0";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; out &lt;&lt; a.get_minutes()
+<br><b><tt><font color="#000099">   out &lt;&lt; a.get_minutes()
 &lt;&lt; ":";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a.get_seconds() &lt;
+<br><b><tt><font color="#000099">   if (a.get_seconds() &lt;
 10) out &lt;&lt; "0";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; out &lt;&lt; a.get_seconds();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return out;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">   out &lt;&lt; a.get_seconds();</font></tt></b>
+<br><b><tt><font color="#000099">   return out;   
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; Time now;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Now it is
+<br><b><tt><font color="#000099">{  Time now;</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Now it is
 " &lt;&lt; now &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Time later = now + 1000;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "A thousand
+<br><b><tt><font color="#000099">   Time later = now + 1000;</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "A thousand
 seconds later it is " &lt;&lt; later &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Time now2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (now == now2)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">   Time now2;</font></tt></b>
+<br><b><tt><font color="#000099">   if (now == now2)</font></tt></b>
+<br><b><tt><font color="#000099">      cout &lt;&lt;
 "It still is " &lt;&lt; now2 &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (now != now2)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">   if (now != now2)</font></tt></b>
+<br><b><tt><font color="#000099">      cout &lt;&lt;
 "It is already " &lt;&lt; now2 &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Another "
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Another "
 &lt;&lt; later - now2 &lt;&lt; " seconds until "</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">       
 &lt;&lt; later &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p>��������� � ���������� ����� �� ���������� ++
+</p>
+<p>Префиксна и постфиксна форма на операцията ++
 <br><b><tt><font color="#006600">operator++(Time &amp;a)</font></tt></b>
 <br><b><tt><font color="#006600">operator++(Time &amp;a, int dummy)</font></tt></b>
-<p>������������� �� �������� ���� ����-������� �� ����
+</p>
+<p>Предефиниране на операции като член-функции на клас
 <br><b><tt><font color="#006600">bool operator!=(Iterator a, Iterator b)
-// </font></tt></b><font color="#000000">������ �� ����� �������</font>
-<br><b><tt><font color="#006600">bool Iterator::operator!=(Iterator b)&nbsp;&nbsp;
-// </font></tt></b><font color="#000000">����-�������</font>
+// </font></tt></b><font color="#000000">външна за класа функция</font>
+<br><b><tt><font color="#006600">bool Iterator::operator!=(Iterator b)  
+// </font></tt></b><font color="#000000">член-функция</font>
+</p>
 <p><b><tt><font color="#006600">string Iterator::operator*() const</font></tt></b>
-<br><b><tt><font color="#006600">{&nbsp; assert(position != NULL);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; return position->data;&nbsp;
+<br><b><tt><font color="#006600">{  assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#006600">   return position-&gt;data; 
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#006600">void Iterator::operator++(int dummy)</font></tt></b>
-<br><b><tt><font color="#006600">{&nbsp; assert(position != NULL);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; position = position->next;
+<br><b><tt><font color="#006600">{  assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#006600">   position = position-&gt;next;
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#006600">void Iterator::operator--(int dummy)</font></tt></b>
-<br><b><tt><font color="#006600">{&nbsp; if (position == NULL)&nbsp; position
+<br><b><tt><font color="#006600">{  if (position == NULL)  position
 = last;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-position = position->previous;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp; assert(position != NULL);&nbsp;&nbsp;
+<br><b><tt><font color="#006600">   else                  
+position = position-&gt;previous;</font></tt></b>
+<br><b><tt><font color="#006600">   assert(position != NULL);  
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#006600">bool Iterator::operator!=(Iterator b) const</font></tt></b>
-<br><b><tt><font color="#006600">{&nbsp; return position != b.position;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">{  return position != b.position;  
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#006600">bool Iterator::operator==(Iterator b) const</font></tt></b>
-<br><b><tt><font color="#006600">{&nbsp; return position == b.position;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">{  return position == b.position;  
 }</font></tt></b>
-<p><img SRC="bullet.gif" height=18 width=20 align=ABSCENTER>&nbsp; �������
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER">  Шаблони
+</p>
 <p><b><tt><font color="#000099">// list3.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cassert></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cassert&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
 <br><b><tt><font color="#000099">class List;</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
 <br><b><tt><font color="#000099">class Iterator;</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">class Link&nbsp; {</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">class Link  {</font></tt></b>
 <br><b><tt><font color="#000099">public:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link(T s);</font></tt></b>
+<br><b><tt><font color="#000099">   Link(T s);</font></tt></b>
 <br><b><tt><font color="#000099">private:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; T data;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* previous;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* next;</font></tt></b>
-<br><b><tt><font color="#000099">friend class List&lt;T>;</font></tt></b>
-<br><b><tt><font color="#000099">friend class Iterator&lt;T>;</font></tt></b>
+<br><b><tt><font color="#000099">   T data;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* previous;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* next;</font></tt></b>
+<br><b><tt><font color="#000099">friend class List&lt;T&gt;;</font></tt></b>
+<br><b><tt><font color="#000099">friend class Iterator&lt;T&gt;;</font></tt></b>
 <br><b><tt><font color="#000099">};</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">class List&nbsp;&nbsp; {</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">class List   {</font></tt></b>
 <br><b><tt><font color="#000099">public:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; List();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; void push_back(T s);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; void insert(Iterator&lt;T>
+<br><b><tt><font color="#000099">   List();</font></tt></b>
+<br><b><tt><font color="#000099">   void push_back(T s);</font></tt></b>
+<br><b><tt><font color="#000099">   void insert(Iterator&lt;T&gt;
 iter, T s);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; void erase(Iterator&lt;T>
+<br><b><tt><font color="#000099">   void erase(Iterator&lt;T&gt;
 iter);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator&lt;T> begin();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator&lt;T> end();</font></tt></b>
+<br><b><tt><font color="#000099">   Iterator&lt;T&gt; begin();</font></tt></b>
+<br><b><tt><font color="#000099">   Iterator&lt;T&gt; end();</font></tt></b>
 <br><b><tt><font color="#000099">private:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* first;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* last;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* first;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* last;</font></tt></b>
 <br><b><tt><font color="#000099">};</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">class Iterator&nbsp;&nbsp; {</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">class Iterator   {</font></tt></b>
 <br><b><tt><font color="#000099">public:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; T operator*() const;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; void operator++(int dummy);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; void operator--(int dummy);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; bool operator!=(Iterator&lt;T>
+<br><b><tt><font color="#000099">   Iterator();</font></tt></b>
+<br><b><tt><font color="#000099">   T operator*() const;</font></tt></b>
+<br><b><tt><font color="#000099">   void operator++(int dummy);</font></tt></b>
+<br><b><tt><font color="#000099">   void operator--(int dummy);</font></tt></b>
+<br><b><tt><font color="#000099">   bool operator!=(Iterator&lt;T&gt;
 b) const;</font></tt></b>
 <br><b><tt><font color="#000099">private:</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* position;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* last;</font></tt></b>
-<br><b><tt><font color="#000099">friend class List&lt;T>;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* position;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* last;</font></tt></b>
+<br><b><tt><font color="#000099">friend class List&lt;T&gt;;</font></tt></b>
 <br><b><tt><font color="#000099">};</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">Link&lt;T>::Link(T s)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; data = s;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; previous = NULL;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; next = NULL;&nbsp;&nbsp;
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">Link&lt;T&gt;::Link(T s)</font></tt></b>
+<br><b><tt><font color="#000099">{  data = s;</font></tt></b>
+<br><b><tt><font color="#000099">   previous = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">   next = NULL;  
 }</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">List&lt;T>::List()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; first = NULL;&nbsp;&nbsp; last
-= NULL;&nbsp;&nbsp; }</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">void List&lt;T>::push_back(T s)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; Link&lt;T>* newlink = new Link&lt;T>(s);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (last == NULL)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">List&lt;T&gt;::List()</font></tt></b>
+<br><b><tt><font color="#000099">{  first = NULL;   last
+= NULL;   }</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">void List&lt;T&gt;::push_back(T s)</font></tt></b>
+<br><b><tt><font color="#000099">{  Link&lt;T&gt;* newlink = new Link&lt;T&gt;(s);</font></tt></b>
+<br><b><tt><font color="#000099">   if (last == NULL)             
 /* list is empty */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; first = newlink;&nbsp;&nbsp;&nbsp;
-last = newlink;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; newlink->previous
+<br><b><tt><font color="#000099">   {  first = newlink;   
+last = newlink;  }</font></tt></b>
+<br><b><tt><font color="#000099">   else</font></tt></b>
+<br><b><tt><font color="#000099">   {  newlink-&gt;previous
 = last;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last->next
+<br><b><tt><font color="#000099">      last-&gt;next
 = newlink;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last =
+<br><b><tt><font color="#000099">      last =
 newlink;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">   }</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">void List&lt;T>::insert(Iterator&lt;T>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">void List&lt;T&gt;::insert(Iterator&lt;T&gt;
 iter, T s)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (iter.position == NULL)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; push_back(s);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-return;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* after = iter.position;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* before = after->previous;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* newlink = new
-Link&lt;T>(s);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; newlink->previous = before;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; newlink->next = after;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; after->previous = newlink;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (before == NULL) /* insert
+<br><b><tt><font color="#000099">   if (iter.position == NULL)</font></tt></b>
+<br><b><tt><font color="#000099">   {  push_back(s);     
+return;      }</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">   Link&lt;T&gt;* after = iter.position;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* before = after-&gt;previous;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* newlink = new
+Link&lt;T&gt;(s);</font></tt></b>
+<br><b><tt><font color="#000099">   newlink-&gt;previous = before;</font></tt></b>
+<br><b><tt><font color="#000099">   newlink-&gt;next = after;</font></tt></b>
+<br><b><tt><font color="#000099">   after-&gt;previous = newlink;</font></tt></b>
+<br><b><tt><font color="#000099">   if (before == NULL) /* insert
 at
 beginning */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first =
+<br><b><tt><font color="#000099">      first =
 newlink;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before->next
+<br><b><tt><font color="#000099">   else</font></tt></b>
+<br><b><tt><font color="#000099">      before-&gt;next
 = newlink;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">void List&lt;T>::erase(Iterator&lt;T>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">void List&lt;T&gt;::erase(Iterator&lt;T&gt;
 iter)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; assert(iter.position != NULL);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* remove = iter.position;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* before = remove->previous;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Link&lt;T>* after = remove->next;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (remove == first)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first =
+<br><b><tt><font color="#000099">   assert(iter.position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* remove = iter.position;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* before = remove-&gt;previous;</font></tt></b>
+<br><b><tt><font color="#000099">   Link&lt;T&gt;* after = remove-&gt;next;</font></tt></b>
+<br><b><tt><font color="#000099">   if (remove == first)</font></tt></b>
+<br><b><tt><font color="#000099">      first =
 after;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before->next
+<br><b><tt><font color="#000099">   else</font></tt></b>
+<br><b><tt><font color="#000099">      before-&gt;next
 = after;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (remove == last)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last =
+<br><b><tt><font color="#000099">   if (remove == last)</font></tt></b>
+<br><b><tt><font color="#000099">      last =
 before;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; after->previous
+<br><b><tt><font color="#000099">   else</font></tt></b>
+<br><b><tt><font color="#000099">      after-&gt;previous
 = before;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; iter.position = after;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; delete remove;</font></tt></b>
+<br><b><tt><font color="#000099">   iter.position = after;</font></tt></b>
+<br><b><tt><font color="#000099">   delete remove;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">Iterator&lt;T> List&lt;T>::begin()</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">Iterator&lt;T&gt; List&lt;T&gt;::begin()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator&lt;T> iter;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; iter.position = first;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; iter.last = last;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return iter;</font></tt></b>
+<br><b><tt><font color="#000099">   Iterator&lt;T&gt; iter;</font></tt></b>
+<br><b><tt><font color="#000099">   iter.position = first;</font></tt></b>
+<br><b><tt><font color="#000099">   iter.last = last;</font></tt></b>
+<br><b><tt><font color="#000099">   return iter;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">Iterator&lt;T> List&lt;T>::end()</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">Iterator&lt;T&gt; List&lt;T&gt;::end()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator&lt;T> iter;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; iter.position = NULL;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; iter.last = last;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return iter;</font></tt></b>
+<br><b><tt><font color="#000099">   Iterator&lt;T&gt; iter;</font></tt></b>
+<br><b><tt><font color="#000099">   iter.position = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">   iter.last = last;</font></tt></b>
+<br><b><tt><font color="#000099">   return iter;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">Iterator&lt;T>::Iterator()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; position = NULL;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; last = NULL;</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">Iterator&lt;T&gt;::Iterator()</font></tt></b>
+<br><b><tt><font color="#000099">{  position = NULL;</font></tt></b>
+<br><b><tt><font color="#000099">   last = NULL;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">T Iterator&lt;T>::operator*() const</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">T Iterator&lt;T&gt;::operator*() const</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; assert(position != NULL);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return position->data;</font></tt></b>
+<br><b><tt><font color="#000099">   assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">   return position-&gt;data;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">void Iterator&lt;T>::operator++(int dummy)</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">void Iterator&lt;T&gt;::operator++(int dummy)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; assert(position != NULL);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; position = position->next;</font></tt></b>
+<br><b><tt><font color="#000099">   assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">   position = position-&gt;next;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">void Iterator&lt;T>::operator--(int dummy)</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">void Iterator&lt;T&gt;::operator--(int dummy)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (position == NULL)&nbsp;
+<br><b><tt><font color="#000099">   if (position == NULL) 
 position = last;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-position = position->previous;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; assert(position != NULL);</font></tt></b>
+<br><b><tt><font color="#000099">   else           
+position = position-&gt;previous;</font></tt></b>
+<br><b><tt><font color="#000099">   assert(position != NULL);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><b><tt><font color="#000099">template&lt;typename T></font></tt></b>
-<br><b><tt><font color="#000099">bool Iterator&lt;T>::operator!=(Iterator&lt;T>
+</p>
+<p><b><tt><font color="#000099">template&lt;typename T&gt;</font></tt></b>
+<br><b><tt><font color="#000099">bool Iterator&lt;T&gt;::operator!=(Iterator&lt;T&gt;
 b) const</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return position != b.position;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">{  return position != b.position;  
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; List&lt;string> staff;</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Cracker,
+<br><b><tt><font color="#000099">{  List&lt;string&gt; staff;</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">   staff.push_back("Cracker,
 Carl");</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Hacker,
+<br><b><tt><font color="#000099">   staff.push_back("Hacker,
 Harry");</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Lam, Larry");</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Sandman,
+<br><b><tt><font color="#000099">   staff.push_back("Lam, Larry");</font></tt></b>
+<br><b><tt><font color="#000099">   staff.push_back("Sandman,
 Susan");</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* add a value in fourth place */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; Iterator&lt;string> pos;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; staff.insert(pos, "Reindeer,
+<br><b><tt><font color="#000099">   Iterator&lt;string&gt; pos;</font></tt></b>
+<br><b><tt><font color="#000099">   pos = staff.begin();</font></tt></b>
+<br><b><tt><font color="#000099">   pos++;</font></tt></b>
+<br><b><tt><font color="#000099">   pos++;</font></tt></b>
+<br><b><tt><font color="#000099">   pos++;</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">   staff.insert(pos, "Reindeer,
 Rudolf");</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* remove the value in second place */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; staff.erase(pos);</font></tt></b>
+<br><b><tt><font color="#000099">   pos = staff.begin();</font></tt></b>
+<br><b><tt><font color="#000099">   pos++;</font></tt></b>
+<br><b><tt><font color="#000099">   staff.erase(pos);</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* print all values */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (pos = staff.begin();
+<br><b><tt><font color="#000099">   for (pos = staff.begin();
 pos != staff.end(); pos++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">      cout &lt;&lt;
 *pos &lt;&lt; "\n";</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">   return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

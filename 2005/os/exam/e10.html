@@ -1,162 +1,183 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>os4</title>
 </head>
 <body>
-<b>10. Конкуренция: взаимно изключване и синхронизация</b>
-<br><b>Взаимно изключване: софтуерен подход.&nbsp;</b>
-<p><b>5.2 Взаимно изключване: софтуерен подход.</b>
-<br>** Алгоритъм на Декер.
-<br><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </b>Първи опит:
+<b>10. РљРѕРЅРєСѓСЂРµРЅС†РёСЏ: РІР·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ Рё СЃРёРЅС…СЂРѕРЅРёР·Р°С†РёСЏ</b>
+<br><b>Р’Р·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ: СЃРѕС„С‚СѓРµСЂРµРЅ РїРѕРґС…РѕРґ.В </b>
+<p><b>5.2 Р’Р·Р°РёРјРЅРѕ РёР·РєР»СЋС‡РІР°РЅРµ: СЃРѕС„С‚СѓРµСЂРµРЅ РїРѕРґС…РѕРґ.</b>
+<br>** РђР»РіРѕСЂРёС‚СЉРј РЅР° Р”РµРєРµСЂ.
+<br><b>В В В В В В В  </b>РџСЉСЂРІРё РѕРїРёС‚:
 <br><b><tt><font color="#003300">int </font><font color="#006600">turn;
 /* =0 or =1 */</font></tt></b>
-<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<td>
+<b><tt><font color="#003300">// PROCESS P0</font></tt></b>
 <br><b><tt><font color="#003300">...</font></tt></b>
 <br><b><tt><font color="#003300">while(</font><font color="#006600">turn!=0)
 nothing();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">В &lt;critical section&gt;</font></tt></b>
 <br><b><tt><font color="#006600">turn = 1;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<td>
+<b><tt><font color="#003300">// PROCESS P1</font></tt></b>
 <br><b><tt><font color="#003300">...</font></tt></b>
 <br><b><tt><font color="#003300">while(</font><font color="#006600">turn!=1)
 nothing();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">В &lt;critical section&gt;</font></tt></b>
 <br><b><tt><font color="#006600">turn = 0;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp; Щастлив сценарии - последователно влизане в КС:
-<br><b><tt><font color="#006600">P0 -> P1 -> P0 -> P1 -> P0 -> P1 -> ...</font></tt></b>
-<br>&nbsp;&nbsp;&nbsp; Проблем - когато единия процес няма интерес за влизане
-в КС, т.е. <b><tt><font color="#006600">P1</font></tt></b> иска 2 пъти
-последователно да влезе в КС.
-<br><b><tt><font color="#006600">P0 -> P1 -> P1(чака, turn има стойност
-1) -</font></tt></b>&nbsp;&nbsp; <b><tt><font color="#006600">P1 </font></tt></b>се
-блокира.
-<br>Това се случва и при грешка в единия процес
-<p><b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</b>&nbsp; Втори опит:
+В В В  Р©Р°СЃС‚Р»РёРІ СЃС†РµРЅР°СЂРёРё - РїРѕСЃР»РµРґРѕРІР°С‚РµР»РЅРѕ РІР»РёР·Р°РЅРµ РІ РљРЎ:
+<br><b><tt><font color="#006600">P0 -&gt; P1 -&gt; P0 -&gt; P1 -&gt; P0 -&gt; P1 -&gt; ...</font></tt></b>
+<br>В В В  РџСЂРѕР±Р»РµРј - РєРѕРіР°С‚Рѕ РµРґРёРЅРёСЏ РїСЂРѕС†РµСЃ РЅСЏРјР° РёРЅС‚РµСЂРµСЃ Р·Р° РІР»РёР·Р°РЅРµ
+РІ РљРЎ, С‚.Рµ. <b><tt><font color="#006600">P1</font></tt></b> РёСЃРєР° 2 РїСЉС‚Рё
+РїРѕСЃР»РµРґРѕРІР°С‚РµР»РЅРѕ РґР° РІР»РµР·Рµ РІ РљРЎ.
+<br><b><tt><font color="#006600">P0 -&gt; P1 -&gt; P1(С‡Р°РєР°, turn РёРјР° СЃС‚РѕР№РЅРѕСЃС‚
+1) -</font></tt></b>В В  <b><tt><font color="#006600">P1 </font></tt></b>СЃРµ
+Р±Р»РѕРєРёСЂР°.
+<br>РўРѕРІР° СЃРµ СЃР»СѓС‡РІР° Рё РїСЂРё РіСЂРµС€РєР° РІ РµРґРёРЅРёСЏ РїСЂРѕС†РµСЃ
+<p><b>В В В В В В </b>В  Р’С‚РѕСЂРё РѕРїРёС‚:
 <br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2]
 = {false, false};</font></tt></b>
-<table CELLPADDING=4 WIDTH="100%" >
+</p>
+<table cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<td>
+<b><tt><font color="#003300">// PROCESS P0</font></tt></b>
 <br><b><tt><font color="#003300">...</font></tt></b>
 <br><b><tt><font color="#003300">while(</font><font color="#006600">flag[1])
 nothing();</font></tt></b>
 <br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">В &lt;critical section&gt;</font></tt></b>
 <br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<td>
+<b><tt><font color="#003300">// PROCESS P1</font></tt></b>
 <br><b><tt><font color="#003300">...</font></tt></b>
 <br><b><tt><font color="#003300">while(</font><font color="#006600">flag[0])
 nothing();</font></tt></b>
 <br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">В &lt;critical section&gt;</font></tt></b>
 <br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp; Щастлив сценарии:
-<br><b><tt><font color="#006600">P0(while)-> P0(=)-> P0(КС)-> P0(=)-> P0(while)->
-P0(=)-> P0(КС)-> P0(=)-></font></tt></b>
-<br><b><tt><font color="#006600">P1(while)-> P1(=)-> P1(КС)-> P1(=)-> ...</font></tt></b>
-<br>&nbsp;&nbsp;&nbsp; Проблем при следния сценарии:
-<br><b><tt>P0(<font color="#006600">while(flag[1])</font></tt></b> намира
-го <b><tt><font color="#006600">false)-></font></tt></b>
-<br><b><tt>P1(<font color="#006600">while(flag[0]) </font></tt></b>намира
-го <b><tt><font color="#006600">false)-></font></tt></b>
+В В В  Р©Р°СЃС‚Р»РёРІ СЃС†РµРЅР°СЂРёРё:
+<br><b><tt><font color="#006600">P0(while)-&gt; P0(=)-&gt; P0(РљРЎ)-&gt; P0(=)-&gt; P0(while)-&gt;
+P0(=)-&gt; P0(РљРЎ)-&gt; P0(=)-&gt;</font></tt></b>
+<br><b><tt><font color="#006600">P1(while)-&gt; P1(=)-&gt; P1(РљРЎ)-&gt; P1(=)-&gt; ...</font></tt></b>
+<br>В В В  РџСЂРѕР±Р»РµРј РїСЂРё СЃР»РµРґРЅРёСЏ СЃС†РµРЅР°СЂРёРё:
+<br><b><tt>P0(<font color="#006600">while(flag[1])</font></tt></b> РЅР°РјРёСЂР°
+РіРѕ <b><tt><font color="#006600">false)-&gt;</font></tt></b>
+<br><b><tt>P1(<font color="#006600">while(flag[0]) </font></tt></b>РЅР°РјРёСЂР°
+РіРѕ <b><tt><font color="#006600">false)-&gt;</font></tt></b>
 <br><b><tt>P0(<font color="#006600">flag[0]=true</font></tt></b><font color="#000000">
-и влиза в КС)<b><tt> -></tt></b></font>
+Рё РІР»РёР·Р° РІ РљРЎ)<b><tt> -&gt;</tt></b></font>
 <br><b><tt>P1(<font color="#006600">flag[1]=true</font></tt></b><font color="#000000">
-и влиза в КС)</font> <b><tt>-> BAD.</tt></b>
-<br>И двата процеса са в КС - няма ВИ.
-<p><b>&nbsp;&nbsp;&nbsp; </b>Трети опит:
+Рё РІР»РёР·Р° РІ РљРЎ)</font> <b><tt>-&gt; BAD.</tt></b>
+<br>Р РґРІР°С‚Р° РїСЂРѕС†РµСЃР° СЃР° РІ РљРЎ - РЅСЏРјР° Р’Р.
+<p><b>В В В  </b>РўСЂРµС‚Рё РѕРїРёС‚:
 <br><b><tt><font color="#003300">bool </font><font color="#006600">flag[2];</font></tt></b>
-<table CELLPADDING=4 WIDTH="100%" >
+</p>
+<table cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#003300">// PROCESS P0</font></tt></b>
+<td>
+<b><tt><font color="#003300">// PROCESS P0</font></tt></b>
 <br><b><tt><font color="#003300">...</font></tt></b>
 <br><b><tt><font color="#006600">flag[0] = true;</font></tt></b>
 <br><b><tt><font color="#003300">while(</font><font color="#006600">flag[1])
 nothing();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">В &lt;critical section&gt;</font></tt></b>
 <br><b><tt><font color="#006600">flag[0] = false;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 
-<td><b><tt><font color="#003300">// PROCESS P1</font></tt></b>
+<td>
+<b><tt><font color="#003300">// PROCESS P1</font></tt></b>
 <br><b><tt><font color="#003300">...</font></tt></b>
 <br><b><tt><font color="#006600">flag[1] = true;</font></tt></b>
 <br><b><tt><font color="#003300">while(</font><font color="#006600">flag[0])
 nothing();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&lt;critical section></font></tt></b>
+<br><b><tt><font color="#006600">В &lt;critical section&gt;</font></tt></b>
 <br><b><tt><font color="#006600">flag[1] = false;</font></tt></b>
-<br><b><tt><font color="#006600">...</font></tt></b></td>
+<br><b><tt><font color="#006600">...</font></tt></b>
+</td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp; Щастливи сценарии:
-<br><b><tt><font color="#006600">P0(=t)-> P0(while)-> P0(КС)-> P1(=t)->
-P1(while,чака)-> P0(=f)-> P1(КС)-> P1(=f)-> P1(=t)-> P1(while)-> P0(КС)->
-P0(=t,чака)-> P1(=f)-> P0(КС)-> ...</font></tt></b>
-<br>ВИ е гарантирано.
-<p>&nbsp;&nbsp;&nbsp; Проблем - възможно e МХ при следния сценарии:
-<br><b><tt><font color="#006600">P0(flag[0] = true)-> P1(flag[1] = true)->
-P1(while)-> P0(while)-></font><font color="#000000"> MX.</font></tt></b>
-<p>** Алгоритъм на Петерсон - решение на задачата за ВИ.
+В В В  Р©Р°СЃС‚Р»РёРІРё СЃС†РµРЅР°СЂРёРё:
+<br><b><tt><font color="#006600">P0(=t)-&gt; P0(while)-&gt; P0(РљРЎ)-&gt; P1(=t)-&gt;
+P1(while,С‡Р°РєР°)-&gt; P0(=f)-&gt; P1(РљРЎ)-&gt; P1(=f)-&gt; P1(=t)-&gt; P1(while)-&gt; P0(РљРЎ)-&gt;
+P0(=t,С‡Р°РєР°)-&gt; P1(=f)-&gt; P0(РљРЎ)-&gt; ...</font></tt></b>
+<br>Р’Р Рµ РіР°СЂР°РЅС‚РёСЂР°РЅРѕ.
+<p>В В В  РџСЂРѕР±Р»РµРј - РІСЉР·РјРѕР¶РЅРѕ e РњРҐ РїСЂРё СЃР»РµРґРЅРёСЏ СЃС†РµРЅР°СЂРёРё:
+<br><b><tt><font color="#006600">P0(flag[0] = true)-&gt; P1(flag[1] = true)-&gt;
+P1(while)-&gt; P0(while)-&gt;</font><font color="#000000"> MX.</font></tt></b>
+</p>
+<p>** РђР»РіРѕСЂРёС‚СЉРј РЅР° РџРµС‚РµСЂСЃРѕРЅ - СЂРµС€РµРЅРёРµ РЅР° Р·Р°РґР°С‡Р°С‚Р° Р·Р° Р’Р.
 <br><b><tt><font color="#006600">bool flag[2] = {false,false};</font></tt></b>
 <br><b><tt><font color="#006600">int turn;</font></tt></b>
-<table CELLPADDING=4 COLS=2 WIDTH="100%" >
+</p>
+<table cellpadding="4" cols="2" width="100%">
 <tr>
-<td><b><tt><font color="#006600">void P0()</font></tt></b>
+<td>
+<b><tt><font color="#006600">void P0()</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; flag[0] = true;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; turn = 1;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; while (flag[1] &amp;&amp; turn==1)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">В while (true)</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  flag[0] = true;</font></tt></b>
+<br><b><tt><font color="#006600">В  turn = 1;</font></tt></b>
+<br><b><tt><font color="#006600">В  while (flag[1] &amp;&amp; turn==1)</font></tt></b>
+<br><b><tt><font color="#006600">В В В В В В В В В В В В В В В В В В 
 nothing();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; &lt;critical section></font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; flag[0] = false;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; &lt;remainder></font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#006600">В  &lt;critical section&gt;</font></tt></b>
+<br><b><tt><font color="#006600">В  flag[0] = false;</font></tt></b>
+<br><b><tt><font color="#006600">В  &lt;remainder&gt;</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 
-<td><b><tt><font color="#006600">void P1()</font></tt></b>
+<td>
+<b><tt><font color="#006600">void P1()</font></tt></b>
 <br><b><tt><font color="#006600">{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;while (true)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; flag[1] = true;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; turn = 0;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; while (flag[0] &amp;&amp; turn==0)</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#006600">В while (true)</font></tt></b>
+<br><b><tt><font color="#006600">В {</font></tt></b>
+<br><b><tt><font color="#006600">В  flag[1] = true;</font></tt></b>
+<br><b><tt><font color="#006600">В  turn = 0;</font></tt></b>
+<br><b><tt><font color="#006600">В  while (flag[0] &amp;&amp; turn==0)</font></tt></b>
+<br><b><tt><font color="#006600">В В В В В В В В В В В В В В В В В В 
 nothing();</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; &lt;critical section></font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; &lt;remainder></font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#006600">}</font></tt></b></td>
+<br><b><tt><font color="#006600">В  &lt;critical section&gt;</font></tt></b>
+<br><b><tt><font color="#006600">В  flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">В  &lt;remainder&gt;</font></tt></b>
+<br><b><tt><font color="#006600">В }</font></tt></b>
+<br><b><tt><font color="#006600">}</font></tt></b>
+</td>
 </tr>
 </table>
 <b><tt><font color="#006600">void main()</font></tt></b>
 <br><b><tt><font color="#006600">{ flag[0] = false;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; flag[1] = false;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; parbegin(P0, P1);</font></tt></b>
+<br><b><tt><font color="#006600">В  flag[1] = false;</font></tt></b>
+<br><b><tt><font color="#006600">В  parbegin(P0, P1);</font></tt></b>
 <br><b><tt><font color="#006600">}</font></tt></b>
-<br>&nbsp;&nbsp;&nbsp; Масивът <b><tt><font color="#006600">flag</font></tt></b>&nbsp;
-показва заявка (интерес) за КС, променливата <b><tt><font color="#006600">turn</font></tt></b>
-- кой в момента е в КС.&nbsp; Ето и всички възможности за стойности на
-тези променлива:
-<table BORDER CELLSPACING=0 CELLPADDING=6 >
+<br>В В В  РњР°СЃРёРІСЉС‚ <b><tt><font color="#006600">flag</font></tt></b>В 
+РїРѕРєР°Р·РІР° Р·Р°СЏРІРєР° (РёРЅС‚РµСЂРµСЃ) Р·Р° РљРЎ, РїСЂРѕРјРµРЅР»РёРІР°С‚Р° <b><tt><font color="#006600">turn</font></tt></b>
+- РєРѕР№ РІ РјРѕРјРµРЅС‚Р° Рµ РІ РљРЎ.В  Р•С‚Рѕ Рё РІСЃРёС‡РєРё РІСЉР·РјРѕР¶РЅРѕСЃС‚Рё Р·Р° СЃС‚РѕР№РЅРѕСЃС‚Рё РЅР°
+С‚РµР·Рё РїСЂРѕРјРµРЅР»РёРІР°:
+<table border cellspacing="0" cellpadding="6">
 <tr>
 <td><b><tt><font color="#006600">flag[0]</font></tt></b></td>
 
@@ -174,7 +195,7 @@ nothing();</font></tt></b>
 
 <td><b><tt><font color="#006600">0, 1</font></tt></b></td>
 
-<td>Няма интерес за КС.</td>
+<td>РќСЏРјР° РёРЅС‚РµСЂРµСЃ Р·Р° РљРЎ.</td>
 </tr>
 
 <tr>
@@ -184,9 +205,10 @@ nothing();</font></tt></b>
 
 <td><b><tt><font color="#006600">0, 1</font></tt></b></td>
 
-<td><b><tt><font color="#006600">P0</font></tt></b> няма интерес за КС,
+<td>
+<b><tt><font color="#006600">P0</font></tt></b> РЅСЏРјР° РёРЅС‚РµСЂРµСЃ Р·Р° РљРЎ,
 <b><tt><font color="#006600">P1</font></tt></b>
-в КС.</td>
+РІ РљРЎ.</td>
 </tr>
 
 <tr>
@@ -196,8 +218,9 @@ nothing();</font></tt></b>
 
 <td><b><tt><font color="#006600">0, 1</font></tt></b></td>
 
-<td><b><tt><font color="#006600">P0</font></tt></b> в КС, <b><tt><font color="#006600">P1</font></tt></b>
-няма интерес за КС.</td>
+<td>
+<b><tt><font color="#006600">P0</font></tt></b> РІ РљРЎ, <b><tt><font color="#006600">P1</font></tt></b>
+РЅСЏРјР° РёРЅС‚РµСЂРµСЃ Р·Р° РљРЎ.</td>
 </tr>
 
 <tr>
@@ -207,8 +230,9 @@ nothing();</font></tt></b>
 
 <td><b><tt><font color="#990000">0</font></tt></b></td>
 
-<td><b><tt><font color="#006600">P0</font></tt></b> в КС, <b><tt><font color="#006600">P1</font></tt></b>
-чака за КС.</td>
+<td>
+<b><tt><font color="#006600">P0</font></tt></b> РІ РљРЎ, <b><tt><font color="#006600">P1</font></tt></b>
+С‡Р°РєР° Р·Р° РљРЎ.</td>
 </tr>
 
 <tr>
@@ -218,11 +242,12 @@ nothing();</font></tt></b>
 
 <td><b><tt><font color="#990000">1</font></tt></b></td>
 
-<td><b><tt><font color="#006600">P1</font></tt></b> в КС, <b><tt><font color="#006600">P0</font></tt></b>
-чака за КС.</td>
+<td>
+<b><tt><font color="#006600">P1</font></tt></b> РІ РљРЎ, <b><tt><font color="#006600">P0</font></tt></b>
+С‡Р°РєР° Р·Р° РљРЎ.</td>
 </tr>
 </table>
 
-<hr WIDTH="100%">
+<hr width="100%">
 </body>
 </html>

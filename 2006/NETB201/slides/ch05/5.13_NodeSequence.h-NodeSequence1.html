@@ -1,51 +1,53 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>NodeSequence1</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>NodeSequence1</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: NodeSequence1</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object&gt;
-<font color=#A000A0>class</font> NodeSequence : <font color=#A000A0>public</font> NodeList&lt;Object&gt; {
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// utilities</font>
-  <font color=#A000A0>void</font> <font color=#000000>checkRank</font>(<font color=#A000A0>int</font> rank) <font color=#A000A0>const</font> 			<font color=#0000FF>// check for valid rank</font>
-      <font color=#00A000>throw</font>(BoundaryViolationException) {
-    <font color=#00A000>if</font> (rank &lt; 0 || rank &gt;= sz)
-      <font color=#00A000>throw</font> <font color=#000000>BoundaryViolationException</font>(<font color=#0000FF>"Invalid rank"</font>);
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Object&gt;
+<font color="#A000A0">class</font> NodeSequence : <font color="#A000A0">public</font> NodeList&lt;Object&gt; {
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// utilities</font>
+  <font color="#A000A0">void</font> <font color="#000000">checkRank</font>(<font color="#A000A0">int</font> rank) <font color="#A000A0">const</font> 			<font color="#0000FF">// check for valid rank</font>
+      <font color="#00A000">throw</font>(BoundaryViolationException) {
+    <font color="#00A000">if</font> (rank &lt; 0 || rank &gt;= sz)
+      <font color="#00A000">throw</font> <font color="#000000">BoundaryViolationException</font>(<font color="#0000FF">"Invalid rank"</font>);
   }
-<font color=#A000A0>public</font>:
-  <font color=#A000A0>typedef</font> NodeList&lt;Object&gt;::Position Position;
-  Position <font color=#000000>atRank</font>(<font color=#A000A0>int</font> rank) <font color=#A000A0>const</font> 			<font color=#0000FF>// position of rank</font>
-      <font color=#00A000>throw</font>(BoundaryViolationException);
-  <font color=#A000A0>int</font> <font color=#000000>rankOf</font>(<font color=#A000A0>const</font> Position& p) <font color=#A000A0>const</font> 			<font color=#0000FF>// get rank of element</font>
-      <font color=#00A000>throw</font>(InvalidPositionException);
-  Object <font color=#000000>elemAtRank </font>(<font color=#A000A0>int</font> rank) <font color=#A000A0>const</font> 			<font color=#0000FF>// element at this rank</font>
-      <font color=#00A000>throw</font>(BoundaryViolationException) {
-    <font color=#000000>checkRank</font>(rank);
-    <font color=#00A000>return</font> <font color=#000000>atRank</font>(rank).<font color=#000000>element</font>();
+<font color="#A000A0">public</font>:
+  <font color="#A000A0">typedef</font> NodeList&lt;Object&gt;::Position Position;
+  Position <font color="#000000">atRank</font>(<font color="#A000A0">int</font> rank) <font color="#A000A0">const</font> 			<font color="#0000FF">// position of rank</font>
+      <font color="#00A000">throw</font>(BoundaryViolationException);
+  <font color="#A000A0">int</font> <font color="#000000">rankOf</font>(<font color="#A000A0">const</font> Position&amp; p) <font color="#A000A0">const</font> 			<font color="#0000FF">// get rank of element</font>
+      <font color="#00A000">throw</font>(InvalidPositionException);
+  Object <font color="#000000">elemAtRank </font>(<font color="#A000A0">int</font> rank) <font color="#A000A0">const</font> 			<font color="#0000FF">// element at this rank</font>
+      <font color="#00A000">throw</font>(BoundaryViolationException) {
+    <font color="#000000">checkRank</font>(rank);
+    <font color="#00A000">return</font> <font color="#000000">atRank</font>(rank).<font color="#000000">element</font>();
   }
-  <font color=#A000A0>void</font> <font color=#000000>insertAtRank </font>(<font color=#A000A0>int</font> rank, <font color=#A000A0>const</font> Object& element)	<font color=#0000FF>// insert at given rank</font>
-      <font color=#00A000>throw</font>(BoundaryViolationException) {
-    <font color=#00A000>if</font> (rank == <font color=#000000>size</font>())					<font color=#0000FF>// no checkRank if last</font>
-      <font color=#000000>insertLast</font>(element);
-    <font color=#00A000>else</font> {
-      <font color=#000000>checkRank</font>(rank);
-      <font color=#000000>insertBefore</font>( <font color=#000000>atRank</font>(rank), element );
+  <font color="#A000A0">void</font> <font color="#000000">insertAtRank </font>(<font color="#A000A0">int</font> rank, <font color="#A000A0">const</font> Object&amp; element)	<font color="#0000FF">// insert at given rank</font>
+      <font color="#00A000">throw</font>(BoundaryViolationException) {
+    <font color="#00A000">if</font> (rank == <font color="#000000">size</font>())					<font color="#0000FF">// no checkRank if last</font>
+      <font color="#000000">insertLast</font>(element);
+    <font color="#00A000">else</font> {
+      <font color="#000000">checkRank</font>(rank);
+      <font color="#000000">insertBefore</font>( <font color="#000000">atRank</font>(rank), element );
     }
   }
-  <font color=#A000A0>void</font> <font color=#000000>removeAtRank </font>(<font color=#A000A0>int</font> rank)				<font color=#0000FF>// remove from rank</font>
-      <font color=#00A000>throw</font>(BoundaryViolationException) {
-    <font color=#000000>checkRank</font>(rank);
-    Position p = <font color=#000000>atRank</font>(rank);				<font color=#0000FF>// position to remove</font>
-    <font color=#000000>remove</font>(p);
+  <font color="#A000A0">void</font> <font color="#000000">removeAtRank </font>(<font color="#A000A0">int</font> rank)				<font color="#0000FF">// remove from rank</font>
+      <font color="#00A000">throw</font>(BoundaryViolationException) {
+    <font color="#000000">checkRank</font>(rank);
+    Position p = <font color="#000000">atRank</font>(rank);				<font color="#0000FF">// position to remove</font>
+    <font color="#000000">remove</font>(p);
   }
-  <font color=#A000A0>void</font> <font color=#000000>replaceAtRank </font>(<font color=#A000A0>int</font> rank, <font color=#A000A0>const</font> Object& element)	<font color=#0000FF>// replace at rank</font>
-      <font color=#00A000>throw</font>(BoundaryViolationException) {
-    <font color=#000000>checkRank</font>(rank);
-    <font color=#000000>replaceElement</font>( <font color=#000000>atRank</font>(rank), element );
+  <font color="#A000A0">void</font> <font color="#000000">replaceAtRank </font>(<font color="#A000A0">int</font> rank, <font color="#A000A0">const</font> Object&amp; element)	<font color="#0000FF">// replace at rank</font>
+      <font color="#00A000">throw</font>(BoundaryViolationException) {
+    <font color="#000000">checkRank</font>(rank);
+    <font color="#000000">replaceElement</font>( <font color="#000000">atRank</font>(rank), element );
   }
 };
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>

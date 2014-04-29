@@ -1,45 +1,47 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>FindPathDFS</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>FindPathDFS</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: FindPathDFS</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Graph&gt;
-<font color=#A000A0>class</font> FindPathDFS : <font color=#A000A0>public</font> DFS&lt;Graph&gt; {			<font color=#0000FF>// find a path by DFS</font>
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// local types</font>
-  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::Vertex	    Vertex;
-  <font color=#A000A0>typedef</font> <font color=#A000A0>typename</font> Graph::VertexSequence    VertexSequence;
-<font color=#A000A0>private</font>: 						<font color=#0000FF>// local data</font>
-  Vertex	    target;				<font color=#0000FF>// the target vertex</font>
-  <font color=#A000A0>bool</font>		    pathDetected;			<font color=#0000FF>// is target found?</font>
-  VertexSequence    path;				<font color=#0000FF>// path storage</font>
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// overridden functions</font>
-  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>startVisit</font>(<font color=#A000A0>const</font> Vertex& v) {		<font color=#0000FF>// visit vertex</font>
-    path.<font color=#000000>insertLast</font>(v); 				<font color=#0000FF>// insert into path</font>
-    <font color=#00A000>if</font> (v == target)					<font color=#0000FF>// target vertex seen?</font>
-      pathDetected = <font color=#A000A0>true</font>;				<font color=#0000FF>// path is detected</font>
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Graph&gt;
+<font color="#A000A0">class</font> FindPathDFS : <font color="#A000A0">public</font> DFS&lt;Graph&gt; {			<font color="#0000FF">// find a path by DFS</font>
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// local types</font>
+  <font color="#A000A0">typedef</font> <font color="#A000A0">typename</font> Graph::Vertex	    Vertex;
+  <font color="#A000A0">typedef</font> <font color="#A000A0">typename</font> Graph::VertexSequence    VertexSequence;
+<font color="#A000A0">private</font>: 						<font color="#0000FF">// local data</font>
+  Vertex	    target;				<font color="#0000FF">// the target vertex</font>
+  <font color="#A000A0">bool</font>		    pathDetected;			<font color="#0000FF">// is target found?</font>
+  VertexSequence    path;				<font color="#0000FF">// path storage</font>
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// overridden functions</font>
+  <font color="#A000A0">virtual</font> <font color="#A000A0">void</font> <font color="#000000">startVisit</font>(<font color="#A000A0">const</font> Vertex&amp; v) {		<font color="#0000FF">// visit vertex</font>
+    path.<font color="#000000">insertLast</font>(v); 				<font color="#0000FF">// insert into path</font>
+    <font color="#00A000">if</font> (v == target)					<font color="#0000FF">// target vertex seen?</font>
+      pathDetected = <font color="#A000A0">true</font>;				<font color="#0000FF">// path is detected</font>
   }
-  <font color=#A000A0>virtual</font> <font color=#A000A0>void</font> <font color=#000000>finishVisit</font>(<font color=#A000A0>const</font> Vertex& v) {		<font color=#0000FF>// done with vertex</font>
-    <font color=#00A000>if</font> (!pathDetected)
-      path.<font color=#000000>remove</font>(path.<font color=#000000>last</font>());				<font color=#0000FF>// remove if not on path</font>
+  <font color="#A000A0">virtual</font> <font color="#A000A0">void</font> <font color="#000000">finishVisit</font>(<font color="#A000A0">const</font> Vertex&amp; v) {		<font color="#0000FF">// done with vertex</font>
+    <font color="#00A000">if</font> (!pathDetected)
+      path.<font color="#000000">remove</font>(path.<font color="#000000">last</font>());				<font color="#0000FF">// remove if not on path</font>
   }
-  <font color=#A000A0>virtual</font> <font color=#A000A0>bool</font> <font color=#000000>isDone</font>() <font color=#A000A0>const</font> 				<font color=#0000FF>// are we done yet?</font>
-    { <font color=#00A000>return</font> pathDetected; }
-<font color=#A000A0>public</font>:
-  <font color=#000000>FindPathDFS</font>(<font color=#A000A0>const</font> Graph& g)				<font color=#0000FF>// constructor</font>
-    : DFS&lt;Graph&gt;(g), <font color=#000000>path</font>() { }
-							<font color=#0000FF>// find path from s to t</font>
-  VertexSequence <font color=#000000>run</font>(<font color=#A000A0>const</font> Vertex& s, <font color=#A000A0>const</font> Vertex& t) {
-    <font color=#000000>initialize</font>();					<font color=#0000FF>// initialize DFS</font>
-    target = t;						<font color=#0000FF>// t is the target</font>
-    path = <font color=#000000>VertexSequence</font>();				<font color=#0000FF>// reset path sequence</font>
-    pathDetected = <font color=#A000A0>false</font>;
-    <font color=#000000>dfsTraversal</font>(s);					<font color=#0000FF>// do the search</font>
-    <font color=#00A000>return</font> path;					<font color=#0000FF>// return the path</font>
+  <font color="#A000A0">virtual</font> <font color="#A000A0">bool</font> <font color="#000000">isDone</font>() <font color="#A000A0">const</font> 				<font color="#0000FF">// are we done yet?</font>
+    { <font color="#00A000">return</font> pathDetected; }
+<font color="#A000A0">public</font>:
+  <font color="#000000">FindPathDFS</font>(<font color="#A000A0">const</font> Graph&amp; g)				<font color="#0000FF">// constructor</font>
+    : DFS&lt;Graph&gt;(g), <font color="#000000">path</font>() { }
+							<font color="#0000FF">// find path from s to t</font>
+  VertexSequence <font color="#000000">run</font>(<font color="#A000A0">const</font> Vertex&amp; s, <font color="#A000A0">const</font> Vertex&amp; t) {
+    <font color="#000000">initialize</font>();					<font color="#0000FF">// initialize DFS</font>
+    target = t;						<font color="#0000FF">// t is the target</font>
+    path = <font color="#000000">VertexSequence</font>();				<font color="#0000FF">// reset path sequence</font>
+    pathDetected = <font color="#A000A0">false</font>;
+    <font color="#000000">dfsTraversal</font>(s);					<font color="#0000FF">// do the search</font>
+    <font color="#00A000">return</font> path;					<font color="#0000FF">// return the path</font>
   }
 };
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>

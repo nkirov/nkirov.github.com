@@ -1,160 +1,189 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>lecture4a</title>
 </head>
 <body>
-<b>Метод на пълно изчерпване</b><b></b>
-<p>Николай Киров
-<p>1. Задача за подмножества.
-<p>Даден е масив A с N елемента - естествени числа и цяло число S.&nbsp;
-Да се намерят всички суми на елементи на масива, които са равни на S.
-<p>Вариант 1 - най-просто решение
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<b>РњРµС‚РѕРґ РЅР° РїСЉР»РЅРѕ РёР·С‡РµСЂРїРІР°РЅРµ</b><b></b>
+<p>РќРёРєРѕР»Р°Р№ РљРёСЂРѕРІ
+</p>
+<p>1. Р—Р°РґР°С‡Р° Р·Р° РїРѕРґРјРЅРѕР¶РµСЃС‚РІР°.
+</p>
+<p>Р”Р°РґРµРЅ Рµ РјР°СЃРёРІ A СЃ N РµР»РµРјРµРЅС‚Р° - РµСЃС‚РµСЃС‚РІРµРЅРё С‡РёСЃР»Р° Рё С†СЏР»Рѕ С‡РёСЃР»Рѕ S.В 
+Р”Р° СЃРµ РЅР°РјРµСЂСЏС‚ РІСЃРёС‡РєРё СЃСѓРјРё РЅР° РµР»РµРјРµРЅС‚Рё РЅР° РјР°СЃРёРІР°, РєРѕРёС‚Рѕ СЃР° СЂР°РІРЅРё РЅР° S.
+</p>
+<p>Р’Р°СЂРёР°РЅС‚ 1 - РЅР°Р№-РїСЂРѕСЃС‚Рѕ СЂРµС€РµРЅРёРµ
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int const N=4;</font></tt></b>
 <br><b><tt><font color="#000099">int const A[N]={1,2,3,4};</font></tt></b>
 <br><b><tt><font color="#000099">int const SUM = 6;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int two_p(int n)</font></tt></b>
-<br><b><tt><font color="#000099">{ return static_cast&lt;int>(pow(2,n));
+<br><b><tt><font color="#000099">{ return static_cast&lt;int&gt;(pow(2,n));
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int const NN = two_p(N);</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void count()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;int i, j;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;for(i=1; i&lt;NN; i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; int sum=0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; for(j=0; j&lt;N; j++) if (two_p(j)
+<br><b><tt><font color="#000099">В int i, j;</font></tt></b>
+<br><b><tt><font color="#000099">В for(i=1; i&lt;NN; i++)</font></tt></b>
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  int sum=0;</font></tt></b>
+<br><b><tt><font color="#000099">В  for(j=0; j&lt;N; j++) if (two_p(j)
 &amp; i)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; sum+=A[j]; cout &lt;&lt;
+<br><b><tt><font color="#000099">В  {</font></tt></b>
+<br><b><tt><font color="#000099">В В  sum+=A[j]; cout &lt;&lt;
 A[j] &lt;&lt; "+";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; if (sum==SUM) cout &lt;&lt; "&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В  }</font></tt></b>
+<br><b><tt><font color="#000099">В  if (sum==SUM) cout &lt;&lt; "В В 
 OK";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; endl;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">В  cout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">В }</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;count();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cin.get();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В count();</font></tt></b>
+<br><b><tt><font color="#000099">В cin.get();</font></tt></b>
+<br><b><tt><font color="#000099">В return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><font color="#000000">Вариант 2:</font>
-<br><font color="#000000">Име на входния файл: SUM.INP</font>
-<p><font color="#000000">Описание на входния файл:</font>
-<br><font color="#000000">Първият ред на файла съдържа число - броя на
-примерите. Всеки пример започва с 2 числа - броя на елементите на масива
-N и търсената сума S. След това са дадени N естествени числа - елементите
-на месива.</font>
-<p><font color="#000000">Име на изходния файл: SUM.OUT</font>
-<p><font color="#000000">Описание на изходния файл:</font>
-<br><font color="#000000">За всеки пример на отделен ред се извеждат индексите
-на онези елементи на масива, чиято сума е точно S. Индексирането започва
-от 0 и индексите са наредени по възходящ ред. След всеки пример се оставя
-по един празен ред.</font>
-<p><font color="#000000">Примерен входен файл:</font>
+</p>
+<p><font color="#000000">Р’Р°СЂРёР°РЅС‚ 2:</font>
+<br><font color="#000000">РРјРµ РЅР° РІС…РѕРґРЅРёСЏ С„Р°Р№Р»: SUM.INP</font>
+</p>
+<p><font color="#000000">РћРїРёСЃР°РЅРёРµ РЅР° РІС…РѕРґРЅРёСЏ С„Р°Р№Р»:</font>
+<br><font color="#000000">РџСЉСЂРІРёСЏС‚ СЂРµРґ РЅР° С„Р°Р№Р»Р° СЃСЉРґСЉСЂР¶Р° С‡РёСЃР»Рѕ - Р±СЂРѕСЏ РЅР°
+РїСЂРёРјРµСЂРёС‚Рµ. Р’СЃРµРєРё РїСЂРёРјРµСЂ Р·Р°РїРѕС‡РІР° СЃ 2 С‡РёСЃР»Р° - Р±СЂРѕСЏ РЅР° РµР»РµРјРµРЅС‚РёС‚Рµ РЅР° РјР°СЃРёРІР°
+N Рё С‚СЉСЂСЃРµРЅР°С‚Р° СЃСѓРјР° S. РЎР»РµРґ С‚РѕРІР° СЃР° РґР°РґРµРЅРё N РµСЃС‚РµСЃС‚РІРµРЅРё С‡РёСЃР»Р° - РµР»РµРјРµРЅС‚РёС‚Рµ
+РЅР° РјРµСЃРёРІР°.</font>
+</p>
+<p><font color="#000000">РРјРµ РЅР° РёР·С…РѕРґРЅРёСЏ С„Р°Р№Р»: SUM.OUT</font>
+</p>
+<p><font color="#000000">РћРїРёСЃР°РЅРёРµ РЅР° РёР·С…РѕРґРЅРёСЏ С„Р°Р№Р»:</font>
+<br><font color="#000000">Р—Р° РІСЃРµРєРё РїСЂРёРјРµСЂ РЅР° РѕС‚РґРµР»РµРЅ СЂРµРґ СЃРµ РёР·РІРµР¶РґР°С‚ РёРЅРґРµРєСЃРёС‚Рµ
+РЅР° РѕРЅРµР·Рё РµР»РµРјРµРЅС‚Рё РЅР° РјР°СЃРёРІР°, С‡РёСЏС‚Рѕ СЃСѓРјР° Рµ С‚РѕС‡РЅРѕ S. РРЅРґРµРєСЃРёСЂР°РЅРµС‚Рѕ Р·Р°РїРѕС‡РІР°
+РѕС‚ 0 Рё РёРЅРґРµРєСЃРёС‚Рµ СЃР° РЅР°СЂРµРґРµРЅРё РїРѕ РІСЉР·С…РѕРґСЏС‰ СЂРµРґ. РЎР»РµРґ РІСЃРµРєРё РїСЂРёРјРµСЂ СЃРµ РѕСЃС‚Р°РІСЏ
+РїРѕ РµРґРёРЅ РїСЂР°Р·РµРЅ СЂРµРґ.</font>
+</p>
+<p><font color="#000000">РџСЂРёРјРµСЂРµРЅ РІС…РѕРґРµРЅ С„Р°Р№Р»:</font>
 <br><b><tt><font color="#000000">2</font></tt></b>
 <br><b><tt><font color="#000000">4 1</font></tt></b>
 <br><b><tt><font color="#000000">1 2 3 4</font></tt></b>
 <br><b><tt><font color="#000000">9 1</font></tt></b>
 <br><b><tt><font color="#000000">1 1 1 1 1 1 1 1 1</font></tt></b>
-<p><font color="#000000">Изходен файл за примерния входен файл:</font>
+</p>
+<p><font color="#000000">РР·С…РѕРґРµРЅ С„Р°Р№Р» Р·Р° РїСЂРёРјРµСЂРЅРёСЏ РІС…РѕРґРµРЅ С„Р°Р№Р»:</font>
 <br><b><tt><font color="#000000">0 1 2</font></tt></b>
 <br><b><tt><font color="#000000">1 3</font></tt></b>
+</p>
 <p><b><tt><font color="#000000">0 1 2 3 4 5 6 7 8</font></tt></b>
-<br>&nbsp;
-<p><b><tt><font color="#000099">#include &lt;fstream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br>В 
+</p>
+<p><b><tt><font color="#000099">#include &lt;fstream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">#define inttype unsigned long</font></tt></b>
 <br><b><tt><font color="#000099">#define MAX 100</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int N=4;</font></tt></b>
 <br><b><tt><font color="#000099">int A[MAX]={1,2,3,4};</font></tt></b>
 <br><b><tt><font color="#000099">int SUM = 6;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">ofstream fout("sum.out");</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">inttype two_p(int n)</font></tt></b>
-<br><b><tt><font color="#000099">{ return static_cast&lt;inttype>(pow(2,n));
+<br><b><tt><font color="#000099">{ return static_cast&lt;inttype&gt;(pow(2,n));
 }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void count()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;int b[MAX], nb;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;inttype NN = two_p(N);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;for(inttype i=1; i&lt;NN; i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; int sum=0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; nb = 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; for(int j=0; j&lt;N; j++) if (two_p(j)
+<br><b><tt><font color="#000099">В int b[MAX], nb;</font></tt></b>
+<br><b><tt><font color="#000099">В inttype NN = two_p(N);</font></tt></b>
+<br><b><tt><font color="#000099">В for(inttype i=1; i&lt;NN; i++)</font></tt></b>
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  int sum=0;</font></tt></b>
+<br><b><tt><font color="#000099">В  nb = 0;</font></tt></b>
+<br><b><tt><font color="#000099">В  for(int j=0; j&lt;N; j++) if (two_p(j)
 &amp; i)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; sum+=A[j]; b[nb++]=j;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; if (sum==SUM)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; {</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (int k=0; k&lt;nb; k++)
+<br><b><tt><font color="#000099">В  {</font></tt></b>
+<br><b><tt><font color="#000099">В В  sum+=A[j]; b[nb++]=j;</font></tt></b>
+<br><b><tt><font color="#000099">В  }</font></tt></b>
+<br><b><tt><font color="#000099">В  if (sum==SUM)</font></tt></b>
+<br><b><tt><font color="#000099">В  {</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (int k=0; k&lt;nb; k++)
 fout &lt;&lt; b[k] &lt;&lt; " ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; fout &lt;&lt; endl;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; endl;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
+<br><b><tt><font color="#000099">В В  fout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">В  }</font></tt></b>
+<br><b><tt><font color="#000099">В  cout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">В }</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;ifstream fin("sum.inp");</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;int num;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;fin >> num;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;for (int i=0; i&lt;num; i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; fin >> N >> SUM;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; for (int j=0; j&lt;N; j++) fin
->> A[j];</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; count();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; fout &lt;&lt; endl;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В ifstream fin("sum.inp");</font></tt></b>
+<br><b><tt><font color="#000099">В int num;</font></tt></b>
+<br><b><tt><font color="#000099">В fin &gt;&gt; num;</font></tt></b>
+<br><b><tt><font color="#000099">В for (int i=0; i&lt;num; i++)</font></tt></b>
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  fin &gt;&gt; N &gt;&gt; SUM;</font></tt></b>
+<br><b><tt><font color="#000099">В  for (int j=0; j&lt;N; j++) fin
+&gt;&gt; A[j];</font></tt></b>
+<br><b><tt><font color="#000099">В  count();</font></tt></b>
+<br><b><tt><font color="#000099">В  fout &lt;&lt; endl;</font></tt></b>
+<br><b><tt><font color="#000099">В }</font></tt></b>
+<br><b><tt><font color="#000099">В return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><font color="#000000">Задачи:</font>
-<br><font color="#000000">1. Да се промени програмата така, че да се повиши
-бързодействието й;</font>
-<br><font color="#000000">2. Програмата да може да работи при N=20.</font>
+</p>
+<p><font color="#000000">Р—Р°РґР°С‡Рё:</font>
+<br><font color="#000000">1. Р”Р° СЃРµ РїСЂРѕРјРµРЅРё РїСЂРѕРіСЂР°РјР°С‚Р° С‚Р°РєР°, С‡Рµ РґР° СЃРµ РїРѕРІРёС€Рё
+Р±СЉСЂР·РѕРґРµР№СЃС‚РІРёРµС‚Рѕ Р№;</font>
+<br><font color="#000000">2. РџСЂРѕРіСЂР°РјР°С‚Р° РґР° РјРѕР¶Рµ РґР° СЂР°Р±РѕС‚Рё РїСЂРё N=20.</font>
 <br>
-<hr WIDTH="100%">
-<br>2. Друг вариант на задачата за подмножества.
-<p>Даден е масив A с N елемента - естествени числа и цяло число S.&nbsp;
-Да се намерят елементи на масива, чиято сума е S.
-<p><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
+</p>
+<hr width="100%">
+<br>2. Р”СЂСѓРі РІР°СЂРёР°РЅС‚ РЅР° Р·Р°РґР°С‡Р°С‚Р° Р·Р° РїРѕРґРјРЅРѕР¶РµСЃС‚РІР°.
+<p>Р”Р°РґРµРЅ Рµ РјР°СЃРёРІ A СЃ N РµР»РµРјРµРЅС‚Р° - РµСЃС‚РµСЃС‚РІРµРЅРё С‡РёСЃР»Р° Рё С†СЏР»Рѕ С‡РёСЃР»Рѕ S.В 
+Р”Р° СЃРµ РЅР°РјРµСЂСЏС‚ РµР»РµРјРµРЅС‚Рё РЅР° РјР°СЃРёРІР°, С‡РёСЏС‚Рѕ СЃСѓРјР° Рµ S.
+</p>
+<p><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">const int N=9;</font></tt></b>
 <br><b><tt><font color="#000099">int A[N]={7,7,7,4,5,6,7,8,9};</font></tt></b>
 <br><b><tt><font color="#000099">int SUM = 12;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool count(int s, int m)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (s==0) return true;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (s&lt;0) return false;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;for(int i=m; i&lt;N; i++) if (count(s-A[i],
+<br><b><tt><font color="#000099">В if (s==0) return true;</font></tt></b>
+<br><b><tt><font color="#000099">В if (s&lt;0) return false;</font></tt></b>
+<br><b><tt><font color="#000099">В for(int i=m; i&lt;N; i++) if (count(s-A[i],
 i+1))</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; A[i] &lt;&lt; " ";
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  cout &lt;&lt; A[i] &lt;&lt; " ";
 return true;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;return false;</font></tt></b>
+<br><b><tt><font color="#000099">В }</font></tt></b>
+<br><b><tt><font color="#000099">В return false;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;count(SUM, 0);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cout &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cin.get();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В count(SUM, 0);</font></tt></b>
+<br><b><tt><font color="#000099">В cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">В cin.get();</font></tt></b>
+<br><b><tt><font color="#000099">В return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
 <br>
-<hr WIDTH="100%">
-<br>По-ефективни методи за решаване на подобни задачи
-<p>Задача за раницата
-<br>Динамично оптимиране
+</p>
+<hr width="100%">
+<br>РџРѕ-РµС„РµРєС‚РёРІРЅРё РјРµС‚РѕРґРё Р·Р° СЂРµС€Р°РІР°РЅРµ РЅР° РїРѕРґРѕР±РЅРё Р·Р°РґР°С‡Рё
+<p>Р—Р°РґР°С‡Р° Р·Р° СЂР°РЅРёС†Р°С‚Р°
+<br>Р”РёРЅР°РјРёС‡РЅРѕ РѕРїС‚РёРјРёСЂР°РЅРµ
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

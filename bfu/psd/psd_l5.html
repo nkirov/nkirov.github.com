@@ -1,578 +1,644 @@
-<HTML>
-<HEAD>
-   <META HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=windows-1251">
-   <META NAME="Author" CONTENT="Nikolay Kirov">
-   <META NAME="GENERATOR" CONTENT="Mozilla/4.04 [en] (Win95; I) [Netscape]">
-   <TITLE>Pec2</TITLE>
-</HEAD>
-<BODY>
-
-<HR WIDTH="100%">
-<BR><B>5. ���������</B>
-<BR><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER>&nbsp; ���������
-���� ��������
-<BR>&nbsp;�������� ���-������ ������� � �� ��������� �� �����.
-<BR><B><TT><FONT COLOR="#993300">// selsort.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void swap(int&amp; x, int&amp; y)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; int temp = x;&nbsp;&nbsp; x =
-y;&nbsp;&nbsp; y = temp;&nbsp; }</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int min_position(vector&lt;int>&amp; a,
-int from, int to)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int min_pos = from;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = from + 1; i &lt;=
-to; i++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
-(a[i] &lt; a[min_pos]) min_pos = i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return min_pos;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void selection_sort(vector&lt;int>&amp;
-a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int next; /* the next position
-to be set to the minimum */</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (next = 0; next &lt; a.size()
-- 1; next++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; /* find the position
-of the minimum */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int min_pos
-= min_position(a, next, a.size() - 1);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (min_pos
-!= next)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-swap(a[min_pos], a[next]);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void print(vector&lt;int> a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
-i++) cout &lt;&lt; a[i] &lt;&lt; " ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);
-}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
-i++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; v[i] = rand_int(1, 100);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; selection_sort(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ���������
-�� ������� �� ������ � ������ ��&nbsp; ������������� �� ���������� �� ���������
-����&nbsp; ��������<B><TT><FONT COLOR="#993300"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#993300">// sorttime.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">#include "ccc_time.cpp"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void swap(int&amp; x, int&amp; y)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; int temp = x;&nbsp;&nbsp; x =
-y;&nbsp;&nbsp; y = temp;&nbsp; }</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int min_position(vector&lt;int>&amp; a,
-int from, int to)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int min_pos = from;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = from + 1; i &lt;=
-to; i++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
-(a[i] &lt; a[min_pos]) min_pos = i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return min_pos;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void selection_sort(vector&lt;int>&amp;
-a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int next;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (next = 0; next &lt;
-a.size() - 1; next++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int min_pos
-= min_position(a, next, a.size() - 1);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (min_pos
-!= next)&nbsp; swap(a[min_pos], a[next]);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* PURPOSE: Set the seed of the random
-number generator</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">*/</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;
-}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter vector
-size: ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
-i++) v[i] = rand_int(1, 100);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time before;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; selection_sort(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time after;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Elapsed time
-= " &lt;&lt; after.seconds_from(before)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&lt;&lt; " seconds\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ���������
-���� �������
-<BR><B><TT><FONT COLOR="#993300">// mergesort.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void merge(vector&lt;int>&amp; a, int from,
-int mid, int to)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n = to - from + 1; /*
-size of the range to be merged */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* merge both halves into a temporary
-vector b */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> b(n);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i1 = from;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* next element to consider in the first
-half */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i2 = mid + 1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* next element to consider in the second
-half */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int j = 0; /* next open position
-in b */</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">/* as long as neither i1 nor i2 past the
-end, move the smaller&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; element into b */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (i1 &lt;= mid &amp;&amp;
-i2 &lt;= to)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; if (a[i1] &lt; a[i2])&nbsp;&nbsp;&nbsp;
-{&nbsp; b[j] = a[i1];&nbsp;&nbsp; i1++;&nbsp;&nbsp; }</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-{&nbsp; b[j] = a[i2];&nbsp;&nbsp; i2++;&nbsp;&nbsp; }</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; j++;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* note that only one of the two while
-loops below is executed */</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">/* copy any remaining entries of the first
-half */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (i1 &lt;= mid)&nbsp;&nbsp;
-{&nbsp; b[j] = a[i1];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i1++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-j++;&nbsp;&nbsp; }</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">/* copy any remaining entries of the second
-half */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; while (i2 &lt;= to)&nbsp;&nbsp;
-{&nbsp; b[j] = a[i2];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i2++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-j++;&nbsp;&nbsp; }</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">/* copy back from the temporary vector
-*/</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (j = 0; j &lt; n; j++)&nbsp;&nbsp;
-a[from + j] = b[j];</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void merge_sort(vector&lt;int>&amp; a,
-int from, int to)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (from == to) return;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int mid = (from + to) / 2;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* sort the first and the second half
-*/</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge_sort(a, from, mid);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge_sort(a, mid + 1, to);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge(a, from, mid, to);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void print(vector&lt;int> a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
-i++)&nbsp; cout &lt;&lt; a[i] &lt;&lt; " ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;&nbsp;
-}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
-i++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v[i] =
-rand_int(1, 100);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; merge_sort(v, 0, v.size()
-- 1);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ������ ��
-���������� �� ��������� ���� �������
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ������� �
-����������� � ��������� �����
-<BR><B><TT><FONT COLOR="#993300">// lsearch.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int linear_search(vector&lt;int> v, int
-a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
-i++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
-(v[i] == a) return i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return -1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void print(vector&lt;int> a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
-i++)&nbsp; cout &lt;&lt; a[i] &lt;&lt; " ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;
-}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; v.size();
-i++) v[i] = rand_int(1, 100);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter number
-to search for: ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int j = linear_search(v,
-n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Found in position
-" &lt;&lt; j &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ������� �������
-<BR><B><TT><FONT COLOR="#993300">// bsearch.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;cstdlib></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;ctime></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int binary_search(vector&lt;int> v, int
-from, int to, int a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (from > to)&nbsp; return
--1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int mid = (from + to) / 2;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int diff = v[mid] - a;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (diff == 0) return mid;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/* v[mid] == a */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else if (diff &lt; 0)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/* v[mid] &lt; a */</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
-binary_search(v, mid + 1, to, a);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
-binary_search(v, from, mid - 1, a);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void print(vector&lt;int> a)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 0; i &lt; a.size();
-i++) cout &lt;&lt; a[i] &lt;&lt; " ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">void rand_seed()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; srand(seed);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int rand_int(int a, int b)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; return a + rand() % (b - a + 1);&nbsp;
-}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; rand_seed();</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;int> v(20);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; v[0] = 1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 1; i &lt; v.size();
-i++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-v[i] = v[i - 1] + rand_int(1, 10);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; print(v);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter number
-to search for: ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int j = binary_search(v,
-0, v.size() - 1, n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Found in position
-" &lt;&lt; j &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ������� �
-��������� �� ������ �����
-<BR><B><TT><FONT COLOR="#993300">// esearch.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;vector></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">#include "ccc_empl.cpp"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int binary_search(vector&lt;Employee> v,
-int from, int to, string n)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (from > to) return -1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int mid = (from + to) / 2;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (v[mid].get_name() ==
-n)&nbsp; return mid;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else if (v[mid].get_name()
-&lt; n)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
-binary_search(v, mid + 1, to, n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
-binary_search(v, from, mid - 1, n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; vector&lt;Employee> staff(5);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; staff[0] = Employee("Cracker,
-Carl", 48000.0);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; staff[1] = Employee("Hacker,
-Harry", 35000.0);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; staff[2] = Employee("Lam,
-Larry", 78000.0);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; staff[3] = Employee("Reindeer,
-Rudolf", 63000.0);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; staff[4] = Employee("Sandman,
-Susan", 51500.0);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter name
-of employee to search for: ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; string name;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; getline(cin, name);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i = binary_search(staff,
-0, staff.size() - 1, name);</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (i >= 0)&nbsp; cout &lt;&lt;
-staff[i].get_name() &lt;&lt; " "</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&lt;&lt; staff[i].get_salary() &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-cout &lt;&lt; "Not found.\n";</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ����� ���������
-<BR><B><TT><FONT COLOR="#000099">u</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> ������� ��������
-<BR><B><TT><FONT COLOR="#000099">u</FONT></TT></B>
-
-<P><IMG SRC="bullet.gif" HEIGHT=18 WIDTH=20 ALIGN=ABSCENTER> �����������
-�� ����������
-<BR><B><TT><FONT COLOR="#993300">// fibtime.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">#include "ccc_time.cpp"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">long fib(int n)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* PURPOSE:&nbsp; Compute a Fibonacci
-number</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; RECEIVES: n - an integer</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; RETURNS:&nbsp; the nth Fibonacci
-number</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">*/</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; if (n &lt;= 2) return 1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else return fib(n - 1) +
-fib(n - 2);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; cout &lt;&lt; "Enter n: ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time before;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; long f = fib(n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time after;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "fib(" &lt;&lt;
-n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Elapsed time
-= " &lt;&lt; after.seconds_from(before)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
-" seconds\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#993300">// fibtrace.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">long fib(int n)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* PURPOSE:&nbsp; Compute a Fibonacci
-number</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; RECEIVES: n - an integer</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; RETURNS:&nbsp; the nth Fibonacci
-number</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">*/</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; cout &lt;&lt; "Entering fib: n
-= " &lt;&lt; n &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; long f;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; if (n &lt;= 2) f = 1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; else f = fib(n - 1) + fib(n
-- 2);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Exiting fib:
-n = " &lt;&lt; n</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
-" return value = " &lt;&lt; f &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return f;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; cout &lt;&lt; "Enter n: ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; long f = fib(n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "fib(" &lt;&lt;
-n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P>&nbsp;
-<BR><B><TT><FONT COLOR="#993300">// fibloop.cpp</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">#include &lt;iostream></FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">using namespace std;</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">#include "ccc_time.cpp"</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">long fib(int n)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">/* PURPOSE:&nbsp; Compute a Fibonacci
-number</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; RECEIVES: n - an integer</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; RETURNS:&nbsp; the nth Fibonacci
-number</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">*/</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; if (n &lt;= 2) return 1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; long fold = 1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; long fold2 = 1;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int i;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; long fnew;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; for (i = 3; i &lt;= n; i++)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; {&nbsp; fnew = fold + fold2;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fold2 =
-fold;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fold =
-fnew;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; }</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return fnew;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B><B><TT><FONT COLOR="#000099"></FONT></TT></B>
-
-<P><B><TT><FONT COLOR="#000099">int main()</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">{&nbsp; cout &lt;&lt; "Enter n: ";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; int n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cin >> n;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time before;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; long f = fib(n);</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; Time after;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "fib(" &lt;&lt;
-n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; cout &lt;&lt; "Elapsed time
-= " &lt;&lt; after.seconds_from(before)</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
-" seconds\n";</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">&nbsp;&nbsp; return 0;</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099">}</FONT></TT></B>
-<BR><B><TT><FONT COLOR="#000099"></FONT></TT></B>&nbsp;
-
-<P>
-<HR WIDTH="100%">
-</BODY>
-</HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN" "http://www.w3.org/TR/REC-html40/loose.dtd">
+<html>
+<head>
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+   <meta name="Author" content="Nikolay Kirov">
+   <meta name="GENERATOR" content="Mozilla/4.04 [en] (Win95; I) [Netscape]">
+   <title>Pec2</title>
+</head>
+<body>
+
+<hr width="100%">
+<br><b>5. Алгоритми</b>
+<br><img src="bullet.gif" height="18" width="20" align="ABSCENTER">  Сортиране
+чрез селекция
+<br> Намираме най-малкия елемент и го поставяме на място.
+<br><b><tt><font color="#993300">// selsort.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+<p><b><tt><font color="#000099">void swap(int&amp; x, int&amp; y)</font></tt></b>
+<br><b><tt><font color="#000099">{  int temp = x;   x =
+y;   y = temp;  }</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int min_position(vector&lt;int&gt;&amp; a,
+int from, int to)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int min_pos = from;</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = from + 1; i &lt;=
+to; i++)</font></tt></b>
+<br><b><tt><font color="#000099">       if
+(a[i] &lt; a[min_pos]) min_pos = i;</font></tt></b>
+<br><b><tt><font color="#000099">   return min_pos;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void selection_sort(vector&lt;int&gt;&amp;
+a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int next; /* the next position
+to be set to the minimum */</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">   for (next = 0; next &lt; a.size()
+- 1; next++)</font></tt></b>
+<br><b><tt><font color="#000099">   {  /* find the position
+of the minimum */</font></tt></b>
+<br><b><tt><font color="#000099">      int min_pos
+= min_position(a, next, a.size() - 1);</font></tt></b>
+<br><b><tt><font color="#000099">      if (min_pos
+!= next)</font></tt></b>
+<br><b><tt><font color="#000099">        
+swap(a[min_pos], a[next]);</font></tt></b>
+<br><b><tt><font color="#000099">   }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void print(vector&lt;int&gt; a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; a.size();
+i++) cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">   srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
+<br><b><tt><font color="#000099">{  return a + rand() % (b - a + 1);
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">   vector&lt;int&gt; v(20);</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; v.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">   v[i] = rand_int(1, 100);</font></tt></b>
+<br><b><tt><font color="#000099">   print(v);</font></tt></b>
+<br><b><tt><font color="#000099">   selection_sort(v);</font></tt></b>
+<br><b><tt><font color="#000099">   print(v);</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Измерване
+на времето за работа и анализ на  ефективността на алгоритъма за сортиране
+чрез  селекция<b><tt><font color="#993300"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#993300">// sorttime.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void swap(int&amp; x, int&amp; y)</font></tt></b>
+<br><b><tt><font color="#000099">{  int temp = x;   x =
+y;   y = temp;  }</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int min_position(vector&lt;int&gt;&amp; a,
+int from, int to)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int min_pos = from;</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = from + 1; i &lt;=
+to; i++)</font></tt></b>
+<br><b><tt><font color="#000099">       if
+(a[i] &lt; a[min_pos]) min_pos = i;</font></tt></b>
+<br><b><tt><font color="#000099">   return min_pos;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void selection_sort(vector&lt;int&gt;&amp;
+a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int next;</font></tt></b>
+<br><b><tt><font color="#000099">   for (next = 0; next &lt;
+a.size() - 1; next++)</font></tt></b>
+<br><b><tt><font color="#000099">   {</font></tt></b>
+<br><b><tt><font color="#000099">      int min_pos
+= min_position(a, next, a.size() - 1);</font></tt></b>
+<br><b><tt><font color="#000099">      if (min_pos
+!= next)  swap(a[min_pos], a[next]);</font></tt></b>
+<br><b><tt><font color="#000099">   }</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
+<br><b><tt><font color="#000099">/* PURPOSE: Set the seed of the random
+number generator</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{  int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">   srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
+<br><b><tt><font color="#000099">{  return a + rand() % (b - a + 1); 
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Enter vector
+size: ";</font></tt></b>
+<br><b><tt><font color="#000099">   int n;</font></tt></b>
+<br><b><tt><font color="#000099">   cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">   vector&lt;int&gt; v(n);</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; v.size();
+i++) v[i] = rand_int(1, 100);</font></tt></b>
+<br><b><tt><font color="#000099">   Time before;</font></tt></b>
+<br><b><tt><font color="#000099">   selection_sort(v);</font></tt></b>
+<br><b><tt><font color="#000099">   Time after;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">   cout &lt;&lt; "Elapsed time
+= " &lt;&lt; after.seconds_from(before)</font></tt></b>
+<br><b><tt><font color="#000099">       
+&lt;&lt; " seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Сортиране
+чрез сливане
+<br><b><tt><font color="#993300">// mergesort.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void merge(vector&lt;int&gt;&amp; a, int from,
+int mid, int to)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int n = to - from + 1; /*
+size of the range to be merged */</font></tt></b>
+<br><b><tt><font color="#000099">/* merge both halves into a temporary
+vector b */</font></tt></b>
+<br><b><tt><font color="#000099">   vector&lt;int&gt; b(n);</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">   int i1 = from;</font></tt></b>
+<br><b><tt><font color="#000099">/* next element to consider in the first
+half */</font></tt></b>
+<br><b><tt><font color="#000099">   int i2 = mid + 1;</font></tt></b>
+<br><b><tt><font color="#000099">/* next element to consider in the second
+half */</font></tt></b>
+<br><b><tt><font color="#000099">   int j = 0; /* next open position
+in b */</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">/* as long as neither i1 nor i2 past the
+end, move the smaller      element into b */</font></tt></b>
+<br><b><tt><font color="#000099">   while (i1 &lt;= mid &amp;&amp;
+i2 &lt;= to)</font></tt></b>
+<br><b><tt><font color="#000099">   {  if (a[i1] &lt; a[i2])   
+{  b[j] = a[i1];   i1++;   }</font></tt></b>
+<br><b><tt><font color="#000099">      else                 
+{  b[j] = a[i2];   i2++;   }</font></tt></b>
+<br><b><tt><font color="#000099">      j++;</font></tt></b>
+<br><b><tt><font color="#000099">   }</font></tt></b>
+<br><b><tt><font color="#000099">/* note that only one of the two while
+loops below is executed */</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">/* copy any remaining entries of the first
+half */</font></tt></b>
+<br><b><tt><font color="#000099">   while (i1 &lt;= mid)  
+{  b[j] = a[i1];      i1++;     
+j++;   }</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">/* copy any remaining entries of the second
+half */</font></tt></b>
+<br><b><tt><font color="#000099">   while (i2 &lt;= to)  
+{  b[j] = a[i2];      i2++;     
+j++;   }</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">/* copy back from the temporary vector
+*/</font></tt></b>
+<br><b><tt><font color="#000099">   for (j = 0; j &lt; n; j++)  
+a[from + j] = b[j];</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void merge_sort(vector&lt;int&gt;&amp; a,
+int from, int to)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   if (from == to) return;</font></tt></b>
+<br><b><tt><font color="#000099">   int mid = (from + to) / 2;</font></tt></b>
+<br><b><tt><font color="#000099">/* sort the first and the second half
+*/</font></tt></b>
+<br><b><tt><font color="#000099">   merge_sort(a, from, mid);</font></tt></b>
+<br><b><tt><font color="#000099">   merge_sort(a, mid + 1, to);</font></tt></b>
+<br><b><tt><font color="#000099">   merge(a, from, mid, to);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void print(vector&lt;int&gt; a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; a.size();
+i++)  cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">   srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
+<br><b><tt><font color="#000099">{  return a + rand() % (b - a + 1);  
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">   vector&lt;int&gt; v(20);</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; v.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">      v[i] =
+rand_int(1, 100);</font></tt></b>
+<br><b><tt><font color="#000099">   print(v);</font></tt></b>
+<br><b><tt><font color="#000099">   merge_sort(v, 0, v.size()
+- 1);</font></tt></b>
+<br><b><tt><font color="#000099">   print(v);</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Анализ на
+алгоритъма за сортиране чрез сливане
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Търсене в
+несортирани и сортирани данни
+<br><b><tt><font color="#993300">// lsearch.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int linear_search(vector&lt;int&gt; v, int
+a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; v.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">       if
+(v[i] == a) return i;</font></tt></b>
+<br><b><tt><font color="#000099">   return -1;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void print(vector&lt;int&gt; a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; a.size();
+i++)  cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">   srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
+<br><b><tt><font color="#000099">{  return a + rand() % (b - a + 1); 
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">   vector&lt;int&gt; v(20);</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; v.size();
+i++) v[i] = rand_int(1, 100);</font></tt></b>
+<br><b><tt><font color="#000099">   print(v);</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Enter number
+to search for: ";</font></tt></b>
+<br><b><tt><font color="#000099">   int n;</font></tt></b>
+<br><b><tt><font color="#000099">   cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">   int j = linear_search(v,
+n);</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Found in position
+" &lt;&lt; j &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Двоично търсене
+<br><b><tt><font color="#993300">// bsearch.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int binary_search(vector&lt;int&gt; v, int
+from, int to, int a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   if (from &gt; to)  return
+-1;</font></tt></b>
+<br><b><tt><font color="#000099">   int mid = (from + to) / 2;</font></tt></b>
+<br><b><tt><font color="#000099">   int diff = v[mid] - a;</font></tt></b>
+<br><b><tt><font color="#000099">   if (diff == 0) return mid;         
+/* v[mid] == a */</font></tt></b>
+<br><b><tt><font color="#000099">   else if (diff &lt; 0)                 
+/* v[mid] &lt; a */</font></tt></b>
+<br><b><tt><font color="#000099">      return
+binary_search(v, mid + 1, to, a);</font></tt></b>
+<br><b><tt><font color="#000099">   else</font></tt></b>
+<br><b><tt><font color="#000099">      return
+binary_search(v, from, mid - 1, a);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void print(vector&lt;int&gt; a)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 0; i &lt; a.size();
+i++) cout &lt;&lt; a[i] &lt;&lt; " ";</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">   srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int rand_int(int a, int b)</font></tt></b>
+<br><b><tt><font color="#000099">{  return a + rand() % (b - a + 1); 
+}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">   vector&lt;int&gt; v(20);</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   v[0] = 1;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 1; i &lt; v.size();
+i++)</font></tt></b>
+<br><b><tt><font color="#000099">       
+v[i] = v[i - 1] + rand_int(1, 10);</font></tt></b>
+<br><b><tt><font color="#000099">   print(v);</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Enter number
+to search for: ";</font></tt></b>
+<br><b><tt><font color="#000099">   int n;</font></tt></b>
+<br><b><tt><font color="#000099">   cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">   int j = binary_search(v,
+0, v.size() - 1, n);</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Found in position
+" &lt;&lt; j &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Търсене и
+сортиране на реални данни
+<br><b><tt><font color="#993300">// esearch.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">#include "ccc_empl.cpp"</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int binary_search(vector&lt;Employee&gt; v,
+int from, int to, string n)</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   if (from &gt; to) return -1;</font></tt></b>
+<br><b><tt><font color="#000099">   int mid = (from + to) / 2;</font></tt></b>
+<br><b><tt><font color="#000099">   if (v[mid].get_name() ==
+n)  return mid;</font></tt></b>
+<br><b><tt><font color="#000099">   else if (v[mid].get_name()
+&lt; n)</font></tt></b>
+<br><b><tt><font color="#000099">      return
+binary_search(v, mid + 1, to, n);</font></tt></b>
+<br><b><tt><font color="#000099">   else</font></tt></b>
+<br><b><tt><font color="#000099">      return
+binary_search(v, from, mid - 1, n);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{</font></tt></b>
+<br><b><tt><font color="#000099">   vector&lt;Employee&gt; staff(5);</font></tt></b>
+<br><b><tt><font color="#000099">   staff[0] = Employee("Cracker,
+Carl", 48000.0);</font></tt></b>
+<br><b><tt><font color="#000099">   staff[1] = Employee("Hacker,
+Harry", 35000.0);</font></tt></b>
+<br><b><tt><font color="#000099">   staff[2] = Employee("Lam,
+Larry", 78000.0);</font></tt></b>
+<br><b><tt><font color="#000099">   staff[3] = Employee("Reindeer,
+Rudolf", 63000.0);</font></tt></b>
+<br><b><tt><font color="#000099">   staff[4] = Employee("Sandman,
+Susan", 51500.0);</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">   cout &lt;&lt; "Enter name
+of employee to search for: ";</font></tt></b>
+<br><b><tt><font color="#000099">   string name;</font></tt></b>
+<br><b><tt><font color="#000099">   getline(cin, name);</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">   int i = binary_search(staff,
+0, staff.size() - 1, name);</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">   if (i &gt;= 0)  cout &lt;&lt;
+staff[i].get_name() &lt;&lt; " "</font></tt></b>
+<br><b><tt><font color="#000099">                    
+&lt;&lt; staff[i].get_salary() &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   else        
+cout &lt;&lt; "Not found.\n";</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Бързо сортиране
+<br><b><tt><font color="#000099">u</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Непряка рекурсия
+<br><b><tt><font color="#000099">u</font></tt></b>
+
+</p>
+<p><img src="bullet.gif" height="18" width="20" align="ABSCENTER"> Ефективност
+на рекурсията
+<br><b><tt><font color="#993300">// fibtime.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">/* PURPOSE:  Compute a Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">   RECEIVES: n - an integer</font></tt></b>
+<br><b><tt><font color="#000099">   RETURNS:  the nth Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{  if (n &lt;= 2) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">   else return fib(n - 1) +
+fib(n - 2);</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{  cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">   int n;</font></tt></b>
+<br><b><tt><font color="#000099">   cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">   Time before;</font></tt></b>
+<br><b><tt><font color="#000099">   long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">   Time after;</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "fib(" &lt;&lt;
+n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Elapsed time
+= " &lt;&lt; after.seconds_from(before)</font></tt></b>
+<br><b><tt><font color="#000099">      &lt;&lt;
+" seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#993300">// fibtrace.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">/* PURPOSE:  Compute a Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">   RECEIVES: n - an integer</font></tt></b>
+<br><b><tt><font color="#000099">   RETURNS:  the nth Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{  cout &lt;&lt; "Entering fib: n
+= " &lt;&lt; n &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   long f;</font></tt></b>
+<br><b><tt><font color="#000099">   if (n &lt;= 2) f = 1;</font></tt></b>
+<br><b><tt><font color="#000099">   else f = fib(n - 1) + fib(n
+- 2);</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Exiting fib:
+n = " &lt;&lt; n</font></tt></b>
+<br><b><tt><font color="#000099">      &lt;&lt;
+" return value = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   return f;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{  cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">   int n;</font></tt></b>
+<br><b><tt><font color="#000099">   cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">   long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "fib(" &lt;&lt;
+n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p> 
+<br><b><tt><font color="#993300">// fibloop.cpp</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">using namespace std;</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">long fib(int n)</font></tt></b>
+<br><b><tt><font color="#000099">/* PURPOSE:  Compute a Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">   RECEIVES: n - an integer</font></tt></b>
+<br><b><tt><font color="#000099">   RETURNS:  the nth Fibonacci
+number</font></tt></b>
+<br><b><tt><font color="#000099">*/</font></tt></b>
+<br><b><tt><font color="#000099">{  if (n &lt;= 2) return 1;</font></tt></b>
+<br><b><tt><font color="#000099">   long fold = 1;</font></tt></b>
+<br><b><tt><font color="#000099">   long fold2 = 1;</font></tt></b>
+<br><b><tt><font color="#000099">   int i;</font></tt></b>
+<br><b><tt><font color="#000099">   long fnew;</font></tt></b>
+<br><b><tt><font color="#000099">   for (i = 3; i &lt;= n; i++)</font></tt></b>
+<br><b><tt><font color="#000099">   {  fnew = fold + fold2;</font></tt></b>
+<br><b><tt><font color="#000099">      fold2 =
+fold;</font></tt></b>
+<br><b><tt><font color="#000099">      fold =
+fnew;</font></tt></b>
+<br><b><tt><font color="#000099">   }</font></tt></b>
+<br><b><tt><font color="#000099">   return fnew;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b><b><tt><font color="#000099"></font></tt></b>
+
+</p>
+<p><b><tt><font color="#000099">int main()</font></tt></b>
+<br><b><tt><font color="#000099">{  cout &lt;&lt; "Enter n: ";</font></tt></b>
+<br><b><tt><font color="#000099">   int n;</font></tt></b>
+<br><b><tt><font color="#000099">   cin &gt;&gt; n;</font></tt></b>
+<br><b><tt><font color="#000099">   Time before;</font></tt></b>
+<br><b><tt><font color="#000099">   long f = fib(n);</font></tt></b>
+<br><b><tt><font color="#000099">   Time after;</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "fib(" &lt;&lt;
+n &lt;&lt; ") = " &lt;&lt; f &lt;&lt; "\n";</font></tt></b>
+<br><b><tt><font color="#000099">   cout &lt;&lt; "Elapsed time
+= " &lt;&lt; after.seconds_from(before)</font></tt></b>
+<br><b><tt><font color="#000099">      &lt;&lt;
+" seconds\n";</font></tt></b>
+<br><b><tt><font color="#000099">   return 0;</font></tt></b>
+<br><b><tt><font color="#000099">}</font></tt></b>
+<br><b><tt><font color="#000099"></font></tt></b> 
+
+</p>
+<p>
+</p>
+<hr width="100%">
+</body>
+</html>

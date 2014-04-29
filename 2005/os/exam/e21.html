@@ -1,111 +1,117 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>os6</title>
 </head>
 <body>
-<b>21. Планиране (разписание) на един процесор</b>
-<br><b>Типове планирания. Алгоритми за планиране.</b><b></b>
-<p>&nbsp;&nbsp;&nbsp; Цели:
-<br>&nbsp; - бързи отговори на интерактивните потребители;
-<br>&nbsp; - бързо изпълнение на заданията;
-<br>&nbsp; - ефективно използване на процесора.
-<p><b>9.1 Типове планирания</b>
-<br>&nbsp;
-<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<b>21. РџР»Р°РЅРёСЂР°РЅРµ (СЂР°Р·РїРёСЃР°РЅРёРµ) РЅР° РµРґРёРЅ РїСЂРѕС†РµСЃРѕСЂ</b>
+<br><b>РўРёРїРѕРІРµ РїР»Р°РЅРёСЂР°РЅРёСЏ. РђР»РіРѕСЂРёС‚РјРё Р·Р° РїР»Р°РЅРёСЂР°РЅРµ.</b><b></b>
+<p>В В В  Р¦РµР»Рё:
+<br>В  - Р±СЉСЂР·Рё РѕС‚РіРѕРІРѕСЂРё РЅР° РёРЅС‚РµСЂР°РєС‚РёРІРЅРёС‚Рµ РїРѕС‚СЂРµР±РёС‚РµР»Рё;
+<br>В  - Р±СЉСЂР·Рѕ РёР·РїСЉР»РЅРµРЅРёРµ РЅР° Р·Р°РґР°РЅРёСЏС‚Р°;
+<br>В  - РµС„РµРєС‚РёРІРЅРѕ РёР·РїРѕР»Р·РІР°РЅРµ РЅР° РїСЂРѕС†РµСЃРѕСЂР°.
+</p>
+<p><b>9.1 РўРёРїРѕРІРµ РїР»Р°РЅРёСЂР°РЅРёСЏ</b>
+<br>В 
+</p>
+<table border cellspacing="0" cellpadding="4" width="100%">
 <tr>
-<td>Дългосрочно планиране</td>
+<td>Р”СЉР»РіРѕСЃСЂРѕС‡РЅРѕ РїР»Р°РЅРёСЂР°РЅРµ</td>
 
-<td>Решение да се добави процес към списъка от процеси за изпълнение.</td>
+<td>Р РµС€РµРЅРёРµ РґР° СЃРµ РґРѕР±Р°РІРё РїСЂРѕС†РµСЃ РєСЉРј СЃРїРёСЃСЉРєР° РѕС‚ РїСЂРѕС†РµСЃРё Р·Р° РёР·РїСЉР»РЅРµРЅРёРµ.</td>
 </tr>
 
 <tr>
-<td>Средносрочно планиране</td>
+<td>РЎСЂРµРґРЅРѕСЃСЂРѕС‡РЅРѕ РїР»Р°РЅРёСЂР°РЅРµ</td>
 
-<td>Решение да се добави процес към процесите, които са частично или напълно
-в паметта.</td>
+<td>Р РµС€РµРЅРёРµ РґР° СЃРµ РґРѕР±Р°РІРё РїСЂРѕС†РµСЃ РєСЉРј РїСЂРѕС†РµСЃРёС‚Рµ, РєРѕРёС‚Рѕ СЃР° С‡Р°СЃС‚РёС‡РЅРѕ РёР»Рё РЅР°РїСЉР»РЅРѕ
+РІ РїР°РјРµС‚С‚Р°.</td>
 </tr>
 
 <tr>
-<td>Краткосрочно планиране</td>
+<td>РљСЂР°С‚РєРѕСЃСЂРѕС‡РЅРѕ РїР»Р°РЅРёСЂР°РЅРµ</td>
 
-<td>Решение кой процес да бъде изпълняван от процесора.</td>
+<td>Р РµС€РµРЅРёРµ РєРѕР№ РїСЂРѕС†РµСЃ РґР° Р±СЉРґРµ РёР·РїСЉР»РЅСЏРІР°РЅ РѕС‚ РїСЂРѕС†РµСЃРѕСЂР°.</td>
 </tr>
 
 <tr>
-<td>I/O планиране</td>
+<td>I/O РїР»Р°РЅРёСЂР°РЅРµ</td>
 
-<td>Решение кой процес, чакащ за I/O ресурс, да му бъде даден свободен
-ресурс.&nbsp;</td>
+<td>Р РµС€РµРЅРёРµ РєРѕР№ РїСЂРѕС†РµСЃ, С‡Р°РєР°С‰ Р·Р° I/O СЂРµСЃСѓСЂСЃ, РґР° РјСѓ Р±СЉРґРµ РґР°РґРµРЅ СЃРІРѕР±РѕРґРµРЅ
+СЂРµСЃСѓСЂСЃ.В </td>
 </tr>
 </table>
 
-<p>--- FIGURE 9.1 ---&nbsp;&nbsp; --- FIGURE 9.2 ---&nbsp;&nbsp;&nbsp;
+<p>--- FIGURE 9.1 ---В В  --- FIGURE 9.2 ---В В В 
 --- FIGURE 9.3 ---
-<p>** Дългосрочно планиране.
-<br>&nbsp;&nbsp;&nbsp; Многопрограмна система - "степен на многопрограмност".
-<br>&nbsp;&nbsp;&nbsp; Преобразуване на задание в процес:
-<br>&nbsp; - кога да се създаде нов процес?
-<br>&nbsp; - кое задание да се преобразува в процес?
-<br>** Средносрочно планиране - част от прехвърлящата функция (swaping
-function), виртуална памет.
-<br>** Краткосрочно планиране - работа на диспечера.
-<br>&nbsp;&nbsp;&nbsp; Диспечерът се задейства при следните събития:
-<br>&nbsp;&nbsp;&nbsp; - прекъсване на часовника;
-<br>&nbsp;&nbsp;&nbsp; - I/O прекъсване;
-<br>&nbsp;&nbsp;&nbsp; - извиквания на функции на ОС;
-<br>&nbsp;&nbsp;&nbsp; - сигнали.
+</p>
+<p>** Р”СЉР»РіРѕСЃСЂРѕС‡РЅРѕ РїР»Р°РЅРёСЂР°РЅРµ.
+<br>В В В  РњРЅРѕРіРѕРїСЂРѕРіСЂР°РјРЅР° СЃРёСЃС‚РµРјР° - "СЃС‚РµРїРµРЅ РЅР° РјРЅРѕРіРѕРїСЂРѕРіСЂР°РјРЅРѕСЃС‚".
+<br>В В В  РџСЂРµРѕР±СЂР°Р·СѓРІР°РЅРµ РЅР° Р·Р°РґР°РЅРёРµ РІ РїСЂРѕС†РµСЃ:
+<br>В  - РєРѕРіР° РґР° СЃРµ СЃСЉР·РґР°РґРµ РЅРѕРІ РїСЂРѕС†РµСЃ?
+<br>В  - РєРѕРµ Р·Р°РґР°РЅРёРµ РґР° СЃРµ РїСЂРµРѕР±СЂР°Р·СѓРІР° РІ РїСЂРѕС†РµСЃ?
+<br>** РЎСЂРµРґРЅРѕСЃСЂРѕС‡РЅРѕ РїР»Р°РЅРёСЂР°РЅРµ - С‡Р°СЃС‚ РѕС‚ РїСЂРµС…РІСЉСЂР»СЏС‰Р°С‚Р° С„СѓРЅРєС†РёСЏ (swaping
+function), РІРёСЂС‚СѓР°Р»РЅР° РїР°РјРµС‚.
+<br>** РљСЂР°С‚РєРѕСЃСЂРѕС‡РЅРѕ РїР»Р°РЅРёСЂР°РЅРµ - СЂР°Р±РѕС‚Р° РЅР° РґРёСЃРїРµС‡РµСЂР°.
+<br>В В В  Р”РёСЃРїРµС‡РµСЂСЉС‚ СЃРµ Р·Р°РґРµР№СЃС‚РІР° РїСЂРё СЃР»РµРґРЅРёС‚Рµ СЃСЉР±РёС‚РёСЏ:
+<br>В В В  - РїСЂРµРєСЉСЃРІР°РЅРµ РЅР° С‡Р°СЃРѕРІРЅРёРєР°;
+<br>В В В  - I/O РїСЂРµРєСЉСЃРІР°РЅРµ;
+<br>В В В  - РёР·РІРёРєРІР°РЅРёСЏ РЅР° С„СѓРЅРєС†РёРё РЅР° РћРЎ;
+<br>В В В  - СЃРёРіРЅР°Р»Рё.
 <br>
-<hr WIDTH="100%">
-<br><b>9.2 Алгоритми за планиране</b>
-<br>** Критерии за краткосрочно планиране:
-<br>&nbsp;-- ориентирани към потребителя (user-oriented);
-<br>&nbsp;-- ориентирани към системата (system-oriented).
-<br>** Използване на приоритети.
+</p>
+<hr width="100%">
+<br><b>9.2 РђР»РіРѕСЂРёС‚РјРё Р·Р° РїР»Р°РЅРёСЂР°РЅРµ</b>
+<br>** РљСЂРёС‚РµСЂРёРё Р·Р° РєСЂР°С‚РєРѕСЃСЂРѕС‡РЅРѕ РїР»Р°РЅРёСЂР°РЅРµ:
+<br>В -- РѕСЂРёРµРЅС‚РёСЂР°РЅРё РєСЉРј РїРѕС‚СЂРµР±РёС‚РµР»СЏ (user-oriented);
+<br>В -- РѕСЂРёРµРЅС‚РёСЂР°РЅРё РєСЉРј СЃРёСЃС‚РµРјР°С‚Р° (system-oriented).
+<br>** РР·РїРѕР»Р·РІР°РЅРµ РЅР° РїСЂРёРѕСЂРёС‚РµС‚Рё.
 <br>--- FIGURE 9.4 ---
 <p>
-<hr WIDTH="100%">** Алтернативи за политика на планиране.
-<br>* Първи дошел, първи обслужен (First Come First Served - FCFS)
-<br>* Кръгово (Round Robin - RR).
-<br>* Най-късия процес (Shortest Process Next - SPN).
-<br>&nbsp;&nbsp;&nbsp; Трудности при определяне на времето за работа на
-всеки процес - предсказване на времето за работа на интерактивни процеси.
-<br>* Най-малко оставащо време (Shortest Remaining Time - SRT).
-<br>* Най-голямо отношение за отговор (Highest Responce Ratio Next - HRRN).
-<br>Пресмята се RR = (w+s)/s, където w е времто за чакане, s е времето
-за обслужване на процеса (service time).
-<br>* Обратна връзка (Feedback - FB).
-<br>Понижаване на приоритета след всяко прекъсване. Варианти с времето
-за изпълнение на процеси от различни опашки - 2<sup>i-1</sup> кванта време
-за процес от i-тата опашка (с приоритет i).
-<p>Пример за група процеси и обслужването им.
+</p>
+<hr width="100%">** РђР»С‚РµСЂРЅР°С‚РёРІРё Р·Р° РїРѕР»РёС‚РёРєР° РЅР° РїР»Р°РЅРёСЂР°РЅРµ.
+<br>* РџСЉСЂРІРё РґРѕС€РµР», РїСЉСЂРІРё РѕР±СЃР»СѓР¶РµРЅ (First Come First Served - FCFS)
+<br>* РљСЂСЉРіРѕРІРѕ (Round Robin - RR).
+<br>* РќР°Р№-РєСЉСЃРёСЏ РїСЂРѕС†РµСЃ (Shortest Process Next - SPN).
+<br>В В В  РўСЂСѓРґРЅРѕСЃС‚Рё РїСЂРё РѕРїСЂРµРґРµР»СЏРЅРµ РЅР° РІСЂРµРјРµС‚Рѕ Р·Р° СЂР°Р±РѕС‚Р° РЅР°
+РІСЃРµРєРё РїСЂРѕС†РµСЃ - РїСЂРµРґСЃРєР°Р·РІР°РЅРµ РЅР° РІСЂРµРјРµС‚Рѕ Р·Р° СЂР°Р±РѕС‚Р° РЅР° РёРЅС‚РµСЂР°РєС‚РёРІРЅРё РїСЂРѕС†РµСЃРё.
+<br>* РќР°Р№-РјР°Р»РєРѕ РѕСЃС‚Р°РІР°С‰Рѕ РІСЂРµРјРµ (Shortest Remaining Time - SRT).
+<br>* РќР°Р№-РіРѕР»СЏРјРѕ РѕС‚РЅРѕС€РµРЅРёРµ Р·Р° РѕС‚РіРѕРІРѕСЂ (Highest Responce Ratio Next - HRRN).
+<br>РџСЂРµСЃРјСЏС‚Р° СЃРµ RR = (w+s)/s, РєСЉРґРµС‚Рѕ w Рµ РІСЂРµРјС‚Рѕ Р·Р° С‡Р°РєР°РЅРµ, s Рµ РІСЂРµРјРµС‚Рѕ
+Р·Р° РѕР±СЃР»СѓР¶РІР°РЅРµ РЅР° РїСЂРѕС†РµСЃР° (service time).
+<br>* РћР±СЂР°С‚РЅР° РІСЂСЉР·РєР° (Feedback - FB).
+<br>РџРѕРЅРёР¶Р°РІР°РЅРµ РЅР° РїСЂРёРѕСЂРёС‚РµС‚Р° СЃР»РµРґ РІСЃСЏРєРѕ РїСЂРµРєСЉСЃРІР°РЅРµ. Р’Р°СЂРёР°РЅС‚Рё СЃ РІСЂРµРјРµС‚Рѕ
+Р·Р° РёР·РїСЉР»РЅРµРЅРёРµ РЅР° РїСЂРѕС†РµСЃРё РѕС‚ СЂР°Р·Р»РёС‡РЅРё РѕРїР°С€РєРё - 2<sup>i-1</sup> РєРІР°РЅС‚Р° РІСЂРµРјРµ
+Р·Р° РїСЂРѕС†РµСЃ РѕС‚ i-С‚Р°С‚Р° РѕРїР°С€РєР° (СЃ РїСЂРёРѕСЂРёС‚РµС‚ i).
+<p>РџСЂРёРјРµСЂ Р·Р° РіСЂСѓРїР° РїСЂРѕС†РµСЃРё Рё РѕР±СЃР»СѓР¶РІР°РЅРµС‚Рѕ РёРј.
 <br>--- FIGURE 9.5 ---
-<table CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+</p>
+<table cellspacing="0" cellpadding="4" width="100%">
 <tr>
-<td VALIGN=TOP>
-<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="70%" >
-<tr ALIGN=CENTER VALIGN=CENTER>
-<td ALIGN=CENTER VALIGN=CENTER>Процеси</td>
+<td valign="TOP">
+<table border cellspacing="0" cellpadding="4" width="70%">
+<tr align="CENTER" valign="CENTER">
+<td align="CENTER" valign="CENTER">РџСЂРѕС†РµСЃРё</td>
 
-<td>Време на постъпване&nbsp;
+<td>Р’СЂРµРјРµ РЅР° РїРѕСЃС‚СЉРїРІР°РЅРµВ 
 <br>[arrival time]</td>
 
-<td>Време за работа на процеса&nbsp;
+<td>Р’СЂРµРјРµ Р·Р° СЂР°Р±РѕС‚Р° РЅР° РїСЂРѕС†РµСЃР°В 
 <br>[service time]</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>A</td>
 
 <td>0</td>
 
-<td ALIGN=CENTER VALIGN=CENTER>3</td>
+<td align="CENTER" valign="CENTER">3</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>
 <center>B</center>
 </td>
@@ -115,7 +121,7 @@ function), виртуална памет.
 <td>6</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>C</td>
 
 <td>4</td>
@@ -123,7 +129,7 @@ function), виртуална памет.
 <td>4</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>D</td>
 
 <td>6</td>
@@ -131,7 +137,7 @@ function), виртуална памет.
 <td>5</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>E</td>
 
 <td>8</td>
@@ -145,298 +151,309 @@ function), виртуална памет.
 </tr>
 </table>
 
-<p>Сравнение за времената за обслужване на процесите:
-<center><table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
-<tr ALIGN=CENTER VALIGN=CENTER>
-<td ALIGN=CENTER VALIGN=CENTER></td>
+<p>РЎСЂР°РІРЅРµРЅРёРµ Р·Р° РІСЂРµРјРµРЅР°С‚Р° Р·Р° РѕР±СЃР»СѓР¶РІР°РЅРµ РЅР° РїСЂРѕС†РµСЃРёС‚Рµ:
+</p>
+<center><table border cellspacing="0" cellpadding="4" width="100%">
+<tr align="CENTER" valign="CENTER">
+<td align="CENTER" valign="CENTER"></td>
 
-<td ALIGN=LEFT>Process&nbsp;
-<br>Arrival Time&nbsp;
+<td align="LEFT">ProcessВ 
+<br>Arrival TimeВ 
 <br>Service Time [T<sub>s</sub>]</td>
 
-<td>A&nbsp;
-<br>0&nbsp;
+<td>AВ 
+<br>0В 
 <br>3</td>
 
-<td>B&nbsp;
-<br>2&nbsp;
+<td>BВ 
+<br>2В 
 <br>6</td>
 
-<td>C&nbsp;
-<br>4&nbsp;
+<td>CВ 
+<br>4В 
 <br>4</td>
 
-<td>D&nbsp;
-<br>6&nbsp;
+<td>DВ 
+<br>6В 
 <br>4</td>
 
-<td>E&nbsp;
-<br>8&nbsp;
+<td>EВ 
+<br>8В 
 <br>2</td>
 
 <td>Mean</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>FCFS</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>3&nbsp;
-<br>3&nbsp;
+<td>3В 
+<br>3В 
 <br>1.00</td>
 
-<td>9&nbsp;
-<br>7&nbsp;
+<td>9В 
+<br>7В 
 <br>1.17</td>
 
-<td>13&nbsp;
-<br>9&nbsp;
+<td>13В 
+<br>9В 
 <br>2.25</td>
 
-<td>18&nbsp;
-<br>12&nbsp;
+<td>18В 
+<br>12В 
 <br>2.40</td>
 
-<td>20&nbsp;
-<br>12&nbsp;
+<td>20В 
+<br>12В 
 <br>6.00</td>
 
 <td>
-<br>8.20&nbsp;
+<br>8.20В 
 <br>2.56</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>RR q=1</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>4&nbsp;
-<br>4&nbsp;
+<td>4В 
+<br>4В 
 <br>1.33</td>
 
-<td>18&nbsp;
-<br>16&nbsp;
+<td>18В 
+<br>16В 
 <br>2.67</td>
 
-<td>17&nbsp;
-<br>13&nbsp;
+<td>17В 
+<br>13В 
 <br>3.25</td>
 
-<td>20&nbsp;
-<br>14&nbsp;
+<td>20В 
+<br>14В 
 <br>2.80</td>
 
-<td>15&nbsp;
-<br>7&nbsp;
+<td>15В 
+<br>7В 
 <br>3.50</td>
 
 <td>
-<br>10.80&nbsp;
+<br>10.80В 
 <br>2.71</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>RR q=4</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>3&nbsp;
-<br>3&nbsp;
+<td>3В 
+<br>3В 
 <br>1.00</td>
 
-<td>17&nbsp;
-<br>15&nbsp;
+<td>17В 
+<br>15В 
 <br>2.50</td>
 
-<td>11&nbsp;
-<br>7&nbsp;
+<td>11В 
+<br>7В 
 <br>1.75</td>
 
-<td>20&nbsp;
-<br>14&nbsp;
+<td>20В 
+<br>14В 
 <br>2.80</td>
 
-<td>19&nbsp;
-<br>11&nbsp;
+<td>19В 
+<br>11В 
 <br>5.50</td>
 
 <td>
-<br>10.00&nbsp;
+<br>10.00В 
 <br>2.29</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>SPN</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>3&nbsp;
-<br>3&nbsp;
+<td>3В 
+<br>3В 
 <br>1.00</td>
 
-<td>9&nbsp;
-<br>7&nbsp;
+<td>9В 
+<br>7В 
 <br>1.17</td>
 
-<td>15&nbsp;
-<br>11&nbsp;
+<td>15В 
+<br>11В 
 <br>2.75</td>
 
-<td>20&nbsp;
-<br>14&nbsp;
+<td>20В 
+<br>14В 
 <br>2.80</td>
 
-<td>11&nbsp;
-<br>3&nbsp;
+<td>11В 
+<br>3В 
 <br>1.50</td>
 
 <td>
-<br>7.60&nbsp;
+<br>7.60В 
 <br>1.84</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>SRT</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>3&nbsp;
-<br>3&nbsp;
+<td>3В 
+<br>3В 
 <br>1.00</td>
 
-<td>15&nbsp;
-<br>1`3&nbsp;
+<td>15В 
+<br>1`3В 
 <br>2.17</td>
 
-<td>8&nbsp;
-<br>4&nbsp;
+<td>8В 
+<br>4В 
 <br>1.00</td>
 
-<td>20&nbsp;
-<br>14&nbsp;
+<td>20В 
+<br>14В 
 <br>2.80</td>
 
-<td>10&nbsp;
-<br>2&nbsp;
+<td>10В 
+<br>2В 
 <br>1.00</td>
 
 <td>
-<br>7.20&nbsp;
+<br>7.20В 
 <br>1.59</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>HRRN</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>3&nbsp;
-<br>3&nbsp;
+<td>3В 
+<br>3В 
 <br>1.00</td>
 
-<td>9&nbsp;
-<br>7&nbsp;
+<td>9В 
+<br>7В 
 <br>1.17</td>
 
-<td>13&nbsp;
-<br>9&nbsp;
+<td>13В 
+<br>9В 
 <br>2.25</td>
 
-<td>20&nbsp;
-<br>14&nbsp;
+<td>20В 
+<br>14В 
 <br>2.80</td>
 
-<td>15&nbsp;
-<br>7&nbsp;
+<td>15В 
+<br>7В 
 <br>3.50</td>
 
 <td>
-<br>8.00&nbsp;
+<br>8.00В 
 <br>2.14</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
+<tr align="CENTER" valign="CENTER">
 <td>FB q=1</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>4&nbsp;
-<br>4&nbsp;
+<td>4В 
+<br>4В 
 <br>1.33</td>
 
-<td>20&nbsp;
-<br>18&nbsp;
+<td>20В 
+<br>18В 
 <br>3.00</td>
 
-<td>16&nbsp;
-<br>12&nbsp;
+<td>16В 
+<br>12В 
 <br>3.00</td>
 
-<td>19&nbsp;
-<br>13&nbsp;
+<td>19В 
+<br>13В 
 <br>2.60</td>
 
-<td>11&nbsp;
-<br>3&nbsp;
+<td>11В 
+<br>3В 
 <br>1.5</td>
 
 <td>
-<br>10.00&nbsp;
+<br>10.00В 
 <br>2.29</td>
 </tr>
 
-<tr ALIGN=CENTER VALIGN=CENTER>
-<td>FB q=2<sup>i-1</sup></td>
+<tr align="CENTER" valign="CENTER">
+<td>FB q=2<sup>i-1</sup>
+</td>
 
-<td ALIGN=LEFT>Finish Time&nbsp;
-<br>Turnaround Time [T<sub>q</sub>]&nbsp;
-<br>T<sub>q</sub>/T<sub>s</sub></td>
+<td align="LEFT">Finish TimeВ 
+<br>Turnaround Time [T<sub>q</sub>]В 
+<br>T<sub>q</sub>/T<sub>s</sub>
+</td>
 
-<td>4&nbsp;
-<br>4&nbsp;
+<td>4В 
+<br>4В 
 <br>1.33</td>
 
-<td>17&nbsp;
-<br>15&nbsp;
+<td>17В 
+<br>15В 
 <br>2.50</td>
 
-<td>18&nbsp;
-<br>14&nbsp;
+<td>18В 
+<br>14В 
 <br>3.50</td>
 
-<td>20&nbsp;
-<br>14&nbsp;
+<td>20В 
+<br>14В 
 <br>2.80</td>
 
-<td>14&nbsp;
-<br>6&nbsp;
+<td>14В 
+<br>6В 
 <br>3.00</td>
 
 <td>
-<br>10.60&nbsp;
+<br>10.60В 
 <br>2.63</td>
 </tr>
 </table></center>
 
-<p>Пример за бавно обслужване на къс процес:
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=7 WIDTH="100%" >
-<tr ALIGN=CENTER VALIGN=CENTER>
+<p>РџСЂРёРјРµСЂ Р·Р° Р±Р°РІРЅРѕ РѕР±СЃР»СѓР¶РІР°РЅРµ РЅР° РєСЉСЃ РїСЂРѕС†РµСЃ:
+</p>
+<table border cellspacing="0" cellpadding="4" cols="7" width="100%">
+<tr align="CENTER" valign="CENTER">
 <td>Process</td>
 
 <td>Arrival Time</td>
@@ -447,10 +464,11 @@ function), виртуална памет.
 
 <td>Finish Time</td>
 
-<td>Turnaround&nbsp;
+<td>TurnaroundВ 
 <br>Time (T<sub>q</sub>)</td>
 
-<td>T<sub>q</sub>/T<sub>s</sub></td>
+<td>T<sub>q</sub>/T<sub>s</sub>
+</td>
 </tr>
 
 <tr>
@@ -466,7 +484,7 @@ function), виртуална памет.
 
 <td>1</td>
 
-<td ALIGN=RIGHT VALIGN=CENTER>1.00</td>
+<td align="RIGHT" valign="CENTER">1.00</td>
 </tr>
 
 <tr>
@@ -482,7 +500,7 @@ function), виртуална памет.
 
 <td>100</td>
 
-<td ALIGN=RIGHT>1.00</td>
+<td align="RIGHT">1.00</td>
 </tr>
 
 <tr>
@@ -498,7 +516,7 @@ function), виртуална памет.
 
 <td>100</td>
 
-<td ALIGN=RIGHT>100.00</td>
+<td align="RIGHT">100.00</td>
 </tr>
 
 <tr>
@@ -514,7 +532,7 @@ function), виртуална памет.
 
 <td>199</td>
 
-<td ALIGN=RIGHT>1.99</td>
+<td align="RIGHT">1.99</td>
 </tr>
 
 <tr>
@@ -530,154 +548,170 @@ function), виртуална памет.
 
 <td>100</td>
 
-<td ALIGN=RIGHT>26.00</td>
+<td align="RIGHT">26.00</td>
 </tr>
 </table>
 
-<p>--- FIGURE 9.7 ---&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; --- FIGURE 9.10
+<p>--- FIGURE 9.7 ---В В В В В В  --- FIGURE 9.10
 ---
-<br>&nbsp;
-<table BORDER CELLSPACING=0 CELLPADDING=4 WIDTH="100%" >
+<br>В 
+</p>
+<table border cellspacing="0" cellpadding="4" width="100%">
 <tr>
-<td><b><font size=-1>Алгоритми&nbsp;</font></b></td>
+<td><b><font size="-1">РђР»РіРѕСЂРёС‚РјРёВ </font></b></td>
 
-<td><b><font size=-1>FCFS</font></b></td>
+<td><b><font size="-1">FCFS</font></b></td>
 
-<td><b><font size=-1>Round Robin</font></b></td>
+<td><b><font size="-1">Round Robin</font></b></td>
 
-<td><b><font size=-1>SPN</font></b></td>
+<td><b><font size="-1">SPN</font></b></td>
 
-<td><b><font size=-1>SRT</font></b></td>
+<td><b><font size="-1">SRT</font></b></td>
 
-<td><b><font size=-1>HRRN</font></b></td>
+<td><b><font size="-1">HRRN</font></b></td>
 
-<td><b><font size=-1>Feedback</font></b></td>
+<td><b><font size="-1">Feedback</font></b></td>
 </tr>
 
 <tr>
-<td><b><font size=-1>Функция за избиране</font></b>
-<br><b><font size=-1>[selection function]</font></b></td>
+<td>
+<b><font size="-1">Р¤СѓРЅРєС†РёСЏ Р·Р° РёР·Р±РёСЂР°РЅРµ</font></b>
+<br><b><font size="-1">[selection function]</font></b>
+</td>
 
-<td><font size=-1>max[w]</font></td>
+<td><font size="-1">max[w]</font></td>
 
-<td><font size=-1>const</font></td>
+<td><font size="-1">const</font></td>
 
-<td><font size=-1>min[s]</font></td>
+<td><font size="-1">min[s]</font></td>
 
-<td><font size=-1>min[s-e]</font></td>
+<td><font size="-1">min[s-e]</font></td>
 
-<td><font size=-1>max[(w+s)/s]</font></td>
+<td><font size="-1">max[(w+s)/s]</font></td>
 
-<td><font size=-1>--</font></td>
+<td><font size="-1">--</font></td>
 </tr>
 
 <tr>
-<td><b><font size=-1>Режим на изпълнение</font></b>
-<br><b><font size=-1>[decision mode]</font></b></td>
+<td>
+<b><font size="-1">Р РµР¶РёРј РЅР° РёР·РїСЉР»РЅРµРЅРёРµ</font></b>
+<br><b><font size="-1">[decision mode]</font></b>
+</td>
 
-<td><font size=-1>без прекъсване</font></td>
+<td><font size="-1">Р±РµР· РїСЂРµРєСЉСЃРІР°РЅРµ</font></td>
 
-<td><font size=-1>прекъсване по време</font></td>
+<td><font size="-1">РїСЂРµРєСЉСЃРІР°РЅРµ РїРѕ РІСЂРµРјРµ</font></td>
 
-<td><font size=-1>без прекъсване</font></td>
+<td><font size="-1">Р±РµР· РїСЂРµРєСЉСЃРІР°РЅРµ</font></td>
 
-<td><font size=-1>прекъсване по нов по-къс процес&nbsp;</font></td>
+<td><font size="-1">РїСЂРµРєСЉСЃРІР°РЅРµ РїРѕ РЅРѕРІ РїРѕ-РєСЉСЃ РїСЂРѕС†РµСЃВ </font></td>
 
-<td><font size=-1>без прекъсване</font></td>
+<td><font size="-1">Р±РµР· РїСЂРµРєСЉСЃРІР°РЅРµ</font></td>
 
-<td><font size=-1>прекъсване по време</font></td>
+<td><font size="-1">РїСЂРµРєСЉСЃРІР°РЅРµ РїРѕ РІСЂРµРјРµ</font></td>
 </tr>
 
 <tr>
-<td><b><font size=-1>Производителност</font></b>
-<br><b><font size=-1>[throughput]</font></b></td>
+<td>
+<b><font size="-1">РџСЂРѕРёР·РІРѕРґРёС‚РµР»РЅРѕСЃС‚</font></b>
+<br><b><font size="-1">[throughput]</font></b>
+</td>
 
-<td><font size=-1>не е определена</font></td>
+<td><font size="-1">РЅРµ Рµ РѕРїСЂРµРґРµР»РµРЅР°</font></td>
 
-<td><font size=-1>може да е ниска, ако кванта време е малък</font></td>
+<td><font size="-1">РјРѕР¶Рµ РґР° Рµ РЅРёСЃРєР°, Р°РєРѕ РєРІР°РЅС‚Р° РІСЂРµРјРµ Рµ РјР°Р»СЉРє</font></td>
 
-<td><font size=-1>висока</font></td>
+<td><font size="-1">РІРёСЃРѕРєР°</font></td>
 
-<td><font size=-1>висока</font></td>
+<td><font size="-1">РІРёСЃРѕРєР°</font></td>
 
-<td><font size=-1>висока</font></td>
+<td><font size="-1">РІРёСЃРѕРєР°</font></td>
 
-<td><font size=-1>не е определена</font></td>
+<td><font size="-1">РЅРµ Рµ РѕРїСЂРµРґРµР»РµРЅР°</font></td>
 </tr>
 
 <tr>
-<td><b><font size=-1>Време за отговор</font></b>
-<br><b><font size=-1>[response time]</font></b></td>
+<td>
+<b><font size="-1">Р’СЂРµРјРµ Р·Р° РѕС‚РіРѕРІРѕСЂ</font></b>
+<br><b><font size="-1">[response time]</font></b>
+</td>
 
-<td><font size=-1>голямо, ако процесите са с много различно време за изпълнение</font></td>
+<td><font size="-1">РіРѕР»СЏРјРѕ, Р°РєРѕ РїСЂРѕС†РµСЃРёС‚Рµ СЃР° СЃ РјРЅРѕРіРѕ СЂР°Р·Р»РёС‡РЅРѕ РІСЂРµРјРµ Р·Р° РёР·РїСЉР»РЅРµРЅРёРµ</font></td>
 
-<td><font size=-1>осигурява добро време за отговор на късите процеси</font></td>
+<td><font size="-1">РѕСЃРёРіСѓСЂСЏРІР° РґРѕР±СЂРѕ РІСЂРµРјРµ Р·Р° РѕС‚РіРѕРІРѕСЂ РЅР° РєСЉСЃРёС‚Рµ РїСЂРѕС†РµСЃРё</font></td>
 
-<td><font size=-1>осигурява добро време за отговор на късите процеси</font></td>
+<td><font size="-1">РѕСЃРёРіСѓСЂСЏРІР° РґРѕР±СЂРѕ РІСЂРµРјРµ Р·Р° РѕС‚РіРѕРІРѕСЂ РЅР° РєСЉСЃРёС‚Рµ РїСЂРѕС†РµСЃРё</font></td>
 
-<td><font size=-1>осигурява добро време за отговор</font></td>
+<td><font size="-1">РѕСЃРёРіСѓСЂСЏРІР° РґРѕР±СЂРѕ РІСЂРµРјРµ Р·Р° РѕС‚РіРѕРІРѕСЂ</font></td>
 
-<td><font size=-1>осигурява добро време за отговор</font></td>
+<td><font size="-1">РѕСЃРёРіСѓСЂСЏРІР° РґРѕР±СЂРѕ РІСЂРµРјРµ Р·Р° РѕС‚РіРѕРІРѕСЂ</font></td>
 
-<td><font size=-1>не е определено</font></td>
+<td><font size="-1">РЅРµ Рµ РѕРїСЂРµРґРµР»РµРЅРѕ</font></td>
 </tr>
 
 <tr>
-<td><b><font size=-1>Припокриване</font></b>
-<br><b><font size=-1>[overload]</font></b></td>
+<td>
+<b><font size="-1">РџСЂРёРїРѕРєСЂРёРІР°РЅРµ</font></b>
+<br><b><font size="-1">[overload]</font></b>
+</td>
 
-<td><font size=-1>минимално</font></td>
+<td><font size="-1">РјРёРЅРёРјР°Р»РЅРѕ</font></td>
 
-<td><font size=-1>малко</font></td>
+<td><font size="-1">РјР°Р»РєРѕ</font></td>
 
-<td><font size=-1>голямо</font></td>
+<td><font size="-1">РіРѕР»СЏРјРѕ</font></td>
 
-<td><font size=-1>голямо</font></td>
+<td><font size="-1">РіРѕР»СЏРјРѕ</font></td>
 
-<td><font size=-1>голямо</font></td>
+<td><font size="-1">РіРѕР»СЏРјРѕ</font></td>
 
-<td><font size=-1>голямо</font></td>
+<td><font size="-1">РіРѕР»СЏРјРѕ</font></td>
 </tr>
 
 <tr>
-<td><b><font size=-1>Ефект върху процеса</font></b>
-<br><b><font size=-1>[effect on processes]</font></b></td>
+<td>
+<b><font size="-1">Р•С„РµРєС‚ РІСЉСЂС…Сѓ РїСЂРѕС†РµСЃР°</font></b>
+<br><b><font size="-1">[effect on processes]</font></b>
+</td>
 
-<td><font size=-1>глоба за къси процеси и за I/O процеси&nbsp;</font></td>
+<td><font size="-1">РіР»РѕР±Р° Р·Р° РєСЉСЃРё РїСЂРѕС†РµСЃРё Рё Р·Р° I/O РїСЂРѕС†РµСЃРёВ </font></td>
 
-<td><font size=-1>честно</font></td>
+<td><font size="-1">С‡РµСЃС‚РЅРѕ</font></td>
 
-<td><font size=-1>глоба за дълги процеси</font></td>
+<td><font size="-1">РіР»РѕР±Р° Р·Р° РґСЉР»РіРё РїСЂРѕС†РµСЃРё</font></td>
 
-<td><font size=-1>глоба за дълги процеси</font></td>
+<td><font size="-1">РіР»РѕР±Р° Р·Р° РґСЉР»РіРё РїСЂРѕС†РµСЃРё</font></td>
 
-<td><font size=-1>добър баланс</font></td>
+<td><font size="-1">РґРѕР±СЉСЂ Р±Р°Р»Р°РЅСЃ</font></td>
 
-<td><font size=-1>благосклонен към I/O процеси</font></td>
+<td><font size="-1">Р±Р»Р°РіРѕСЃРєР»РѕРЅРµРЅ РєСЉРј I/O РїСЂРѕС†РµСЃРё</font></td>
 </tr>
 
 <tr>
-<td><b><font size=-1>Гладна смърт</font></b>
-<br><b><font size=-1>[starvation]</font></b></td>
+<td>
+<b><font size="-1">Р“Р»Р°РґРЅР° СЃРјСЉСЂС‚</font></b>
+<br><b><font size="-1">[starvation]</font></b>
+</td>
 
-<td><font size=-1>не</font></td>
+<td><font size="-1">РЅРµ</font></td>
 
-<td><font size=-1>не</font></td>
+<td><font size="-1">РЅРµ</font></td>
 
-<td><font size=-1>възможна</font></td>
+<td><font size="-1">РІСЉР·РјРѕР¶РЅР°</font></td>
 
-<td><font size=-1>възможна</font></td>
+<td><font size="-1">РІСЉР·РјРѕР¶РЅР°</font></td>
 
-<td><font size=-1>не</font></td>
+<td><font size="-1">РЅРµ</font></td>
 
-<td><font size=-1>възможна</font></td>
+<td><font size="-1">РІСЉР·РјРѕР¶РЅР°</font></td>
 </tr>
 </table>
 
-<p><font size=-1>w - общо време за работа на процеса</font>
-<br><font size=-1>e - време за изпълнение</font>
-<br><font size=-1>s - общо време за обслужване на процеса</font>
+<p><font size="-1">w - РѕР±С‰Рѕ РІСЂРµРјРµ Р·Р° СЂР°Р±РѕС‚Р° РЅР° РїСЂРѕС†РµСЃР°</font>
+<br><font size="-1">e - РІСЂРµРјРµ Р·Р° РёР·РїСЉР»РЅРµРЅРёРµ</font>
+<br><font size="-1">s - РѕР±С‰Рѕ РІСЂРµРјРµ Р·Р° РѕР±СЃР»СѓР¶РІР°РЅРµ РЅР° РїСЂРѕС†РµСЃР°</font>
 <br>
-<hr WIDTH="100%">
+</p>
+<hr width="100%">
 </body>
 </html>

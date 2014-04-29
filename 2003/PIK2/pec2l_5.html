@@ -1,274 +1,304 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>Pec2</title>
 </head>
 <body>
 
-<hr WIDTH="100%">
-<br><b>5.&nbsp;</b> <b>Тестване и настройка</b>
-<br><img SRC="yellowball.gif" height=14 width=14> Самостоятелно тестване
-на функции
-<br>* Данните, с които ще се тества функцията, се получават по 3 начена:
-<br>-- като вход от потребителя
-<br>-- като стойности, получени от цикъл
-<br>-- случайни числа
+<hr width="100%">
+<br><b>5.В </b> <b>РўРµСЃС‚РІР°РЅРµ Рё РЅР°СЃС‚СЂРѕР№РєР°</b>
+<br><img src="yellowball.gif" height="14" width="14"> РЎР°РјРѕСЃС‚РѕСЏС‚РµР»РЅРѕ С‚РµСЃС‚РІР°РЅРµ
+РЅР° С„СѓРЅРєС†РёРё
+<br>* Р”Р°РЅРЅРёС‚Рµ, СЃ РєРѕРёС‚Рѕ С‰Рµ СЃРµ С‚РµСЃС‚РІР° С„СѓРЅРєС†РёСЏС‚Р°, СЃРµ РїРѕР»СѓС‡Р°РІР°С‚ РїРѕ 3 РЅР°С‡РµРЅР°:
+<br>-- РєР°С‚Рѕ РІС…РѕРґ РѕС‚ РїРѕС‚СЂРµР±РёС‚РµР»СЏ
+<br>-- РєР°С‚Рѕ СЃС‚РѕР№РЅРѕСЃС‚Рё, РїРѕР»СѓС‡РµРЅРё РѕС‚ С†РёРєСЉР»
+<br>-- СЃР»СѓС‡Р°Р№РЅРё С‡РёСЃР»Р°
 <p><b><tt><font color="#993300">// sqrtest1.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool not_equal(double x, double y)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double EPSILON = 1E-14;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double dmax = fabs(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (fabs(y) > dmax) dmax
+<br><b><tt><font color="#000099">В В  const double EPSILON = 1E-14;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double dmax = fabs(x);</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (fabs(y) &gt; dmax) dmax
 = fabs(y);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return fabs(x - y) > dmax
+<br><b><tt><font color="#000099">В В  return fabs(x - y) &gt; dmax
 * EPSILON;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Function to be tested */</font></tt></b>
 <br><b><tt><font color="#000099">double squareroot(double a)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; if (a == 0) return 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xnew = a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xold;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; xold = xnew;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xnew =
+<br><b><tt><font color="#000099">{В  if (a == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xnew = a;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xold;</font></tt></b>
+<br><b><tt><font color="#000099">В В  do</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  xold = xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  xnew =
 (xold + a / xold) / 2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; while (not_equal(xnew, xold));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  while (not_equal(xnew, xold));</font></tt></b>
+<br><b><tt><font color="#000099">В В  return xnew;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Test stub */</font></tt></b>
 <br><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; double x;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; while (cin >> x)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double y = squareroot(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">{В  double x;</font></tt></b>
+<br><b><tt><font color="#000099">В В  while (cin &gt;&gt; x)</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  double y = squareroot(x);</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  cout &lt;&lt;
 "squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#993300">// sqrtest2.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool not_equal(double x, double y)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double EPSILON = 1E-14;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double dmax = fabs(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (fabs(y) > dmax) dmax
+<br><b><tt><font color="#000099">В В  const double EPSILON = 1E-14;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double dmax = fabs(x);</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (fabs(y) &gt; dmax) dmax
 = fabs(y);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return fabs(x - y) > dmax
+<br><b><tt><font color="#000099">В В  return fabs(x - y) &gt; dmax
 * EPSILON;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Function to be tested */</font></tt></b>
 <br><b><tt><font color="#000099">double squareroot(double a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a == 0) return 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xnew = a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xold;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; xold = xnew;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xnew =
+<br><b><tt><font color="#000099">В В  if (a == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xnew = a;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xold;</font></tt></b>
+<br><b><tt><font color="#000099">В В  do</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  xold = xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  xnew =
 (xold + a / xold) / 2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; while (not_equal(xnew, xold));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  while (not_equal(xnew, xold));</font></tt></b>
+<br><b><tt><font color="#000099">В В  return xnew;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Test stub */</font></tt></b>
 <br><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; double x;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (x = 0; x &lt;= 10; x
+<br><b><tt><font color="#000099">{В  double x;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (x = 0; x &lt;= 10; x
 = x + 0.5)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double y = squareroot(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">В В  {В  double y = squareroot(x);</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  cout &lt;&lt;
 "squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#993300">// sqrtest3.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cstdlib></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;ctime></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">В В  int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">В В  srand(seed);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">double rand_double(double a, double b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a + (b - a) * rand() *
-(1.0 / RAND_MAX);&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">{В  return a + (b - a) * rand() *
+(1.0 / RAND_MAX);В  }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool not_equal(double x, double y)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double EPSILON = 1E-14;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double dmax = fabs(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (fabs(y) > dmax) dmax
+<br><b><tt><font color="#000099">В В  const double EPSILON = 1E-14;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double dmax = fabs(x);</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (fabs(y) &gt; dmax) dmax
 = fabs(y);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return fabs(x - y) > dmax
+<br><b><tt><font color="#000099">В В  return fabs(x - y) &gt; dmax
 * EPSILON;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Function to be tested */</font></tt></b>
 <br><b><tt><font color="#000099">double squareroot(double a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a == 0) return 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xnew = a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xold;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; xold = xnew;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xnew =
+<br><b><tt><font color="#000099">В В  if (a == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xnew = a;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xold;</font></tt></b>
+<br><b><tt><font color="#000099">В В  do</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  xold = xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  xnew =
 (xold + a / xold) / 2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; while (not_equal(xnew, xold));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  while (not_equal(xnew, xold));</font></tt></b>
+<br><b><tt><font color="#000099">В В  return xnew;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Test stub */</font></tt></b>
 <br><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; rand_seed();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 1; i &lt;= 100;
+<br><b><tt><font color="#000099">{В  rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">В В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 1; i &lt;= 100;
 i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double x = rand_double(0,
+<br><b><tt><font color="#000099">В В  {В  double x = rand_double(0,
 1E6);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+<br><b><tt><font color="#000099">В В В В В  double
 y = squareroot(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">В В В В В  cout &lt;&lt;
 "squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><img SRC="yellowball.gif" height=14 width=14> Подбор на тестови примери
-<p><img SRC="yellowball.gif" height=14 width=14> Оценка на резултатите
-от тестването
+</p>
+<p><img src="yellowball.gif" height="14" width="14"> РџРѕРґР±РѕСЂ РЅР° С‚РµСЃС‚РѕРІРё РїСЂРёРјРµСЂРё
+</p>
+<p><img src="yellowball.gif" height="14" width="14"> РћС†РµРЅРєР° РЅР° СЂРµР·СѓР»С‚Р°С‚РёС‚Рµ
+РѕС‚ С‚РµСЃС‚РІР°РЅРµС‚Рѕ
 <br><b><tt><font color="#993300">// sqrtest4.cpp</font></tt></b>
-<br><b><tt><font color="#000099">oo#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cstdlib></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;ctime></font></tt></b>
+<br><b><tt><font color="#000099">oo#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">В В  int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">В В  srand(seed);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">double rand_double(double a, double b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a + (b - a) * rand() *
-(1.0 / RAND_MAX);&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">{В  return a + (b - a) * rand() *
+(1.0 / RAND_MAX);В В  }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool not_equal(double x, double y)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double EPSILON = 1E-14;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double dmax = fabs(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (fabs(y) > dmax) dmax
+<br><b><tt><font color="#000099">В В  const double EPSILON = 1E-14;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double dmax = fabs(x);</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (fabs(y) &gt; dmax) dmax
 = fabs(y);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return fabs(x - y) > dmax
+<br><b><tt><font color="#000099">В В  return fabs(x - y) &gt; dmax
 * EPSILON;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Function to be tested */</font></tt></b>
 <br><b><tt><font color="#000099">double squareroot(double a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a == 0) return 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xnew = a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xold;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; xold = xnew;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xnew =
+<br><b><tt><font color="#000099">В В  if (a == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xnew = a;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xold;</font></tt></b>
+<br><b><tt><font color="#000099">В В  do</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  xold = xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  xnew =
 (xold + a / xold) / 2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; while (not_equal(xnew, xold));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  while (not_equal(xnew, xold));</font></tt></b>
+<br><b><tt><font color="#000099">В В  return xnew;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Test stub */</font></tt></b>
 <br><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 1; i &lt;= 100;
+<br><b><tt><font color="#000099">{В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 1; i &lt;= 100;
 i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double x = rand_double(0,
+<br><b><tt><font color="#000099">В В  {В  double x = rand_double(0,
 1E6);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+<br><b><tt><font color="#000099">В В В В В  double
 y = squareroot(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (not_equal(y
-* y, x))&nbsp; cout &lt;&lt; "Test failed. ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В В В В  if (not_equal(y
+* y, x))В  cout &lt;&lt; "Test failed. ";</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  elseВ В В В В В В В В В В В В В В В В В В В В 
 cout &lt;&lt; "Test passed. ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">В В В В В  cout &lt;&lt;
 "squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#993300">// sqrtest5.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cstdlib></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;ctime></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cstdlib&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;ctime&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">void rand_seed()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int seed = static_cast&lt;int>(time(0));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; srand(seed);</font></tt></b>
+<br><b><tt><font color="#000099">В В  int seed = static_cast&lt;int&gt;(time(0));</font></tt></b>
+<br><b><tt><font color="#000099">В В  srand(seed);</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">double rand_double(double a, double b)</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; return a + (b - a) * rand() *
-(1.0 / RAND_MAX);&nbsp;&nbsp; }</font></tt></b>
+<br><b><tt><font color="#000099">{В  return a + (b - a) * rand() *
+(1.0 / RAND_MAX);В В  }</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">bool not_equal(double x, double y)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; const double EPSILON = 1E-14;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double dmax = fabs(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (fabs(y) > dmax) dmax
+<br><b><tt><font color="#000099">В В  const double EPSILON = 1E-14;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double dmax = fabs(x);</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (fabs(y) &gt; dmax) dmax
 = fabs(y);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return fabs(x - y) > dmax
+<br><b><tt><font color="#000099">В В  return fabs(x - y) &gt; dmax
 * EPSILON;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">/* Function to be tested */</font></tt></b>
 <br><b><tt><font color="#000099">double squareroot(double a)</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (a == 0) return 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xnew = a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; double xold;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; do</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; xold = xnew;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; xnew =
+<br><b><tt><font color="#000099">В В  if (a == 0) return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xnew = a;</font></tt></b>
+<br><b><tt><font color="#000099">В В  double xold;</font></tt></b>
+<br><b><tt><font color="#000099">В В  do</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  xold = xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В  xnew =
 (xold + a / xold) / 2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; while (not_equal(xnew, xold));</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return xnew;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  while (not_equal(xnew, xold));</font></tt></b>
+<br><b><tt><font color="#000099">В В  return xnew;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<br>&nbsp;
+<br>В 
+</p>
 <p><b><tt><font color="#000099">/* Test stub */</font></tt></b>
 <br><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; rand_seed();</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; for (i = 1; i &lt;= 100;
+<br><b><tt><font color="#000099">В В  rand_seed();</font></tt></b>
+<br><b><tt><font color="#000099">В В  int i;</font></tt></b>
+<br><b><tt><font color="#000099">В В  for (i = 1; i &lt;= 100;
 i++)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; double x = rand_double(0,
+<br><b><tt><font color="#000099">В В  {В  double x = rand_double(0,
 1E6);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+<br><b><tt><font color="#000099">В В В В В  double
 y = squareroot(x);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (not_equal(y,
+<br><b><tt><font color="#000099">В В В В В  if (not_equal(y,
 pow(x, 0.5))) cout &lt;&lt; "Test failed. ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В В В В  elseВ В В В В В В В В В В В В В В В В В В В В В В В В В 
 cout &lt;&lt; "Test passed. ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+<br><b><tt><font color="#000099">В В В В В  cout &lt;&lt;
 "squareroot of " &lt;&lt; x &lt;&lt; " = " &lt;&lt; y &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<p><img SRC="yellowball.gif" height=14 width=14> Трасиране на програмата
-<p><img SRC="yellowball.gif" height=14 width=14> Работа на дебъгерът
-<p><img SRC="yellowball.gif" height=14 width=14> Стратегии при тестването
-<br>** Възпроизвеждане на грешката
-<br>** "Разделяй и владей"
-<br>** Изяснете си какво трябва да прави програмата ви
-<br>** Обръщайте внимание на всички подробности
-<br>** Вниквайте във всяка грешка преди да я отстраните
+</p>
+<p><img src="yellowball.gif" height="14" width="14"> РўСЂР°СЃРёСЂР°РЅРµ РЅР° РїСЂРѕРіСЂР°РјР°С‚Р°
+</p>
+<p><img src="yellowball.gif" height="14" width="14"> Р Р°Р±РѕС‚Р° РЅР° РґРµР±СЉРіРµСЂСЉС‚
+</p>
+<p><img src="yellowball.gif" height="14" width="14"> РЎС‚СЂР°С‚РµРіРёРё РїСЂРё С‚РµСЃС‚РІР°РЅРµС‚Рѕ
+<br>** Р’СЉР·РїСЂРѕРёР·РІРµР¶РґР°РЅРµ РЅР° РіСЂРµС€РєР°С‚Р°
+<br>** "Р Р°Р·РґРµР»СЏР№ Рё РІР»Р°РґРµР№"
+<br>** РР·СЏСЃРЅРµС‚Рµ СЃРё РєР°РєРІРѕ С‚СЂСЏР±РІР° РґР° РїСЂР°РІРё РїСЂРѕРіСЂР°РјР°С‚Р° РІРё
+<br>** РћР±СЂСЉС‰Р°Р№С‚Рµ РІРЅРёРјР°РЅРёРµ РЅР° РІСЃРёС‡РєРё РїРѕРґСЂРѕР±РЅРѕСЃС‚Рё
+<br>** Р’РЅРёРєРІР°Р№С‚Рµ РІСЉРІ РІСЃСЏРєР° РіСЂРµС€РєР° РїСЂРµРґРё РґР° СЏ РѕС‚СЃС‚СЂР°РЅРёС‚Рµ
 <br>
-<hr WIDTH="100%">
-<br>&nbsp;
-<br>&nbsp;
+</p>
+<hr width="100%">
+<br>В 
+<br>В 
 </body>
 </html>

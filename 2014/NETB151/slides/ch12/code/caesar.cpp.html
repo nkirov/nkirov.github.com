@@ -1,357 +1,119 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 <pre><tt>
-001: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;iostream&gt;</font>
-002: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;fstream&gt;</font>
-003: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;string&gt;</font>
-004: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;sstream&gt;</font>
-006: <b><font color="#0000ff">using</font></b> <b><font
- color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+001: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+002: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;fstream&gt;</font>
+003: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;string&gt;</font>
+004: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;sstream&gt;</font>
+006: <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
 007: 
-008: <i><font
- color="#9a1900">/**</font></i>
+008: <i><font color="#9a1900">/**</font></i>
 009: <i><font color="#9a1900">   Prints usage instructions.</font></i>
-010: <i><font
- color="#9a1900">   @param program_name the name of this program</font></i>
-011: <i><font
- color="#9a1900">*/</font></i>
-012: <font color="#009900">void</font> <b><font
- color="#000000">usage</font></b><font color="#990000">(</font>string program_name<font
- color="#990000">)</font>
-013: <font color="#ff0000">{</font>  cout <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
- color="#ff0000">"Usage: "</font> <font color="#990000">&lt;</font><font
- color="#990000">&lt;</font> program_name<br>015:         <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
- color="#ff0000">" [-d] [-kn] infile outfile\n"</font><font
- color="#990000">;</font>
-016:    <b><font color="#000000">exit</font></b><font
- color="#990000">(</font><font color="#993399">1</font><font
- color="#990000">)</font><font color="#990000">;</font>
-017: <font
- color="#ff0000">}</font>
+010: <i><font color="#9a1900">   @param program_name the name of this program</font></i>
+011: <i><font color="#9a1900">*/</font></i>
+012: <font color="#009900">void</font> <b><font color="#000000">usage</font></b><font color="#990000">(</font>string program_name<font color="#990000">)</font>
+013: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Usage: "</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> program_name<br>015:         <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" [-d] [-kn] infile outfile\n"</font><font color="#990000">;</font>
+016:    <b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>
+017: <font color="#ff0000">}</font>
 019: <i><font color="#9a1900">/**</font></i>
-020: <i><font
- color="#9a1900">   Prints file opening error message</font></i>
-021: <i><font
- color="#9a1900">   @param filename the name of the file that could not be opened</font></i>
-022: <i><font
- color="#9a1900">*/</font></i>
-023: <font color="#009900">void</font> <b><font
- color="#000000">open_file_error</font></b><font color="#990000">(</font>string filename<font
- color="#990000">)</font>
-024: <font color="#ff0000">{</font>  cout <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
- color="#ff0000">"Error opening file "</font> <font color="#990000">&lt;</font><font
- color="#990000">&lt;</font> filename <font color="#990000">&lt;</font><font
- color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font
- color="#990000">;</font>
-026:    <b><font color="#000000">exit</font></b><font
- color="#990000">(</font><font color="#993399">1</font><font
- color="#990000">)</font><font color="#990000">;</font>
-027: <font
- color="#ff0000">}</font>
+020: <i><font color="#9a1900">   Prints file opening error message</font></i>
+021: <i><font color="#9a1900">   @param filename the name of the file that could not be opened</font></i>
+022: <i><font color="#9a1900">*/</font></i>
+023: <font color="#009900">void</font> <b><font color="#000000">open_file_error</font></b><font color="#990000">(</font>string filename<font color="#990000">)</font>
+024: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Error opening file "</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> filename <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+026:    <b><font color="#000000">exit</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>
+027: <font color="#ff0000">}</font>
 029: <i><font color="#9a1900">/**</font></i>
-030: <i><font
- color="#9a1900">   Computes correct remainder for negative dividend.</font></i>
-031: <i><font
- color="#9a1900">   @param a an integer</font></i>
-032: <i><font
- color="#9a1900">   @param n an integer &gt; 0</font></i>
-033: <i><font
- color="#9a1900">   @return the mathematically correct remainder r such that</font></i>
-034: <i><font
- color="#9a1900">      a - r is divisible by n and 0 &lt;= r and r &lt; n</font></i>
-035: <i><font
- color="#9a1900">*/</font></i>
-036: <font color="#009900">int</font> <b><font
- color="#000000">remainder</font></b><font color="#990000">(</font><font
- color="#009900">int</font> a<font color="#990000">,</font> <font
- color="#009900">int</font> n<font color="#990000">)</font>
-037: <font
- color="#ff0000">{</font>  <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>a <font color="#990000">&gt;</font><font
- color="#990000">=</font> <font color="#993399">0</font><font
- color="#990000">)</font> <b><font color="#0000ff">return</font></b> a <font
- color="#990000">%</font> n<font color="#990000">;</font>
-040:    <b><font
- color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> n <font
- color="#990000">-</font> <font color="#993399">1</font> <font
- color="#990000">-</font> <font color="#990000">(</font><font
- color="#990000">-</font>a <font color="#990000">-</font> <font
- color="#993399">1</font><font color="#990000">)</font> <font
- color="#990000">%</font> n<font color="#990000">;</font>
-042: <font
- color="#ff0000">}</font>
+030: <i><font color="#9a1900">   Computes correct remainder for negative dividend.</font></i>
+031: <i><font color="#9a1900">   @param a an integer</font></i>
+032: <i><font color="#9a1900">   @param n an integer &gt; 0</font></i>
+033: <i><font color="#9a1900">   @return the mathematically correct remainder r such that</font></i>
+034: <i><font color="#9a1900">      a - r is divisible by n and 0 &lt;= r and r &lt; n</font></i>
+035: <i><font color="#9a1900">*/</font></i>
+036: <font color="#009900">int</font> <b><font color="#000000">remainder</font></b><font color="#990000">(</font><font color="#009900">int</font> a<font color="#990000">,</font> <font color="#009900">int</font> n<font color="#990000">)</font>
+037: <font color="#ff0000">{</font>  <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>a <font color="#990000">&gt;</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> a <font color="#990000">%</font> n<font color="#990000">;</font>
+040:    <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> n <font color="#990000">-</font> <font color="#993399">1</font> <font color="#990000">-</font> <font color="#990000">(</font><font color="#990000">-</font>a <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">)</font> <font color="#990000">%</font> n<font color="#990000">;</font>
+042: <font color="#ff0000">}</font>
 044: <i><font color="#9a1900">/**</font></i>
-045: <i><font
- color="#9a1900">   Encrypts a character using the Caesar cipher.</font></i>
-046: <i><font
- color="#9a1900">   @param ch the character to encrypt</font></i>
-047: <i><font
- color="#9a1900">   @param k the encryption key</font></i>
-048: <i><font
- color="#9a1900">   @return the encrypted character</font></i>
-049: <i><font
- color="#9a1900">*/</font></i>
-050: <font color="#009900">char</font> <b><font
- color="#000000">encrypt</font></b><font color="#990000">(</font><font
- color="#009900">char</font> ch<font color="#990000">,</font> <font
- color="#009900">int</font> k<font color="#990000">)</font>
-051: <font
- color="#ff0000">{</font>  <b><font color="#0000ff">const</font></b> <font
- color="#009900">int</font> NLETTER <font color="#990000">=</font> <font
- color="#ff0000">'Z'</font> <font color="#990000">-</font> <font
- color="#ff0000">'A'</font> <font color="#990000">+</font> <font
- color="#993399">1</font><font color="#990000">;</font>
-053:    <b><font
- color="#0000ff">if</font></b> <font color="#990000">(</font><font
- color="#ff0000">'A'</font> <font color="#990000">&lt;</font><font
- color="#990000">=</font> ch <font color="#990000">&amp;</font><font
- color="#990000">&amp;</font> ch <font color="#990000">&lt;</font><font
- color="#990000">=</font> <font color="#ff0000">'Z'</font><font
- color="#990000">)</font>
-054:       <b><font color="#0000ff">return</font></b> <b><font
- color="#000000">static_cast</font></b><font color="#ff0000">&lt;char&gt;</font><font
- color="#990000">(</font><font color="#ff0000">'A'</font> <font
- color="#990000">+</font> <b><font color="#000000">remainder</font></b><font
- color="#990000">(</font>ch <font color="#990000">-</font> <font
- color="#ff0000">'A'</font> <font color="#990000">+</font> k<font
- color="#990000">,</font> NLETTER<font color="#990000">)</font><font
- color="#990000">)</font><font color="#990000">;</font>
-056:    <b><font
- color="#0000ff">if</font></b> <font color="#990000">(</font><font
- color="#ff0000">'a'</font> <font color="#990000">&lt;</font><font
- color="#990000">=</font> ch <font color="#990000">&amp;</font><font
- color="#990000">&amp;</font> ch <font color="#990000">&lt;</font><font
- color="#990000">=</font> <font color="#ff0000">'z'</font><font
- color="#990000">)</font>
-057:       <b><font color="#0000ff">return</font></b> <b><font
- color="#000000">static_cast</font></b><font color="#ff0000">&lt;char&gt;</font><font
- color="#990000">(</font><font color="#ff0000">'a'</font> <font
- color="#990000">+</font> <b><font color="#000000">remainder</font></b><font
- color="#990000">(</font>ch <font color="#990000">-</font> <font
- color="#ff0000">'a'</font> <font color="#990000">+</font> k<font
- color="#990000">,</font> NLETTER<font color="#990000">)</font><font
- color="#990000">)</font><font color="#990000">;</font>
-059:    <b><font
- color="#0000ff">return</font></b> ch<font color="#990000">;</font>
-060: <font
- color="#ff0000">}</font>
+045: <i><font color="#9a1900">   Encrypts a character using the Caesar cipher.</font></i>
+046: <i><font color="#9a1900">   @param ch the character to encrypt</font></i>
+047: <i><font color="#9a1900">   @param k the encryption key</font></i>
+048: <i><font color="#9a1900">   @return the encrypted character</font></i>
+049: <i><font color="#9a1900">*/</font></i>
+050: <font color="#009900">char</font> <b><font color="#000000">encrypt</font></b><font color="#990000">(</font><font color="#009900">char</font> ch<font color="#990000">,</font> <font color="#009900">int</font> k<font color="#990000">)</font>
+051: <font color="#ff0000">{</font>  <b><font color="#0000ff">const</font></b> <font color="#009900">int</font> NLETTER <font color="#990000">=</font> <font color="#ff0000">'Z'</font> <font color="#990000">-</font> <font color="#ff0000">'A'</font> <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+053:    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font><font color="#ff0000">'A'</font> <font color="#990000">&lt;</font><font color="#990000">=</font> ch <font color="#990000">&amp;</font><font color="#990000">&amp;</font> ch <font color="#990000">&lt;</font><font color="#990000">=</font> <font color="#ff0000">'Z'</font><font color="#990000">)</font>
+054:       <b><font color="#0000ff">return</font></b> <b><font color="#000000">static_cast</font></b><font color="#ff0000">&lt;char&gt;</font><font color="#990000">(</font><font color="#ff0000">'A'</font> <font color="#990000">+</font> <b><font color="#000000">remainder</font></b><font color="#990000">(</font>ch <font color="#990000">-</font> <font color="#ff0000">'A'</font> <font color="#990000">+</font> k<font color="#990000">,</font> NLETTER<font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+056:    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font><font color="#ff0000">'a'</font> <font color="#990000">&lt;</font><font color="#990000">=</font> ch <font color="#990000">&amp;</font><font color="#990000">&amp;</font> ch <font color="#990000">&lt;</font><font color="#990000">=</font> <font color="#ff0000">'z'</font><font color="#990000">)</font>
+057:       <b><font color="#0000ff">return</font></b> <b><font color="#000000">static_cast</font></b><font color="#ff0000">&lt;char&gt;</font><font color="#990000">(</font><font color="#ff0000">'a'</font> <font color="#990000">+</font> <b><font color="#000000">remainder</font></b><font color="#990000">(</font>ch <font color="#990000">-</font> <font color="#ff0000">'a'</font> <font color="#990000">+</font> k<font color="#990000">,</font> NLETTER<font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+059:    <b><font color="#0000ff">return</font></b> ch<font color="#990000">;</font>
+060: <font color="#ff0000">}</font>
 062: <i><font color="#9a1900">/**</font></i>
-063: <i><font
- color="#9a1900">   Encrypts a stream using the Caesar cipher.</font></i>
-064: <i><font
- color="#9a1900">   @param in the stream to read from</font></i>
-065: <i><font
- color="#9a1900">   @param out the stream to write to</font></i>
-066: <i><font
- color="#9a1900">   @param k the encryption key</font></i>
-067: <i><font
- color="#9a1900">*/</font></i>
-068: <font color="#009900">void</font> <b><font
- color="#000000">encrypt_file</font></b><font color="#990000">(</font>istream<font
- color="#990000">&amp;</font> in<font color="#990000">,</font> ostream<font
- color="#990000">&amp;</font> out<font color="#990000">,</font> <font
- color="#009900">int</font> k<font color="#990000">)</font>
-069: <font
- color="#ff0000">{</font>  <font color="#009900">char</font> ch<font
- color="#990000">;</font>
-071:    <b><font color="#0000ff">while</font></b> <font
- color="#990000">(</font>in<font color="#990000">.</font><b><font
- color="#000000">get</font></b><font color="#990000">(</font>ch<font
- color="#990000">)</font><font color="#990000">)</font> out<font
- color="#990000">.</font><b><font color="#000000">put</font></b><font
- color="#990000">(</font><b><font color="#000000">encrypt</font></b><font
- color="#990000">(</font>ch<font color="#990000">,</font> k<font
- color="#990000">)</font><font color="#990000">)</font><font
- color="#990000">;</font>
+063: <i><font color="#9a1900">   Encrypts a stream using the Caesar cipher.</font></i>
+064: <i><font color="#9a1900">   @param in the stream to read from</font></i>
+065: <i><font color="#9a1900">   @param out the stream to write to</font></i>
+066: <i><font color="#9a1900">   @param k the encryption key</font></i>
+067: <i><font color="#9a1900">*/</font></i>
+068: <font color="#009900">void</font> <b><font color="#000000">encrypt_file</font></b><font color="#990000">(</font>istream<font color="#990000">&amp;</font> in<font color="#990000">,</font> ostream<font color="#990000">&amp;</font> out<font color="#990000">,</font> <font color="#009900">int</font> k<font color="#990000">)</font>
+069: <font color="#ff0000">{</font>  <font color="#009900">char</font> ch<font color="#990000">;</font>
+071:    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font>ch<font color="#990000">)</font><font color="#990000">)</font> out<font color="#990000">.</font><b><font color="#000000">put</font></b><font color="#990000">(</font><b><font color="#000000">encrypt</font></b><font color="#990000">(</font>ch<font color="#990000">,</font> k<font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 073: <font color="#ff0000">}</font>
-075: <i><font
- color="#9a1900">/** </font></i>
+075: <i><font color="#9a1900">/** </font></i>
 076: <i><font color="#9a1900">   Converts a string to an integer, e.g. "3" -&gt; 3.</font></i>
-077: <i><font
- color="#9a1900">   @param s a string representing an integer</font></i>
-078: <i><font
- color="#9a1900">   @return the equivalent integer</font></i>
-079: <i><font
- color="#9a1900">*/</font></i>   <br>080: <font color="#009900">int</font> <b><font
- color="#000000">string_to_int</font></b><font color="#990000">(</font>string s<font
- color="#990000">)</font>
-081: <font color="#ff0000">{</font>  istringstream <b><font
- color="#000000">instr</font></b><font color="#990000">(</font>s<font
- color="#990000">)</font><font color="#990000">;</font>
-083:    <font
- color="#009900">int</font> n<font color="#990000">;</font>
-084:    instr <font
- color="#990000">&gt;</font><font color="#990000">&gt;</font> n<font
- color="#990000">;</font>
-085:    <b><font color="#0000ff">return</font></b> n<font
- color="#990000">;</font>
+077: <i><font color="#9a1900">   @param s a string representing an integer</font></i>
+078: <i><font color="#9a1900">   @return the equivalent integer</font></i>
+079: <i><font color="#9a1900">*/</font></i>   <br>080: <font color="#009900">int</font> <b><font color="#000000">string_to_int</font></b><font color="#990000">(</font>string s<font color="#990000">)</font>
+081: <font color="#ff0000">{</font>  istringstream <b><font color="#000000">instr</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
+083:    <font color="#009900">int</font> n<font color="#990000">;</font>
+084:    instr <font color="#990000">&gt;</font><font color="#990000">&gt;</font> n<font color="#990000">;</font>
+085:    <b><font color="#0000ff">return</font></b> n<font color="#990000">;</font>
 086: <font color="#ff0000">}</font>
 087: 
-088: <font
- color="#009900">int</font> <b><font color="#000000">main</font></b><font
- color="#990000">(</font><font color="#009900">int</font> argc<font
- color="#990000">,</font> <font color="#009900">char</font><font
- color="#990000">*</font> argv<font color="#990000">[</font><font
- color="#990000">]</font><font color="#990000">)</font>
-089: <font
- color="#ff0000">{</font>  <font color="#009900">bool</font> decrypt <font
- color="#990000">=</font> <b><font color="#0000ff">false</font></b><font
- color="#990000">;</font>
-091:    <font color="#009900">int</font> key <font
- color="#990000">=</font> <font color="#993399">3</font><font
- color="#990000">;</font>
-092:    <font color="#009900">int</font> nfile <font
- color="#990000">=</font> <font color="#993399">0</font><font
- color="#990000">;</font> <i><font color="#9a1900">/* the number of files specified */</font></i>
-093:    ifstream infile<font
- color="#990000">;</font>
+088: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#009900">int</font> argc<font color="#990000">,</font> <font color="#009900">char</font><font color="#990000">*</font> argv<font color="#990000">[</font><font color="#990000">]</font><font color="#990000">)</font>
+089: <font color="#ff0000">{</font>  <font color="#009900">bool</font> decrypt <font color="#990000">=</font> <b><font color="#0000ff">false</font></b><font color="#990000">;</font>
+091:    <font color="#009900">int</font> key <font color="#990000">=</font> <font color="#993399">3</font><font color="#990000">;</font>
+092:    <font color="#009900">int</font> nfile <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> <i><font color="#9a1900">/* the number of files specified */</font></i>
+093:    ifstream infile<font color="#990000">;</font>
 094:    ofstream outfile<font color="#990000">;</font>
 095: 
-096:    <b><font
- color="#0000ff">if</font></b> <font color="#990000">(</font>argc <font
- color="#990000">&lt;</font> <font color="#993399">3</font> or argc <font
- color="#990000">&gt;</font> <font color="#993399">5</font><font
- color="#990000">)</font> <b><font color="#000000">usage</font></b><font
- color="#990000">(</font><b><font color="#000000">string</font></b><font
- color="#990000">(</font>argv<font color="#990000">[</font><font
- color="#993399">0</font><font color="#990000">]</font><font
- color="#990000">)</font><font color="#990000">)</font><font
- color="#990000">;</font>
+096:    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>argc <font color="#990000">&lt;</font> <font color="#993399">3</font> or argc <font color="#990000">&gt;</font> <font color="#993399">5</font><font color="#990000">)</font> <b><font color="#000000">usage</font></b><font color="#990000">(</font><b><font color="#000000">string</font></b><font color="#990000">(</font>argv<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 097: 
-098:    <font color="#009900">int</font> i<font
- color="#990000">;</font>
-099:    <b><font color="#0000ff">for</font></b> <font
- color="#990000">(</font>i <font color="#990000">=</font> <font
- color="#993399">1</font><font color="#990000">;</font> i <font
- color="#990000">&lt;</font> argc<font color="#990000">;</font> i<font
- color="#990000">+</font><font color="#990000">+</font><font
- color="#990000">)</font>
-100:    <font color="#ff0000">{</font>  string arg <font
- color="#990000">=</font> <b><font color="#000000">string</font></b><font
- color="#990000">(</font>argv<font color="#990000">[</font>i<font
- color="#990000">]</font><font color="#990000">)</font><font
- color="#990000">;</font>
-101:       <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>arg<font color="#990000">.</font><b><font
- color="#000000">length</font></b><font color="#990000">(</font><font
- color="#990000">)</font> <font color="#990000">&gt;</font><font
- color="#990000">=</font> <font color="#993399">2</font> and arg<font
- color="#990000">[</font><font color="#993399">0</font><font
- color="#990000">]</font> <font color="#990000">=</font><font
- color="#990000">=</font> <font color="#ff0000">'-'</font><font
- color="#990000">)</font>
+098:    <font color="#009900">int</font> i<font color="#990000">;</font>
+099:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font>i <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> argc<font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+100:    <font color="#ff0000">{</font>  string arg <font color="#990000">=</font> <b><font color="#000000">string</font></b><font color="#990000">(</font>argv<font color="#990000">[</font>i<font color="#990000">]</font><font color="#990000">)</font><font color="#990000">;</font>
+101:       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>arg<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&gt;</font><font color="#990000">=</font> <font color="#993399">2</font> and arg<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'-'</font><font color="#990000">)</font>
 102:       <i><font color="#9a1900">/* it is a command line option */</font></i>
-103:       <font
- color="#ff0000">{</font>  <font color="#009900">char</font> option <font
- color="#990000">=</font> arg<font color="#990000">[</font><font
- color="#993399">1</font><font color="#990000">]</font><font
- color="#990000">;</font>
-105:          <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>option <font color="#990000">=</font><font
- color="#990000">=</font> <font color="#ff0000">'d'</font><font
- color="#990000">)</font> decrypt <font color="#990000">=</font> <b><font
- color="#0000ff">true</font></b><font color="#990000">;</font>
-107:          <b><font
- color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>option <font color="#990000">=</font><font
- color="#990000">=</font> <font color="#ff0000">'k'</font><font
- color="#990000">)</font>
-108:              key <font color="#990000">=</font> <b><font
- color="#000000">string_to_int</font></b><font color="#990000">(</font>arg<font
- color="#990000">.</font><b><font color="#000000">substr</font></b><font
- color="#990000">(</font><font color="#993399">2</font><font
- color="#990000">,</font> arg<font color="#990000">.</font><b><font
- color="#000000">length</font></b><font color="#990000">(</font><font
- color="#990000">)</font> <font color="#990000">-</font> <font
- color="#993399">2</font><font color="#990000">)</font><font
- color="#990000">)</font><font color="#990000">;</font>
-109:       <font
- color="#ff0000">}</font>
+103:       <font color="#ff0000">{</font>  <font color="#009900">char</font> option <font color="#990000">=</font> arg<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">]</font><font color="#990000">;</font>
+105:          <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>option <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'d'</font><font color="#990000">)</font> decrypt <font color="#990000">=</font> <b><font color="#0000ff">true</font></b><font color="#990000">;</font>
+107:          <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>option <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'k'</font><font color="#990000">)</font>
+108:              key <font color="#990000">=</font> <b><font color="#000000">string_to_int</font></b><font color="#990000">(</font>arg<font color="#990000">.</font><b><font color="#000000">substr</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">,</font> arg<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">-</font> <font color="#993399">2</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+109:       <font color="#ff0000">}</font>
 110:       <b><font color="#0000ff">else</font></b>
-111:       <font
- color="#ff0000">{</font>  nfile<font color="#990000">+</font><font
- color="#990000">+</font><font color="#990000">;</font>
-113:          <b><font
- color="#0000ff">if</font></b> <font color="#990000">(</font>nfile <font
- color="#990000">=</font><font color="#990000">=</font> <font
- color="#993399">1</font><font color="#990000">)</font>
-114:          <font
- color="#ff0000">{</font>  infile<font color="#990000">.</font><b><font
- color="#000000">open</font></b><font color="#990000">(</font>arg<font
- color="#990000">.</font><b><font color="#000000">c_str</font></b><font
- color="#990000">(</font><font color="#990000">)</font><font
- color="#990000">)</font><font color="#990000">;</font>
-116:             <b><font
- color="#0000ff">if</font></b> <font color="#990000">(</font>infile<font
- color="#990000">.</font><b><font color="#000000">fail</font></b><font
- color="#990000">(</font><font color="#990000">)</font><font
- color="#990000">)</font> <b><font color="#000000">open_file_error</font></b><font
- color="#990000">(</font>arg<font color="#990000">)</font><font
- color="#990000">;</font>
+111:       <font color="#ff0000">{</font>  nfile<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+113:          <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>nfile <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">)</font>
+114:          <font color="#ff0000">{</font>  infile<font color="#990000">.</font><b><font color="#000000">open</font></b><font color="#990000">(</font>arg<font color="#990000">.</font><b><font color="#000000">c_str</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+116:             <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>infile<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font> <b><font color="#000000">open_file_error</font></b><font color="#990000">(</font>arg<font color="#990000">)</font><font color="#990000">;</font>
 117:          <font color="#ff0000">}</font>
-118:          <b><font
- color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>nfile <font color="#990000">=</font><font
- color="#990000">=</font> <font color="#993399">2</font><font
- color="#990000">)</font>
-119:          <font color="#ff0000">{</font>  outfile<font
- color="#990000">.</font><b><font color="#000000">open</font></b><font
- color="#990000">(</font>arg<font color="#990000">.</font><b><font
- color="#000000">c_str</font></b><font color="#990000">(</font><font
- color="#990000">)</font><font color="#990000">)</font><font
- color="#990000">;</font>
-121:             <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>outfile<font color="#990000">.</font><b><font
- color="#000000">fail</font></b><font color="#990000">(</font><font
- color="#990000">)</font><font color="#990000">)</font> <b><font
- color="#000000">open_file_error</font></b><font color="#990000">(</font>arg<font
- color="#990000">)</font><font color="#990000">;</font>
-122:          <font
- color="#ff0000">}</font>
+118:          <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>nfile <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">2</font><font color="#990000">)</font>
+119:          <font color="#ff0000">{</font>  outfile<font color="#990000">.</font><b><font color="#000000">open</font></b><font color="#990000">(</font>arg<font color="#990000">.</font><b><font color="#000000">c_str</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+121:             <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>outfile<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font> <b><font color="#000000">open_file_error</font></b><font color="#990000">(</font>arg<font color="#990000">)</font><font color="#990000">;</font>
+122:          <font color="#ff0000">}</font>
 123:       <font color="#ff0000">}</font>
-124:    <font
- color="#ff0000">}</font>
+124:    <font color="#ff0000">}</font>
 125: 
-126:    <b><font color="#0000ff">if</font></b><font
- color="#990000">(</font>nfile <font color="#990000">!</font><font
- color="#990000">=</font> <font color="#993399">2</font><font
- color="#990000">)</font> <b><font color="#000000">usage</font></b><font
- color="#990000">(</font><b><font color="#000000">string</font></b><font
- color="#990000">(</font>argv<font color="#990000">[</font><font
- color="#993399">0</font><font color="#990000">]</font><font
- color="#990000">)</font><font color="#990000">)</font><font
- color="#990000">;</font>
+126:    <b><font color="#0000ff">if</font></b><font color="#990000">(</font>nfile <font color="#990000">!</font><font color="#990000">=</font> <font color="#993399">2</font><font color="#990000">)</font> <b><font color="#000000">usage</font></b><font color="#990000">(</font><b><font color="#000000">string</font></b><font color="#990000">(</font>argv<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 127: 
-128:    <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>decrypt<font color="#990000">)</font> key <font
- color="#990000">=</font> <font color="#990000">-</font>key<font
- color="#990000">;</font>
+128:    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>decrypt<font color="#990000">)</font> key <font color="#990000">=</font> <font color="#990000">-</font>key<font color="#990000">;</font>
 129: 
-130:    <b><font color="#000000">encrypt_file</font></b><font
- color="#990000">(</font>infile<font color="#990000">,</font> outfile<font
- color="#990000">,</font> key<font color="#990000">)</font><font
- color="#990000">;</font>
-131:    infile<font color="#990000">.</font><b><font
- color="#000000">close</font></b><font color="#990000">(</font><font
- color="#990000">)</font><font color="#990000">;</font>
-132:    outfile<font
- color="#990000">.</font><b><font color="#000000">close</font></b><font
- color="#990000">(</font><font color="#990000">)</font><font
- color="#990000">;</font>
-133:    <b><font color="#0000ff">return</font></b> <font
- color="#993399">0</font><font color="#990000">;</font>
-134: <font
- color="#ff0000">}</font>
+130:    <b><font color="#000000">encrypt_file</font></b><font color="#990000">(</font>infile<font color="#990000">,</font> outfile<font color="#990000">,</font> key<font color="#990000">)</font><font color="#990000">;</font>
+131:    infile<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+132:    outfile<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+133:    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+134: <font color="#ff0000">}</font>
 </tt>
 </pre>
 </body>

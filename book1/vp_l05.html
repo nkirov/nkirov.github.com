@@ -1,452 +1,486 @@
-<!doctype html public "-//w3c//dtd html 4.0 transitional//en">
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
 <html>
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=windows-1251">
+   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
    <meta name="Author" content="Nikolay Kirov">
    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U) [Netscape]">
    <title>vp_l05</title>
 </head>
 <body>
 
-<hr WIDTH="100%">
+<hr width="100%">
 <center>
-<p><b><font size=+1>5. Условни оператори&nbsp; I</font></b></center>
+<p><b><font size="+1">5. РЈСЃР»РѕРІРЅРё РѕРїРµСЂР°С‚РѕСЂРёВ  I</font></b></p>
+</center>
 
-<div align=right><b><i><font size=-1>&nbsp;</font></i></b>
-<br><b><i><font size=-1>"Човечето от нищо искало да опита, потърсило стена,
-за да си</font></i></b>
-<br><b><i><font size=-1>блъсне главата, но стената била от нищо и тъй като
-се било</font></i></b>
-<br><b><i><font size=-1>засилило - паднало от другата страна."</font></i></b>
-<br><b><i><font size=-1>Джани Родари, Човечето от нищо</font></i></b>
-<br><b><i><font size=-1>&nbsp;</font></i></b></div>
-<img SRC="bullet.gif" height=18 width=20> Условният оператор
+<div align="right">
+<b><i><font size="-1">В </font></i></b>
+<br><b><i><font size="-1">"Р§РѕРІРµС‡РµС‚Рѕ РѕС‚ РЅРёС‰Рѕ РёСЃРєР°Р»Рѕ РґР° РѕРїРёС‚Р°, РїРѕС‚СЉСЂСЃРёР»Рѕ СЃС‚РµРЅР°,
+Р·Р° РґР° СЃРё</font></i></b>
+<br><b><i><font size="-1">Р±Р»СЉСЃРЅРµ РіР»Р°РІР°С‚Р°, РЅРѕ СЃС‚РµРЅР°С‚Р° Р±РёР»Р° РѕС‚ РЅРёС‰Рѕ Рё С‚СЉР№ РєР°С‚Рѕ
+СЃРµ Р±РёР»Рѕ</font></i></b>
+<br><b><i><font size="-1">Р·Р°СЃРёР»РёР»Рѕ - РїР°РґРЅР°Р»Рѕ РѕС‚ РґСЂСѓРіР°С‚Р° СЃС‚СЂР°РЅР°."</font></i></b>
+<br><b><i><font size="-1">Р”Р¶Р°РЅРё Р РѕРґР°СЂРё, Р§РѕРІРµС‡РµС‚Рѕ РѕС‚ РЅРёС‰Рѕ</font></i></b>
+<br><b><i><font size="-1">В </font></i></b>
+</div>
+<img src="bullet.gif" height="18" width="20"> РЈСЃР»РѕРІРЅРёСЏС‚ РѕРїРµСЂР°С‚РѕСЂ
 <b><tt>if.</tt></b>
-<br>** Програма за&nbsp; намиране на корените на квадратното уравнение
+<br>** РџСЂРѕРіСЂР°РјР° Р·Р°В  РЅР°РјРёСЂР°РЅРµ РЅР° РєРѕСЂРµРЅРёС‚Рµ РЅР° РєРІР°РґСЂР°С‚РЅРѕС‚Рѕ СѓСЂР°РІРЅРµРЅРёРµ
 <i>ax</i><sup>2</sup><i>+
 bx + c = </i>0.
 <br><b><tt><font color="#000099">// sqe1.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;double a;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;double b;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;double c;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cout &lt;&lt; "Enter the coeficients
+<br><b><tt><font color="#000099">В double a;</font></tt></b>
+<br><b><tt><font color="#000099">В double b;</font></tt></b>
+<br><b><tt><font color="#000099">В double c;</font></tt></b>
+<br><b><tt><font color="#000099">В cout &lt;&lt; "Enter the coeficients
 a, b and c: ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cin >> a >> b >> c;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;double diskr = b*b - 4*a*c;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (diskr >= 0)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; double x1 = (-b+sqrt(diskr))/(2*a);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; double x2 = (-b-sqrt(diskr))/(2*a);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "The roots are: "
+<br><b><tt><font color="#000099">В cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</font></tt></b>
+<br><b><tt><font color="#000099">В double diskr = b*b - 4*a*c;</font></tt></b>
+<br><b><tt><font color="#000099">В if (diskr &gt;= 0)</font></tt></b>
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  double x1 = (-b+sqrt(diskr))/(2*a);</font></tt></b>
+<br><b><tt><font color="#000099">В  double x2 = (-b-sqrt(diskr))/(2*a);</font></tt></b>
+<br><b><tt><font color="#000099">В  cout &lt;&lt; "The roots are: "
 &lt;&lt; x1 &lt;&lt; " and " &lt;&lt; x2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В }</font></tt></b>
+<br><b><tt><font color="#000099">В return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<table BORDER CELLPADDING=4 WIDTH="100%" >
-<tr>
-<td><b><tt><font color="#CC0000">Enter the coeficients a, b and c: 1 -3
-2</font></tt></b>
-<br><b><tt><font color="#CC0000">The roots are: 2 and 1</font></tt></b></td>
-</tr>
-</table>
-&nbsp;&nbsp;&nbsp; В този вариант на програмата трябва да се задават "разумни"
-стойности - например при въвеждане на 0 за стойност на променливата <b><tt>a
-</tt></b>изпълнението
-на програмата ще се прекрати поради грешка "деление на 0".
-<br>** Синтаксис:
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=1 WIDTH="100%" >
+</p>
+<table border cellpadding="4" width="100%">
 <tr>
 <td>
-<center><table BORDER=0 CELLSPACING=0 >
+<b><tt><font color="#CC0000">Enter the coeficients a, b and c: 1 -3
+2</font></tt></b>
+<br><b><tt><font color="#CC0000">The roots are: 2 and 1</font></tt></b>
+</td>
+</tr>
+</table>
+В В В  Р’ С‚РѕР·Рё РІР°СЂРёР°РЅС‚ РЅР° РїСЂРѕРіСЂР°РјР°С‚Р° С‚СЂСЏР±РІР° РґР° СЃРµ Р·Р°РґР°РІР°С‚ "СЂР°Р·СѓРјРЅРё"
+СЃС‚РѕР№РЅРѕСЃС‚Рё - РЅР°РїСЂРёРјРµСЂ РїСЂРё РІСЉРІРµР¶РґР°РЅРµ РЅР° 0 Р·Р° СЃС‚РѕР№РЅРѕСЃС‚ РЅР° РїСЂРѕРјРµРЅР»РёРІР°С‚Р° <b><tt>a
+</tt></b>РёР·РїСЉР»РЅРµРЅРёРµС‚Рѕ
+РЅР° РїСЂРѕРіСЂР°РјР°С‚Р° С‰Рµ СЃРµ РїСЂРµРєСЂР°С‚Рё РїРѕСЂР°РґРё РіСЂРµС€РєР° "РґРµР»РµРЅРёРµ РЅР° 0".
+<br>** РЎРёРЅС‚Р°РєСЃРёСЃ:
+<table border cellspacing="0" cellpadding="4" cols="1" width="100%">
 <tr>
-<td><b><tt><font color="#990000"><font size=+1>if</font></font></tt></b></td>
+<td>
+<center><table border="0" cellspacing="0">
+<tr>
+<td><b><tt><font color="#990000"><font size="+1">if</font></font></tt></b></td>
 
-<td><b><tt><font color="#990000"><font size=+1>(&lt;<i>условие></i>)</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1">(&lt;<i>СѓСЃР»РѕРІРёРµ&gt;</i>)</font></font></tt></b></td>
 
-<td><b><tt><font color="#990000"><font size=+1><i>&nbsp;&lt;оператор></i>;</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1"><i>В &lt;РѕРїРµСЂР°С‚РѕСЂ&gt;</i>;</font></font></tt></b></td>
 </tr>
 </table></center>
 </td>
 </tr>
 </table>
 
-<p>&nbsp;&nbsp;&nbsp; Когато условието е вярно, се изпълнява оператора.
-Ако условието е нарушено (не е вярно), се изпълнява следващия оператор
-(след оператора <b><tt>if</tt></b>).
-<br>&nbsp;&nbsp;&nbsp; Блок се нарича група оператори, заградени с фигурни
-скоби
-<b><tt>{}.</tt></b>Блокът се разглежда като един оператор.
+<p>В В В  РљРѕРіР°С‚Рѕ СѓСЃР»РѕРІРёРµС‚Рѕ Рµ РІСЏСЂРЅРѕ, СЃРµ РёР·РїСЉР»РЅСЏРІР° РѕРїРµСЂР°С‚РѕСЂР°.
+РђРєРѕ СѓСЃР»РѕРІРёРµС‚Рѕ Рµ РЅР°СЂСѓС€РµРЅРѕ (РЅРµ Рµ РІСЏСЂРЅРѕ), СЃРµ РёР·РїСЉР»РЅСЏРІР° СЃР»РµРґРІР°С‰РёСЏ РѕРїРµСЂР°С‚РѕСЂ
+(СЃР»РµРґ РѕРїРµСЂР°С‚РѕСЂР° <b><tt>if</tt></b>).
+<br>В В В  Р‘Р»РѕРє СЃРµ РЅР°СЂРёС‡Р° РіСЂСѓРїР° РѕРїРµСЂР°С‚РѕСЂРё, Р·Р°РіСЂР°РґРµРЅРё СЃ С„РёРіСѓСЂРЅРё
+СЃРєРѕР±Рё
+<b><tt>{}.</tt></b>Р‘Р»РѕРєСЉС‚ СЃРµ СЂР°Р·РіР»РµР¶РґР° РєР°С‚Рѕ РµРґРёРЅ РѕРїРµСЂР°С‚РѕСЂ.
 <br>
-<hr WIDTH="100%">
-<br><img SRC="bullet.gif" height=18 width=20> Операции за сравнение на
-числа и низове.
-<br>&nbsp;
-<table BORDER CELLSPACING=0 CELLPADDING=4 >
+</p>
+<hr width="100%">
+<br><img src="bullet.gif" height="18" width="20"> РћРїРµСЂР°С†РёРё Р·Р° СЃСЂР°РІРЅРµРЅРёРµ РЅР°
+С‡РёСЃР»Р° Рё РЅРёР·РѕРІРµ.
+<br>В 
+<table border cellspacing="0" cellpadding="4">
 <tr>
-<td><b><tt>&nbsp;></tt></b></td>
+<td><b><tt>В &gt;</tt></b></td>
 
-<td><b>&nbsp;</b>по-голямо</td>
+<td>
+<b>В </b>РїРѕ-РіРѕР»СЏРјРѕ</td>
 </tr>
 
 <tr>
-<td><b><tt>&nbsp;>=</tt></b></td>
+<td><b><tt>В &gt;=</tt></b></td>
 
-<td><b>&nbsp;</b>по-голямо или равно</td>
+<td>
+<b>В </b>РїРѕ-РіРѕР»СЏРјРѕ РёР»Рё СЂР°РІРЅРѕ</td>
 </tr>
 
 <tr>
-<td><b><tt>&nbsp;&lt;</tt></b></td>
+<td><b><tt>В &lt;</tt></b></td>
 
-<td><b>&nbsp;</b>по-малко</td>
+<td>
+<b>В </b>РїРѕ-РјР°Р»РєРѕ</td>
 </tr>
 
 <tr>
-<td><b><tt>&nbsp;&lt;=</tt></b></td>
+<td><b><tt>В &lt;=</tt></b></td>
 
-<td><b>&nbsp;</b>по-малко или равно</td>
+<td>
+<b>В </b>РїРѕ-РјР°Р»РєРѕ РёР»Рё СЂР°РІРЅРѕ</td>
 </tr>
 
 <tr>
-<td><b><tt>&nbsp;==</tt></b></td>
+<td><b><tt>В ==</tt></b></td>
 
-<td><b>&nbsp;</b>равно</td>
+<td>
+<b>В </b>СЂР°РІРЅРѕ</td>
 </tr>
 
 <tr>
-<td><b><tt>&nbsp;!=</tt></b></td>
+<td><b><tt>В !=</tt></b></td>
 
-<td><b>&nbsp;</b>различно (неравно)</td>
+<td>
+<b>В </b>СЂР°Р·Р»РёС‡РЅРѕ (РЅРµСЂР°РІРЅРѕ)</td>
 </tr>
 </table>
-* Сравняване на числа - по правилата в математиката.
-<br>* Сравняване на низове - лексикографска наредба. Когато два низа се
-сравняват, се започва със сравняване на първите им символи - ако те са
-еднакви, се преминава към вторите и т.н. Процесът спира или когато се стигне
-до края на единия низ, или когато се стигне до първата разлика. В първия
-случай по-късият низ е по-напред (по-малък) в лексикографската наредба.
-Във втория случай се гледа кой от двата символа е по-напред в&nbsp; ASCII
-таблицата.
+* РЎСЂР°РІРЅСЏРІР°РЅРµ РЅР° С‡РёСЃР»Р° - РїРѕ РїСЂР°РІРёР»Р°С‚Р° РІ РјР°С‚РµРјР°С‚РёРєР°С‚Р°.
+<br>* РЎСЂР°РІРЅСЏРІР°РЅРµ РЅР° РЅРёР·РѕРІРµ - Р»РµРєСЃРёРєРѕРіСЂР°С„СЃРєР° РЅР°СЂРµРґР±Р°. РљРѕРіР°С‚Рѕ РґРІР° РЅРёР·Р° СЃРµ
+СЃСЂР°РІРЅСЏРІР°С‚, СЃРµ Р·Р°РїРѕС‡РІР° СЃСЉСЃ СЃСЂР°РІРЅСЏРІР°РЅРµ РЅР° РїСЉСЂРІРёС‚Рµ РёРј СЃРёРјРІРѕР»Рё - Р°РєРѕ С‚Рµ СЃР°
+РµРґРЅР°РєРІРё, СЃРµ РїСЂРµРјРёРЅР°РІР° РєСЉРј РІС‚РѕСЂРёС‚Рµ Рё С‚.РЅ. РџСЂРѕС†РµСЃСЉС‚ СЃРїРёСЂР° РёР»Рё РєРѕРіР°С‚Рѕ СЃРµ СЃС‚РёРіРЅРµ
+РґРѕ РєСЂР°СЏ РЅР° РµРґРёРЅРёСЏ РЅРёР·, РёР»Рё РєРѕРіР°С‚Рѕ СЃРµ СЃС‚РёРіРЅРµ РґРѕ РїСЉСЂРІР°С‚Р° СЂР°Р·Р»РёРєР°. Р’ РїСЉСЂРІРёСЏ
+СЃР»СѓС‡Р°Р№ РїРѕ-РєСЉСЃРёСЏС‚ РЅРёР· Рµ РїРѕ-РЅР°РїСЂРµРґ (РїРѕ-РјР°Р»СЉРє) РІ Р»РµРєСЃРёРєРѕРіСЂР°С„СЃРєР°С‚Р° РЅР°СЂРµРґР±Р°.
+Р’СЉРІ РІС‚РѕСЂРёСЏ СЃР»СѓС‡Р°Р№ СЃРµ РіР»РµРґР° РєРѕР№ РѕС‚ РґРІР°С‚Р° СЃРёРјРІРѕР»Р° Рµ РїРѕ-РЅР°РїСЂРµРґ РІВ  ASCII
+С‚Р°Р±Р»РёС†Р°С‚Р°.
 <br><b><tt>"car" &lt; "truck", "car" &lt; "cat", "car" &lt; "cargo"</tt></b>
-<p>* ASCII таблица
-<br><b><tt>&nbsp; 32:&nbsp;&nbsp; 33:!&nbsp; 34:"&nbsp; 35:#&nbsp; 36:$&nbsp;
-37:%&nbsp; 38:&amp;&nbsp; 39:'&nbsp; 40:(&nbsp; 41:)</tt></b>
-<br><b><tt>&nbsp; 42:*&nbsp; 43:+&nbsp; 44:,&nbsp; 45:-&nbsp; 46:. 47:/&nbsp;
-48:0&nbsp; 49:1&nbsp; 50:2&nbsp; 51:3</tt></b>
-<br><b><tt>&nbsp; 52:4&nbsp; 53:5&nbsp; 54:6&nbsp; 55:7&nbsp; 56:8&nbsp;
-57:9&nbsp; 58::&nbsp; 59:;&nbsp; 60:&lt;&nbsp; 61:=</tt></b>
-<br><b><tt>&nbsp; 62:>&nbsp; 63:?&nbsp; 64:@&nbsp; 65:A&nbsp; 66:B&nbsp;
-67:C&nbsp; 68:D&nbsp; 69:E&nbsp; 70:F&nbsp; 71:G</tt></b>
-<br><b><tt>&nbsp; 72:H&nbsp; 73:I&nbsp; 74:J&nbsp; 75:K&nbsp; 76:L&nbsp;
-77:M&nbsp; 78:N&nbsp; 79:O&nbsp; 80:P&nbsp; 81:Q</tt></b>
-<br><b><tt>&nbsp; 82:R&nbsp; 83:S&nbsp; 84:T&nbsp; 85:U&nbsp; 86:V&nbsp;
-87:W&nbsp; 88:X&nbsp; 89:Y&nbsp; 90:Z&nbsp; 91:[</tt></b>
-<br><b><tt>&nbsp; 92:\&nbsp; 93:]&nbsp; 94:^&nbsp; 95:_&nbsp; 96:`&nbsp;
-97:a&nbsp; 98:b&nbsp; 99:c 100:d 101:e</tt></b>
-<br><b><tt>&nbsp;102:f 103:g 104:h 105:i 106:j 107:k 108:l 109:m 110:n
+<p>* ASCII С‚Р°Р±Р»РёС†Р°
+<br><b><tt>В  32:В В  33:!В  34:"В  35:#В  36:$В 
+37:%В  38:&amp;В  39:'В  40:(В  41:)</tt></b>
+<br><b><tt>В  42:*В  43:+В  44:,В  45:-В  46:. 47:/В 
+48:0В  49:1В  50:2В  51:3</tt></b>
+<br><b><tt>В  52:4В  53:5В  54:6В  55:7В  56:8В 
+57:9В  58::В  59:;В  60:&lt;В  61:=</tt></b>
+<br><b><tt>В  62:&gt;В  63:?В  64:@В  65:AВ  66:BВ 
+67:CВ  68:DВ  69:EВ  70:FВ  71:G</tt></b>
+<br><b><tt>В  72:HВ  73:IВ  74:JВ  75:KВ  76:LВ 
+77:MВ  78:NВ  79:OВ  80:PВ  81:Q</tt></b>
+<br><b><tt>В  82:RВ  83:SВ  84:TВ  85:UВ  86:VВ 
+87:WВ  88:XВ  89:YВ  90:ZВ  91:[</tt></b>
+<br><b><tt>В  92:\В  93:]В  94:^В  95:_В  96:`В 
+97:aВ  98:bВ  99:c 100:d 101:e</tt></b>
+<br><b><tt>В 102:f 103:g 104:h 105:i 106:j 107:k 108:l 109:m 110:n
 111:o</tt></b>
-<br><b><tt>&nbsp;112:p 113:q 114:r 115:s 116:t 117:u 118:v 119:w 120:x
+<br><b><tt>В 112:p 113:q 114:r 115:s 116:t 117:u 118:v 119:w 120:x
 121:y</tt></b>
-<br><b><tt>&nbsp;122:z 123:{ 124:| 125:} 126:~ 127: 128:Ђ 129:Ѓ 130:‚
-131:ѓ</tt></b>
-<br><b><tt>&nbsp;132:„ 133:… 134:† 135:‡ 136:€ 137:‰ 138:Љ 139:‹ 140:Њ
-141:Ќ</tt></b>
-<br><b><tt>&nbsp;142:Ћ 143:Џ 144:ђ 145:‘ 146:’ 147:“ 148:” 149:• 150:–
-151:—</tt></b>
-<br><b><tt>&nbsp;152: 153:™ 154:љ 155:› 156:њ 157:ќ 158:ћ 159:џ 160:&nbsp;
-161:Ў</tt></b>
-<br><b><tt>&nbsp;162:ў 163:Ј 164:¤ 165:Ґ 166:¦ 167:§ 168:Ё 169:© 170:Є
-171:«</tt></b>
-<br><b><tt>&nbsp;172:¬ 173:­ 174:® 175:Ї 176:° 177:± 178:І 179:і 180:ґ
-181:µ</tt></b>
-<br><b><tt>&nbsp;182:¶ 183:· 184:ё 185:№ 186:є 187:» 188:ј 189:Ѕ 190:ѕ
-191:ї</tt></b>
-<br><b><tt>&nbsp;192:А 193:Б 194:В 195:Г 196:Д 197:Е 198:Ж 199:З 200:И
-201:Й</tt></b>
-<br><b><tt>&nbsp;202:К 203:Л 204:М 205:Н 206:О 207:П 208:Р 209:С 210:Т
-211:У</tt></b>
-<br><b><tt>&nbsp;212:Ф 213:Х 214:Ц 215:Ч 216:Ш 217:Щ 218:Ъ 219:Ы 220:Ь
-221:Э</tt></b>
-<br><b><tt>&nbsp;222:Ю 223:Я 224:а 225:б 226:в 227:г 228:д 229:е 230:ж
-231:з</tt></b>
-<br><b><tt>&nbsp;232:и 233:й 234:к 235:л 236:м 237:н 238:о 239:п 240:р
-241:с</tt></b>
-<br><b><tt>&nbsp;242:т 243:у 244:ф 245:х 246:ц 247:ч 248:ш 249:щ 250:ъ
-251:ы</tt></b>
-<br><b><tt>&nbsp;252:ь 253:э 254:ю 255:</tt></b>
-<br>&nbsp;&nbsp;&nbsp; Първите 32 символа (от 0 до 31) са управляващи символи
-и нямат стандартен графичен образ. Символите от 127 до 255 са различни
-в различните езици. Мястото на българската азбука е различно в зависимост
-от типа на кодирането - в таблицата е даден стандарта Windows-1251.
+<br><b><tt>В 122:z 123:{ 124:| 125:} 126:~ 127: 128:Р‚ 129:Рѓ 130:вЂљ
+131:С“</tt></b>
+<br><b><tt>В 132:вЂћ 133:вЂ¦ 134:вЂ  135:вЂЎ 136:в‚¬ 137:вЂ° 138:Р‰ 139:вЂ№ 140:РЉ
+141:РЊ</tt></b>
+<br><b><tt>В 142:Р‹ 143:РЏ 144:С’ 145:вЂ 146:вЂ™ 147:вЂњ 148:вЂќ 149:вЂў 150:вЂ“
+151:вЂ”</tt></b>
+<br><b><tt>В 152: 153:в„ў 154:С™ 155:вЂє 156:Сљ 157:Сњ 158:С› 159:Сџ 160:В 
+161:РЋ</tt></b>
+<br><b><tt>В 162:Сћ 163:Р€ 164:В¤ 165:Тђ 166:В¦ 167:В§ 168:РЃ 169:В© 170:Р„
+171:В«</tt></b>
+<br><b><tt>В 172:В¬ 173:В­ 174:В® 175:Р‡ 176:В° 177:В± 178:Р† 179:С– 180:Т‘
+181:Вµ</tt></b>
+<br><b><tt>В 182:В¶ 183:В· 184:С‘ 185:в„– 186:С” 187:В» 188:С 189:Р… 190:С•
+191:С—</tt></b>
+<br><b><tt>В 192:Рђ 193:Р‘ 194:Р’ 195:Р“ 196:Р” 197:Р• 198:Р– 199:Р— 200:Р
+201:Р™</tt></b>
+<br><b><tt>В 202:Рљ 203:Р› 204:Рњ 205:Рќ 206:Рћ 207:Рџ 208:Р  209:РЎ 210:Рў
+211:РЈ</tt></b>
+<br><b><tt>В 212:Р¤ 213:РҐ 214:Р¦ 215:Р§ 216:РЁ 217:Р© 218:РЄ 219:Р« 220:Р¬
+221:Р­</tt></b>
+<br><b><tt>В 222:Р® 223:РЇ 224:Р° 225:Р± 226:РІ 227:Рі 228:Рґ 229:Рµ 230:Р¶
+231:Р·</tt></b>
+<br><b><tt>В 232:Рё 233:Р№ 234:Рє 235:Р» 236:Рј 237:РЅ 238:Рѕ 239:Рї 240:СЂ
+241:СЃ</tt></b>
+<br><b><tt>В 242:С‚ 243:Сѓ 244:С„ 245:С… 246:С† 247:С‡ 248:С€ 249:С‰ 250:СЉ
+251:С‹</tt></b>
+<br><b><tt>В 252:СЊ 253:СЌ 254:СЋ 255:</tt></b>
+<br>В В В  РџСЉСЂРІРёС‚Рµ 32 СЃРёРјРІРѕР»Р° (РѕС‚ 0 РґРѕ 31) СЃР° СѓРїСЂР°РІР»СЏРІР°С‰Рё СЃРёРјРІРѕР»Рё
+Рё РЅСЏРјР°С‚ СЃС‚Р°РЅРґР°СЂС‚РµРЅ РіСЂР°С„РёС‡РµРЅ РѕР±СЂР°Р·. РЎРёРјРІРѕР»РёС‚Рµ РѕС‚ 127 РґРѕ 255 СЃР° СЂР°Р·Р»РёС‡РЅРё
+РІ СЂР°Р·Р»РёС‡РЅРёС‚Рµ РµР·РёС†Рё. РњСЏСЃС‚РѕС‚Рѕ РЅР° Р±СЉР»РіР°СЂСЃРєР°С‚Р° Р°Р·Р±СѓРєР° Рµ СЂР°Р·Р»РёС‡РЅРѕ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚
+РѕС‚ С‚РёРїР° РЅР° РєРѕРґРёСЂР°РЅРµС‚Рѕ - РІ С‚Р°Р±Р»РёС†Р°С‚Р° Рµ РґР°РґРµРЅ СЃС‚Р°РЅРґР°СЂС‚Р° Windows-1251.
 <br>
-<hr WIDTH="100%">
-<br><img SRC="bullet.gif" height=18 width=20> Сравняване на числа с плаваща
-точка.
-<br>* Числата с плаваща точка имат ограничена точност и пресмятанията с
-тях са източник на грешки от закръгляне. Например
+</p>
+<hr width="100%">
+<br><img src="bullet.gif" height="18" width="20"> РЎСЂР°РІРЅСЏРІР°РЅРµ РЅР° С‡РёСЃР»Р° СЃ РїР»Р°РІР°С‰Р°
+С‚РѕС‡РєР°.
+<br>* Р§РёСЃР»Р°С‚Р° СЃ РїР»Р°РІР°С‰Р° С‚РѕС‡РєР° РёРјР°С‚ РѕРіСЂР°РЅРёС‡РµРЅР° С‚РѕС‡РЅРѕСЃС‚ Рё РїСЂРµСЃРјСЏС‚Р°РЅРёСЏС‚Р° СЃ
+С‚СЏС… СЃР° РёР·С‚РѕС‡РЅРёРє РЅР° РіСЂРµС€РєРё РѕС‚ Р·Р°РєСЂСЉРіР»СЏРЅРµ. РќР°РїСЂРёРјРµСЂ
 <br><b><tt><font color="#000099">// round1.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;double r = sqrt(2);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (r*r == 2) cout &lt;&lt; r*r
+<br><b><tt><font color="#000099">В double r = sqrt(2);</font></tt></b>
+<br><b><tt><font color="#000099">В if (r*r == 2) cout &lt;&lt; r*r
 &lt;&lt; " OK\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;else cout &lt;&lt; r*r &lt;&lt;
+<br><b><tt><font color="#000099">В else cout &lt;&lt; r*r &lt;&lt;
 " BAD\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+</p>
+<table border cellpadding="4" width="100%">
 <tr>
 <td><b><tt><font color="#990000">2 BAD</font></tt></b></td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp; Вътрешното представяне на <b><tt>r*r</tt></b> е всъщност
-2.00000000004 (броят на нулите няма значение).
-<br>Затова числа с плаваща точка никога не се сравняват за равенство.
-<br>*&nbsp; За избягване на подобни ефекти числата трябва да се сравняват
-за абсолютна или относителна близост.
-<br>- Aбсолютна близост на числата <b><tt>x</tt></b> и <b><tt>y:</tt></b>
-<br><b><tt>&nbsp; <font color="#006600">if (fabs(x-y) &lt; eps) cout &lt;&lt;
-"Числата за абсолютно близки";</font></tt></b>
-<br>- Относителна близост на числата <b><tt>x</tt></b> и <b><tt>y:</tt></b>
-<br><b><tt>&nbsp;<font color="#006600"> double dmax = fabs(x);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; if (fabs(y) > dmax) dmax = fabs(y);</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp; if (fabs(x-y) &lt; dmax*eps) &lt;&lt;
-"Числата за относително близки";</font></tt></b>
+В В В  Р’СЉС‚СЂРµС€РЅРѕС‚Рѕ РїСЂРµРґСЃС‚Р°РІСЏРЅРµ РЅР° <b><tt>r*r</tt></b> Рµ РІСЃСЉС‰РЅРѕСЃС‚
+2.00000000004 (Р±СЂРѕСЏС‚ РЅР° РЅСѓР»РёС‚Рµ РЅСЏРјР° Р·РЅР°С‡РµРЅРёРµ).
+<br>Р—Р°С‚РѕРІР° С‡РёСЃР»Р° СЃ РїР»Р°РІР°С‰Р° С‚РѕС‡РєР° РЅРёРєРѕРіР° РЅРµ СЃРµ СЃСЂР°РІРЅСЏРІР°С‚ Р·Р° СЂР°РІРµРЅСЃС‚РІРѕ.
+<br>*В  Р—Р° РёР·Р±СЏРіРІР°РЅРµ РЅР° РїРѕРґРѕР±РЅРё РµС„РµРєС‚Рё С‡РёСЃР»Р°С‚Р° С‚СЂСЏР±РІР° РґР° СЃРµ СЃСЂР°РІРЅСЏРІР°С‚
+Р·Р° Р°Р±СЃРѕР»СЋС‚РЅР° РёР»Рё РѕС‚РЅРѕСЃРёС‚РµР»РЅР° Р±Р»РёР·РѕСЃС‚.
+<br>- AР±СЃРѕР»СЋС‚РЅР° Р±Р»РёР·РѕСЃС‚ РЅР° С‡РёСЃР»Р°С‚Р° <b><tt>x</tt></b> Рё <b><tt>y:</tt></b>
+<br><b><tt>В  <font color="#006600">if (fabs(x-y) &lt; eps) cout &lt;&lt;
+"Р§РёСЃР»Р°С‚Р° Р·Р° Р°Р±СЃРѕР»СЋС‚РЅРѕ Р±Р»РёР·РєРё";</font></tt></b>
+<br>- РћС‚РЅРѕСЃРёС‚РµР»РЅР° Р±Р»РёР·РѕСЃС‚ РЅР° С‡РёСЃР»Р°С‚Р° <b><tt>x</tt></b> Рё <b><tt>y:</tt></b>
+<br><b><tt>В <font color="#006600"> double dmax = fabs(x);</font></tt></b>
+<br><b><tt><font color="#006600">В  if (fabs(y) &gt; dmax) dmax = fabs(y);</font></tt></b>
+<br><b><tt><font color="#006600">В  if (fabs(x-y) &lt; dmax*eps) &lt;&lt;
+"Р§РёСЃР»Р°С‚Р° Р·Р° РѕС‚РЅРѕСЃРёС‚РµР»РЅРѕ Р±Р»РёР·РєРё";</font></tt></b>
 <br>
-<hr WIDTH="100%">
-<br><img SRC="bullet.gif" height=18 width=20> Проверка за валидност на
-входните данни.
-<br>* Проверка дали въведеното число е положително.
+<hr width="100%">
+<br><img src="bullet.gif" height="18" width="20"> РџСЂРѕРІРµСЂРєР° Р·Р° РІР°Р»РёРґРЅРѕСЃС‚ РЅР°
+РІС…РѕРґРЅРёС‚Рµ РґР°РЅРЅРё.
+<br>* РџСЂРѕРІРµСЂРєР° РґР°Р»Рё РІСЉРІРµРґРµРЅРѕС‚Рѕ С‡РёСЃР»Рѕ Рµ РїРѕР»РѕР¶РёС‚РµР»РЅРѕ.
 <br><b><tt><font color="#000099">// area1.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; double area;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+<br><b><tt><font color="#000099">{В  double area;</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Please enter
 the area of a square: ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> area;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (area &lt; 0)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "Error:
+<br><b><tt><font color="#000099">В В  cin &gt;&gt; area;</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (area &lt; 0)</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  cout &lt;&lt; "Error:
 area cannot be negative\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+<br><b><tt><font color="#000099">В В В В В  return
 1;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000066">/* </font><font color="#3333FF">знаем,
-че area >= 0</font><font color="#000066">&nbsp; */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The side length
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000066">/* </font><font color="#3333FF">Р·РЅР°РµРј,
+С‡Рµ area &gt;= 0</font><font color="#000066">В  */</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "The side length
 of the square is "</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В В В В В В 
 &lt;&lt; sqrt(area) &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+</p>
+<table border cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#990000">Please enter the area of a square: 64</font></tt></b>
-<br><b><tt><font color="#990000">The side length of the square is 8</font></tt></b></td>
+<td>
+<b><tt><font color="#990000">Please enter the area of a square: 64</font></tt></b>
+<br><b><tt><font color="#990000">The side length of the square is 8</font></tt></b>
+</td>
 </tr>
 </table>
 
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+<table border cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#660000">Please enter the area of a square: -25</font></tt></b>
-<br><b><tt><font color="#660000">Error: area cannot be negative</font></tt></b></td>
+<td>
+<b><tt><font color="#660000">Please enter the area of a square: -25</font></tt></b>
+<br><b><tt><font color="#660000">Error: area cannot be negative</font></tt></b>
+</td>
 </tr>
 </table>
 
-<p>* Проверка на състоянието на входния поток.
+<p>* РџСЂРѕРІРµСЂРєР° РЅР° СЃСЉСЃС‚РѕСЏРЅРёРµС‚Рѕ РЅР° РІС…РѕРґРЅРёСЏ РїРѕС‚РѕРє.
 <br><b><tt><font color="#000099">// area2.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; double area;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please enter
+<br><b><tt><font color="#000099">{В  double area;</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Please enter
 the area of a square: ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> area;</font></tt></b>
-<br><b><tt><font color="#000099">/* </font><font color="#3333FF">условието
-е изпълнено, ако е възникнала грешка във входния поток</font><font color="#000099">
+<br><b><tt><font color="#000099">В В  cin &gt;&gt; area;</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">СѓСЃР»РѕРІРёРµС‚Рѕ
+Рµ РёР·РїСЉР»РЅРµРЅРѕ, Р°РєРѕ Рµ РІСЉР·РЅРёРєРЅР°Р»Р° РіСЂРµС€РєР° РІСЉРІ РІС…РѕРґРЅРёСЏ РїРѕС‚РѕРє</font><font color="#000099">
 */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (cin.fail())</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "Error:
+<br><b><tt><font color="#000099">В В  if (cin.fail())</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  cout &lt;&lt; "Error:
 bad input\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+<br><b><tt><font color="#000099">В В В В В  return
 1;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">/* </font><font color="#3333FF">знаем,
-че променливата area има стойност</font><font color="#000099"> */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; if (area &lt; 0)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "Error:
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">Р·РЅР°РµРј,
+С‡Рµ РїСЂРѕРјРµРЅР»РёРІР°С‚Р° area РёРјР° СЃС‚РѕР№РЅРѕСЃС‚</font><font color="#000099"> */</font></tt></b>
+<br><b><tt><font color="#000099">В В  if (area &lt; 0)</font></tt></b>
+<br><b><tt><font color="#000099">В В  {В  cout &lt;&lt; "Error:
 area cannot be negative\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+<br><b><tt><font color="#000099">В В В В В  return
 1;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b>
-<br><b><tt><font color="#000099">/* </font><font color="#3333FF">знаем,
-че area >= 0</font><font color="#000099"> */</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The side length
+<br><b><tt><font color="#000099">В В  }</font></tt></b>
+<br><b><tt><font color="#000099">/* </font><font color="#3333FF">Р·РЅР°РµРј,
+С‡Рµ area &gt;= 0</font><font color="#000099"> */</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "The side length
 of the square is "</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В В В В В В 
 &lt;&lt; sqrt(area) &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+</p>
+<table border cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#660000">Please enter the area of a square: two</font></tt></b>
-<br><b><tt><font color="#660000">Error: bad input</font></tt></b></td>
+<td>
+<b><tt><font color="#660000">Please enter the area of a square: two</font></tt></b>
+<br><b><tt><font color="#660000">Error: bad input</font></tt></b>
+</td>
 </tr>
 </table>
 
-<p><img SRC="bullet.gif" height=18 width=20> Двойката оператори <b><tt>if/else.</tt></b>
-<br>** Подобрение на програмата за&nbsp; намиране на корените на квадратно
-уравнение.
+<p><img src="bullet.gif" height="18" width="20"> Р”РІРѕР№РєР°С‚Р° РѕРїРµСЂР°С‚РѕСЂРё <b><tt>if/else.</tt></b>
+<br>** РџРѕРґРѕР±СЂРµРЅРёРµ РЅР° РїСЂРѕРіСЂР°РјР°С‚Р° Р·Р°В  РЅР°РјРёСЂР°РЅРµ РЅР° РєРѕСЂРµРЅРёС‚Рµ РЅР° РєРІР°РґСЂР°С‚РЅРѕ
+СѓСЂР°РІРЅРµРЅРёРµ.
 <br><b><tt><font color="#000099">// sqe2.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;cmath></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
+</p>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
 <br><b><tt><font color="#000099">{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;double a, b, c;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cout &lt;&lt; "Enter the coeficients
+<br><b><tt><font color="#000099">В double a, b, c;</font></tt></b>
+<br><b><tt><font color="#000099">В cout &lt;&lt; "Enter the coeficients
 a, b and c:";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;cin >> a >> b >> c;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;double diskr = b*b - 4*a*c;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (fabs(a) &lt; 1e-10)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "The equation is
+<br><b><tt><font color="#000099">В cin &gt;&gt; a &gt;&gt; b &gt;&gt; c;</font></tt></b>
+<br><b><tt><font color="#000099">В double diskr = b*b - 4*a*c;</font></tt></b>
+<br><b><tt><font color="#000099">В if (fabs(a) &lt; 1e-10)</font></tt></b>
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  cout &lt;&lt; "The equation is
 not quadratic!";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; return 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;if (diskr >= 0)</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;{</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; double x1 = (-b+sqrt(diskr))/(2*a);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; double x2 = (-b-sqrt(diskr))/(2*a);</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "The roots are: "
+<br><b><tt><font color="#000099">В  return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В }</font></tt></b>
+<br><b><tt><font color="#000099">В if (diskr &gt;= 0)</font></tt></b>
+<br><b><tt><font color="#000099">В {</font></tt></b>
+<br><b><tt><font color="#000099">В  double x1 = (-b+sqrt(diskr))/(2*a);</font></tt></b>
+<br><b><tt><font color="#000099">В  double x2 = (-b-sqrt(diskr))/(2*a);</font></tt></b>
+<br><b><tt><font color="#000099">В  cout &lt;&lt; "The roots are: "
 &lt;&lt; x1 &lt;&lt; " and " &lt;&lt; x2;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;}</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;else cout &lt;&lt; "The equation
+<br><b><tt><font color="#000099">В }</font></tt></b>
+<br><b><tt><font color="#000099">В else cout &lt;&lt; "The equation
 has no real roots.";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<br>&nbsp;
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+<br>В 
+</p>
+<table border cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#990000">Enter the coeficients a, b and c: </font><font color="#006600">1
+<td>
+<b><tt><font color="#990000">Enter the coeficients a, b and c: </font><font color="#006600">1
 2 1</font></tt></b>
-<br><b><tt><font color="#990000">The equation has no real roots.</font></tt></b></td>
+<br><b><tt><font color="#990000">The equation has no real roots.</font></tt></b>
+</td>
 </tr>
 </table>
 
-<p>** Синтаксис:
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=1 WIDTH="100%" >
+<p>** РЎРёРЅС‚Р°РєСЃРёСЃ:
+</p>
+<table border cellspacing="0" cellpadding="4" cols="1" width="100%">
 <tr>
 <td>
-<center><table BORDER=0 CELLSPACING=0 CELLPADDING=4 >
+<center><table border="0" cellspacing="0" cellpadding="4">
 <tr>
-<td><b><tt><font color="#990000"><font size=+1>if</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1">if</font></font></tt></b></td>
 
-<td><b><tt><font color="#990000"><font size=+1>(&lt;<i>условие></i>)</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1">(&lt;<i>СѓСЃР»РѕРІРёРµ&gt;</i>)</font></font></tt></b></td>
 
-<td><b><tt><font color="#990000"><font size=+1><i>&nbsp;&lt;оператор1></i>;&nbsp;</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1"><i>В &lt;РѕРїРµСЂР°С‚РѕСЂ1&gt;</i>;В </font></font></tt></b></td>
 
-<td><b><tt><font color="#990000"><font size=+1>else</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1">else</font></font></tt></b></td>
 
-<td><b><i><tt><font color="#990000"><font size=+1>&nbsp; &lt;оператор2>;</font></font></tt></i></b></td>
+<td><b><i><tt><font color="#990000"><font size="+1">В  &lt;РѕРїРµСЂР°С‚РѕСЂ2&gt;;</font></font></tt></i></b></td>
 </tr>
 </table></center>
 </td>
 </tr>
 </table>
 
-<p><img SRC="bullet.gif" height=18 width=20> Условна операция (операция
-за избор)
-<br>** Операторът
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; </font><font color="#006600">y
-= x>0 ? x : -x;</font></tt></b>
-<br>присвоява на <b><tt>y</tt></b> абсолютната стойност на <b><tt>x</tt></b>.
-<br>** Синтаксис:
-<table BORDER CELLSPACING=0 CELLPADDING=4 COLS=1 WIDTH="100%" >
+<p><img src="bullet.gif" height="18" width="20"> РЈСЃР»РѕРІРЅР° РѕРїРµСЂР°С†РёСЏ (РѕРїРµСЂР°С†РёСЏ
+Р·Р° РёР·Р±РѕСЂ)
+<br>** РћРїРµСЂР°С‚РѕСЂСЉС‚
+<br><b><tt><font color="#000099">В В В В  </font><font color="#006600">y
+= x&gt;0 ? x : -x;</font></tt></b>
+<br>РїСЂРёСЃРІРѕСЏРІР° РЅР° <b><tt>y</tt></b> Р°Р±СЃРѕР»СЋС‚РЅР°С‚Р° СЃС‚РѕР№РЅРѕСЃС‚ РЅР° <b><tt>x</tt></b>.
+<br>** РЎРёРЅС‚Р°РєСЃРёСЃ:
+</p>
+<table border cellspacing="0" cellpadding="4" cols="1" width="100%">
 <tr>
 <td>
-<center><table BORDER=0 CELLSPACING=0 CELLPADDING=4 >
+<center><table border="0" cellspacing="0" cellpadding="4">
 <tr>
-<td><b><tt><font color="#990000"><font size=+1>(<i>условие</i>)</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1">(<i>СѓСЃР»РѕРІРёРµ</i>)</font></font></tt></b></td>
 
-<td><b><tt><font color="#990000"><font size=+1>?</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1">?</font></font></tt></b></td>
 
-<td><b><i><tt><font color="#990000"><font size=+1>&nbsp;израз1</font></font></tt></i></b></td>
+<td><b><i><tt><font color="#990000"><font size="+1">В РёР·СЂР°Р·1</font></font></tt></i></b></td>
 
-<td><b><tt><font color="#990000"><font size=+1>:</font></font></tt></b></td>
+<td><b><tt><font color="#990000"><font size="+1">:</font></font></tt></b></td>
 
-<td><b><i><tt><font color="#990000"><font size=+1>израз2</font></font></tt></i></b></td>
+<td><b><i><tt><font color="#990000"><font size="+1">РёР·СЂР°Р·2</font></font></tt></i></b></td>
 </tr>
 </table></center>
 </td>
 </tr>
 </table>
-&nbsp;&nbsp;&nbsp; Ако условието е изпълнено, се пресмята <i><b>израз1</b>,
-</i>в
-противен случай -<i> <b>израз2. </b></i>Получената стойност на израза е
-и стойност и на операцията.
+В В В  РђРєРѕ СѓСЃР»РѕРІРёРµС‚Рѕ Рµ РёР·РїСЉР»РЅРµРЅРѕ, СЃРµ РїСЂРµСЃРјСЏС‚Р° <i><b>РёР·СЂР°Р·1</b>,
+</i>РІ
+РїСЂРѕС‚РёРІРµРЅ СЃР»СѓС‡Р°Р№ -<i> <b>РёР·СЂР°Р·2. </b></i>РџРѕР»СѓС‡РµРЅР°С‚Р° СЃС‚РѕР№РЅРѕСЃС‚ РЅР° РёР·СЂР°Р·Р° Рµ
+Рё СЃС‚РѕР№РЅРѕСЃС‚ Рё РЅР° РѕРїРµСЂР°С†РёСЏС‚Р°.
 <br>
-<hr WIDTH="100%">
-<br><img SRC="bullet.gif" height=18 width=20> Програмиране на алтернативи
-(избор на един от няколко варианта).
-<br>&nbsp;&nbsp;&nbsp; Да се намери стойността (в долари) на купчина американски
-монети (1 penny = 1 цент, 1 nickel = 5 цента, 1 me = 10 цента, 1 quarter
-= 25 цента). Купчината съдържа еднакви монети.
+<hr width="100%">
+<br><img src="bullet.gif" height="18" width="20"> РџСЂРѕРіСЂР°РјРёСЂР°РЅРµ РЅР° Р°Р»С‚РµСЂРЅР°С‚РёРІРё
+(РёР·Р±РѕСЂ РЅР° РµРґРёРЅ РѕС‚ РЅСЏРєРѕР»РєРѕ РІР°СЂРёР°РЅС‚Р°).
+<br>В В В  Р”Р° СЃРµ РЅР°РјРµСЂРё СЃС‚РѕР№РЅРѕСЃС‚С‚Р° (РІ РґРѕР»Р°СЂРё) РЅР° РєСѓРїС‡РёРЅР° Р°РјРµСЂРёРєР°РЅСЃРєРё
+РјРѕРЅРµС‚Рё (1 penny = 1 С†РµРЅС‚, 1 nickel = 5 С†РµРЅС‚Р°, 1 me = 10 С†РµРЅС‚Р°, 1 quarter
+= 25 С†РµРЅС‚Р°). РљСѓРїС‡РёРЅР°С‚Р° СЃСЉРґСЉСЂР¶Р° РµРґРЅР°РєРІРё РјРѕРЅРµС‚Рё.
 <br><b><tt><font color="#000099">// coins6.cpp</font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;iostream></font></tt></b>
-<br><b><tt><font color="#000099">#include &lt;string></font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+<br><b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
 <br><b><tt><font color="#000099">using namespace std;</font></tt></b>
 <p><b><tt><font color="#000099">int main()</font></tt></b>
-<br><b><tt><font color="#000099">{&nbsp; int n;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; string name;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Enter the
+<br><b><tt><font color="#000099">{В  int n;</font></tt></b>
+<br><b><tt><font color="#000099">В В  string name;</font></tt></b>
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Enter the
 number and the coins name: ";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cin >> n >> name;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; name = name.substr(0, 4);</font></tt></b>
-<p><b><tt><font color="#000099">&nbsp;&nbsp; double value = 0;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<br><b><tt><font color="#000099">В В  cin &gt;&gt; n &gt;&gt; name;</font></tt></b>
+<br><b><tt><font color="#000099">В В  name = name.substr(0, 4);</font></tt></b>
+</p>
+<p><b><tt><font color="#000099">В В  double value = 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В В В В В В 
 if (name == "penn") value = n * 0.01;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (name == "nick")
+<br><b><tt><font color="#000099">В В  else if (name == "nick")
 value = n * 0.05;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (name == "dime")
+<br><b><tt><font color="#000099">В В  else if (name == "dime")
 value = n * 0.10;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else if (name == "quar")
+<br><b><tt><font color="#000099">В В  else if (name == "quar")
 value = n * 0.25;</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; else cout &lt;&lt; name &lt;&lt;
+<br><b><tt><font color="#000099">В В  else cout &lt;&lt; name &lt;&lt;
 " is not a valid coin name\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Value = "
+<br><b><tt><font color="#000099">В В  cout &lt;&lt; "Value = "
 &lt;&lt; value &lt;&lt; "\n";</font></tt></b>
-<br><b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+<br><b><tt><font color="#000099">В В  return 0;</font></tt></b>
 <br><b><tt><font color="#000099">}</font></tt></b>
-<table BORDER CELLPADDING=4 WIDTH="100%" >
+</p>
+<table border cellpadding="4" width="100%">
 <tr>
-<td><b><tt><font color="#990000">Enter the number and the coins name: </font><font color="#006600">25
+<td>
+<b><tt><font color="#990000">Enter the number and the coins name: </font><font color="#006600">25
 dimes</font></tt></b>
-<br><b><tt><font color="#990000">Value = 2.5</font></tt></b></td>
+<br><b><tt><font color="#990000">Value = 2.5</font></tt></b>
+</td>
 </tr>
 </table>
-<b><font color="#3333FF">&nbsp;</font></b><font color="#330033">А без операторите
+<b><font color="#3333FF">В </font></b><font color="#330033">Рђ Р±РµР· РѕРїРµСЂР°С‚РѕСЂРёС‚Рµ
 <tt><b>else</b>?</tt></font>
-<br><b><tt><font color="#006600">&nbsp;if (name == "penn") value = n *
+<br><b><tt><font color="#006600">В if (name == "penn") value = n *
 0.01;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;if (name == "nick") value = n *
+<br><b><tt><font color="#006600">В if (name == "nick") value = n *
 0.05;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;if (name == "dime") value = n *
+<br><b><tt><font color="#006600">В if (name == "dime") value = n *
 0.10;</font></tt></b>
-<br><b><tt><font color="#006600">&nbsp;if (name == "quar") value = n *
+<br><b><tt><font color="#006600">В if (name == "quar") value = n *
 0.25;</font></tt></b>
-<br><font color="#330033">В този случай ще бъдат проверени всички условия
-на операторите<b> <tt>if.</tt></b></font>
+<br><font color="#330033">Р’ С‚РѕР·Рё СЃР»СѓС‡Р°Р№ С‰Рµ Р±СЉРґР°С‚ РїСЂРѕРІРµСЂРµРЅРё РІСЃРёС‡РєРё СѓСЃР»РѕРІРёСЏ
+РЅР° РѕРїРµСЂР°С‚РѕСЂРёС‚Рµ<b> <tt>if.</tt></b></font>
 <br>
-<hr WIDTH="100%">
+<hr width="100%">
 </body>
 </html>

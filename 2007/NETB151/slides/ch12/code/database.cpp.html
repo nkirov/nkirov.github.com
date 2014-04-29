@@ -1,246 +1,90 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 </head>
 <body>
 <pre><tt>
-01: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;iostream&gt;</font>
-02: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;iomanip&gt;</font>
-03: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;fstream&gt;</font>
-04: <b><font color="#000080">#include</font></b> <font
- color="#ff0000">&lt;sstream&gt;</font>
-06: <b><font color="#0000ff">using</font></b> <b><font
- color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+01: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+02: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iomanip&gt;</font>
+03: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;fstream&gt;</font>
+04: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;sstream&gt;</font>
+06: <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
 07: 
-08: <b><font
- color="#000080">#include</font></b> <font color="#ff0000">"ccc_empl.cpp"</font>
+08: <b><font color="#000080">#include</font></b> <font color="#ff0000">"ccc_empl.cpp"</font>
 09: 
-10: <b><font
- color="#0000ff">const</font></b> <font color="#009900">int</font> NEWLINE_LENGTH <font
- color="#990000">=</font> <font color="#993399">2</font><font
- color="#990000">;</font> <i><font color="#9a1900">/* 2 for Windows or 1 on Unix */</font></i>
-11: <b><font
- color="#0000ff">const</font></b> <font color="#009900">int</font> RECORD_SIZE <font
- color="#990000">=</font> <font color="#993399">30</font> <font
- color="#990000">+</font> <font color="#993399">10</font> <font
- color="#990000">+</font> NEWLINE_LENGTH<font color="#990000">;</font>
-13: <i><font
- color="#9a1900">/** </font></i>
+10: <b><font color="#0000ff">const</font></b> <font color="#009900">int</font> NEWLINE_LENGTH <font color="#990000">=</font> <font color="#993399">2</font><font color="#990000">;</font> <i><font color="#9a1900">/* 2 for Windows or 1 on Unix */</font></i>
+11: <b><font color="#0000ff">const</font></b> <font color="#009900">int</font> RECORD_SIZE <font color="#990000">=</font> <font color="#993399">30</font> <font color="#990000">+</font> <font color="#993399">10</font> <font color="#990000">+</font> NEWLINE_LENGTH<font color="#990000">;</font>
+13: <i><font color="#9a1900">/** </font></i>
 14: <i><font color="#9a1900">   Converts a string to a floating-point value, e.g. </font></i>
-15: <i><font
- color="#9a1900">   "3.14" -&gt; 3.14.</font></i>
-16: <i><font
- color="#9a1900">   @param s a string representing a floating-point value</font></i>
-17: <i><font
- color="#9a1900">   @return the equivalent floating-point value</font></i>
-18: <i><font
- color="#9a1900">*/</font></i>   <br>19: <font color="#009900">double</font> <b><font
- color="#000000">string_to_double</font></b><font color="#990000">(</font>string s<font
- color="#990000">)</font>
-20: <font color="#ff0000">{</font>  istringstream <b><font
- color="#000000">instr</font></b><font color="#990000">(</font>s<font
- color="#990000">)</font><font color="#990000">;</font>
-22:    <font
- color="#009900">double</font> x<font color="#990000">;</font>
-23:    instr <font
- color="#990000">&gt;</font><font color="#990000">&gt;</font> x<font
- color="#990000">;</font>
-24:    <b><font color="#0000ff">return</font></b> x<font
- color="#990000">;</font>
+15: <i><font color="#9a1900">   "3.14" -&gt; 3.14.</font></i>
+16: <i><font color="#9a1900">   @param s a string representing a floating-point value</font></i>
+17: <i><font color="#9a1900">   @return the equivalent floating-point value</font></i>
+18: <i><font color="#9a1900">*/</font></i>   <br>19: <font color="#009900">double</font> <b><font color="#000000">string_to_double</font></b><font color="#990000">(</font>string s<font color="#990000">)</font>
+20: <font color="#ff0000">{</font>  istringstream <b><font color="#000000">instr</font></b><font color="#990000">(</font>s<font color="#990000">)</font><font color="#990000">;</font>
+22:    <font color="#009900">double</font> x<font color="#990000">;</font>
+23:    instr <font color="#990000">&gt;</font><font color="#990000">&gt;</font> x<font color="#990000">;</font>
+24:    <b><font color="#0000ff">return</font></b> x<font color="#990000">;</font>
 25: <font color="#ff0000">}</font>
-27: <i><font
- color="#9a1900">/** </font></i>
+27: <i><font color="#9a1900">/** </font></i>
 28: <i><font color="#9a1900">   Raises an employee salary.</font></i>
-29: <i><font
- color="#9a1900">   @param e employee receiving raise</font></i>
-30: <i><font
- color="#9a1900">   @param percent the percentage of the raise</font></i>
-31: <i><font
- color="#9a1900">*/</font></i>
-32: <font color="#009900">void</font> <b><font
- color="#000000">raise_salary</font></b><font color="#990000">(</font>Employee<font
- color="#990000">&amp;</font> e<font color="#990000">,</font> <font
- color="#009900">double</font> percent<font color="#990000">)</font>
-33: <font
- color="#ff0000">{</font>  <font color="#009900">double</font> new_salary <font
- color="#990000">=</font> e<font color="#990000">.</font><b><font
- color="#000000">get_salary</font></b><font color="#990000">(</font><font
- color="#990000">)</font> <font color="#990000">*</font> <font
- color="#990000">(</font><font color="#993399">1</font> <font
- color="#990000">+</font> percent <font color="#990000">/</font> <font
- color="#993399">100</font><font color="#990000">)</font><font
- color="#990000">;</font>
-35:    e<font color="#990000">.</font><b><font
- color="#000000">set_salary</font></b><font color="#990000">(</font>new_salary<font
- color="#990000">)</font><font color="#990000">;</font>
-36: <font
- color="#ff0000">}</font>
+29: <i><font color="#9a1900">   @param e employee receiving raise</font></i>
+30: <i><font color="#9a1900">   @param percent the percentage of the raise</font></i>
+31: <i><font color="#9a1900">*/</font></i>
+32: <font color="#009900">void</font> <b><font color="#000000">raise_salary</font></b><font color="#990000">(</font>Employee<font color="#990000">&amp;</font> e<font color="#990000">,</font> <font color="#009900">double</font> percent<font color="#990000">)</font>
+33: <font color="#ff0000">{</font>  <font color="#009900">double</font> new_salary <font color="#990000">=</font> e<font color="#990000">.</font><b><font color="#000000">get_salary</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">*</font> <font color="#990000">(</font><font color="#993399">1</font> <font color="#990000">+</font> percent <font color="#990000">/</font> <font color="#993399">100</font><font color="#990000">)</font><font color="#990000">;</font>
+35:    e<font color="#990000">.</font><b><font color="#000000">set_salary</font></b><font color="#990000">(</font>new_salary<font color="#990000">)</font><font color="#990000">;</font>
+36: <font color="#ff0000">}</font>
 38: <i><font color="#9a1900">/**</font></i>
-39: <i><font
- color="#9a1900">   Reads an employee record from a file.</font></i>
-40: <i><font
- color="#9a1900">   @param e filled with the employee</font></i>
-41: <i><font
- color="#9a1900">   @param in the stream to read from</font></i>
-42: <i><font
- color="#9a1900">*/</font></i>
-43: <font color="#009900">void</font> <b><font
- color="#000000">read_employee</font></b><font color="#990000">(</font>Employee<font
- color="#990000">&amp;</font> e<font color="#990000">,</font> istream<font
- color="#990000">&amp;</font> in<font color="#990000">)</font>
-44: <font
- color="#ff0000">{</font>  string line<font color="#990000">;</font>
-46:    <b><font
- color="#000000">getline</font></b><font color="#990000">(</font>in<font
- color="#990000">,</font> line<font color="#990000">)</font><font
- color="#990000">;</font>
-47:    <b><font color="#0000ff">if</font></b> <font
- color="#990000">(</font>in<font color="#990000">.</font><b><font
- color="#000000">fail</font></b><font color="#990000">(</font><font
- color="#990000">)</font><font color="#990000">)</font> <b><font
- color="#0000ff">return</font></b><font color="#990000">;</font>
-48:    string name <font
- color="#990000">=</font> line<font color="#990000">.</font><b><font
- color="#000000">substr</font></b><font color="#990000">(</font><font
- color="#993399">0</font><font color="#990000">,</font> <font
- color="#993399">30</font><font color="#990000">)</font><font
- color="#990000">;</font>
-49:    <font color="#009900">double</font> salary <font
- color="#990000">=</font> <b><font color="#000000">string_to_double</font></b><font
- color="#990000">(</font>line<font color="#990000">.</font><b><font
- color="#000000">substr</font></b><font color="#990000">(</font><font
- color="#993399">30</font><font color="#990000">,</font> <font
- color="#993399">10</font><font color="#990000">)</font><font
- color="#990000">)</font><font color="#990000">;</font>
-50:    e <font
- color="#990000">=</font> <b><font color="#000000">Employee</font></b><font
- color="#990000">(</font>name<font color="#990000">,</font> salary<font
- color="#990000">)</font><font color="#990000">;</font>
-51: <font
- color="#ff0000">}</font>
+39: <i><font color="#9a1900">   Reads an employee record from a file.</font></i>
+40: <i><font color="#9a1900">   @param e filled with the employee</font></i>
+41: <i><font color="#9a1900">   @param in the stream to read from</font></i>
+42: <i><font color="#9a1900">*/</font></i>
+43: <font color="#009900">void</font> <b><font color="#000000">read_employee</font></b><font color="#990000">(</font>Employee<font color="#990000">&amp;</font> e<font color="#990000">,</font> istream<font color="#990000">&amp;</font> in<font color="#990000">)</font>
+44: <font color="#ff0000">{</font>  string line<font color="#990000">;</font>
+46:    <b><font color="#000000">getline</font></b><font color="#990000">(</font>in<font color="#990000">,</font> line<font color="#990000">)</font><font color="#990000">;</font>
+47:    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>in<font color="#990000">.</font><b><font color="#000000">fail</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b><font color="#990000">;</font>
+48:    string name <font color="#990000">=</font> line<font color="#990000">.</font><b><font color="#000000">substr</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">30</font><font color="#990000">)</font><font color="#990000">;</font>
+49:    <font color="#009900">double</font> salary <font color="#990000">=</font> <b><font color="#000000">string_to_double</font></b><font color="#990000">(</font>line<font color="#990000">.</font><b><font color="#000000">substr</font></b><font color="#990000">(</font><font color="#993399">30</font><font color="#990000">,</font> <font color="#993399">10</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+50:    e <font color="#990000">=</font> <b><font color="#000000">Employee</font></b><font color="#990000">(</font>name<font color="#990000">,</font> salary<font color="#990000">)</font><font color="#990000">;</font>
+51: <font color="#ff0000">}</font>
 53: <i><font color="#9a1900">/**</font></i>
-54: <i><font
- color="#9a1900">   Writes an employee record to a stream</font></i>
-55: <i><font
- color="#9a1900">   @param e the employee record to write</font></i>
-56: <i><font
- color="#9a1900">   @param out the stream to write to</font></i>
-57: <i><font
- color="#9a1900">*/</font></i>
-58: <font color="#009900">void</font> <b><font
- color="#000000">write_employee</font></b><font color="#990000">(</font>Employee e<font
- color="#990000">,</font> ostream<font color="#990000">&amp;</font> out<font
- color="#990000">)</font>
-59: <font color="#ff0000">{</font> out <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> e<font
- color="#990000">.</font><b><font color="#000000">get_name</font></b><font
- color="#990000">(</font><font color="#990000">)</font>
-61:       <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font
- color="#000000">setw</font></b><font color="#990000">(</font><font
- color="#993399">10</font> <font color="#990000">+</font> <font
- color="#990000">(</font><font color="#993399">30</font> <font
- color="#990000">-</font> e<font color="#990000">.</font><b><font
- color="#000000">get_name</font></b><font color="#990000">(</font><font
- color="#990000">)</font><font color="#990000">.</font><b><font
- color="#000000">length</font></b><font color="#990000">(</font><font
- color="#990000">)</font><font color="#990000">)</font><font
- color="#990000">)</font>
-62:       <font color="#990000">&lt;</font><font
- color="#990000">&lt;</font> fixed <font color="#990000">&lt;</font><font
- color="#990000">&lt;</font> <b><font color="#000000">setprecision</font></b><font
- color="#990000">(</font><font color="#993399">2</font><font
- color="#990000">)</font>
-63:       <font color="#990000">&lt;</font><font
- color="#990000">&lt;</font> e<font color="#990000">.</font><b><font
- color="#000000">get_salary</font></b><font color="#990000">(</font><font
- color="#990000">)</font> <font color="#990000">&lt;</font><font
- color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font
- color="#990000">;</font>
+54: <i><font color="#9a1900">   Writes an employee record to a stream</font></i>
+55: <i><font color="#9a1900">   @param e the employee record to write</font></i>
+56: <i><font color="#9a1900">   @param out the stream to write to</font></i>
+57: <i><font color="#9a1900">*/</font></i>
+58: <font color="#009900">void</font> <b><font color="#000000">write_employee</font></b><font color="#990000">(</font>Employee e<font color="#990000">,</font> ostream<font color="#990000">&amp;</font> out<font color="#990000">)</font>
+59: <font color="#ff0000">{</font> out <font color="#990000">&lt;</font><font color="#990000">&lt;</font> e<font color="#990000">.</font><b><font color="#000000">get_name</font></b><font color="#990000">(</font><font color="#990000">)</font>
+61:       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">10</font> <font color="#990000">+</font> <font color="#990000">(</font><font color="#993399">30</font> <font color="#990000">-</font> e<font color="#990000">.</font><b><font color="#000000">get_name</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">)</font>
+62:       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> fixed <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setprecision</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font>
+63:       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> e<font color="#990000">.</font><b><font color="#000000">get_salary</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
 65: }
-67: <font color="#009900">int</font> <b><font
- color="#000000">main</font></b><font color="#990000">(</font><font
- color="#990000">)</font>
-68: <font color="#ff0000">{</font>  cout <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
- color="#ff0000">"Please enter the data file name: "</font><font
- color="#990000">;</font>
+67: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+68: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Please enter the data file name: "</font><font color="#990000">;</font>
 70:    string filename<font color="#990000">;</font>
-71:    cin <font
- color="#990000">&gt;</font><font color="#990000">&gt;</font> filename<font
- color="#990000">;</font>
+71:    cin <font color="#990000">&gt;</font><font color="#990000">&gt;</font> filename<font color="#990000">;</font>
 72:    fstream fs<font color="#990000">;</font>
-73:    fs<font
- color="#990000">.</font><b><font color="#000000">open</font></b><font
- color="#990000">(</font>filename<font color="#990000">.</font><b><font
- color="#000000">c_str</font></b><font color="#990000">(</font><font
- color="#990000">)</font><font color="#990000">)</font><font
- color="#990000">;</font>
-74:    fs<font color="#990000">.</font><b><font
- color="#000000">seekg</font></b><font color="#990000">(</font><font
- color="#993399">0</font><font color="#990000">,</font> ios<font
- color="#990000">:</font><font color="#990000">:</font>end<font
- color="#990000">)</font><font color="#990000">;</font> <i><font
- color="#9a1900">/* go to end of file */</font></i>
-75:    <font
- color="#009900">int</font> nrecord <font color="#990000">=</font> fs<font
- color="#990000">.</font><b><font color="#000000">tellg</font></b><font
- color="#990000">(</font><font color="#990000">)</font> <font
- color="#990000">/</font> RECORD_SIZE<font color="#990000">;</font>
+73:    fs<font color="#990000">.</font><b><font color="#000000">open</font></b><font color="#990000">(</font>filename<font color="#990000">.</font><b><font color="#000000">c_str</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+74:    fs<font color="#990000">.</font><b><font color="#000000">seekg</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> ios<font color="#990000">:</font><font color="#990000">:</font>end<font color="#990000">)</font><font color="#990000">;</font> <i><font color="#9a1900">/* go to end of file */</font></i>
+75:    <font color="#009900">int</font> nrecord <font color="#990000">=</font> fs<font color="#990000">.</font><b><font color="#000000">tellg</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">/</font> RECORD_SIZE<font color="#990000">;</font>
 76: 
-77:    cout <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
- color="#ff0000">"Please enter the record to update: (0 - "</font>
-78:         <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> nrecord <font
- color="#990000">-</font> <font color="#993399">1</font> <font
- color="#990000">&lt;</font><font color="#990000">&lt;</font> <font
- color="#ff0000">") "</font><font color="#990000">;</font>
-79:    <font
- color="#009900">int</font> pos<font color="#990000">;</font>
-80:    cin <font
- color="#990000">&gt;</font><font color="#990000">&gt;</font> pos<font
- color="#990000">;</font>
+77:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Please enter the record to update: (0 - "</font>
+78:         <font color="#990000">&lt;</font><font color="#990000">&lt;</font> nrecord <font color="#990000">-</font> <font color="#993399">1</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">") "</font><font color="#990000">;</font>
+79:    <font color="#009900">int</font> pos<font color="#990000">;</font>
+80:    cin <font color="#990000">&gt;</font><font color="#990000">&gt;</font> pos<font color="#990000">;</font>
 81: 
-82:    <b><font color="#0000ff">const</font></b> <font
- color="#009900">double</font> SALARY_CHANGE <font color="#990000">=</font> <font
- color="#993399">5.0</font><font color="#990000">;</font>
+82:    <b><font color="#0000ff">const</font></b> <font color="#009900">double</font> SALARY_CHANGE <font color="#990000">=</font> <font color="#993399">5.0</font><font color="#990000">;</font>
 83: 
-84:    Employee e<font
- color="#990000">;</font>
-85:    fs<font color="#990000">.</font><b><font
- color="#000000">seekg</font></b><font color="#990000">(</font>pos <font
- color="#990000">*</font> RECORD_SIZE<font color="#990000">,</font> ios<font
- color="#990000">:</font><font color="#990000">:</font>beg<font
- color="#990000">)</font><font color="#990000">;</font>
-86:    <b><font
- color="#000000">read_employee</font></b><font color="#990000">(</font>e<font
- color="#990000">,</font> fs<font color="#990000">)</font><font
- color="#990000">;</font>
-87:    <b><font color="#000000">raise_salary</font></b><font
- color="#990000">(</font>e<font color="#990000">,</font> SALARY_CHANGE<font
- color="#990000">)</font><font color="#990000">;</font>
-88:    fs<font
- color="#990000">.</font><b><font color="#000000">seekp</font></b><font
- color="#990000">(</font>pos <font color="#990000">*</font> RECORD_SIZE<font
- color="#990000">,</font> ios<font color="#990000">:</font><font
- color="#990000">:</font>beg<font color="#990000">)</font><font
- color="#990000">;</font>
-89:    <b><font color="#000000">write_employee</font></b><font
- color="#990000">(</font>e<font color="#990000">,</font> fs<font
- color="#990000">)</font><font color="#990000">;</font>
+84:    Employee e<font color="#990000">;</font>
+85:    fs<font color="#990000">.</font><b><font color="#000000">seekg</font></b><font color="#990000">(</font>pos <font color="#990000">*</font> RECORD_SIZE<font color="#990000">,</font> ios<font color="#990000">:</font><font color="#990000">:</font>beg<font color="#990000">)</font><font color="#990000">;</font>
+86:    <b><font color="#000000">read_employee</font></b><font color="#990000">(</font>e<font color="#990000">,</font> fs<font color="#990000">)</font><font color="#990000">;</font>
+87:    <b><font color="#000000">raise_salary</font></b><font color="#990000">(</font>e<font color="#990000">,</font> SALARY_CHANGE<font color="#990000">)</font><font color="#990000">;</font>
+88:    fs<font color="#990000">.</font><b><font color="#000000">seekp</font></b><font color="#990000">(</font>pos <font color="#990000">*</font> RECORD_SIZE<font color="#990000">,</font> ios<font color="#990000">:</font><font color="#990000">:</font>beg<font color="#990000">)</font><font color="#990000">;</font>
+89:    <b><font color="#000000">write_employee</font></b><font color="#990000">(</font>e<font color="#990000">,</font> fs<font color="#990000">)</font><font color="#990000">;</font>
 90: 
-91:    fs<font
- color="#990000">.</font><b><font color="#000000">close</font></b><font
- color="#990000">(</font><font color="#990000">)</font><font
- color="#990000">;</font>
-92:    <b><font color="#0000ff">return</font></b> <font
- color="#993399">0</font><font color="#990000">;</font>
-93: <font
- color="#ff0000">}</font>
+91:    fs<font color="#990000">.</font><b><font color="#000000">close</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+92:    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+93: <font color="#ff0000">}</font>
 </tt>
 </pre>
 </body>

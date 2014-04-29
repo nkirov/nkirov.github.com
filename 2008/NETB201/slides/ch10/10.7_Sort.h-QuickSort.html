@@ -1,48 +1,50 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE html
-	PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN"
-	"http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en-US"><head><title>QuickSort</title>
-</head><body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>QuickSort</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
 <h2><font face="Helvetica">Code Fragment: QuickSort</font></h2>
-</center><br><dl><dd><pre>
+<br><dl><dd><pre>
 
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object, <font color=#A000A0>typename</font> Sequence&gt;
-<font color=#A000A0>class</font> QuickSort {					<font color=#0000FF>// QuickSort class</font>
-<font color=#A000A0>protected</font>: 						<font color=#0000FF>// recursive utility</font>
-  <font color=#A000A0>void</font> <font color=#000000>quickSortStep</font>(Sequence& S, <font color=#A000A0>int</font> leftBound, <font color=#A000A0>int</font> rightBound);
-<font color=#A000A0>public</font>:
-  <font color=#A000A0>void</font> <font color=#000000>quickSort</font>(Sequence& S);				<font color=#0000FF>// main entry point</font>
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Object, <font color="#A000A0">typename</font> Sequence&gt;
+<font color="#A000A0">class</font> QuickSort {					<font color="#0000FF">// QuickSort class</font>
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// recursive utility</font>
+  <font color="#A000A0">void</font> <font color="#000000">quickSortStep</font>(Sequence&amp; S, <font color="#A000A0">int</font> leftBound, <font color="#A000A0">int</font> rightBound);
+<font color="#A000A0">public</font>:
+  <font color="#A000A0">void</font> <font color="#000000">quickSort</font>(Sequence&amp; S);				<font color="#0000FF">// main entry point</font>
 };
 
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object, <font color=#A000A0>typename</font> Sequence&gt;
-<font color=#A000A0>void</font> QuickSort&lt;Object, Sequence&gt;:: 			<font color=#0000FF>// recursive portion</font>
-<font color=#000000>quickSortStep</font>(Sequence& S, <font color=#A000A0>int</font> leftBound, <font color=#A000A0>int</font> rightBound) {
-  <font color=#00A000>if</font> (leftBound &gt;= rightBound) <font color=#00A000>return</font>;			<font color=#0000FF>// 0 or 1 elements</font>
-  Object pivot = S.<font color=#000000>atRank</font>(rightBound).<font color=#000000>element</font>();	<font color=#0000FF>// select last as pivot</font>
-  <font color=#A000A0>int</font> leftIndex = leftBound; 				<font color=#0000FF>// will scan rightward</font>
-  <font color=#A000A0>int</font> rightIndex = rightBound - 1;			<font color=#0000FF>// will scan leftward</font>
-  <font color=#00A000>while</font> (leftIndex &lt;= rightIndex) {
-    <font color=#00A000>while</font> ((leftIndex &lt;= rightIndex) &&			<font color=#0000FF>// scan right to larger</font>
-    	    S.<font color=#000000>atRank</font>(leftIndex).<font color=#000000>element</font>() &lt;= pivot)
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Object, <font color="#A000A0">typename</font> Sequence&gt;
+<font color="#A000A0">void</font> QuickSort&lt;Object, Sequence&gt;:: 			<font color="#0000FF">// recursive portion</font>
+<font color="#000000">quickSortStep</font>(Sequence&amp; S, <font color="#A000A0">int</font> leftBound, <font color="#A000A0">int</font> rightBound) {
+  <font color="#00A000">if</font> (leftBound &gt;= rightBound) <font color="#00A000">return</font>;			<font color="#0000FF">// 0 or 1 elements</font>
+  Object pivot = S.<font color="#000000">atRank</font>(rightBound).<font color="#000000">element</font>();	<font color="#0000FF">// select last as pivot</font>
+  <font color="#A000A0">int</font> leftIndex = leftBound; 				<font color="#0000FF">// will scan rightward</font>
+  <font color="#A000A0">int</font> rightIndex = rightBound - 1;			<font color="#0000FF">// will scan leftward</font>
+  <font color="#00A000">while</font> (leftIndex &lt;= rightIndex) {
+    <font color="#00A000">while</font> ((leftIndex &lt;= rightIndex) &amp;&amp;			<font color="#0000FF">// scan right to larger</font>
+    	    S.<font color="#000000">atRank</font>(leftIndex).<font color="#000000">element</font>() &lt;= pivot)
       leftIndex++; 
-    <font color=#00A000>while</font> ((rightIndex &gt;= leftIndex) &&			<font color=#0000FF>// scan left to smaller</font>
-    	    S.<font color=#000000>atRank</font>(rightIndex).<font color=#000000>element</font>() &gt;= pivot)
+    <font color="#00A000">while</font> ((rightIndex &gt;= leftIndex) &amp;&amp;			<font color="#0000FF">// scan left to smaller</font>
+    	    S.<font color="#000000">atRank</font>(rightIndex).<font color="#000000">element</font>() &gt;= pivot)
       rightIndex--;
-    <font color=#00A000>if</font> (leftIndex &lt; rightIndex)				<font color=#0000FF>// both elements found</font>
-      S.<font color=#000000>swapElements</font>(S.<font color=#000000>atRank</font>(leftIndex), S.<font color=#000000>atRank</font>(rightIndex));
-  }							<font color=#0000FF>// until indices cross</font>
-							<font color=#0000FF>// pivot at leftIndex</font>
-  S.<font color=#000000>swapElements</font>(S.<font color=#000000>atRank</font>(leftIndex), S.<font color=#000000>atRank</font>(rightBound));
-  <font color=#000000>quickSortStep</font>(S, leftBound, leftIndex-1);		<font color=#0000FF>// recur on both sides</font>
-  <font color=#000000>quickSortStep</font>(S, leftIndex+1, rightBound);
+    <font color="#00A000">if</font> (leftIndex &lt; rightIndex)				<font color="#0000FF">// both elements found</font>
+      S.<font color="#000000">swapElements</font>(S.<font color="#000000">atRank</font>(leftIndex), S.<font color="#000000">atRank</font>(rightIndex));
+  }							<font color="#0000FF">// until indices cross</font>
+							<font color="#0000FF">// pivot at leftIndex</font>
+  S.<font color="#000000">swapElements</font>(S.<font color="#000000">atRank</font>(leftIndex), S.<font color="#000000">atRank</font>(rightBound));
+  <font color="#000000">quickSortStep</font>(S, leftBound, leftIndex-1);		<font color="#0000FF">// recur on both sides</font>
+  <font color="#000000">quickSortStep</font>(S, leftIndex+1, rightBound);
 }
 
-<font color=#A000A0>template</font> &lt;<font color=#A000A0>typename</font> Object, <font color=#A000A0>typename</font> Sequence&gt;
-<font color=#A000A0>void</font> QuickSort&lt;Object, Sequence&gt;::
-<font color=#000000>quickSort</font>(Sequence& S) {				<font color=#0000FF>// main entry point</font>
-  <font color=#00A000>if</font> (S.<font color=#000000>size</font>() &lt;= 1) <font color=#00A000>return</font>;				<font color=#0000FF>// 0 or 1 elements</font>
-  <font color=#000000>quickSortStep</font>(S, 0, S.<font color=#000000>size</font>()-1);			<font color=#0000FF>// call sort utility</font>
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Object, <font color="#A000A0">typename</font> Sequence&gt;
+<font color="#A000A0">void</font> QuickSort&lt;Object, Sequence&gt;::
+<font color="#000000">quickSort</font>(Sequence&amp; S) {				<font color="#0000FF">// main entry point</font>
+  <font color="#00A000">if</font> (S.<font color="#000000">size</font>() &lt;= 1) <font color="#00A000">return</font>;				<font color="#0000FF">// 0 or 1 elements</font>
+  <font color="#000000">quickSortStep</font>(S, 0, S.<font color="#000000">size</font>()-1);			<font color="#0000FF">// call sort utility</font>
 }
-</dl>
-</body></html>
+</pre></dd></dl>
+</body>
+</html>
