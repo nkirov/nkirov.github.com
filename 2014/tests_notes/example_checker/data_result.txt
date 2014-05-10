@@ -1,0 +1,221 @@
+Mark the correct/incorrect assertions about pointers.
+
++ A pointer denotes the location of a value in the memory. % 0:0:0  0:0:0
+
++ When passing an array to a function, only the starting address is passed. % 0:0:0  0:0:0
+
++ Pointer arithmetic means to add an integer offset to an array pointer. % 0:0:0  0:0:0
+
+- The value of a pointer must be an address in the heap memory. % 0:0:0  0:0:0
+
+- If \verb|p| and \verb|q| are pointers to integers, then \verb|p + q| is a correct expression. % 0:0:0  0:0:0
+
+We have the following variable definitions:
+ \vspace{-3mm}\begin{verbatim}
+int p = 2;
+int* ptr1;
+int* ptr2 = new int(1);
+ \end{verbatim}\vspace{-6mm}
+Mark the correct/incorrect assignment statements.
+
++ \verb|ptr1 = ptr2;| % 0:0:0  0:0:0
+
+- \verb|ptr1 = *ptr2;| % 1:0:1  0:0:0
+
+- \verb|ptr1 = *p;| % 0:0:0  0:0:0
+
+- \verb|ptr1 = p;| % 0:0:0  0:0:0
+
++ \verb|ptr1 = NULL;| % 1:0:0  1:0:0
+
+- \verb|ptr1 = 20;| % 1:0:1  0:0:0
+
+- \verb|*ptr1 = ptr2;| % 0:0:0  0:0:0
+
++ \verb|*ptr1 = *ptr2;| % 0:0:0  0:0:0
+
+- \verb|*ptr1 = *p;| % 0:0:0  0:0:0
+
++ \verb|*ptr1 = p;| % 0:0:0  0:0:0
+
+- \verb|*ptr1 = NULL;| % 1:0:0  1:0:0
+
++ \verb|*ptr1 = 20;| % 0:0:0  0:0:0
+
++ \verb|p = *ptr2;| % 1:0:1  0:0:0
+
+- \verb|p = ptr2;| % 1:0:1  0:0:0
+
++ \verb|p = 20;| % 0:0:0  0:0:0
+
+- \verb|*p = *ptr2;| % 0:0:0  0:0:0
+
+- \verb|*p = ptr2;| % 0:0:0  0:0:0
+
+- \verb|*p = NULL;| % 1:0:0  1:0:0
+
+- \verb|*p = 20;| % 1:0:0  1:0:0
+
+We have the following variable definitions:
+ \vspace{-3mm}\begin{verbatim}
+int a[3] = {1, 2, 3};
+int* pa = a;
+ \end{verbatim}\vspace{-6mm}
+Mark with ``yes'' expressions which have value 3.
+
++ \verb|a[0] + a[1]| % 1:0:1  1:0:1
+
++ \verb|a[0] + pa[1]| % 2:0:1  2:0:1
+
++ \verb|(*pa) + a[1]| % 1:0:1  1:0:1
+
++ \verb|(*pa) * 3| % 1:0:1  1:0:1
+
++ \verb|*(pa + 2)| % 1:0:0  1:0:0
+
+- \verb|*pa + *a| % 1:0:0  1:0:0
+
+- \verb|pa[0] + a[0]| % 0:0:0  0:0:0
+
+- \verb|pa[1] + a[1]| % 1:0:0  1:0:0
+
++ \verb|3*(*pa)| % 0:0:0  0:0:0
+
+Mark the correct/incorrect definitions and initializations 
+of character pointers and arrays.
+
++ \verb|char hello[] = "Hello";| % 1:0:1  1:0:1
+
++ \verb|char* p = "pointer";| % 1:0:1  1:0:1
+
++ \verb|char* year = "2014";| % 0:0:0  0:0:0
+
++ \verb|char* heap = new char;| % 2:0:2  2:0:2
+
++ \verb|char car[10] = "Volvo";| % 0:0:0  0:0:0
+
++ \verb|char miles[] = "1000";| % 0:0:0  0:0:0
+
++ \verb|char just[5] = "just";| % 1:0:1  1:0:1
+
+- \verb|char bye[7] = "bye-bye";| % 1:0:1  1:0:1
+
+- \verb|char one[1] = "1";| % 0:0:0  0:0:0
+
+- \verb|char* hit = -1;| % 0:0:0  0:0:0
+
+- \verb|char* oops = {0};| % 1:0:1  1:0:1
+
+- \verb|char hey[] = 1;| % 1:0:1  1:0:1
+
+We have the following classes:
+ \vspace{-3mm}\begin{verbatim}
+class Point {
+... };
+class Circle : public Point {
+... };
+ \end{verbatim}\vspace{-6mm}
+Mark the correct/incorrect assertions about the classes
+\verb|Point| and \verb|Circle|.
+
++ The class \verb|Point| is the base class and the class \verb|Circle| is the derived class. % 0:0:0  0:0:0
+
+- The class \verb|Circle| is the base class and the class \verb|Point| is the derived class. % 3:1:1  2:1:1
+
++ The data members of the class \verb|Point| are present in each object of the class \verb|Circle|. % 2:0:1  1:0:1
+
+- The data members of the class \verb|Circle| are present in each object of the class \verb|Point|. % 2:0:1  1:0:1
+
+- The member functions of the class \verb|Circle| have access to any data member of the class \verb|Point|. % 2:1:1  2:1:1
+
+- The member functions of the class \verb|Point| have access to any data member of the class \verb|Circle|. % 1:1:0  1:1:0
+
++ The member functions of the class \verb|Circle| have access to any public member function of the class \verb|Point|. % 2:1:0  1:1:0
+
+Suppose the class \verb|D| inherits from \verb|B|. Let
+\verb|b| be an object of the class \verb|B|,
+\verb|d| be an object of the class \verb|D|,
+\verb|pb| be a pointer of the class \verb|B| and
+\verb|pd| be a pointer of the class \verb|D|.
+Which of the following assignments are legal?
+
++ \verb|b = d;| % 0:0:0  0:0:0
+
+- \verb|d = b;| % 1:0:0  0:0:0
+
+- \verb|pd = pb;| % 0:0:0  0:0:0
+
++ \verb|pb = pd;| % 2:1:0  1:1:0
+
++ \verb|*pb = *pd;| % 0:0:0  0:0:0
+
+- \verb|*pd = *pb;| % 2:1:0  1:1:0
+
++ \verb|b = *pd;| % 0:0:0  0:0:0
+
++ \verb|b = *pb;| % 0:0:0  0:0:0
+
++ \verb|d = *pd;| % 2:1:0  1:1:0
+
+- \verb|d = *pb;| % 0:0:0  0:0:0
+
++ \verb|*pd = b;| % 0:0:0  0:0:0
+
++ \verb|*pb = b;| % 0:0:0  0:0:0
+
++ \verb|*pd = d;| % 0:0:0  0:0:0
+
+- \verb|*pb = d;| % 1:1:0  1:1:0
+
+Mark the correct/incorrect assertions about inheritance
+hierarchy of stream classes.
+
++ The \verb|fstream| class derives from \verb|iostream|. % 0:0:0  0:0:0
+
+- The \verb|fstream| class derives from \verb|ofstream|. % 1:0:1  1:0:1
+
+- The \verb|fstream| class derives from \verb|ifstream|. % 1:0:1  0:0:0
+
++ The \verb|iostream| class derives from \verb|istream| and \verb|ostream|. % 1:0:1  1:0:1
+
++ The \verb|ifstream| class derives from \verb|istream|. % 1:0:1  0:0:0
+
++ The \verb|ostringstream| class derives from \verb|ostream|. % 1:0:1  0:0:0
+
++ The \verb|istringstream| class derives from \verb|istream|. % 0:0:0  0:0:0
+
+- The \verb|iostream| class derives from \verb|ifstream| and \verb|ofstream|. % 2:0:2  1:0:1
+
+- The \verb|fstream| class derives from \verb|ifstream| and \verb|ofstream|. % 1:0:1  1:0:1
+
+Mark the correct/incorrect assertions about stream classes, objects and
+member functions.
+
++ An object of \verb|istream| class is a source of bytes. % 0:0:0  0:0:0
+
++ An object of \verb|ostream| class is a destination for bytes. % 1:1:0  1:1:0
+
++ The \verb|get| member-function is defined for \verb|istream| objects. % 0:0:0  0:0:0
+
++ The \verb|getline| member-function is defined for \verb|istream| objects. % 1:0:1  0:0:0
+
++ The \verb|>>| operator is defined for \verb|istream| objects. % 0:0:0  0:0:0
+
++ The \verb|<<| operator is defined for \verb|ostream| objects. % 1:0:1  0:0:0
+
++ The object \verb|cin| belongs to a class that is derived from \verb|istream|. % 1:1:0  1:1:0
+
+- The object \verb|cin| belongs to a class that is derived from \verb|ifstream|. % 1:0:1  0:0:0
+
++ The object \verb|cout| belongs to a class that is derived from \verb|ostream|. % 0:0:0  0:0:0
+
+- The object \verb|cout| belongs to a class that is derived from \verb|ofstream|. % 0:0:0  0:0:0
+
+- The \verb|open| member-function is defined for \verb|istream| objects. % 1:1:0  1:1:0
+
++ The \verb|close| member-function is defined for \verb|fstream| objects. % 1:0:1  0:0:0
+
+- The object \verb|cin| belongs to the class \verb|iostream|. % 0:0:0  0:0:0
+
+- The object \verb|cout| belongs to the class \verb|iostream|. % 1:1:0  1:1:0
+
