@@ -11,175 +11,165 @@
     <center>
       <h3> <b>12. Предефиниране на операции и управление на паметта<br>
         </b>
-</h3>
+      </h3>
     </center>
-    <img alt="" src="../b5.gif" height="18" width="20"> <b>
+    <img alt="" src="../b5.gif" height="18" width="20">&nbsp;<b>
       Предефиниране на операции. </b><br>
-        Даване на ново значение на операция се нарича
+    &nbsp;&nbsp;&nbsp; Даване на ново значение на операция се нарича
     предефиниране (operator overloading). Операциите се предефинират за
     аргументи - обекти от даден клас, като типът на поне един от
     аргументите на бинарна операция трябва да е клас. <br>
     <br>
-    <b><tt><font color="#000099">// <a href="../../NETB151/sources/ch17/overload.cpp">overload.cpp</a></font></tt></b>
+    <b><tt><font color="#000099">// <a
+            href="../../NETB151/sources/ch17/overload.cpp">overload.cpp</a></font></tt></b>
     <br>
     <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
     <br>
     <b><tt><font color="#000099">using namespace std;</font></tt></b> <br>
-    <b><tt><font color="#000099">#include "ccc_time.cpp"</font></tt></b>
-    <p><b><tt><font color="#000099">/* Предефиниране на бинарна операция
-            - с аргументи от клас Time и стойност от тип long */</font></tt></b>
+    <br>
+    <b><tt><font color="#000099">#include "ccc_time.h"</font></tt></b>
+    <p><tt><font color="#000099">/* Предефиниране на бинарна операция -
+          с аргументи от клас Time и стойност от тип long */</font></tt>
       <br>
       <b><tt><font color="#000099">long operator-(Time a, Time b)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: пресмята броя на секундите
-            между два момента от време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ПОЛУЧАВА: a, b - два
-            момента от време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ВРЪЩА: броя на секундите
-            между a и b</font></tt></b> <br>
-      <b><tt><font color="#000099">*/</font></tt></b> <br>
-      <b><tt><font color="#000099">{  return
-            a.seconds_from(b);   }</font></tt></b> </p>
-    <p><b><tt><font color="#000099">/* Предефиниране на бинарна операция
-            + с аргументи от клас Time и тип long и стойност от</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">клас Time */</font></tt></b> <br>
+      <tt><font color="#000099">/* ЦЕЛ: пресмята броя на секундите между
+          два момента от време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a, b - два
+          момента от време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: броя на секундите
+          между a и b</font></tt> <br>
+      <tt><font color="#000099">*/</font></tt> <br>
+      <b><tt><font color="#000099">{&nbsp; return
+            a.seconds_from(b);&nbsp;&nbsp; }</font></tt></b> </p>
+    <p><tt><font color="#000099">/* Предефиниране на бинарна операция +
+          с аргументи от клас Time и тип long и стойност от</font></tt>
+      <tt><font color="#000099">клас Time */</font></tt> <br>
       <b><tt><font color="#000099">Time operator+(Time a, long sec)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: пресмята момент от време,
-            отдалечен на зададен брой секунди</font></tt></b> <br>
-      <b><tt><font color="#000099">   ПОЛУЧАВА: a - момент от
-            време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ВРЪЩА: броя на секундите</font></tt></b>
+      <tt><font color="#000099">/* ЦЕЛ: пресмята момент от време,
+          отдалечен на зададен брой секунди</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a - момент от
+          време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: </font></tt><tt><font
+          color="#000099">момент от време, отдалечен на зададения брой
+          секунди</font></tt> <br>
+      <tt><font color="#000099">*/</font></tt> <br>
+      <b><tt><font color="#000099">{&nbsp; Time r = a;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; r.add_seconds(sec);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">*/</font></tt></b> <br>
-      <b><tt><font color="#000099">{  Time r = a;</font></tt></b> <br>
-      <b><tt><font color="#000099">   r.add_seconds(sec);</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">   return r;  }</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return r;&nbsp; }</font></tt></b>
     </p>
-    <p><b><tt><font color="#000099">/* Предефиниране на бинарна операция
-            == с аргументи от клас Time и стойност от тип bool */</font></tt></b>
-    </p>
-    <p><b><tt><font color="#000099">bool operator==(Time a, Time b)</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: сравнява два момента от време</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">   ПОЛУЧАВА: a, b - два
-            момента от време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ВРЪЩА: true - ако те са
-            равни</font></tt></b> <br>
-      <b><tt><font color="#000099">*/</font></tt></b> <br>
-      <b><tt><font color="#000099">{  return a.seconds_from(b) ==
-            0;  }</font></tt></b> </p>
-    <p><b><tt><font color="#000099">/* Предефиниране на бинарна операция
-            != с аргументи от клас Time и стойност от тип bool */</font></tt></b>
-    </p>
-    <p><b><tt><font color="#000099">bool operator!=(Time a, Time b)</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: сравнява два момента от време</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">   ПОЛУЧАВА: a, b - два
-            момента от време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ВРЪЩА: true - ако те не
-            са равни</font></tt></b> <br>
-      <b><tt><font color="#000099">*/</font></tt></b> <br>
-      <b><tt><font color="#000099">{  return a.seconds_from(b) !=
-            0;  }</font></tt></b> </p>
-    <p><b><tt><font color="#000099">/* Предефиниране на бинарна операция
-            &lt;&lt; с аргументи от клас ostream и клас Time и стойност</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">от тип ostream */</font></tt></b> <br>
-      <b><tt><font color="#000099">ostream &amp;operator&lt;&lt;(ostream
+    <p><tt><font color="#000099">/* Предефиниране на бинарна операция ==
+          с аргументи от клас Time и стойност от тип bool */</font></tt><b><tt><font
+            color="#000099"><br>
+            &nbsp;&nbsp; bool operator==(Time a, Time b)</font></tt></b>
+      <b><tt><font color="#000099"><br>
+          </font></tt></b><tt><font color="#000099">/* ЦЕЛ: сравнява два
+          момента от време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a, b - два
+          момента от време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: true ако те са равни
+          и false ако не са равни</font></tt><br>
+      <tt><font color="#000099">*/</font></tt> <br>
+      <b><tt><font color="#000099">{&nbsp; return a.seconds_from(b) ==
+            0;&nbsp; }</font></tt></b> </p>
+    <p><tt><font color="#000099">/* Предефиниране на бинарна операция !=
+          с аргументи от клас Time и стойност от тип bool */</font></tt><b><tt><font
+            color="#000099"><br>
+            &nbsp;&nbsp; bool operator!=(Time a, Time b)</font></tt></b>
+      <b><tt><font color="#000099"><br>
+          </font></tt></b><tt><font color="#000099">/* ЦЕЛ: сравнява два
+          момента от време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a, b - два
+          момента от време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: true - ако те не са
+          равни</font></tt> <br>
+      <tt><font color="#000099">*/</font></tt> <br>
+      <b><tt><font color="#000099">{&nbsp; return a.seconds_from(b) !=
+            0;&nbsp; }</font></tt></b> </p>
+    <p><tt><font color="#000099">/* Предефиниране на бинарна операция
+          &lt;&lt; с аргументи от клас ostream и клас Time и стойност</font></tt>
+      <tt><font color="#000099">от тип ostream */</font></tt> <br>
+      <tt><font color="#000099"><b>&nbsp;&nbsp; </b></font></tt><b><tt><font
+            color="#000099">ostream &amp;operator&lt;&lt;(ostream
             &amp;out, const Time &amp;a)</font></tt></b> <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: отпечатва обект от тип Time</font></tt></b>
+      <tt><font color="#000099">/* ЦЕЛ: отпечатва обект от тип Time</font></tt>
       <br>
-      <b><tt><font color="#000099">   ПОЛУЧАВА: out - изходен
-            поток</font></tt></b> <br>
-      <b><tt><font color="#000099">            
-a
-
-
-
-
-
-
-
-            - момент от време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ВРЪЩА: out</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">*/</font></tt></b> <br>
-      <b><tt><font color="#000099">{  out &lt;&lt; a.get_hours()
+      <tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: out - изходен
+          поток</font></tt>,&nbsp; <tt><font color="#000099">a - момент
+          от време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: входния параметър
+          out</font></tt> <br>
+      <tt><font color="#000099">*/</font></tt> <br>
+      <b><tt><font color="#000099">{&nbsp; out &lt;&lt; a.get_hours()
             &lt;&lt; ":";</font></tt></b> <br>
-      <b><tt><font color="#000099">   if (a.get_minutes() &lt;
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (a.get_minutes() &lt;
             10) out &lt;&lt; "0";</font></tt></b> <br>
-      <b><tt><font color="#000099">   out &lt;&lt;
+      <b><tt><font color="#000099">&nbsp;&nbsp; out &lt;&lt;
             a.get_minutes() &lt;&lt; ":";</font></tt></b> <br>
-      <b><tt><font color="#000099">   if (a.get_seconds() &lt;
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (a.get_seconds() &lt;
             10) out &lt;&lt; "0";</font></tt></b> <br>
-      <b><tt><font color="#000099">   out &lt;&lt;
+      <b><tt><font color="#000099">&nbsp;&nbsp; out &lt;&lt;
             a.get_seconds();</font></tt></b> <br>
-      <b><tt><font color="#000099">   return
-            out;    }</font></tt></b> </p>
-    <p><b><tt><font color="#000099">/* Предефиниране на унарна операция
-            - префиксна форма на ++ с аргумент от клас</font></tt></b> <br>
-      <b><tt><font color="#000099">Time и стойност от клас Time */</font></tt></b>
-      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return
+            out;&nbsp;&nbsp;&nbsp; }</font></tt></b> </p>
+    <p><tt><font color="#000099">/* Предефиниране на унарна операция -
+          префиксна форма на ++ с аргумент от клас</font></tt> <tt><font
+          color="#000099">Time и стойност от клас Time */</font></tt> <br>
       <b><tt><font color="#000099">Time operator++(Time &amp;a)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: добавя към момент от време 1
-            секунда</font></tt></b> <br>
-      <b><tt><font color="#000099">   ПОЛУЧАВА: a - момент от
-            време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ВРЪЩА: новият момент от
-            време и променя a</font></tt></b> <br>
-      <b><tt><font color="#000099">*/</font></tt></b> <br>
+      <tt><font color="#000099">/* ЦЕЛ: добавя към момент от време 1
+          секунда</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a - момент от
+          време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: новият момент от
+          време и променя a</font></tt> <br>
+      <tt><font color="#000099">*/</font></tt> <br>
       <b><tt><font color="#000099">{ a = a + 1; return a; }</font></tt></b>
     </p>
-    <p><b><tt><font color="#000099">/* Предефиниране на унарна операция
-            - постфиксна форма на ++ с аргумент от клас</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">Time и стойност от клас Time */</font></tt></b>
-      <br>
+    <p><tt><font color="#000099">/* Предефиниране на унарна операция -
+          постфиксна форма на ++ с аргумент от клас</font></tt> <tt><font
+          color="#000099">Time и стойност от клас Time */</font></tt> <br>
       <b><tt><font color="#000099">Time operator++(Time &amp;a, int
             dummy)</font></tt></b> <br>
-      <b><tt><font color="#000099">/* ЦЕЛ: добавя към момент от време 1
-            минута</font></tt></b> <br>
-      <b><tt><font color="#000099">   ПОЛУЧАВА: a - момент от
-            време</font></tt></b> <br>
-      <b><tt><font color="#000099">   ВРЪЩА: непромененият
-            момент от време и променя a</font></tt></b> <br>
-      <b><tt><font color="#000099">*/</font></tt></b> <br>
+      <tt><font color="#000099">/* ЦЕЛ: добавя към момент от време 1
+          минута</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ПОЛУЧАВА: a - момент от
+          време</font></tt> <br>
+      <tt><font color="#000099">&nbsp;&nbsp; ВРЪЩА: непромененият момент
+          от време и променя a</font></tt> <br>
+      <tt><font color="#000099">*/</font></tt> <br>
       <b><tt><font color="#000099">{ Time b = a;</font></tt></b> <br>
-      <b><tt><font color="#000099">  a = a + 60; return b;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; a = a + 60; return b;</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> <br>
-      <b><tt><font color="#000099"> </font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;</font></tt></b> <br>
       <b><tt><font color="#000099">int main()</font></tt></b> <br>
-      <b><tt><font color="#000099">{  Time now;</font></tt></b> <br>
-      <b><tt><font color="#000099">   cout &lt;&lt; "Now it is
+      <b><tt><font color="#000099">{&nbsp; Time now;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Now it is
             " &lt;&lt; now &lt;&lt; "\n";</font></tt></b> <br>
-      <b><tt><font color="#000099">   Time later = now + 1000;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; Time later = now + 1000;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   cout &lt;&lt; "A
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "A
             thousand seconds later it is " &lt;&lt; later &lt;&lt; "\n";</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   Time now2;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; Time now2;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   if (now == now2)</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (now == now2)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">      cout
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
             &lt;&lt; "It still is " &lt;&lt; now2 &lt;&lt; "\n";</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   if (now != now2)</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (now != now2)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">      cout
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
             &lt;&lt; "It is already " &lt;&lt; now2 &lt;&lt; "\n";</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   cout &lt;&lt; "Another "
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Another "
             &lt;&lt; later - now2 &lt;&lt; " seconds until "</font></tt></b>
       <br>
-      <b><tt><font color="#000099">       
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &lt;&lt;
 
 
@@ -188,49 +178,48 @@ a
 
 
 
+
             later &lt;&lt; "\n";</font></tt></b> <br>
-      <b><tt><font color="#000099">   now = Time();</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; now = Time();</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   cout &lt;&lt; "Now it is
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Now it is
             " &lt;&lt; now &lt;&lt; "\n";</font></tt></b> <br>
-      <b><tt><font color="#000099">   cout &lt;&lt; "One
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "One
             second later " &lt;&lt; (++now) &lt;&lt; "\n";</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   cout &lt;&lt; "The same
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The same
             time " &lt;&lt; (now++);</font></tt></b> <br>
-      <b><tt><font color="#000099">   cout &lt;&lt; " and 60
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; " and 60
             seconds later " &lt;&lt; now &lt;&lt; "\n";</font></tt></b>
       <br>
-      <b><tt><font color="#000099">   return 0;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> <br>
-       
-      </p>
-<table border="" cellpadding="4" width="100%">
-        <tbody>
-          <tr>
-            <td>
-<b><tt><font color="#993300">Now it is 11:42:51</font></tt></b>
-              <br>
-              <b><tt><font color="#993300">A thousand seconds later it
-                    is 11:59:31</font></tt></b> <br>
-              <b><tt><font color="#993300">It still is 11:42:51</font></tt></b>
-              <br>
-              <b><tt><font color="#993300">Another 1000 seconds until
-                    11:59:31</font></tt></b> <br>
-              <b><tt><font color="#993300">Now it is 11:42:51</font></tt></b>
-              <br>
-              <b><tt><font color="#993300">One second later 11:42:52</font></tt></b>
-              <br>
-              <b><tt><font color="#993300">The same time 11:42:52 and 60
-                    seconds later 11:43:52</font></tt></b>
-</td>
-          </tr>
-        </tbody>
-      </table>
-    
+      &nbsp; </p>
+    <table border="" width="100%" cellpadding="4">
+      <tbody>
+        <tr>
+          <td>
+            <b><tt><font color="#993300">Now it is 11:42:51</font></tt></b>
+            <br>
+            <b><tt><font color="#993300">A thousand seconds later it is
+                  11:59:31</font></tt></b> <br>
+            <b><tt><font color="#993300">It still is 11:42:51</font></tt></b>
+            <br>
+            <b><tt><font color="#993300">Another 1000 seconds until
+                  11:59:31</font></tt></b> <br>
+            <b><tt><font color="#993300">Now it is 11:42:51</font></tt></b>
+            <br>
+            <b><tt><font color="#993300">One second later 11:42:52</font></tt></b>
+            <br>
+            <b><tt><font color="#993300">The same time 11:42:52 and 60
+                  seconds later 11:43:52</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <br>
-    <b>**</b>Предефиниране на операции като член-функции на клас. 
+    <b>**</b>Предефиниране на операции като член-функции на клас.&nbsp;
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: 
 normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 
 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><code><span style="font-family: 'Courier New'; font-style: 
@@ -242,13 +231,15 @@ rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" 
 bold;">:</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">public</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: 
 rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">{<br></span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">public</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">:<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">-(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">+(</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">sec</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">bool</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">==(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">bool</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">!=(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">++();</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">        // prefix<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">++(</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">dummy</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">);</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">// postfix<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">friend</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">ostream</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&amp;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">ostream</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&amp;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">out</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">,</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">a</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">);</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">             <br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">};<br><br></span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/**<br>   Compute the number of seconds between two points in time.<br>   @param b another point in time<br>   @return the number of seconds that a is away from b<br>*/<br></span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">::</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">-(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const<br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">-&gt;</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">seconds_from</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">);<br>}<br><br></span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/**<br>   Compute a point in time that is some number of seconds away.<br>   @param sec the seconds to add<br>   @return a point in time that is sec seconds away from a<br>*/<br></span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">::</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">+(</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">sec</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const<br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">r</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">=</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">r</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">.</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">add_seconds</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">sec</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">);<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">r</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br>}<br><br></span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/**<br>   Compare two points in time<br>   @param b another point in time<br>   @return true if they are the same<br>*/<br></span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">bool</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">::</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">==(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const<br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">-&gt;</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">seconds_from</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">==</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-number" style="color: rgb(128, 0, 128); font-weight: bold;">0</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br>}<br><br></span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/**<br>   Compare two points in time.<br>   @param b another point in time<br>   @return true if they are the different<br>*/<br></span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">bool</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">::</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">!=(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">const<br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">!(*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">==</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">b</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">);<br>}<br><br></span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/**<br>   Prefix increment by 1 second.<br>   @return the new value<br>*/<br></span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">::</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">++()</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">// prefix<br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">=</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">+</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-number" style="color: rgb(128, 0, 128); font-weight: bold;">1</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> <br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">}<br><br></span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/**<br>   Postfix increment by 1 second.<br>   @return the old value<br>*/</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">    <br></span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">::</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">++(</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">dummy</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">// postfix<br></span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">t</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">=</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">=</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">*</span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">this</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">+</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-number" style="color: rgb(128, 0, 128); font-weight: bold;">1</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">t</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br>}</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">    <br><br></span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/**<br>   Print a Time object<br>   @param out an output stream<br>   @param a a point in time<br>   @return out<br>*/<br></span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">ostream</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&amp;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">operator</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">ostream</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&amp;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">out</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">,</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">a</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)<br>{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">out</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">a</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">.</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">get_hours</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">()</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">":"<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">      </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">setw</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-number" style="color: rgb(128, 0, 128); font-weight: bold;">2</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">setfill</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-character" style="color: rgb(0, 0, 0); font-weight: bold;">'0'</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> <br>      </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">a</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">.</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">get_minutes</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">()</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">":"<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">      </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">setw</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-number" style="color: rgb(128, 0, 128); font-weight: bold;">2</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">a</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">.</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">get_seconds</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">()</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">setfill</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-character" style="color: rgb(0, 0, 0); font-weight: bold;">' '</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">);<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">out</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br>}</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> <br><br></span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">main</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">()<br>{</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">  </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">cout</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"now: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">endl</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">later</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">=</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">+</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-number" style="color: rgb(128, 0, 128); font-weight: bold;">1000</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">cout</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"later: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">later</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">endl</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">Time_new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">if</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">==</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">      </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">cout</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"now == now2: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">endl</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">if</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">(</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">!=</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">)<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">      </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">cout</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"now != now2 "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">endl</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">cout</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"now++: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">++</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> <br>        </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"  ++now2: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">++</span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">endl</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">cout</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"now: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">" now2: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">endl</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">cout</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-string" style="color: rgb(255, 0, 0); font-weight: bold;">"later - now2: "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">later</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">-</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">now2</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">&lt;&lt;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);">endl</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   <br>   </span><span class="cpp1-reservedword" style="color: rgb(58, 110, 165); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-number" style="color: rgb(128, 0, 128); font-weight: bold;">0</span><span class="cpp1-symbol" style="color: rgb(153, 51, 0); font-weight: bold;">;<br>}<br><br></span></span></code></pre>
     Сега можем да заменим функциите, които заместваха операциите от
-    STL-реализацията на свързан списък (<a href="../../NETB151/sources/ch16/list2.cpp"><tt>list2.cpp</tt></a>)
+    STL-реализацията на свързан списък (<a
+      href="../../NETB151/sources/ch16/list2.cpp"><tt>list2.cpp</tt></a>)
     с предефинирани операции:<br>
     <p><b><tt><font color="#006600">bool operator!=(Iterator a, Iterator
             b); /* </font><font color="#000000">външна за класа функция
             */</font></tt></b> <br>
       <b><tt><font color="#006600">bool Iterator::operator!=(Iterator
-            b);   /* </font><font color="#000000">член-функция
+            b);&nbsp;&nbsp; /* </font><font color="#000000">член-функция
+
 
 
 
@@ -257,22 +248,22 @@ rgb(0, 0, 0);"> </span><span class="cpp1-identifier" style="color: rgb(0, 0, 0);
             */</font></tt></b> </p>
     <p><b><tt><font color="#006600">string Iterator::operator*() const</font></tt></b>
       <br>
-      <b><tt><font color="#006600">{  assert(position != NULL);</font></tt></b>
+      <b><tt><font color="#006600">{&nbsp; assert(position != NULL);</font></tt></b>
       <br>
-      <b><tt><font color="#006600">   return
-            position-&gt;data;  }</font></tt></b> </p>
+      <b><tt><font color="#006600">&nbsp;&nbsp; return
+            position-&gt;data;&nbsp; }</font></tt></b> </p>
     <p><b><tt><font color="#006600">void Iterator::operator++(int dummy)</font></tt></b>
       <br>
-      <b><tt><font color="#006600">{  assert(position != NULL);</font></tt></b>
+      <b><tt><font color="#006600">{&nbsp; assert(position != NULL);</font></tt></b>
       <br>
-      <b><tt><font color="#006600">   position =
+      <b><tt><font color="#006600">&nbsp;&nbsp; position =
             position-&gt;next; }</font></tt></b> </p>
     <p><b><tt><font color="#006600">void Iterator::operator--(int dummy)</font></tt></b>
       <br>
-      <b><tt><font color="#006600">{  if (position == NULL) 
+      <b><tt><font color="#006600">{&nbsp; if (position == NULL)&nbsp;
             position = last;</font></tt></b> <br>
-      <b><tt><font color="#006600">  
-            else                  
+      <b><tt><font color="#006600">&nbsp;&nbsp;
+            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 position
 
 
@@ -280,41 +271,49 @@ position
 
 
 
+
             = position-&gt;previous;</font></tt></b> <br>
-      <b><tt><font color="#006600">   assert(position !=
-            NULL);   }</font></tt></b> </p>
+      <b><tt><font color="#006600">&nbsp;&nbsp; assert(position !=
+            NULL);&nbsp;&nbsp; }</font></tt></b> </p>
     <p><b><tt><font color="#006600">bool Iterator::operator!=(Iterator
             b) const</font></tt></b> <br>
-      <b><tt><font color="#006600">{  return position !=
-            b.position;   }</font></tt></b> </p>
+      <b><tt><font color="#006600">{&nbsp; return position !=
+            b.position;&nbsp;&nbsp; }</font></tt></b> </p>
     <p><b><tt><font color="#006600">bool Iterator::operator==(Iterator
             b) const</font></tt></b> <br>
-      <b><tt><font color="#006600">{  return position ==
-            b.position;   </font></tt></b> </p>
+      <b><tt><font color="#006600">{&nbsp; return position ==
+            b.position;&nbsp;&nbsp;&nbsp;</font></tt></b> </p>
     <hr size="2" width="100%">
-    <p><img alt="" src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2013/CITB201/b5.gif" height="18" width="20"> <b>Управление на паметта<br>
+    <p><img alt=""
+src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2013/CITB201/b5.gif"
+        height="18" width="20"> <b>Управление на паметта<br>
       </b></p>
-    <p>Ще разгледаме примера <a href="../../NETB151/sources/ch10/department.cpp" style="font-family: 'Times New Roman'; font-size: medium;
+    <p>Ще разгледаме примера <a
+        href="../../NETB151/sources/ch10/department.cpp"
+        style="font-family: 'Times New Roman'; font-size: medium;
         font-style: normal; font-variant: normal; font-weight: normal;
         letter-spacing: normal; line-height: normal; orphans: auto;
         text-align: left; text-indent: 0px; text-transform: none;
         white-space: normal; widows: auto; word-spacing: 0px;
         -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
-        background-color: rgb(255, 255, 255);"><font size="+1"><span style="font-family: monospace;">department.cpp</span></font></a><span style="font-family: 'Times New Roman'; font-size: medium;
+        background-color: rgb(255, 255, 255);"><font size="+1"><span
+            style="font-family: monospace;">department.cpp</span></font></a><span
+        style="font-family: 'Times New Roman'; font-size: medium;
         font-style: normal; font-variant: normal; font-weight: normal;
         letter-spacing: normal; line-height: normal; orphans: auto;
         text-align: left; text-indent: 0px; text-transform: none;
         white-space: normal; widows: auto; word-spacing: 0px;
         -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
-        background-color: rgb(255, 255, 255);"><font size="+1"><span style="font-family: monospace;">.<br>
+        background-color: rgb(255, 255, 255);"><font size="+1"><span
+            style="font-family: monospace;">.<br>
           </span></font></span></p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; 
 letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: 
 none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: 
-rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">class</span> Department {<br>   ...<br><span style="color: rgb(51, 51, 255);">private:</span><br>   
-string name;<br>   Employee* receptionist;<br>};<br><br>Department::Department(string n, Employee e)<br>{  name = n;<br>   
-receptionist = <span style="color: rgb(51, 51, 255);">new </span>Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */<br>
-Department::Department(string n)<br>{  name = n;<br>   receptionist = NULL;<br>}<br><br></pre>
+rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">class</span> Department {<br>   ...<br><span style="color: rgb(51, 51, 255);">private:</span>
+   string name;<br>   Employee* receptionist;<br>};<br><br>Department::Department(string n, Employee e)<br>{  <br>   name = n;
+   receptionist = <span style="color: rgb(51, 51, 255);">new </span>Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */<br>
+Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NULL;<br>}<br><br></pre>
     <p><b>** Деструктор</b><br>
     </p>
     <p>Деструкторът е специална член-функция, която се извиква
@@ -339,13 +338,14 @@ Department::Department(string n)<br>{  name = n;<br>   receptionist = NULL;<br>}
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><img alt="" src="../../NETB151/slides/ch17/images/department_assignment.png" height="679" width="486"><br><b><br></b></pre>
     <p>Затова трябва да предефинираме операция присвояване за обекти от
-      класа<font size="+1"><font size="+1"> </font></font><font size="+1"><tt>Employee</tt></font></p>
+      класа<font size="+1"><font size="+1"> </font></font><font
+        size="+1"><tt>Employee</tt></font></p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Department&amp; Department::<span style="color: rgb(51, 51, 255);">operator</span>=(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  if (<span style="color: rgb(51, 51, 255);">this</span> != &amp;b)<br>   {  name = b.name;<br>      <span style="color: rgb(51, 51, 255);">delete</span> receptionist;<br>      <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == <span style="color: rgb(51, 51, 255);">NULL</span>) receptionist == <span style="color: rgb(51, 51, 255);">NULL</span>;<br>      <span style="color: rgb(51, 51, 255);">else</span><br>         receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         			b.receptionist-&gt;get_salary());<br>    }<br>    <span style="color: rgb(51, 51, 255);">return</span> *<span style="color: rgb(51, 51, 255);">this</span>;<br>}</pre>
     <p>Корираме данните, които не са указатели (в случая <tt>name</tt>)
       от обект <tt>b</tt> в <tt>*this</tt>, изтриваме указателя <tt>receptionist</tt>
       от <tt>*this</tt> и създаваме нов обект от тип <tt>Employee</tt>
       за <tt>*this</tt>, копие на обекта<tt> *</tt><tt><tt><tt>receptionist</tt></tt>
-        от </tt><tt><tt>b</tt>. </tt><tt> <br>
+        от </tt><tt><tt>b</tt>.&nbsp;</tt><tt> <br>
       </tt></p>
     <p>Функцията за предефиниране трябва да е член-функция (защо)?<b><br>
       </b></p>
@@ -355,8 +355,8 @@ Department::Department(string n)<br>{  name = n;<br>   receptionist = NULL;<br>}
       обект, като го направи същия, както друг обект и не е подходящ за
       конструиране на нов обект. Напр. в оператора<br>
     </p>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Department dept = qc; // not <font size="+1">assignment operator!</font></pre>
-    <p>не може да се използва ( и не е) операция присвояване. Правилното
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Department dept = qc; // <font color="#ff0000">not assignment operator!</font></pre>
+    <p>не може да се използва (и не е) операция присвояване. Правилното
       конструиране на обект, копие на друг обект е: <br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Department dept(qc);</pre>
@@ -488,8 +488,13 @@ Department::Department(string n)<br>{  name = n;<br>   receptionist = NULL;<br>}
 128: <font color="#ff0000">}</font>
 </tt></pre>
     Когато използваме указатели (и динамична памет) в данните на клас,
-    винаги трябва да дефинираме "големите три": конструктор за копиране,
-    операция присвояване и деструктор.<br>
+    винаги трябва да дефинираме<b> "големите три": <br>
+    </b>
+    <ul>
+      <li><b>конструктор за копиране, </b></li>
+      <li><b>операция присвояване и </b></li>
+      <li><b>деструктор</b>.</li>
+    </ul>
     Пример с класа <tt>List</tt>:<br>
     <br>
     <b><tt>// <a href="../../NETB151/sources/ch17/list0.cpp">list0.cpp</a></tt></b><b><tt><br>
@@ -506,287 +511,288 @@ Department::Department(string n)<br>{  name = n;<br>   receptionist = NULL;<br>}
         */<br>
         class Node {<br>
         public:<br>
-           /** Constructs a node for a given data value.<br>
-               @param s the data to store
+        &nbsp;&nbsp; /** Constructs a node for a given data value.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the data to store
         in this node<br>
-           */<br>
-           Node(string s);<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; Node(string s);<br>
         private:<br>
-           string data;<br>
-           Node* previous;<br>
-           Node* next;<br>
+        &nbsp;&nbsp; string data;<br>
+        &nbsp;&nbsp; Node* previous;<br>
+        &nbsp;&nbsp; Node* next;<br>
         friend class List;<br>
         friend class Iterator;<br>
         };<br>
-           <br>
+        &nbsp;&nbsp; <br>
         /** An iterator denotes a position in the list or<br>
-            past the end of the list.<br>
+        &nbsp;&nbsp;&nbsp; past the end of the list.<br>
         */<br>
         class Iterator {<br>
         public:<br>
-           /** Constructs an iterator that is not attached to
+        &nbsp;&nbsp; /** Constructs an iterator that is not attached to
         any list.<br>
-           */<br>
-           Iterator();<br>
-           /** Looks up the value at a position.<br>
-               @return the value of the
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; Iterator();<br>
+        &nbsp;&nbsp; /** Looks up the value at a position.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return the value of the
         Node to which the iterator <br>
-               points<br>
-           */<br>
-           string operator*() const;<br>
-           /** Advances the iterator to the next position.<br>
-           */<br>
-           void operator++(int dummy);<br>
-           /** Moves the iterator to the previous position.<br>
-           */<br>
-           void operator--(int dummy);<br>
-           /** Compares two iterators.<br>
-               @param b the iterator to
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; points<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; string operator*() const;<br>
+        &nbsp;&nbsp; /** Advances the iterator to the next position.<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void operator++(int dummy);<br>
+        &nbsp;&nbsp; /** Moves the iterator to the previous position.<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void operator--(int dummy);<br>
+        &nbsp;&nbsp; /** Compares two iterators.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the iterator to
         compare with this iterator<br>
-               @return true if this
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return true if this
         iterator and b are equal<br>
-           */<br>
-           bool operator==(Iterator b) const;<br>
-           /** Compares two iterators.<br>
-               @param b the iterator to
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; bool operator==(Iterator b) const;<br>
+        &nbsp;&nbsp; /** Compares two iterators.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the iterator to
         compare with this iterator<br>
-               @return true if this
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return true if this
         iterator and b are not equal<br>
-           */<br>
-           bool operator!=(Iterator b) const;<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; bool operator!=(Iterator b) const;<br>
         private:<br>
-           Node* position;<br>
-           Node* last;<br>
+        &nbsp;&nbsp; Node* position;<br>
+        &nbsp;&nbsp; Node* last;<br>
         friend class List;<br>
         };<br>
         <br>
         /** A linked list of values of a given type.<br>
-            @param T the type of the list values<br>
+        &nbsp;&nbsp;&nbsp; @param T the type of the list values<br>
         */<br>
         class List {<br>
         public:<br>
-           /** Constructs an empty list.<br>
-           */<br>
-           List();<br>
-           /** Constructs a list as a copy of another list.<br>
-               @param b the list to copy<br>
-           */<br>
-           List(const List&amp; b);<br>
-           /** Deletes all nodes of this list.<br>
-           */<br>
-           ~List();<br>
-           /** Assigns another list to this list.<br>
-               @param b the list to assign<br>
-               @return a reference to this
+        &nbsp;&nbsp; /** Constructs an empty list.<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; List();<br>
+        &nbsp;&nbsp; /** Constructs a list as a copy of another list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to copy<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; List(const List&amp; b);<br>
+        &nbsp;&nbsp; /** Deletes all nodes of this list.<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; ~List();<br>
+        &nbsp;&nbsp; /** Assigns another list to this list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to assign<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return a reference to this
         list<br>
-           */<br>
-           List&amp; operator=(const List&amp; b);<br>
-           /** Appends an element to the list.<br>
-               @param s the value to
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; List&amp; operator=(const List&amp; b);<br>
+        &nbsp;&nbsp; /** Appends an element to the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the value to
         append<br>
-           */<br>
-           void push_back(string s);<br>
-           /** Inserts an element into the list.<br>
-               @param iter the position
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void push_back(string s);<br>
+        &nbsp;&nbsp; /** Inserts an element into the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param iter the position
         before which to insert<br>
-               @param s the value to
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the value to
         append<br>
-           */<br>
-           void insert(Iterator iter, string s);<br>
-           /** Removes an element from the list.<br>
-               @param i the position to
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void insert(Iterator iter, string s);<br>
+        &nbsp;&nbsp; /** Removes an element from the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param i the position to
         remove<br>
-               @return an iterator
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator
         pointing to the element after the<br>
-               erased element<br>
-           */<br>
-           Iterator erase(Iterator i);<br>
-           /** Gets the beginning position of the list.<br>
-               @return an iterator
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; erased element<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; Iterator erase(Iterator i);<br>
+        &nbsp;&nbsp; /** Gets the beginning position of the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator
         pointing to the beginning of the list<br>
-           */<br>
-           Iterator begin() const;<br>
-           /** Gets the past-the-end position of the list.<br>
-               @return an iterator
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; Iterator begin() const;<br>
+        &nbsp;&nbsp; /** Gets the past-the-end position of the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator
         pointing past the end of the list<br>
-           */<br>
-           Iterator end() const;<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; Iterator end() const;<br>
         <br>
         private:<br>
-           /** Copies another list to this list.<br>
-               @param b the list to copy<br>
-           */<br>
-           void copy(const List&amp; b);<br>
-           /** Deletes all nodes of this list.<br>
-           */<br>
-           void free();<br>
-           Node* first;<br>
-           Node* last;<br>
+        &nbsp;&nbsp; /** Copies another list to this list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to copy<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void copy(const List&amp; b);<br>
+        &nbsp;&nbsp; /** Deletes all nodes of this list.<br>
+        &nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void free();<br>
+        &nbsp;&nbsp; Node* first;<br>
+        &nbsp;&nbsp; Node* last;<br>
         };<br>
         <br>
         List::List()<br>
-        {  first = NULL;<br>
-           last = NULL;<br>
+        {&nbsp; first = NULL;<br>
+        &nbsp;&nbsp; last = NULL;<br>
         }<br>
         <br>
         List::~List()<br>
-        {  free();<br>
+        {&nbsp; free();<br>
         }<br>
         <br>
         List::List(const List&amp; b)<br>
-        {  first = NULL;<br>
-           last = NULL;<br>
-           copy(b);<br>
+        {&nbsp; first = NULL;<br>
+        &nbsp;&nbsp; last = NULL;<br>
+        &nbsp;&nbsp; copy(b);<br>
         }<br>
         <br>
         List&amp; List::operator=(const List&amp; b)<br>
-        {  if (this != &amp;b)<br>
-           {  free();<br>
-              copy(b);<br>
-           }<br>
-           return *this;<br>
+        {&nbsp; if (this != &amp;b)<br>
+        &nbsp;&nbsp; {&nbsp; free();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; copy(b);<br>
+        &nbsp;&nbsp; }<br>
+        &nbsp;&nbsp; return *this;<br>
         }<br>
         <br>
         void List::push_back(string s)<br>
-        {  Node* newnode = new Node(s);<br>
-           if (last == NULL) /* list is empty */<br>
-           {  first = newnode;<br>
-              last = newnode;<br>
-           }<br>
-           else<br>
-           {  newnode-&gt;previous = last;<br>
-              last-&gt;next = newnode;<br>
-              last = newnode;<br>
-           }<br>
+        {&nbsp; Node* newnode = new Node(s);<br>
+        &nbsp;&nbsp; if (last == NULL) /* list is empty */<br>
+        &nbsp;&nbsp; {&nbsp; first = newnode;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;<br>
+        &nbsp;&nbsp; }<br>
+        &nbsp;&nbsp; else<br>
+        &nbsp;&nbsp; {&nbsp; newnode-&gt;previous = last;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last-&gt;next = newnode;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;<br>
+        &nbsp;&nbsp; }<br>
         }<br>
         <br>
         void List::insert(Iterator iter, string s)<br>
-        {  if (iter.position == NULL)<br>
-           {  push_back(s);<br>
-              return;<br>
-           }<br>
+        {&nbsp; if (iter.position == NULL)<br>
+        &nbsp;&nbsp; {&nbsp; push_back(s);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>
+        &nbsp;&nbsp; }<br>
         <br>
-           Node* after = iter.position;<br>
-           Node* before = after-&gt;previous;<br>
-           Node* newnode = new Node(s);<br>
-           newnode-&gt;previous = before;<br>
-           newnode-&gt;next = after;<br>
-           after-&gt;previous = newnode;<br>
-           if (before == NULL) /* insert at beginning */<br>
-              first = newnode;<br>
-           else<br>
-              before-&gt;next = newnode;<br>
+        &nbsp;&nbsp; Node* after = iter.position;<br>
+        &nbsp;&nbsp; Node* before = after-&gt;previous;<br>
+        &nbsp;&nbsp; Node* newnode = new Node(s);<br>
+        &nbsp;&nbsp; newnode-&gt;previous = before;<br>
+        &nbsp;&nbsp; newnode-&gt;next = after;<br>
+        &nbsp;&nbsp; after-&gt;previous = newnode;<br>
+        &nbsp;&nbsp; if (before == NULL) /* insert at beginning */<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = newnode;<br>
+        &nbsp;&nbsp; else<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before-&gt;next = newnode;<br>
         }<br>
         <br>
         Iterator List::erase(Iterator i)<br>
-        {  Iterator iter = i;<br>
-           assert(iter.position != NULL);<br>
-           Node* remove = iter.position;<br>
-           Node* before = remove-&gt;previous;<br>
-           Node* after = remove-&gt;next;<br>
-           <br>
-           if (remove == first) first = after;<br>
-          
-        else         
+        {&nbsp; Iterator iter = i;<br>
+        &nbsp;&nbsp; assert(iter.position != NULL);<br>
+        &nbsp;&nbsp; Node* remove = iter.position;<br>
+        &nbsp;&nbsp; Node* before = remove-&gt;previous;<br>
+        &nbsp;&nbsp; Node* after = remove-&gt;next;<br>
+        &nbsp;&nbsp; <br>
+        &nbsp;&nbsp; if (remove == first) first = after;<br>
+        &nbsp;&nbsp;
+        else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         before-&gt;next = after;<br>
-           if (remove == last) last = before;<br>
-           else     after-&gt;previous =
+        &nbsp;&nbsp; if (remove == last) last = before;<br>
+        &nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp; after-&gt;previous =
         before;<br>
-           <br>
-           iter.position = after;<br>
-           delete remove;<br>
-           return iter;<br>
+        &nbsp;&nbsp; <br>
+        &nbsp;&nbsp; iter.position = after;<br>
+        &nbsp;&nbsp; delete remove;<br>
+        &nbsp;&nbsp; return iter;<br>
         }<br>
         <br>
         Iterator List::begin() const<br>
-        {  Iterator iter;<br>
-           iter.position = first;<br>
-           iter.last = last;<br>
-           return iter;<br>
+        {&nbsp; Iterator iter;<br>
+        &nbsp;&nbsp; iter.position = first;<br>
+        &nbsp;&nbsp; iter.last = last;<br>
+        &nbsp;&nbsp; return iter;<br>
         }<br>
         <br>
         Iterator List::end() const<br>
-        {  Iterator iter;<br>
-           iter.position = NULL;<br>
-           iter.last = last;<br>
-           return iter;<br>
+        {&nbsp; Iterator iter;<br>
+        &nbsp;&nbsp; iter.position = NULL;<br>
+        &nbsp;&nbsp; iter.last = last;<br>
+        &nbsp;&nbsp; return iter;<br>
         }<br>
         <br>
         Iterator::Iterator()<br>
-        {  position = NULL;<br>
-           last = NULL;<br>
+        {&nbsp; position = NULL;<br>
+        &nbsp;&nbsp; last = NULL;<br>
         }<br>
         <br>
         string Iterator::operator*() const<br>
-        {  assert(position != NULL);<br>
-           return position-&gt;data;<br>
+        {&nbsp; assert(position != NULL);<br>
+        &nbsp;&nbsp; return position-&gt;data;<br>
         }<br>
         <br>
         void Iterator::operator++(int dummy)<br>
-        {  assert(position != NULL);<br>
-           position = position-&gt;next;<br>
+        {&nbsp; assert(position != NULL);<br>
+        &nbsp;&nbsp; position = position-&gt;next;<br>
         }<br>
         <br>
         void Iterator::operator--(int dummy)<br>
-        {  if (position == NULL) position = last;<br>
-          
-        else                 
+        {&nbsp; if (position == NULL) position = last;<br>
+        &nbsp;&nbsp;
+        else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
         position = position-&gt;previous;<br>
-           assert(position != NULL);<br>
+        &nbsp;&nbsp; assert(position != NULL);<br>
         }<br>
         <br>
         bool Iterator::operator==(Iterator b) const<br>
-        {  return position == b.position;<br>
+        {&nbsp; return position == b.position;<br>
         }<br>
         <br>
         bool Iterator::operator!=(Iterator b) const<br>
-        {  return position != b.position;<br>
+        {&nbsp; return position != b.position;<br>
         }<br>
         <br>
         Node::Node(string s)<br>
-        {  data = s;<br>
-           previous = NULL;<br>
-           next = NULL;<br>
+        {&nbsp; data = s;<br>
+        &nbsp;&nbsp; previous = NULL;<br>
+        &nbsp;&nbsp; next = NULL;<br>
         }<br>
         <br>
         void List::copy(const List&amp; b)<br>
-        {  for (Iterator p = b.begin(); p != b.end(); p++)<br>
-              push_back(*p);<br>
+        {&nbsp; for (Iterator p = b.begin(); p != b.end(); p++)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push_back(*p);<br>
         }<br>
         <br>
         void List::free()<br>
-        {  while (begin() != end()) erase(begin());<br>
+        {&nbsp; while (begin() != end()) erase(begin());<br>
         }<br>
         <br>
         int main()<br>
-        {  List staff;<br>
+        {&nbsp; List staff;<br>
         <br>
-           staff.push_back("Cracker, Carl");<br>
-           staff.push_back("Hacker, Harry");<br>
-           staff.push_back("Lam, Larry");<br>
-           staff.push_back("Sandman, Susan");<br>
+        &nbsp;&nbsp; staff.push_back("Cracker, Carl");<br>
+        &nbsp;&nbsp; staff.push_back("Hacker, Harry");<br>
+        &nbsp;&nbsp; staff.push_back("Lam, Larry");<br>
+        &nbsp;&nbsp; staff.push_back("Sandman, Susan");<br>
         <br>
-           /* add a value in fourth place */<br>
-           Iterator pos;<br>
-           pos = staff.begin();<br>
-           pos++;<br>
-           pos++;<br>
-           pos++;<br>
+        &nbsp;&nbsp; /* add a value in fourth place */<br>
+        &nbsp;&nbsp; Iterator pos;<br>
+        &nbsp;&nbsp; pos = staff.begin();<br>
+        &nbsp;&nbsp; pos++;<br>
+        &nbsp;&nbsp; pos++;<br>
+        &nbsp;&nbsp; pos++;<br>
         <br>
-           staff.insert(pos, "Reindeer, Rudolf");<br>
+        &nbsp;&nbsp; staff.insert(pos, "Reindeer, Rudolf");<br>
         <br>
-           /* remove the value in second place */<br>
-           pos = staff.begin();<br>
-           pos++;<br>
+        &nbsp;&nbsp; /* remove the value in second place */<br>
+        &nbsp;&nbsp; pos = staff.begin();<br>
+        &nbsp;&nbsp; pos++;<br>
         <br>
-           staff.erase(pos);<br>
+        &nbsp;&nbsp; staff.erase(pos);<br>
         <br>
-           /* print all values */<br>
-           for (pos = staff.begin(); pos != staff.end();
+        &nbsp;&nbsp; /* print all values */<br>
+        &nbsp;&nbsp; for (pos = staff.begin(); pos != staff.end();
         pos++)<br>
-              cout &lt;&lt; *pos &lt;&lt; "\n";<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; *pos &lt;&lt; "\n";<br>
         <br>
-           return 0;<br>
+        &nbsp;&nbsp; return 0;<br>
         }</b></tt><br>
     <hr width="100%">
   </body>
