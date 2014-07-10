@@ -1,0 +1,1165 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Chapter 4</title>
+  </head>
+  <body>
+    <h2>Стек, опашка и рекурсия</h2>
+    <ul>
+      <li><big>Абстрактен тип данни (АТД) е абстракция на структура от
+          данни.<br>
+        </big></li>
+      <big> </big>
+      <li>
+<big>За всеки АТД се посочва:</big>
+        <ul>
+          <li><big>съхраняваните данни;<br>
+            </big></li>
+          <li><big>операциите върху данните;<br>
+            </big></li>
+          <li><big>състоянията на грешки, свързани с тези операции.</big></li>
+        </ul>
+      </li>
+    </ul>
+    <hr size="2" width="100%">
+    <h3>Стек абстрактен тип данни (АТД)</h3>
+    <ul>
+      <li><big>Стекът АТД съхранява обекти от произволен тип. </big></li>
+      <li><big>Операциите добавяне и изтриване следват схемата "последен
+          влязъл - пръв излязал" - last-in first-out (LIFO). </big></li>
+      <li>
+<big>Основни стекови операции:</big>
+        <ul>
+          <li><big><span style="font-family: monospace;">push(object o)</span>:
+              добавяне (вмъкване) на елемента <span style="font-family:
+                monospace;">o</span> в началото на стека;</big></li>
+          <li><big><span style="font-family: monospace;">pop()</span>:
+              изтриване (премахване, изваждане) и връщане на последния
+              добавен елемент.</big></li>
+        </ul>
+      </li>
+      <li>
+<big>Спомагателни стекови операции:</big>
+        <ul>
+          <li><big><span style="font-family: monospace;">top()</span>:
+              връща псевдоним към последния добавен елемент без да го
+              изтрива;</big></li>
+          <li><big><span style="font-family: monospace;">size()</span>:
+              връща броя на елементите в стека;</big></li>
+          <li>
+<big><span style="font-family: monospace;">isEmpty()</span>:
+              връща булева стойност, показваща дали има елементи в стека
+              (или е празен).</big> </li>
+        </ul>
+      </li>
+    </ul>
+    <ul>
+      <li><big><span style="color: rgb(0, 153, 0);">Пример</span>: <span style="font-family: monospace;">push(3), push(4), pop()</span>...</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">Изключения</span><br>
+    </big>
+    <ul>
+      <li><big>Опит за изпълнение на операция на АТД понякога може да
+          предизвиква състояние на грешка, наречена изключение.</big></li>
+      <li><big>Казва се, че изключение е "изхвърлено" (thrown) от
+          операция, която не може да бъде изпълнена.</big></li>
+      <li><big>Стековите операции <span style="font-family: monospace;">pop</span>
+          и <span style="font-family: monospace;">top</span> не могат
+          да бъдат изпълнени, ако стекът е празен.</big></li>
+      <li>
+<big>Опити за изпълнение на</big><big><font size="+1"> <span style="font-family: monospace;">pop</span> и <span style="font-family: monospace;">top</span> за празен стек
+            изхвърлят изключение </font><span style="font-family:
+            monospace;"></span></big><big><span style="font-family:
+            monospace;">Stack</span></big><big><span style="font-family:
+            monospace;">EmptyException.<br>
+          </span></big>
+</li>
+      <li><font size="+1"><a href="4.9_Stack.h-Stack.html">html-4.9</a>
+          (Stack) </font></li>
+      <li><font size="+1"><a href="4.10_StackQueueExceptions.h-StackEmptyException.html">html-4.10</a>
+          (StackEmptyException) </font></li>
+      <li><font size="+1">Достъп до елементите (избягвайки копирането):<a href="4.11_Stack.h-Stack2.html"> html-4.11</a> (Stack2)</font></li>
+    </ul>
+    <ul>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <hr size="2" width="100%">
+<big><span style="font-weight: bold;">Проста
+
+        реализация, базирана на масив</span></big>
+    <ul>
+      <li>
+<big>Един прост начин за реализация на стек АТД е с масив <span style="font-style: italic;">S:</span>
+        </big>
+        <ul>
+          <big>
+            <li> добавяне на елементи отляво надясно;</li>
+          </big>
+          <li><big> променливата <span style="font-style: italic;">t</span>
+              съхранява индекса на първия (top) елемент на стека.</big></li>
+        </ul>
+      </li>
+    </ul>
+    <br>
+    <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <table style="text-align: left; width: 100%; height: 50px;" border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="font-style: italic; color: rgb(255, 0,
+                        0);">size</span><span style="color: rgb(255, 0,
+                        0);">()</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        return</span><span style="color: rgb(51, 102,
+                        102);"> </span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">t </span><span style="color: rgb(51, 102, 102);">+ 1</span></big></td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+          </td>
+          <td style="vertical-align: top;">
+            <table style="text-align: left; width: 100%; height: 155px;" border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="font-style: italic; color: rgb(255, 0,
+                        0);">pop</span><span style="color: rgb(255, 0,
+                        0);">()</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        if</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">isEmpty</span><span style="color: rgb(51, 102, 102);">()</span> <span style="font-weight: bold;">then</span><br>
+                      <span style="font-weight: bold;">       
+
+
+
+
+
+
+
+
+                        throw</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">EmptyStackException</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        else</span><br>
+                      <span style="font-style: italic; color: rgb(51,
+                        102, 102);">       
+
+
+
+
+
+
+
+
+                        t</span><span style="color: rgb(51, 102, 102);">
+                        ← </span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">t</span><span style="color: rgb(51, 102, 102);"> − 1</span><br>
+                      <span style="font-weight: bold;">       
+
+
+
+
+
+
+
+
+                        return</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">S</span><span style="color: rgb(51, 102, 102);">[</span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">t</span><span style="color: rgb(51, 102,
+                        102);"> +1]</span></big></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="vertical-align: top;">
+            <table style="text-align: left; width: 100%; height: 113px;" border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="font-style: italic; color: rgb(255, 0,
+                        0);">push</span><span style="color: rgb(255, 0,
+                        0);">(</span><span style="font-style: italic;
+                        color: rgb(255, 0, 0);">o</span><span style="color: rgb(255, 0, 0);">)</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        if</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">t</span><span style="color: rgb(51, 102, 102);"> = </span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">S</span><span style="color: rgb(51, 102,
+                        102);">.</span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">length</span><span style="color: rgb(51, 102, 102);"> − 1</span> <span style="font-weight: bold;">then</span> <br>
+                      <span style="font-weight: bold;">       
+
+
+
+
+
+
+
+
+                        throw</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">FullStackException</span><span style="color: rgb(51, 102, 102);"> </span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        else</span> <br>
+                              <span style="font-style: italic; color: rgb(51, 102,
+                        102);">t</span><span style="color: rgb(51, 102,
+                        102);"> ← </span><span style="font-style:
+                        italic; color: rgb(51, 102, 102);">t</span><span style="color: rgb(51, 102, 102);"> + 1 </span><br>
+                      <span style="font-style: italic; color: rgb(51,
+                        102, 102);">       
+
+
+
+
+
+
+
+
+                        S</span><span style="color: rgb(51, 102, 102);">[</span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">t</span><span style="color: rgb(51, 102,
+                        102);">] ← </span><span style="font-style:
+                        italic; color: rgb(51, 102, 102);">o</span></big></td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <img style="width: 665px; height: 90px;" alt="" src="pic1.jpg"><br>
+    <ul>
+      <big> </big>
+      <li><big>Масивът с елементите на стека може да се напълни.<span style="font-style: italic;"></span></big></li>
+      <big> </big>
+      <li>
+<big>Тогава операцията </big><big><font size="+1"><span style="font-family: monospace;">push </span></font>ще
+          изхвърли изключение <span style="font-family: monospace;">FullStackException.</span></big>
+</li>
+      <big> </big> <big> </big>
+      <li><big>Това изключение е от реализацията с масив и не е присъщо
+          на стек АТД.</big></li>
+      <li><big>Всяка функция се изпълнява на константно време <i>O</i>(1)
+
+
+
+
+
+
+
+
+          - не зависи от големината на стека.<br>
+        </big></li>
+    </ul>
+    <ul>
+      <li><big><a href="4.13_ArrayStack.h-ArrayStack1.html">html-4.13</a>
+          (ArrayStack1) ;  <a href="4.14_ArrayStack.h-ArrayStack2.html">html-4.14</a>
+          (ArrayStack2) </big></li>
+      <li><big><a href="ArrayStack.cpp"><span style="font-family:
+              monospace;">ArrayStack.cpp</span></a>;<a href="StackExcept.cpp"><span style="font-family: monospace;">
+              StackExcept.cpp</span></a></big></li>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+    <h3>Опашка АТД<br>
+    </h3>
+    <big><span style="font-weight: bold;"></span></big>
+    <ul>
+      <li><big>Опашката съхранява обекти от произволен тип.<br>
+        </big></li>
+      <li>
+<big><font size="+1">Операциите добавяне и изтриване следват
+            схемата "пръв влязъл - пръв излязал" - </font></big><big><font size="+1">first-in first-out (FIFO).</font></big>
+</li>
+      <li><big><span style="font-style: italic;"></span><span style="font-style: italic;"></span>Добавянето е в края на
+          опашката, а изтриването - в началото на опашката.<br>
+        </big></li>
+      <li><big>Основни операции за опашка:<br>
+        </big></li>
+      <ul>
+        <li><big><span style="font-family: monospace;">enqueue(Object o)</span>:
+            добавяне на елемент <span style="font-family: monospace;">o</span>
+            в края на опашката;</big></li>
+        <li><big><span style="font-family: monospace;">dequeue()</span>:
+            изтриване на елемент от началото на опашката.</big></li>
+      </ul>
+      <li><big>Спомагателни функции за опашка:</big></li>
+      <ul>
+        <li><big><span style="font-family: monospace;">front()</span>:
+            връща елементът в началото на опашката, без да го изтрива;</big></li>
+        <li>
+<big><span style="font-family: monospace;">size()</span>: </big><big>връща
+
+
+
+
+
+
+
+
+            броя на елементите в опашката;</big>
+</li>
+        <li>
+<big><span style="font-family: monospace;">isEmpty()</span>:
+          </big><big>връща булева стойност, показваща дали има елементи
+            в опашката (или е празна).</big>
+</li>
+      </ul>
+      <li><big>Изключения:</big></li>
+      <ul>
+        <li><big>Опит за изпълнение на <span style="font-family:
+              monospace;">dequeue</span> или <span style="font-family:
+              monospace;">front</span> за празна опашка изхвъля
+            изключение <span style="font-family: monospace;">EmptyQueueException.</span></big></li>
+      </ul>
+      <li><big><span style="color: rgb(0, 153, 0);">Пример: </span><span style="font-family: monospace;">enqueue(5), enqueue(3),
+            dequeue(), ...</span></big></li>
+    </ul>
+    <ul>
+      <li><big>Приложения на опашка:<br>
+        </big></li>
+      <ul>
+        <li><big>Преки приложения:<br>
+          </big></li>
+        <ul>
+          <li><big>списъци с чакащи, бюрокрация;<br>
+            </big></li>
+          <li><big>достъп до общи (споделени) ресурси, напр. принтер;</big></li>
+          <li><big>Multiprogramming.</big></li>
+        </ul>
+        <li><big>Непреки приложения:<br>
+          </big></li>
+        <ul>
+          <li><big>допълнителни структури от данни за алгоритми;</big></li>
+          <li><big>компоненти от други структури от данни.</big></li>
+        </ul>
+      </ul>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <hr size="2" width="100%">
+<big><span style="font-weight: bold;">Проста
+        реализация с масив</span></big>
+    <ul>
+      <li><big><a href="4.16_Queue.h-Queue.html">html-4.16</a> (Queue) </big></li>
+    </ul>
+    <ul>
+      <li><big><font size="+1">Използва се кръгов масив с размер</font>
+          <span style="font-style: italic;">N</span>. <br>
+        </big></li>
+      <li><big>Две променливи указват началото и края на опашката: </big></li>
+      <ul>
+        <li><big><span style="font-style: italic;">f</span> е индексът
+            на първия елемент;</big></li>
+        <li>
+<big><span style="font-style: italic;">r</span> е индексът
+            веднага след последния елемент, елементът с индекс</big><big>
+            <span style="font-style: italic;">r</span> се държи празен.</big>
+</li>
+      </ul>
+    </ul>
+    <img style="width: 558px; height: 257px;" alt="" src="pic2.jpg"><br>
+    <big><span style="font-weight: bold;">Операции на опашка АТД:</span><br>
+      <br>
+    </big>
+    <table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="font-style: italic; color: rgb(255, 0,
+                        0);">size</span><span style="color: rgb(255, 0,
+                        0);">()</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        return</span> <span style="color: rgb(51, 102,
+                        102);">(</span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">N</span><span style="color: rgb(51, 102, 102);"> − </span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">f</span><span style="color: rgb(51, 102,
+                        102);"> + </span><span style="font-style:
+                        italic; color: rgb(51, 102, 102);">r</span><span style="color: rgb(51, 102, 102);">) mod </span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">N</span></big></td>
+                </tr>
+              </tbody>
+            </table>
+            <big><br>
+            </big>
+            <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="font-style: italic; color: rgb(255, 0,
+                        0);">isEmpty</span><span style="color: rgb(255,
+                        0, 0);">()</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        return</span> <span style="color: rgb(51, 102,
+                        102);">(</span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">f</span><span style="color: rgb(51, 102, 102);"> = </span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">r</span><span style="color: rgb(51, 102,
+                        102);">)</span><br>
+                    </big></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td style="vertical-align: top;">
+            <table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="font-style: italic; color: rgb(255, 0,
+                        0);">enqueue</span><span style="color: rgb(255,
+                        0, 0);">(</span><span style="font-style: italic;
+                        color: rgb(255, 0, 0);">o</span><span style="color: rgb(255, 0, 0);">)</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        if</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">size</span><span style="color: rgb(51, 102, 102);">() = </span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">N</span><span style="color: rgb(51, 102,
+                        102);"> − 1</span> <span style="font-weight:
+                        bold;">then</span><br>
+                      <span style="font-weight: bold;">       
+
+
+
+
+
+
+
+
+                        throw</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">FullQueueException</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        else</span><br>
+                      <span style="font-style: italic; color: rgb(51,
+                        102, 102);">       
+
+
+
+
+
+
+
+
+                        Q</span><span style="color: rgb(51, 102, 102);">[</span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">r</span><span style="color: rgb(51, 102,
+                        102);">] ← </span><span style="font-style:
+                        italic; color: rgb(51, 102, 102);">o</span><br>
+                      <span style="font-style: italic; color: rgb(51,
+                        102, 102);">       
+
+
+
+
+
+
+
+
+                        r</span><span style="color: rgb(51, 102, 102);">
+                        ← (</span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">r</span><span style="color: rgb(51, 102, 102);"> + 1) mod </span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">N</span></big></td>
+                </tr>
+              </tbody>
+            </table>
+            <br>
+          </td>
+          <td style="vertical-align: top;">
+            <table style="text-align: left; width: 311px; height:
+              155px;" border="1" cellpadding="2" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td style="vertical-align: top;"><big><span style="font-weight: bold;">Algorithm</span> <span style="font-style: italic; color: rgb(255, 0,
+                        0);">dequeue</span><span style="color: rgb(255,
+                        0, 0);">()</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        if</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">isEmpty</span><span style="color: rgb(51, 102, 102);">()</span> <span style="font-weight: bold;">then</span><br>
+                      <span style="font-weight: bold;">       
+
+
+
+
+
+
+
+
+                        throw</span> <span style="font-style: italic;
+                        color: rgb(51, 102, 102);">EmptyQueueException</span><br>
+                      <span style="font-weight: bold;">   
+
+
+
+
+
+
+
+
+                        else</span><br>
+                      <span style="font-style: italic; color: rgb(51,
+                        102, 102);">       
+
+
+
+
+
+
+
+
+                        o</span><span style="color: rgb(51, 102, 102);">
+                        ← </span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">Q</span><span style="color: rgb(51, 102, 102);">[</span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">f</span><span style="color: rgb(51, 102,
+                        102);">]</span><br>
+                      <span style="font-style: italic;">       
+
+
+
+
+
+
+
+
+                        f</span><span style="color: rgb(51, 102, 102);">
+                        ← (</span><span style="font-style: italic;
+                        color: rgb(51, 102, 102);">f</span><span style="color: rgb(51, 102, 102);"> + 1) mod </span><span style="font-style: italic; color: rgb(51, 102,
+                        102);">N</span><br>
+                      <span style="font-weight: bold;">       
+
+
+
+
+
+
+
+
+                        return</span> o</big></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><big>Използва се операция модул (остатък от целочислено
+          деление).</big></li>
+      <li><big>Операция <span style="font-family: monospace;">enqueue</span>
+          изхвърля изключение, ако масивът е пълен<span style="font-style: italic;"></span>. Това изключение е
+          зависимо от реализацията.</big></li>
+      <li><big>Операция <span style="font-family: monospace;">dequeue</span>
+          изхвърля изключение, ако опашката е празна<span style="font-style: italic;"></span>. Това изключение е
+          присъщо за опашка АТД.</big></li>
+      <li><big><font size="+1">Всяка функция се изпълнява на константно
+            време <i>O</i>(1) - не зависи от големината на опашката. </font><br>
+        </big></li>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+    <h3> <span style="font-weight: bold;">Едносвързан списък</span>
+</h3>
+    <h3> </h3>
+    <ul>
+      <li><big>Едносвързан списък е конкретна линейна структура от данни
+          (не е АТД!), състояща се от редица от върхове (възли, nodes).</big></li>
+      <li><big>Всеки възел се състои от:</big></li>
+      <ul>
+        <li><big>елемент (данна) и</big></li>
+        <li><big>връзка (указател) към следващия възел.</big></li>
+      </ul>
+    </ul>
+    <img style="width: 266px; height: 215px;" alt="" src="pic3.jpg"><br>
+    <br>
+    <img style="width: 751px; height: 160px;" alt="" src="pic4.jpg"><br>
+    <br>
+    <big><span style="font-weight: bold;"></span></big>
+    <hr size="2" width="100%">
+<big><span style="font-weight: bold;">Реализация
+
+        на стек АТД с едносвързан списък</span></big>
+    <ul>
+      <li><big><a href="4.18_LinkedStack.h-Node.html">html-4.18</a>
+          (Node) </big></li>
+      <li><big><a href="4.19_LinkedStack.h-LinkedStack1.html">html-4.19</a>
+          (LinkedStack1) </big></li>
+      <li><big><a href="4.20_LinkedStack.h-LinkedStack2.html">html-4.20</a>
+          (LinkedStack2) </big></li>
+      <li><big><a href="4.21_LinkedStack.h-LinkedStack3.html">html-4.21</a>
+          (LinkedStack3) </big></li>
+      <li><big><a style="font-family: monospace;" href="LinkedStack.cpp">LinkedStack.cpp</a></big></li>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <hr size="2" width="100%">
+<big><span style="font-weight: bold;">Реализация
+
+        на опашка АТД с едносвързан списък</span></big>
+    <ul>
+      <li><big><a href="4.22_LinkedQueue.h-LinkedQueue.html">html-4.22</a>
+          (LinkedQueue)</big></li>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+    <h3>Опашка с два края АТД (дек)</h3>
+    <ul>
+      <li> <big>Поддържа добавяне и изваждане на елементи от двата
+          края. </big>
+</li>
+    </ul>
+    <big> <span style="font-weight: bold;"></span></big>
+    <ul>
+      <li><big>Основните функции на дек АТД са следните:</big></li>
+      <ul>
+        <li style="font-family: monospace;"><big>insertFirst(o),
+            insertLast(o)</big></li>
+        <li style="font-family: monospace;"><big>removeFirst(),
+            removeLast()</big></li>
+      </ul>
+      <li><big>В дек АТД с включват и поддържащите функции:</big></li>
+      <ul>
+        <li style="font-family: monospace;"><big>first(), last()</big></li>
+        <li style="font-family: monospace;"><big>size(), isEmpty()</big></li>
+      </ul>
+      <li><big><span style="color: rgb(0, 153, 0);">Пример:</span><span style="font-family: monospace;"> insertFirst(3),
+            insertFirst(5), first(), removeFirst(), insertLast(7),...</span></big></li>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <h3><span style="font-weight: bold;"></span></h3>
+    <hr size="2" width="100%">
+    <h3><span style="font-weight: bold;">Двусвързан списък</span></h3>
+    <h3>
+<big><span style="font-weight: bold;"></span></big> </h3>
+    <ul>
+      <li><big>Двусвързан списък е конкретна линейна структура от данни
+          (не е АТД!), състояща се от редица от върхове (възли, nodes).
+          <span style="font-style: italic;"></span><br>
+        </big></li>
+      <li>
+<big>Всеки възел се състои от: </big>
+        <ul>
+          <li><big>елемент (данна);</big></li>
+          <li><big>връзка (указател) към предишния възел;</big></li>
+          <li><big>връзка (указател) към следващия възел.</big></li>
+        </ul>
+        <img alt="" src="../ch05/dll.jpg" style="width: 299px; height:
+          187px;"><br>
+      </li>
+      <li><big>Добавени са два специални възли - trailer и header. Те
+          опростяват кода за операциите вмъкване и изтриване на възел. </big></li>
+    </ul>
+    <img alt="" src="../ch05/dll2.jpg" style="width: 726px; height:
+      212px;"><br>
+    <hr size="2" width="100%">
+    <h3>Реализация на дек АТД с двусвързан списък</h3>
+    <h3> </h3>
+    <ul>
+      <li>
+<big><span style="font-style: italic;"></span>Поставяне и
+          изваждане на елементи в двата края на двойно свързан списък е
+          лесно да се извършва за време <i>O</i>(1).</big> <br>
+      </li>
+      <li><big><a href="4.23_LinkedDeque.h-Node.html">html-4.23</a>
+          (Node) </big></li>
+      <li><big><a href="4.24_LinkedDeque.h-LinkedDeque1.html">html-4.24</a>
+          (LinkedDeque1)</big></li>
+      <li><big><a style="font-family: monospace;" href="LinkedDeque.h">LinkedDeque.h</a><span style="font-family: monospace;">; </span><a style="font-family: monospace;" href="LinkedDeque.cpp">LinkedDeque.cpp</a></big></li>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <hr size="2" width="100%">
+    <h3>Шаблон за адаптивно проектиране (Adapter Design Pattern)</h3>
+    <h3> </h3>
+    <ul>
+      <li><big><span style="font-style: italic;"></span>Шаблонът за
+          адаптивно проектиране настройва функции от един клас, така, че
+          те могат да бъдат използвани за реализацията на функциите на
+          друг клас.</big></li>
+      <li><big><a href="4.25_DequeStack.h-DequeStack.html">html-4.25</a>
+          (DequeStack)</big></li>
+      <li><big>Адаптираме класа <span style="font-family: monospace;">LinkedDeque</span>,
+          който релизира по-мощни функции на дек АТД така, че да могат
+          да бъдат използвани като по-простите функции на стек АТД. <br>
+        </big></li>
+    </ul>
+    <hr size="2" width="100%">
+    <h2 style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-style: normal; font-variant: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Рекурсия</h2>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1">В този пример, ние ще разгледаме триъгълни
+          форми, като тази, показана тук:
+          <blockquote>
+            <pre>[]<br>[][]<br>[][][]</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1"><i>n</i>-то триъгълно число е лицето на
+          триъгълник с ширина <i>n</i>, като се предполага, че всеки []
+          е с площ 1.</font></li>
+      <li><font size="+1">От по-горе, третото триъгълно число е 6.<br>
+        </font></li>
+      <li><font size="+1">Ето описание на класа, който ще разработим:
+          <blockquote>
+            <pre>class Triangle {<br>public:<br>   Triangle(int w);<br>   int get_area() const;<br>private:<br>   int width;<br>};<br>Triangle::Triangle(int w)<br>{ width = w; }</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1">Ако ширината на триъгълника е 1, тогава
+          триъгълникът е с лице 1.
+          <blockquote>
+            <pre>[]<br><br>int Triangle::get_area()<br>{ if (width == 1) return 1;<br>   . . .<br>}</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">За справяне с общия случай, помислете за тази
+          картинка.
+          <blockquote>
+            <pre><font color="#0000ff">[]<br>[][]<br>[][][]</font><br>[][][][]</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Мислим си за лището на по-големия триъгълник
+          като<br>
+          <blockquote>
+            <pre><span style="color: rgb(51, 51, 255);">smaller_area</span> + width</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">За да намерим по-малкото лице правим по-малък
+          триъгълник!<br>
+          <blockquote>
+            <pre>int Triangle::get_area()<br>{  if (width == 1) return 1;<br>   Triangle smaller_triangle(width - 1);<br>   int <span style="color: rgb(51, 51, 255);">smaller_area</span> = smaller_triangle.get_area();<br>   return <span style="color: rgb(51, 51, 255);">smaller_area</span> + width;<br>}</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li>
+<font size="+1">Here's how the area is computed for a triangle
+          of width 4.</font>
+        <ul>
+          <li>
+<font style="color: rgb(153, 0, 0);" size="+1">The<span class="Apple-converted-space"> </span><tt>get_area</tt><span class="Apple-converted-space"> </span>function
+              makes a smaller triangle of width 3.</font>
+            <ul>
+              <li>
+<font style="color: rgb(153, 0, 0);" size="+1">It
+                  calls<span class="Apple-converted-space"> </span><tt>get_area</tt><span class="Apple-converted-space"> </span>on that
+                  triangle.</font>
+                <ul>
+                  <li>
+<font style="color: rgb(51, 51, 255);" size="+1">That
+
+
+
+
+                      function makes a smaller triangle of width 2.</font>
+                    <ul>
+                      <li>
+<font style="color: rgb(51, 51, 255);" size="+1">It calls<span class="Apple-converted-space"> </span><tt>get_area</tt><span class="Apple-converted-space"> </span>on
+
+
+
+
+                          that triangle.</font>
+                        <ul>
+                          <li><font size="+1"><span style="color: rgb(0,
+                                153, 0);">That function make a smaller
+                                triangle of width 1</span>.</font></li>
+                          <li style="color: rgb(0, 153, 0);"><font size="+1">It calls<span class="Apple-converted-space"> </span><tt>get_area</tt><span class="Apple-converted-space"> </span>on
+
+
+
+
+                              that triangle.</font></li>
+                        </ul>
+                      </li>
+                      <li style="color: rgb(0, 153, 0);"><font size="+1">That
+
+
+
+
+                          function returns 1.</font></li>
+                    </ul>
+                  </li>
+                  <li style="color: rgb(51, 51, 255);"><font size="+1">The
+
+
+
+
+                      function returns<tt><span class="Apple-converted-space"> </span>smaller_area
+
+
+
+
+                        + width</tt><span class="Apple-converted-space"> </span>=
+                      1 + 2 = 3.</font></li>
+                </ul>
+              </li>
+              <li style="color: rgb(153, 0, 0);"><font size="+1">The
+                  function returns<span class="Apple-converted-space"> </span><tt>smaller_area
+
+
+
+
+                    + width</tt><span class="Apple-converted-space"> </span>=
+                  3 + 3 = 6.</font></li>
+            </ul>
+          </li>
+          <li style="color: rgb(0, 0, 0);"><font size="+1">The function
+              returns<span class="Apple-converted-space"> </span><tt>smaller_area
+
+
+
+
+                + width</tt><span class="Apple-converted-space"> </span>=
+              6 + 4 = 10.</font></li>
+        </ul>
+      </li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1"><span class="Apple-converted-space"></span><span style="font-style: italic;"></span><span class="Apple-converted-space"></span><span class="Apple-converted-space"></span>Техниката на изразяване
+          на решение на даден проблем от гледна точка на решение
+          по-малка версия на същия проблем се нарича рекурсия.</font></li>
+      <li>
+<font size="+1">Има две основни изисквания, за да е успешна
+          рекурсията:</font>
+        <ul>
+          <li><font size="+1"><span class="Apple-converted-space"></span><span style="font-style: italic;"></span><span class="Apple-converted-space"></span>Всяко рекурсивно
+              извикване трябва да опрости изчисляването по някакъв
+              начин.</font></li>
+          <li><font size="+1"><span class="Apple-converted-space"></span><span style="font-style: italic;"></span><span class="Apple-converted-space"></span>Трябва да има
+              специален случай, при който изчисленията да се извършат
+              директно (без рекурсивно извикване).<br>
+            </font></li>
+        </ul>
+      </li>
+      <li><font size="+1">Тук,<span class="Apple-converted-space"> </span><tt>get_area</tt><span class="Apple-converted-space"> </span>извиква себе си
+          отново с по-малки и по-малки стойности на ширината, достигайки
+          в крайна сметка широчина 1.<br>
+        </font></li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1">Какво се случва, когато се извика функцията с
+          широчина -1? Бъдете внимателни!<br>
+        </font></li>
+      <li>
+<font size="+1">Рекурсията не е наистина необходимо да се реши
+          тази задача. Това може да бъде направено с помощта на:</font>
+        <ul>
+          <li><font size="+1">един прост цикъл:
+              <blockquote>
+                <pre>double area = 0;<br>for (int i = 1; i &lt;= width; i++) area = area + 1;</pre>
+              </blockquote>
+            </font></li>
+          <li><font size="+1">или по формулата:
+              <blockquote>
+                <pre>width * (width + 1) / 2.</pre>
+              </blockquote>
+            </font></li>
+        </ul>
+      </li>
+    </ul>
+    <font size="+1">(<a href="triangle.cpp"><tt>triangle.cpp</tt></a>)<br>
+    </font>
+    <hr size="2" width="100%">
+    <h2 style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-style: normal; font-variant: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">Ефективност
+
+
+
+
+      на рекурсията</h2>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1">Въпреки че рекурсия може да бъде мощен
+          инструмент за реализацията на сложни алгоритми, тя може да
+          доведе до програми, които функционират лошо.<br>
+        </font></li>
+      <li><font size="+1">Ще анализираме въпроса кога рекурсия е от
+          полза и когато тя е неефективна.</font></li>
+      <li>
+<font size="+1">За нашето изследване ще разгледаме редицата на
+          Фибоначи, определена с ревенствата:</font>
+        <ul>
+          <li><font size="+1"><i>f</i><sub>1</sub><span class="Apple-converted-space"> </span>= 1</font></li>
+          <li><font size="+1"><i>f</i><sub>2</sub><span class="Apple-converted-space"> </span>= 1</font></li>
+          <li>
+<i><font size="+1">f<sub>n</sub></font></i><font size="+1"><span class="Apple-converted-space"> </span>=<span class="Apple-converted-space"> </span><i>f<sub>n</sub></i><sub>-1</sub><span class="Apple-converted-space"> </span>+<span class="Apple-converted-space"> </span><i>f<sub>n</sub></i><sub>-2</sub></font>
+</li>
+        </ul>
+      </li>
+      <li><font size="+1">Първите 10 члена от редицата на Фибоначи са:<br>
+          <blockquote>1, 1, 2, 3, 5, 8, 13, 21, 34, 55, . . .<br>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Човек може лесно да напише рекурсивни функции
+          за пресмятане на числата на Фибоначи.
+          <blockquote>
+            <pre>int fib(int n)<br>{  if (n &lt;= 2) return 1;<br>   else return fib(n - 1) + fib(n - 2);<br>}</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1"><span class="Apple-converted-space"></span><span style="font-style: italic;"></span><span class="Apple-converted-space"></span>Функцията работи
+          правилно, но за средно големи стойности на <i>n</i> отнема
+          невероятно много време за изчисляване на стойността.</font></li>
+      <li>
+<font size="+1">За да се види ефекта, опитайте тестовата
+          програма (</font><font size="+1"><a href="fibtest.cpp" style="font-family: monospace;">fibtest.cpp</a></font><font size="+1">) с<span class="Apple-converted-space"> </span><span style="font-style: italic;">n</span><span class="Apple-converted-space"> </span>между 30 и 50.</font>
+</li>
+      <li><font size="+1">За определяне на проблема, вмъкваме трасиращи
+          съобщения във функцията.
+          <blockquote>
+            <pre>int fib(int n)<br>{  cout &lt;&lt; "Entering fib: n = " &lt;&lt; n &lt;&lt; "\n";<br>   int f;<br>   if (n &lt;= 2) f = 1;<br>   else f = fib(n - 1) + fib(n - 2);<br>   cout &lt;&lt; "Exiting fib: n = " &lt;&lt; n<br>      &lt;&lt; " return value = " &lt;&lt; f &lt;&lt; "\n";<br>   return f;<br>}</pre>
+          </blockquote>
+        </font></li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li>
+<font size="+1">Резултатът от изпълнението на функцията
+          показва защо изчислението отнема толкова време (</font><font size="+1"><a href="fibtrace.cpp" style="font-family:
+            monospace;">fibtrace.cpp</a></font><font size="+1">).
+          <blockquote>
+            <pre>Entering fib: n = 6<br>Entering fib: n = 5<br>Entering fib: n = 4<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Exiting fib: n = 4 return value = 3<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Exiting fib: n = 5 return value = 5<br>Entering fib: n = 4<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Exiting fib: n = 4 return value = 3<br>Exiting fib: n = 6 return value = 8</pre>
+          </blockquote>
+        </font>
+</li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li>
+<font size="+1">Дървото на извикванията илюстрира как
+          функциитв се извикват една друга.</font>
+        <p><font size="+1"><img alt="" src="fib_tree.png" height="395" width="744"></font></p>
+      </li>
+      <li><font size="+1">Тъй като<span class="Apple-converted-space"> </span><tt>fib(4)</tt><span class="Apple-converted-space"> се извиква два пъти и </span><span class="Apple-converted-space"></span><tt>fib(3)</tt><span class="Apple-converted-space"> </span>се извиква 3
+          пъти,  функциите губят много време за ненужно изчисляване
+          на същите стойности отново и отново.</font></li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1">Човек просто би написал следващата стойност
+          като събере предишните две, които вече са изчислени и никога
+          няма да изчислява една стойност два пъти.</font></li>
+      <li>
+<font size="+1">За да се имитира процеса с молив и хартия,
+          може с един цикъл да се изчислят числата на Фибоначи (</font><a href="fibloop.cpp"><font size="+1"><span style="font-family:
+              monospace;">fibloop.cpp</span></font></a><font size="+1">).
+
+
+
+          <blockquote>
+            <pre>int fib(int n)<br>{  if (n &lt;= 2) return 1;<br>   int fold = 1;<br>   int fold2 = 1;<br>   int fnew;<br>   for (int i = 3; i &lt;= n; i++)<br>   {  fnew = fold + fold2;<br>      fold2 = fold;<br>      fold = fnew;<br>   }<br>   return fnew;<br>}</pre>
+          </blockquote>
+        </font>
+</li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1">Може ли винаги да се ускори рекурсивното
+          решение, като се смени с цикъл?</font></li>
+      <li><font size="+1">Често итеративното и рекурсивно решение по
+          същество имат същата производителност.</font></li>
+      <li><font size="+1">Пример: Да се провери дали едно изречение е
+          палиндром - низ, който е равен на себе си, когато се обърнат
+          всички символи. (Дума, фраза, стих или изречение, което гласи
+          същото назад или напред.)</font></li>
+      <ul>
+        <li><font size="+1">rotor</font></li>
+        <li><font size="+1">A man, a plan, a canal - Panama!</font></li>
+        <li><font size="+1">Go hand a salami, I'm a lasagna hog</font></li>
+        <li><font size="+1">Madam, I'm Adam</font></li>
+      </ul>
+      <li><font size="+1">Нашата цел е да се реализира рекурсивна
+          предикатна функция.
+          <blockquote>
+            <pre>bool is_palindrome(string s)</pre>
+          </blockquote>
+        </font></li>
+      <li>
+<font size="+1">Премахваме на първия и последен знак:: "rotor"
+          става "oto". Думата е палиндром, ако</font>
+        <ul>
+          <li><font size="+1">първата и последната букви съовпадат и<span style="font-style: italic;"></span><br>
+            </font></li>
+          <li><font size="+1">думата, получен чрез отстраняване на
+              първата и последната буква е палиндром.</font></li>
+        </ul>
+        <br>
+      </li>
+      <li>
+<font size="+1">Най-простите низове за теста за палиндром са:</font>
+        <ul>
+          <li><font size="+1">низове с два знака или<span style="font-style: italic;"></span><br>
+            </font></li>
+          <li><font size="+1">низове с един символ или<span style="font-style: italic;"></span><br>
+            </font></li>
+          <li><font size="+1">празен стринг.</font></li>
+        </ul>
+      </li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li>
+<font size="+1">Рекурсивната функция е:</font>
+        <blockquote>
+          <pre><font size="+1">bool is_palindrome (string s)<br>{  if (s.length() &lt;= 1) return true;<br>   char first = s[0];<br>   char last = s[s.length() - 1];<br>   if (first == last)<br>   {   string shorter = s.substr(1, s.length() - 2);<br>       return is_palindrome(shorter);<br>   }<br>   else return false;<br>}</font></pre>
+        </blockquote>
+      </li>
+    </ul>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li><font size="+1">Едно итеративно решение за палиндром е:<br>
+          <blockquote>
+            <pre><font size="+1">bool is_palindrome(string s)<br>{  int start = 0;<br>   int end = text.length() - 1;<br>   while (start &lt; end)<br>   {  if (s[start] != s[end] return false;<br>      start++;<br>      end--;<br>   }<br>   return true;<br>}</font></pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Итеративното и рекурсивното решение на
+          проблема палиндром се реализират приблизително с една и съща
+          скорост.</font></li>
+      <li><font size="+1">Има доста проблеми, които са драстично
+          по-лесно решими рекурсивно, отколкото итеративно.</font></li>
+      <li><font size="+1">Често рекурсивни решения са по-лесни за
+          разбиране и прилагане правилно, отколкото са итеративните.</font></li>
+      <li><font size="+1">"To iterate is human, to recurse divine."<span class="Apple-converted-space"> </span><a href="http://en.wikipedia.org/wiki/L._Peter_Deutsch">L.
+            Peter Deutsch</a>. <br>
+        </font></li>
+    </ul>
+    <ul>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>
