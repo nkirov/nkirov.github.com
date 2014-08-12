@@ -1,0 +1,658 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>lecture_9</title>
+  </head>
+  <body>
+    <h2>Класове</h2>
+    <p><br>
+      &nbsp;<img alt=""
+src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/CITB201/b5.gif"
+        height="12" width="13"> В лекциите до тук за класовете са
+      разгледани: <br>
+      - конструиране на обект: <b><tt><font color="#009900">Employee
+            harry("Hacher, Harry", 350);</font></tt></b> <br>
+      <font color="#000000">- модифициране на обект: </font><b><tt><font
+            color="#009900">harry.set_salary(380);</font></tt></b> <br>
+      <font color="#000000">- извеждане на информация за обект:</font><b><tt><font
+            color="#009900"> cout &lt;&lt; harry.get_name();</font></tt></b>
+      <br>
+      Въведени са и основните понятия конструктор, член-функция и
+      операция точка. <br>
+    </p>
+    <hr width="100%"> <br>
+    <img alt=""
+src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/CITB201/b5.gif"
+      align="top" height="12" width="13"> Обособяване на класове. <br>
+    Ще разгледаме задача, която се решава без използване на клас и след
+    това с дефиниране и използване на подходящ клас. Чете се информация
+    за компютри, съдържаща:
+    <table cols="2" width="100%">
+      <tbody>
+        <tr>
+          <td valign="TOP">
+            <table cellpadding="4" cellspacing="0" border="">
+              <tbody>
+                <tr>
+                  <td>име на модел</td>
+                  <td><b><tt><font color="#006600">name</font></tt></b></td>
+                  <td><b><tt>OmniBook XE</tt></b></td>
+                </tr>
+                <tr>
+                  <td>цена</td>
+                  <td><b><tt><font color="#006600">price</font></tt></b></td>
+                  <td><b><tt>5660</tt></b></td>
+                </tr>
+                <tr>
+                  <td>оценка</td>
+                  <td><b><tt><font color="#006600">score</font></tt></b></td>
+                  <td><b><tt>76</tt></b></td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+          <td> <b><tt>OmniBook XE</tt></b> <br>
+            <b><tt>5660</tt></b> <br>
+            <b><tt>76</tt></b> <br>
+            <b><tt>ACMA P300</tt></b> <br>
+            <b><tt>1095</tt></b> <br>
+            <b><tt>75</tt></b> <br>
+            <b><tt>AMAX Poewrstation</tt></b> <br>
+            <b><tt>1999</tt></b> <br>
+            <b><tt>78</tt></b> </td>
+        </tr>
+      </tbody>
+    </table>
+    Търси се продукта с най-голямо отношение оценка/цена. <br>
+    ** Първото програмно решение е без използване на класове. <br>
+    <b><tt><font color="#000099">// <a
+            href="../../sources/ch6/bestval.cpp">bestval.cpp</a></font></tt></b><a
+      href="../../sources/ch6/bestval.cpp"> </a><br>
+    <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+    <br>
+    <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+    <br>
+    <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; string best_name = "";</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; double best_price = 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int best_score = 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; bool more = true;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; while (more)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; string
+            next_name;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double
+            next_price;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int
+            next_score;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; "Please enter the model name: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            getline(cin, next_name);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; "Please enter the price: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin
+            &gt;&gt; next_price;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; "Please enter the score: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin
+            &gt;&gt; next_score;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string
+            remainder; /* read remainder of line */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            getline(cin, remainder);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+            (next_price != 0)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            {&nbsp; if (best_price == 0 or</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+next_score/next_price
+
+
+
+
+
+
+
+            &gt; best_score/best_price)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+{&nbsp;
+
+
+
+
+
+
+
+            best_name = next_name;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+best_score
+
+
+
+
+
+
+
+            = next_score;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+best_price
+
+
+
+
+
+
+
+            = next_price;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+            }</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; "More data? (y/n) ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string
+            answer;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            getline(cin, answer);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+            (answer != "y") more = false;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The best
+            bang for the buck is " &lt;&lt; best_name</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &lt;&lt; " (Score: " &lt;&lt; best_score</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &lt;&lt; " Price: " &lt;&lt; best_price &lt;&lt; ")\n";</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <table cellpadding="4" border="" width="100%">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#660000">Please enter the model
+                  name: OmnoBook XE</font></tt></b> <br>
+            <b><tt><font color="#660000">Please enter the price: 5660</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">Please enter the score: 76</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">More data? (y/n) y</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">Please enter the model name:
+                  Junk PC</font></tt></b> <br>
+            <b><tt><font color="#660000">Please enter the price: 1230</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">Please enter the score: 51</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">More data? (y/n) n</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">The best bang for the buck is
+                  Junk PC (Score: 51 Price: 1230)</font></tt></b> </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><img alt=""
+src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/CITB201/b5.gif"
+        height="18" width="20"> Интерфейс и капсулиране,
+      членове-функции. <br>
+      ** Второ програмно решение на задачата с използване на класове. <br>
+      <b><tt><font color="#000099">// <a
+              href="../../sources/ch6/product2.cpp">product2.cpp</a></font></tt></b><a
+href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB101/sources/ch6/product2.cpp">
+      </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#3333FF">/* ДЕФИНИЦИЯ НА КЛАСА */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">class Product&nbsp; {</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">public:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+          </font><font color="#3333FF">/* интерфейс, открита част */</font></tt></b>
+      <br>
+      <b><tt><font color="#3333FF">/* декларации на член-функциите на
+            класа */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;
+Product();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font
+            color="#3333FF">/* създава нов продукт */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; void
+read();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font
+            color="#3333FF">/* чете
+            продукт&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; bool
+            is_better_than(Product b) const;</font><font color="#3333FF">/*
+
+
+
+
+
+
+            сравнява продукти */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; void print()
+const;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font
+            color="#3333FF">/* отпечатва продукт&nbsp;&nbsp; */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">private:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+          </font><font color="#3333FF">/* капсулиране, скрита част */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; string
+name;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font
+            color="#3333FF">/* скрити данни */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; double
+price;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font
+            color="#3333FF">/* скрити данни */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int
+score;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font
+            color="#3333FF">/* скрити данни */</font></tt></b> <br>
+      <b><tt><font color="#000099">};</font></tt></b> <br>
+      <b><tt><font color="#3333FF">/* ИЗПОЛЗВАНЕ НА КЛАСА */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; Product
+            best;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </font><font
+            color="#3333FF">/* дефиниране на обект от класа */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; bool more = true;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; while (more)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; Product next;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            next.read();&nbsp;&nbsp;&nbsp; </font><font color="#3333FF">/*
+
+
+
+
+
+
+            извикване на член-функция на класа */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+            (next.is_better_than(best)) best = next;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; "More data? (y/n) ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string
+            answer;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            getline(cin, answer);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+            (answer != "y") more = false;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The best
+            bang for the buck is ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;
+            best.print();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</font><font
+            color="#3333FF"> /* извикване на член-функция на класа */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#3333FF">/* РЕАЛИЗАЦИЯ НА КЛАСА */</font></tt></b>
+      <br>
+      <b><tt><font color="#3333FF">/* дефиниция на конструктор */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">Product::Product()</font></tt></b> <br>
+      <b><tt><font color="#000099">{ price = 10000;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; score = 0;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#3333FF">/* дефиниция на член-функция мутатор
+            (set-функция) */</font></tt></b> <br>
+      <b><tt><font color="#000099">void Product::read()</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{&nbsp; cout &lt;&lt; "Please enter
+            the model name: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; getline(cin, name);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please
+            enter the price: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cin &gt;&gt; price;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please
+            enter the score: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cin &gt;&gt; score;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; string remainder;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; getline(cin, remainder);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#3333FF">/* дефиниция на член-функции за
+            достъп (get-функция) */</font></tt></b> <br>
+      <b><tt><font color="#000099">bool Product::is_better_than(Product
+            b) const</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; if (price == 0) return false;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (b.price == 0)
+            return true;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (score/price
+            &gt; b.score/b.price) return true;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; return false;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#3333FF">/* дефиниция на член-функции за
+            достъп (get-функция) */</font></tt></b> <br>
+      <b><tt><font color="#000099">void Product::print() const</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{ cout &lt;&lt; name</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &lt;&lt; " Price: " &lt;&lt; price</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &lt;&lt; " Score: " &lt;&lt; score &lt;&lt; "\n";</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#3333FF">/* КРАЙ на файла, съдържащ текста на
+            програмата */</font></tt></b> <br>
+      <font color="#000000">** Неявен параметър на член-функция:</font>
+      <br>
+      - set-функции (мутатори) - променят (стойността на) неявния си
+      параметър; <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; void read();</font></tt></b>
+      <br>
+      - get-функции (функции за достъп) - не променят (стойността на)
+      неявния си параметър, могат да се обявят като константни функции.
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; void print()
+            const;&nbsp;&nbsp;</font></tt></b> <br>
+    </p>
+    <hr size="2" width="100%"> Разделяне програмата на:<br>
+    -- заглавен файл (<a href="../../sources/ch6/product.h"><b><tt>product.h</tt></b></a>),
+
+
+    <br>
+    -- дефиниции на фукциите на класа (<a
+      href="../../sources/ch6/product.cpp"><b><tt>product.cpp</tt></b></a>),<br>
+    -- използване на обекти от класа (<a
+      href="../../sources/ch6/prodtest.cpp"><b><tt>prodtest.cpp</tt></b></a>).<br>
+    Разделна компилация.<br>
+    <hr width="100%"> <br>
+    <img alt=""
+src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/CITB201/b5.gif"
+      align="middle" height="12" width="13"> Конструктори по
+    подразбиране и с параметри. <br>
+    ** Конструкторът инициализира (задава начални стойности на) данните
+    на класа. Няма тип и не връща стойност. <br>
+    ** Предефиниране на функции - две функции в една програма на С++
+    могат да имат еднакви имена. За да бъдат различими, те трябва да
+    имат различен брой параметри или/и параметрите им да са от различен
+    тип. <br>
+    <b><tt><font color="#006600">class Employee {</font></tt></b> <br>
+    <b><tt><font color="#006600">public:</font></tt></b> <br>
+    <b><tt><font color="#006600">/* конструктор без параметри */</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; Employee();</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">/* конструктор с параметри */</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; Employee(string emp_name,
+          double init_salary);</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; void set_salary(double
+          new_salary);</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; string get_name() const;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; double get_salary() const;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; void print() const;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">private:</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; string name;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; double salary;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">};</font></tt></b> <br>
+    <b><tt><font color="#006600">/* дефиниция на канструктора с
+          параметри */</font></tt></b> <br>
+    <b><tt><font color="#006600">Employee::Employee(string emp_name,
+          double init_salary)</font></tt></b> <br>
+    <b><tt><font color="#006600">{ name = emp_name;</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp; salary = init_salary;&nbsp; }</font></tt></b>
+    <p><font color="#000000">* Полета с данни - обекти от други класове.</font>
+      <br>
+      <b><tt><font color="#006600">class Employee {</font></tt></b> <br>
+      <b><tt><font color="#006600">public:</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; Employee(string n,
+            double sal, int arr, int leav);</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; ...</font></tt></b> <br>
+      <b><tt><font color="#006600">private:</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; string name;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; double salary;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; Time arrive;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; Time leave;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">};</font></tt></b> </p>
+    <p><b><tt><font color="#006600">Employee::Employee(string n, double
+            sal, int arr, int leav)</font></tt></b> <br>
+      <b><tt><font color="#006600">{ name = n;</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp; salary = sal;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp; arrive = Time(arr, 0, 0);</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp; leave = Time(leav, 0, 0);</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">}</font></tt></b> <br>
+      <font color="#000000">Класът<b> <tt>Employee </tt></b></font>съдържа&nbsp;
+членове-данни,
+
+
+
+
+
+
+
+      които са обекти от клас <b><tt><font color="#000000">Time.</font></tt></b>
+      <br>
+      <br>
+    </p>
+    <hr width="100%">
+    <p><img alt=""
+src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/CITB201/b5.gif"
+        align="middle" height="12" width="13"> Достъп до полетата с
+      данни. <br>
+      ** Само членовете-функции имат достъп до скритите полета с данни.
+      <br>
+      <b><tt><font color="#009900">&nbsp;</font><font color="#006600">&nbsp;&nbsp;
+string
+
+
+
+
+
+
+
+            Employee::get_name() const</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; { return name;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; void
+            Employee::set_salary(double new_salary)</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; { salary =
+            new_salary;</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <br>
+      <font color="#000000">** Явни и неявни параметри на функции.</font>
+      <br>
+      <font color="#000000">&nbsp;&nbsp;&nbsp; Отпечатване на името и
+        заплатата на служител, реализирано с три различни функции:</font>
+      <br>
+      <font color="#000000">-- член-функция с използване на достъп до
+        скритите данни:</font> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; void Employee::print()
+            const</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; { cout &lt;&lt; "Name: "
+            &lt;&lt; name &lt;&lt; "&nbsp;&nbsp;&nbsp; "</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt;
+
+
+
+
+
+
+
+            "Salary: " &lt;&lt; salary &lt;&lt; "\n";</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; }</font></tt></b> <br>
+      <font color="#000000">-- член-функция с използване на член-функции
+        от същия клас:</font> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; void Employee::print()
+            const</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; { cout &lt;&lt; "Name: "
+            &lt;&lt; get_name() &lt;&lt; "&nbsp;&nbsp;&nbsp; "</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt;
+
+
+
+
+
+
+
+            "Salary: " &lt;&lt; get_salary() &lt;&lt; "\n";</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; }</font></tt></b> <br>
+      <font color="#000000">-- външна за класа функция:</font> <br>
+      <b><tt><font color="#009900">&nbsp;</font><font color="#006600">&nbsp;
+void
+
+
+
+
+
+
+
+            print(const Employee &amp;emp)</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; { cout &lt;&lt; "Name: "
+            &lt;&lt; emp.get_name() &lt;&lt; "&nbsp;&nbsp;&nbsp; "</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&lt;&lt;
+
+
+
+
+
+
+
+            "Salary: " &lt;&lt; emp.get_salary() &lt;&lt; "\n";</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; }</font></tt></b> <br>
+      Пример:<br>
+    </p>
+    <b><tt>// <a
+href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB101/sources/ch6/employee.cpp">employee.cpp</a><br>
+        #include &lt;iostream&gt;</tt></b><b><tt><br>
+      </tt></b><b><tt>using namespace std;</tt></b><b><tt><br>
+      </tt></b><b><tt>#include &lt;ccc_time.h&gt;</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>class Employee {</tt></b><b><tt><br>
+      </tt></b><b><tt>public:</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; Employee(string employee_name, double
+        initial_salary,</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+        int arrive_hour, int leave_hour);</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; void set_salary(double new_salary);</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; void raise_salary(double percent);</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; string get_name() const;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; double get_salary() const;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; void print() const;</tt></b><b><tt><br>
+      </tt></b><b><tt>private:</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; string name;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; double salary;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; Time arrive;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; Time leave;</tt></b><b><tt><br>
+      </tt></b><b><tt>};</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>Employee::Employee(string employee_name, double
+        initial_salary,</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; int arrive_hour, int leave_hour)</tt></b><b><tt><br>
+      </tt></b><b><tt>{&nbsp; name = employee_name;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; salary = initial_salary;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; arrive = Time(arrive_hour, 0, 0);</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; leave = Time(leave_hour, 0, 0);</tt></b><b><tt><br>
+      </tt></b><b><tt>}</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>void Employee::set_salary(double new_salary)</tt></b><b><tt><br>
+      </tt></b><b><tt>{&nbsp; salary = new_salary;&nbsp; </tt></b><b><tt><br>
+      </tt></b><b><tt>}&nbsp;&nbsp;&nbsp;&nbsp; </tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>string Employee::get_name() const</tt></b><b><tt><br>
+      </tt></b><b><tt>{&nbsp; return name;</tt></b><b><tt><br>
+      </tt></b><b><tt>}</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>double Employee::get_salary() const</tt></b><b><tt><br>
+      </tt></b><b><tt>{&nbsp; return salary;</tt></b><b><tt><br>
+      </tt></b><b><tt>}</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>void Employee::raise_salary(double percent)</tt></b><b><tt><br>
+      </tt></b><b><tt>{&nbsp; salary = salary * (1 + percent / 100);</tt></b><b><tt><br>
+      </tt></b><b><tt>}</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>void raise_salary(Employee&amp; e, double percent)</tt></b><b><tt><br>
+      </tt></b><b><tt>{&nbsp; double new_salary = e.get_salary() * (1 +
+        percent / 100);</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp; e.set_salary(new_salary);</tt></b><b><tt><br>
+      </tt></b><b><tt>}</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>void Employee::print() const</tt></b><b><tt><br>
+      </tt></b><b><tt>{&nbsp; cout &lt;&lt; "Name: " &lt;&lt; get_name()
+        &lt;&lt; "; "</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &lt;&lt; "Salary: " &lt;&lt; get_salary()</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &lt;&lt; "\n";</tt></b><b><tt><br>
+      </tt></b><b><tt>}</tt></b><b><tt><br>
+      </tt></b><b><tt><br>
+      </tt></b><b><tt>int main()</tt></b><b><tt><br>
+      </tt></b><b><tt>{ Employee harry("Harry", 1000, 8, 16);</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp; harry.raise_salary(10);</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp; harry.print();</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp; raise_salary(harry, 10);</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp; cout &lt;&lt; "New salary " &lt;&lt;
+        harry.get_salary() &lt;&lt; endl;</tt></b><b><tt><br>
+      </tt></b><b><tt>&nbsp; return 0;&nbsp;&nbsp; </tt></b><b><tt><br>
+      </tt></b><b><tt>}&nbsp;&nbsp;&nbsp; </tt></b>
+    <p><br>
+    </p>
+  </body>
+</html>
