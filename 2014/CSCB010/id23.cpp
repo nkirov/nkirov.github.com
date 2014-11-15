@@ -1,4 +1,26 @@
-// 23.  ����������� ���������� - set, multiset, map, multimap
+
+#include <iostream>
+#include <cmath>
+using namespace std;
+
+/* декларация на функцията future_value */
+double future_value(double initial_balance, double p, int nyear);
+int main()
+{ ...
+    /* използване на функцията future_value */
+    double bal = future_value(10000, rate, 10);
+    ...
+}
+/* дефиниция на функцията future_value */
+double future_value(double initial_balance, double p, int nyear)
+{
+    ... 
+}
+
+
+
+
+// 23.  ¿ÒÓˆË‡ÚË‚ÌË ÍÓÌÚÂÈÌÂË - set, multiset, map, multimap
 //
 // Fig. 21.19: fig21_19.cpp
 // Testing Standard Library class multiset
