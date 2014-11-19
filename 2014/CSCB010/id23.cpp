@@ -16,6 +16,7 @@ double future_value(double initial_balance, double p, int nyear)
 {
     ... 
 }
+Следващо състезание за CSCB010 и студенти от 1-ви и 2-ри курс (лесни задачи) на 29.11, събота, 10:00-15:00, 702-2
 
 
 
