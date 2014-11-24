@@ -51,8 +51,14 @@ void raise_salary(Employee& e, double percent)
 
 void Employee::print() const
 {  cout << "Name: " << get_name() << "; "
-        << "Salary: " << get_salary()
-        << "\n";
+        << "Salary: " << get_salary() << "; "
+    << "Arrive: " << arrive.get_hour() << "; "
+    << "Leave: " << leave.get_hour() << "\n";
+}
+
+void print(const Employee &emp)
+{ cout << "Name: " << emp.get_name() << "    "
+    << "Salary: " << emp.get_salary() << "\n";
 }
 
 int main()
@@ -61,5 +67,6 @@ int main()
   harry.print();
   raise_salary(harry, 10);
   cout << "New salary " << harry.get_salary() << endl;
+  print(harry);
   return 0;   
 }    
