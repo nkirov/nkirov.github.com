@@ -5,15 +5,18 @@
     <meta name="Author" content="Nikolay Kirov">
     <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
       [Netscape]">
-    <title>lec05</title>
+    <title>l08</title>
   </head>
   <body>
     <center>
-      <h3>5. Потоци II</h3>
+      <h3> <b><font size="+1"><font size="+1">8</font>. Потоци II.
+            Рекурсия<br>
+          </font></b>
+</h3>
     </center>
     <img alt="" src="../b5.gif" height="18" width="20"> Низови
     (текстови) потоци. <br>
-    &nbsp;&nbsp;&nbsp; В езика С++ има възможност да се чете/пише от/в
+        В езика С++ има възможност да се чете/пише от/в
     низове вместо да се използват стандартни устройства или файлове. В
     заглавния файл <b><tt><font color="#000000">sstream</font></tt></b>
     са дефинирани обекти, функции и операции за работа с текстови
@@ -40,10 +43,8 @@
       два формата за записване на време с разлика в часовете: <i><br>
         - am/pm</i> - денонощието започва с 12 am следват 1-11 am, 12 pm
       и 1-11 pm.<br>
-      - <i>military </i>- часовете са от 00 до 23. <b><tt><font
-            color="#000099"><br>
-            // <a href="../../NETB151/sources/ch12/readtime.cpp">readtime.cpp</a></font></tt></b><a
-        href="../../NETB151/sources/ch12/readtime.cpp"> </a><br>
+      - <i>military </i>- часовете са от 00 до 23. <b><tt><font color="#000099"><br>
+            // <a href="../../NETB151/sources/ch12/readtime.cpp">readtime.cpp</a></font></tt></b><a href="../../NETB151/sources/ch12/readtime.cpp"> </a><br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
       <br>
       <b><tt><font color="#000099">#include &lt;sstream&gt;</font></tt></b>
@@ -54,116 +55,114 @@
       <br>
       <b><tt><font color="#000099">{ ostringstream outstr;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; outstr &lt;&lt; n;</font></tt></b>
+      <b><tt><font color="#000099">  outstr &lt;&lt; n;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return outstr.str();</font></tt></b>
+      <b><tt><font color="#000099">  return outstr.str();</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void read_time(int &amp;hours, int
             &amp;minutes)</font></tt></b> <br>
       <b><tt><font color="#000099">{ string line;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; getline(cin, line);</font></tt></b>
+      <b><tt><font color="#000099">  getline(cin, line);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; istringstream instr(line);</font></tt></b>
+      <b><tt><font color="#000099">  istringstream instr(line);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; hours;</font></tt></b>
+      <b><tt><font color="#000099">  instr &gt;&gt; hours;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; minutes = 0;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; char ch;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; instr.get(ch);</font></tt></b>
+      <b><tt><font color="#000099">  minutes = 0;</font></tt></b> <br>
+      <b><tt><font color="#000099">  char ch;</font></tt></b> <br>
+      <b><tt><font color="#000099">  instr.get(ch);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if (ch == ':') instr &gt;&gt;
+      <b><tt><font color="#000099">  if (ch == ':') instr &gt;&gt;
             minutes;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;
-            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099"> 
+            else          
             instr.unget();</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp; string suffix;</font></tt></b>
+    <p><b><tt><font color="#000099">  string suffix;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; suffix;</font></tt></b>
+      <b><tt><font color="#000099">  instr &gt;&gt; suffix;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if (suffix == "pm") hours +=
+      <b><tt><font color="#000099">  if (suffix == "pm") hours +=
             12;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">string time_to_string(int hours, int
             minutes, bool am_pm)</font></tt></b> <br>
       <b><tt><font color="#000099">{ string suffix;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; if (am_pm)</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; { if (hours &lt; 12) suffix =
+      <b><tt><font color="#000099">  if (am_pm)</font></tt></b> <br>
+      <b><tt><font color="#000099">  { if (hours &lt; 12) suffix =
             "am";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else { suffix =
+      <b><tt><font color="#000099">    else { suffix =
             "pm"; hours -= 12; }</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (hours == 0)
+      <b><tt><font color="#000099">    if (hours == 0)
             hours = 12;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; }</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; string result =
+      <b><tt><font color="#000099">  }</font></tt></b> <br>
+      <b><tt><font color="#000099">  string result =
             int_to_string(hours) + ":";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; if (minutes &lt; 10) result =
+      <b><tt><font color="#000099">  if (minutes &lt; 10) result =
             result + "0";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; result = result +
+      <b><tt><font color="#000099">  result = result +
             int_to_string(minutes);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; if (am_pm) result = result + "
+      <b><tt><font color="#000099">  if (am_pm) result = result + "
             " + suffix;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; return result;</font></tt></b>
+      <b><tt><font color="#000099">  return result;</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
       <b><tt><font color="#000099">{ cout &lt;&lt; "Please enter the
             time: ";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; int hours, minutes;</font></tt></b>
+      <b><tt><font color="#000099">  int hours, minutes;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; read_time(hours, minutes);</font></tt></b>
+      <b><tt><font color="#000099">  read_time(hours, minutes);</font></tt></b>
     </p>
-    <p><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Using
-            am/pm:&nbsp;&nbsp; " &lt;&lt; time_to_string(hours, minutes,
+    <p><b><tt><font color="#000099">  cout &lt;&lt; "Using
+            am/pm:   " &lt;&lt; time_to_string(hours, minutes,
             true) &lt;&lt; "\n";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Military time:
+      <b><tt><font color="#000099">  cout &lt;&lt; "Military time:
             " &lt;&lt; time_to_string(hours, minutes, false) &lt;&lt;
             "\n";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; return 0;</font></tt></b> <br>
-      <b><tt><font color="#000099">}</font></tt></b> </p>
-    <table border="" cellpadding="4" width="100%">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#993300">Please enter the time:
-                  10:20 pm</font></tt></b> <br>
-            <b><tt><font color="#993300">Using am/pm:&nbsp;&nbsp; 10:20
-                  pm</font></tt></b> <br>
-            <b><tt><font color="#993300">Military time: 22:20</font></tt></b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+      <b><tt><font color="#000099">  return 0;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b>
+      </p>
+<table border="" width="100%" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#993300">Please enter the time:
+                    10:20 pm</font></tt></b> <br>
+              <b><tt><font color="#993300">Using am/pm:  
+                    10:20 pm</font></tt></b> <br>
+              <b><tt><font color="#993300">Military time: 22:20</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    
     <p><img alt="" src="../b5.gif" height="18" width="20"> Аргументи от
       командния ред. <br>
       * Определение и използване. <br>
-      &nbsp;&nbsp;&nbsp; Операционните системи UNIX и DOS могат да
+          Операционните системи UNIX и DOS могат да
       предават данни от командния ред за стартиране на програма на С и
-      С++ на самата програма. За тази цел главната функция <b><tt><font
-            color="#000099">main</font></tt></b> може да има два
-      формални параметри - <b><tt><font color="#000099">int argc </font></tt></b>и<b><tt><font
-            color="#000099"> char* argv[]</font></tt><font
-          color="#000000">. </font></b><font color="#000000">Следващият
+      С++ на самата програма. За тази цел главната функция <b><tt><font color="#000099">main</font></tt></b> може да има два
+      формални параметри - <b><tt><font color="#000099">int argc </font></tt></b>и<b><tt><font color="#000099"> char* argv[]</font></tt><font color="#000000">. </font></b><font color="#000000">Следващият
         пример илюстрира тази възможност.</font> <br>
-      <b><tt><font color="#000099">// <a
-              href="../../NETB151/sources/ch12/simple.cpp">simple.cpp</a></font></tt></b><a
-        href="../../NETB151/sources/ch12/simple.cpp"> </a><br>
+      <b><tt><font color="#000099">// <a href="../../NETB151/sources/ch12/simple.cpp">simple.cpp</a></font></tt></b><a href="../../NETB151/sources/ch12/simple.cpp"> </a><br>
       <b><tt>#include &lt;iostream&gt;</tt><tt><br>
         </tt><tt>using namespace std;</tt><tt><br>
         </tt><tt><br>
         </tt><tt>int main(int argc, char* argv[])</tt><tt><br>
         </tt><tt>{</tt><tt><br>
-        </tt><tt>&nbsp;&nbsp; for (int i=0; i&lt;argc; i++)</tt><tt><br>
-        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+        </tt><tt>   for (int i=0; i&lt;argc; i++)</tt><tt><br>
+        </tt><tt>       cout &lt;&lt;
           "argv[" &lt;&lt; i &lt;&lt; "]=" &lt;&lt; argv[i] &lt;&lt;
           endl; </tt><tt><br>
-        </tt><tt>&nbsp;&nbsp; return 0;</tt></b><br>
+        </tt><tt>   return 0;</tt></b><br>
       <br>
       * Шифър на Цезар. <br>
-      &nbsp;&nbsp;&nbsp; Шифрирането се състои в замяна на буква от
+          Шифрирането се състои в замяна на буква от
       даден (изходен) текст с друга буква, която се намира е след <b><tt>key</tt></b>
       букви в азбуката. Дешифрирането на шифриран текст се състои във
       възстановяване на изходното съобщение. <br>
-      &nbsp;&nbsp;&nbsp; Програмта работи със следните аргументи от
+          Програмта работи със следните аргументи от
       командния ред: <br>
       - флаг <b><tt>-d</tt></b> (незадължителен) за работа на
       програмата по дешифриране; <br>
@@ -171,9 +170,7 @@
       задаване на ключ (по подразбиране ключът е 3); <br>
       - име на входен файл; <br>
       - име на изходен файл. </p>
-    <p><b><tt><font color="#000099">// <a
-              href="../../NETB151/sources/ch12/caesar.cpp">ceasar.cpp</a></font></tt></b><a
-        href="../../NETB151/sources/ch12/caesar.cpp"> </a><br>
+    <p><b><tt><font color="#000099">// <a href="../../NETB151/sources/ch12/caesar.cpp">ceasar.cpp</a></font></tt></b><a href="../../NETB151/sources/ch12/caesar.cpp"> </a><br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
       <br>
       <b><tt><font color="#000099">#include &lt;fstream&gt;</font></tt></b>
@@ -188,86 +185,82 @@
       <br>
       <b><tt><font color="#000099">{ cout &lt;&lt; "Usage: " &lt;&lt;
             program_name</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">      
             &lt;&lt; " [-d] [-kn] infile outfile\n";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; exit(1);</font></tt></b> <br>
+      <b><tt><font color="#000099">  exit(1);</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void open_file_error(string
             filename)</font></tt></b> <br>
       <b><tt><font color="#000099">{ cout &lt;&lt; "Error opening file "
             &lt;&lt; filename &lt;&lt; "\n";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; exit(1);</font></tt></b> <br>
+      <b><tt><font color="#000099">  exit(1);</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">int remainder(int a, int n)</font></tt></b>
       <br>
       <b><tt><font color="#000099">{ if (a &gt;= 0) return a % n;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;
-            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return n - 1
+      <b><tt><font color="#000099"> 
+            else        return n - 1
             - (-a - 1) % n;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">char encrypt(char ch, int k)</font></tt></b>
       <br>
       <b><tt><font color="#000099">{ const int NLETTER = 26;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if ('A' &lt;= ch &amp;&amp; ch
+      <b><tt><font color="#000099">  if ('A' &lt;= ch &amp;&amp; ch
             &lt;= 'Z')</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; return
+      <b><tt><font color="#000099">     return
             static_cast&lt;char&gt;('A' + remainder(ch-'A'+k, NLETTER));</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if ('a' &lt;= ch &amp;&amp; ch
+      <b><tt><font color="#000099">  if ('a' &lt;= ch &amp;&amp; ch
             &lt;= 'z')</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; return
+      <b><tt><font color="#000099">     return
             static_cast&lt;char&gt;('a' + remainder(ch-'a'+k, NLETTER));</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return ch;</font></tt></b> <br>
+      <b><tt><font color="#000099">  return ch;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void encrypt_file(ifstream&amp; in,
             ofstream&amp; out, int k)</font></tt></b> <br>
       <b><tt><font color="#000099">{ char ch;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; while (in.get(ch))
+      <b><tt><font color="#000099">  while (in.get(ch))
             out.put(encrypt(ch, k));</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">int string_to_int(string s)</font></tt></b>
       <br>
       <b><tt><font color="#000099">{ istringstream instr(s);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; int n;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; n;</font></tt></b>
+      <b><tt><font color="#000099">  int n;</font></tt></b> <br>
+      <b><tt><font color="#000099">  instr &gt;&gt; n;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return n;</font></tt></b> <br>
+      <b><tt><font color="#000099">  return n;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">int main(int argc, char* argv[])</font></tt></b>
       <br>
       <b><tt><font color="#000099">{ bool decrypt = false;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; int key = 3;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; int nfile = 0;</font></tt></b>
+      <b><tt><font color="#000099">  int key = 3;</font></tt></b> <br>
+      <b><tt><font color="#000099">  int nfile = 0;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; ifstream infile;</font></tt></b>
+      <b><tt><font color="#000099">  ifstream infile;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; ofstream outfile;</font></tt></b>
+      <b><tt><font color="#000099">  ofstream outfile;</font></tt></b>
     </p>
-    <p><b><tt><font color="#000099">&nbsp; if (argc&lt;3 or argc&gt;5)
+    <p><b><tt><font color="#000099">  if (argc&lt;3 or argc&gt;5)
             usage(string(argv[0]));</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; for (int i = 1; i &lt; argc;
+      <b><tt><font color="#000099">  for (int i = 1; i &lt; argc;
             i++)</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; { string arg =
+      <b><tt><font color="#000099">  { string arg =
             string(argv[i]);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (arg.length()
+      <b><tt><font color="#000099">    if (arg.length()
             &gt;= 2 and arg[0] == '-')</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { char option =
+      <b><tt><font color="#000099">    { char option =
             arg[1];</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+      <b><tt><font color="#000099">      if
             (option == 'd') decrypt = true;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else
+      <b><tt><font color="#000099">      else
             if (option == 'k')</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">       
 key
-
-
-
-
 
 
 
@@ -282,22 +275,18 @@ key
 
             = string_to_int(arg.substr(2, arg.length() - 2));</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <b><tt><font color="#000099">    }</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else</font></tt></b>
+      <b><tt><font color="#000099">    else</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { nfile++;</font></tt></b>
+      <b><tt><font color="#000099">    { nfile++;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+      <b><tt><font color="#000099">      if
             (nfile == 1)</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+      <b><tt><font color="#000099">      {
             infile.open(arg.c_str());</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">       
 if
-
-
-
-
 
 
 
@@ -311,13 +300,13 @@ if
 
 
             (infile.fail()) open_file_error(arg);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <b><tt><font color="#000099">      }</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else
+      <b><tt><font color="#000099">      else
             if (nfile == 2)</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+      <b><tt><font color="#000099">      {
             outfile.open(arg.c_str());</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">       
 if
 
 
@@ -331,112 +320,123 @@ if
 
 
 
-
-
-
-
             (outfile.fail()) open_file_error(arg);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <b><tt><font color="#000099">      }</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <b><tt><font color="#000099">    }</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; if(nfile != 2)
+      <b><tt><font color="#000099">   }</font></tt></b> <br>
+      <b><tt><font color="#000099">   if(nfile != 2)
             usage(string(argv[0]));</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; if (decrypt) key = -key;</font></tt></b>
+      <b><tt><font color="#000099">   if (decrypt) key = -key;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; encrypt_file(infile,
+      <b><tt><font color="#000099">   encrypt_file(infile,
             outfile, key);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; infile.close();</font></tt></b>
+      <b><tt><font color="#000099">   infile.close();</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; outfile.close();</font></tt></b>
+      <b><tt><font color="#000099">   outfile.close();</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <b><tt><font color="#000099">   return 0;</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
-    <p><font color="#000000">Изпълнение на програмата:</font> </p>
-    <table border="" cellpadding="4" width="100%">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#990000">&gt;ceasar</font></tt></b>
-            <br>
-            <b><tt><font color="#990000">&gt;</font><font
-                  color="#000099">Usage: CEASAR.EXE [-d] [-kn] infile
-                  outfile</font></tt></b> </td>
-        </tr>
-      </tbody>
-    </table>
-    <p><font color="#000000">Файл <b><tt>input.txt:</tt></b></font> </p>
-    <table bgcolor="#CCCCCC" border="" cellpadding="4">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#993366">This is a text to encrypt
-                  (1-st) and decrypt (2-nd).</font></tt></b> <br>
-            <b><tt><font color="#993366">One more line. End.</font></tt></b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p><font color="#000000">Изпълнение на програмата:</font> </p>
-    <table border="" cellpadding="4" width="100%">
-      <tbody>
-        <tr>
-          <td><b><tt><font color="#990000">&gt;ceasar input.txt
-                  encrypt1.txt</font></tt></b></td>
-        </tr>
-      </tbody>
-    </table>
-    <font color="#000000">Файл <b><tt>encrypt1.txt</tt></b></font>
-    <table bgcolor="#CCCCCC" border="" cellpadding="4">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#993366">Wklv lv d whaw wr hqfubsw
-                  (1-vw) dqg ghfubsw (2-qg).</font></tt></b> <br>
-            <b><tt><font color="#993366">Rqh pruh olqh. Hqg.</font></tt></b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p><font color="#000000">Изпълнение на програмата:</font> </p>
-    <table border="" cellpadding="4" width="100%">
-      <tbody>
-        <tr>
-          <td><b><tt><font color="#990000">&gt;ceasar -k7 input.txt
-                  encrypt2.txt</font></tt></b></td>
-        </tr>
-      </tbody>
-    </table>
-    <font color="#000000">Файл <b><tt>encrypt2.txt</tt></b></font>
-    <table bgcolor="#CCCCCC" border="" cellpadding="4">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#993366">Aopz pz h alea av lujyfwa
-                  (1-za) huk kljyfwa (2-uk).</font></tt></b> <br>
-            <b><tt><font color="#993366">Vul tvyl spul. Luk.</font></tt></b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <p><font color="#000000">Изпълнение на програмата:</font> </p>
-    <table border="" cellpadding="4" width="100%">
-      <tbody>
-        <tr>
-          <td><b><tt><font color="#990000">&gt;ceasar -d -k7
-                  encrypt2.txt output.txt</font></tt></b></td>
-        </tr>
-      </tbody>
-    </table>
-    <font color="#000000">Файл <b><tt>output.txt</tt></b></font>
-    <table bgcolor="#CCCCCC" border="" cellpadding="4">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#993366">This is a text to encrypt
-                  (1-st) and decrypt (2-nd).</font></tt></b> <br>
-            <b><tt><font color="#993366">One more line. End.</font></tt></b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <p><font color="#000000">Изпълнение на програмата:</font>
+      </p>
+<table border="" width="100%" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#990000">&gt;ceasar</font></tt></b>
+              <br>
+              <b><tt><font color="#990000">&gt;</font><font color="#000099">Usage: CEASAR.EXE [-d] [-kn] infile
+                    outfile</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    <p><font color="#000000">Файл <b><tt>input.txt:</tt></b></font>
+      </p>
+<table bgcolor="#CCCCCC" border="" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#993366">This is a text to encrypt
+                    (1-st) and decrypt (2-nd).</font></tt></b> <br>
+              <b><tt><font color="#993366">One more line. End.</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    <p><font color="#000000">Изпълнение на програмата:</font>
+      </p>
+<table border="" width="100%" cellpadding="4">
+        <tbody>
+          <tr>
+            <td><b><tt><font color="#990000">&gt;ceasar input.txt
+                    encrypt1.txt</font></tt></b></td>
+          </tr>
+        </tbody>
+      </table>
+      <font color="#000000">Файл <b><tt>encrypt1.txt</tt></b></font>
+      <table bgcolor="#CCCCCC" border="" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#993366">Wklv lv d whaw wr hqfubsw
+                    (1-vw) dqg ghfubsw (2-qg).</font></tt></b> <br>
+              <b><tt><font color="#993366">Rqh pruh olqh. Hqg.</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    <p><font color="#000000">Изпълнение на програмата:</font>
+      </p>
+<table border="" width="100%" cellpadding="4">
+        <tbody>
+          <tr>
+            <td><b><tt><font color="#990000">&gt;ceasar -k7 input.txt
+                    encrypt2.txt</font></tt></b></td>
+          </tr>
+        </tbody>
+      </table>
+      <font color="#000000">Файл <b><tt>encrypt2.txt</tt></b></font>
+      <table bgcolor="#CCCCCC" border="" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#993366">Aopz pz h alea av lujyfwa
+                    (1-za) huk kljyfwa (2-uk).</font></tt></b> <br>
+              <b><tt><font color="#993366">Vul tvyl spul. Luk.</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    
+    <p><font color="#000000">Изпълнение на програмата:</font>
+      </p>
+<table border="" width="100%" cellpadding="4">
+        <tbody>
+          <tr>
+            <td><b><tt><font color="#990000">&gt;ceasar -d -k7
+                    encrypt2.txt output.txt</font></tt></b></td>
+          </tr>
+        </tbody>
+      </table>
+      <font color="#000000">Файл <b><tt>output.txt</tt></b></font>
+      <table bgcolor="#CCCCCC" border="" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#993366">This is a text to encrypt
+                    (1-st) and decrypt (2-nd).</font></tt></b> <br>
+              <b><tt><font color="#993366">One more line. End.</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    
     <p> </p>
     <hr width="100%"> <br>
     <img alt="" src="../b5.gif" height="18" width="20"> Произволен
@@ -446,52 +446,50 @@ if
     Сега бихме искали да можем да четем и пишем на всяко място във
     файла, което се нарича пряк или произволен достъп.<br>
     <br>
-    <img alt="" src="../../NETB151/slides/ch12/images/random_access.png"
-      height="242" width="733"><br>
+    <img alt="" src="../../NETB151/slides/ch12/images/random_access.png" height="242" width="733"><br>
     - <font color="#000000">включване на заглавен файл:</font> <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; #include
+    <b><tt><font color="#009900">    #include
           &lt;fstream&gt;</font></tt></b> <br>
     - дефиниране на файлова променлива за четене и писане: <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fstream fs;</font></tt></b>
+    <b><tt><font color="#009900">    fstream fs;</font></tt></b>
     <br>
     Във всеки файл са дефинирани две срециални позиции: <br>
     <ul>
       <li>get - позиция за четене,</li>
       <li>put - позиция за писане.</li>
     </ul>
-    <img alt="" src="../../NETB151/slides/ch12/images/get_put.png"
-      height="295" width="444"><br>
+    <img alt="" src="../../NETB151/slides/ch12/images/get_put.png" height="295" width="444"><br>
     <br>
     - преместване на позициите за четене и писане: <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n = 10;</font></tt></b>
+    <b><tt><font color="#009900">    long n = 10;</font></tt></b>
     <br>
     <b><tt><font color="#009900">/* преместване на позицията за четене
           10 байта след началото на файла */</font></tt></b> <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekg(n,
+    <b><tt><font color="#009900">    fs.seekg(n,
           ios::beg);</font></tt></b> <br>
     <b><tt><font color="#009900">/* преместване на позицията за писане
           10 байта след началото на файла */</font></tt></b> <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+    <b><tt><font color="#009900">    fs.seekp(n,
           ios::beg);</font></tt></b> <br>
     <b><tt><font color="#009900">/* преместване на позицията за писане в
           края на файла */</font></tt></b> <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+    <b><tt><font color="#009900">    fs.seekp(n,
           ios::end);</font></tt></b> <br>
     <b><tt><font color="#009900">/* преместване на позицията за писане
           10 байта напред относно текущата позиция */</font></tt></b> <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+    <b><tt><font color="#009900">    fs.seekp(n,
           ios::cur);</font></tt></b> <br>
     - намиране на текущите позициите за четене и писане: <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n;</font></tt></b>
+    <b><tt><font color="#009900">    long n;</font></tt></b>
     <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellg();</font></tt></b>
+    <b><tt><font color="#009900">    n = fs.tellg();</font></tt></b>
     <br>
-    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellp();</font></tt></b><br>
+    <b><tt><font color="#009900">    n = fs.tellp();</font></tt></b><br>
     Дължината на файл можем да получим по следния начин:<br>
     <font size="+1">
       <pre>fs.seekg(0, ios::end);<br>long file_length = fs.tellg();</pre>
     </font>- файлове с променлива или фиксирана дължина на записа: <br>
-    &nbsp;
+     
     <table border="" cellpadding="2" cellspacing="0">
       <tbody>
         <tr>
@@ -507,16 +505,16 @@ if
       </tbody>
     </table>
     <br>
-    &nbsp;
+     
     <table border="" cellpadding="2" cellspacing="0">
       <tbody>
         <tr>
           <td><b><tt><font color="#000000">Harry
-                  Hacker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 500</font></tt></b></td>
+                  Hacker       500</font></tt></b></td>
           <td><b><tt><font color="#000000">Johny
-                  Johnson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 600</font></tt></b></td>
+                  Johnson      600</font></tt></b></td>
           <td><b><tt><font color="#000000">Tedy
-                  Tompson&nbsp;&nbsp;&nbsp; 700.20</font></tt></b></td>
+                  Tompson    700.20</font></tt></b></td>
         </tr>
         <tr>
           <td><b><tt>1234567890123456789012</tt></b></td>
@@ -528,12 +526,10 @@ if
     <p><br>
     </p>
     <p>* Програма за четене на файлови записи, съдържащи име на служител
-      и заплата и промяна на заплатата на даден служител.&nbsp;</p>
+      и заплата и промяна на заплатата на даден служител. </p>
     <p>Примерен файл: <a href="../../NETB151/sources/ch12/employee.dat"><b><tt>employee.dat</tt></b></a><br>
     </p>
-    <p><b><tt><font color="#000099">// <a
-              href="../../NETB151/sources/ch12/database.cpp">database.cpp</a></font></tt></b><a
-        href="../../NETB151/sources/ch12/database.cpp"> </a><br>
+    <p><b><tt><font color="#000099">// <a href="../../NETB151/sources/ch12/database.cpp">database.cpp</a></font></tt></b><a href="../../NETB151/sources/ch12/database.cpp"> </a><br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
       <br>
       <b><tt><font color="#000099">#include &lt;iomanip&gt;</font></tt></b>
@@ -542,7 +538,7 @@ if
       <br>
       <b><tt><font color="#000099">#include &lt;sstream&gt;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">using namespace std;</font></tt></b>&nbsp;</p>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b> </p>
     <p> <b><tt><font color="#000099">#include "ccc_empl.h"</font></tt></b>
     </p>
     <p><b><tt><font color="#000099">const int NEWLINE_LENGTH = 2; /* или
@@ -553,148 +549,143 @@ if
       <br>
       <b><tt><font color="#000099">{ istringstream instr(s);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; double x;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; x;</font></tt></b>
+      <b><tt><font color="#000099">  double x;</font></tt></b> <br>
+      <b><tt><font color="#000099">  instr &gt;&gt; x;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; return x;</font></tt></b> <br>
+      <b><tt><font color="#000099">  return x;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void raise_salary(Employee &amp;e,
             double percent)</font></tt></b> <br>
       <b><tt><font color="#000099">{ double new_salary =
             e.get_salary()*(1 + percent/100);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; e.set_salary(new_salary);</font></tt></b>
+      <b><tt><font color="#000099">  e.set_salary(new_salary);</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void read_employee(Employee &amp;e,
             fstream &amp;fs)</font></tt></b> <br>
       <b><tt><font color="#000099">{ string line;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; getline(fs, line);</font></tt></b>
+      <b><tt><font color="#000099">  getline(fs, line);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; if (fs.fail()) return;</font></tt></b>
+      <b><tt><font color="#000099">  if (fs.fail()) return;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; string name = line.substr(0,
+      <b><tt><font color="#000099">  string name = line.substr(0,
             30);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; double salary =
+      <b><tt><font color="#000099">  double salary =
             string_to_double(line.substr(30, 10));</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; e = Employee(name, salary);</font></tt></b>
+      <b><tt><font color="#000099">  e = Employee(name, salary);</font></tt></b>
       <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">void write_employee(Employee e,
             fstream &amp;fs)</font></tt></b> <br>
       <b><tt><font color="#000099">{ fs &lt;&lt; e.get_name()</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+      <b><tt><font color="#000099">     &lt;&lt;
             setw(10 + (30 - e.get_name().length()))</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+      <b><tt><font color="#000099">     &lt;&lt;
             fixed &lt;&lt; setprecision(2)</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+      <b><tt><font color="#000099">     &lt;&lt;
             e.get_salary() &lt;&lt; "\n";</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> </p>
     <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
       <b><tt><font color="#000099">{ cout &lt;&lt; "Please enter the
             data file name: ";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; string filename;</font></tt></b>
+      <b><tt><font color="#000099">  string filename;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; cin &gt;&gt; filename;</font></tt></b>
+      <b><tt><font color="#000099">  cin &gt;&gt; filename;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; fstream fs;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; fs.open(filename.c_str());</font></tt></b>
+      <b><tt><font color="#000099">  fstream fs;</font></tt></b> <br>
+      <b><tt><font color="#000099">  fs.open(filename.c_str());</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; fs.seekg(0, ios::end);</font></tt></b>
+      <b><tt><font color="#000099">  fs.seekg(0, ios::end);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; int nrecord =
+      <b><tt><font color="#000099">  int nrecord =
             fs.tellg()/RECORD_SIZE;</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Please enter
+    <p><b><tt><font color="#000099">  cout &lt;&lt; "Please enter
             the record to update: (0 - "</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <b><tt><font color="#000099">      
             &lt;&lt; nrecord - 1 &lt;&lt; ") ";</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; int pos;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; cin &gt;&gt; pos;</font></tt></b>
+      <b><tt><font color="#000099">  int pos;</font></tt></b> <br>
+      <b><tt><font color="#000099">  cin &gt;&gt; pos;</font></tt></b>
     </p>
-    <p><b><tt><font color="#000099">&nbsp; const double SALARY_CHANGE =
+    <p><b><tt><font color="#000099">  const double SALARY_CHANGE =
             5.0;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; Employee e;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; fs.seekg(pos*RECORD_SIZE,
+      <b><tt><font color="#000099">  Employee e;</font></tt></b> <br>
+      <b><tt><font color="#000099">  fs.seekg(pos*RECORD_SIZE,
             ios::beg);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; read_employee(e, fs);</font></tt></b>
+      <b><tt><font color="#000099">  read_employee(e, fs);</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp; raise_salary(e,
+      <b><tt><font color="#000099">  raise_salary(e,
             SALARY_CHANGE);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; fs.seekp(pos*RECORD_SIZE,
+      <b><tt><font color="#000099">  fs.seekp(pos*RECORD_SIZE,
             ios::beg);</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; write_employee(e, fs);</font></tt></b>
+      <b><tt><font color="#000099">  write_employee(e, fs);</font></tt></b>
     </p>
-    <p><b><tt><font color="#000099">&nbsp; fs.close();</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; return 0;</font></tt></b> <br>
+    <p><b><tt><font color="#000099">  fs.close();</font></tt></b> <br>
+      <b><tt><font color="#000099">  return 0;</font></tt></b> <br>
       <b><tt><font color="#000099">}</font></tt></b> <br>
-      <font color="#000000">Файл <b><tt><a
-              href="../../NETB151/sources/ch12/data.txt">data.txt</a> </tt></b>преди
+      <font color="#000000">Файл <b><tt><a href="../../NETB151/sources/ch12/data.txt">data.txt</a> </tt></b>преди
 
 
 
 
 
-
-
-
-
-        изпълнение на програмата<b><tt>:</tt></b></font> </p>
-    <table bgcolor="#CCCCCC" border="" cellpadding="4">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#000000">Harry
-Hacker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;500</font></tt></b>
-            <br>
-            <b><tt><font color="#000000">Johny
-Johnson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;600</font></tt></b>
-            <br>
-            <b><tt><font color="#000000">Tedy
-Tompson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;777</font></tt></b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <table border="" cellpadding="4" width="100%">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#993300">Please enter the data file
-                  name: data.txt</font></tt></b> <br>
-            <b><tt><font color="#993300">Please enter the record to
-                  update: (0 - 2) 1</font></tt></b> </td>
-        </tr>
-      </tbody>
-    </table>
-    <font color="#000000">Файл <b><tt><a
-            href="../../NETB151/sources/ch12/data.txt">data.txt</a> </tt></b>след
-
-
-
-
+        изпълнение на програмата<b><tt>:</tt></b></font>
+      </p>
+<table bgcolor="#CCCCCC" border="" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#000000">Harry
+Hacker                        500</font></tt></b>
+              <br>
+              <b><tt><font color="#000000">Johny
+Johnson                       600</font></tt></b>
+              <br>
+              <b><tt><font color="#000000">Tedy
+Tompson                        777</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+      <table border="" width="100%" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#993300">Please enter the data file
+                    name: data.txt</font></tt></b> <br>
+              <b><tt><font color="#993300">Please enter the record to
+                    update: (0 - 2) 1</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+      <font color="#000000">Файл <b><tt><a href="../../NETB151/sources/ch12/data.txt">data.txt</a> </tt></b>след
 
 
 
 
 
-      изпълнение на програмата<b><tt>:</tt></b></font>
-    <table bgcolor="#CCCCCC" border="" cellpadding="4">
-      <tbody>
-        <tr>
-          <td> <b><tt><font color="#000000">Harry
-Hacker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;500</font></tt></b>
-            <br>
-            <b><tt><font color="#000000">Johny
-Johnson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;630.00</font></tt></b>
-            <br>
-            <b><tt><font color="#000000">Tedy
-Tompson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;777</font></tt></b>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+        изпълнение на програмата<b><tt>:</tt></b></font>
+      <table bgcolor="#CCCCCC" border="" cellpadding="4">
+        <tbody>
+          <tr>
+            <td>
+<b><tt><font color="#000000">Harry
+Hacker                        500</font></tt></b>
+              <br>
+              <b><tt><font color="#000000">Johny
+Johnson                    630.00</font></tt></b>
+              <br>
+              <b><tt><font color="#000000">Tedy
+Tompson                        777</font></tt></b>
+</td>
+          </tr>
+        </tbody>
+      </table>
+    
     <hr width="100%">
     <p> </p>
-    <b><img alt="" src="../b5.gif" height="18" width="20"><font
-        size="+1">Рекурсия. Триъгълни числа</font></b><br>
+    <b><img alt="" src="../b5.gif" height="18" width="20"><font size="+1">Рекурсия. Триъгълни числа</font></b><br>
     <ul>
       <li><font size="+1">В този пример, ние ще разгледаме триъгълни
           форми, като тази, показана тук:
@@ -702,12 +693,11 @@ Tompson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
             <pre>[]<br>[][]<br>[][][]</pre>
           </blockquote>
         </font></li>
-      <li> <font size="+1"><i style="font-style: italic;">n</i><span
-            style="font-style: italic;">-тото триъгълно число </span>е
+      <li>
+<font size="+1"><i style="font-style: italic;">n</i><span style="font-style: italic;">-тото триъгълно число </span>е
           лицето на триъгълник с ширина <span style="font-style:
-            italic;">n</span>, като предполагаме, че всяко</font><font
-          size="+1"><span style="font-family: monospace;">[]</span></font><font
-          size="+1"> има лице 1. </font> </li>
+            italic;">n</span>, като предполагаме, че всяко</font><font size="+1"><span style="font-family: monospace;">[]</span></font><font size="+1"> има лице 1. </font>
+</li>
       <li><font size="+1">От картинката - третото триъгълно число е 6.</font></li>
       <li><font size="+1">Ето интерфейса на класа, който ще
           разработваме:
@@ -736,60 +726,51 @@ Tompson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&
           </blockquote>
         </font></li>
       <li><font size="+1">За да намерим по-малкото лице, ние правим
-          по-малък триъгълник!&nbsp;
+          по-малък триъгълник! 
           <blockquote>
             <pre>int Triangle::get_area()<br>{  if (width == 1) return 1;<br>   Triangle smaller_triangle(width - 1);<br>   int <span style="color: rgb(51, 51, 255);">smaller_area</span> = smaller_triangle.get_area();<br>   return <span style="color: rgb(51, 51, 255);">smaller_area</span> + width;<br>}</pre>
           </blockquote>
         </font></li>
     </ul>
     <ul>
-      <li> <font size="+1">Here's how the area is computed for a
-          triangle of width 4.</font>
+      <li>
+<font size="+1">Here's how the area is computed for a triangle
+          of width 4.</font>
         <ul>
-          <li> <font style="color: rgb(153, 0, 0);" size="+1">The <tt>get_area</tt>
+          <li>
+<font style="color: rgb(153, 0, 0);" size="+1">The <tt>get_area</tt>
               function makes a smaller triangle of width 3.</font>
             <ul>
-              <li> <font style="color: rgb(153, 0, 0);" size="+1">It
+              <li>
+<font style="color: rgb(153, 0, 0);" size="+1">It
                   calls <tt>get_area</tt> on that triangle.</font>
                 <ul>
-                  <li> <font style="color: rgb(51, 51, 255);" size="+1">That
+                  <li>
+<font style="color: rgb(51, 51, 255);" size="+1">That
 function
-
-
-
-
 
                       makes a smaller triangle of width 2.</font>
                     <ul>
-                      <li> <font style="color: rgb(51, 51, 255);"
-                          size="+1">It calls <tt>get_area</tt> on that
+                      <li>
+<font style="color: rgb(51, 51, 255);" size="+1">It calls <tt>get_area</tt> on that
                           triangle.</font>
                         <ul>
-                          <li> <font size="+1"><span style="color:
-                                rgb(0, 153, 0);">That function make a
-                                smaller triangle of width 1</span>.</font>
-                          </li>
-                          <li style="color: rgb(0, 153, 0);"><font
-                              size="+1">It calls <tt>get_area</tt> on
+                          <li>
+<font size="+1"><span style="color: rgb(0,
+                                153, 0);">That function make a smaller
+                                triangle of width 1</span>.</font> </li>
+                          <li style="color: rgb(0, 153, 0);"><font size="+1">It calls <tt>get_area</tt> on
                               that triangle.</font></li>
                         </ul>
                       </li>
                       <li style="color: rgb(0, 153, 0);"><font size="+1">That
 function
 
-
-
-
-
                           returns 1.</font></li>
                     </ul>
                   </li>
                   <li style="color: rgb(51, 51, 255);"><font size="+1">The
 function
-
-
-
-
 
                       returns<tt> smaller_area + width</tt> = 1 + 2 = 3.</font></li>
                 </ul>
@@ -808,8 +789,9 @@ function
       <li><font size="+1">Техниката на изразяване на решение на дадена
           задача от гледна точка на решение за <i>по-малка</i> версия
           на същата задача се нарича <i>рекурсия</i>.</font></li>
-      <li> <font size="+1">Има две основни изисквания, които да
-          направят рекурсията успешна:</font>
+      <li>
+<font size="+1">Има две основни изисквания, които да направят
+          рекурсията успешна:</font>
         <ul>
           <li><font size="+1">Всяко рекурсивно повикване трябва да се
               опрости изчислението по някакъв начин.</font></li>
@@ -817,10 +799,11 @@ function
               се извършат пряко най-простите изчисления.</font></li>
         </ul>
       </li>
-      <li> <font size="+1">HТук get_area <tt>get_area</tt> </font><font
-          size="+1"><font size="+1">извиква сама себе си отново с
+      <li>
+<font size="+1">HТук get_area <tt>get_area</tt> </font><font size="+1"><font size="+1">извиква сама себе си отново с
             по-малки и по-малки широчини, достигайки в крайна сметка
-            широчина 1</font>.</font> </li>
+            широчина 1</font>.</font>
+</li>
     </ul>
     <tt>// </tt><a href="../../NETB151/sources/ch14/triangle.cpp"><tt>triangle.cpp</tt></a><br>
     <pre><tt><b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
@@ -861,7 +844,8 @@ Triangle<font color="#990000">:</font><font color="#990000">:</font><b><font col
     <font size="+1">Какво се случва, когато се пресмята лицето на
       триъгълник с широчина -1? Бъдете внимателни!</font>
     <ul>
-      <li> <font size="+1">Рекурсия не е наистина необходима, за да се
+      <li>
+<font size="+1">Рекурсия не е наистина необходима, за да се
           реши тази задача. Това може да бъде направено с помощта на:</font>
         <ul>
           <li><font size="+1">прост цикъл:
@@ -879,8 +863,7 @@ Triangle<font color="#990000">:</font><font color="#990000">:</font><b><font col
     </ul>
     <br>
     <hr style="width: 100%; height: 2px;"> <br>
-    <font size="+1"><b><b><img alt="" src="../b5.gif" height="18"
-            width="20"></b>Рекурсия. Пермутации</b></font><br>
+    <font size="+1"><b><b><img alt="" src="../b5.gif" height="18" width="20"></b>Рекурсия. Пермутации</b></font><br>
     <ul>
       <li><font size="+1">Ще разработим функция, която връща всички
           пермутации на даден низ.</font></li>
@@ -896,14 +879,15 @@ Triangle<font color="#990000">:</font><font color="#990000">:</font><b><font col
             <pre><i>n</i>! = 1 x 2 x 3 x . . . x <i>n</i></pre>
           </blockquote>
         </font></li>
-      <li> <font size="+1">За да се пресментне стойността на функцията
-          <i>n</i>! може да се използва цикъл, но има и рекурентна
-          формула:</font>
+      <li>
+<font size="+1">За да се пресментне стойността на функцията <i>n</i>!
+          може да се използва цикъл, но има и рекурентна формула:</font>
         <blockquote><font size="+1">
             <pre><i>n</i>! = (<i>n</i> - 1)! x <i>n</i> </pre>
           </font></blockquote>
       </li>
-      <li> <font size="+1">Обичайно се определя </font>
+      <li>
+<font size="+1">Обичайно се определя </font>
         <blockquote>
           <pre><font size="+1">1! = 1<br>0! = 1</font></pre>
         </blockquote>
@@ -923,39 +907,34 @@ Triangle<font color="#990000">:</font><font color="#990000">:</font><b><font col
             <pre>vector&lt;string&gt; generate_permutations(string word);</pre>
           </blockquote>
         </font></li>
-      <li> <font size="+1">Следният код показва всички пермутации на
-          низа </font><font size="+1"><span style="font-family:
-            monospace;">"eat"</span></font><font size="+1">:
+      <li>
+<font size="+1">Следният код показва всички пермутации на низа
+        </font><font size="+1"><span style="font-family: monospace;">"eat"</span></font><font size="+1">:
           <blockquote>
             <pre>vector&lt;string&gt; v = generate_permutations("eat");<br>for(int i = 0; i &lt; v.size(); i++)<br>   cout &lt;&lt; v[i] &lt;&lt; "\n";</pre>
           </blockquote>
-        </font> </li>
-      <li> <font size="+1">За генериране на всички пермутации
-          рекурсивно, генерираме пермутациите, които започват с буквата
-        </font><font size="+1"><span style="font-family: monospace;">'e',</span></font><font
-          size="+1"><font size="+1"> на тези, които започват на</font> </font><font
-          size="+1"><span style="font-family: monospace;">'a'</span></font><font
-          size="+1">, </font><font size="+1"><font size="+1"><font
-              size="+1">а след това тези, които започват&nbsp;</font></font></font><font
-          size="+1"><span style="font-family: monospace;">'t'</span></font><font
-          size="+1">.</font> </li>
-      <li> <font size="+1">Използваме рекурсията за генериране на
-          всички пермутации на по-кратки (двубуквени низова).</font>
+        </font>
+</li>
+      <li>
+<font size="+1">За генериране на всички пермутации рекурсивно,
+          генерираме пермутациите, които започват с буквата </font><font size="+1"><span style="font-family: monospace;">'e',</span></font><font size="+1"><font size="+1"> на тези, които започват на</font> </font><font size="+1"><span style="font-family: monospace;">'a'</span></font><font size="+1">, </font><font size="+1"><font size="+1"><font size="+1">а след това тези, които започват </font></font></font><font size="+1"><span style="font-family: monospace;">'t'</span></font><font size="+1">.</font>
+</li>
+      <li>
+<font size="+1">Използваме рекурсията за генериране на всички
+          пермутации на по-кратки (двубуквени низова).</font>
         <ul>
           <li style="font-family: monospace;"><font size="+1">"at" "ta"</font></li>
           <li style="font-family: monospace;"><font size="+1">"et" "te"</font></li>
           <li style="font-family: monospace;"><font size="+1">"ae" "ea"</font></li>
         </ul>
       </li>
-      <li> <font size="+1">Добавяме първите букви за да намерим вси1ки
+      <li>
+<font size="+1">Добавяме първите букви за да намерим вси1ки
           трибуквени пермутации.</font>
         <ul style="font-family: monospace;">
-          <li><font size="+1">"<font color="#0000ff">e</font>at" "<font
-                color="#0000ff">e</font>ta"</font></li>
-          <li><font size="+1">"<font color="#0000ff">a</font>et" "<font
-                color="#0000ff">a</font>te"</font></li>
-          <li><font size="+1">"<font color="#0000ff">t</font>ae" "<font
-                color="#0000ff">t</font>ea"</font></li>
+          <li><font size="+1">"<font color="#0000ff">e</font>at" "<font color="#0000ff">e</font>ta"</font></li>
+          <li><font size="+1">"<font color="#0000ff">a</font>et" "<font color="#0000ff">a</font>te"</font></li>
+          <li><font size="+1">"<font color="#0000ff">t</font>ae" "<font color="#0000ff">t</font>ea"</font></li>
         </ul>
       </li>
     </ul>
@@ -1035,27 +1014,23 @@ vector<font color="#ff0000">&lt;string&gt;</font> <b><font color="#000000">gener
       cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> endl<font color="#990000">;</font>
    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
 <font color="#ff0000">}<br></font></tt></tt></pre>
-    <hr size="2" width="100%"> <font size="+1"><b><b><img alt=""
-src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/CITB201/b5.gif"
-            height="18" width="20"></b>Ефективност на рекурсията</b></font><br>
+    <hr size="2" width="100%">
+<font size="+1"><b><b><img alt="" src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/CITB201/b5.gif" height="18" width="20"></b>Ефективност на рекурсията</b></font><br>
     <ul>
       <li><font size="+1">Въпреки че рекурсията е мощен метод за сложни
           алгоритми, тя може да доведе до програми, които работят лошо.</font></li>
       <li><font size="+1">Ще анализираме въпроса кога рекурсията е
           полезна и когато тя е неефективна.</font></li>
-      <li> <font size="+1"><a
-href="http://bg.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%BD%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D0%B8">Редица
-
-
-
-
+      <li>
+<font size="+1"><a href="http://bg.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%BD%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D0%B8">Редица
             на Фибоначи</a> се дефинира по следния начин:</font>
         <ul>
           <li><font size="+1"><i>f</i><sub>1</sub> = 1</font></li>
           <li><font size="+1"><i>f</i><sub>2</sub> = 1</font></li>
-          <li> <i><font size="+1">f<sub>n</sub></font></i><font
-              size="+1"> = <i>f<sub>n</sub></i><sub>-1</sub> + <i>f<sub>n</sub></i><sub>-2</sub></font>
-          </li>
+          <li>
+<i><font size="+1">f<sub>n</sub></font></i><font size="+1">
+              = <i>f<sub>n</sub></i><sub>-1</sub> + <i>f<sub>n</sub></i><sub>-2</sub></font>
+</li>
         </ul>
       </li>
       <li><font size="+1">Първите 10 члена на тази редица са:
@@ -1070,14 +1045,15 @@ href="http://bg.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%BD%D0%B0_%
         </font></li>
     </ul>
     <ul>
-      <li> <font size="+1">Тази функция работи вярно, но за не много
-          големи <span style="font-style: italic;">n</span> работи
-          доста (изключително) бавно. </font> </li>
-      <li> <font size="+1">Ще изпълним програмата (</font><font
-          size="+1"><a style="font-family: monospace;"
-href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/sources/ch14/fibtest.cpp">fibtest.cpp</a></font><font
-          size="+1">) с <span style="font-style: italic;">n</span>
-          между 30 и 50 за да видим ефекта.</font> </li>
+      <li>
+<font size="+1">Тази функция работи вярно, но за не много
+          големи <span style="font-style: italic;">n</span>
+          работи доста (изключително) бавно. </font> </li>
+      <li>
+<font size="+1">Ще изпълним програмата (</font><font size="+1"><a style="font-family: monospace;" href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/sources/ch14/fibtest.cpp">fibtest.cpp</a></font><font size="+1">) с <span style="font-style: italic;">n</span>
+          между
+          30 и
+          50 за да видим ефекта.</font> </li>
       <li><font size="+1">За откриване на проблема, ще вмъкнем трасиращ
           печат във функцията:
           <blockquote>
@@ -1086,38 +1062,37 @@ href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.g
         </font></li>
     </ul>
     <ul>
-      <li> <font size="+1">Резултатът от функцията (</font><font
-          size="+1"><a style="font-family: monospace;"
-href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/sources/ch14/fibtrace.cpp">fibtrace.cpp</a></font><font
-          size="+1">) </font><font size="+1"><font size="+1">показва
+      <li>
+<font size="+1">Резултатът от функцията (</font><font size="+1"><a style="font-family: monospace;" href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/sources/ch14/fibtrace.cpp">fibtrace.cpp</a></font><font size="+1">) </font><font size="+1"><font size="+1">показва
             защо изчислението отнема толкова време</font>.
           <blockquote>
             <pre>Entering fib: n = 6<br>Entering fib: n = 5<br>Entering fib: n = 4<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Exiting fib: n = 4 return value = 3<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Exiting fib: n = 5 return value = 5<br>Entering fib: n = 4<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Exiting fib: n = 4 return value = 3<br>Exiting fib: n = 6 return value = 8</pre>
           </blockquote>
-        </font> </li>
+        </font>
+</li>
     </ul>
     <ul>
-      <li> <font size="+1">Дърво на извикванията: </font>
-        <p><font size="+1"><img
-src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/slides/ch14/images/fib_tree.png">
+      <li>
+<font size="+1">Дърво на извикванията: </font>
+        <p><font size="+1"><img src="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/slides/ch14/images/fib_tree.png">
           </font> </p>
       </li>
       <li><font size="+1">Тъй като <tt>fib(4)</tt> се вика два пъти, а
-          <tt>fib(3)</tt> се вика три пъти, то много време се губи за
-          многократни изчисления на една и съща стойност.</font></li>
+          <tt>fib(3)</tt>
+          се вика три пъти, то много време се губи за многократни
+          изчисления на една и съща стойност.</font></li>
     </ul>
     <ul>
       <li><font size="+1">Когато смятаме ръчно, просто събираме
           поседните две намерени стойности.</font></li>
-      <li> <font size="+1">Този метод може да се програмира с прост
-          цикъл (</font><a
-href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/sources/ch14/fibloop.cpp"><font
-            size="+1"><span style="font-family: monospace;">fibloop.cpp</span></font></a><font
-          size="+1">).
+      <li>
+<font size="+1">Този метод може да се програмира с прост цикъл
+          (</font><a href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB151/sources/ch14/fibloop.cpp"><font size="+1"><span style="font-family: monospace;">fibloop.cpp</span></font></a><font size="+1">).
           <blockquote>
             <pre>int fib(int n)<br>{  if (n &lt;= 2) return 1;<br>   int fold = 1;<br>   int fold2 = 1;<br>   int fnew;<br>   for (int i = 3; i &lt;= n; i++)<br>   {  fnew = fold + fold2;<br>      fold2 = fold;<br>      fold = fnew;<br>   }<br>   return fnew;<br>}</pre>
           </blockquote>
-        </font> </li>
+        </font>
+</li>
     </ul>
     <ul>
       <li><font size="+1">Всяко рекурсивно решение може да се замени с
@@ -1125,8 +1100,8 @@ href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.g
       <li><font size="+1">Винаги ли итерационното решение е по-ефективно
           (по-бързо) от рекурсивното?<br>
         </font></li>
-      <li><font size="+1">Често двете решения са еднакво бързи
-          (триъгълник, пермутации).</font></li>
+      <li><font size="+1">Често двете решения са еднакво бързи (триъгълник,
+          пермутации).</font></li>
       <li><font size="+1">Някои задачи се решават по-лесно с рекурсия
           откалкото с итерация.</font></li>
       <li><font size="+1">Решението на задачата за генериране на
