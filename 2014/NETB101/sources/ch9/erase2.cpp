@@ -10,9 +10,11 @@ using namespace std;
    @param pos the position of the element to erase
 */
 void erase(vector<string>& v, int pos)
-{ 
+{
    for (int i = pos; i < v.size() - 1; i++)
+   {
       v[i] = v[i + 1];
+   }
    v.pop_back();
 }
 
