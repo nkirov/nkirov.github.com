@@ -157,21 +157,18 @@
     <hr size="2" width="100%">
     <p><img alt="" src="../b5.gif" height="18" width="20"> Четене и
       запис в текстови файлове. <br>
-      ** Досега за четене от и запис във файлове - чрез пренасочване на
-      стандартните вход и/или изход със средствата на операционната
-      система <br>
       ** В заглавния файл <b><tt><font color="#000000">fstream</font></tt></b>
       са дефинирани обекти, функции и операции за работа с файлове. <br>
       А) Четене от файл. <br>
-      * дефиниране на файлова променлива за четене - обект от класа <b><tt><font
+      * Дефиниране на файлова променлива за четене - обект от класа <b><tt><font
             color="#006600">ifstream:</font></tt></b> <br>
       <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; ifstream inp_data;</font></tt></b>
       <br>
-      * отваряне на файл от текущата директория с име <b><tt><font
+      * Отваряне на файл от текущата директория с име <b><tt><font
             color="#006600">input.dat:</font></tt></b> <br>
       <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;
             inp_data.open("input.dat");</font></tt></b> <br>
-      * четене от файл на: <br>
+      * Четене от файл на: <br>
       &nbsp;- цели числа и числа с плаваща точка <br>
       <b><tt><font color="#006600">&nbsp;&nbsp; int n;</font></tt></b> <br>
       <b><tt><font color="#006600">&nbsp;&nbsp; double x;</font></tt></b>
@@ -198,13 +195,16 @@
       * затваряне на файл <br>
       <b><tt><font color="#006600">&nbsp;&nbsp; inp_data.close();</font></tt></b>
     </p>
-    <p>&nbsp;&nbsp;&nbsp; Пример на цяла програма. <br>
-      <b><tt><font color="#000099">// readf.cpp</font></tt></b> <br>
+    <p>&nbsp;&nbsp;&nbsp; Пример:<br>
+      <b><tt><font color="#000099">// <a
+              href="../../../2014/NETB151/sources/ch12/readf.cpp">readf.cpp</a></font></tt></b>
+      <br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
       <br>
       <b><tt><font color="#000099">#include
             &lt;fstream&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 /*
+
 
 
 
@@ -260,6 +260,7 @@
 
 
 
+
             четене на дума */</font></tt></b> </p>
     <p><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
       <br>
@@ -297,11 +298,13 @@
 
 
 
+
             затваряне на файла */</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; s1
             &lt;&lt; endl &lt;&lt; s2 &lt;&lt; " "</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &lt;&lt;
+
 
 
 
@@ -347,8 +350,61 @@
         </tr>
       </tbody>
     </table>
+    <p>Пример:<tt><br>
+        // <a href="../../../2014/NETB151/sources/ch12/maxval1.cpp">maxval1.cpp</a><br>
+        #include &lt;string&gt;</tt><tt><br>
+      </tt><tt>#include &lt;iostream&gt;</tt><tt><br>
+      </tt><tt>#include &lt;fstream&gt;</tt><tt><br>
+      </tt><tt>using namespace std;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>/**</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; Reads numbers from a file and finds the
+        maximum value</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; @param in the input stream to read from</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; @return the maximum value or 0 if the file
+        has no numbers</tt><tt><br>
+      </tt><tt>*/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </tt><tt><br>
+      </tt><tt>double read_data(ifstream&amp; in)</tt><tt><br>
+      </tt><tt>{&nbsp; double highest;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; double next;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; if (in &gt;&gt; next) highest = next;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; else return 0;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; while (in &gt;&gt; next)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; if (next &gt; highest) highest =
+        next;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; return highest;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>int main()</tt><tt><br>
+      </tt><tt>{&nbsp; string filename;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; cout &lt;&lt; "Please enter the data file
+        name: ";</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; cin &gt;&gt; filename;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; ifstream infile;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; infile.open(filename.c_str());</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; if (infile.fail()) </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "Error opening "
+        &lt;&lt; filename &lt;&lt; "\n";</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; double max = read_data(infile);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; cout &lt;&lt; "The maximum value is "
+        &lt;&lt; max &lt;&lt; "\n";</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; infile.close();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>}</tt><br>
+      <br>
+    </p>
     <p>Пример: Отделяне на цифрови от текстови данни.<tt><br>
-        //<b> </b><b><a href="../../NETB151/sources/ch12/readfile.cpp">readfile.cpp</a></b><b><br>
+        //<b> </b><b><a
+            href="../../../2014/NETB151/sources/ch12/readfile.cpp">readfile.cpp</a></b><b><br>
         </b><b>#include &lt;string&gt;</b></tt><b><tt><br>
         </tt></b><b><tt>#include &lt;iostream&gt;</tt></b><b><tt><br>
         </tt></b><b><tt>#include &lt;fstream&gt;</tt></b><b><tt><br>
@@ -418,13 +474,16 @@
       * затваряне на файл <br>
       <b><tt><font color="#006600">&nbsp;&nbsp; out_data.close();</font></tt></b>
     </p>
-    <p>&nbsp;&nbsp;&nbsp; Пример на цяла програма. <br>
-      <b><tt><font color="#000099">// writef.cpp</font></tt></b> <br>
+    <p>Пример:<br>
+      <b><tt><font color="#000099">// <a
+              href="../../../2014/NETB151/sources/ch12/writef.cpp">writef.cpp</a></font></tt></b>
+      <br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
       <br>
       <b><tt><font color="#000099">#include
             &lt;fstream&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 /*
+
 
 
 
@@ -491,6 +550,7 @@
 
 
 
+
             затваряне на файла */</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
       <br>
@@ -508,7 +568,7 @@
     Пример: Отделяне на цифрови от текстови данни и записване на числата
     във файл.<b><br>
     </b>
-    <pre><b>// <a href="../../NETB151/sources/ch12/readwritefiles.cpp">readwritefiles.cpp</a><br>#include &lt;string&gt;
+    <pre><b>// <a href="../../../2014/NETB151/sources/ch12/readwritefiles.cpp">readwritefiles.cpp</a><br>#include &lt;string&gt;
 #include &lt;iostream&gt;
 #include &lt;fstream&gt;
 using namespace std;
@@ -551,7 +611,8 @@ int main()
    outfile.close();
    return 0;
 }<br></b></pre>
-    <p>Потоковата библиотека на С++ се състои от няколко класове,
+    <hr size="2" width="100%">** Йерархия на потоковите класове<br>
+    <p>* Потоковата библиотека на С++ се състои от няколко класове,
       свързани в следната йерархия:</p>
     <p><img alt=""
         src="../../../2014/NETB151/slides/ch12/images/stream_hierarchy.png"
@@ -574,7 +635,7 @@ int main()
     <font size="+1"> </font>
     <p>Пример:<br>
     </p>
-    <pre><b>// </b><b><a href="../../NETB151/sources/ch12/maxval2.cpp">maxval2.cpp</a></b><b><br></b><b>#include &lt;string&gt;
+    <pre><b>// </b><b><a href="../../../2014/NETB151/sources/ch12/maxval2.cpp">maxval2.cpp</a></b><b><br></b><b>#include &lt;string&gt;
 #include &lt;iostream&gt;
 #include &lt;fstream&gt;
 using namespace std;
