@@ -1,337 +1,473 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
-<head>
-  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
-  <title>technology</title>
-</head>
-<body>
-<h3>Технология за писане на ноти на български народни песни</h3>
-<h3>Н. Киров</h3>
-<span style="font-weight: bold;">1. Ноти</span><br>
-Имената на нотите са малките латински букви от <span style="font-family: monospace;">a</span> до <span style="font-family: monospace;">g</span>. Нотите са относителни - в
-началото се задава гама с <span style="font-family: monospace;">\relative
-c'</span>. Следващата нота е
-най-близката, независимо от гамата. Нотата от по-ниска гама се получава
-със запетя, от по-високата - с единична кавичка.<br>
-<br>
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c4 d c e c f c g c a c2</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c4 d' c d, c'' b c,, c</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="notes1-example.ly"><img alt="notes1-example.preview.png" src="notes1-example.preview.png" style="border: 0px solid ; width: 509px; height: 69px;"></a><br>
-Дължините на нотите се задават с число или c число и точка след името
-на нотата. Осминки и по-малки ноти могат да са единични или свързани.<br>
-<br>
-<span style="font-family: monospace;">\relative c'' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\tempo 4 = 126</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\cadenzaOn</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">g1. g1 g2. g2 g4. g4 g8.\noBeam
-g8 g16.\noBeam g16 g32.\noBeam g32 g64.\noBeam g64 </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\layout {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     \context
-{ </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">   
-    \Staff \remove "Time_signature_engraver" }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="notes2-example.ly"><img alt="notes2-example.preview.png" src="notes2-example.preview.png" style="border: 0px solid ; width: 680px; height: 72px;"></a><br>
-<br>
-<span style="font-family: monospace;">\relative c'' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\time 2/4  </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\times 2/3 { g4 f e } g8.[ g16]
-g16[ a b c] \times 2/3 { g8[ a g] } <br>
-\times 4/5 { g32[ a b c d] } g,8</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="notes3-example.ly"><img alt="notes3-example.preview.png" src="notes3-example.preview.png" style="border: 0px solid ; width: 607px; height: 70px;"></a><br>
-Ноти без опашки, скрити ноти, паузи.<br>
-<br>
-<span style="font-family: monospace;">fixB = { \override Stem
-#'transparent = ##t  }  </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">fixC = { \override Stem
-#'transparent = ##f  } </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">d4 \fixB e  f \fixC g 
-g2 \hideNotes a \unHideNotes g4 r r2</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="notes4-example.ly"><img alt="notes4-example.preview.png" src="notes4-example.preview.png" style="border: 0px solid ; width: 276px; height: 58px;"></a><br>
-<br>
-<span style="font-weight: bold;">2. Връзки - легато, лигатура, глисандо</span><br>
-Легатото свързва ноти, които се пеят на една сричка (гласна).
-Лигатурата свързва еднакви по височина ноти.<br>
-<br>
-<span style="font-family: monospace;">noteFi = { \once \override Stem
-#'X-extent = #'(2 . 4) }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  \override Glissando
-#'style = #'zigzag</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c4( d8) g2~ g8 e16[( d c d])
-g4.(~ g8 a4)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">g4\glissando c \noteFi
-c16(\glissando f, g4.)</span><br>
-<span style="font-family: monospace;">\set Score.measureLength =
-#(ly:make-moment 5 4)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c2 c2\glissando \hideNotes f,4
-\unHideNotes</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\set Score.measureLength =
-#(ly:make-moment 4 4)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">a1</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="slurs-example.ly"><img alt="slurs-example.preview.png" src="slurs-example.preview.png" style="border: 0px solid ; width: 697px; height: 62px;"></a><br>
-<br>
-<span style="font-weight: bold;">3. Диези, бемоли и др.</span><br>
-Диез се поставя с окончание "<span style="font-family: monospace;">is</span>"
-към
-нотата,
-бемол - с окончание "<span style="font-family: monospace;">es</span>",
-а
-бекар - с "<span style="font-family: monospace;">!</span>". Когато е
-в сила диез или бемол от предишна нота, той се пише, но не се
-отпечатва. Когато искаме знакът задължително да се отпечати, добавяме
-"!".  Бекар се отпечатва автоматично. Знак важи до края на такта,
-а в безмензурните песни - до края на песента. Затова там обикновено
-знаците се слагат задължително. <br>
-<br>
-<span style="font-family: monospace;">\relative c'' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">g4 gis f4. gis8 | gis4 aes a
-aes  | a1 |</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">bes4 bes! bes!2 | g!4 ges2. 
-</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="accidentals-example.ly"><img alt="accidentals-example.preview.png" src="accidentals-example.preview.png" style="border: 0px solid ; width: 476px; height: 58px;"></a><br>
-<br>
-В някои песни има знаци за 1/4 повишаване/понижаване от турския
-мелодичен тип макам (makam). В този случай трябва да използваме новите
-означения и за нормалните диез, бемол и бекар.<br>
-<br>
-<span style="font-family: monospace;">\include "makam.ly"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><span style="font-family: monospace;"></span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  c4 cc db fk</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  gbm4 gfc gfb efk</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  fk4 db cc c</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="makam-example.ly"><img alt="makam-example.preview.png" src="makam-example.preview.png" style="border: 0px solid ; width: 369px; height: 60px;"></a><br>
-<br>
-<span style="font-weight: bold;">4. Украсителни ноти</span><br>
-Има два вида украсителни ноти: поставени преди основната нота
-(форшлак), или след нея. За първият вид се използва <span style="font-family: monospace;">\acciaccatura</span> или <span style="font-family: monospace;">\grace</span>, а за вторият вид - <span style="font-family: monospace;">\afterGrace</span>. Тъй като вложени
-легато не са позволени, легатото на украсителните ноти се получава с
-"фраза" - <span style="font-family: monospace;">\( ... \)</span>.
-Чертичката на единични осминки е дефинирана с <span style="font-family: monospace;">stdBE.</span><br>
-<br>
-<span style="font-family: monospace;">stdBE = { \once \override Stem
-#'stroke-style = #"grace" }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\acciaccatura c8 d4 \acciaccatura
-{ g16[ f] } e4 e2 </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\grace { \stdBE a8( } g4) \grace
-{ f16[( e] } g4) g2</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c4( \grace { \stdBE a8\( } g4\))
-c c</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\afterGrace a4( { \stdBE g8) } f4
-e2 </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\afterGrace a4(\( { \stdBE g8\) }
-f4 e2)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\acciaccatura f8 \afterGrace g4\(
-{ f16[ g]\) } g4 g2</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="grace-example.ly"><img alt="grace-example.preview.png" src="grace-example.preview.png" style="border: 0px solid ; width: 672px; height: 59px;"></a><br>
-<br>
-<span style="font-weight: bold;">5. Темпо</span><br>
-Темпо се задава с <span style="font-family: monospace;">\tempo x = y</span>,
-където
-<span style="font-family: monospace;">x </span>е дължина на
-нота с означения 1, 2, 4, ... а  <span style="font-family: monospace;">y </span>е брой такива ноти за
-минута. Има и по-сложно задаване.<br>
-<br>
-<span style="font-family: monospace;">\include "Rhythm_marks.ly"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\override Score.RehearsalMark
-#'self-alignment-X = #LEFT</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\once \override
-Score.RehearsalMark #'X-offset = #8</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  \rhythmMarkA \rhyMarkAAdot
-#"80"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">d4 d d d e e e e f f f f</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="tempo1-example.ly"><img alt="tempo1-example.jpg" src="tempo1-example.jpg" style="border: 0px solid ; width: 336px; height: 73px;"></a><br>
-<br>
-<span style="font-family: monospace;">\include "Rhythm_marks.ly"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\override Score.RehearsalMark
-#'self-alignment-X = #LEFT</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\once \override
-Score.RehearsalMark #'X-offset = #8</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  \rhythmMarkA \rhyMarkCdot
-#"120-132"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">d4 d d d e e e e f f f f</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="tempo2-example.ly"><img alt="tempo2-example.jpg" src="tempo2-example.jpg" style="border: 0px solid ; width: 337px; height: 80px;"></a><br>
-<br>
-<span style="font-weight: bold;">6. Такт</span><br>
-Такт се задава с <span style="font-family: monospace;">\time</span> в
-началото или за смяна на такта по средата на песента. Може да се
-промени скрито дължината на такта, ако се налага да се използват скрити
-ноти (при глисандо без крайна или начална нота и при вариант с една
-нота в такта).<br>
-<br>
-<span style="font-family: monospace;">\relative c'' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\time 3/8  </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">a8 b\noBeam c | \time 5/8 c8
-b\noBeam a[( g a]) |</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\set Score.measureLength =
-#(ly:make-moment 2 4)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c4 c | </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\set Score.measureLength =
-#(ly:make-moment 5 8)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">d4 d8 d4</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="time3-example.ly"><img alt="time3-example.preview.png" src="time3-example.preview.png" style="border: 0px solid ; width: 372px; height: 58px;"></a><br>
-<br>
-Срещат се и по-сложни тактове.<br>
-<br>
-<span style="font-family: monospace;">tsMarkup =\markup {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\override #'(baseline-skip . 2)
-\number {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\column { "13" "16" }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\vcenter "+"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\column { "9" "16" }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">      }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c'' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\override Staff.TimeSignature
-#'stencil = #ly:text-interface::print</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\override Staff.TimeSignature
-#'text = #tsMarkup </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\time 22/16</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  \set Score.measureLength =
-#(ly:make-moment 13 16)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">g8 g\noBeam g16([ a)] f8. d4 |</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  \set Score.measureLength =
-#(ly:make-moment 9 16)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c8 d16.([ e16.)] f4 </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<span style="font-weight: bold;"><a href="time2-example.ly"><img alt="time2-example.preview.png" src="time2-example.preview.png" style="border: 0px solid ; width: 370px; height: 58px; font-weight: bold;"></a><br>
-<br>
-</span> Безмензурни песни се пишат по следния начин, като <span style="font-family: monospace;">\tempo </span>е задължително.<br>
-<br>
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\tempo 4 = 126</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\cadenzaOn</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">c1 d4 d16 d2 r32 e64[( f g]) a1</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\layout {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     \context
-{ </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">   
-    \Staff \remove "Time_signature_engraver" }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
-<a href="time1-example.ly"><img alt="time1-example.preview.png" src="time1-example.preview.png" style="border: 0px solid ; width: 411px; height: 72px;"></a><span style="font-family: monospace;"></span><br>
-<br>
-<span style="font-weight: bold;">7. Текст под нотите</span><br>
-Текст на песента под нотите с подчертаване на рефрен.<br>
-<br>
-<span style="font-family: monospace;">\version "2.12.3"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\score {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> \tempo 4 = 152</span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> \time 2/4</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">e8( f) g4 | g8( aes) g( f) |
-\acciaccatura f8 e2 | f4 g | aes g8 f |</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">e4 f | g g8( f) | \acciaccatura
-f8 e2 | e4 e | e2</span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> \bar "|." </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\addlyrics { И- ван си Ра- ди гу-
-во- ри, ма- \startTextSpan ри, \stopTextSpan </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">И- ван си "в го-" ра о- ти- де }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">%</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\layout {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  \context {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\Lyrics</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\consists "Text_spanner_engraver"</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\override TextSpanner #'direction = #DOWN</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\override TextSpanner #'style = #'line    </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\override TextSpanner #'outside-staff-priority = ##f</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\override TextSpanner #'padding = #0.2 % sets the distance of the line
-from the lyrics</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\override TextSpanner #'bound-details =</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-#`((left . ((Y . 0)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">                 
-(padding
-.
-0)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">                 
-(attach-dir
-.
-,LEFT)))</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">        
-(left-broken
-.
-((end-on-note
-.
-#t)))</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">        
-(right
-.
-((Y
-.
-0)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">                  
-(padding
-.
-0)</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">                  
-(attach-dir
-.
-,RIGHT))))</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">    }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">  }</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br>
-<a href="lyrics-example.ly"><img alt="lyrics-example.preview.png" src="lyrics-example.preview.png" style="border: 0px solid ; width: 697px; height: 95px;"></a><br>
-<br>
-<span style="font-weight: bold;">8. Допълнителни означения<br>
-</span>Над петолинието могат да се поставят означения за промяна на
-височината/изменение на тона (артикулация) или за
-удължаване/съкращаване на нотата (динамика).<br>
-<br>
-<span style="font-family: monospace;">parS = { </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">    \override
-ParenthesesItem #'padding = #0.1</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">     
-\override ParenthesesItem #'font-size = #-2  </span><br style="font-family: monospace;">
-<span style="font-family: monospace;">}</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">\relative c' {</span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> d4\prall e\mordent
-f^↑  g^↓ </span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> c^\markup\natural
-c^\markup\flat c^\markup\sharp </span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> a^\markup { \sharp }^↓
-a2.^\markup\flat\prall g4^&gt;</span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> g1\fermata f2^\rtoe
-f4^\ltoe \breathe f4\trill </span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> \parS</span><br style="font-family: monospace;">
-<span style="font-family: monospace;"> d4-\parenthesize\prall 
-g-\parenthesize^↓ 
-f2-\parenthesize^\ltoe</span><br style="font-family: monospace;">
-<span style="font-family: monospace;">} </span><br>
-<span style="font-weight: bold;"><a href="articulation-example.ly"><img alt="articulation-example.preview.png" src="articulation-example.preview.png" style="border: 0px solid ; width: 522px; height: 90px;"></a><br>
-<br>
-9. Варианти на песента<br>
-<br>
-10. Форматиране на песен и на страница</span><br>
-<br>
-<span style="font-weight: bold;">11. Звуков (MIDI) файл</span><br>
-<br>
-<hr style="width: 100%; height: 2px;">
-<br>
-<br>
-</body>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>technology</title>
+  </head>
+  <body>
+    <h3>Технология за писане на ноти на български народни песни</h3>
+    <h3>Н. Киров</h3>
+    <span style="font-weight: bold;">1. Ноти</span><br>
+    Имената на нотите са малките латински букви от <span
+      style="font-family: monospace;">a</span> до <span
+      style="font-family: monospace;">g</span>. Нотите са относителни -
+    в началото се задава гама с <span style="font-family: monospace;">\relative
+
+      c'</span>. Следващата нота е най-близката, независимо от гамата.
+    Нотата от по-ниска гама се получава със запетя, от по-високата - с
+    единична кавичка.<br>
+    <br>
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">c4 d c e c f c g c a c2</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">c4 d' c d, c'' b c,, c</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="notes1-example.ly"><img alt="notes1-example.preview.png"
+        src="notes1-example.preview.png" style="border: 0px solid ;
+        width: 509px; height: 69px;"></a><br>
+    Дължините на нотите се задават с число или c число и точка след
+    името на нотата. Осминки и по-малки ноти могат да са единични или
+    свързани.<br>
+    <br>
+    <span style="font-family: monospace;">\relative c'' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\tempo 4 = 126</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\cadenzaOn</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">g1. g1 g2. g2 g4. g4
+      g8.\noBeam g8 g16.\noBeam g16 g32.\noBeam g32 g64.\noBeam g64 </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\layout {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;
+      \context { </span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp; \Staff \remove "Time_signature_engraver" }</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="notes2-example.ly"><img alt="notes2-example.preview.png"
+        src="notes2-example.preview.png" style="border: 0px solid ;
+        width: 680px; height: 72px;"></a><br>
+    <br>
+    <span style="font-family: monospace;">\relative c'' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\time 2/4&nbsp; </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\times 2/3 { g4 f e } g8.[
+      g16] g16[ a b c] \times 2/3 { g8[ a g] } <br>
+      \times 4/5 { g32[ a b c d] } g,8</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="notes3-example.ly"><img alt="notes3-example.preview.png"
+        src="notes3-example.preview.png" style="border: 0px solid ;
+        width: 607px; height: 70px;"></a><br>
+    Ноти без опашки, скрити ноти, паузи.<br>
+    <br>
+    <span style="font-family: monospace;">fixB = { \override Stem
+      #'transparent = ##t&nbsp; }&nbsp; </span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">fixC = { \override Stem
+      #'transparent = ##f&nbsp; } </span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">d4 \fixB e&nbsp; f \fixC
+      g&nbsp; g2 \hideNotes a \unHideNotes g4 r r2</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="notes4-example.ly"><img alt="notes4-example.preview.png"
+        src="notes4-example.preview.png" style="border: 0px solid ;
+        width: 276px; height: 58px;"></a><br>
+    <br>
+    <span style="font-weight: bold;">2. Връзки - легато, лигатура,
+      глисандо</span><br>
+    Легатото свързва ноти, които се пеят на една сричка (гласна).
+    Лигатурата свързва еднакви по височина ноти.<br>
+    <br>
+    <span style="font-family: monospace;">noteFi = { \once \override
+      Stem #'X-extent = #'(2 . 4) }</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp; \override Glissando
+      #'style = #'zigzag</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">c4( d8) g2~ g8 e16[( d c d])
+      g4.(~ g8 a4)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">g4\glissando c \noteFi
+      c16(\glissando f, g4.)</span><br>
+    <span style="font-family: monospace;">\set Score.measureLength =
+      #(ly:make-moment 5 4)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">c2 c2\glissando \hideNotes f,4
+      \unHideNotes</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">\set Score.measureLength =
+      #(ly:make-moment 4 4)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">a1</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="slurs-example.ly"><img alt="slurs-example.preview.png"
+        src="slurs-example.preview.png" style="border: 0px solid ;
+        width: 697px; height: 62px;"></a><br>
+    <br>
+    <span style="font-weight: bold;">3. Диези, бемоли и др.</span><br>
+    Диез се поставя с окончание "<span style="font-family: monospace;">is</span>"
+    към нотата, бемол - с окончание "<span style="font-family:
+      monospace;">es</span>",
+    а
+    бекар - с "<span style="font-family: monospace;">!</span>". Когато е
+    в сила диез или бемол от предишна нота, той се пише, но не се
+    отпечатва. Когато искаме знакът задължително да се отпечати,
+    добавяме "!".&nbsp; Бекар се отпечатва автоматично. Знак важи до
+    края на такта, а в безмензурните песни - до края на песента. Затова
+    там обикновено знаците се слагат задължително. <br>
+    <br>
+    <span style="font-family: monospace;">\relative c'' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">g4 gis f4. gis8 | gis4 aes a
+      aes&nbsp; | a1 |</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">bes4 bes! bes!2 | g!4
+      ges2.&nbsp; </span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="accidentals-example.ly"><img
+        alt="accidentals-example.preview.png"
+        src="accidentals-example.preview.png" style="border: 0px solid ;
+        width: 476px; height: 58px;"></a><br>
+    <br>
+    В някои песни има знаци за 1/4 повишаване/понижаване от турския
+    мелодичен тип макам (makam). В този случай трябва да използваме
+    новите означения и за нормалните диез, бемол и бекар.<br>
+    <br>
+    <span style="font-family: monospace;">\include "makam.ly"</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><span
+      style="font-family: monospace;"></span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp; c4 cc db fk</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp; gbm4 gfc gfb efk</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp; fk4 db cc c</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="makam-example.ly"><img alt="makam-example.preview.png"
+        src="makam-example.preview.png" style="border: 0px solid ;
+        width: 369px; height: 60px;"></a><br>
+    <br>
+    <span style="font-weight: bold;">4. Украсителни ноти</span><br>
+    Има два вида украсителни ноти: поставени преди основната нота
+    (форшлак), или след нея. За първият вид се използва <span
+      style="font-family: monospace;">\acciaccatura</span> или <span
+      style="font-family: monospace;">\grace</span>, а за вторият вид -
+    <span style="font-family: monospace;">\afterGrace</span>. Тъй като
+    вложени легато не са позволени, легатото на украсителните ноти се
+    получава с "фраза" - <span style="font-family: monospace;">\( ...
+      \)</span>. Чертичката на единични осминки е дефинирана с <span
+      style="font-family: monospace;">stdBE.</span><br>
+    <br>
+    <span style="font-family: monospace;">stdBE = { \once \override Stem
+      #'stroke-style = #"grace" }</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\acciaccatura c8 d4
+      \acciaccatura { g16[ f] } e4 e2 </span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">\grace { \stdBE a8( } g4)
+      \grace { f16[( e] } g4) g2</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">c4( \grace { \stdBE a8\( }
+      g4\)) c c</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">\afterGrace a4( { \stdBE g8) }
+      f4 e2 </span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">\afterGrace a4(\( { \stdBE
+      g8\) } f4 e2)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">\acciaccatura f8 \afterGrace
+      g4\( { f16[ g]\) } g4 g2</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="grace-example.ly"><img alt="grace-example.preview.png"
+        src="grace-example.preview.png" style="border: 0px solid ;
+        width: 672px; height: 59px;"></a><br>
+    <br>
+    <span style="font-weight: bold;">5. Темпо</span><br>
+    Темпо се задава с <span style="font-family: monospace;">\tempo x =
+      y</span>, където <span style="font-family: monospace;">x </span>е
+    дължина на нота с означения 1, 2, 4, ... а&nbsp; <span
+      style="font-family: monospace;">y </span>е брой такива ноти за
+    минута. Има и по-сложно задаване.<br>
+    <br>
+    <span style="font-family: monospace;">\include "Rhythm_marks.ly"</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\override Score.RehearsalMark
+      #'self-alignment-X = #LEFT</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">\once \override
+      Score.RehearsalMark #'X-offset = #8</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp; \rhythmMarkA
+      \rhyMarkAAdot #"80"</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">d4 d d d e e e e f f f f</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="tempo1-example.ly"><img alt="tempo1-example.jpg"
+        src="tempo1-example.jpg" style="border: 0px solid ; width:
+        336px; height: 73px;"></a><br>
+    <br>
+    <span style="font-family: monospace;">\include "Rhythm_marks.ly"</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\override Score.RehearsalMark
+      #'self-alignment-X = #LEFT</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">\once \override
+      Score.RehearsalMark #'X-offset = #8</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp; \rhythmMarkA
+      \rhyMarkCdot #"120-132"</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">d4 d d d e e e e f f f f</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="tempo2-example.ly"><img alt="tempo2-example.jpg"
+        src="tempo2-example.jpg" style="border: 0px solid ; width:
+        337px; height: 80px;"></a><br>
+    <br>
+    <span style="font-weight: bold;">6. Такт</span><br>
+    Такт се задава с <span style="font-family: monospace;">\time</span>
+    в началото или за смяна на такта по средата на песента. Може да се
+    промени скрито дължината на такта, ако се налага да се използват
+    скрити ноти (при глисандо без крайна или начална нота и при вариант
+    с една нота в такта).<br>
+    <br>
+    <span style="font-family: monospace;">\relative c'' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\time 3/8&nbsp; </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">a8 b\noBeam c | \time 5/8 c8
+      b\noBeam a[( g a]) |</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">\set Score.measureLength =
+      #(ly:make-moment 2 4)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">c4 c | </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\set Score.measureLength =
+      #(ly:make-moment 5 8)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">d4 d8 d4</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="time3-example.ly"><img alt="time3-example.preview.png"
+        src="time3-example.preview.png" style="border: 0px solid ;
+        width: 372px; height: 58px;"></a><br>
+    <br>
+    Срещат се и по-сложни тактове.<br>
+    <br>
+    <span style="font-family: monospace;">tsMarkup =\markup {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\override #'(baseline-skip .
+      2) \number {</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">\column { "13" "16" }</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\vcenter "+"</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\column { "9" "16" }</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;}</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\relative c'' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\override Staff.TimeSignature
+      #'stencil = #ly:text-interface::print</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\override Staff.TimeSignature
+      #'text = #tsMarkup </span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">\time 22/16</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp; \set
+      Score.measureLength = #(ly:make-moment 13 16)</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">g8 g\noBeam g16([ a)] f8. d4 |</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp; \set
+      Score.measureLength = #(ly:make-moment 9 16)</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">c8 d16.([ e16.)] f4 </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <span style="font-weight: bold;"><a href="time2-example.ly"><img
+          alt="time2-example.preview.png"
+          src="time2-example.preview.png" style="border: 0px solid ;
+          width: 370px; height: 58px; font-weight: bold;"></a><br>
+      <br>
+    </span> Безмензурни песни се пишат по следния начин, като <span
+      style="font-family: monospace;">\tempo </span>е задължително.<br>
+    <br>
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\tempo 4 = 126</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\cadenzaOn</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">c1 d4 d16 d2 r32 e64[( f g])
+      a1</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\layout {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;
+      \context { </span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;
+      &nbsp;&nbsp;&nbsp; \Staff \remove "Time_signature_engraver" }</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br
+      style="font-family: monospace;">
+    <a href="time1-example.ly"><img alt="time1-example.preview.png"
+        src="time1-example.preview.png" style="border: 0px solid ;
+        width: 411px; height: 72px;"></a><span style="font-family:
+      monospace;"></span><br>
+    <br>
+    <span style="font-weight: bold;">7. Текст под нотите</span><br>
+    Текст на песента под нотите с подчертаване на рефрен.<br>
+    <br>
+    <span style="font-family: monospace;">\version "2.12.3"</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\score {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;\tempo 4 = 152</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;\time 2/4</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">e8( f) g4 | g8( aes) g( f) |
+      \acciaccatura f8 e2 | f4 g | aes g8 f |</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">e4 f | g g8( f) |
+      \acciaccatura f8 e2 | e4 e | e2</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp;\bar "|." </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\addlyrics { И- ван си Ра- ди
+      гу- во- ри, ма- \startTextSpan ри, \stopTextSpan </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">И- ван си "в го-" ра о- ти- де
+      }</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">%</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\layout {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp; \context {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      \Lyrics</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      \consists "Text_spanner_engraver"</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      \override TextSpanner #'direction = #DOWN</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      \override TextSpanner #'style = #'line&nbsp;&nbsp;&nbsp; </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      \override TextSpanner #'outside-staff-priority = ##f</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      \override TextSpanner #'padding = #0.2 % sets the distance of the
+      line from the lyrics</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      \override TextSpanner #'bound-details =</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      #`((left . ((Y . 0)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      (padding . 0)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      (attach-dir . ,LEFT)))</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      (left-broken . ((end-on-note . #t)))</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      (right . ((Y . 0)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      (padding . 0)</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+      (attach-dir . ,RIGHT))))</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; }</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp; }</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br>
+    <a href="lyrics-example.ly"><img alt="lyrics-example.preview.png"
+        src="lyrics-example.preview.png" style="border: 0px solid ;
+        width: 697px; height: 95px;"></a><br>
+    <br>
+    <span style="font-weight: bold;">8. Допълнителни означения<br>
+    </span>Над петолинието могат да се поставят означения за промяна на
+    височината/изменение на тона (артикулация) или за
+    удължаване/съкращаване на нотата (динамика).<br>
+    <br>
+    <span style="font-family: monospace;">parS = { </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;&nbsp;&nbsp; \override
+      ParenthesesItem #'padding = #0.1</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp; &nbsp;&nbsp;&nbsp;
+      \override ParenthesesItem #'font-size = #-2&nbsp; </span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">}</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">\relative c' {</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;d4\prall e\mordent
+      f^↑&nbsp; g^↓ </span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;c^\markup\natural
+      c^\markup\flat c^\markup\sharp </span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp;a^\markup { \sharp }^↓
+      a2.^\markup\flat\prall g4^&gt;</span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp;g1\fermata f2^\rtoe
+      f4^\ltoe \breathe f4\trill </span><br style="font-family:
+      monospace;">
+    <span style="font-family: monospace;">&nbsp;\parS</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">&nbsp;d4-\parenthesize\prall&nbsp;
+
+      g-\parenthesize^↓&nbsp; f2-\parenthesize^\ltoe</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;">} </span><br>
+    <span style="font-weight: bold;"><a href="articulation-example.ly"><img
+          alt="articulation-example.preview.png"
+          src="articulation-example.preview.png" style="border: 0px
+          solid ; width: 522px; height: 90px;"></a><br>
+      <br>
+    </span> <span style="font-weight: bold;">9. Варианти на песента</span><br>
+    Понякога записвачът дава вариант на някоя нота, такт или цяла фраза
+    - в скоби или по друг начин. Независимо как е зададен варианта, ние
+    го изнасяме след цялата песен.<br>
+    <br>
+    <br>
+    <br>
+    <span style="font-weight: bold;">10. Форматиране на песен и на
+      страница</span><br>
+    <br>
+    <span style="font-weight: bold;">11. Звуков (MIDI) файл</span><br>
+    <br>
+    <hr style="width: 100%; height: 2px;"> <br>
+    <br>
+  </body>
 </html>
