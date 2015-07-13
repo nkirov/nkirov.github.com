@@ -1,0 +1,622 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>lecture_14</title>
+  </head>
+  <body>
+    <h2>Вектори</h2>
+    <p>** Използване на вектори за съхраняване на данни. <br>
+      * Векторът е множество от данни от един и същи тип и данните са
+      номерирани с последователни неотрицателни цели числа. <br>
+      Пример:<br>
+      Дефиниция на вектор с 10 елемента тип <b><tt>double:</tt></b> <br>
+      <b><tt><font color="#009900">&nbsp; vector&lt;double&gt;
+            salaries(10);</font></tt></b> <br>
+      На елемента с индекс 4 се задава стойност 355. <br>
+      <b><tt><font color="#009900">&nbsp; salaries[4] = 355;</font></tt></b>
+      <br>
+      Елементите на вектора се номерират, започвайки от 0. <br>
+      <b><tt><font color="#009900">&nbsp; salaries[0] </font></tt></b><font
+        color="#000000">- първи елемент</font> <br>
+      <b><tt><font color="#009900">&nbsp; salaries[1] </font></tt></b><font
+        color="#000000">- втори елемент</font> <br>
+      <b><tt><font color="#009900">&nbsp; salaries[2] </font></tt></b><font
+        color="#000000">- трети елемент</font> <br>
+      <b><tt><font color="#009900">&nbsp; salaries[3] </font></tt></b><font
+        color="#000000">- четвърти елемент</font> <br>
+      <b><tt><font color="#009900">&nbsp; ...</font></tt></b> <br>
+      <b><tt><font color="#009900">&nbsp; salaries[9] </font></tt></b><font
+        color="#000000">- десети елемент</font> <br>
+    </p>
+    <hr width="100%"> **&nbsp; Индекси на вектори. <br>
+    * Граници на индексите са от <b><tt>0</tt></b> до размера на
+    вектора минус 1. <br>
+    Грешка&nbsp; "излизане извън границите на вектора" (или грешка при
+    индексиране) се получава, когато индексираме елемент на вектор с
+    число извън интервала [0, размер -1]. <br>
+    Тази грешка не се открива нито от компилатора, нито от операционната
+    система по време на изпълнение на програмата. <br>
+    Обикновено тя довежда до повреда на някакъв участък от паметта. <br>
+    Това е една от възможните грешки в една програма, която се открива
+    много трудно. <br>
+    * Член-функцията за получаване на размера на вектора е <b><tt><font
+          color="#000000">size()</font></tt></b>. <br>
+    Ето типичен цикъл за обхождане на елементите на вектора (в случая за
+    отпечатването им) с използване на тази член-функция<b><tt><font
+          color="#000000">.</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp; for (i=0; i &lt;
+          salaries.size(); i++) cout &lt;&lt; salaries[i];</font></tt></b>
+    <br>
+    * Може да се дефинира и вектор с 0 елементи: <br>
+    <b><tt><font color="#009900">&nbsp; vector&lt;double&gt; salaries;</font></tt></b>
+    <br>
+    * Типът <b><tt><font color="#009900">vector</font></tt></b> е
+    реализиран като клас в който са дефинирани член-функциите <b><tt><font
+          color="#000000">push_back</font></tt></b> и <b><tt><font
+          color="#000000">pop_back </font></tt></b>за увеличаване и
+    намаляване на размера на вектора. <br>
+    <font color="#000000"><b><tt>&nbsp; salaries.push_back(елемент)- </tt></b>добавяне
+на
+
+
+
+
+
+
+
+
+
+
+      елемент към вектора (след последния);</font> <br>
+    <font color="#000000"><b><tt>&nbsp; salaries.pop_back()- </tt></b>премахване
+на&nbsp;
+
+
+
+
+
+
+
+
+
+
+      последния елемент на вектора.</font> <br>
+    Пример:<br>
+    Четат се заплати на служители, стойностите се записват във вектор и
+    се печати отбелязка на най-високата заплата: <br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><b><font color="#000080"> // <a href="../../sources/ch9/salvect.cpp">salvect.cpp</a><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;<br></font> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>&nbsp;<br> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;<br></font>&nbsp;<br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; vector<font color="#ff0000">&lt;double&gt;</font> salaries<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">bool</font> more <font color="#990000">=</font> <b><font color="#0000ff">true</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>more<font color="#990000">)<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; <font color="#009900">double</font> s<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter a salary, 0 to quit: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> s<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>s <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font> more <font color="#990000">=</font> <b><font color="#0000ff">false</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">else</font></b> salaries<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>s<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">}</font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> highest <font color="#990000">=</font> salaries<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">];<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">int</font> i<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">for</font></b> <font color="#990000">(</font>i <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> salaries<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>salaries<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&gt;</font> highest<font color="#990000">)<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; highest <font color="#990000">=</font> salaries<font color="#990000">[</font>i<font color="#990000">];<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">for</font></b> <font color="#990000">(</font>i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> salaries<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>salaries<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">==</font> highest<font color="#990000">)</font>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"highest value =&gt; "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> salaries<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">}</font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></tt></pre>
+    <hr width="100%"> ** Векторите като параметри и стойности на
+    функции. <br>
+    * Намиране на средно аритметично на елементите на вектор. <br>
+    <b><tt><font color="#000099">// <a
+            href="../../sources/ch9/average.cpp">average.cpp</a></font></tt></b><a
+      href="../../sources/ch9/average.cpp"> </a><br>
+    <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+    <br>
+    <b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+    <br>
+    <b><tt><font color="#000099">using namespace std;</font></tt></b>&nbsp;
+
+
+    <p><b><tt><font color="#000099">/* </font><font color="#3333FF">v е
+            параметър-променлива </font><font color="#000099">*/</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">double average(vector&lt;double&gt;
+            v)</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; if (v.size() == 0) return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; double sum = 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt;
+            v.size(); i++)&nbsp; sum = sum + v[i];</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return sum / v.size();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; vector&lt;double&gt;
+            salaries(5);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">&nbsp;&nbsp; double avgsal =
+            average(salaries);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "The
+            average salary is " &lt;&lt; avgsal &lt;&lt; "\n";</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <table border="" cellpadding="4" width="100%">
+      <tbody>
+        <tr>
+          <td><b><tt><font color="#990000">The average salary is 55100</font></tt></b></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>*&nbsp; Промяна на стойностите на елементите на вектор. <br>
+      В примера заплатите се увеличават с 4.5 процента. <br>
+      Използва се параметър-псевдоним. <br>
+      <b><tt><font color="#000099">// <a
+              href="../../sources/ch9/raisesal.cpp">raisesal.cpp</a></font></tt></b><a
+href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB101/sources/ch9/raisesal.cpp">
+      </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">/* </font><font color="#3333FF">s е
+            параметър-псевдоним </font><font color="#000099">*/</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">void
+            raise_salaries(vector&lt;double&gt;&amp; s, double p)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i=0; i&lt;s.size();
+            i++) s[i] = s[i]*(1 + p/100);</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; vector&lt;double&gt;
+            salaries(5);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; raise_salaries(salaries,
+            4.5);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt;
+            salaries.size(); i++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout
+
+
+
+
+
+
+
+
+
+
+            &lt;&lt; salaries[i] &lt;&lt; "\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <table border="" cellpadding="4" width="100%">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#660000">36575</font></tt></b> <br>
+            <b><tt><font color="#660000">65835</font></tt></b> <br>
+            <b><tt><font color="#660000">50160</font></tt></b> <br>
+            <b><tt><font color="#660000">81510</font></tt></b> <br>
+            <b><tt><font color="#660000">53817.5</font></tt></b> </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>* Вектор като връщана стойност на функция. <br>
+      Намиране на всички стойности, които попадат в определен интервал.
+      <br>
+      Функцията връща стойност от тип <b><tt><font color="#000000">vector&lt;double&gt;.</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">// <a
+              href="../../sources/ch9/between.cpp">between.cpp</a></font></tt></b><a
+href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB101/sources/ch9/between.cpp">
+      </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">/* </font><font color="#3333FF">връщаната
+стойност
+
+
+
+
+
+
+
+
+
+
+            на функцията е от тип vector </font><font color="#000099">*/</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">vector&lt;double&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+between(vector&lt;double&gt;
+
+
+
+
+
+
+
+
+
+
+            v, double low, double high)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ vector&lt;double&gt; result;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; for (i = 0; i &lt; v.size();
+            i++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; if (low &lt;= v[i] and v[i]
+            &lt;= high) result.push_back(v[i]);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; return result;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; vector&lt;double&gt;
+            salaries(5);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[0] = 35000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[1] = 63000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[2] = 48000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[3] = 78000.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; salaries[4] = 51500.0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; vector&lt;double&gt;
+            midrange_salaries</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+=
+
+
+
+
+
+
+
+
+
+
+            between(salaries, 45000.0, 65000.0);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt;
+            midrange_salaries.size(); i++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cout
+
+
+
+
+
+
+
+
+
+
+            &lt;&lt; midrange_salaries[i] &lt;&lt; "\n";</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+    </p>
+    <table border="" cellpadding="4" width="100%">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#660000">63000</font></tt></b> <br>
+            <b><tt><font color="#660000">48000</font></tt></b> <br>
+            <b><tt><font color="#660000">51500</font></tt></b> </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>** Прости алгоритми за вектори. <br>
+      <font color="#000000">* Намиране на всички съответствия. <br>
+        Функцията връща вектор, съдържащ индексите на всички елементи,
+        които удовлетворяват дадено условие.</font> <br>
+      <b><tt><font color="#000099">// <a
+              href="../../sources/ch9/matches.cpp">matches.cpp</a></font></tt></b><a
+href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB101/sources/ch9/matches.cpp">
+      </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><b><tt>vector<font color="#ff0000">&lt;int&gt;</font> <font color="#000000">find_all_between</font><font color="#990000">(</font>vector<font color="#ff0000">&lt;double&gt;</font> v<font color="#990000">,</font>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> low<font color="#990000">,</font> <font color="#009900">double</font> high<font color="#990000">)</font></tt></b><br></pre>
+    <p> <b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+намира
+
+
+
+
+
+
+
+
+
+
+            елементите на вектора a</font></tt></b> <br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+със
+
+
+
+
+
+
+
+
+
+
+            стойност по-голяма от low и по-малка от high</font></tt></b><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a и
+            число t</font></tt></b> <br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp;&nbsp;&nbsp;
+            вектор с индексите на намерените елементи,</font></tt></b> <br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+по-големи
+
+
+
+
+
+
+
+
+
+
+            от t</font></tt></b> <br>
+      <b><tt><font color="#000099">*/</font></tt></b> <br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><b><tt><font color="#ff0000">{</font>&nbsp; vector<font color="#ff0000">&lt;int&gt;</font> pos<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#0000ff">for</font> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> v<font color="#990000">.</font><font color="#000000">size</font><font color="#990000">();</font> i<font color="#990000">++)<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#0000ff">if</font> <font color="#990000">(</font>low <font color="#990000">&lt;=</font> v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&amp;&amp;</font> v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;=</font> high<font color="#990000">)<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pos<font color="#990000">.</font><font color="#000000">push_back</font><font color="#990000">(</font>i<font color="#990000">);<br></font>&nbsp;&nbsp; &nbsp;<br>&nbsp;&nbsp;&nbsp; <font color="#0000ff">return</font> pos<font color="#990000">;<br></font> <font color="#ff0000">}</font></tt></b><br></pre>
+    <p> </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; vector<font color="#ff0000">&lt;double&gt;</font> <b><font color="#000000">salaries</font></b><font color="#990000">(</font><font color="#993399">5</font><font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; salaries<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">35000.0</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; salaries<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">63000.0</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; salaries<font color="#990000">[</font><font color="#993399">2</font><font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">48000.0</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; salaries<font color="#990000">[</font><font color="#993399">3</font><font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">78000.0</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; salaries<font color="#990000">[</font><font color="#993399">4</font><font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">51500.0</font><font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; vector<font color="#ff0000">&lt;int&gt;</font> matches<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">=</font> <b><font color="#000000">find_all_between</font></b><font color="#990000">(</font>salaries<font color="#990000">,</font> <font color="#993399">45000.0</font><font color="#990000">,</font> <font color="#993399">65000.0</font><font color="#990000">);<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> j <font color="#990000">&lt;</font> matches<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> j<font color="#990000">++)<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> salaries<font color="#990000">[</font>matches<font color="#990000">[</font>j<font color="#990000">]]</font> <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></tt><br></pre>
+    <p> </p>
+    <table border="" cellpadding="4" width="100%">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#660000">63000</font></tt></b> <br>
+            <b><tt><font color="#660000">51500</font></tt></b> </td>
+        </tr>
+      </tbody>
+    </table>
+    <font color="#000000"><br>
+      * Изтриване на елемент от вектор. <br>
+      Целта е да се изтрие един елемент на вектора и всички елементи
+      след него да се преместят с една позиция назад - т.е. индексите на
+      елементите след него да се намалят с 1.</font> <br>
+    <p> <b><tt><font color="#000099">// <a
+              href="../../sources/ch9/erase2.cpp">erase2.cpp</a></font></tt></b><a
+href="file:///C:/Documents%20and%20Settings/Kirov/My%20Documents/GitHub/nkirov.github.com/2014/NETB101/sources/ch9/erase2.cpp">
+      </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">void erase(vector&lt;string&gt;&amp;
+            a, int pos)</font></tt></b> <br>
+      <b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ:
+            отстранява елемент с индекс </font><font color="#000099">pos
+
+
+
+
+
+
+
+
+
+          </font><font color="#3333FF">от вектор </font><font
+            color="#000099">a</font></tt></b> <br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a и
+            индекс pos</font></tt></b> <br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ЗАБЕЛЕЖКА: редът на
+            оставащите елементи се запазва</font></tt></b> <br>
+      <b><tt><font color="#000099">*/</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i = pos; i &lt;
+            a.size()-1; i++) a[i] = a[i+1];</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; a.pop_back();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#000099">void print(vector&lt;string&gt; a)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt;
+            a.size(); i++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; "[" &lt;&lt; i &lt;&lt; "] " &lt;&lt; a[i] &lt;&lt;
+            "\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; vector&lt;string&gt;
+            staff(5);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[0] = "Cracker,
+            Carl";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[1] = "Hacker,
+            Harry";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[2] = "Lam, Larry";</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[3] = "Reindeer,
+            Rudolf";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[4] = "Sandman,
+            Susan";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int pos;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Remove
+            which element? ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cin &gt;&gt; pos;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; erase(staff, pos);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <table border="" cellpadding="4" width="100%">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#660000">[0] Cracker, Carl</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[1] Hacker, Harry</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[2] Lam, Larry</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[3] Reindeer, Rudolf</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[4] Sandman, Susan</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">Remove which element? 2</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[0] Cracker, Carl</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[1] Hacker, Harry</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[2] Reindeer, Rudolf</font></tt></b>
+            <br>
+            <b><tt><font color="#660000">[3] Sandman, Susan</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><font color="#000000">* Вмъкване на елемент на вектор. <br>
+        Целта е да се вмъкне нов елемент на вектора на зададена позиция
+        и всички елементи след него да се преместят с една позиция
+        напред - т.е. индексите на елементите след новия елемент да се
+        увеличат с 1.</font>&nbsp;</p>
+    <p> <b><tt><font color="#000099">// <a
+              href="../../sources/ch9/insert.cpp">insert.cpp</a></font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;vector&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">void
+            insert(vector&lt;string&gt;&amp; a, int pos, string s)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">/* </font><font color="#3333FF">ЦЕЛ:
+            вмъква елемент s с индекс pos във вектора a</font></tt></b>
+      <br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: вектор a,
+            индекс pos и елемент s</font></tt></b> <br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ЗАБЕЛЕЖКА: редът на
+            останалите елементи се запазва</font></tt></b> <br>
+      <b><tt><font color="#000099">*/</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; int last = a.size() - 1;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; a.push_back(a[last]);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i = last; i &gt;
+            pos; i--) a[i] = a[i - 1];</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; a[pos] = s;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#000099">void print(vector&lt;string&gt; a)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{&nbsp; int i;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (i = 0; i &lt;
+            a.size(); i++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; "[" &lt;&lt; i &lt;&lt; "] " &lt;&lt; a[i] &lt;&lt;
+            "\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; vector&lt;string&gt;
+            staff(5);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[0] = "Cracker,
+            Carl";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[1] = "Hacker,
+            Harry";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[2] = "Lam, Larry";</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[3] = "Reindeer,
+            Rudolf";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff[4] = "Sandman,
+            Susan";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; int pos;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Insert
+            before which element? ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cin &gt;&gt; pos;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; insert(staff, pos, "New,
+            Nina");</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; print(staff);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+    </p>
+    <table border="" cellpadding="4" width="100%">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#990000">[0] Cracker, Carl</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[1] Hacker, Harry</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[2] Lam, Larry</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[3] Reindeer, Rudolf</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[4] Sandman, Susan</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">Insert before which element? 1</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[0] Cracker, Carl</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[1] New, Nina</font></tt></b> <br>
+            <b><tt><font color="#990000">[2] Hacker, Harry</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[3] Lam, Larry</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[4] Reindeer, Rudolf</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">[5] Sandman, Susan</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>** Успоредни вектори и вектор от обекти. <br>
+      *&nbsp; Два вектора са успоредни, ако съществува логическа
+      (смислова) връзка между елементите им с еднакви индекси. <br>
+      *&nbsp; Задачата за най-добро отношение цена-качество на компютри.
+      <br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt> <b><font color="#000080">// <a href="../../sources/ch9/bestval1.cpp">bestval1.cpp</a><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;<br></font> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;string&gt;<br></font> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>&nbsp;<br> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;<br></font>&nbsp;<br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; vector<font color="#ff0000">&lt;string&gt;</font> names<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; vector<font color="#ff0000">&lt;double&gt;</font> prices<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; vector<font color="#ff0000">&lt;int&gt;</font> scores<font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> best_price <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">int</font> best_score <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">int</font> best_index <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">1</font><font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <font color="#009900">bool</font> more <font color="#990000">=</font> <b><font color="#0000ff">true</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>more<font color="#990000">)<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; string next_name<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter the model name: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> next_name<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; names<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>next_name<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> next_price<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter the price: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> next_price<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; prices<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>next_price<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#009900">int</font> next_score<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter the score: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> next_score<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; scores<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>next_score<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string remainder<font color="#990000">;</font> <i><font color="#9a1900">/* read remainder of line */<br></font></i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> remainder<font color="#990000">);</font>&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>next_score <font color="#990000">/</font> next_price <font color="#990000">&gt;</font> best_score <font color="#990000">/</font> best_price<font color="#990000">)<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; best_index <font color="#990000">=</font> names<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; best_score <font color="#990000">=</font> next_score<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; best_price <font color="#990000">=</font> next_price<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#ff0000">}</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"More data? (y/n) "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string answer<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> answer<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>answer <font color="#990000">!=</font> <font color="#ff0000">"y"</font><font color="#990000">)</font> more <font color="#990000">=</font> <b><font color="#0000ff">false</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">}</font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> names<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>i <font color="#990000">==</font> best_index<font color="#990000">)</font> cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"best value =&gt; "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> names<font color="#990000">[</font>i<font color="#990000">]<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> <font color="#ff0000">" Price: "</font> <font color="#990000">&lt;&lt;</font> prices<font color="#990000">[</font>i<font color="#990000">]<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> <font color="#ff0000">" Score: "</font> <font color="#990000">&lt;&lt;</font> scores<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">}</font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></tt><br></pre>
+    <p> * Успоредните вектори обикновено създават проблеми и трябва да
+      се избягват. <br>
+      По-добро решение на задачата е с използване на вектор от обекти. <br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><b><font color="#000080"> // <a href="../../sources/ch9/bestval2.cpp">bestval2.cpp</a><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;<br></font> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;string&gt;<br></font> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>&nbsp;<br> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;<br></font>&nbsp;<br> <b><font color="#0000ff">class</font></b> Product <font color="#ff0000">{<br></font> <b><font color="#0000ff">public</font></b><font color="#990000">:<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#000000">Product</font></b><font color="#990000">();<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">void</font> <b><font color="#000000">read</font></b><font color="#990000">();<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">bool</font> <b><font color="#000000">is_better_than</font></b><font color="#990000">(</font>Product b<font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">void</font> <b><font color="#000000">print</font></b><font color="#990000">()</font> <b><font color="#0000ff">const</font></b><font color="#990000">;<br></font> <b><font color="#0000ff">private</font></b><font color="#990000">:<br></font>&nbsp;&nbsp;&nbsp; string name<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> price<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">int</font> score<font color="#990000">;<br></font> <font color="#ff0000">}</font><font color="#990000">;<br></font>&nbsp;<br> Product<font color="#990000">::</font><b><font color="#000000">Product</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; price <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; score <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">void</font> Product<font color="#990000">::</font><b><font color="#000000">read</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter the model name: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> name<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter the price: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> price<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter the score: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> score<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; string remainder<font color="#990000">;</font> <i><font color="#9a1900">/* read remainder of line */<br></font></i>&nbsp;&nbsp;&nbsp; <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> remainder<font color="#990000">);<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">bool</font> Product<font color="#990000">::</font><b><font color="#000000">is_better_than</font></b><font color="#990000">(</font>Product b<font color="#990000">)</font> <b><font color="#0000ff">const<br></font></b> <font color="#ff0000">{</font>&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>price <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <b><font color="#0000ff">false</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>b<font color="#990000">.</font>price <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <b><font color="#0000ff">true</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> score <font color="#990000">/</font> price <font color="#990000">&gt;</font> b<font color="#990000">.</font>score <font color="#990000">/</font> b<font color="#990000">.</font>price<font color="#990000">;<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">void</font> Product<font color="#990000">::</font><b><font color="#000000">print</font></b><font color="#990000">()</font> <b><font color="#0000ff">const<br></font></b> <font color="#ff0000">{</font>&nbsp; cout <font color="#990000">&lt;&lt;</font> name<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> <font color="#ff0000">" Price: "</font> <font color="#990000">&lt;&lt;</font> price<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> <font color="#ff0000">" Score: "</font> <font color="#990000">&lt;&lt;</font> score <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; vector<font color="#ff0000">&lt;Product&gt;</font> products<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; Product best_product<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">int</font> best_index <font color="#990000">=</font> <font color="#990000">-</font><font color="#993399">1</font><font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <font color="#009900">bool</font> more <font color="#990000">=</font> <b><font color="#0000ff">true</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>more<font color="#990000">)<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; Product next_product<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; next_product<font color="#990000">.</font><b><font color="#000000">read</font></b><font color="#990000">();<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; products<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>next_product<font color="#990000">);<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>next_product<font color="#990000">.</font><b><font color="#000000">is_better_than</font></b><font color="#990000">(</font>best_product<font color="#990000">))<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; best_index <font color="#990000">=</font> products<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">()</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; best_product <font color="#990000">=</font> next_product<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#ff0000">}</font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"More data? (y/n) "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string answer<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> answer<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>answer <font color="#990000">!=</font> <font color="#ff0000">"y"</font><font color="#990000">)</font> more <font color="#990000">=</font> <b><font color="#0000ff">false</font></b><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">}<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> products<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">();</font> i<font color="#990000">++)<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">{</font>&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>i <font color="#990000">==</font> best_index<font color="#990000">)</font> cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"best value =&gt; "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; products<font color="#990000">[</font>i<font color="#990000">].</font><b><font color="#000000">print</font></b><font color="#990000">();<br></font>&nbsp;&nbsp;&nbsp; <font color="#ff0000">}</font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></tt>
+</pre>
+    <hr width="100%">
+  </body>
+</html>

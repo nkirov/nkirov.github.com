@@ -1,0 +1,175 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Introduction</title>
+  </head>
+  <body>
+    <h2>Chapter 2: Object-Oriented Design</h2>
+    <h3>2.1 Goals and Principles</h3>
+    <h4>2.1.1 Object-Oriented Design Goals</h4>
+    <ul>
+      <li> <span style="font-weight: bold;">Robustness: </span>capable
+        of
+        handling unexpected inputs
+        that are not explicitly defined for its application</li>
+      <li> <span style="font-weight: bold;">Adaptability: </span>software
+needs
+        to evolve over time in
+        response to changing conditions in its environment. Related to
+        this concept is <b>portability</b>, which is the<br>
+        ability of software to run with minimal change on different
+        hardware and operating system platforms.<br>
+      </li>
+      <li> <span style="font-weight: bold;">Reusability: </span>code
+        should
+        reusable as a component of different systems in various
+        applications</li>
+    </ul>
+    <h4>2.1.2 Object-Oriented Design Principles</h4>
+    <ul>
+      <li>
+<span style="font-weight: bold;">Abstraction:</span> to
+        distill
+        the complicated system down to its most fundamental parts and
+        describe
+        these parts in a simple, precise language. Applying the
+        abstraction paradigm to the design of data structures gives rise
+        to abstract data types (ADTs). <br>
+      </li>
+      <li>
+<span style="font-weight: bold;">Encapsulation:</span>
+        different
+        components of a software system should not reveal the internal
+        details
+        of their respective implementation</li>
+      <li>
+<span style="font-weight: bold;">Modularity:</span> refers to
+        an
+        organizing structure in which different components of a software
+        system
+        are divided into separate functional units</li>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+    <h3>2.2 <a href="../../../../2013/NETB151/slides/ch11/ch11.html">Inheritance
+and
+        Polymorphism</a>
+</h3>
+    <h4>2.2.1 Inheritance in C++</h4>
+    Inheritance allows the design of generic classes that can be
+    specialized to more particular classes, with the specialized classes
+    reusing the code from the generic class.<br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">class</span> Person {<span style="color: rgb(51, 51, 255);"></span>       // base class  <br><span style="color: rgb(51, 51, 255);">private:</span><br>   string name;      // name<br>   string ssn;       // social security number<br><span style="color: rgb(51, 51, 255);">public:</span> <br>   //...<br>   <span style="color: rgb(51, 51, 255);">void</span> print();     // print data<br>   string getName(); // retrieve name<br>}; <br><span style="color: rgb(51, 51, 255);">class</span> Student : <span style="color: rgb(51, 51, 255);">public</span> Person {     // derived class<span style="color: rgb(51, 51, 255);"></span><br><span style="color: rgb(51, 51, 255);">private:</span><br>   string major;    // major subject<br>   <span style="color: rgb(51, 51, 255);">int</span> gradYear;    // graduate year<br><span style="color: rgb(51, 51, 255);">public:</span><br>   //...<br>   <span style="color: rgb(51, 51, 255);">void</span> print();                      // print data<br>   <span style="color: rgb(51, 51, 255);">void</span> changeMajor(string newMajor); // change major<br> };<br></pre>
+    </blockquote>
+    <span style="font-weight: bold;">Member Functions</span><br>
+    <blockquote>
+      <pre>Person person(...)<span style="color: rgb(51, 51, 255);"></span>;       // define a person <br>Student student<span style="color: rgb(51, 51, 255);"></span>(...);     // define a student<br>cout &lt;&lt; student.getName();// invokes Person::getName()<br>person.print();           // invokes Person::print();<br>student.print();          // invokes Student::print();<br>person.changeMajor(<span style="color: rgb(204, 0, 0);">"Math"</span>); // <span style="font-weight: bold;">ERROR!</span><br>student.changeMajor(<span style="color: rgb(204, 0, 0);">"Math"</span>); // OK<br><span style="color: rgb(51, 51, 255);">void</span> Person::print()    // definition of Person print<br>{ cout &lt;&lt; name &lt;&lt; " " &lt;&lt; ssn; }<br><span style="color: rgb(51, 51, 255);">void</span> Student::print()   // definition of Student print<br>{ Person::print();      // first print Person data<br>  cout &lt;&lt; major &lt;&lt; gradYear;<br>} <span style="color: rgb(51, 51, 255);"></span><br></pre>
+    </blockquote>
+    <span style="font-weight: bold;"><a href="vector.cpp"><span style="color: rgb(204, 0, 0);"></span></a></span>
+    <h4><span style="font-weight: bold;">Illustrating Class Protection</span></h4>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">class</span> Base {<br>   <span style="color: rgb(51, 51, 255);">private:</span><br>       <span style="color: rgb(51, 51, 255);">int</span> priv;<br>   <span style="color: rgb(51, 51, 255);">protected:</span><br>       <span style="color: rgb(51, 51, 255);">int</span> prot;<br>   <span style="color: rgb(51, 51, 255);">public:</span><br>       <span style="color: rgb(51, 51, 255);">int</span> publ;<br>};<br><span style="color: rgb(51, 51, 255);">class</span> Derived: <span style="color: rgb(51, 51, 255);">public</span> Base { <br>   <span style="color: rgb(51, 51, 255);">void </span>someMemberFunction() <br>   { cout &lt;&lt; priv;    // <span style="font-weight: bold;">ERROR:</span> private member<br>     cout &lt;&lt; prot;    // <b>OK</b><br>     cout &lt;&lt; publ;    // OK<br>   }<br>};<br><span style="color: rgb(51, 51, 255);">class</span> Unrelated {<br>  Base X;<br>  <span style="color: rgb(51, 51, 255);">void</span> anotherMemberFunction() <br>  {  cout &lt;&lt; X.priv;   // <span style="font-weight: bold;">ERROR:</span> private member<br>     cout &lt;&lt; X.prot;   // <span style="font-weight: bold;">ERROR:</span> protected member<br>     cout &lt;&lt; X.publ;   // OK<br>  }<br>};<br></pre>
+    </blockquote>
+    <h4><span style="font-weight: bold;">Constructors and Destructors</span></h4>
+    <blockquote>
+      <pre>Person::<span style="color: rgb(51, 51, 255);"></span>Person(<span style="color: rgb(51, 51, 255);">const</span> string &amp;nm, <span style="color: rgb(51, 51, 255);">const</span> string &amp;ss)  <br><span style="color: rgb(51, 51, 255);"></span>: name(nm), ssn(ss) {}           // initializer list<br>Student::Student(<span style="color: rgb(51, 51, 255);">const</span> string &amp;nm, <span style="color: rgb(51, 51, 255);">const</span> string &amp;ss,<br>                 <span style="color: rgb(102, 0, 204);">const</span> string &amp;maj, <span style="color: rgb(51, 51, 255);">int</span> year)<span style="color: rgb(51, 51, 255);"></span><br>: Person(nm, ss),      // initialize Person data members<br>  major(maj),          // initialize member<br>  gradYear(year) {}    // initialize gradYear<br>Person::~Person()      // Person destructor<br>{ ... }<br>Student::~Student()    // Student destructor<br>{ ... }<br>Student* s = <span style="color: rgb(51, 51, 255);">new</span> Student(...);<br>//...<br><span style="color: rgb(51, 51, 255);">delete</span> s;   // calls ~Student() then ~Person()<br></pre>
+    </blockquote>
+        [<a style="font-family: monospace;" href="person.cpp">person.cpp</a>]<span style="font-weight: bold;"><br>
+      Static Binding</span><br>
+    <blockquote>
+      <pre>Person* pp[100]<span style="color: rgb(51, 51, 255);"></span>;  <br>pp[0] = <span style="color: rgb(51, 51, 255);">new</span> Person(...)<span style="color: rgb(51, 51, 255);"></span>; <br>pp[1] = <span style="color: rgb(51, 51, 255);">new </span>Student(...);<br><span style="color: rgb(51, 51, 255);"></span><br>cout &lt;&lt; pp[1]-&gt;getName();   // OK<br>pp[0]-&gt;print();             // calls Person::print()<br>pp[1]-&gt;print();             // calls Person::print()<br>pp[1]-&gt;changeMajor(...);    // <span style="font-weight: bold;">ERROR!</span><br></pre>
+    </blockquote>
+    <span style="font-weight: bold;"><a href="vector.cpp"><span style="color: rgb(204, 0, 0);"></span></a></span>
+    <h4>Dynamic Binding and Virtual
+      Functions</h4>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">class</span> Person {<span style="color: rgb(51, 51, 255);"></span>       // base class  <span style="color: rgb(51, 51, 255);"></span><br>   <span style="color: rgb(51, 51, 255);">virtual</span> <span style="color: rgb(51, 51, 255);">void</span> print();         // print data<br>   //...<br>}; <br><span style="color: rgb(51, 51, 255);">class</span> Student : <span style="color: rgb(51, 51, 255);">public</span> Person {  // derived class<span style="color: rgb(51, 51, 255);"></span><br><span style="color: rgb(51, 51, 255);"></span>   <span style="color: rgb(51, 51, 255);">virtual</span> <span style="color: rgb(51, 51, 255);">void</span> print();         // print data<br style="color: rgb(0, 0, 0);"><span style="color: rgb(0, 0, 0);">   //...</span><br> };<br>Person* pp[100]<span style="color: rgb(51, 51, 255);"></span>;  <br>pp[0] = <span style="color: rgb(51, 51, 255);">new</span> Person(...)<span style="color: rgb(51, 51, 255);"></span>; <br>pp[1] = <span style="color: rgb(51, 51, 255);">new </span>Student(...);<br><span style="color: rgb(51, 51, 255);"></span><br>pp[0]-&gt;print();             // calls Person::print()<br>pp[1]-&gt;print();             // calls Student::print()<br>pp[1]-&gt;changeMajor(...);    // OK</pre>
+    </blockquote>
+        [<a href="person.cpp"><span style="font-family:
+        monospace;">person.cpp</span></a>]
+    <h4><span style="font-weight: bold;">Virtual
+        Destructors</span></h4>
+    If a class defines any virtual functions, it should define a
+    virtual destructor, even if it is empty.
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">delete</span> [] pp;<br></pre>
+    </blockquote>
+    <h3>2.2.2 Polymorphism</h3>
+    The ability of a variable to take different types!<br>
+    <br>
+    <hr style="width: 100%; height: 2px;">
+    <h3>2.3 <a href="../../../../2013/NETB151/slides/ch17/ch17-2.html">Templates</a>
+</h3>
+    <h4>2.3.1 Function Templates</h4>
+    <ul>
+      <li>Minimum of two integers:<br>
+        <blockquote>
+          <pre><span style="color: rgb(51, 51, 255);">int</span> min(<span style="color: rgb(51, 51, 255);">int</span> a, <span style="color: rgb(51, 51, 255);">int</span> b)  <br>{ <span style="color: rgb(51, 51, 255);">return</span> (a &lt; b ? a : b); } <br></pre>
+        </blockquote>
+      </li>
+      <li>Minimum of doubles:<br>
+        <blockquote>
+          <pre><span style="color: rgb(51, 51, 255);">double</span> min(<span style="color: rgb(51, 51, 255);">double</span> a, <span style="color: rgb(51, 51, 255);">double</span> b)  <br>{ <span style="color: rgb(51, 51, 255);">return</span> (a &lt; b ? a : b); } <br></pre>
+        </blockquote>
+      </li>
+      <li>Generic function for an arbitrary type <span style="font-family: monospace;">T</span>, called <span style="font-weight: bold;">function template</span>:<br>
+        <blockquote>
+          <pre><span style="color: rgb(51, 51, 255);">template</span>&lt;<span style="color: rgb(51, 51, 255);">typename</span> T&gt;      // parameter list<br>T min(T a, T b)           // returns the minimum of a and b<br>{ <span style="color: rgb(51, 51, 255);">return</span> (a &lt; b ? a : b); } <br></pre>
+        </blockquote>
+      </li>
+      <li>We can invoke our template function to compute the minimum of
+        objects
+        of many different types. We could use any type, provided that
+        the less
+        than operator (<span style="font-family: monospace;">&lt;</span>)
+        is
+        defined for this type. The
+        compiler looks at the <span style="font-weight: bold;">argument
+          types</span>,
+        and determine which form of the function to <span style="font-weight: bold;">instantiate</span>:<br>
+        <blockquote>
+          <pre>cout &lt;&lt; min(3, 4);      // invokes min&lt;int&gt;(3,4)<br>cout &lt;&lt; min(6.9, 3.5);  // invokes min&lt;double&gt;(6.9, 3.5)<br>cout &lt;&lt; min('t', 'g');  // invokes min&lt;char&gt;('t', 'g')<br></pre>
+        </blockquote>
+      </li>
+    </ul>
+    <h4>2.3.2 Class Templates</h4>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">template</span> &lt;<span style="color: rgb(51, 51, 255);">typename</span> Object&gt;<br><span style="color: rgb(51, 51, 255);">class</span> BasicVector {<br>   Object* a;                  // array storing an element<br>   <span style="color: rgb(51, 51, 255);">int</span> capacity;               // length of array a<br>public:<br>   BasicVector(<span style="color: rgb(51, 51, 255);">int</span> cap = 10)   // constructor<br>   {  capacity = cap;<br>      a = <span style="color: rgb(51, 51, 255);">new</span> Object[capacity];// allocate array storage<br>   }<br>   Object&amp; elemAtRank(<span style="color: rgb(51, 51, 255);">int</span> r)   // access element at index r<br>   {  <span style="color: rgb(51, 51, 255);">return</span> a[r];  }<br>// ...<br>};<br></pre>
+    </blockquote>
+    <blockquote>
+      <pre>BasicVector&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt; iv(5);     // vector of 5 integers<br>BasicVector&lt;<span style="color: rgb(51, 51, 255);">double</span>&gt; dv(20); // vector of 20 doubles<br>BasicVector&lt;string&gt; sv(10); // vector of 10 strings<br>//...<br>iv.elemAtRank(3) = 8;       // iv[3] = 8;<br>dv.elemAtRank(14) = 2.5;    // dv[14] = 2.5<br>sv.elemAtRank(7) = <span style="color: rgb(204, 0, 0);">"hello"</span>; // sv[7] = "hello"<br></pre>
+    </blockquote>
+    <h3><span style="font-weight: bold;"></span></h3>
+    <hr style="width: 100%; height: 2px;">
+    <h3><span style="font-weight: bold;">2.4 <a href="../../../../2013/NETB151/slides/ch17/ch17-3.html">Exceptions</a></span></h3>
+    Exceptions are unexpected events that occur during the execution of
+    a
+    program.<br>
+    <h4><span style="font-weight: bold;">2.4.1 Exception Objects</span></h4>
+    <h4><span style="font-weight: bold;">Using Inheritance to Define New
+        Exception Types</span></h4>
+    <span style="font-weight: bold;"></span>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);"></span><font style="color: rgb(51, 51, 255);" color="#a000a0">class</font> MathException {  // <font style="color: rgb(0, 0, 0);" color="#0000ff">generic math exception</font><br><font style="color: rgb(51, 51, 255);" color="#a000a0">private</font><span style="color: rgb(51, 51, 255);">:</span><br>  string errMsg;       // error message<br><font style="color: rgb(51, 51, 255);" color="#a000a0">public</font><span style="color: rgb(51, 51, 255);">:</span><br>  <font color="#000000">MathException</font>(<font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> string&amp; err) { errMsg = err; }<br>};<br><font style="color: rgb(51, 51, 255);" color="#a000a0">class</font> ZeroDivisionException : <span style="color: rgb(51, 51, 255);">public</span> MathException {<br><font style="color: rgb(51, 51, 255);" color="#a000a0">public</font><span style="color: rgb(51, 51, 255);">:</span><br>  ZeroDivisionException(<font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> string&amp; err) <br>: MathException(err) {}<br>};<br><font style="color: rgb(51, 51, 255);" color="#a000a0">class</font> NegativeRootException : <span style="color: rgb(51, 51, 255);">public</span> MathException {<br><font style="color: rgb(51, 51, 255);" color="#a000a0">public</font><span style="color: rgb(51, 51, 255);">:</span><br>  NegativeRootException(<font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> string&amp; err) <br>: MathException(err) {}<br>};<br></pre>
+    </blockquote>
+    <h4>2.4.2 Throwing and Catching
+      Exceptions</h4>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">try</span> {<br>// ...<br><span style="color: rgb(51, 51, 255);">if</span> (divisor == 0) <span style="color: rgb(51, 51, 255);">throw</span> ZeroDivisionException("Division by zero");<br>//...<br>}<br><font style="color: rgb(51, 51, 255);" color="#a000a0">catch</font> (ZeroDivisionException&amp; zde) <br>{ // handle division by zero<br>}<br><font style="color: rgb(51, 51, 255);" color="#a000a0">catch</font> (MathException&amp; me) <br>{ // handle any math exception other than division by zero<br>}<br></pre>
+    </blockquote>
+    Once execution of the catch block completes, control flow continues
+    with the first statement after the <span style="font-style:
+      italic;">last</span>
+    catch block.
+    <h4>2.4.3 Exception Specification</h4>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">void</span> calculator() <span style="color: rgb(51, 51, 255);">throw</span>(ZeroDivisionException, NegativeRootException)<br>{<br>  //... <br>}<br><br><span style="color: rgb(51, 51, 255);">void</span> funct1();         // can throw any exception<br><span style="color: rgb(51, 51, 255);">void</span> funct2() <span style="color: rgb(51, 51, 255);">throw</span>(); // can throw no exception<br></pre>
+    </blockquote>
+    <h4>Generic Exception Class</h4>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);"></span><font style="color: rgb(51, 51, 255);" color="#a000a0">class</font> RuntimeException {  // <font color="#0000ff">generic run-time exception</font><br><font style="color: rgb(51, 51, 255);" color="#a000a0">private</font><span style="color: rgb(51, 51, 255);">:</span><br>  string errorMsg;<br><font style="color: rgb(51, 51, 255);" color="#a000a0">public</font><span style="color: rgb(51, 51, 255);">:</span><br>  <font color="#000000">RuntimeException</font>(<font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> string&amp; err) { errorMsg = err; }<br>  string <font color="#000000">getMessage</font>() <font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> { <font style="color: rgb(51, 51, 255);" color="#00a000">return</font> errorMsg; }<br>};<br><font style="color: rgb(51, 51, 255);" color="#a000a0">inline</font> std::ostream&amp; <font style="color: rgb(51, 51, 255);" color="#a000a0">operator</font>&lt;&lt;(std::ostream&amp; out, <font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> RuntimeException&amp; e)<br>  { <font style="color: rgb(51, 51, 255);" color="#00a000">return</font> out &lt;&lt; e.<font color="#000000">getMessage</font>(); }<br></pre>
+    </blockquote>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>
