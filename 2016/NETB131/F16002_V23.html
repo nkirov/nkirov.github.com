@@ -1,0 +1,512 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+  <title>NETB131_F16002_V23.html</title>
+</head>
+<body>
+<font style="font-family: Times New Roman;" size="+3"><b>NETB131 </b><b>Programming
+</b></font><font size="+3"><b style="font-family: Times New Roman;">Project
+</b><br style="font-family: Times New Roman;">
+<b style="font-family: Times New Roman;">Programming
+language Cyclone</b><br style="font-family: Times New Roman;">
+</font>
+<br style="font-family: Times New Roman;">
+<b style="font-family: Times New Roman;"></b><br style="font-family: Times New Roman;">
+<font size="+1"><span style="font-family: Times New Roman;">Kalina
+Stilianova Rakovska,
+F16002</span></font><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">1. History and Special
+Features</big></big><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    Based
+at Cornell University and AT&amp;T Labs, New York, the Cyclone project
+is a variant of the programming language
+C. It was started in 2001 as a joint project of </span><a style="font-family: Times New Roman;" href="http://www.research.att.com/viewProject.cfm?prjID=67">AT&amp;T
+Labs Research</a><span style="font-family: Times New Roman;"> and Greg
+Morrisett's group. The key developers
+include </span><a style="font-family: Times New Roman;" href="http://www.research.att.com/%7Etrevor/">Trevor Jim</a><span style="font-family: Times New Roman;">,
+</span><a style="font-family: Times New Roman;" href="http://www.eecs.harvard.edu/%7Egreg/">Greg Morrisett</a><span style="font-family: Times New Roman;">, </span><a style="font-family: Times New Roman;" href="http://www.cs.washington.edu/homes/djg/">Dan
+Grossman</a><span style="font-family: Times New Roman;"> and </span><a style="font-family: Times New Roman;" href="http://www.cs.umd.edu/%7Emwh/">Mike Hicks</a><span style="font-family: Times New Roman;">.
+They worked out the initial design and implementation, basing the
+language to some degree on Popcorn, a safe-C-like language that was
+developed at Cornell as part of the Typed Assembly Language (TAL)
+project. Other people that have made strong contributions to the
+project include: </span><a style="font-family: Times New Roman;" href="http://www.cs.umd.edu/%7Enswamy/">Nikhil
+Swamy</a><span style="font-family: Times New Roman;">, Yanling Wang,
+James Cheney, Matthew Harris, Mathieu Baudet,
+Bart Samwel, Matthew Fluet and Dan Wang. </span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    The
+language is designed to eliminate common bugs
+and major programming
+glitches before the software is even released. It is a safe dialect of
+C
+that retains its transparency and control, but adds the benefits of
+safety (i.e., no unchecked run-time errors). In Cyclone, buffer
+overflows, format
+string attacks, double free bugs, dangling pointer accesses and etc.
+are prevented for all programs, whether
+written by a security expert or by a novice. The changes required to
+achieve safety are pervasive, but Cyclone is still recognizably C. It
+offers a variety of other
+programming features, including tagged unions, parametric polymorphism,
+pattern matching, exceptions, anonymous structs equivalent by
+structure, parameterized typedefs, an extensive library for container
+types and common utilities, a lexer generator, a parser generator, and
+function-level debugging with tools such gdb and profiling with gprof.
+The
+developers claim that Cyclone's data representation and calling
+conventions are interoperable with C-like programming styles, which
+should simplify porting code to Cyclone. Cyclone helps make code safer
+by enforcing checks through a type library. If the compiler finds
+problems, it can rewrite the code or suggest possible ways to rewrite
+the code manually. In addition, data type information and runtime
+checks help prevent array boundary violations, also known as unchecked
+buffers or buffer overrun conditions.
+Cyclone’s goal is to accommodate C’s style of low-level programming,
+while providing the same level of safety guaranteed by high-level safe
+languages like Java — a level of safety that has not been achieved by
+previous approaches.</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    </span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">   </span><span style="font-weight: bold; font-family: Times New Roman;"> Restrictions
+imposed by Cyclone to preserve safety:</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    • NULL
+checks are inserted to prevent segmentation
+faults</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Pointer arithmetic is restricted</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Pointers must be initialized before use</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Dangling pointers are prevented through region
+analysis and limitations on free</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    • Only
+“safe” casts and unions are allowed</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    • goto
+into scopes is disallowed</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    • switch
+labels in different scopes are disallowed</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Pointer-returning functions must execute return</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    • setjmp
+and longjmp are not supported</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    </span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">   </span><span style="font-weight: bold; font-family: Times New Roman;"> Extensions
+provided
+by Cyclone to safely regain C programming idioms:</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Never-NULL pointers do not require NULL checks</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    • “Fat”
+pointers support pointer arithmetic with
+run-time bounds checking</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Growable regions support a form of safe manual
+memory management</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    • Tagged
+unions support type-varying arguments</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Injections help automate the use of tagged unions
+for programmers</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Polymorphism replaces some uses of void *</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Varargs are implemented with fat pointers</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    •
+Exceptions replace some uses of setjmp and longjmp</span><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">2. "Hello World" Program</big></big><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<blockquote style="font-family: Times New Roman;">
+<span style="font-family: Courier New;"> #include
+&lt;stdio.h&gt;</span><br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;"><br>
+int</span><span style="font-family: Courier New;">  main() </span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">{</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">printf("Hello, World\n");</span><br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;"> return</span><span style="font-family: Courier New;"> 0;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">}</span><br>
+</blockquote>
+<br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"></big><br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"><big><span style="text-decoration: underline;">3. Fundamental Data
+Types (integer, floating point, string) and
+Assignment Operator</span></big></big><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">  </span><span style="font-weight: bold; font-family: Times New Roman;"> 
+Definitions:</span><span style="font-family: Times New Roman;"><span style="font-style: italic;"> </span></span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;"><span style="font-style: italic;">  <span style="color: rgb(0, 102, 0);">  type</span> <span style="color: rgb(51, 204, 0);">name;</span></span>
+    // declaration</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    <span style="font-style: italic;"><span style="color: rgb(0, 102, 0);">type</span>
+<span style="color: rgb(51, 204, 0);">name</span></span> = value
+;   // initialization</span><br style="font-family: Times New Roman;">
+<span style="font-weight: bold; font-family: Times New Roman;"> 
+   </span><br style="font-family: Times New Roman;">
+<span style="font-weight: bold; font-family: Times New Roman;">  <span style="color: rgb(0, 102, 0);"> 
+</span></span><span style="font-style: italic; font-family: Times New Roman; color: rgb(0, 102, 0);">type</span><span style="font-weight: bold; font-family: Times New Roman; color: rgb(0, 102, 0);">:</span><br style="font-family: Times New Roman;">
+<span style="font-weight: bold; font-family: Times New Roman;"> 
+       -integer:</span><span style="font-family: Times New Roman;"> </span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">   
+      Integers are whole numbers with a machine
+dependent range of values. Cyclone has 3 classes of integer storage
+namely <span style="font-weight: bold;">short int</span>, <span style="font-weight: bold;">int</span> and <span style="font-weight: bold;">long int</span>.
+All of these data types have <span style="font-weight: bold;">signed</span>
+and <span style="font-weight: bold;">unsigned</span> forms.
+A short int
+requires half the space than normal integer values. Unsigned numbers
+are always positive and consume all the bits for the magnitude of the
+number. The long and unsigned integers are used to declare a longer
+range of values.</span><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-weight: bold; font-family: Times New Roman;">   
+        <span style="font-family: Courier New;"> int </span></span><span style="font-family: Courier New;">x;  
+   </span><br style="font-family: Courier New;">
+<span style="font-family: Courier New;">      </span><span style="font-weight: bold; font-family: Courier New;">int </span><span style="font-family: Courier New;">x
+= 3; </span><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">      
+  </span><span style="font-weight: bold; font-family: Times New Roman;"> -floating
+point:</span><br style="font-family: Times New Roman;">
+<span style="font-weight: bold; font-family: Times New Roman;">   
+      </span><span style="font-family: Times New Roman;">Floating point number represents
+a real number with 6 digits precision. When the accuracy of the <span style="font-weight: bold;">float</span>
+number is insufficient, we can
+use the <span style="font-weight: bold;">double</span> (double
+precision floating point) </span><span style="font-size: 9pt; font-family: Times New Roman;"></span><span style="font-family: Times New Roman;">or <span style="font-weight: bold;">long double </span>(extended double
+precision floating point)  to define the number. The double is
+same as float but
+with longer precision.</span>
+<blockquote style="font-family: Times New Roman;"> <span style="font-weight: bold;">   <span style="font-family: Courier New;"> double</span></span><span style="font-family: Courier New;"> y;</span><br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;"> 
+double</span><span style="font-family: Courier New;"> y =
+3.3; </span><br>
+  <br>
+  <span style="font-weight: bold;">-string: </span><br>
+Cyclone does not have a string type as other programming languages,
+only has character type so a string is defined as an array of
+characters or a pointer to characters. String is terminated by a
+special character which is called as null terminator or null parameter
+(/0).<br>
+  <span style="font-weight: bold;"><br>
+  <span style="font-family: Courier New;">  char</span></span><span style="font-family: Courier New;"> *zz;</span><br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;">  
+zz</span><span style="font-family: Courier New;"> =
+"Hello";</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   
+   or </span><br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;">  
+char</span><span style="font-family: Courier New;">
+zz[10];</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   zz[0] = 'H';</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   zz[1] = 'e';</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   zz[2] = 'l';</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   zz[3] = 'l';</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   zz[4] = 'o';</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   zz[5] = 0;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   
+   or</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">  </span><span style="font-weight: bold; font-family: Courier New;"> char</span><span style="font-family: Courier New;"> zz[4] =
+"bar";</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   </span><span style="font-weight: bold; font-family: Courier New;">char</span><span style="font-family: Courier New;"> zz[4]
+@zeroterm = "bar";</span><br>
+  <font style="color: rgb(0, 0, 0);" color="#800000"> </font>
+</blockquote>
+<span style="font-family: Times New Roman;">    </span><span style="font-style: italic; font-family: Times New Roman;"><span style="color: rgb(51, 204, 0);">name</span> </span><span style="font-family: Times New Roman;">is identifiers that refers to
+the name of user-defined variables. A variable should be essentially a
+sequence of letters and
+or digits and the variable name should begin with a character or
+underscore and should not contain a space.</span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;"> 
+</span><br style="font-family: Times New Roman;">
+<span style="font-weight: bold; font-family: Times New Roman;">   
+Assignment
+Operator</span><span style="font-family: Times New Roman;"> </span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">     
+"=" - Cyclone
+enforces the evaluation order to be right-to-left for assignment
+expressions. </span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">   
+   </span><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">   
+          <span style="font-family: Courier New;">e1 = e2 = e3</span>; // Cyclone
+evaluates first e3, then e2, then e1.</span><br style="font-family: Times New Roman;">
+<blockquote style="font-family: Times New Roman;">     <span style="font-family: Courier New;">sum = sum + 1;</span><br>
+  <br>
+Other assignment operators are  ++  --  +=  -=
+*=  /=  %= |=  ^=  &amp;=  &lt;&lt;= &gt;&gt;=
+:=:<br>
+  <br>
+  <br>
+</blockquote>
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">4. Basic Control Flow
+(conditional and loop statements)</big></big><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    </span><span style="font-weight: bold; font-family: Times New Roman;">Conditional
+operator:</span>
+<blockquote style="font-family: Times New Roman;"> <span style="font-weight: bold;">if </span>(<span style="font-style: italic; color: rgb(255, 102, 0);">expression</span>)
+  <span style="font-style: italic; color: rgb(51, 51, 255);">statement</span><span style="color: rgb(0, 0, 0);">;</span><span style="color: rgb(0, 0, 0);"><br>
+// if statement is a basic control flow structure. It is used when a
+unit of code need to be executed by a condition true or false. If the
+condition is true, the code in if block will execute otherwise it does
+nothing.</span><br>
+  <span style="color: rgb(0, 0, 0);"></span><br>
+  <span style="font-style: italic;"><br>
+  </span><span style="font-weight: bold;">if </span>(<span style="font-style: italic; color: rgb(255, 102, 0);">expression</span>)
+  <span style="font-style: italic; color: rgb(51, 51, 255);">statement</span><span style="color: rgb(0, 0, 0);">;</span><span style="font-weight: bold;"><span style="color: rgb(255, 102, 0);"></span><br>
+else </span><span style="font-style: italic; color: rgb(51, 51, 255);">statement</span><span style="color: rgb(0, 0, 0);">;</span><span style="font-style: italic; color: rgb(51, 51, 255);"><br>
+  </span>// If the condition of <em>if</em> statement is false the
+code block in <em>else</em> will be executed.<br>
+  <br>
+</blockquote>
+<span style="font-family: Times New Roman;">  </span><span style="font-weight: bold; font-family: Times New Roman;">  Loop
+operator:</span>
+<blockquote style="font-family: Times New Roman;"> <span style="font-weight: bold;">while </span>(<span style="font-style: italic; color: rgb(255, 102, 0);">expression</span>)
+  <span style="font-style: italic; color: rgb(51, 51, 255);">statement</span>;<br>
+// The <em>while</em> loop is used to execute a block of statements
+repeatedly with checked condition before making an iteration. <br>
+  <br>
+  <br>
+  <span style="font-weight: bold;">do </span><span style="font-style: italic; color: rgb(51, 51, 255);">statement</span><span style="font-weight: bold;"> while </span>(<span style="font-style: italic; color: rgb(255, 102, 0);">expression</span>)<span style="font-weight: bold;">;</span><br>
+  <span style="font-weight: bold;"></span>// <em>do while</em> loop
+statement allows to execute code block in loop body at least one. <br>
+  <span style="font-weight: bold;"><br>
+  </span><br>
+  <span style="font-weight: bold;">for </span>(<span style="font-style: italic; color: rgb(255, 102, 0);"></span><span><span><span style="font-style: italic; color: rgb(255, 102, 0);">initialization_expression</span>;
+  <span style="font-style: italic; color: rgb(255, 102, 0);">loop_condition</span>;
+  <span style="font-style: italic; color: rgb(255, 102, 0);">increment_expression</span></span></span><span style="font-style: italic; color: rgb(255, 102, 0);"></span>) <span style="font-style: italic; color: rgb(51, 51, 255);">statement</span>;<span style="font-weight: bold;"></span><br>
+// <em>initialization_expression</em> is executed before execution of
+the loop starts. This is typically used to initialize a counter for the
+number of loop iterations. <br>
+The execution of the loop continues until the <em>loop_condition</em>
+is false. This expression is checked at the beginning of each loop
+iteration.<br>
+The <em>increment_expression</em>, is usually used to increment the
+loop counter. This is executed at the end of each loop iteration. <br>
+</blockquote>
+<span style="font-family: Times New Roman;">   </span><span style="font-weight: bold; font-family: Times New Roman;"> <span style="text-decoration: underline;">Task:</span></span><span style="font-family: Times New Roman;"> Input an
+integer number n and output the sum:
+1+2</span><sup style="font-family: Times New Roman;">2</sup><span style="font-family: Times New Roman;">+3</span><sup style="font-family: Times New Roman;">2</sup><span style="font-family: Times New Roman;">+...+n</span><sup style="font-family: Times New Roman;">2</sup><span style="font-family: Times New Roman;">. Use input validation
+for n to be positive.</span><br style="font-family: Times New Roman;">
+<blockquote style="font-family: Times New Roman;">
+<span style="font-family: Courier New;">
+#include&lt;stdio.h&gt;</span><br style="font-family: Courier New;">
+  <br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> main()</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">{</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">    </span><span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> n;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   
+scanf("%d",&amp;n);</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">if (n &lt; 0) </span><span style="font-weight: bold; font-family: Courier New;"><br>
+return</span><span style="font-family: Courier New;">   1;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">    </span><span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> sum = 0;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">    </span><span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> i = 0;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">    </span><span style="font-weight: bold; font-family: Courier New;">while</span><span style="font-family: Courier New;"> (i
+&lt;= n) </span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">{ sum += i*i; i++;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">}</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">   
+printf("%d\n",sum);</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">    </span><span style="font-weight: bold; font-family: Courier New;">return</span><span style="font-family: Courier New;"> 0;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">}</span><br>
+  <br>
+  <br>
+</blockquote>
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">5. Functions - syntax,
+writing and using functions, example</big></big><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">    </span><span style="font-weight: bold; font-family: Times New Roman;">Syntax:</span>
+<blockquote style="font-family: Times New Roman;"> <span style="font-style: italic; color: rgb(0, 153, 0);"><span style="color: rgb(0, 102, 0);">return_type</span> name</span> (<span style="font-style: italic; color: rgb(153, 51, 153);" class="hl-identifier">parameter_list</span>) {<span style="font-style: italic; color: rgb(51, 51, 255);">statements</span>}<br>
+// Function is a block of source code which does one or some tasks with
+specified purpose.<br>
+</blockquote>
+<ul style="font-family: Times New Roman;">
+  <li>
+<span style="font-style: italic; color: rgb(0, 102, 0);">return_type</span>
+- it can be any legal data type such as int, char, pointer.  If
+the
+function does not return a value, the return type has to be specified
+by keyword <span style="font-weight: bold;">void</span>;</li>
+  <li>
+<span style="color: rgb(0, 153, 0); font-style: italic;">name</span>
+is the identifier by which it will be possible to call
+the
+function. The name of a function should be meaningful and express what
+it
+does;</li>
+  <li>
+<span style="font-style: italic; color: rgb(153, 51, 153);" class="hl-identifier">parameter_list</span> - parameters passed to
+function have to be separated by a semicolon, and each parameter has to
+indicate it data type and parameter name. Function does not require
+formal parameter so if you don’t pass any parameter to function you can
+use keyword void;</li>
+  <li>
+<span style="font-style: italic; color: rgb(51, 51, 255);">statements</span>
+is the function's body. It is a block of
+statements
+surrounded by braces { }.</li>
+</ul>
+<blockquote style="font-family: Times New Roman;"> <span style="font-weight: bold;">Example:<br>
+  <br>
+  </span><span style="font-family: Courier New;">#include
+&lt;stdio.h&gt;</span><br style="font-family: Courier New;">
+  <br style="font-family: Courier New;">
+  <code style="font-family: Courier New;">// definition</code><br style="font-family: Courier New;">
+  <code style="font-family: Courier New;"><span style="font-weight: bold;">int</span> addition (int a,
+int b) <br>
+{<span style="font-weight: bold;">    int</span> r;<br>
+     r = a + b;<br>
+  <span style="font-weight: bold;">     return</span>
+r;<br>
+}<br>
+  <br>
+  <span style="font-weight: bold;">int</span> main ()<br>
+{<span style="font-weight: bold;"> int</span> z;<br>
+  </code><code style="font-family: Courier New;">  // invoking the
+function</code><br style="font-family: Courier New;">
+     <code style="font-family: Courier New;">z =
+addition (5,3); <br>
+  </code><span style="font-family: Courier New;">printf("%s\n", </span><code style="font-family: Courier New;">"The result is ");<br>
+  </code><span style="font-family: Courier New;">printf("%d\n",</span><code><span style="font-family: Courier New;"> z);</span><br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;"></span></code><code style="font-family: Courier New;"><span style="font-weight: bold;"> 
+return</span> 0;</code><code><span style="font-weight: bold; font-family: Courier New;"></span><span style="font-family: Courier New;"></span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">}</span><br style="font-family: Courier New;">
+  <br>
+  <br>
+  </code>
+</blockquote>
+<big style="font-family: Times New Roman;"><big><span style="text-decoration: underline;">6. Arrays - syntax,
+definition, example</span></big></big><br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"></big><br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"></big><br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;">   </big><span style="font-weight: bold; font-family: Times New Roman;"> Syntax:</span><br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"></big>
+<blockquote style="font-family: Times New Roman;"> <span style="font-style: italic; color: rgb(0, 102, 0);">type</span> <span style="font-style: italic; color: rgb(0, 153, 0);">name</span> [<span style="font-style: italic; color: rgb(153, 51, 153);">size</span>];<br>
+// Array by definition is a variable that hold multiple elements which
+has the same data type. </blockquote>
+<ul style="font-family: Times New Roman;">
+  <li>
+<span style="font-style: italic; color: rgb(0, 102, 0);">type</span>
+is the data type specifier of the elements in the array;</li>
+  <li>
+<span style="color: rgb(0, 153, 0); font-style: italic;">name</span>
+is the identifier by which it will be possible to access the array
+elements;</li>
+  <li>
+<span style="font-style: italic; color: rgb(153, 51, 153);">size</span>
+is an integer constant. It is the number of elements of the array. <br>
+  </li>
+</ul>
+<blockquote style="font-family: Times New Roman;"> <span style="font-weight: bold;">Example:</span><br>
+  <br>
+  <span style="font-family: Courier New;">// array example</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">#include &lt;stdio.h&gt;</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">#include &lt;stdlib.h&gt;</span><br style="font-family: Courier New;">
+  <br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> main(void)</span><br style="font-family: Courier New;">
+  <br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">{ </span><span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> array[2][2];</span><br style="font-family: Courier New;">
+     <span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> i;</span><br style="font-family: Courier New;">
+     <span style="font-weight: bold; font-family: Courier New;">int</span><span style="font-family: Courier New;"> j; </span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">  for(i=0; i&lt;2; i++)</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">  { for(j=0; j&lt;2; j++)</span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">    {
+array[i][j] = 0; </span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">    } </span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">  }</span><br style="font-family: Courier New;">
+  <span style="font-weight: bold; font-family: Courier New;">return</span><span style="font-family: Courier New;"> EXIT_SUCCESS; </span><br style="font-family: Courier New;">
+  <span style="font-family: Courier New;">} </span><br>
+  <br>
+  <br>
+</blockquote>
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">7. Compilers<br>
+<br>
+</big></big>
+<ul style="font-family: Times New Roman;">
+  <li>Cyclone version 1.0: <a href="http://cyclone.thelanguage.org/files/cyclone-1.0.tar.gz">source
+code</a>, <a href="http://cyclone.thelanguage.org/files/cyclone-1.0-docs.tar.gz">documentation</a>
+</li>
+  <li>
+<a href="http://cyclone.thelanguage.org/wiki/Download">Cyclone
+old versions, documentation and benchmarks</a><br>
+  </li>
+</ul>
+<span style="font-family: Times New Roman;">    Cyclone
+is currently supported on x86 Linux, and on
+Windows
+using </span><a style="font-family: Times New Roman;" href="http://www.cygwin.com/">Cygwin</a><span style="font-family: Times New Roman;">. The Cyclone
+compiler is implemented in approximately 35,000 lines of Cyclone. It
+consists of a parser, a static analysis phase, and a simple translator
+to C.</span><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">8. Projects and Software
+in Cyclone<br>
+<br>
+</big></big>
+<ul style="font-family: Times New Roman;">
+  <li>James Ranson has ported the Internet Junkbuster
+to Cyclone;<br>
+  </li>
+  <li>Zhongxi Shen has put together a Cyclone-based environment for
+Lego Mindstorm running on top of
+the BrickOS; </li>
+  <li>In-kernel
+Network Monitoring at UPenn and AT&amp;T; </li>
+  <li>MediaNet
+at Maryland and Cornell.  MediaNet is an overlay network that
+provides distributed streaming data services, accounting for
+user-specified Quality of Service criteria.  Its servers are
+written in Cyclone; </li>
+  <li>The
+Open Kernel Environment (OKE) at the Leiden Institute of Advanced
+Computer Science; </li>
+  <li>
+<a href="http://www.cs.utah.edu/flux/papers/hybrid-openarch03-base.html">RBClick</a>
+at the University of Utah;</li>
+  <li>STP [Patel et al., SOSP 03];</li>
+  <li>FPGA synthesis [Teifel/Manohar, ISACS 04];</li>
+  <li>Maryland undergrad O/S course (geekOS) [2004]. Cyclone is being
+used as part of the University of Maryland's undergraduate operating
+systems class, <a href="http://www.cs.umd.edu/class/fall2004/cmsc412/">CMSC
+412</a>;<a href="http://www.cs.umd.edu/class/fall2004/cmsc412/"><br>
+    </a>
+</li>
+  <li> xTCP [Utah &amp;
+Washington];<br>
+  </li>
+  <li> Protocol
+Parsing [AT&amp;T]; </li>
+  <li> Minix
+modules [Netherlands].<br>
+  </li>
+  <br>
+</ul>
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">9. Standard</big></big><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">   The
+grammar of Cyclone is derived from </span><a style="font-family: Times New Roman;" href="http://www.open-std.org/jtc1/sc22/wg14/www/standards">ISO C99</a><span style="font-family: Times New Roman;">.</span><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<big style="font-family: Times New Roman;"><big style="text-decoration: underline;">10. References</big></big><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[1] Cyclone Homepage, </span><a style="font-family: Times New Roman;" href="http://cyclone.thelanguage.org/">http://cyclone.thelanguage.org/</a><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[2] Cyclone, </span><a style="font-family: Times New Roman;" href="http://en.wikipedia.org/wiki/Cyclone_%28programming_language%29">http://en.wikipedia.org/wiki/Cyclone_(programming_language)</a><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[3] Cyclone, </span><a style="font-family: Times New Roman;" href="http://www.cs.umd.edu/%7Emwh/papers/cyclone-cuj.pdf">http://www.cs.umd.edu/~mwh/papers/cyclone-cuj.pdf</a><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[4] Cyclone, </span><a style="font-family: Times New Roman;" href="http://www.ntsecurity.net/Articles/Index.cfm?ArticleID=23262">http://www.ntsecurity.net/Articles/Index.cfm?ArticleID=23262</a><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[5] Cyclone, </span><a style="font-family: Times New Roman;" href="http://www.vnunet.com/vnunet/news/2116657/secure-future-c">http://www.vnunet.com/vnunet/news/2116657/secure-future-c</a><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[6] Cyclone, </span><a style="font-family: Times New Roman;" href="http://www.eecs.harvard.edu">http://www.eecs.harvard.edu</a><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[7] Cyclone, </span><a style="font-family: Times New Roman;" href="https://www.cs.washington.edu/homes/djg/slides/grossman_cyclone_jpl_05.ppt">https://www.cs.washington.edu/homes/djg/slides/grossman_cyclone_jpl_05.ppt</a><br style="font-family: Times New Roman;">
+<span style="font-family: Times New Roman;">[8] C programming language,
+</span><a style="font-family: Times New Roman;" href="http://cprogramminglanguage.net">http://cprogramminglanguage.net</a><br style="font-family: Times New Roman;">
+<br style="font-family: Times New Roman;">
+</body>
+</html>
