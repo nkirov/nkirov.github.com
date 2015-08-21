@@ -1,0 +1,342 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>l02</title>
+  </head>
+  <body>
+    <h2><b>Въведение - 2</b></h2>
+    Chapter 1 - A Tutorial Introduction<br>
+    1.5 Character Input and Output<br>
+    1.5.1 File Copying<br>
+    1.5.2 Character Counting<br>
+    1.5.3 Line Counting<br>
+    1.5.4 Word Counting<br>
+    1.6 Arrays<br>
+    1.7 Functions<br>
+    1.8 Arguments - Call by Value<br>
+    1.9 Character Arrays<br>
+    1.10 External Variables and Scope<br>
+    <br>
+    <b>Знаков вход и изход<br>
+      <br>
+    </b><big><tt>c = getchar();</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>putchar(c);</tt><tt><br>
+      </tt></big><b><br>
+      &nbsp;&nbsp; Копиране на файл<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>/* copy input to output; 1st version */ </tt><tt><br>
+      </tt><tt>main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>int c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = getchar();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (c != EOF) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;
+        putchar(c);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        c = getchar();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>}</tt></big><b><br>
+    </b><b><br>
+    </b>Втора версия на програмата:<b><br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>/* copy input to output; 2nd version */ </tt><tt><br>
+      </tt><tt>main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((c = getchar()) != EOF) </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </tt><tt>putchar(c);</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt></big><br>
+    <b>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+      &nbsp;&nbsp; Преброяване на знаци<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* count characters in input; 1st version */ </tt><tt><br>
+      </tt><tt>main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; long nc;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; nc = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (getchar() != EOF)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ++nc; <br>
+        &nbsp;&nbsp;&nbsp; printf("%ld\n", nc);</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt></big><b><br>
+    </b><big><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* count characters in input; 2nd version */ <br>
+        main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double nc;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (nc = 0; gechar() != EOF; ++nc) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("%.0f\n", nc); <br>
+        }</tt></big><b><br>
+      <br>
+      &nbsp;&nbsp; Преброяване на редове<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* count lines in input */ <br>
+        main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c, nl;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; nl = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((c = getchar()) != EOF)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        if (c == '\n')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ++nl;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("%d\n", nl); <br>
+        }</tt><tt><br>
+      </tt></big><b><br>
+      &nbsp;&nbsp; Преброяване на думи<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>#define IN 1 /* inside a word */ <br>
+        #define OUT 0 /* outside a word */<br>
+        <br>
+      </tt><tt></tt><tt>/* count lines, words, and characters in input
+        */ <br>
+        main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c, nl, nw, nc, state;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; state = OUT;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; nl = nw = nc = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((c = getchar()) != EOF) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ++nc;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (c == '\n')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        ++nl;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (c == ' ' || c
+        == '\n' || c = '\t')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        state = OUT;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if (state
+        == OUT) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        state = IN;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        ++nw; <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("%d %d %d\n", nl, nw, nc); <br>
+        }</tt></big><b><br>
+      <br>
+      Масиви<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* count digits, white space, others */ <br>
+        main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c, i, nwhite, nother; <br>
+        &nbsp;&nbsp;&nbsp; int ndigit[10];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; nwhite = nother = 0; <br>
+        &nbsp;&nbsp;&nbsp; for (i = 0; i &lt; 10; ++i)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ndigit[i] = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((c = getchar()) != EOF) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (c &gt;= '0' &amp;&amp;
+        c &lt;= '9')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        ++ndigit[c-'0'];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; else if (c == ' '
+        || c == '\n' || c == '\t')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ++nwhite;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        ++nother;<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; printf("digits =");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; i &lt; 10; ++i)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf(" %d",
+        ndigit[i]);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf(", white space = %d, other =
+        %d\n",</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; nwhite,
+        nother);</tt><tt><br>
+      </tt><tt>}</tt></big><b><br>
+      <br>
+      Функции<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt>int power(int m, int n);<br>
+        <br>
+      </tt><tt>/* test power function */ <br>
+        main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; i &lt; 10; ++i)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("%d %d %d\n", i, power(2,i),
+        power(-3,i));</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0; <br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>/* power: raise base to n-th power; n &gt;= 0 */
+        <br>
+        int power(int base, int n)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, p;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; p = 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 1; i &lt;= n; ++i)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p = p * base; <br>
+        &nbsp;&nbsp;&nbsp; return p;</tt><tt><br>
+      </tt><tt>}</tt></big><b><br>
+      <br>
+      Аргументи - извикване по стойност<br>
+      <br>
+    </b><big><tt>/* power: raise base to n-th power; n &gt;= 0; version
+        2 */ </tt><tt><br>
+      </tt><tt>int power(int base, int n)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int p;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (p = 1; n &gt; 0; --n) p = p *
+        base;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return p; </tt><tt><br>
+      </tt><tt>}</tt></big><b><br>
+      <br>
+      Масиви от знаци<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;</tt><tt><br>
+      </tt><tt>#define MAXLINE 1000 /* maximum input line length */<br>
+        <br>
+      </tt><tt>int getline(char line[], int maxline); <br>
+        void copy(char to[], char from[]);<br>
+        <br>
+      </tt><tt>/* print the longest input line */<br>
+        main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; len; &nbsp;&nbsp;&nbsp; /*
+        current line length */ <br>
+        &nbsp;&nbsp;&nbsp; int max; &nbsp;&nbsp;&nbsp; /* maximum length
+        seen so far */ <br>
+        &nbsp;&nbsp;&nbsp; char line[MAXLINE] &nbsp;&nbsp;&nbsp; /*
+        current input line */</tt><tt><br>
+      </tt></big><big><tt><tt>&nbsp;&nbsp;&nbsp; char longest[MAXLINE];
+        </tt>/* longest line saved here */</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; max = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((len = getline(line, MAXLINE))
+        &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (len &gt; max) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        max = len;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        copy(longest, line); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (max &gt; 0) /*there was a line*/ <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("%s", longest);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0; <br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>/* getline: read a line into s, return length */
+        <br>
+        int getline(char s[],int lim)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c, i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i=0; i &lt; lim-1 &amp;&amp;
+        (c=getchar())!=EOF &amp;&amp; c!='\n'; ++i) &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; s[i] = c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (c == '\n') {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s[i] = c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ++i; <br>
+        &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; s[i] = '\0';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return i; <br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>/* copy: copy 'from' into 'to'; assume to is big
+        enough */ <br>
+        void copy(char to[], char from[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; i = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((to[i] = from[i]) != '\0')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ++i; <br>
+        }</tt><tt><br>
+      </tt></big><b><br>
+      Външни променливи и област на видимост<br>
+      <br>
+    </b><big><tt>#include &lt;stdio.h&gt;</tt><tt><br>
+      </tt><tt>#define MAXLINE 1000 /* maximum input line size */<br>
+        <br>
+      </tt><tt></tt><tt>int max; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; /* maximum length seen so
+        far */</tt><tt><br>
+      </tt><tt>char line[MAXLINE];&nbsp; &nbsp;&nbsp;&nbsp; /* current
+        input line */</tt><tt><br>
+      </tt><tt>char longest[MAXLINE]; &nbsp; /* longest line saved here
+        */<br>
+        <br>
+      </tt><tt></tt><tt>int getline(void);</tt><tt><br>
+      </tt><tt>void copy(void);<br>
+        <br>
+      </tt><tt></tt><tt>/* print longest input line; specialized version
+        */</tt><tt><br>
+      </tt><tt>main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int len;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; extern int max;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; extern char longest[];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; max = 0;<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; while ((len = getline()) &gt;
+        0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (len &gt;
+        max) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        max = len;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        copy();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (max &gt; 0) /* there was a line */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; printf("%s",
+        longest);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>}<br>
+        <br>
+      </tt><tt></tt><tt>/* getline: specialized version */</tt><tt><br>
+      </tt><tt>int getline(void)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c, i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; extern char line[];<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; i &lt; MAXLINE -
+        1</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp;
+        (c=getchar)) != EOF &amp;&amp; c != '\n'; ++i)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        line[i] = c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (c == '\n') {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; line[i] = c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ++i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; line[i] = '\0';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return i;</tt><tt><br>
+      </tt><tt>}<br>
+        <br>
+      </tt><tt></tt><tt>/* copy: specialized version */</tt><tt><br>
+      </tt><tt>void copy(void)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; extern char line[], longest[];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; i = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((longest[i] = line[i]) != '\0')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ++i;</tt><tt><br>
+      </tt><tt>}</tt></big><b><br>
+      <br>
+    </b>
+    <hr size="2" width="100%"><b><br>
+    </b>
+  </body>
+</html>
