@@ -15,11 +15,380 @@
     2.11 Conditional Expressions<br>
     2.12 Precedence and Order of Evaluation<br>
     <br>
-    Преобразуване на типове<br>
-    Оператори за увеличаване и намаляване<br>
-    Побитови оператори<br>
-    Оператор за присвояване и изрази<br>
-    Условни изрази<br>
-    Приоритет и ред на изчисляване<br>
+    <b>Преобразуване на типове</b><br>
+    <br>
+    <font size="+1"><tt>/* atoi: convert s to integer */ </tt><tt><br>
+      </tt><tt>int atoi(char s[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, n;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; n = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; s[i] &gt;= '0' &amp;&amp;
+        s[i] &lt;= '9'; ++i)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; n = 10 * n + (s[i]
+        - '0'); </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return n;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* lower: convert c to lower case; ASCII only */
+      </tt><tt><br>
+      </tt><tt>int lower(int c)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (c &gt;= 'A' &amp;&amp; c &lt;=
+        'Z') </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </tt><tt>return c
+        + 'a' - 'A';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </tt><tt>return c;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <b>Оператори за увеличаване и намаляване</b><br>
+    <br>
+    <font size="+1"><tt><br>
+      </tt><tt>int a[] = { 0, 1, 2, 3 };</tt><tt><br>
+      </tt><tt>int i =
+        2;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </tt><tt><br>
+      </tt><tt>int j =
+        i++;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // j = 2
+        and then i = 3</tt><tt><br>
+      </tt><tt>int k =
+        --i;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // i = 2
+        and then k = 2</tt><tt><br>
+      </tt><tt>cout &lt;&lt; a[k++];&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //
+        a[2] (=2) is output; then k = 3</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* squeeze: delete all c from s */ void
+        squeeze(char s[], int c)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>int i, j;</tt><tt><br>
+      </tt><tt>for (i = j = 0; s[i] != '\0'; i++) if (s[i] != c)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+        s[j++] = s[i];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s[j] = '\0';</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <b>Побитови операции</b><br>
+    <br>
+    <meta charset="utf-8">
+    <table style="font-family: Times; letter-spacing: normal; orphans:
+      auto; text-indent: 0px; text-transform: none; widows: 1;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px; text-align:
+      left;" height="172" border="1" cellpadding="2" cellspacing="2"
+      width="743">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">~exp</span><br>
+          </td>
+          <td style="vertical-align: top;">bitwise complement, ex.<span
+              class="Apple-converted-space">&nbsp;</span><br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">~100010
+
+            r. 011101</td>
+          <td valign="top">побитово отрицание<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &amp; exp</span></td>
+          <td style="vertical-align: top;">bitwise and (conjunction),
+            ex.<span class="Apple-converted-space">&nbsp;</span><br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">1001
+            &amp;&amp; 1100 r. 1000</td>
+          <td valign="top">побитово "и"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp ^ exp</span></td>
+          <td style="vertical-align: top;">bitwise exclusive-or<br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">1001
+            ^ 1100 r. 0101<br>
+          </td>
+          <td valign="top">побитово изключващо "или"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp | exp</span></td>
+          <td style="vertical-align: top;">bitwise or (disjunction)<br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">1001
+            | 1100 r. 1101<br>
+          </td>
+          <td valign="top">побитово "или"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &lt;&lt; exp</span></td>
+          <td style="vertical-align: top;">shift left</td>
+          <td style="vertical-align: top; font-family: monospace;">11001
+            &lt;&lt; 1&nbsp; r. 10010<span class="Apple-converted-space">&nbsp;</span><br>
+          </td>
+          <td valign="top">преместване наляво<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &gt;&gt; exp</span></td>
+          <td style="vertical-align: top;">shift right<br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">11001
+            &gt;&gt; 1 r. 01100<br>
+          </td>
+          <td valign="top">преместване надясно<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br class="Apple-interchange-newline">
+    <br>
+    <b>Операции за присвояване и изрази</b><br>
+    <meta charset="utf-8">
+    <h4 style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><span
+        style="font-weight: normal;">Аритметичните операции (<span
+          style="font-family: monospace;">+, -, *,&nbsp; /, %<span
+            class="Apple-converted-space">&nbsp;</span></span>) и
+        побитовите бинарни операции (<span style="font-family:
+          monospace;">&amp;, ^, |, &lt;&lt;, &gt;&gt;</span>) се
+        комбинират с оператора за присвояване<span
+          class="Apple-converted-space">&nbsp;</span><b><tt>=</tt></b>.</span></h4>
+    <blockquote style="color: rgb(0, 0, 0); font-family: Times;
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 1;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">int</span><span style="font-family: monospace;"> i = 10; <br></span><span style="color: rgb(51, 51, 255);">int</span><span style="font-family: monospace;"> j = 5;<br></span><span style="color: rgb(51, 51, 255);">int</span><span style="font-family: monospace;"> k = 1;<br>i -= 4;     // i = i - 4; result 6</span><br>j *= -2;    // j = j * (-2); result -10<br>k &lt;&lt;= 1;    // k = k &lt;&lt; 1; result 2</font><br><br></pre>
+    </blockquote>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <font size="+1"><tt>/* bitcount: count 1 bits in x */ </tt><tt><br>
+      </tt><tt>int bitcount(unsigned x)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int b;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (b = 0; x != 0; x &gt;&gt;= 1)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (x &amp;
+        01) b++;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt>return b;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <b>Условни изрази</b><br>
+    <meta charset="utf-8">
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 1; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">* Условна операция (операция за
+      избор, selection operator)<br>
+      Триаргументна операция, състояща се от условие и два израза.<br>
+      Пример:<br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><font size="+1">	x &gt;= 0 ? x : -x</font></pre>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 1; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">Ако условието е вярно, се
+      изпълнява втория аргумент, ако не е вярно се изпълнява третия
+      аргумент.<br>
+      Операторът<br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><font size="+1">	y = x &gt;= 0 ? x : -x;</font></pre>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 1; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">е еквивалентен на<br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: 1; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><font size="+1"><span style="color: rgb(51, 51, 255);">	if</span> (x &gt;= 0) y = x;<br>   <span style="color: rgb(51, 51, 255);">	else</span> y = -x;</font></pre>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 1; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">и присвоява на променливата&nbsp;<span
+        class="Apple-converted-space">&nbsp;</span><tt>y</tt><span
+        class="Apple-converted-space">&nbsp;</span>абсолютната стойност
+      на променливата<span class="Apple-converted-space">&nbsp;</span><tt>x</tt>.</p>
+    <br>
+    <b>Приоритет и ред на изчисляване</b><br>
+    <br>
+    <meta charset="utf-8">
+    <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 1; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;">Операциите в C имат приоритет, който определя реда, по
+      който операциите се извършват при липса на скоби.</span><br
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 1; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">
+    <table style="font-family: Times; letter-spacing: normal; orphans:
+      auto; text-indent: 0px; text-transform: none; widows: 1;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px; width: 685px;
+      height: 588px;" border="1">
+      <tbody>
+        <tr>
+          <td bgcolor="silver"><b>Operator</b></td>
+          <td bgcolor="silver"><b>Description</b></td>
+          <td bgcolor="silver"><b>Associativity</b></td>
+        </tr>
+        <tr>
+          <td><tt>::</tt></td>
+          <td>scope</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>() [ ] -&gt; .<br>
+            </tt></td>
+          <td>&nbsp;</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>++ --</tt></td>
+          <td>increment, decrement</td>
+          <td rowspan="6">Right</td>
+        </tr>
+        <tr>
+          <td><tt>~</tt></td>
+          <td>bitwise complement<br>
+          </td>
+        </tr>
+        <tr>
+          <td><tt>!<br>
+            </tt></td>
+          <td>unary NOT</td>
+        </tr>
+        <tr>
+          <td><tt>&amp; *</tt></td>
+          <td>reference and dereference<br>
+          </td>
+        </tr>
+        <tr>
+          <td><span style="font-family: monospace;">(type)</span><br>
+          </td>
+          <td>type casting</td>
+        </tr>
+        <tr>
+          <td><tt>+ -</tt></td>
+          <td>unary + and -<br>
+          </td>
+        </tr>
+        <tr>
+          <td><tt>* / %</tt></td>
+          <td>arithmetic operators</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>+ -</tt></td>
+          <td>addition, subtraction</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>&lt;&lt; &gt;&gt;</tt></td>
+          <td>bitwise shifts<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>&lt; &lt;= &gt; &gt;=</tt></td>
+          <td>relational operators</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>== !=</tt></td>
+          <td>relational operators</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>&amp;<span class="Apple-converted-space">&nbsp;</span><br>
+            </tt></td>
+          <td>bitwise and<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>^</tt></td>
+          <td style="vertical-align: top;">bitwise exclusive-or</td>
+          <td style="vertical-align: top;">Left</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>|</tt></td>
+          <td style="vertical-align: top;">bitwise or<br>
+          </td>
+          <td style="vertical-align: top;">Left</td>
+        </tr>
+        <tr>
+          <td><tt>&amp;&amp;<br>
+            </tt></td>
+          <td>logical operator and<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>||<br>
+            </tt></td>
+          <td style="vertical-align: top;">logical operator or<br>
+          </td>
+          <td style="vertical-align: top;">Left</td>
+        </tr>
+        <tr>
+          <td><tt>?:</tt></td>
+          <td>conditional operator<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>= += -= *= /= %=<br>
+              &gt;&gt;= &lt;&lt;= &amp;= ^= |=</tt></td>
+          <td>assignment operators<br>
+          </td>
+          <td>Right</td>
+        </tr>
+        <tr>
+          <td><tt>,</tt></td>
+          <td>comma, separator</td>
+          <td>Left</td>
+        </tr>
+      </tbody>
+    </table>
+    <br style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 1; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">
+    <blockquote style="color: rgb(0, 0, 0); font-family: Times;
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 1;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <pre><font size="+1"><span style="color: rgb(51, 51, 255);">int</span> a = 10, b, c, d;  <br><br>// <span style="font-weight: bold;">right associativity</span>  <br>d = c = b = a;     // is equivalent to d = (c = (b = a)); <br><br>// <span style="font-weight: bold;">left associativity</span>  <br>d - c + b - a;     // is equivalent to ((d - c) + b) - a; <br> <br>// <span style="font-weight: bold;">precedence </span><br>d &gt; c &amp;&amp; -b &lt;= a   // is equivalent to (d &gt; c) &amp;&amp; ((-b) &lt;= a)  <span style="font-weight: bold;"></span></font></pre>
+    </blockquote>
+    <hr size="2" width="100%"><br>
   </body>
 </html>
