@@ -12,13 +12,131 @@
     3.7 Break and Continue<br>
     3.8 Goto and labels<br>
     <br>
-    Цикли - While и For<br>
+    <b>Цикли - While и For</b><br>
     <br>
-    Цикли - Do-While<br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <font size="+1"><tt>while (expression)</tt><tt><br>
+      </tt><tt>statement</tt></font><br>
     <br>
-    Break и Continue<br>
     <br>
-    Goto и етикети<br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <font size="+1"><tt>for (expr1; expr2; expr3)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; statement</tt></font><br>
+    е еквивалентно на<br>
+    <font size="+1"><tt>expr1;</tt><tt><br>
+      </tt><tt>while (expr2) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; statement</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; expr3; <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>#include &lt;ctype.h&gt;</tt><tt><br>
+      </tt><tt>/* atoi: convert s to integer; version 2 */ <br>
+        int atoi(char s[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, n, sign;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; isspace(s[i]); i++) /*
+        skip white space */ ;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; sign = (s[i] ==
+        '-') ? -1 : 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (s[i] == '+' || s[i] == '-') /*
+        skip sign */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; i++;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (n = 0; isdigit(s[i]); i++) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; n = 10 * n + (s[i] - '0');</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return sign * n;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; }</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* shellsort: sort v[0]...v[n-1] into increasing
+        order */ </tt><tt><br>
+      </tt><tt>void shellsort(int v[], int n)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int gap, i, j, temp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (gap = n/2; gap &gt; 0; gap /= 2)
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; for (i = gap; i
+        &lt; n; i++)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        for (j=i-gap; j&gt;=0 &amp;&amp; v[j]&gt;v[j+gap]; j-=gap) { <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; temp = v[j];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; v[j] = v[j+gap];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; v[j+gap] = temp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt></font><br>
+    }<br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>#include &lt;string.h&gt;</tt><tt><br>
+      </tt><tt>/* reverse: reverse string s in place */ </tt><tt><br>
+      </tt><tt>void reverse(char s[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c, i, j;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0, j = strlen(s)-1; i &lt; j;
+        i++, j--) { <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; c = s[i];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; s[i] = s[j];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; s[j] = c; <br>
+        &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <hr size="2" width="100%"><b>Цикли - Do-While</b><br>
+    <br>
+    <font size="+1"><tt>do</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; statement <br>
+        while (expression);</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* itoa: convert n to characters in s */ <br>
+        void itoa(int n, char s[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, sign;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if ((sign = n) &lt; 0) /* record sign
+        */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; n = -n; /* make n
+        positive */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; i = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; do { /* generate digits in reverse
+        order */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; s[i++]=n%10+'0';
+        /*getnextdigit*/</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        &nbsp;&nbsp;&nbsp; while ((n /= 10) &gt; 0);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (sign &lt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s[i++] = '-';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; s[i] = '\0';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; reverse(s);</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <hr size="2" width="100%"><b>Break и Continue</b><br>
+    <br>
+    <font size="+1"><tt>/* trim: remove trailing blanks, tabs, newlines
+        */ </tt><tt><br>
+      </tt><tt>int trim(char s[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int n;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (n = strlen(s)-1; n &gt;= 0; n--)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (s[n] != ' ' &amp;&amp; s[n] !=
+        '\t' &amp;&amp; s[n] != '\n')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        break;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; s[n+1] = '\0';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return n; <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <hr size="2" width="100%"><b>Goto и етикети</b><br>
     <br>
     <hr size="2" width="100%">&nbsp;<br>
   </body>
