@@ -5,7 +5,7 @@
     <title>l07</title>
   </head>
   <body>
-    <h2><b>Функции и структура на програмата - 1</b></h2>
+    <h3><b>Функции и структура на програмата - 1</b> </h3>
     Chapter 4 - Functions and Program Structure<br>
     4.1 Basics of Functions<br>
     4.2 Functions Returning Non-integers<br>
@@ -13,20 +13,392 @@
     4.4 Scope Rules<br>
     4.5 Header Files<br>
     <br>
-    Основи на функциите<br>
+    <b>Основи на функциите</b><br>
+    <br>
+    <i>Пример: </i><br>
+    Програма, която търси даден низ във входен текст, разделен на редове
+    и извежда сало редовете, съдържащи дадения низ.<br>
+    <br>
+    Примерен вход:<br>
+    Ah Love! could you and I with Fate conspire <br>
+    To grasp this sorry Scheme of Things entire, <br>
+    Would not we shatter it to bits -- and then <br>
+    Re-mould it nearer to the Heart's Desire!<br>
+    (Омар Хаям, Рубаят)<br>
+    <br>
+    Изход за примерния вход:<br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    Ah Love! could you and I with Fate conspire <br>
+    Would not we shatter it to bits -- and then <br>
+    Re-mould it nearer to the Heart's Desire!<br>
+    <br>
+    Псевдокод:<br>
+    <font size="+1"><tt>while (there's another line)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (the line contains the pattern)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; print it</tt></font><br>
+    <br>
+    Решение:<br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt;</tt><tt><br>
+      </tt><tt>#define MAXLINE 1000 /* maximum input line length */<br>
+        <br>
+      </tt><tt></tt><tt>int getline(char line[], int max);</tt><tt><br>
+      </tt><tt>int strindex(char source[], char searchfor[]);<br>
+        <br>
+      </tt><tt></tt><tt>char pattern[] = "ould"; /* pattern to search
+        for */<br>
+        <br>
+      </tt><tt></tt><tt>/* find all lines matching pattern */ <br>
+        int main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char line[MAXLINE]; <br>
+        &nbsp;&nbsp;&nbsp; int found = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (getline(line, MAXLINE) &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (strindex(line,
+        pattern) &gt;= 0) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        printf("%s", line);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        found++; <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+        &nbsp;&nbsp;&nbsp; return found;</tt><tt><br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>/* getline: get line into s, return length */ <br>
+        int getline(char s[], int lim)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int c, i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; i = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (--lim &gt; 0 &amp;&amp;
+        (c=getchar()) != EOF &amp;&amp; c != '\n')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        s[i++] = c;</tt><tt><br>
+        &nbsp;&nbsp;&nbsp; if (c == '\n')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        s[i++] = c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; s[i] = '\0';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return i; <br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>/* strindex: return index of t in s, -1 if none
+        */ <br>
+        int strindex(char s[], char t[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, j, k;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; s[i] != '\0'; i++) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; for (j=i, k=0;
+        t[k]!='\0' &amp;&amp; s[j]==t[k]; j++, k++)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        ;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (k &gt; 0
+        &amp;&amp; t[k] == '\0')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        return i;<br>
+        &nbsp;&nbsp;&nbsp; }<br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; return -1; <br>
+        }</tt></font><br>
+    <br>
+    <b>Функции, които не връщат цяло число</b><br>
+    <br>
+    <i>Пример:</i><br>
+    Превръщане на низ в число с плаваща запетая.<br>
+    <br>
+    <font size="+1"><tt>#include &lt;ctype.h&gt;</tt><tt><br>
+      </tt><tt>/* atof: convert string s to double */ <br>
+        double atof(char s[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double val, power; <br>
+        &nbsp;&nbsp;&nbsp; int i, sign;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; isspace(s[i]); i++) /*
+        skip white space */ <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; sign = (s[i] == '-') ? -1 : 1; <br>
+        &nbsp;&nbsp;&nbsp; if (s[i] == '+' || s[i] == '-')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; i++;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (val = 0.0; isdigit(s[i]); i++)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; val = 10.0 * val +
+        (s[i] - '0'); <br>
+        &nbsp;&nbsp;&nbsp; if (s[i] == '.')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; i++;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (power = 1.0; isdigit(s[i]); i++)
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; val = 10.0 * val +
+        (s[i] - '0');</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; power *= 10; <br>
+        &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return sign * val / power; <br>
+        }</tt></font><br>
+    <br>
+    <i>Пример:</i><br>
+    Примитивен калкулатор - събера въведените числа.<br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt; <br>
+        <br>
+        #define MAXLINE 100</tt><tt><br>
+      </tt><tt><br>
+        /* rudimentary calculator */ <br>
+        int main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double sum, atof(char []);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char line[MAXLINE];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int getline(char line[], int max);<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; sum = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (getline(line, MAXLINE) &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("\t%g\n", sum += atof(line));
+        return 0;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt></font><br>
+    <b>Външни променливи</b><br>
+    <br>
+    Пример:<br>
+    Калкулатор с вход "полски запис.<br>
+    <font size="+1"><tt>(1 - 2) * (4 + 5)</tt><tt><br>
+      </tt><tt>1 2 - 4 5 + * </tt></font><br>
+    <br>
+    Стек - FIFO<br>
+    <br>
+    Псевдокод:<br>
+    <font size="+1"><tt>while (next operator or operand is not
+        end-of-file indicator) <br>
+        &nbsp;&nbsp;&nbsp; if (number)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; push it</tt><tt><br>
+        &nbsp;&nbsp;&nbsp; else if (operator)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; pop operands</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; do operation</tt><tt><br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push result</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else if (newline)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; pop and print top
+        of stack</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; error</tt><tt><br>
+      </tt><tt> </tt></font><br>
+    Скелет:<br>
+    <font size="+1"><tt>#include</tt></font>s <br>
+    <font size="+1"><tt>#define</tt></font>s<br>
+    <br>
+    function declarations for <font size="+1"><tt>main </tt></font><br>
+    <br>
+    <font size="+1"><tt>main() { ... }</tt></font><br>
+    <br>
+    external variables for <font size="+1"><tt>push</tt></font> and <font
+      size="+1"><tt>pop</tt></font><br>
+    <br>
+    <font size="+1"><tt>void push( double f) { ... } </tt><tt><br>
+      </tt><tt>double pop(void) { ... }<br>
+        <br>
+      </tt><tt>int getop(char s[]) { ... } </tt></font><br>
+    routines called by <font size="+1"><tt>getop</tt></font><br>
+    <br>
+    Реализация на алгоритъма:<br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt;</tt><tt><br>
+      </tt><tt>#include &lt;stdlib.h&gt; /* for atof() */<br>
+        <br>
+      </tt><tt></tt><tt>#define MAXOP 100 /* max size of operand or
+        operator */ <br>
+        #define NUMBER '0' /* signal that a number was found */<br>
+        <br>
+      </tt><tt></tt><tt>int getop(char []); <br>
+        void push(double); <br>
+        double pop(void);<br>
+        <br>
+      </tt><tt></tt><tt>/* reverse Polish calculator */ <br>
+        int main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int type;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double op2;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char s[MAXOP];<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; while ((type = getop(s)) !=
+        EOF) { <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; switch (type) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        case NUMBER:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        push(atof(s));</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        break;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        case '+':</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        push(pop() + pop());</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        break;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        case '*':</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; push(pop() * pop());</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; break;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        case '-':</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; op2 = pop(); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; push(pop() - op2); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; break;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        case '/':</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        op2 = pop();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; if (op2 != 0.0) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; push(pop() / op2);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; printf("error: zero divisor\n");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        break;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        case '\n':</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; printf("\t%.8g\n", pop());</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        break;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        default:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; printf("error: unknown command %s\n", s);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp; break; <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0; <br>
+        }</tt></font><br>
+    <br>
+    Реализация на функциите <font size="+1"><tt>push</tt></font> и <font
+      size="+1"><tt>pop</tt></font>.<br>
+    <br>
+    <font size="+1"><tt>#define MAXVAL 100 /* maximum depth of val stack
+        */<br>
+        <br>
+      </tt><tt></tt><tt>int sp = 0; /* next free stack position */ <br>
+        double val[MAXVAL]; /* value stack */<br>
+        <br>
+      </tt><tt></tt><tt>/* push: push f onto value stack */ <br>
+        void push(double f)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (sp &lt; MAXVAL)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; val[sp++] = f;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("error:
+        stack full, can't push %g\n", f);</tt><tt><br>
+      </tt><tt>}<br>
+        <br>
+      </tt><tt></tt><tt>/* pop: pop and return top value from stack */ <br>
+        double pop(void)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (sp &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return val[--sp];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("error:
+        stack empty\n"); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return 0.0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        }</tt><tt><br>
+      </tt></font><br>
+    Реализация на функцията <font size="+1"><tt>getop</tt></font>.<br>
+    <br>
+    <font size="+1"><tt>#include &lt;ctype.h&gt;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>int getch(void); <br>
+        void ungetch(int);<br>
+        <br>
+      </tt><tt></tt><tt>/* getop: get next character or numeric operand
+        */ <br>
+        int getop(char s[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, c;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((s[0] = c = getch()) == ' ' ||
+        c == '\t') ;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; s[1] = '\0';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (!isdigit(c) &amp;&amp; c != '.')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return c; /* not a
+        number */ <br>
+        &nbsp;&nbsp;&nbsp; i = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (isdigit(c)) /* collect integer
+        part */ <br>
+        &nbsp;&nbsp;&nbsp; while (isdigit(s[++i] = c = getch()))</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (c == '.') /* collect fraction part
+        */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; while
+        (isdigit(s[++i] = c = getch())) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; s[i] = '\0';</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (c != EOF)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ungetch(c);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return NUMBER;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    Реализация на функциите <font size="+1"><tt>getch</tt></font> и <font
+      size="+1"><tt>ungetch</tt></font>.<br>
+    <br>
+    <font size="+1"><tt>#define BUFSIZE 100<br>
+        <br>
+      </tt><tt>char buf[BUFSIZE]; /* buffer for ungetch */<br>
+      </tt><tt></tt><tt>int bufp = 0; /* next free position in buf */<br>
+        <br>
+      </tt><tt></tt><tt>int getch(void) /* get a (possibly pushed-back)
+        character */ <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return (bufp &gt; 0) ? buf[--bufp] :
+        getchar(); <br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>void ungetch(int c) /* push character back on
+        input */ <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (bufp &gt;= BUFSIZE)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("ungetch:
+        too many characters\n");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; buf[bufp++] =
+        c;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <b>Правила за област на видимост</b><br>
+    <br>
+    <i>Пример:</i><br>
+    <br>
+    in file1:<br>
+    <font size="+1"><tt>&nbsp;&nbsp;&nbsp; extern int sp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; extern double val[];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void push(double f) { ... }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double pop(void) { ... }</tt></font><br>
+    <br>
+    in file2:<br>
+    <font size="+1"><tt>&nbsp;&nbsp;&nbsp; int sp = 0;</tt></font><font
+      size="+1"><tt>
+        <meta http-equiv="Content-Type" content="text/html;
+          charset=UTF-8">
+        <title>ebook - The C Programming Language Ritchie &amp;
+          kernighan -.doc</title>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double val[MAXVAL];</tt></font><br>
     <br>
     <br>
+    <b>Заглавни файлове</b><br>
     <br>
-    Функции, които не връщат цяло число<br>
-    <br>
-    <br>
-    Външни проминливи<br>
-    <br>
-    <br>
-    Правила за област на видимост<br>
-    <br>
-    <br>
-    Заглавни файлове<br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <img alt=""
+      src="images/Screen%20Shot%202015-10-14%20at%208.59.53%20PM.png"
+      height="600" width="622"><br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.do</title>
     <br>
     <hr size="2" width="100%"><br>
   </body>
