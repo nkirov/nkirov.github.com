@@ -17,15 +17,106 @@
     4.11.2 Macro Substitution<br>
     4.11.3 Conditional Inclusion<br>
     <br>
-    Статични променливи<br>
-    Register променливи<br>
-    Блокова структура<br>
-    Инициализация<br>
-    Рекурсия<br>
-    Препроцесорът на С<br>
-    &nbsp;&nbsp; Включване на файлове<br>
-    &nbsp;&nbsp; Замяна на макроси<br>
-    &nbsp;&nbsp; Условно включване<br>
+    <b>Статични променливи</b><br>
+    Автоматични (външни) променливи - видими само вэв файла, където за
+    дефинирани.<br>
+    Локални (вътрешни) променливи - запазват стойността си при повторно
+    викане на функцията.<br>
+    <br>
+    <font size="+1"><tt>static char buf[BUFSIZE]; /* buffer for ungetch
+        */ <br>
+        static int bufp = 0; /* next free position in buf */<br>
+        <br>
+      </tt><tt></tt><tt>int getch(void) <br>
+        { ... }</tt><tt><br>
+      </tt><tt>void ungetch(int c) <br>
+        { ... }</tt></font><br>
+    <br>
+    <br>
+    <b>Register променливи</b><br>
+    <br>
+    <font size="+1"><tt>register int x;</tt><tt><br>
+      </tt><tt>register char c;</tt></font><br>
+    <br>
+    <font size="+1"><tt>int f(register unsigned m, register long n) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; register int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; ... <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <b>Блокова структура</b><br>
+    <br>
+    <font size="+1"><tt>if (n &gt; 0) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i; /* declare a new i */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; i &lt; n; i++) ...</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <b>Инициализация</b><br>
+    <br>
+    <font size="+1"><tt>int x = 1;</tt><tt><br>
+      </tt><tt>char squota = '\'';</tt><tt><br>
+      </tt><tt>long day = 1000L * 60L * 60L * 24L; /* milliseconds/day
+        */</tt><tt><br>
+      </tt><tt>int days[] = { 31, 28, 31, 30, 31, 30, 31, 31, 30, 31,
+        30, 31 }</tt></font><br>
+    <br>
+    <b>Рекурсия</b><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* qsort: sort v[left]...v[right] into
+        increasing order */ <br>
+        void qsort(int v[], int left, int right)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, last;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void swap(int v[],</tt></font><font
+      size="+1"><tt><font size="+1"><tt> int i, int j);<br>
+            <br>
+          </tt></font></tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; if (left
+        &gt;= right) </tt></font><font size="+1"><tt><font size="+1"><tt>/*
+            do nothing if array contains */</tt></font></tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </tt><tt>/* fewer than two elements */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; swap(v, left, (left + right)/2); /*
+        move partition elem */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; last = left; /* to v[0] */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = left + 1; i &lt;= right; i++)
+        /* partition */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (v[i] &lt;
+        v[left]) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; swap(v,
+        ++last, i);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; swap(v, left, last);&nbsp;&nbsp;&nbsp;
+      </tt></font><font size="+1"><tt>/* restore partition elem */</tt></font><br>
+    <font size="+1"><tt><font size="+1"><tt>&nbsp;</tt></font>&nbsp;&nbsp;
+        qsort(v, left, last-1); <br>
+        &nbsp;&nbsp;&nbsp; qsort(v, last+1, right);</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <font size="+1"><tt>/* swap: interchange v[i] and v[j] */ <br>
+        void swap(int v[], int i, int j)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int temp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp = v[i];<br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; v[i] = v[j];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; v[j] = temp;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <b>Препроцесорът на С</b><br>
+    <br>
+    <br>
+    &nbsp;&nbsp; <i>Включване на файлове</i><br>
+    <br>
+    <br>
+    &nbsp;&nbsp; <i>Замяна на макроси</i><br>
+    <br>
+    <br>
+    &nbsp;&nbsp; <i>Условно включване</i><br>
+    <br>
+    <hr size="2" width="100%"><br>
     &nbsp;&nbsp; <br>
   </body>
 </html>
