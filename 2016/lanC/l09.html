@@ -16,29 +16,46 @@
     <br>
     <b>Указатели и адреси</b><br>
     <br>
-    int x = 1, y = 2, int *ip;<br>
-    ip = &amp;x;<br>
-    y = *ip;<br>
-    *ip = 0;<br>
-    ip = &amp;z[0];<br>
-    z[10]; /*ipisapointertoint*/<br>
-    /*ipnowpointstox*/ /*yisnow1*/ /*xisnow0*/<br>
-    /* ip now points to z[0] */<br>
+    <font size="+1"><tt>int x = 1, y = 2, </tt></font><font size="+1"><tt><font
+          size="+1"><tt>z[10];<br>
+          </tt></font>int *ip; </tt></font><font size="+1"><tt><font
+          size="+1"><tt> /* ip is a pointer to int */<br>
+            <br>
+          </tt></font></tt><tt> ip = &amp;x;&nbsp;&nbsp;&nbsp; </tt></font><font
+      size="+1"><tt><font size="+1"><tt>/* ip now points to x */</tt></font></tt><tt><br>
+      </tt><tt> y = *ip; &nbsp;&nbsp;</tt></font><font size="+1"><tt><font
+          size="+1"><tt> /* y is now 1 */</tt></font></tt><tt><br>
+      </tt><tt> *ip = 0;&nbsp;&nbsp;&nbsp; </tt></font><font size="+1"><tt><font
+          size="+1"><tt> /* x is now 0 */</tt></font></tt><tt><br>
+      </tt><tt> ip = &amp;z[0];</tt><tt> </tt><tt>/* ip now points to
+        z[0] */</tt></font><br>
     <br>
     <b>Указатели и аргументи на функции</b><br>
     <br>
+    <tt><font size="+1">void swap(int x, int y) /* <b><font
+            color="#ff0000">WRONG</font></b> */ <br>
+        {<br>
+        &nbsp;&nbsp;&nbsp; int temp;<br>
+        &nbsp;&nbsp;&nbsp; temp = x;<br>
+        &nbsp;&nbsp;&nbsp; x = y;<br>
+        &nbsp;&nbsp;&nbsp; y = temp;<br>
+        }</font></tt><br>
     <br>
-    void swap(int *px, int *py) /* interchange *px and *py */ {<br>
-    int temp;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; temp = *px;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *px = *py;<br>
-    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; *py = temp;<br>
-    }<br>
+    <font size="+1"><tt>swap(a, b);</tt></font><br>
+    <br>
+    <font size="+1"><tt>void swap(int *px, int *py) /* interchange *px
+        and *py */ <br>
+        {</tt><tt><br>
+      </tt><tt> &nbsp;&nbsp;&nbsp; int temp;</tt><tt><br>
+      </tt><tt> &nbsp;&nbsp;&nbsp; temp = *px;</tt><tt><br>
+        &nbsp;&nbsp;&nbsp; *px = *py;</tt><tt><br>
+      </tt><tt> &nbsp;&nbsp;&nbsp; *py = temp;</tt><tt><br>
+      </tt><tt> }</tt></font><br>
+    <br>
+    <font size="+1"><tt>swap(&amp;a, &amp;b);</tt></font><br>
     <br>
     <br>
     <b>Указатели и масиви</b><br>
-    <br>
-    <br>
     <meta charset="utf-8">
     <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
       medium; font-style: normal; font-variant: normal; font-weight:
@@ -132,6 +149,24 @@
     </table>
     <br>
     <br>
+    <font size="+1"><tt>/* strlen: return length of string s */ <br>
+        int strlen(char *s)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int n;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (n = 0; *s != '\0', s++) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; n++;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return n; <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>strlen("hello, world"); </tt></font><font
+      size="+1"><tt><font size="+1"><tt>/* string constant */<br>
+          </tt></font>strlen(array);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </tt></font><font size="+1"><tt><font size="+1"><tt>/* char
+            array[100]; */<br>
+          </tt></font>strlen(ptr);</tt><tt>&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; /* char *ptr; */</tt><tt><br>
+      </tt></font><br>
     <b>Адресна аритметика</b><br>
     <br>
     указател&nbsp; + int<br>
@@ -140,9 +175,181 @@
     Сравняване на указатели в границите на масив<br>
     указател - указател (сойността на операцията е int)<br>
     <br>
-    Знакови указатели и функции<br>
+    <font size="+1"><tt>/* strlen: return length of string s */ <br>
+        int strlen(char *s)</tt><tt><br>
+      </tt><tt>
+        {</tt><tt><br>
+      </tt><tt>
+        &nbsp;&nbsp;&nbsp; char *p = s;</tt><tt><br>
+      </tt><tt>
+        &nbsp;&nbsp;&nbsp; while (*p != '\0')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p++;</tt><tt><br>
+      </tt><tt>
+        &nbsp;&nbsp;&nbsp; return p - s; <br>
+        }</tt></font><br>
     <br>
-    Масиви от указатели, указатели към указатели<br>
+    <br>
+    <b>Знакови указатели и функции</b><br>
+    <br>
+    <font size="+1"><tt>char amessage[] = "now is the time"; /* an array
+        */ </tt><tt><br>
+      </tt><tt>char *pmessage = "now is the time"; /* a pointer */</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* strcpy: copy t to s; array subscript version
+        */ <br>
+        void strcpy(char *s, char *t)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; i = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((s[i] = t[i]) != '\0')</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; i++; <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* strcpy: copy t to s; pointer version */ </tt><tt><br>
+      </tt><tt>void strcpy(char *s, char *t)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; i = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((*s = *t) != '\0') {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; s++;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; t++; <br>
+        &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* strcpy: copy t to s; pointer version 2 */ <br>
+        void strcpy(char *s, char *t)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((*s++ = *t++) != '\0') <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; ;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* strcpy: copy t to s; pointer version 3 */ </tt><tt><br>
+      </tt><tt>void strcpy(char *s, char *t)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (*s++ = *t++)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        ;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <b>Масиви от указатели, указатели към указатели</b><br>
+    <br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt; <br>
+        #include &lt;string.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>#define MAXLINES 5000 /* max #lines to be sorted
+        */ <br>
+        <br>
+        char *lineptr[MAXLINES]; /* pointers to text lines */<br>
+        <br>
+      </tt><tt></tt><tt>int readlines(char *lineptr[], int nlines); <br>
+        void writelines(char *lineptr[], int nlines);<br>
+        <br>
+      </tt><tt></tt><tt>void qsort(char *lineptr[], int left, int
+        right);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; /* sort input lines */<br>
+        <br>
+      </tt><tt>int main()</tt><tt><br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int nlines; /* number of input lines
+        read */<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; if ((nlines =
+        readlines(lineptr, MAXLINES)) &gt;= 0) { <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; qsort(lineptr, 0,
+        nlines-1); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; writelines(lineptr,
+        nlines);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        &nbsp;&nbsp;&nbsp; else {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("error:
+        input too big to sort\n"); <br>
+        return 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>#define MAXLEN 1000 /* max length of any input
+        line */ <br>
+        int getline(char *, int);</tt><tt><br>
+      </tt><tt></tt><tt><br>
+      </tt><tt>char *alloc(int);<br>
+        <br>
+      </tt><tt></tt><tt>/* readlines: read input lines */</tt><tt><br>
+      </tt><tt>int readlines(char *lineptr[], int maxlines) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int len, nlines;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char *p, line[MAXLEN];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; nlines = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while ((len = getline(line, MAXLEN))
+        &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (nlines &gt;=
+        maxlines || p = alloc(len) == NULL) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+        -1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; else {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        line[len-1] = '\0'; /* delete newline */ <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        strcpy(p, line);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        lineptr[nlines++] = p;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return nlines;</tt><tt><br>
+      </tt><tt>}<br>
+        <br>
+        <br>
+      </tt><tt></tt><tt>/* writelines: write output lines */</tt><tt><br>
+      </tt><tt>void writelines(char *lineptr[], int nlines) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 0; i &lt; nlines; i++) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("%s\n",
+        lineptr[i]);</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* writelines: write output lines */</tt><tt><br>
+      </tt><tt>void writelines(char *lineptr[], int nlines) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (nlines-- &gt; 0) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("%s\n",
+        *lineptr++);</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <font size="+1"><tt>/* qsort: sort v[left]...v[right] into
+        increasing order */ <br>
+        &nbsp;qsort(char *v[], int left, int right)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>int i, last;</tt><tt><br>
+      </tt><tt>void swap(char *v[], int i, int j);</tt><tt><br>
+      </tt><tt>if (left &gt;= right) /* do nothing if array contains */
+        return; /* fewer than two elements */</tt><tt><br>
+      </tt><tt>swap(v, left, (left + right)/2); last = left;</tt><tt><br>
+      </tt><tt>91</tt><tt><br>
+      </tt><tt>￼￼</tt><tt><br>
+      </tt><tt>for (i = left+1; i &lt;= right; i++) if (strcmp(v[i],
+        v[left]) &lt; 0)</tt><tt><br>
+      </tt><tt>swap(v, ++last, i); swap(v, left, last);</tt><tt><br>
+      </tt><tt>qsort(v, left, last-1);</tt><tt><br>
+      </tt><tt>qsort(v, last+1, right); }</tt></font><br>
+    <br>
+    <br>
+    /* swap: interchange v[i] and v[j] */ void swap(char *v[], int i,
+    int j)<br>
+    {<br>
+    char *temp;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; temp = v[i];<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v[i] = v[j];<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v[j] = temp;<br>
+    }<br>
     <br>
     <br>
     <hr size="2" width="100%"><br>
