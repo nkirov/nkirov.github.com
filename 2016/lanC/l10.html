@@ -14,12 +14,215 @@
     5.11 Pointers to Functions<br>
     5.12 Complicated Declarations<br>
     <br>
-    Многомерни масиви<br>
-    Инициализация на масиви от указатели<br>
-    Указатели срещу многомерни масиви<br>
-    Аргументи от командния ред<br>
-    Указатели към функции<br>
+    <b>Многомерни масиви</b><br>
+    <br>
+    <i>Пример: </i><br>
+    Високосна година<br>
+    <br>
+    <font size="+1"><tt>static char daytab[2][13] = {</tt><tt><br>
+      </tt><tt>{0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}, <br>
+        {0, 31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31}</tt><tt><br>
+      </tt><tt>};<br>
+        <br>
+      </tt><tt></tt><tt>/* day_of_year: set day of year from month &amp;
+        day */ <br>
+        int day_of_year(int year, int month, int day)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, leap;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; leap = year%4 == 0 &amp;&amp; year%100
+        != 0 || year%400 == 0; <br>
+        &nbsp;&nbsp;&nbsp; for (i = 1; i &lt; month; i++)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; day +=
+        daytab[leap][i]; <br>
+        &nbsp;&nbsp;&nbsp; return day;</tt><tt><br>
+      </tt><tt>}<br>
+        <br>
+      </tt><tt></tt><tt>/* month_day: set month, day from day of year */</tt><tt><br>
+      </tt><tt>void month_day(int year, int yearday, int *pmonth, int
+        *pday) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i, leap;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; leap = year%4 == 0 &amp;&amp; year%100
+        != 0 || year%400 == 0; <br>
+        &nbsp;&nbsp;&nbsp; for (i = 1; yearday &gt; daytab[leap][i];
+        i++)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; yearday -=
+        daytab[leap][i]; <br>
+        &nbsp;&nbsp;&nbsp; *pmonth = i;</tt><tt><br>
+        &nbsp;&nbsp;&nbsp; *pday = yearday;</tt><tt><br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <b>Инициализация на масиви от указатели</b><br>
+    <br>
+    <font size="+1"><tt>/* month_name: return name of n-th month */ </tt><tt><br>
+      </tt><tt>char *month_name(int n)</tt><tt><br>
+      </tt><tt>{&nbsp;&nbsp; &nbsp; <br>
+        &nbsp;&nbsp;&nbsp; static char *name[] = {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; "Illegal month",</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; "January",
+        "February", "March", "April", "May", "June",</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; "July", "August",
+        "September", "October", "November", "December" </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; };</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return (n &lt; 1 || n &gt; 12) ?
+        name[0] : name[n]; </tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <b>Указатели срещу многомерни масиви</b><br>
+    <br>
+    <font size="+1"><tt>&nbsp;int a[10][20];</tt><tt><br>
+      </tt><tt>&nbsp;int *b[10];</tt></font><br>
+    <br>
+    (картинка)<br>
+    <br>
+    <b>Аргументи от командния ред</b><br>
+    <br>
+    <i>Пример:</i><br>
+    Отпечатване на аргументи от командния ред<br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* echo command-line arguments; 1st version */ <br>
+        int main(int argc, char *argv[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int i;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = 1; i &lt; argc; i++)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("%s%s",
+        argv[i], (i &lt; argc-1) ? " " : "");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("\n");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* echo command-line arguments; 2nd version */ <br>
+        main(int argc, char *argv[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (--argc &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("%s%s",
+        *++argv, (argc &gt; 1) ? " " : "");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("\n");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0; <br>
+        }</tt></font><br>
+    <br>
+    <b>Указатели към функции</b><br>
+    <br>
+    <i>Пример:</i><br>
+    Програма, соято сортира низове и числа, в зависимост от входен
+    параметър.<br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt; <br>
+        #include &lt;string.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>#define MAXLINES 5000 /* max #lines to be sorted
+        */ <br>
+        char *lineptr[MAXLINES]; /* pointers to text lines */</tt><tt><br>
+      </tt><tt></tt><tt><br>
+      </tt><tt>int readlines(char *lineptr[], int nlines); <br>
+        void writelines(char *lineptr[], int nlines);<br>
+        <br>
+      </tt><tt></tt><tt>void qsort(void *lineptr[], int left, int right,
+        int (*comp)(void *, void *));<br>
+        <br>
+      </tt><tt></tt><tt>int numcmp(char *, char *);<br>
+        <br>
+      </tt><tt></tt><tt>/* sort input lines */ <br>
+        int main(int argc, char *argv[]) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int nlines; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; /* number of input lines read */ <br>
+        &nbsp;&nbsp;&nbsp; int numeric = 0; &nbsp;&nbsp;&nbsp; /* 1 if
+        numeric sort */<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; if (argc &gt; 1 &amp;&amp;
+        strcmp(argv[1], "-n") == 0) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; numeric = 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if ((nlines = readlines(lineptr,
+        MAXLINES)) &gt;= 0) { <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; qsort((void**) lineptr, 0,
+        nlines-1,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        (int (*)(void*,void*))(numeric ? numcmp : strcmp)); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; writelines(lineptr,
+        nlines);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        &nbsp;&nbsp;&nbsp; else {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("input too
+        big to sort\n"); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* qsort: sort v[left]...v[right] into
+        increasing order */ <br>
+        void qsort(void *v[], int left, int right,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        int (*comp)(void *, void *)) <br>
+        {<br>
+        &nbsp;&nbsp;&nbsp; int i, last;<br>
+        <br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void swap(void *v[], int, int);<br>
+        <br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (left &gt;= right)&nbsp; </tt></font><font
+      size="+1"><tt><font size="+1"><tt>/* do nothing if array contains
+            */</tt></font></tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; </tt></font><font
+      size="+1"><tt><font size="+1"><tt>/* fewer than two elements */ </tt></font></tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; swap(v, left, (left +</tt></font><font
+      size="+1"><tt><font size="+1"><tt> right)/2);</tt></font> <br>
+        &nbsp;&nbsp;&nbsp; </tt><tt>last = left;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (i = left+1; i &lt;=</tt><tt></tt><tt>
+        right; i++) </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if ((*comp)(v[i], </tt></font><font
+      size="+1"><tt><font size="+1"><tt>v[left]) &lt; 0)</tt></font><br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; swap(v,
+        ++last, i);</tt><tt>&nbsp; &nbsp;&nbsp;&nbsp; </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; swap(v, left, last);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; qsort(v, left, last-1, comp); <br>
+        &nbsp;&nbsp;&nbsp; qsort(v, last+1, right, comp);</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdlib.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* numcmp: compare s1 and s2 numerically */ <br>
+        int numcmp(char *s1, char *s2)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double v1, v2;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v1 = atof(s1);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; v2 = atof(s2);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (v1 &lt; v2)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        return -1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if (v1 &gt; v2)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        return 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; return
+        0;</tt><tt><br>
+      </tt><tt> </tt><tt>}</tt></font>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <br>
+    <br>
+    <font size="+1"><tt>void swap(void *v[], int i, int j;) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void *temp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp = v[i];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; v[i] = v[j];</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; v[j] = temp;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <br>
     Сложни декларации<br>
     <br>
+    <hr size="2" width="100%">
   </body>
 </html>
