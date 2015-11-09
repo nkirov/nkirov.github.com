@@ -12,9 +12,253 @@
     6.3 Arrays of Structures<br>
     6.4 Pointers to Structures<br>
     <br>
-    Основи на структурите<br>
-    Структури и функции<br>
-    Масиви от структури<br>
-    Указатели към структури<br>
+    <b>Основи на структурите</b><b><br>
+    </b><br>
+    <font size="+1"><tt>&nbsp;struct point {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int x;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int y;</tt><tt><br>
+      </tt><tt>};</tt></font><br>
+    <br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <font size="+1"><tt>struct point pt;</tt><tt><br>
+      </tt><tt>struct point maxpt = { 320, 200 };</tt></font><br>
+    <br>
+    <font size="+1"><tt>double dist;;</tt><tt><br>
+      </tt><tt>dist = sqrt((double)pt.x * pt.x + (double)pt.y * pt.y);</tt></font><br>
+    <br>
+    <font size="+1"><tt>&nbsp;&nbsp;&nbsp; struct rect {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct point pt1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; struct point pt2;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; };</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct rect screen;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; screen.pt1.x</tt></font><br>
+    <br>
+    <br>
+    <b>Структури и функции</b><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* makepoint: make a point from x and y
+        components */ <br>
+        struct point makepoint(int x, int y)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct point temp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp.x = x;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp.y = y;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return temp;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <font size="+1"><tt>struct rect screen;</tt><tt><br>
+      </tt><tt>struct point middle;</tt><tt><br>
+      </tt><tt>struct point makepoint(int, int);</tt><tt><br>
+      </tt><tt>screen.pt1 = makepoint(0,0);</tt><tt><br>
+      </tt><tt>screen.pt2 = makepoint(XMAX, YMAX);</tt><tt><br>
+      </tt><tt>middle = makepoint((screen.pt1.x + screen.pt2.x)/2,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; (screen.pt1.y +
+        screen.pt2.y)/2);</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* addpoints: add two points */</tt><tt><br>
+      </tt><tt>struct point addpoint(struct point p1, struct point p2) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p1.x += p2.x;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; p1.y += p2.y;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return p1;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* ptinrect: return 1 if p in r,0 if not */ <br>
+        int ptinrect(struct point p, struct rect r) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return p.x &gt;= r.pt1.x &amp;&amp;
+        p.x &lt; r.pt2.x &amp;&amp; <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p.y
+        &gt;= r.pt1.y &amp;&amp; p.y &lt; r.pt2.y;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>#define min(a, b) ((a) &lt; (b) ? (a) : (b)) <br>
+        #define max(a, b) ((a) &gt; (b) ? (a) : (b))<br>
+        <br>
+      </tt><tt>/* canonrect: canonicalize coordinates of rectangle */ <br>
+        struct rect canonrect(struct rect r)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct rect temp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp.pt1.x = </tt></font><font
+      size="+1"><tt><font size="+1"><tt>min(r.pt1.x, r.pt2.x);</tt></font></tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp.pt1.y =</tt></font><font
+      size="+1"><tt><font size="+1"><tt> min(r.pt1.y, r.pt2.y);</tt></font></tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp.pt2.x =</tt></font><font
+      size="+1"><tt><font size="+1"><tt> max(r.pt1.x, r.pt2.x);</tt></font></tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; temp.pt2.y = </tt></font><font
+      size="+1"><tt><font size="+1"><tt>max(r.pt1.y, r.pt2.y);</tt></font><br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; return temp;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>struct point origin, *pp;</tt><tt><br>
+      </tt><tt>pp = &amp;origin;</tt><tt><br>
+      </tt><tt>printf("origin is (%d,%d)\n", (*pp).x, (*pp).y);<br>
+        printf("origin is (%d,%d)\n", pp-&gt;x, pp-&gt;y);<br>
+      </tt></font><br>
+    <br>
+    <font size="+1"><tt>struct rect r, *rp = &amp;r;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; r.pt1.x</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; rp-&gt;pt1.x</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; &nbsp; (r.pt1).x</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; &nbsp; (rp-&gt;pt1).x</tt><tt><br>
+      </tt></font><br>
+    <br>
+    <b>Масиви от структури</b><br>
+    <br>
+    <font size="+1"><tt>char *keyword[NKEYS]; </tt><tt><br>
+      </tt><tt>int keycount[NKEYS];<br>
+        &nbsp;<br>
+        char *word;<br>
+        int cout;<br>
+        <br>
+        struct key {<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char *word;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int count;<br>
+        &nbsp;&nbsp; } keytab[NKEYS];<br>
+        <br>
+      </tt></font>&nbsp;<font size="+1"><tt>struct key {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char *word;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int count;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; } keytab[] = {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "auto", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "break", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "case", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "char", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "const", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "continue", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "default", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* ... */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "unsigned", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "void", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "volatile", 0,</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "while", 0</tt><tt><br>
+      </tt><tt>};</tt><br>
+    </font><br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt; <br>
+        #include &lt;ctype.h&gt; <br>
+        #include &lt;string.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>#define MAXWORD 100<br>
+        <br>
+      </tt><tt></tt><tt>int getword(char *, int);</tt><tt><br>
+      </tt><tt>int binsearch(char *, struct key *, int);<br>
+        <br>
+      </tt><tt>/* count C keywords */</tt><tt><br>
+      </tt><tt>int main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int n;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char word[MAXWORD];<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; while (getword(word, MAXWORD)
+        != EOF) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (isalpha(word[0]))</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        if ((n = binsearch(word, keytab, NKEYS)) &gt;= 0)<br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; keytab[n].count++;<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; for (n = 0; n &lt; NKEYS;
+        n++) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (keytab[n].count &gt;
+        0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        printf("%4d %s\n",</tt><tt> keytab[n].count, keytab[n].word);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0; <br>
+        }<br>
+        <br>
+      </tt><tt></tt><tt>/* binsearch: find word in tab[0]...tab[n-1] */
+        <br>
+        int binsearch(char *word, struct key tab[], int n) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int cond;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int low, high, mid;<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; low = 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; high = n - 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (low &lt;= high) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; mid = (low+high) / 2;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if ((cond = strcmp(word,
+        tab[mid].word)) &lt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; high = mid - 1; <br>
+        &nbsp;&nbsp;&nbsp; else if (cond &gt; 0) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; low = mid + 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return mid;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return -1; <br>
+        }</tt><tt><br>
+      </tt></font><br>
+    <br>
+    <b>Указатели към структури</b><br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt; </tt><tt><br>
+      </tt><tt>#include &lt;ctype.h&gt; </tt><tt><br>
+      </tt><tt>#include &lt;string.h&gt; </tt><tt><br>
+      </tt><tt>#define MAXWORD 100</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>int getword(char *, int);</tt><tt><br>
+      </tt><tt>struct key *binsearch(char *, struct key *, int);</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>/* count C keywords; pointer version */ </tt><tt><br>
+      </tt><tt>int </tt><tt>main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char word[MAXWORD]; <br>
+        &nbsp;&nbsp;&nbsp; struct key *p;<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; while (getword(word, MAXWORD)
+        != EOF) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (isalpha(word[0]))</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        if ((p=binsearch(word, keytab, NKEYS)) != NULL) &nbsp; <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; p-&gt;count++;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (p = keytab; p &lt; keytab +
+        NKEYS; p++) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (p-&gt;count &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        printf("%4d %s\n", p-&gt;count, p-&gt;word); <br>
+        &nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>}<br>
+        <br>
+      </tt><tt></tt><tt>/* binsearch: find word in tab[0]...tab[n-1] */</tt><tt><br>
+      </tt><tt>struct key *binsearch(char *word, struck key *tab, int n)
+        <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int cond;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct key *low = &amp;tab[0]; <br>
+        &nbsp;&nbsp;&nbsp; struct key *high = &amp;tab[n]; <br>
+        &nbsp;&nbsp;&nbsp; struct key *mid;<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; while (low &lt; high) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; mid = low +
+        (high-low) / 2;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if ((cond =
+        strcmp(word, mid-&gt;word)) &lt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        high = mid;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if (cond
+        &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        low = mid + 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        return mid;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return NULL;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <br>
+    <hr size="2" width="100%"><br>
   </body>
 </html>
