@@ -13,10 +13,292 @@
     6.8 Unions<br>
     6.9 Bit-fields<br>
     <br>
-    Самосвързани структури<br>
-    Таблица за справки<br>
-    Typedef<br>
-    Обединения<br>
-    Битови полета<br>
+    <b>Самосвързани структури</b><br>
+    <br>
+    Двоично дърво, търсещи дървета (дървета за търсене)<br>
+    <br>
+    <font size="+1"><tt>struct tnode {&nbsp;&nbsp; &nbsp; /* the tree
+        node: */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char *word;&nbsp;&nbsp;&nbsp; /*
+        points to the text */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int count; &nbsp;&nbsp;&nbsp; /*
+        number of occurrences */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct *tnode;&nbsp; /* left child */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct *tnode;&nbsp; /* right child */</tt><tt><br>
+      </tt><tt>};<br>
+        <br>
+      </tt><tt> </tt></font><br>
+    <i>Пример:</i><i><br>
+    </i>Да се преброи по колко пъти се среща дума в даден низ (текст).<br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdio.h&gt; </tt><tt><br>
+      </tt><tt>#include &lt;ctype.h&gt; </tt><tt><br>
+      </tt><tt>#include &lt;string.h&gt;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>#define MAXWORD 100<br>
+        <br>
+      </tt><tt>struct tnode *addtree(struct tnode *, char *); <br>
+        void treeprint(struct tnode *);</tt><tt><br>
+      </tt><tt>int getword(char *, int);<br>
+        <br>
+      </tt><tt></tt><tt>/* word frequency count */ <br>
+        main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct tnode *root; <br>
+        &nbsp;&nbsp;&nbsp; char word[MAXWORD];<br>
+        <br>
+      </tt><tt></tt><tt>&nbsp;&nbsp;&nbsp; root = NULL;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; while (getword(word, MAXWORD) != EOF)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if
+        (isalpha(word[0]))</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        root = addtree(root, word);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; treeprint(root);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0; <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>struct tnode *talloc(void); <br>
+        char *strdup(char *);<br>
+        <br>
+      </tt><tt></tt><tt>/* addtree: add a node with w, at or below p */
+        <br>
+        struct treenode *addtree(struct tnode *p, char *w) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int cond;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (p == NULL) { &nbsp;&nbsp;&nbsp; /*
+        a new word has arrived */ <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p = talloc();
+        &nbsp;&nbsp;&nbsp; /* make a new node */ <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p-&gt;word = strdup(w);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p-&gt;count = 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p-&gt;left =
+        p-&gt;right = NULL;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        &nbsp;&nbsp;&nbsp; else if ((cond = strcmp(w, p-&gt;word)) == 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p-&gt;count++;
+        &nbsp;&nbsp;&nbsp; /* repeated word */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else if (cond &lt; 0)&nbsp; /* less
+        than into left subtree */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p-&gt;left =
+        addtree(p-&gt;left, w);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; /* greater
+        than into right subtree */ <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; p-&gt;right =
+        addtree(p-&gt;right, w);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return p; <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* treeprint: in-order print of tree p */ <br>
+        void treeprint(struct tnode *p)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (p != NULL) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        treeprint(p-&gt;left);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; printf("%4d %s\n",
+        p-&gt;count, p-&gt;word); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; treeprint(p-&gt;right);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>#include &lt;stdlib.h&gt;<br>
+        <br>
+      </tt><tt></tt><tt>/* talloc: make a tnode */ <br>
+        struct tnode *talloc(void) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return (struct tnode *)
+        malloc(sizeof(struct tnode));</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt></font><br>
+    <br>
+    <font size="+1"><tt>char *strdup(char *s) /* make a duplicate of s
+        */ <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char *p;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; p = (char *) malloc(strlen(s)+1); /*
+        +1 for '\0' */ <br>
+        &nbsp;&nbsp;&nbsp; if (p != NULL)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; strcpy(p, s);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return p;</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <b>Таблица за справки<br>
+    </b>Речник и двойки (ключ, елемент), търсене и директен достъп
+    (индекс)<br>
+    Хеширане - хеш стойност, хеш таблица<br>
+    <br>
+    <i>Пример</i><b><i>:</i><br>
+    </b>Да се реализира таблица за замени:&nbsp; идентификатор -
+    стойност.<b><br>
+      <br>
+    </b><b> </b>
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <b> </b><font size="+1"><tt>struct nlist {</tt></font><font
+      size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp; &nbsp; /* table entry */</tt></font>&nbsp;<b>&nbsp;&nbsp;
+        </b><b><br>
+        </b><b> &nbsp;&nbsp;&nbsp; </b>struct nlist *next; </tt></font><font
+      size="+1"><tt><font size="+1"><tt>/* next entry in chain */</tt></font>&nbsp;&nbsp;&nbsp;
+
+        <br>
+        &nbsp;&nbsp;&nbsp; char *name; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; /* defined name */ <br>
+        &nbsp;&nbsp;&nbsp; char *defn; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; /* replacement text */<br>
+        <br>
+        #define HASHSIZE 101<br>
+        <br>
+      </tt></font><b><big><tt>static struct nlist *hashtab[HASHSIZE]; /*
+          pointer table */</tt></big></b><br>
+    <font size="+1"><tt>
+        <meta http-equiv="Content-Type" content="text/html;
+          charset=UTF-8">
+        <title>ebook - The C Programming Language Ritchie &amp;
+          kernighan -.doc</title>
+        <br>
+        /* hash: form hash value for string s */ <br>
+        unsigned hash(char *s)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; unsigned hashval;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (hashval = 0; *s != '\0'; s++) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; hashval = *s + 31 *
+        hashval;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return hashval % HASHSIZE; <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* lookup: look for s in hashtab */ </tt><tt><br>
+      </tt><tt>struct nlist *lookup(char *s)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct nlist *np;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (np = hashtab[hash(s)]; np !=
+        NULL; np = np-&gt;next) &nbsp;&nbsp;&nbsp; <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (strcmp(s, np-&gt;name)
+        == 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        return np; /* found */ <br>
+        &nbsp;&nbsp;&nbsp; return NULL; /* not found */</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt></font><br>
+    <br>
+    <font size="+1"><tt>struct nlist *lookup(char *); <br>
+        char *strdup(char *);<br>
+        <br>
+      </tt><tt></tt><tt>/* install: put (name, defn) in hashtab */ <br>
+        struct nlist *install(char *name, char *defn) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct nlist *np; <br>
+        &nbsp;&nbsp;&nbsp; unsigned hashval;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if ((np = lookup(name)) == NULL) { /*
+        not found */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; np = (struct nlist
+        *) malloc(sizeof(*np));</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (np == NULL ||
+        (np-&gt;name = strdup(name)) == NULL)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        return NULL;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; hashval =
+        hash(name); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; np-&gt;next =
+        hashtab[hashval]; <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; hashtab[hashval] = np;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+        &nbsp;&nbsp;&nbsp; else /* already there */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; free((void *)
+        np-&gt;defn); /*free previous defn */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if ((np-&gt;defn = strdup(defn)) ==
+        NULL) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return NULL;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return np; <br>
+        }</tt></font><br>
+    <br>
+    <b>Typedef</b><br>
+    <br>
+    <font size="+1"><tt>typedef struct tnode *Treeptr;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>typedef </tt></font><font size="+1"><tt>struct tnode
+        {&nbsp; /* the tree node: */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char *word;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp; /* points to the text */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int count; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp; /* number of occurrences */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct *tnode;&nbsp;
+        &nbsp;&nbsp;&nbsp; /* left child */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; struct *tnode;&nbsp;
+        &nbsp;&nbsp;&nbsp; /* right child */</tt><tt><br>
+      </tt><tt>} Treenode;</tt></font><br>
+    <br>
+    <br>
+    <font size="+1"><tt>/* talloc: make a tnode */ <br>
+        struct tnode *talloc(void) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return (struct tnode *)
+        malloc(sizeof(struct tnode));</tt><tt><br>
+      </tt><tt>}</tt></font><br>
+    <br>
+    <font size="+1"><tt>Treeptr talloc(void) <br>
+        {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return (Treeptr)
+        malloc(sizeof(Treenode)); <br>
+        }</tt></font><br>
+    <br>
+    <br>
+    <b>Обединения</b><br>
+    <br>
+    <font size="+1"><tt>union u_tag {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; int ival;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; float fval;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char *sval;</tt><tt><br>
+        } u;</tt></font><br>
+    <br>
+    <font size="+1"><tt>if (utype == INT) <br>
+        &nbsp;&nbsp;&nbsp; printf("%d\n", u.ival);</tt><tt><br>
+      </tt><tt>if (utype == FLOAT) <br>
+        &nbsp;&nbsp;&nbsp; printf("%f\n", u.fval);</tt><tt><br>
+      </tt><tt>if (utype == STRING) <br>
+        &nbsp;&nbsp;&nbsp; printf("%s\n", u.sval);</tt><tt><br>
+      </tt><tt>else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; printf("bad type %d in utype\n",
+        utype);</tt><tt><br>
+      </tt></font><br>
+    <br>
+    <b>Битови полета</b><br>
+    Флагове и битови полета<br>
+    <br>
+    <font size="+1"><tt>#define KEYWORD </tt><tt><br>
+      </tt><tt>#define EXTRENAL </tt><tt><br>
+      </tt><tt>#define STATIC</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>enum { KEYWORD = 01, EXTERNAL = 02, STATIC = 04 };</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt> </tt><tt>flags |= EXTERNAL | STATIC;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>flags &amp;= ~(EXTERNAL | STATIC);</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>if ((flags &amp; (EXTERNAL | STATIC)) == 0) ...</tt></font>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>ebook - The C Programming Language Ritchie &amp; kernighan
+      -.doc</title>
+    <br>
+    <br>
+    <br>
+    <font size="+1"><tt>struct {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; unsigned int is_keyword : 1; <br>
+        &nbsp;&nbsp;&nbsp; unsigned int is_extern : 1; u<br>
+        &nbsp;&nbsp;&nbsp; nsigned int is_static : 1;</tt><tt><br>
+      </tt><tt>} flags;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>flags.is_extern = flags.is_static = 1;</tt><tt><br>
+      </tt><tt></tt><tt><br>
+      </tt><tt>flags.is_extern = flags.is_static = 0;</tt><tt><br>
+      </tt><tt></tt><tt><br>
+      </tt><tt>if (flags.is_extern == 0 &amp;&amp; flags.is_static == 0)
+        ...</tt></font><br>
+    <br>
+    <hr size="2" width="100%">
   </body>
 </html>
