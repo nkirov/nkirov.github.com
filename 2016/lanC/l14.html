@@ -18,17 +18,90 @@
     7.8.6 Mathematical Functions<br>
     7.8.7 Random Number generation<br>
     <br>
-    Обработка на грешки - Stderr и Exit<br>
-    Вход и изход по редове<br>
-    Други функции<br>
-    &nbsp;&nbsp; Операции с низове<br>
-    &nbsp;&nbsp; Проверка и преобразуване на знакови класове<br>
-    &nbsp;&nbsp; Ungetc<br>
-    &nbsp;&nbsp; Изпълнение на команди<br>
-    &nbsp;&nbsp; Управление на паметта<br>
-    &nbsp;&nbsp; Математически функции<br>
-    &nbsp;&nbsp; Генератор на случайни числа<br>
-    &nbsp;&nbsp; <br>
+    <b>Обработка на грешки - stderr и exit</b><br>
     <br>
+    Съобщенията за грешки се извеждат на <font size="+1"><tt>stderr</tt></font>.<br>
+    <br>
+    <font size="+1"><tt>include &lt;stdio.h&gt;</tt><tt><br>
+      </tt><tt>/* cat: concatenate files, version 2 */ <br>
+        <br>
+        int main(int argc, char *argv[])</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; FILE *fp;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void filecopy(FILE *, FILE *);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; char *prog = argv[0];
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; /* program name for errors
+        */</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (argc == 1 ) &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; /* no
+        args; copy standard input */ <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; filecopy(stdin, stdout);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (--argc
+        &gt; 0)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        if ((fp = fopen(*++argv, "r")) == NULL) { <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; fprintf(stderr, "%s: can't open %s\n",</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        prog, *argv);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        exit(1);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        } <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; else {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; filecopy(fp, stdout); <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp; fclose(fp);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (ferror(stdout)) {</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; fprintf(stderr,
+        "%s: error writing stdout\n", prog);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; exit(2); <br>
+        &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; exit(0); <br>
+        }</tt></font><br>
+    <br>
+    <b>Вход и изход по редове</b><br>
+    <br>
+    Четене и писане на един цял ред:<br>
+    <font size="+1"><tt>char *fgets(char *line, int maxline, FILE *fp)</tt><tt><br>
+      </tt><tt>int fputs(char *line, FILE *fp)</tt></font><br>
+    <br>
+    <i>Пример:</i><br>
+    <font size="+1"><tt>/* getline: read a line, return length */ <br>
+        int getline(char *line, int max)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; if (fgets(line, max, stdin) == NULL) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return </tt><tt>strlen(</tt><tt>line);</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt></font><br>
+    <br>
+    <b>Други функци</b>и<br>
+    &nbsp;&nbsp; Операции с низове<br>
+    <br>
+    <br>
+    &nbsp;&nbsp; Проверка и преобразуване на знакови класове<br>
+    <br>
+    <br>
+    &nbsp;&nbsp; Ungetc<br>
+    <br>
+    &nbsp;&nbsp; Изпълнение на команди<br>
+    <br>
+    <br>
+    &nbsp;&nbsp; Управление на паметта<br>
+    <br>
+    <br>
+    &nbsp;&nbsp; Математически функции<br>
+    <br>
+    <br>
+    &nbsp;&nbsp; Генератор на случайни числа<br>
+    <br>
+    <br>
+    <hr size="2" width="100%"><br>
   </body>
 </html>
