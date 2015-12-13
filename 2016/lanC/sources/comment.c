@@ -1,28 +1,28 @@
+/*
+ Exercise 1-23. Write a program to remove all comments from a C program. 
+ Don't forget to handle quoted strings and character constants properly. 
+ C comments don't nest.
+ */
+
 #include <stdio.h>
 #include <string.h>
-
+ 
 #define MAXL 100
 
 int main()
 {
     char buf[MAXL];
     int flag = 0, i;
-/*  comment 3 */
- /* comment 3 */
               
     FILE *fp;
     if ((fp = fopen("comment.c", "r")) == NULL)
-    /* cooment 4 */
     {
-        printf("NOT FOUND"); /* comment 5          
-*/
-        
-        /* aaa 1 */ return 1; 
+        printf("NOT FOUND");  /* ERROR */
+        return 1; 
     }
-//  comment 1
 
     FILE *fq;
-    if ((fq= fopen("comm.c", "w")) == NULL) // cooment 2
+    if ((fq= fopen("comm.c", "w")) == NULL)
     {
         printf("NOT");
         return 1;
@@ -49,10 +49,11 @@ int main()
                     if (flag == 1) buf[i-1] = ' ';
                 }
     
-        fputs(buf, stdout); // comment pppp
+        fputs(buf, stdout);
     }
-    fclose(fp);
-    fclose(fq);
+    fclose(fp);  /* close the file !!!
+                  */
+/**/fclose(fq); /**/
  
     return 0;
 }
