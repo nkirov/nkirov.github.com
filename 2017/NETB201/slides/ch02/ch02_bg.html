@@ -12,8 +12,9 @@
     <h4>Цели на обектно-ориентирания дизайн</h4>
     <ul>
       <li> <b>Резистентност</b> (robustness): възможност за работа с
-        неочаквани входящи данни, които не са изрично дефинирани за
-        прилагането му</li>
+        входни данни, които не са изрично дефинирани при написване на
+        софтуера <br>
+      </li>
       <li> <b>Адаптивност</b> (adaptability): софтуерът трябва да се
         развива с течение на времето в отговор на променящите се условия</li>
       <li> <b>Многократното използване</b> (reusability):&nbsp; кодът
@@ -22,16 +23,14 @@
     </ul>
     <h4>Принципи на обектно-ориентирания дизайн</h4>
     <ul>
-      <li>
-        <span style="font-weight: bold;">Абстрактност (abstraction):</span>
+      <li> <span style="font-weight: bold;">Абстрактност (abstraction):</span>
         извличане на най-основните части на сложна система и описване на
         тези части на прост и точен език</li>
-      <li>
-        <span style="font-weight: bold;">Капсулиране (encapsulation):</span>
-        различните компоненти на софтуерната система не трябва да
-        показват вътрешните детайли на съответните им имплементации</li>
-      <li>
-        <span style="font-weight: bold;">Модулност (modularity):</span>
+      <li> <span style="font-weight: bold;">Капсулиране
+          (encapsulation):</span> различните компоненти на софтуерната
+        система не трябва да показват вътрешните детайли на съответните
+        им имплементации</li>
+      <li> <span style="font-weight: bold;">Модулност (modularity):</span>
         отнася се за организиране на структура, в която различните
         компоненти на софтуерната система са разделени на отделни
         функционални единици</li>
@@ -40,9 +39,10 @@
     <h3><a href="../../../../2013/CITB201/slides/l05.html">Наследяване и
         полиморфизъм</a></h3>
     <h3>Наследяване в C++</h3>
-    Наследяването позволява проектирането на общи класове, които могат
-    да бъдат специализирани за други (по-частни) класове, със повторно
-    използване на кода на общия клас от специализираните класове.<br>
+    Наследяването позволява проектирането на общи (базови) класове,
+    които могат да бъдат специализирани за други (по-частни) класове, с
+    повторно използване на кода на общия клас от специализираните
+    (производни)&nbsp; класове.<br>
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">class</span> Person {<span style="color: rgb(51, 51, 255);"></span>       // base class  <br><span style="color: rgb(51, 51, 255);">private:</span><br>   string name;      // name<br>   string ssn;       // social security number<br><span style="color: rgb(51, 51, 255);">public:</span> <br>   //...<br>   <span style="color: rgb(51, 51, 255);">void</span> print();     // print data<br>   string getName(); // retrieve name<br>}; <br><span style="color: rgb(51, 51, 255);">class</span> Student : <span style="color: rgb(51, 51, 255);">public</span> Person {     // derived class<span style="color: rgb(51, 51, 255);"></span><br><span style="color: rgb(51, 51, 255);">private:</span><br>   string major;    // major subject<br>   <span style="color: rgb(51, 51, 255);">int</span> gradYear;    // graduate year<br><span style="color: rgb(51, 51, 255);">public:</span><br>   //...<br>   <span style="color: rgb(51, 51, 255);">void</span> print();                      // print data<br>   <span style="color: rgb(51, 51, 255);">void</span> changeMajor(string newMajor); // change major<br>&nbsp;};<br></pre>
     </blockquote>
@@ -61,9 +61,9 @@
       <pre>Person::<span style="color: rgb(51, 51, 255);"></span>Person(<span style="color: rgb(51, 51, 255);">const</span> string &amp;nm, <span style="color: rgb(51, 51, 255);">const</span> string &amp;ss)  <br><span style="color: rgb(51, 51, 255);"></span>: name(nm), ssn(ss) {}           // initializer list<br>Student::Student(<span style="color: rgb(51, 51, 255);">const</span> string &amp;nm, <span style="color: rgb(51, 51, 255);">const</span> string &amp;ss,<br>                 <span style="color: rgb(102, 0, 204);">const</span> string &amp;maj, <span style="color: rgb(51, 51, 255);">int</span> year)<span style="color: rgb(51, 51, 255);"></span><br>: Person(nm, ss),      // initialize Person data members<br>  major(maj),          // initialize member<br>  gradYear(year) {}    // initialize gradYear<br>Person::~Person()      // Person destructor<br>{ ... }<br>Student::~Student()    // Student destructor<br>{ ... }<br>Student* s = <span style="color: rgb(51, 51, 255);">new</span> Student(...);<br>//...<br><span style="color: rgb(51, 51, 255);">delete</span> s;   // calls ~Student() then ~Person()<br></pre>
     </blockquote>
     &nbsp;&nbsp;&nbsp; [<a style="font-family: monospace;"
-      href="person.cpp">person.cpp</a>]<span style="font-weight: bold;"><br>
-      <br>
-      Статично свързване</span><br>
+      href="person.cpp">person.cpp</a>]<span style="font-weight: bold;"></span><br>
+    <br>
+    <span style="font-weight: bold;">&nbsp;Статично свързване</span><br>
     <blockquote>
       <pre>Person* pp[100]<span style="color: rgb(51, 51, 255);"></span>;  <br>pp[0] = <span style="color: rgb(51, 51, 255);">new</span> Person(...)<span style="color: rgb(51, 51, 255);"></span>; <br>pp[1] = <span style="color: rgb(51, 51, 255);">new </span>Student(...);<br><span style="color: rgb(51, 51, 255);"></span><br>cout &lt;&lt; pp[1]-&gt;getName();   // OK<br>pp[0]-&gt;print();             // calls Person::print()<br>pp[1]-&gt;print();             // calls Person::print()<br>pp[1]-&gt;changeMajor(...);    // <span style="font-weight: bold;">ERROR!</span><br></pre>
     </blockquote>
@@ -82,6 +82,12 @@
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">delete</span> [] pp;<br></pre>
     </blockquote>
+    <a
+href="http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors">When
+      to use virtual destructors?</a><br>
+    <a
+href="http://www.programmerinterview.com/index.php/c-cplusplus/virtual-destructors/">In
+      C++, what’s a virtual destructor and when is it needed?</a>
     <h3>Полиморфизъм</h3>
     Способността на променлива да приеме различни типове!<br>
     <br>
@@ -109,11 +115,13 @@
         </blockquote>
       </li>
       <li>Ние можем да извикаме нашата функция-шаблон за изчисляване на
-        минимума на обекти от различни типове. Може да използва всеки
-        тип, при условие, че операция по-малко (&lt;) е дефинирана
-        (предефинирана) за този тип. Компилаторът разглежда типовете на
-        аргументите на функцията за да определи коя форма на функцията
-        да приложи:<br>
+        минимума на обекти от различни типове. <br>
+      </li>
+      <li>Може да използва всеки тип, при условие, че операция по-малко
+        (&lt;) е дефинирана (предефинирана) за този тип. <br>
+      </li>
+      <li>Компилаторът разглежда типовете на аргументите на функцията за
+        да определи коя форма на функцията да приложи:<br>
         <blockquote>
           <pre>cout &lt;&lt; min(3, 4);      // invokes min&lt;int&gt;(3,4)<br>cout &lt;&lt; min(6.9, 3.5);  // invokes min&lt;double&gt;(6.9, 3.5)<br>cout &lt;&lt; min('t', 'g');  // invokes min&lt;char&gt;('t', 'g')<br></pre>
         </blockquote>
