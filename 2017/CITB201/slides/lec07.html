@@ -2,925 +2,1006 @@
 <html>
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>lec07</title>
+    <title>lec08</title>
   </head>
   <body>
-    <h3 align="center"> 7. Рекурсия</h3>
-    <meta charset="utf-8">
-    <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; letter-spacing:
-      normal; line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><font
-        size="+1">** Триъгълни числа</font></b><br style="color: rgb(0,
-      0, 0); font-family: Times; font-size: medium; font-style: normal;
-      font-variant: normal; font-weight: normal; letter-spacing: normal;
-      line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Пример: Триъгълни числа.</font></li>
-      <li><font size="+1">&nbsp;Ще разгледаме триъгълна форма:
-          <blockquote>
-            <pre>[]<br>[][]<br>[][][]</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1"><i style="font-style: italic;">n</i><span
-            style="font-style: italic;">-тото триъгълно число<span
-              class="Apple-converted-space">&nbsp;</span></span>е лицето
-          на триъгълник с ширина<span class="Apple-converted-space">
-            (или височена) </span><span style="font-style: italic;">n</span>,
-          като предполагаме, че всяко</font><font size="+1"><span
-            style="font-family: monospace;"> []</span></font><font
-          size="+1"><span class="Apple-converted-space">&nbsp;</span>има
-          лице 1.</font></li>
-      <li><font size="+1">От картинката - третото триъгълно число е 6.</font></li>
-      <li><font size="+1">Интерфейс на клас:
-          <blockquote>
-            <pre>class Triangle {<br>public:<br>   Triangle(int w);<br>   int get_area() const;<br>private:<br>   int width;<br>};<br>Triangle::Triangle(int w)<br>{ width = w; }</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Ако ширината на триъгълника е 1, тогава той
-          има лице 1.
-          <blockquote>
-            <pre>[]<br><br>int Triangle::get_area()<br>{ if (width == 1) return 1;<br>   . . .<br>}</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">За решаване на общия случай, разглеждаме тази
-          картинка:
-          <blockquote>
-            <pre><font color="#0000ff">[]<br>[][]<br>[][][]</font><br>[][][][]</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1"><font size="+1">Представяме лицето на
-            по-големия триъгълник като:</font>
-          <blockquote>
-            <pre><span style="color: rgb(51, 51, 255);">smaller_area</span> + width</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">За да намерим по-малкото лице, правим по-малък
-          триъгълник!&nbsp;
-          <blockquote>
-            <pre>int Triangle::<b>get_area()</b><br>{  if (width == 1) return 1;<br>   Triangle smaller_triangle(width - 1);<br>   int <span style="color: rgb(51, 51, 255);">smaller_area</span> = smaller_triangle.<b>get_area()</b>;<br>   return <span style="color: rgb(51, 51, 255);">smaller_area</span> + width;<br>}</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Как се пресмята лицено на триъгълник с ширина
-          4:</font>
-        <ul>
-          <li><font style="color: rgb(153, 0, 0);" size="+1">Функцията<span
-                class="Apple-converted-space"> </span><tt>get_area</tt><span
-                class="Apple-converted-space"></span> прави по-малък
-              триъгълник с ширина 3.</font>
-            <ul>
-              <li><font style="color: rgb(153, 0, 0);" size="+1">Тя вика<span
-                    class="Apple-converted-space"> </span><b><tt>get_area</tt></b><span
-                    class="Apple-converted-space"> за този триъгълник</span>.</font>
-                <ul>
-                  <li><font style="color: rgb(51, 51, 255);" size="+1">Тази
-
-
-
-
-
-                      функция прави по-малък триъгълник с ширина 2.</font>
-                    <ul>
-                      <li><font style="color: rgb(51, 51, 255);"
-                          size="+1">Тя вика<span
-                            class="Apple-converted-space"> </span><b><tt>get_area</tt></b><span
-                            class="Apple-converted-space"> </span>за
-                          този триъгълник.</font>
-                        <ul>
-                          <li><font size="+1"><span style="color: rgb(0,
-                                153, 0);">Тази функция прави по-малък
-                                триъгълник с ширина 1</span>.</font></li>
-                          <li style="color: rgb(0, 153, 0);"><font
-                              size="+1">Тя вика&nbsp;<span
-                                class="Apple-converted-space"></span><b><tt>get_area</tt></b><span
-                                class="Apple-converted-space"> за този
-                                триъгълник</span>.</font></li>
-                        </ul>
-                      </li>
-                      <li style="color: rgb(0, 153, 0);"><font size="+1">Тази
-
-
-
-
-
-                          функция връща 1 (за триъгълника с ширина 1).<br>
-                        </font></li>
-                    </ul>
-                  </li>
-                  <li style="color: rgb(51, 51, 255);"><font size="+1">Функцията
-
-
-
-
-
-                      връща <tt><span class="Apple-converted-space"></span>smaller_area
-
-
-
-
-
-
-
-
-
-
-
-
-
-                        + width</tt><span class="Apple-converted-space">&nbsp;</span>=
-                      1 + 2 = 3.</font></li>
-                </ul>
-              </li>
-              <li style="color: rgb(153, 0, 0);"><font size="+1">Функцията
-
-
-
-
-
-                  връща<span class="Apple-converted-space"> </span><tt>smaller_area
-
-
-
-
-
-
-
-
-
-
-
-
-
-                    + width</tt><span class="Apple-converted-space">&nbsp;</span>=
-                  3 + 3 = 6.</font></li>
-            </ul>
-          </li>
-          <li style="color: rgb(0, 0, 0);"><font size="+1">Функцията
-              връща<span class="Apple-converted-space"> </span><tt>smaller_area
-
-
-
-
-
-
-
-
-
-
-
-
-
-                + width</tt><span class="Apple-converted-space">&nbsp;</span>=
-              6 + 4 = 10.</font></li>
-        </ul>
-      </li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Техниката на изразяване на решение на дадена
-          задача чрез решение за<span class="Apple-converted-space">&nbsp;</span><i>по-малка</i><span
-            class="Apple-converted-space">&nbsp;</span>версия на същата
-          задача се нарича<span class="Apple-converted-space">&nbsp;</span><i>рекурсия</i>.</font></li>
-      <li>Системния стек - различни копия на рекурсивната функция.<br>
-      </li>
-      <li><font size="+1">Има две основни изисквания, които да направят
-          рекурсията успешна (крайна!):</font>
-        <ul>
-          <li><font size="+1">Всяко рекурсивно повикване трябва да
-              опрости изчислението по някакъв начин.</font></li>
-          <li><font size="+1">Трябва да има специален случай, където да
-              се извършат пряко най-простите изчисления.</font></li>
-        </ul>
-      </li>
-      <li><font size="+1"><span class="Apple-converted-space"></span><b><tt>get_area</tt></b><span
-            class="Apple-converted-space">&nbsp;</span></font><font
-          size="+1"><font size="+1">извиква сама себе си отново с
-            по-малки и по-малки широчини, достигайки в накрая широчина 1</font>.</font></li>
-    </ul>
-    <tt style="color: rgb(0, 0, 0); font-style: normal; font-variant:
-      normal; font-weight: normal; letter-spacing: normal; line-height:
-      normal; orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-stroke-width: 0px;">//<span
-        class="Apple-converted-space">&nbsp;</span></tt><a
-      href="../../../2014/NETB151/sources/ch14/triangle.cpp"
-      style="font-family: Times; font-size: medium; font-style: normal;
-      font-variant: normal; font-weight: normal; letter-spacing: normal;
-      line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt>triangle.cpp</tt></a><br
-      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt><b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
-<b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<br><i><font color="#9a1900">/**</font></i>
-<i><font color="#9a1900">   A class that describes triangle shapes like this:</font></i>
-<i><font color="#9a1900">   []</font></i>
-<i><font color="#9a1900">   [][]</font></i>
-<i><font color="#9a1900">   [][][]</font></i>
-<i><font color="#9a1900">   . . .</font></i>
-<i><font color="#9a1900">*/</font></i>   <br><b><font color="#0000ff">class</font></b> Triangle <font color="#ff0000">{</font>
-<b><font color="#0000ff">public</font></b><font color="#990000">:</font>
-   <b><font color="#000000">Triangle</font></b><font color="#990000">(</font><font color="#009900">int</font> w<font color="#990000">)</font><font color="#990000">;</font>
-   <font color="#009900">int</font> <b><font color="#000000">get_area</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
-<b><font color="#0000ff">private</font></b><font color="#990000">:</font>
-   <font color="#009900">int</font> width<font color="#990000">;</font>  <br><font color="#ff0000">}</font><font color="#990000">;</font>
-<i><font color="#9a1900">/**</font></i>
-<i><font color="#9a1900">   Constructs a triangle with a given width.</font></i>
-<i><font color="#9a1900">   @param w the width of the triangle base</font></i>
-<i><font color="#9a1900">*/</font></i>
-Triangle<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">Triangle</font></b><font color="#990000">(</font><font color="#009900">int</font> w<font color="#990000">)</font>
-<font color="#ff0000">{</font>  width <font color="#990000">=</font> w<font color="#990000">;</font>  <font color="#ff0000">}</font>
-<i><font color="#9a1900">/**</font></i>
-<i><font color="#9a1900">   Computes the area of the triangle shape.</font></i>
-<i><font color="#9a1900">   @return the area</font></i>
-<i><font color="#9a1900">*/</font></i>
-<font color="#009900">int</font> Triangle<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_area</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
-<font color="#ff0000">{</font>  <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>width <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">1</font><font color="#990000">;</font>
-   Triangle <b><font color="#000000">smaller_triangle</font></b><font color="#990000">(</font>width <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>
-   <font color="#009900">int</font> smaller_area <font color="#990000">=</font> smaller_triangle<font color="#990000">.</font><b><font color="#000000">get_area</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-   <b><font color="#0000ff">return</font></b> smaller_area <font color="#990000">+</font> width<font color="#990000">;</font>
-<font color="#ff0000">}</font>
-
-<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
-<font color="#ff0000">{</font>  Triangle <b><font color="#000000">t</font></b><font color="#990000">(</font><font color="#993399">4</font><font color="#990000">)</font><font color="#990000">;</font>
-   cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Area: "</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> t<font color="#990000">.</font><b><font color="#000000">get_area</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> endl<font color="#990000">;</font>
-   <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
-<font color="#ff0000">}</font></tt></pre>
+    <h3 align="center"> Сортиране и търсене</h3>
+    <b> ** Сортиране чрез селекция (пряк избор)</b>
     <ul>
-      <li> <font style="color: rgb(0, 0, 0); font-family: Times;
-          font-style: normal; font-variant: normal; font-weight: normal;
-          letter-spacing: normal; line-height: normal; orphans: auto;
-          text-align: start; text-indent: 0px; text-transform: none;
-          white-space: normal; widows: auto; word-spacing: 0px;
-          -webkit-text-stroke-width: 0px;" size="+1">Какво се случва,
-          когато се пресмята лицето на триъгълник с широчина -1? Бъдете
-          внимателни!</font></li>
-      <li><font style="color: rgb(0, 0, 0); font-family: Times;
-          font-style: normal; font-variant: normal; font-weight: normal;
-          letter-spacing: normal; line-height: normal; orphans: auto;
-          text-align: start; text-indent: 0px; text-transform: none;
-          white-space: normal; widows: auto; word-spacing: 0px;
-          -webkit-text-stroke-width: 0px;" size="+1">Безкрайна рекурсия
-          - препълване на системния стек!<br>
+      <li><font size="+1"><span style="color: rgb(0, 0, 0); font-family:
+            Times; font-size: medium; font-style: normal; font-variant:
+            normal; font-weight: normal; letter-spacing: normal;
+            line-height: normal; orphans: auto; text-align: start;
+            text-indent: 0px; text-transform: none; white-space: normal;
+            widows: 1; word-spacing: 0px; -webkit-text-stroke-width:
+            0px; display: inline !important; float: none;">Алгоритъмът
+            се състои в следното: на всяка стъпка намираме най-малкия
+            елемент (от ненаредената част на масива) и го поставяме на
+            място (чрез размяна) в наредения масив.<span
+              class="Apple-converted-space"> </span></span><br>
         </font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Рекурсия наистина не е наистина необходима, за
-          да се реши тази задача. Това може да бъде направено с помощта
-          на:</font>
-        <ul>
-          <li><font size="+1">прост цикъл:
-              <blockquote>
-                <pre>double area = 0;<br>for (int i = 1; i &lt;= width; i++) area = area + 1;</pre>
-              </blockquote>
-            </font></li>
-          <li><font size="+1">формула:
-              <blockquote>
-                <pre>width * (width + 1) / 2</pre>
-              </blockquote>
-            </font></li>
-        </ul>
-      </li>
-    </ul>
-    <hr style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px; width: 1249px; height: 2px;"><br
-      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-    <font style="color: rgb(0, 0, 0); font-family: Times; font-style:
-      normal; font-variant: normal; font-weight: normal; letter-spacing:
-      normal; line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
-      size="+1"><b>**&nbsp; Пермутации</b></font><br style="color:
-      rgb(0, 0, 0); font-family: Times; font-size: medium; font-style:
-      normal; font-variant: normal; font-weight: normal; letter-spacing:
-      normal; line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;">
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Пример: Функция, която връща всички пермутации
-          на даден низ.</font></li>
-      <li><font size="+1">Пермутация е просто пренареждане на буквите на
-          низа, например за низа "eat":
+      <li><font size="+1">Пример:
           <blockquote>
-            <pre>"eat"<br>"eta"<br>"aet"<br>"ate"<br>"tea"<br>"tae"</pre>
+            <table bgcolor="black" border="1" cellpadding="6">
+              <tbody>
+                <tr bgcolor="#ffffff">
+                  <td style="font-weight: bold;" width="40">
+                    <div align="center"><tt><font size="+1">11</font></tt></div>
+                  </td>
+                  <td width="40">
+                    <div align="center"><tt><font size="+1">9</font></tt></div>
+                  </td>
+                  <td width="40">
+                    <div align="center"><tt><font size="+1">17</font></tt></div>
+                  </td>
+                  <td style="font-weight: bold; text-decoration:
+                    underline;" width="40">
+                    <div align="center"><tt><font size="+1">5</font></tt></div>
+                  </td>
+                  <td width="40">
+                    <div align="center"><tt><font size="+1">12</font></tt></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </blockquote>
         </font></li>
-      <li><font size="+1">Ако низът има<span
-            class="Apple-converted-space">&nbsp;</span><i>n</i><span
-            class="Apple-converted-space">&nbsp;</span>букви, то броят
-          на пермутациите се получава с функцията факториел:
+      <li><font size="+1">Най-малкият елемент е 5 - поставяме го на
+          първо място в масива. За да не загубим (изтрием) първия
+          елемент 11, резменяме (<i>swap)</i><tt> </tt>двата елемента.
+          <blockquote><font size="+1">
+              <table bgcolor="black" border="1" cellpadding="6">
+                <tbody>
+                  <tr bgcolor="#ffffff">
+                    <td bgcolor="#00ffff" width="40">
+                      <div align="center"><tt><font size="+1">5</font></tt></div>
+                    </td>
+                    <td style="font-weight: bold; text-decoration:
+                      underline;" width="40">
+                      <div align="center"><tt><font size="+1">9</font></tt></div>
+                    </td>
+                    <td width="40">
+                      <div align="center"><tt><font size="+1">17</font></tt></div>
+                    </td>
+                    <td width="40">
+                      <div align="center"><tt><font size="+1">11</font></tt></div>
+                    </td>
+                    <td width="40">
+                      <div align="center"><tt><font size="+1">12</font></tt></div>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </font></blockquote>
+        </font></li>
+      <li><font size="+1">Вземаме минимума на останалите 4 елемента a[1]
+          ... a[4]. Той е на правилното място и не разменяме.
+          <blockquote><font size="+1"><font size="+1">
+                <table bgcolor="black" border="1" cellpadding="6">
+                  <tbody>
+                    <tr bgcolor="#ffffff">
+                      <td bgcolor="#00ffff" width="40">
+                        <div align="center"><tt><font size="+1">5</font></tt></div>
+                      </td>
+                      <td bgcolor="#00ffff" width="40">
+                        <div align="center"><tt><font size="+1">9</font></tt></div>
+                      </td>
+                      <td style="font-weight: bold;" width="40">
+                        <div align="center"><tt><font size="+1">17</font></tt></div>
+                      </td>
+                      <td style="font-weight: bold; text-decoration:
+                        underline;" width="40">
+                        <div align="center"><tt><font size="+1">11</font></tt></div>
+                      </td>
+                      <td width="40">
+                        <div align="center"><tt><font size="+1">12</font></tt></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </font></font></blockquote>
+        </font></li>
+      <li><font size="+1">Повтаряме процеса с несортираната част от
+          масива.
+          <blockquote><font size="+1"><font size="+1">
+                <table bgcolor="black" border="1" cellpadding="6">
+                  <tbody>
+                    <tr bgcolor="#ffffff">
+                      <td bgcolor="#00ffff" width="40">
+                        <div align="center"><tt><font size="+1">5</font></tt></div>
+                      </td>
+                      <td bgcolor="#00ffff" width="40">
+                        <div align="center"><tt><font size="+1">9</font></tt></div>
+                      </td>
+                      <td bgcolor="#00ffff" width="40">
+                        <div align="center"><tt><font size="+1">11</font></tt></div>
+                      </td>
+                      <td style="font-weight: bold;" width="40">
+                        <div align="center"><tt><font size="+1">17</font></tt></div>
+                      </td>
+                      <td style="font-weight: bold; text-decoration:
+                        underline;" width="40">
+                        <div align="center"><tt><font size="+1">12</font></tt></div>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </font></font></blockquote>
+        </font></li>
+      <li><font size="+1">Продължаваме докато остане само един
+          "несортиран" елемент.
+          <blockquote><font size="+1"><font size="+1"><font size="+1">
+                  <table bgcolor="black" border="1" cellpadding="6">
+                    <tbody>
+                      <tr bgcolor="#ffffff">
+                        <td bgcolor="#00ffff" width="40">
+                          <div align="center"><tt><font size="+1">5</font></tt></div>
+                        </td>
+                        <td bgcolor="#00ffff" width="40">
+                          <div align="center"><tt><font size="+1">9</font></tt></div>
+                        </td>
+                        <td bgcolor="#00ffff" width="40">
+                          <div align="center"><tt><font size="+1">11</font></tt></div>
+                        </td>
+                        <td bgcolor="#00ffff" width="40">
+                          <div align="center"><tt><font size="+1">12</font></tt></div>
+                        </td>
+                        <td width="40">
+                          <div align="center"><tt><font size="+1">17</font></tt></div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </font></font></font></blockquote>
+        </font></li>
+    </ul>
+    <h2>
+      <meta charset="utf-8">
+    </h2>
+    <pre><tt>// <a href="../../../2014/NETB151/sources/ch15/selsort.cpp">selsort.cpp</a><br>01: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+02: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>
+03: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;cstdlib&gt;</font>
+04: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;ctime&gt;</font>
+06: <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+08: <i><font color="#9a1900">/**</font></i>
+09: <i><font color="#9a1900">   Swaps two integers.</font></i>
+10: <i><font color="#9a1900">   @param x the first integer to swap</font></i>
+11: <i><font color="#9a1900">   @param y the second integer to swap</font></i>
+12: <i><font color="#9a1900">*/</font></i>
+13: <font color="#009900">void</font> <b><font color="#000000">swap</font></b><font color="#990000">(</font><font color="#009900">int</font><font color="#990000">&amp;</font> x<font color="#990000">,</font> <font color="#009900">int</font><font color="#990000">&amp;</font> y<font color="#990000">)</font>
+14: <font color="#ff0000">{</font>  <font color="#009900">int</font> temp <font color="#990000">=</font> x<font color="#990000">;</font>
+16:    x <font color="#990000">=</font> y<font color="#990000">;</font>
+17:    y <font color="#990000">=</font> temp<font color="#990000">;</font>
+18: <font color="#ff0000">}</font>
+20: <i><font color="#9a1900">/** </font></i>
+21: <i><font color="#9a1900">    Gets the position of the smallest element in a vector range.</font></i>
+22: <i><font color="#9a1900">    @param a the vector</font></i>
+23: <i><font color="#9a1900">    @param from the beginning of the range</font></i>
+24: <i><font color="#9a1900">    @param to the beginning of the range</font></i>
+25: <i><font color="#9a1900">    @return the position of the smallest element in </font></i>
+26: <i><font color="#9a1900">    the range a[from]...a[to]</font></i>
+27: <i><font color="#9a1900">*/</font></i>
+28: <font color="#009900">int</font> <b><font color="#000000">min_position</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font><font color="#990000">&amp;</font> a<font color="#990000">,</font> <font color="#009900">int</font> from<font color="#990000">,</font> <font color="#009900">int</font> to<font color="#990000">)</font>
+29: <font color="#ff0000">{</font>  <font color="#009900">int</font> min_pos <font color="#990000">=</font> from<font color="#990000">;</font>
+31:    <font color="#009900">int</font> i<font color="#990000">;</font>
+32:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font>i <font color="#990000">=</font> from <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font> i <font color="#990000">&lt;</font><font color="#990000">=</font> to<font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+33:       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>a<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;</font> a<font color="#990000">[</font>min_pos<font color="#990000">]</font><font color="#990000">)</font> min_pos <font color="#990000">=</font> i<font color="#990000">;</font>
+34:    <b><font color="#0000ff">return</font></b> min_pos<font color="#990000">;</font>
+35: <font color="#ff0000">}</font>
+37: <i><font color="#9a1900">/** </font></i>
+38: <i><font color="#9a1900">   Sorts a vector using the selection sort algorithm</font></i>
+39: <i><font color="#9a1900">   @param a the vector to sort</font></i>
+40: <i><font color="#9a1900">*/</font></i>
+41: <font color="#009900">void</font> <b><font color="#000000">selection_sort</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font><font color="#990000">&amp;</font> a<font color="#990000">)</font>
+42: <font color="#ff0000">{</font>  <font color="#009900">int</font> next<font color="#990000">;</font> <i><font color="#9a1900">/* the next position to be set to the minimum */</font></i>
+44: 
+45:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font>next <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> next <font color="#990000">&lt;</font> a<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">;</font> next<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+46:    <font color="#ff0000">{</font>  <i><font color="#9a1900">/* find the position of the minimum */</font></i>
+48:       <font color="#009900">int</font> min_pos <font color="#990000">=</font> <b><font color="#000000">min_position</font></b><font color="#990000">(</font>a<font color="#990000">,</font> next<font color="#990000">,</font> a<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>
+49:       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>min_pos <font color="#990000">!</font><font color="#990000">=</font> next<font color="#990000">)</font>
+50:          <b><font color="#000000">swap</font></b><font color="#990000">(</font>a<font color="#990000">[</font>min_pos<font color="#990000">]</font><font color="#990000">,</font> a<font color="#990000">[</font>next<font color="#990000">]</font><font color="#990000">)</font><font color="#990000">;</font>
+51:    <font color="#ff0000">}</font>
+52: <font color="#ff0000">}</font>
+54: <i><font color="#9a1900">/** </font></i>
+55: <i><font color="#9a1900">   Prints all elements in a vector</font></i>
+56: <i><font color="#9a1900">   @param a the vector to print</font></i>
+57: <i><font color="#9a1900">*/</font></i>
+58: <font color="#009900">void</font> <b><font color="#000000">print</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font> a<font color="#990000">)</font>
+59: <font color="#ff0000">{</font>  <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> a<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+61:       cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> a<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" "</font><font color="#990000">;</font>
+62:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+63: <font color="#ff0000">}</font>
+65: <i><font color="#9a1900">/**</font></i>
+66: <i><font color="#9a1900">   Sets the seed of the random number generator.</font></i>
+67: <i><font color="#9a1900">*/</font></i>
+68: <font color="#009900">void</font> <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font>
+69: <font color="#ff0000">{</font>  <font color="#009900">int</font> seed <font color="#990000">=</font> <b><font color="#000000">static_cast</font></b><font color="#ff0000">&lt;int&gt;</font><font color="#990000">(</font><b><font color="#000000">time</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+71:    <b><font color="#000000">srand</font></b><font color="#990000">(</font>seed<font color="#990000">)</font><font color="#990000">;</font>
+72: <font color="#ff0000">}</font>
+74: <i><font color="#9a1900">/** </font></i>
+75: <i><font color="#9a1900">   Computes a random integer in a range.</font></i>
+76: <i><font color="#9a1900">   @param a the bottom of the range</font></i>
+77: <i><font color="#9a1900">   @param b the top of the range</font></i>
+78: <i><font color="#9a1900">   @return a random integer x, a &lt;= x and x &lt;= b</font></i>
+79: <i><font color="#9a1900">*/</font></i>
+80: <font color="#009900">int</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#009900">int</font> a<font color="#990000">,</font> <font color="#009900">int</font> b<font color="#990000">)</font>
+81: <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> a <font color="#990000">+</font> <b><font color="#000000">rand</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">%</font> <font color="#990000">(</font>b <font color="#990000">-</font> a <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>  <font color="#ff0000">}</font>
+84: 
+85: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+86: <font color="#ff0000">{</font>  <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+88:    vector<font color="#ff0000">&lt;int&gt;</font> <b><font color="#000000">v</font></b><font color="#990000">(</font><font color="#993399">20</font><font color="#990000">)</font><font color="#990000">;</font>
+89:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+90:       v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">,</font> <font color="#993399">100</font><font color="#990000">)</font><font color="#990000">;</font>
+91:    <b><font color="#000000">print</font></b><font color="#990000">(</font>v<font color="#990000">)</font><font color="#990000">;</font>
+92:    <b><font color="#000000">selection_sort</font></b><font color="#990000">(</font>v<font color="#990000">)</font><font color="#990000">;</font>
+93:    <b><font color="#000000">print</font></b><font color="#990000">(</font>v<font color="#990000">)</font><font color="#990000">;</font>
+94:    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+95: <font color="#ff0000">}</font>
+</tt></pre>
+    <hr size="2" width="100%"><b>** Оценка на сложността на алгоритъма
+      за пряк избор</b><br>
+    <ul>
+      <li><font size="+1">За оценка на сложността (ефективността) на
+          алгоритъма може просто се изпълни програмата и се измери </font><font
+          size="+1"><font size="+1"> с помощта на хронометър </font>колко
+е&nbsp;
+
+
+
+
+
+
+          времето за изпълнението.<br>
+        </font></li>
+      <li><font size="+1"><font size="+1">Конструкторът по подразбиране
+            на класа Time инициализира обект с текущото време.&nbsp;</font>
           <blockquote>
-            <pre><i>n</i>! = 1 x 2 x 3 x . . . x <i>n </i>(x означава умножение)</pre>
+            <pre>Time now;</pre>
           </blockquote>
         </font></li>
-      <li><font size="+1">За да се пресментне стойността на функцията<span
-            class="Apple-converted-space">&nbsp;</span><i>n</i>! може да
-          се използва цикъл, но има и рекурентна формула:</font>
-        <blockquote><font size="+1">
-            <pre><i>n</i>! = (<i>n</i> - 1)! x <i>n</i> </pre>
-          </font></blockquote>
-      </li>
-      <li><font size="+1">Обичайно се дефинира:</font>
+      <li> <font size="+1">Използваме два обекта от този клас за&nbsp;
+          измерване на времето за изпълнение на алгоритъма за сортиране.
+        </font>
         <blockquote>
-          <pre><font size="+1">1! = 1<br>0! = 1</font></pre>
+          <pre><font size="+1">Time before;<br>selection_sort(v);<br>Time after;<br><br>cout &lt;&lt; "Elapsed time = " &lt;&lt; after.seconds_from(before)<br>     &lt;&lt; " seconds\n";<br></font></pre>
         </blockquote>
       </li>
-      <li><font size="+1"><font size="+1">Рекурсивна функция за
-            пресмятане на </font></font><font size="+1"><font size="+1"><font
-              size="+1">факториел</font></font>:
-          <blockquote>
-            <pre>int <b>factorial</b>(int n)<br>{  if (n == 0) return 1;<br>   int smaller_factorial = <b>factorial</b>(n - 1);<br>   int result = smaller_factorial * n;<br>   return result;<br>}</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Пример: Функция, която генерира всички
-          пермутации на една дума.
-          <blockquote>
-            <pre>vector&lt;string&gt; generate_permutations(string word);</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">Следният код ще отпечати всички пермутации на
-          низа<span class="Apple-converted-space">&nbsp;</span></font><font
-          size="+1"><span style="font-family: monospace;">"eat"</span></font><font
-          size="+1">:
-          <blockquote>
-            <pre>vector&lt;string&gt; v = <b>generate_permutations</b>("eat");<br>for(int i = 0; i &lt; v.size(); i++)<br>   cout &lt;&lt; v[i] &lt;&lt; "\n";</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">За генериране на всички пермутации рекурсивно
-          генерираме пермутациите, които започват с буквата<span
-            class="Apple-converted-space">&nbsp;</span></font><font
-          size="+1"><span style="font-family: monospace;">'e',</span></font><font
-          size="+1"><font size="+1"><span class="Apple-converted-space"></span>
-            тези, които започват на</font><span
-            class="Apple-converted-space">&nbsp;</span></font><font
-          size="+1"><span style="font-family: monospace;">'a' </span></font><font
-          size="+1">и<span class="Apple-converted-space"></span></font><font
-          size="+1"><font size="+1"><font size="+1"> след това тези,
-              които започват&nbsp;</font></font></font><font size="+1"><span
-            style="font-family: monospace;">'t'</span></font><font
-          size="+1">.</font></li>
-      <li><font size="+1">Използваме рекурсия за генериране на всички
-          пермутации на по-кратки (двубуквени) низове.</font>
-        <ul>
-          <li style="font-family: monospace;"><font size="+1">"at" "ta"</font></li>
-          <li style="font-family: monospace;"><font size="+1">"et" "te"</font></li>
-          <li style="font-family: monospace;"><font size="+1">"ae" "ea"</font></li>
-        </ul>
-      </li>
-      <li><font size="+1">Добавяме първите букви за да намерим всички
-          трибуквени пермутации.</font>
-        <ul style="font-family: monospace;">
-          <li><font size="+1">"<font color="#0000ff">e</font>at" "<font
-                color="#0000ff">e</font>ta"</font></li>
-          <li><font size="+1">"<font color="#0000ff">a</font>et" "<font
-                color="#0000ff">a</font>te"</font></li>
-          <li><font size="+1">"<font color="#0000ff">t</font>ae" "<font
-                color="#0000ff">t</font>ea"</font></li>
-        </ul>
-      </li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">За да реализираме идеите в предишния пример,
-          прилагаме един цикъл, които създава по-кратка дума, като
-          пропуска текущата позиция.
-          <blockquote>
-            <pre>vector&lt;string&gt; <b>generate_permutations</b>(string word)<br>{  vector&lt;string&gt; result;<br>   ...<br>   for (int i = 0; i &lt; word.length(); i++)<br>   {     string shorter_word = word.substr(0, i)<br>         	+ word.substr(i + 1, word.length() - i - 1);<br>      ...<br>   }<br>   return result;<br>}</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">Следваща стъпка е да се намерят пермутациите
-          на по-кратката дума.
-          <blockquote>
-            <pre>vector&lt;string&gt; shorter_permutations<br>   = <b>generate_permutations</b>(shorter_word);</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">За всяка от късите пермутации, добавяме
-          пропуснатата буква.
-          <blockquote>
-            <pre>for(int j = 0; j &lt; shorter_permutations.size(); j++)<br>{  string longer_word = word[i] + shorter_permutations[j];<br>   result.push_back(longer_word);<br>}</pre>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">Трябва да добавим край на рекурсията, т.е.
-          специалния случай на дума с дължина 1.
-          <blockquote>
-            <pre>if (word.length() == 1)<br>{  result.push_back(word);<br>   return result;<br>}</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <span style="font-family: Times; font-size: medium; font-style:
-      normal; font-variant: normal; font-weight: normal; letter-spacing:
-      normal; line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt>//
-
-
-
-
-
-
-
-
-
-
-
-
-      </tt></span><a
-      href="../../../2014/NETB151/sources/ch14/permute.cpp"
-      style="font-family: Times; font-size: medium; font-style: normal;
-      font-variant: normal; font-weight: normal; letter-spacing: normal;
-      line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt>permute.cpp</tt></a><br
-      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt><tt><b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
-<b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;string&gt;</font>
-<b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>
-<b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
-<i><font color="#9a1900">/**</font></i>
-<i><font color="#9a1900">   Computes n!</font></i>
-<i><font color="#9a1900">   @param n a nonnegative integer</font></i>
-<i><font color="#9a1900">   @return n! = 1 * 2 * 3 * . . . * n</font></i>
-<i><font color="#9a1900">*/</font></i>
-<font color="#009900">int</font> <b><font color="#000000">factorial</font></b><font color="#990000">(</font><font color="#009900">int</font> n<font color="#990000">)</font>
-<font color="#ff0000">{</font>  <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>n <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">1</font><font color="#990000">;</font>
-   <font color="#009900">int</font> smaller_factorial <font color="#990000">=</font> <b><font color="#000000">factorial</font></b><font color="#990000">(</font>n <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>
-   <font color="#009900">int</font> result <font color="#990000">=</font> smaller_factoria <font color="#990000">*</font> n<font color="#990000">;</font>
-   <b><font color="#0000ff">return</font></b> result<font color="#990000">;</font>
-<font color="#ff0000">}</font>
-<i><font color="#9a1900">/**</font></i>
-<i><font color="#9a1900">   Generates all permutations of the characters in a string</font></i>
-<i><font color="#9a1900">   @param word a string</font></i>
-<i><font color="#9a1900">   @return a vector that is filled with all permutations </font></i>
-<i><font color="#9a1900">   of the word</font></i>
-<i><font color="#9a1900">*/</font></i>
-vector<font color="#ff0000">&lt;string&gt;</font> <b><font color="#000000">generate_permutations</font></b><font color="#990000">(</font>string word<font color="#990000">)</font>
-<font color="#ff0000">{</font>  vector<font color="#ff0000">&lt;string&gt;</font> result<font color="#990000">;</font>
-   <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>word<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">)</font> <br>   <font color="#ff0000">{</font>  result<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>word<font color="#990000">)</font><font color="#990000">;</font>
-      <b><font color="#0000ff">return</font></b> result<font color="#990000">;</font>
-   <font color="#ff0000">}</font>
-
-   <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> word<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
-   <font color="#ff0000">{</font>  string shorter_word <font color="#990000">=</font> word<font color="#990000">.</font><b><font color="#000000">substr</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">,</font> i<font color="#990000">)</font>
-         <font color="#990000">+</font> word<font color="#990000">.</font><b><font color="#000000">substr</font></b><font color="#990000">(</font>i <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> word<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">-</font> i <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>
-      vector<font color="#ff0000">&lt;string&gt;</font> shorter_permutations<br>         <font color="#990000">=</font> <b><font color="#000000">generate_permutations</font></b><font color="#990000">(</font>shorter_word<font color="#990000">)</font><font color="#990000">;</font>
-      <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> j <font color="#990000">&lt;</font> shorter_permutations<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> j<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
-      <font color="#ff0000">{</font>  string longer_word <font color="#990000">=</font> word<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">+</font> shorter_permutations<font color="#990000">[</font>j<font color="#990000">]</font><font color="#990000">;</font>
-         result<font color="#990000">.</font><b><font color="#000000">push_back</font></b><font color="#990000">(</font>longer_word<font color="#990000">)</font><font color="#990000">;</font>
-      <font color="#ff0000">}</font>   <br>   <font color="#ff0000">}</font>
-   <b><font color="#0000ff">return</font></b> result<font color="#990000">;</font>
-<font color="#ff0000">}</font>
-
-<font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
-<font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Enter a string: "</font><font color="#990000">;</font>
-   string input<font color="#990000">;</font>
-   <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> input<font color="#990000">)</font><font color="#990000">;</font>   <br>   cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"There are "</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">factorial</font></b><font color="#990000">(</font>input<font color="#990000">.</font><b><font color="#000000">length</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font> <br>      <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"permutations.\n"</font><font color="#990000">;</font>
-   vector<font color="#ff0000">&lt;string&gt;</font> v <font color="#990000">=</font> <b><font color="#000000">generate_permutations</font></b><font color="#990000">(</font>input<font color="#990000">)</font><font color="#990000">;</font>
-   <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
-      cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> endl<font color="#990000">;</font>
-   <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
-<font color="#ff0000">}<br></font></tt></tt></pre>
-    <hr style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;" size="2" width="100%"><font
-      style="color: rgb(0, 0, 0); font-family: Times; font-style:
-      normal; font-variant: normal; font-weight: normal; letter-spacing:
-      normal; line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"
-      size="+1"><b>** Ефективност на рекурсията</b></font><br
-      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Въпреки че рекурсията е мощен метод за сложни
-          алгоритми, тя може да доведе до програми, които работят лошо
-          (бавно).</font></li>
-      <li><font size="+1">Ще анализираме въпроса кога рекурсията е
-          полезна (ефективна) и кога е неефективна.</font></li>
-      <li><font size="+1">Пример: <a
-href="http://bg.wikipedia.org/wiki/%D0%A7%D0%B8%D1%81%D0%BB%D0%B0_%D0%BD%D0%B0_%D0%A4%D0%B8%D0%B1%D0%BE%D0%BD%D0%B0%D1%87%D0%B8">Редица
-
-
-
-
-
-
-
-
-
-
-
-
-
-            на Фибоначи</a><span class="Apple-converted-space">&nbsp;</span>се
-
-
-
-
-
-
-
-
-
-
-
-
-
-          дефинира по следния начин:</font>
-        <ul>
-          <li><font size="+1"><i>f</i><sub>1</sub><span
-                class="Apple-converted-space">&nbsp;</span>= 1</font></li>
-          <li><font size="+1"><i>f</i><sub>2</sub><span
-                class="Apple-converted-space">&nbsp;</span>= 1</font></li>
-          <li><i><font size="+1">f<sub>n</sub></font></i><font size="+1"><span
-                class="Apple-converted-space">&nbsp;</span>=<span
-                class="Apple-converted-space">&nbsp;</span><i>f<sub>n</sub></i><sub>-1</sub><span
-                class="Apple-converted-space">&nbsp;</span>+<span
-                class="Apple-converted-space">&nbsp;</span><i>f<sub>n</sub></i><sub>-2</sub></font></li>
-        </ul>
-      </li>
-      <li><font size="+1">Първите 10 члена на тази редица са:
-          <blockquote>1, 1, 2, 3, 5, 8, 13, 21, 34, 55, . . .<br>
-          </blockquote>
-        </font></li>
-      <li><font size="+1">Точно по дефиницията се пише рекурсивна
-          функция, пресмятаща<span class="Apple-converted-space">&nbsp;</span><i>n</i>-тото
-
-
-
-
-
-
-
-
-
-
-
-
-
-          число на Фибоначи.
-          <blockquote>
-            <pre>int <b>fib</b>(int n)<br>{  if (n &lt;= 2) return 1;<br>   else return <b>fib</b>(n - 1) + <b>fib</b>(n - 2);<br>}</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Тази функция работи вярно, но за не много
-          големи<span class="Apple-converted-space">&nbsp;</span><span
-            style="font-style: italic;">n</span><span
-            class="Apple-converted-space">&nbsp;</span>работи доста
-          (изключително) бавно.</font></li>
-      <li><font size="+1">Ще изпълним програмата (</font><font size="+1"><a
-            href="../../../2014/NETB151/sources/ch14/fibtest.cpp"
-            style="font-family: monospace;">fibtest.cpp</a></font><font
-          size="+1">) с<span class="Apple-converted-space">&nbsp;</span><span
-            style="font-style: italic;">n</span><span
-            class="Apple-converted-space">&nbsp;</span>между 30 и 50 за
-          да видим ефекта.</font></li>
-      <li><font size="+1">За откриване на проблема ще вмъкнем трасиращ
-          печат във функцията:
-          <blockquote>
-            <pre>int <b>fib</b>(int n)<br>{  cout &lt;&lt; "Entering fib: n = " &lt;&lt; n &lt;&lt; "\n";<br>   int f;<br>   if (n &lt;= 2) f = 1;<br>   else f = <b>fib</b>(n - 1) + <b>fib</b>(n - 2);<br>   cout &lt;&lt; "Exiting fib: n = " &lt;&lt; n<br>      &lt;&lt; " return value = " &lt;&lt; f &lt;&lt; "\n";<br>   return f;<br>}</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Резултатът от изпълнението (</font><font
-          size="+1"><a
-            href="../../../2014/NETB151/sources/ch14/fibtrace.cpp"
-            style="font-family: monospace;">fibtrace.cpp</a></font><font
-          size="+1">)<span class="Apple-converted-space">&nbsp;</span></font><font
-          size="+1"><font size="+1">показва защо изчисленията отнемат
-            толкова време</font>.
-          <blockquote>
-            <pre>Entering fib: n = 6<br>Entering fib: n = 5<br>Entering fib: n = 4<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Exiting fib: n = 4 return value = 3<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Exiting fib: n = 5 return value = 5<br>Entering fib: n = 4<br>Entering fib: n = 3<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Entering fib: n = 1<br>Exiting fib: n = 1 return value = 1<br>Exiting fib: n = 3 return value = 2<br>Entering fib: n = 2<br>Exiting fib: n = 2 return value = 1<br>Exiting fib: n = 4 return value = 3<br>Exiting fib: n = 6 return value = 8</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Дърво на извикванията:</font>
-        <p><font size="+1"><img alt=""
-              src="../../../2014/NETB151/slides/ch14/images/fib_tree.png"
-              height="395" width="744"></font></p>
-      </li>
-      <li><font size="+1">Тъй като<span class="Apple-converted-space">&nbsp;</span><tt>fib(4)</tt><span
-            class="Apple-converted-space">&nbsp;</span>се вика два пъти,
-          а<span class="Apple-converted-space">&nbsp;</span><tt>fib(3)</tt><span
-            class="Apple-converted-space">&nbsp;</span>се вика три пъти,
-          то много време се губи за многократни изчисления на една и
-          съща стойност.</font></li>
-    </ul>
-    <ul style="color: rgb(0, 0, 0); font-family: Times; font-size:
-      medium; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-stroke-width: 0px;">
-      <li><font size="+1">Когато смятаме ръчно, просто събираме
-          последните две намерени стойности.</font></li>
-      <li><font size="+1">Този метод може да се програмира без рекурсия
-          - с прост цикъл (</font><a
-          href="../../../2014/NETB151/sources/ch14/fibloop.cpp"><font
-            size="+1"><span style="font-family: monospace;">fibloop.cpp</span></font></a><font
-          size="+1">).
-          <blockquote>
-            <pre>int fib(int n)<br>{  if (n &lt;= 2) return 1;<br>   int fold = 1;<br>   int fold2 = 1;<br>   int fnew;<br>   for (int i = 3; i &lt;= n; i++)<br>   {  fnew = fold + fold2;<br>      fold2 = fold;<br>      fold = fnew;<br>   }<br>   return fnew;<br>}</pre>
-          </blockquote>
-        </font></li>
     </ul>
     <ul>
-      <li><font size="+1">Всяко рекурсивно решение (рекурсия) на една
-          задача може да се замени с итерационно решение (цикъл).</font></li>
-      <li><font size="+1">Винаги ли итерационното решение е по-ефективно
-          (по-бързо) от рекурсивното?<br>
-        </font>
-        <ul>
-          <li><font size="+1">Често двете решения са еднакво бързи
-              (триъгълник, пермутации).</font></li>
-          <li><font size="+1">Някои задачи се решават по-лесно с
-              рекурсия отколкото с итерация.</font></li>
-          <li><font size="+1">Решението на задачата за генериране на
-              пермутации </font><font size="+1">с цикъл води до
-              по-сложен, но не по-бърз код.</font></li>
-          <li><font size="+1">Често рекурсивните решения са по-лесни за
-              разбиране и прилагане правилно, отколкото техните
-              съответни </font><font size="+1"><font size="+1">итерационни</font>
-              аналози.</font></li>
-        </ul>
+      <li> <a href="../../../2014/NETB151/sources/ch15/sorttime.cpp"><big><span
+              style="font-family: monospace;">sorttime.cpp</span></big></a><br>
       </li>
-    </ul>
-    <hr size="2" width="100%"> **<b> </b><b><font size="+1">Непряка
-        (взаимна) рекурсия (mutual recurson) </font></b>
-    <meta charset="utf-8">
-    <span style="color: rgb(34, 34, 34); font-family: arial, sans-serif;
-      font-size: 12.8000001907349px; font-style: normal; font-variant:
-      normal; font-weight: normal; letter-spacing: normal; line-height:
-      normal; orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: 1;
-      word-spacing: 0px; -webkit-text-stroke-width: 0px; display: inline
-      !important; float: none; background-color: rgb(255, 255, 255);"></span>
-    <ul>
-      <li><font size="+1">Непрякя рекурсия е взаимно извикване на
-          няколко функции (напр. f1 вика f2 и f2 вика f1)</font></li>
-      <li><font size="+1">Пример: Програма за пресмятане на аритметични
-          изрази, зададени на входа на програмата (</font><font
-          size="+1"><tt>ci</tt><tt>n</tt></font><font size="+1">).
-          <blockquote>
-            <pre>3 + 4 * 5<br>(3 + 4) * 5<br>1 - (2 - (3 - (4 - 5)))</pre>
-          </blockquote>
-        </font></li>
-    </ul>
-    <ul>
-      <li> <big>За целта ще опишем правила (алгоритъм) за аритметични
-          действия със синтактични диаграми. </big> </li>
-    </ul>
-    <ul>
-      <li> <font size="+1">Диаграмата дава синтаксиса на аритметичен
-          израз (expression).</font>
-        <ul>
-          <li><font size="+1">Израз е или термин (term) или сума/разлика
-              на два термина.</font>
-            <blockquote><img alt=""
-                src="../../../2014/NETB151/slides/ch14/images/expression.png"
-                height="176" width="394"></blockquote>
-          </li>
-          <li><font size="+1">Термин е или коефициент (factor), или
-              произведение/частно на два коефициента.
-              <blockquote><img alt=""
-                  src="../../../2014/NETB151/slides/ch14/images/term.png"
-                  height="183" width="360"></blockquote>
-            </font></li>
-          <li><font size="+1">Коефициент е или число (number) или израз
-              в скоби.
-              <blockquote><img alt=""
-                  src="../../../2014/NETB151/slides/ch14/images/factor.png"
-                  height="149" width="502"></blockquote>
-            </font></li>
-        </ul>
-      </li>
-    </ul>
-    <ul>
-      <li><font size="+1">Синтактичната диаграма определя приоритетите
-          на пресмятанията.</font></li>
-      <li> <font size="+1">Най-напред 4 и 5 ще се умножат и след това
-          резултатът ще се добави към 3.
-          <blockquote>
-            <pre>3 + 4 * 5</pre>
-            <img alt=""
-              src="../../../2014/NETB151/slides/ch14/images/tree1.png"
-              height="292" width="305"></blockquote>
+      <li> <font size="+1">Ето примерни резултати за Pentium III
+          процесор на 750 MHz под Linux.
+          <table border="0" cellpadding="6">
+            <tbody>
+              <tr>
+                <td><img alt=""
+                    src="../../../2014/NETB151/slides/ch15/images/selection_times.png"
+                    height="377" width="348"></td>
+                <td width="10%">&nbsp;</td>
+                <td><img alt=""
+                    src="../../../2014/NETB151/slides/ch15/images/selection_graph.png"
+                    height="422" width="582"></td>
+              </tr>
+            </tbody>
+          </table>
         </font> </li>
+      <li> <font size="+1">Всъщност числата може да са различни, но
+          връзката между числата ще бъде същата. Удвояването на размера
+          на данните увеличава повече от 2 пъти времето, необходимо за
+          сортирането им. </font> <br>
+        <table height="174" border="0" cellpadding="2" cellspacing="2"
+          width="100%">
+          <tbody>
+            <tr>
+              <td valign="top"> <font size="+1">
+                  <table style="text-align: left; width: 328px;"
+                    border="1" cellpadding="2" cellspacing="0">
+                    <tbody>
+                      <tr>
+                        <td style="vertical-align: top;" align="right"><big><span
+                              style="font-style: italic;">n</span><br>
+                          </big></td>
+                        <td style="vertical-align: top;" align="right"><big>seconds<br>
+                          </big></td>
+                      </tr>
+                      <tr>
+                        <td style="vertical-align: top;" align="right"><big>10000<br>
+                          </big></td>
+                        <td style="vertical-align: top;" align="right"><big>1<br>
+                          </big></td>
+                      </tr>
+                      <tr>
+                        <td style="vertical-align: top;" align="right"><big>20000<br>
+                          </big></td>
+                        <td style="vertical-align: top;" align="right"><big>4<br>
+                          </big></td>
+                      </tr>
+                      <tr>
+                        <td style="vertical-align: top;" align="right"><big>40000<br>
+                          </big></td>
+                        <td style="vertical-align: top;" align="right"><big>15<br>
+                          </big></td>
+                      </tr>
+                      <tr>
+                        <td align="right" valign="top"><big>60000<br>
+                          </big></td>
+                        <td align="right" valign="top"><big>32<br>
+                          </big></td>
+                      </tr>
+                      <tr>
+                        <td style="vertical-align: top;" align="right"><big>80000<br>
+                          </big></td>
+                        <td style="vertical-align: top;" align="right"><big>57<br>
+                          </big></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </font> </td>
+              <td valign="top">&nbsp; &nbsp; &nbsp; <br>
+              </td>
+              <td valign="top"><font size="+1"><br>
+                  Резултати за </font><font size="+1"><font size="+1">2.2
+
+
+
+
+
+
+
+                    GHz&nbsp; </font>Intel Core 2 Duo CPU на Mac OS X.
+                </font></td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li> <font size="+1">За да анализираме алгоритъма, ще броим колко
+          пъти са посетени (използвани) елементите на масива.</font> </li>
+      <li> <font size="+1">За вектор с <i>n</i> елементи ще трябва да
+          посетим всичките <i>n</i> от тях за да намерим най-малкия.
+          След това посещаваме още два елемента за размяната.</font> </li>
+      <li><font size="+1">На следващата стъпка посещаваме <i>n</i> - 1
+          елемента за да намерим най-малкия и още два за размяната.
+          Разглеждаме най-лошия случай, когато се налага да разменяме
+          елементи не всяка стъпка.<br>
+        </font></li>
+      <li> <font size="+1"><font size="+1">На следващата стъпка
+            посещаваме</font> (<i>n</i> - 2) + 2 елементи.</font> </li>
+      <li><font size="+1">Общият брой на посетените елементи е
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/selection_computation.png"
+              height="158" width="731"></blockquote>
+          защото
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/sumation_formula.png"
+              height="86" width="394"></blockquote>
+        </font></li>
+      <li> <font size="+1">Получаваме формула за броя на посещенията
+          (1/2)&nbsp;<i>n</i><sup>2</sup>&nbsp;+&nbsp;(5/2)&nbsp;<i>n</i>&nbsp;-&nbsp;3.</font>
+      </li>
+      <li><font size="+1">За големи стойности на <i>n</i> двата
+          последни члена на полинома <i>нямат съществено значение</i> и
+          ги игнорираме.
+          <blockquote>
+            <table border="1" cellpadding="6" cellspacing="0">
+              <tbody>
+                <tr>
+                  <td width="90">
+                    <div align="center"><font size="+1"><i>n</i></font></div>
+                  </td>
+                  <td width="90">
+                    <div align="center"><font size="+1">(1/2) <i>n</i><sup>2</sup></font></div>
+                  </td>
+                  <td width="90">
+                    <div align="center"><font size="+1">(5/2) <i>n</i>
+                        - 3</font></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="90">
+                    <div align="center"><font size="+1">1000</font></div>
+                  </td>
+                  <td width="90">
+                    <div align="center"><font size="+1">500 000</font></div>
+                  </td>
+                  <td width="90">
+                    <div align="center"><font size="+1">2 497</font></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td width="90">
+                    <div align="center"><font size="+1">2000</font></div>
+                  </td>
+                  <td width="90">
+                    <div align="center"><font size="+1">2 000 000</font></div>
+                  </td>
+                  <td width="90">
+                    <div align="center"><font size="+1">4 997</font></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </blockquote>
+        </font></li>
+      <li> <font size="+1">При сравняване на отношението на броя за
+          различни стойности на </font><font size="+1"><font size="+1"><i>n</i></font>,
+          коефициентът 1/2 се премахва (съкращава).</font> </li>
+      <li> <font size="+1">Казваме "Броят на посещенията е от порядък <i>n</i><sup>2</sup>"
+          и използваме означението О-голамо (<i>big-Oh notation</i>):
+          Броят на посещенията е <i>O</i>(<i>n</i><sup>2</sup>).</font></li>
+      <li><font size="+1">Казваме, че пряката селекция е алгоритъм за
+          сортиране със сложност </font><font size="+1"><i>O</i>(<i>n</i><sup>2</sup>)
+          - квадратичен алгоритъм.<br>
+        </font></li>
+      <li><font size="+1">За алгоритъма за сортиране пряка селекция
+          удвояването на броя на елементите увеличава времето за
+          изпълнение 4 пъти.</font></li>
+      <li><font size="+1">Ако за <i>n</i> = 10000 и времето е 4
+          секунди, сортирането на <i>m</i> = 1 милион елементи ще
+          отнеме повече от 11 часа!<br>
+          (<i>m</i> = 100<i>n</i>, <i>t<sub>m</sub></i> = 100<sup>2</sup><i>t<sub>n</sub></i>
+          = 4.100<sup>2</sup> seconds = 4.100.100/3600 &gt; 11 hours!)</font></li>
+    </ul>
+    <hr style="width: 100%; height: 2px;"> ** <b>Сортиране чрез сливане</b><br>
+    <ul>
+      <li><font size="+1">Нека е даден вектор от 10 цели числа, като
+          първата и втората половина на вектора вече са сортирани:
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/sorted_halves.png"
+              height="57" width="382"></blockquote>
+        </font></li>
+      <li> <font size="+1">Лесно е да се слеят двете сортирани
+          половини, като сравняваме елементи от първата и втората
+          половина и избираме по-малкия елемент: </font>
+        <p><font size="+1"><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/merge.png"
+              height="496" width="770"></font></p>
+      </li>
     </ul>
     <ul>
-      <li><font size="+1">Тук&nbsp; 3 и 4 ще се съберат и резултатът ще
-          се умножи с 5.
+      <li><font size="+1">Алгоритъмът за сортиране разделя векторът на
+          все по-малки половинки, сортира всяка от тях и после ги слива.
           <blockquote>
-            <pre>(3 + 4) * 5</pre>
-            <img alt=""
-              src="../../../2014/NETB151/slides/ch14/images/tree2.png"
-              height="463" width="406"></blockquote>
+            <pre>void merge_sort(vector&lt;int&gt;&amp; a, int from, int to)<br>{  if (from == to) return;<br>   int mid = (from + to) / 2;<br>   /* sort the first and second half */<br>   merge_sort(a, from, mid);<br>   merge_sort(a, mid + 1, to);<br>   merge(a, from, mid, to);<br>}</pre>
+          </blockquote>
+        </font></li>
+      <li><font size="+1">Процедурата&nbsp; </font><font size="+1"><tt>merge</tt></font><font
+          size="+1"> слива двете сортирани половинки.</font></li>
+    </ul>
+    <h2> </h2>
+    <pre><tt>// <a href="../../../2014/NETB151/sources/ch15/mergsort.cpp">mergsort.cpp</a><br>001: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+002: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>
+003: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;cstdlib&gt;</font>
+004: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;ctime&gt;</font>
+006: <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+008: <i><font color="#9a1900">/** </font></i>
+009: <i><font color="#9a1900">   Merges two adjacent ranges in a vector</font></i>
+010: <i><font color="#9a1900">   @param a the vector with the elements to merge</font></i>
+011: <i><font color="#9a1900">   @param from the start of the first range</font></i>
+012: <i><font color="#9a1900">   @param mid the end of the first range</font></i>
+013: <i><font color="#9a1900">   @param to the end of the second range</font></i>
+014: <i><font color="#9a1900">*/</font></i>
+015: <font color="#009900">void</font> <b><font color="#000000">merge</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font><font color="#990000">&amp;</font> a<font color="#990000">,</font> <font color="#009900">int</font> from<font color="#990000">,</font> <font color="#009900">int</font> mid<font color="#990000">,</font> <font color="#009900">int</font> to<font color="#990000">)</font>
+016: <font color="#ff0000">{</font>  <font color="#009900">int</font> n <font color="#990000">=</font> to <font color="#990000">-</font> from <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font> <i><font color="#9a1900">/* size of the range to be merged */</font></i>
+018:    <i><font color="#9a1900">/* merge both halves into a temporary vector b */</font></i>
+019:    vector<font color="#ff0000">&lt;int&gt;</font> <b><font color="#000000">b</font></b><font color="#990000">(</font>n<font color="#990000">)</font><font color="#990000">;</font>
+020: 
+021:    <font color="#009900">int</font> i1 <font color="#990000">=</font> from<font color="#990000">;</font>
+022:       <i><font color="#9a1900">/* next element to consider in the first half */</font></i>
+023:    <font color="#009900">int</font> i2 <font color="#990000">=</font> mid <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">;</font>
+024:       <i><font color="#9a1900">/* next element to consider in the second half */</font></i>
+025:    <font color="#009900">int</font> j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> <i><font color="#9a1900">/* next open position in b */</font></i>
+027:    <i><font color="#9a1900">/* </font></i>
+028: <i><font color="#9a1900">      As long as neither i1 nor i2 past the end, move the smaller</font></i>
+029: <i><font color="#9a1900">      element into b</font></i>
+030: <i><font color="#9a1900">   */</font></i>
+031:    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>i1 <font color="#990000">&lt;</font><font color="#990000">=</font> mid <font color="#990000">&amp;</font><font color="#990000">&amp;</font> i2 <font color="#990000">&lt;</font><font color="#990000">=</font> to<font color="#990000">)</font>
+032:    <font color="#ff0000">{</font>  <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>a<font color="#990000">[</font>i1<font color="#990000">]</font> <font color="#990000">&lt;</font> a<font color="#990000">[</font>i2<font color="#990000">]</font><font color="#990000">)</font>
+034:       <font color="#ff0000">{</font>  b<font color="#990000">[</font>j<font color="#990000">]</font> <font color="#990000">=</font> a<font color="#990000">[</font>i1<font color="#990000">]</font><font color="#990000">;</font>
+036:          i1<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+037:       <font color="#ff0000">}</font>
+038:       <b><font color="#0000ff">else</font></b>
+039:       <font color="#ff0000">{</font>  b<font color="#990000">[</font>j<font color="#990000">]</font> <font color="#990000">=</font> a<font color="#990000">[</font>i2<font color="#990000">]</font><font color="#990000">;</font>
+041:          i2<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+042:       <font color="#ff0000">}</font>
+043:       j<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+044:    <font color="#ff0000">}</font>
+046:    <i><font color="#9a1900">/* </font></i>
+047: <i><font color="#9a1900">      Note that only one of the two while loops below is executed</font></i>
+048: <i><font color="#9a1900">   */</font></i>
+050:    <i><font color="#9a1900">/* Copy any remaining entries of the first half */</font></i>
+051:    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>i1 <font color="#990000">&lt;</font><font color="#990000">=</font> mid<font color="#990000">)</font>
+052:    <font color="#ff0000">{</font>  b<font color="#990000">[</font>j<font color="#990000">]</font> <font color="#990000">=</font> a<font color="#990000">[</font>i1<font color="#990000">]</font><font color="#990000">;</font>
+054:       i1<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+055:       j<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+056:    <font color="#ff0000">}</font>
+057:    <i><font color="#9a1900">/* Copy any remaining entries of the second half */</font></i>
+058:    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>i2 <font color="#990000">&lt;</font><font color="#990000">=</font> to<font color="#990000">)</font>
+059:    <font color="#ff0000">{</font>  b<font color="#990000">[</font>j<font color="#990000">]</font> <font color="#990000">=</font> a<font color="#990000">[</font>i2<font color="#990000">]</font><font color="#990000">;</font>
+061:       i2<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+062:       j<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">;</font>
+063:    <font color="#ff0000">}</font>
+065:    <i><font color="#9a1900">/* Copy back from the temporary vector */</font></i>
+066:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font>j <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> j <font color="#990000">&lt;</font> n<font color="#990000">;</font> j<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font> a<font color="#990000">[</font>from <font color="#990000">+</font> j<font color="#990000">]</font> <font color="#990000">=</font> b<font color="#990000">[</font>j<font color="#990000">]</font><font color="#990000">;</font>
+068: <font color="#ff0000">}</font>
+070: <i><font color="#9a1900">/**  </font></i>
+071: <i><font color="#9a1900">   Sorts the elements in a range of a vector.</font></i>
+072: <i><font color="#9a1900">   @param a the vector with the elements to sort</font></i>
+073: <i><font color="#9a1900">   @param from start of the range to sort</font></i>
+074: <i><font color="#9a1900">   @param to end of the range to sort</font></i>
+075: <i><font color="#9a1900">*/</font></i>
+076: <font color="#009900">void</font> <b><font color="#000000">merge_sort</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font><font color="#990000">&amp;</font> a<font color="#990000">,</font> <font color="#009900">int</font> from<font color="#990000">,</font> <font color="#009900">int</font> to<font color="#990000">)</font>
+077: <font color="#ff0000">{</font>  <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>from <font color="#990000">=</font><font color="#990000">=</font> to<font color="#990000">)</font> <b><font color="#0000ff">return</font></b><font color="#990000">;</font>
+079:    <font color="#009900">int</font> mid <font color="#990000">=</font> <font color="#990000">(</font>from <font color="#990000">+</font> to<font color="#990000">)</font> <font color="#990000">/</font> <font color="#993399">2</font><font color="#990000">;</font>
+080:    <i><font color="#9a1900">/* sort the first and the second half */</font></i>
+081:    <b><font color="#000000">merge_sort</font></b><font color="#990000">(</font>a<font color="#990000">,</font> from<font color="#990000">,</font> mid<font color="#990000">)</font><font color="#990000">;</font>
+082:    <b><font color="#000000">merge_sort</font></b><font color="#990000">(</font>a<font color="#990000">,</font> mid <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> to<font color="#990000">)</font><font color="#990000">;</font>
+083:    <b><font color="#000000">merge</font></b><font color="#990000">(</font>a<font color="#990000">,</font> from<font color="#990000">,</font> mid<font color="#990000">,</font> to<font color="#990000">)</font><font color="#990000">;</font>
+084: <font color="#ff0000">}</font>
+086: <i><font color="#9a1900">/** </font></i>
+087: <i><font color="#9a1900">   Prints all elements in a vector</font></i>
+088: <i><font color="#9a1900">   @param a the vector to print</font></i>
+089: <i><font color="#9a1900">*/</font></i>
+090: <font color="#009900">void</font> <b><font color="#000000">print</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font> a<font color="#990000">)</font>
+091: <font color="#ff0000">{</font>  <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> a<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font> cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> a<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" "</font><font color="#990000">;</font>
+094:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+095: <font color="#ff0000">}</font>
+097: <i><font color="#9a1900">/**</font></i>
+098: <i><font color="#9a1900">   Sets the seed of the random number generator.</font></i>
+099: <i><font color="#9a1900">*/</font></i>
+100: <font color="#009900">void</font> <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font>
+101: <font color="#ff0000">{</font>  <font color="#009900">int</font> seed <font color="#990000">=</font> <b><font color="#000000">static_cast</font></b><font color="#ff0000">&lt;int&gt;</font><font color="#990000">(</font><b><font color="#000000">time</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+103:    <b><font color="#000000">srand</font></b><font color="#990000">(</font>seed<font color="#990000">)</font><font color="#990000">;</font>
+104: <font color="#ff0000">}</font>
+106: <i><font color="#9a1900">/** </font></i>
+107: <i><font color="#9a1900">   Computes a random integer in a range.</font></i>
+108: <i><font color="#9a1900">   @param a the bottom of the range</font></i>
+109: <i><font color="#9a1900">   @param b the top of the range</font></i>
+110: <i><font color="#9a1900">   @return a random integer x, a &lt;= x and x &lt;= b</font></i>
+111: <i><font color="#9a1900">*/</font></i>
+112: <font color="#009900">int</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#009900">int</font> a<font color="#990000">,</font> <font color="#009900">int</font> b<font color="#990000">)</font>
+113: <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> a <font color="#990000">+</font> <b><font color="#000000">rand</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">%</font> <font color="#990000">(</font>b <font color="#990000">-</font> a <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>  <font color="#ff0000">}</font>
+116: 
+117: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+118: <font color="#ff0000">{</font>  <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+120:    vector<font color="#ff0000">&lt;int&gt;</font> <b><font color="#000000">v</font></b><font color="#990000">(</font><font color="#993399">20</font><font color="#990000">)</font><font color="#990000">;</font>
+121:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+122:       v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">,</font> <font color="#993399">100</font><font color="#990000">)</font><font color="#990000">;</font>
+123:    <b><font color="#000000">print</font></b><font color="#990000">(</font>v<font color="#990000">)</font><font color="#990000">;</font>
+124:    <b><font color="#000000">merge_sort</font></b><font color="#990000">(</font>v<font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">,</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>
+125:    <b><font color="#000000">print</font></b><font color="#990000">(</font>v<font color="#990000">)</font><font color="#990000">;</font>
+126:    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+127: <font color="#ff0000">}</font></tt></pre>
+    <hr size="2" width="100%"><b>** Анализ на ефективността на
+      алгоритъма за сортиране чрез сливане</b><br>
+    <ul>
+      <li> <a href="../../../2014/NETB151/sources/ch15/mergtime.cpp"><big><span
+              style="font-family: monospace;">mergetime.cpp</span></big></a><br>
+      </li>
+      <li> <font size="+1">Въпреки, че алгоритъмът е по-сложен, той
+          работи по-бързо от пряката селекция. </font>
+        <p> </p>
+        <table border="0" cellpadding="6">
+          <tbody>
+            <tr>
+              <td width="244"><img alt=""
+                  src="../../../2014/NETB151/slides/ch15/images/merge_times.png"
+                  height="239" width="245"></td>
+              <td width="10%">&nbsp;</td>
+              <td width="446"><img alt=""
+                  src="../../../2014/NETB151/slides/ch15/images/merge_graph.png"
+                  height="323" width="446"></td>
+            </tr>
+          </tbody>
+        </table>
+      </li>
+      <li><font size="+1">Графиката няма параболична форма - изглежда,
+          че времето за изпълнение е почти линейна функция на <i>n&nbsp;</i>
+          (броя на елементите на вектора).</font></li>
+      <li><font size="+1">
+          <table style="width: 380px; height: 128px;" border="1"
+            cellpadding="1" cellspacing="0">
+            <tbody>
+              <tr>
+                <td style="vertical-align: top;" align="right"><big><i>n</i><br>
+                  </big></td>
+                <td style="vertical-align: top;" align="right"><big>seconds<br>
+                  </big></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;" align="right"><big>&nbsp;200000<br>
+                  </big></td>
+                <td style="vertical-align: top;" align="right"><big>&nbsp;1<br>
+                  </big></td>
+              </tr>
+              <tr>
+                <td align="right"><big>&nbsp;400000<br>
+                  </big></td>
+                <td style="vertical-align: top;" align="right"><big>&nbsp;2<br>
+                  </big></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;" align="right"><big>&nbsp;800000<br>
+                  </big></td>
+                <td style="vertical-align: top;" align="right"><big>&nbsp;4<br>
+                  </big></td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;" align="right"><big>1600000<br>
+                  </big></td>
+                <td style="vertical-align: top;" align="right"><big>&nbsp;8<br>
+                  </big></td>
+              </tr>
+              <tr>
+                <td align="right" valign="top"><big>3200000</big></td>
+                <td align="right" valign="top"> <big>18</big><br>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </font></li>
     </ul>
     <ul>
-      <li><font size="+1">За пресмятане на израз ще реализираме трите
-          функции: <tt>expression_value</tt>, <tt>term_value</tt>, и <tt>factor_value</tt>.
-        </font>
+      <li><font size="+1">Отново броим посещенията на елементите на
+          вектора.</font></li>
+      <li> <font size="+1">Разглеждаме процеса на сливане: За вектор
+          с&nbsp;<i>n</i> елементи,</font>
         <ul>
-          <li><font size="+1">Функцията <tt>expression_value</tt>
-              извиква <tt>term_value</tt>, проверява дали следващият
-              вход е <tt>'+</tt>' или '<tt>-</tt>', и ако е, вика
-              функцията <tt>term_value</tt> отново, за да добави или
-              извади следващия термин.</font></li>
-          <li><font size="+1">Функцията <tt>term_value</tt> извиква <tt>factor_value</tt>
-              по същия начин, като умножава или дели коефицинтите.</font></li>
-          <li><font size="+1">Функциятя&nbsp;<tt>factor_value</tt>
-              проверява дали следващият вход е <tt>'('</tt> или цифра,
-              вика или <tt>expression_value</tt> рекурсивно или връща
-              цифрата в системния буфер.</font></li>
+          <li><font size="+1">трябва да посетим първите два елемента от
+              двете части за да ги сравним (2 посещения),</font></li>
+          <li><font size="+1">трябва да сорираме по-малкия елемент в
+              новия сортиран вектор (1 посещение),</font></li>
+          <li><font size="+1">трябва да копираме обратно сортирания
+              вектор в оригиналния (2 посещения).</font></li>
         </ul>
       </li>
-      <li><font size="+1">Завършването на рекурсията се гарантира
-          от&nbsp;<tt>expression_value, </tt>защото тази функция винаги
-          чете от входа и за следващото (рекурсивно) извикване и останал
-          по-къс вход (низ).</font></li>
-      <li><font size="+1">Тези три функции реализират непряка рекурсия,
-          като са взаимно рекурсивни (mutual recurson).</font></li>
-      <li> <font size="+1"><i>Бележка</i><i>.</i> Функцията</font><font
-          size="+1"><span style="font-family: monospace;"> cin.peek()</span></font><font
-          size="+1"> чете и връща един символ без да го премахва от
-          системния стек (потока), </font><font size="+1"><span
-            style="font-family: monospace;">cin.get() </span></font><font
-          size="+1">чете и връща един символ от системния стек.
-          Функцията </font><font size="+1"><span style="font-family:
-            monospace;">isdigit()</span></font><font size="+1"> връща </font><font
-          size="+1"><span style="font-family: monospace;">true</span></font><font
-          size="+1">, ако аргументът е цифра и&nbsp;</font><font
-          size="+1"><span style="font-family: monospace;">false</span></font><font
-          size="+1"> в противен случай.</font></li>
+      <li><font size="+1">Така за процеса сливане трябват 5<i>n</i>
+          посещения.</font></li>
     </ul>
-    <pre><tt><b><font color="#000080">
- // <a href="../../../2014/NETB151/sources/ch14/eval.cpp">eval.cpp</a>
- #include</font></b> <font color="#ff0000">&lt;iostream&gt;
-</font> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
-<br> <font color="#009900">int</font> <b><font color="#000000">term_value</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
- <font color="#009900">int</font> <b><font color="#000000">factor_value</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
- <i><font color="#9a1900">/**</font></i>
- <i><font color="#9a1900">   Evaluates the next expression found in cin</font></i>
- <i><font color="#9a1900">   @return the value of the expression.</font></i>
- <i><font color="#9a1900">*/</font></i>
- <font color="#009900">int</font> <b><font color="#000000">expression_value</font></b><font color="#990000">(</font><font color="#990000">)</font>
- <font color="#ff0000">{</font>  <font color="#009900">int</font> result <font color="#990000">=</font> <b><font color="#000000">term_value</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-    <font color="#009900">bool</font> more <font color="#990000">=</font> <b><font color="#0000ff">true</font></b><font color="#990000">;</font>
-    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>more<font color="#990000">)</font>
-    <font color="#ff0000">{</font>  <font color="#009900">char</font> op <font color="#990000">=</font> cin<font color="#990000">.</font><b><font color="#000000">peek</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>op <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'+'</font> <font color="#990000">|</font><font color="#990000">|</font> op <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'-'</font><font color="#990000">)</font>
-       <font color="#ff0000">{</font>  cin<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-          <font color="#009900">int</font> value <font color="#990000">=</font> <b><font color="#000000">term_value</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-          <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>op <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'+'</font><font color="#990000">)</font> result <font color="#990000">=</font> result <font color="#990000">+</font> value<font color="#990000">;</font>
-          <b><font color="#0000ff">else</font></b> result <font color="#990000">=</font> result <font color="#990000">-</font> value<font color="#990000">;</font>
-       <font color="#ff0000">}</font>
-       <b><font color="#0000ff">else</font></b> more <font color="#990000">=</font> <b><font color="#0000ff">false</font></b><font color="#990000">;</font>
-    <font color="#ff0000">}</font>
-    <b><font color="#0000ff">return</font></b> result<font color="#990000">;</font>
- <font color="#ff0000">}</font>
- <i><font color="#9a1900">/**</font></i>
- <i><font color="#9a1900">   Evaluates the next term found in cin</font></i>
- <i><font color="#9a1900">   @return the value of the term.</font></i>
- <i><font color="#9a1900">*/</font></i>
- <font color="#009900">int</font> <b><font color="#000000">term_value</font></b><font color="#990000">(</font><font color="#990000">)</font>
- <font color="#ff0000">{</font>  <font color="#009900">int</font> result <font color="#990000">=</font> <b><font color="#000000">factor_value</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-    <font color="#009900">bool</font> more <font color="#990000">=</font> <b><font color="#0000ff">true</font></b><font color="#990000">;</font>
-    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>more<font color="#990000">)</font>
-    <font color="#ff0000">{</font>  <font color="#009900">char</font> op <font color="#990000">=</font> cin<font color="#990000">.</font><b><font color="#000000">peek</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>op <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'*'</font> <font color="#990000">|</font><font color="#990000">|</font> op <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'/'</font><font color="#990000">)</font>
-       <font color="#ff0000">{</font>  cin<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-          <font color="#009900">int</font> value <font color="#990000">=</font> <b><font color="#000000">factor_value</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-          <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>op <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'*'</font><font color="#990000">)</font> result <font color="#990000">=</font> result <font color="#990000">*</font> value<font color="#990000">;</font>
-          <b><font color="#0000ff">else</font></b> result <font color="#990000">=</font> result <font color="#990000">/</font> value<font color="#990000">;</font>
-       <font color="#ff0000">}</font>
-       <b><font color="#0000ff">else</font></b> more <font color="#990000">=</font> <b><font color="#0000ff">false</font></b><font color="#990000">;</font>
-    <font color="#ff0000">}</font>
-    <b><font color="#0000ff">return</font></b> result<font color="#990000">;</font>
- <font color="#ff0000">}</font>
- <i><font color="#9a1900">/**</font></i>
- <i><font color="#9a1900">   Evaluates the next factor found in cin</font></i>
- <i><font color="#9a1900">   @return the value of the factor.</font></i>
- <i><font color="#9a1900">*/</font></i>
- <font color="#009900">int</font> <b><font color="#000000">factor_value</font></b><font color="#990000">(</font><font color="#990000">)</font>
- <font color="#ff0000">{</font>  <font color="#009900">int</font> result <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font>
-    <font color="#009900">char</font> c <font color="#990000">=</font> cin<font color="#990000">.</font><b><font color="#000000">peek</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>c <font color="#990000">=</font><font color="#990000">=</font> <font color="#ff0000">'('</font><font color="#990000">)</font><br>    <font color="#ff0000">{</font>  cin<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-       result <font color="#990000">=</font> <b><font color="#000000">expression_value</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-       cin<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> <i><font color="#9a1900">// read ")"</font></i>
-    <font color="#ff0000">}</font>
-    <b><font color="#0000ff">else</font></b> <i><font color="#9a1900">// assemble number value from digits</font></i>
-    <font color="#ff0000">{</font>  <b><font color="#0000ff">while</font></b> <font color="#990000">(</font><b><font color="#000000">isdigit</font></b><font color="#990000">(</font>c<font color="#990000">)</font><font color="#990000">)</font>
-       <font color="#ff0000">{</font>  result <font color="#990000">=</font> <font color="#993399">10</font> <font color="#990000">*</font> result <font color="#990000">+</font> c <font color="#990000">-</font> <font color="#ff0000">'0'</font><font color="#990000">;</font>
-          cin<font color="#990000">.</font><b><font color="#000000">get</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-          c <font color="#990000">=</font> cin<font color="#990000">.</font><b><font color="#000000">peek</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
-       <font color="#ff0000">}</font> <br>    <font color="#ff0000">}</font>
-    <b><font color="#0000ff">return</font></b> result<font color="#990000">;</font>
- <font color="#ff0000">}</font>
- 
- <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
- <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Enter an expression: "</font><font color="#990000">;</font>
-    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">expression_value</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> endl<font color="#990000">;</font>
-    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
- <font color="#ff0000">}</font>
+    <ul>
+      <li><font size="+1">За анализ на целия алгоритъм, нека с <i>T</i>(<i>n</i>)
+          означим броя на посещенията, необходими за сортиране на вектор
+          с <i>n</i> елемента по метода сортиране чрез сливане.</font></li>
+      <li><font size="+1">За опростяване на пресмятанията предполагаме,
+          че </font><font size="+1"><font size="+1"><i>n</i></font> е
+          степен на двойката, т.е. <i>n</i> = 2<sup><i>m</i></sup>.</font></li>
+      <li><font size="+1">Тъй като за сортиране на половин вектор са
+          необходими <i>T</i>(<i>n</i>/2) посещения, имаме:
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/merge_equation1.png"
+              height="88" width="293"></blockquote>
+        </font></li>
+      <li><font size="+1">По същия начин получаваме:
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/merge_equation2.png"
+              height="88" width="330"></blockquote>
+        </font></li>
+      <li><font size="+1">Комбинирайки двете формули, получаваме:
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/merge_equation3.png"
+              height="88" width="406"></blockquote>
+        </font></li>
+      <li><font size="+1">Повторението на процеса води до:
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/merge_equation4.png"
+              height="199" width="527"></blockquote>
+        </font></li>
+    </ul>
+    <ul>
+      <li><font size="+1">Накрая се получава формулата
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/merge_equation5.png"
+              height="113" width="359"></blockquote>
+        </font></li>
+      <li><font size="+1">Тъй като предположихме <i>n</i> = 2<sup><i>m</i></sup>
+          имаме:
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/merge_equation_solved.png"
+              height="184" width="359"></blockquote>
+        </font></li>
+      <li><font size="+1">За да определим порядъка на нарастване,
+          изпускаме членовете от по-нисък ред и коефициента.</font></li>
+      <li><font size="+1">Тъй като смяна на основата на логаритъма
+          променя стойността с константен множител, при оценката може да
+          изпуснем основата на логаритъма.
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/log_change_of_base.png"
+              height="51" width="570"></blockquote>
+        </font></li>
+      <li><font size="+1">Следователно сортиране чрез сливане е&nbsp;<i>алгоритъм
+
+
+
+
+
+
+            със сложност O</i>(<i>n</i> log <i>n</i>).</font></li>
+    </ul>
+    <ul>
+      <li><font size="+1">Как да сравним <i>O</i>(<i>n</i><sup>2</sup>)
+          с <i>O</i>(<i>n</i> log <i>n</i>)?</font></li>
+      <li><font size="+1">&nbsp;С </font><font size="+1"><font
+            size="+1"><i>O</i>(<i>n</i><sup>2</sup>) алгоритъм
+            сортирането на вектор с 10<sup>6</sup> елемента е </font>100<sup>2</sup>
+          = 10 000 пъти по-бавно отколкото на вектор с 10<sup>4</sup>
+          елементи.</font></li>
+      <li><font size="+1">С <i>O</i>(<i>n</i> log <i>n</i>) алгоритъм
+        </font><font size="+1"><font size="+1"><font size="+1">
+              сортирането на вектор с 10<sup>6</sup> елемента е </font>100.log100
+
+
+
+
+
+
+            = 150 пъти по-бавно отколкото на вектор с 10<sup>4</sup>
+            елементи, защото</font>
+          <blockquote><img alt=""
+              src="../../../2014/NETB151/slides/ch15/images/n_log_n_ratio.png"
+              height="110" width="570"></blockquote>
+        </font></li>
+      <li> <font size="+1">Ако за 4 секунди се сортират 10 000 елементи
+          и с двата алгоритъма (сливането е по-бързо, разбира се) тогава</font>
+        <ul>
+          <li><font size="+1">ще отнеме 10 минути за сортиране на 10<sup>6</sup>
+              елементи чрез сливане и<span style="font-style: italic;"></span><br>
+            </font></li>
+          <li><font size="+1">ще отнеме 11 часа за сортиране на 10<sup>6</sup>
+              елементи по метода на пряката селекция.</font></li>
+        </ul>
+      </li>
+    </ul>
+    <hr style="width: 100%; height: 2px;"> <b>** Линейно търсене </b>
+    <ul>
+      <li><font size="+1">Ако искаме да намерим число в редица от
+          стойности, които са в произволен ред, трябва да разгледаме
+          всички елементи, докато намерим търсеното число или докато
+          стигнем до края на редицата.</font></li>
+      <li><font size="+1">Този алгоритъм се нарича линейно или
+          последователно търсене.</font></li>
+      <li><font size="+1">Нищо не може да се направи за ускоряване на
+          процеса, затова алгоритъмът има сложност <span
+            style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span>).<br>
+        </font></li>
+      <li><font size="+1">Процедурата връща -1, ако числото не е
+          намерено.</font></li>
+    </ul>
+    <pre><tt>// lsearch.cpp  <br>01: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font><br>02: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font><br>03: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;cstdlib&gt;</font><br>04: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;ctime&gt;</font><br>06: <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font><br>08: <i><font color="#9a1900">/**</font></i><br>09: <i><font color="#9a1900">   Finds an element in a vector</font></i><br>10: <i><font color="#9a1900">   @param v the vector with the elements to search</font></i><br>11: <i><font color="#9a1900">   @param a the value to search for</font></i><br>12: <i><font color="#9a1900">   @return the index of the first match, or -1 if not found</font></i><br>13: <i><font color="#9a1900">*/</font></i><br>14: <font color="#009900">int</font> <b><font color="#000000">linear_search</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font> v<font color="#990000">,</font> <font color="#009900">int</font> a<font color="#990000">)</font><br>15: <font color="#ff0000">{</font>  <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font><br>17:       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font><font color="#990000">=</font> a<font color="#990000">)</font> <b><font color="#0000ff">return</font></b> i<font color="#990000">;</font><br>21:    <b><font color="#0000ff">return</font></b> <font color="#990000">-</font><font color="#993399">1</font><font color="#990000">;</font><br>22: <font color="#ff0000">}</font><br>24: <i><font color="#9a1900">/** </font></i><br>25: <i><font color="#9a1900">   Prints all elements in a vector</font></i><br>26: <i><font color="#9a1900">   @param a the vector to print</font></i><br>27: <i><font color="#9a1900">*/</font></i><br>28: <font color="#009900">void</font> <b><font color="#000000">print</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font> a<font color="#990000">)</font><br>29: <font color="#ff0000">{</font>  <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> a<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font><br>31:       cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> a<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" "</font><font color="#990000">;</font><br>32:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font><br>33: <font color="#ff0000">}</font><br>35: <i><font color="#9a1900">/**</font></i><br>36: <i><font color="#9a1900">   Sets the seed of the random number generator.</font></i><br>37: <i><font color="#9a1900">*/</font></i><br>38: <font color="#009900">void</font> <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font><br>39: <font color="#ff0000">{</font>  <font color="#009900">int</font> seed <font color="#990000">=</font> <b><font color="#000000">static_cast</font></b><font color="#ff0000">&lt;int&gt;</font><font color="#990000">(</font><b><font color="#000000">time</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font><br>41:    <b><font color="#000000">srand</font></b><font color="#990000">(</font>seed<font color="#990000">)</font><font color="#990000">;</font><br>42: <font color="#ff0000">}</font><br>44: <i><font color="#9a1900">/** </font></i><br>45: <i><font color="#9a1900">   Computes a random integer in a range.</font></i><br>46: <i><font color="#9a1900">   @param a the bottom of the range</font></i><br>47: <i><font color="#9a1900">   @param b the top of the range</font></i><br>48: <i><font color="#9a1900">   @return a random integer x, a &lt;= x and x &lt;= b</font></i><br>49: <i><font color="#9a1900">*/</font></i><br>50: <font color="#009900">int</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#009900">int</font> a<font color="#990000">,</font> <font color="#009900">int</font> b<font color="#990000">)</font><br>51: <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> a <font color="#990000">+</font> <b><font color="#000000">rand</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">%</font> <font color="#990000">(</font>b <font color="#990000">-</font> a <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>  <font color="#ff0000">}</font><br>54: <br>55: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font><br>56: <font color="#ff0000">{</font>  <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font><br>58:    vector<font color="#ff0000">&lt;int&gt;</font> <b><font color="#000000">v</font></b><font color="#990000">(</font><font color="#993399">20</font><font color="#990000">)</font><font color="#990000">;</font><br>59:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font><br>60:       v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">,</font> <font color="#993399">100</font><font color="#990000">)</font><font color="#990000">;</font><br>61:    <b><font color="#000000">print</font></b><font color="#990000">(</font>v<font color="#990000">)</font><font color="#990000">;</font><br>62:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Enter number to search for: "</font><font color="#990000">;</font><br>63:    <font color="#009900">int</font> n<font color="#990000">;</font><br>64:    cin <font color="#990000">&gt;</font><font color="#990000">&gt;</font> n<font color="#990000">;</font><br>65:    <font color="#009900">int</font> j <font color="#990000">=</font> <b><font color="#000000">linear_search</font></b><font color="#990000">(</font>v<font color="#990000">,</font> n<font color="#990000">)</font><font color="#990000">;</font><br>66:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Found in position "</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> j <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font><br>67:    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font><br>68: <font color="#ff0000">}</font></tt></pre>
+    <hr size="2" width="100%"><b>** Двоично търсене </b>
+    <ul>
+      <li><font size="+1">Сега търсим елемент в сортирана редица
+          (наредени по големина елементи). </font></li>
+      <li><font size="+1">Освен с линейно търсене, задачата може да се
+          реши с двоично търсене.</font></li>
+      <li><font size="+1">Търсенето се нарича двоично, защото областта
+          на търсене се намалява наполовина на всяка стъпка.</font></li>
+      <li><font size="+1">Този алгоритъм (делене наполовина) работи,
+          само защото редицата е предварително сортирана. <br>
+        </font></li>
+    </ul>
+    <ul>
+      <li> <font size="+1">Пример: Търсим числото 123 във вектора: </font></li>
+    </ul>
+    <table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr bgcolor="#00ffff">
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[0]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[1]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[2]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[3]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[4]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[5]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[6]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[7]</font></tt></div>
+          </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+          <td width="50">
+            <div align="center"><font size="+1"><tt>14</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>43</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>76</tt></font></div>
+          </td>
+          <td style="text-decoration: underline;" width="50">
+            <div align="center"><font size="+1"><tt>100</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>115</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>290</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>400</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>511</tt></font></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li> <font size="+1">Последният елемент от първата половина на
+          вектора&nbsp;<tt>v[3]</tt>, е 100. 100 &lt; 123, което
+          означава, че трябва да продължим търсенето във втората
+          половина на вектора. </font> </li>
+    </ul>
+    <table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr bgcolor="#00ffff">
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[4]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[5]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[6]</font></tt></div>
+          </td>
+          <td width="50">
+            <div align="center"><tt><font size="+1">v[7]</font></tt></div>
+          </td>
+        </tr>
+        <tr bgcolor="#ffffff">
+          <td width="50">
+            <div align="center"><font size="+1"><tt>115</tt></font></div>
+          </td>
+          <td style="text-decoration: underline;" width="50">
+            <div align="center"><font size="+1"><tt>290</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>400</tt></font></div>
+          </td>
+          <td width="50">
+            <div align="center"><font size="+1"><tt>511</tt></font></div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li> <font size="+1"><font size="+1">Последният елемент от
+            първата половина на вектора&nbsp;<tt>v[5]</tt>, е 290. 290
+            &gt; 123, което означава, че трябва да продължим търсенето в
+            първата половина.</font> </font></li>
+    </ul>
+    <font size="+1">
+      <table bgcolor="black" border="1" cellpadding="6">
+        <tbody>
+          <tr bgcolor="#00ffff">
+            <td width="50">
+              <div align="center"><tt><font size="+1">v[4]</font></tt></div>
+            </td>
+          </tr>
+          <tr style="text-decoration: underline;" bgcolor="#ffffff">
+            <td width="50">
+              <div align="center"><font size="+1"><tt>115</tt></font></div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </font>
+    <ul>
+      <li><font size="+1">Тъй като има само един елемент за сравневие </font><font
+          size="+1"><font size="+1"><font size="+1"><tt>v[5]</tt>, който
+              не е 123</font></font>, търсенето завършва неуспешно -
+          няма елемент със стойност 123 във вектора.</font></li>
+    </ul>
+    <pre><tt>// <a href="../../../2014/NETB151/sources/ch15/bsearch.cpp">bsearch.cpp</a><br>01: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+02: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>
+03: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;cstdlib&gt;</font>
+04: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;ctime&gt;</font>
+06: <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+08: <i><font color="#9a1900">/**</font></i>
+09: <i><font color="#9a1900">   Finds an element in a sorted vector.</font></i>
+10: <i><font color="#9a1900">   @param v the sorted vector with the elements to search</font></i>
+11: <i><font color="#9a1900">   @param from the start of the range to search</font></i>
+12: <i><font color="#9a1900">   @param to the end of the range to search</font></i>
+13: <i><font color="#9a1900">   @param a the value to search for</font></i>
+14: <i><font color="#9a1900">   @return the index of the first match, or -1 if not found</font></i>
+15: <i><font color="#9a1900">*/</font></i>
+16: <font color="#009900">int</font> <b><font color="#000000">binary_search</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font> v<font color="#990000">,</font> <font color="#009900">int</font> from<font color="#990000">,</font> <font color="#009900">int</font> to<font color="#990000">,</font> <font color="#009900">int</font> a<font color="#990000">)</font>
+17: <font color="#ff0000">{</font>  <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>from <font color="#990000">&gt;</font> to<font color="#990000">)</font>  <b><font color="#0000ff">return</font></b> <font color="#990000">-</font><font color="#993399">1</font><font color="#990000">;</font>
+20:    <font color="#009900">int</font> mid <font color="#990000">=</font> <font color="#990000">(</font>from <font color="#990000">+</font> to<font color="#990000">)</font> <font color="#990000">/</font> <font color="#993399">2</font><font color="#990000">;</font>
+21:    <font color="#009900">int</font> diff <font color="#990000">=</font> v<font color="#990000">[</font>mid<font color="#990000">]</font> <font color="#990000">-</font> a<font color="#990000">;</font>
+22:    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>diff <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <i><font color="#9a1900">/* v[mid] == a */</font></i>
+23:       <b><font color="#0000ff">return</font></b> mid<font color="#990000">;</font>
+24:    <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>diff <font color="#990000">&lt;</font> <font color="#993399">0</font><font color="#990000">)</font> <i><font color="#9a1900">/* v[mid] &lt; a */</font></i>
+25:       <b><font color="#0000ff">return</font></b> <b><font color="#000000">binary_search</font></b><font color="#990000">(</font>v<font color="#990000">,</font> mid <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">,</font> to<font color="#990000">,</font> a<font color="#990000">)</font><font color="#990000">;</font>
+26:    <b><font color="#0000ff">else</font></b>
+27:       <b><font color="#0000ff">return</font></b> <b><font color="#000000">binary_search</font></b><font color="#990000">(</font>v<font color="#990000">,</font> from<font color="#990000">,</font> mid <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">,</font> a<font color="#990000">)</font><font color="#990000">;</font>
+28: <font color="#ff0000">}</font>
+30: <i><font color="#9a1900">/** </font></i>
+31: <i><font color="#9a1900">   Prints all elements in a vector</font></i>
+32: <i><font color="#9a1900">   @param a the vector to print</font></i>
+33: <i><font color="#9a1900">*/</font></i>
+34: <font color="#009900">void</font> <b><font color="#000000">print</font></b><font color="#990000">(</font>vector<font color="#ff0000">&lt;int&gt;</font> a<font color="#990000">)</font>
+35: <font color="#ff0000">{</font>  <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> a<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+37:       cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> a<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" "</font><font color="#990000">;</font>
+38:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+39: <font color="#ff0000">}</font>
+41: <i><font color="#9a1900">/**</font></i>
+42: <i><font color="#9a1900">   Sets the seed of the random number generator.</font></i>
+43: <i><font color="#9a1900">*/</font></i>
+44: <font color="#009900">void</font> <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font>
+45: <font color="#ff0000">{ </font> <font color="#009900">int</font> seed <font color="#990000">=</font> <b><font color="#000000">static_cast</font></b><font color="#ff0000">&lt;int&gt;</font><font color="#990000">(</font><b><font color="#000000">time</font></b><font color="#990000">(</font><font color="#993399">0</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+47:    <b><font color="#000000">srand</font></b><font color="#990000">(</font>seed<font color="#990000">)</font><font color="#990000">;</font>
+48: <font color="#ff0000">}</font>
+50: <i><font color="#9a1900">/** </font></i>
+51: <i><font color="#9a1900">   Computes a random integer in a range.</font></i>
+52: <i><font color="#9a1900">   @param a the bottom of the range</font></i>
+53: <i><font color="#9a1900">   @param b the top of the range</font></i>
+54: <i><font color="#9a1900">   @return a random integer x, a &lt;= x and x &lt;= b</font></i>
+55: <i><font color="#9a1900">*/</font></i>
+56: <font color="#009900">int</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#009900">int</font> a<font color="#990000">,</font> <font color="#009900">int</font> b<font color="#990000">)</font>
+57: <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> a <font color="#990000">+</font> <b><font color="#000000">rand</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">%</font> <font color="#990000">(</font>b <font color="#990000">-</font> a <font color="#990000">+</font> <font color="#993399">1</font><font color="#990000">)</font><font color="#990000">;</font>  <font color="#ff0000">}</font>
+60: 
+61: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+62: <font color="#ff0000">{</font>  <b><font color="#000000">rand_seed</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+64:    vector<font color="#ff0000">&lt;int&gt;</font> <b><font color="#000000">v</font></b><font color="#990000">(</font><font color="#993399">20</font><font color="#990000">)</font><font color="#990000">;</font>
+65:    v<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;</font>
+66:    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">1</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+67:       v<font color="#990000">[</font>i<font color="#990000">]</font> <font color="#990000">=</font> v<font color="#990000">[</font>i <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">]</font> <font color="#990000">+</font> <b><font color="#000000">rand_int</font></b><font color="#990000">(</font><font color="#993399">1</font><font color="#990000">,</font> <font color="#993399">10</font><font color="#990000">)</font><font color="#990000">;</font>
+68: 
+69:    <b><font color="#000000">print</font></b><font color="#990000">(</font>v<font color="#990000">)</font><font color="#990000">;</font>
+70:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Enter number to search for: "</font><font color="#990000">;</font>
+71:    <font color="#009900">int</font> n<font color="#990000">;</font>
+72:    cin <font color="#990000">&gt;</font><font color="#990000">&gt;</font> n<font color="#990000">;</font>
+73:    <font color="#009900">int</font> j <font color="#990000">=</font> <b><font color="#000000">binary_search</font></b><font color="#990000">(</font>v<font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">,</font> v<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">-</font> <font color="#993399">1</font><font color="#990000">,</font> n<font color="#990000">)</font><font color="#990000">;</font>
+74:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Found in position "</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> j <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+75:    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+76: <font color="#ff0000">}</font>
 </tt></pre>
     <ul>
+      <li> Двоичното търсене има сложност&nbsp;<font size="+1"><i>O</i>(log
+
+
+
+
+          <i>n</i>). </font> </li>
     </ul>
-    <hr size="2" width="100%">
+    <ul>
+      <li> <font size="+1">Пример: Нека <i>n</i> = 100, след всяка
+          стъпка дължината на интервала за търсене намалява наполовина
+          до 50, 25, 12, 6, 3 и 1.</font>
+        <ul>
+          <li><font size="+1">След 7 сравнения сме решили задачата.</font></li>
+          <li><font size="+1">log<sub>2</sub>100 е приблизително
+              6.64386,&nbsp; 2<sup>7</sup> = 128.</font></li>
+        </ul>
+      </li>
+      <li> <font size="+1">Очевидно двоичното търсене е по-бърз
+          алгоритъм от линейното търсене.</font></li>
+      <li><font size="+1">Дали е разумно най-напред да сортираме данните
+          и после да приложем двоично търсене?</font>
+        <ul>
+          <li><font size="+1"><i>O</i>(<i>n</i>) търсене е по-бързо от <i>O</i>(<i>n</i>
+              log <i>n</i>) сортиране, затова не си струва да сортираме
+              за едно търсене.</font></li>
+          <li><font size="+1">Сортирането има смисъл, ако трябва да
+              направим много търсения в един и същи вектор.</font></li>
+        </ul>
+      </li>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
   </body>
 </html>

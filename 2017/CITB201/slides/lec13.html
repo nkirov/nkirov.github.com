@@ -5,709 +5,380 @@
     <meta name="Author" content="Nikolay Kirov">
     <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
       [Netscape]">
-    <title>l13</title>
+    <title>l14</title>
   </head>
   <body>
     <center>
-      <h3> <b>13. Шаблони и вложени класове<br>
-        </b> </h3>
+      <h3>Обработка на изключения</h3>
     </center>
-    <img alt="" src="../b5.gif" height="18" width="20">&nbsp; <b>Шаблони.
-
-
-
-
-    </b><br>
-    Класове-шаблони дават възможност да се използват данни от произволен
-    тип. Вече сме използвали класове-шаблони в:<br>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">vector</span>&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt; v_i; <br><span style="color: rgb(51, 51, 255);">vector</span>&lt;<span style="color: rgb(51, 51, 255);">double</span>&gt; v_d;<br><span style="color: rgb(51, 51, 255);">vector</span>&lt;Employee&gt; v_e;</pre>
-    За да дефинираме клас-шаблон, означаваме произволен тип с <span
-      style="color: rgb(0, 0, 0); font-family: monospace; font-size:
-      large; font-style: normal; font-variant: normal; font-weight:
-      normal; letter-spacing: normal; line-height: normal; orphans:
-      auto; text-align: left; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
+    <img alt="" src="../b5.gif" height="18" width="20"><b>Обработка на
+      грешки</b><br>
+    Как да обработваме грешки, възникващи във функция или клас?<br>
+    Пример:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b>cout &lt;&lt; future_value(1000, -100, -1);</b></font></pre>
+    ** Не проверяваме условия за грешки и изпълняваме програмата.
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font><br></pre>
+    ** Проверяваме условията за грешка, не правим нищо в случай на
+    грешка (връщаме фалшива стойност).<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  </b><b><span style="color: rgb(51, 51, 255);">if</span></b><b> (p &lt; 0 || n &lt; 0) </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> 0;</b><b><br></b><b>   </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font></pre>
+    **Проверяваме условията за грешка, съобщаваме за грешката и спираме
+    изпълнението на програмата. <br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  assert(p &gt;= 0 &amp;&amp; n &gt;= 0);</b><b><br></b><b>   </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font></pre>
+    Въникващи проблеми:<br>
+    ** Ако не се прави проверка за грешка, програмата може да бъда
+    ненадеждна.<br>
+    ** Ако се върне фалшива стойност, програмата продължава да използва
+    стойността - никой не знае каква е грешката.<br>
+    ** Много реални програми не могат да бъде спирани като тези, които
+    управляват ракета, самолет или медицинско устройство.<br>
+    <hr size="2" width="100%"> <b><img alt="" src="../b5.gif"
+        height="18" width="20">Изхвърляне на изключения</b><br>
+    C++ има механизъм за уведомяване и обработка на изключения. <br>
+    Когато дадена функция открие грешка, тя може да сигнализира за
+    състояние (изхвърли изключение) към някоя друга част на програмата,
+    чиято работа е да обработва грешки.&nbsp; <br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  </b><b><span style="color: rgb(51, 51, 255);">if</span></b><b> (p &lt; 0 || n &lt; 0)</b><b><br></b><b>   {  </b><b>logic_error</b><b> <font color="#cc0000">description</font>("illegal future_value parameter");</b><b><br></b><b>      </b><b><span style="color: rgb(51, 51, 255);">throw</span></b><b> description;</b><b><br></b><b>   }</b><b><br></b><b>   </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font></pre>
+    Може да не се задава име на обекта за обработка на изключения:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{ </b><b><span style="color: rgb(51, 51, 255);">if</span></b><b> (p &lt; 0 || n &lt; 0)</b><b><br></b><b>    </b><b><span style="color: rgb(51, 51, 255);">throw</span></b><b> </b><b>logic_error</b><b>("illegal future_value parameter");</b><b><br></b><b> </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><br>}</font></pre>
+    Тук <span style="color: rgb(0, 0, 0); font-family: monospace;
+      font-size: large; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: left; text-indent: 0px; text-transform:
+      none; white-space: normal; widows: auto; word-spacing: 0px;
       -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
       background-color: rgb(255, 255, 255); display: inline !important;
-      float: none;">T</span> и добавяме <span style="font-family:
+      float: none;">logic_error</span> е стандартен клас за изключения,
+    който е дефиниран в заглавния файл&nbsp; <span style="color: rgb(0,
+      0, 0); font-family: monospace; font-size: large; font-style:
+      normal; font-variant: normal; font-weight: normal; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: left;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">&lt;stdexcept&gt;</span>.<br>
+    Ключовата дума <font size="+1"><tt>throw</tt> </font>показва, че
+    изпълнението на функциятя спира незабавно, но управлението не се
+    връща на извикващата функция, а се търси частта от програмата за
+    обработка на изключения.<br>
+    <hr size="2" width="100%"> <b><img alt="" src="../b5.gif"
+        height="18" width="20">Прихващане на изключения</b><br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255); font-weight: bold;">try</span><br>{<br>   // <i>code</i><br>}<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (<span style="font-weight: bold;">logic_error</span>&amp; e)<br>{<br>   <i>// handler</i><br>}</font></pre>
+    Ако някоя от функциите в блока <span style="color: rgb(51, 51,
+      255); font-family: monospace; font-size: large; font-style:
+      normal; font-variant: normal; font-weight: bold; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: left;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">try</span>
+    изхвърли изключение <span style="color: rgb(0, 0, 0); font-family:
       monospace; font-size: large; font-style: normal; font-variant:
       normal; font-weight: normal; letter-spacing: normal; line-height:
       normal; orphans: auto; text-align: left; text-indent: 0px;
       text-transform: none; white-space: normal; widows: auto;
       word-spacing: 0px; -webkit-text-size-adjust: auto;
       -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
-      255); color: rgb(51, 51, 255);">template</span><span style="color:
-      rgb(0, 0, 0); font-family: monospace; font-size: large;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: left; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
+      255); display: inline !important; float: none;">logic_error</span>,
+    или вика друга функция, която изхвърля такова изключение, блокът на
+    <b><tt><span style="color: rgb(0, 0, 0); font-size: large;
+          font-style: normal; font-variant: normal; font-weight: normal;
+          letter-spacing: normal; line-height: normal; text-align: left;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          word-spacing: 0px; background-color: rgb(255, 255, 255);
+          display: inline ! important; float: none;">catch</span></tt></b>
+    се изпълнява веднага.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">while</span> (more)<br>{  <span style="color: rgb(51, 51, 255); font-weight: bold;">try</span> <br>   {<br>      <i>// code</i><br>   }<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (<span style="font-weight: bold;">logic_error</span>&amp; e)<br>   {  cout &lt;&lt; "A logic error has occurred "<br>           &lt;&lt; e.what() &lt;&lt; "\n";<br>      ........<br>   }<br>}</font></pre>
+    Член-функцията <b><span style="color: rgb(0, 0, 0); font-family:
+        monospace; font-size: large; font-style: normal; font-variant:
+        normal; font-weight: normal; letter-spacing: normal;
+        line-height: normal; orphans: auto; text-align: left;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+        255); display: inline !important; float: none;">what</span></b>
+    от класа <span style="color: rgb(0, 0, 0); font-family: monospace;
+      font-size: large; font-style: normal; font-variant: normal;
+      font-weight: bold; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: left; text-indent: 0px; text-transform:
+      none; white-space: normal; widows: auto; word-spacing: 0px;
       -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
       background-color: rgb(255, 255, 255); display: inline !important;
-      float: none;">&lt;</span><span style="font-family: monospace;
+      float: none;">logic_error</span> връща низа, който е зададен като
+    параметър при конструиране на обекта в оператора <span
+      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
       font-size: large; font-style: normal; font-variant: normal;
       font-weight: normal; letter-spacing: normal; line-height: normal;
       orphans: auto; text-align: left; text-indent: 0px; text-transform:
       none; white-space: normal; widows: auto; word-spacing: 0px;
       -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
-      background-color: rgb(255, 255, 255); color: rgb(51, 51, 255);">typename</span><span
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;"><tt>throw</tt><span class="Apple-converted-space"></span></span>.<br>
+    <br>
+    <table bgcolor="#00ffff" border="1" cellpadding="4">
+      <tbody>
+        <tr>
+          <td bgcolor="#ffffff">
+            <pre><font size="+1"><span style="color: rgb(51, 51, 255); font-weight: bold;">try</span><br>{</font><i><font size="+1"><br></font></i><font size="+1"> <i>statements</i> <br>}<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (<i>type_name</i><sub>1</sub> <i>variable_name</i><sub>1</sub>)<br>{<br> <i>statements</i><br>}<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (<i>type_name</i><sub>2</sub> <i>variable_name</i><sub>2</sub>)<br>{<br> <i>statements</i><br>}<br>...<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (<i>type_name</i><sub>n</sub> <i>variable_name</i><sub>n</sub>)<br>{<br> <i>statements</i><br>}</font></pre>
+            <table border="0" cellpadding="4">
+              <tbody>
+                <tr>
+                  <td valign="top"><font color="#00ffff" size="+1"><font
+                        size="+1">Пример</font>:</font></td>
+                  <td>
+                    <pre><font size="+1"><span style="color: rgb(51, 51, 255); font-weight: bold;">try</span><br>{<br> double fvalue = future_value(init, interest, years); <br> cout &lt;&lt; "The future value is " &lt;&lt; fvalue &lt;&lt; endl;<br>}<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span>(logic_error&amp; e)<br>{<br> cout &lt;&lt; "Processing error " &lt;&lt; e.what() &lt;&lt; "\n";<br>}</font></pre>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br class="Apple-interchange-newline">
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><code><font face="Courier New" size="3"><font color="#000000"><font color="#008000"> //<a href="../../../2014/NETB151/sources/ch17/exception1.cpp">exception1.cpp</a><br><font size="3"> #</font>include </font>&lt;iostream&gt;<br> <font color="#008000">#include </font>&lt;stdexcept&gt;<br> </font></font></code><code><font><font><font><font face="Courier New" size="3"><font color="#000000"><font color="#008000">#include</font></font></font></font></font></font></code><code><font face="Courier New" size="3"><font color="#000000"> &lt;cmath&gt;<br> <b>using namespace </b>std;<br><br> <b>double </b>future_value(<b>double </b>initial_balance, <b>double </b>p, <b>int </b>n)<br>{  <b>if </b>(p &lt; <font color="#800080">0 </font>|| n &lt; <font color="#800080">0</font>)<br>   {  logic_error description(<font color="#ff0000">"illegal future_value parameter"</font>);<br>      <b>throw </b>description;<br>   }<br>   <b>return </b>initial_balance * pow(<font color="#800080">1 </font>+ p / <font color="#800080">100</font>, n);<br>}<br><br> <b>int </b>main()<br> {  <b>bool </b>more = <b>true</b>;<br>    <b>while </b>(more)<br>    {  <b>double </b>init, interest;<br>       <b>int </b>years;<br>       cout &lt;&lt; <font color="#ff0000">"Enter initial value, interest and years: "</font>;<br>       cin &gt;&gt; init &gt;&gt; interest &gt;&gt; years;<br>    <br>       <b>try <br>       </b>{  <b>double </b>fvalue = future_value(init, interest, years); <br>          cout &lt;&lt; <font color="#ff0000">"The future value is " </font>&lt;&lt; fvalue &lt;&lt; endl;  <br>       }<br>       <b>catch </b>(logic_error&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A logic error has occurred "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       }       <br>       cout &lt;&lt; <font color="#ff0000">"Retry? (y/n)"</font>;<br>       <b>char </b>input;<br>       cin &gt;&gt; input;<br>       <b>if </b>(input == 'n') more = <b>false</b>;<br>    } <br><font color="#000080"><i>&nbsp;</i></font><b>return </b><font color="#800080">0</font>;<br> }<br></font></font></code></pre>
+    Добре е всяко изключение да се дефинира като отделен клас. <br>
+    Пример:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">class</span> FutureValueError : <span style="color: rgb(51, 51, 255);">public</span> <span style="font-weight: bold;">logic_error</span> {<br><span style="color: rgb(51, 51, 255);">public:</span><br>   FutureValueError(<span style="color: rgb(51, 51, 255);">const</span> <span style="color: rgb(51, 51, 255);">char</span> reason[]);<br>};<br><br>FutureValueError::FutureValueError(<span style="color: rgb(51, 51, 255);">const</span> <span style="color: rgb(51, 51, 255);">char</span> reason[])<br>   : <span style="font-weight: bold;">logic_error</span>(reason){}</font></pre>
+    и функцията <span style="color: rgb(0, 0, 0); font-family:
+      monospace; font-size: large; font-style: normal; font-variant:
+      normal; font-weight: normal; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: left; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;">future_value</span> може да изхвърли <span
       style="color: rgb(0, 0, 0); font-family: monospace; font-size:
       large; font-style: normal; font-variant: normal; font-weight:
       normal; letter-spacing: normal; line-height: normal; orphans:
       auto; text-align: left; text-indent: 0px; text-transform: none;
       white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">FutureValueError</span>&nbsp;
+
+
+
+    обект:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">if</span> (p &lt; 0 || n &lt; 0)<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span> FutureValueError("illegal parameter");</font></pre>
+    Тъй като <span style="color: rgb(0, 0, 0); font-family: monospace;
+      font-size: large; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: left; text-indent: 0px; text-transform:
+      none; white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">FutureValueError</span>&nbsp;
+
+
+
+    е&nbsp; <font size="+1"><tt style="color: rgb(0, 0, 0); font-style:
+        normal; font-variant: normal; letter-spacing: normal;
+        line-height: normal; orphans: auto; text-align: left;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+        background-color: rgb(255, 255, 255); font-weight: bold;">logic_error</tt></font><span
+      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: large; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: left; text-indent: 0px; text-transform:
+      none; white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">,</span> то това
+    изключение може да се прихване от <span style="font-family:
+      monospace; font-size: large; font-style: normal; font-variant:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); color: rgb(51, 51, 255); font-weight: bold;">catch</span><span
+      style="color: rgb(0, 0, 0); font-family: monospace; font-size:
+      large; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">(</span><span
+      style="color: rgb(0, 0, 0); font-family: monospace; font-size:
+      large; font-style: normal; font-variant: normal; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: left;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); font-weight: bold;">logic_erro</span><span
+      style="color: rgb(0, 0, 0); font-family: monospace; font-size:
+      large; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">r&amp;&nbsp;e).</span><br>
+    Разбира се, може да построим и специално за него <span
+      style="font-family: monospace; font-size: large; font-style:
+      normal; font-variant: normal; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: left; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); color: rgb(51, 51, 255);
+      font-weight: bold;">catch</span> блок:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255); font-weight: bold;">try</span><br>{<br>   <i>// code</i><br>}<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (FutureValueError&amp; e)<br>{<br>   <i>// handler</i><sub>1</sub><br>} <br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (logic_error&amp; e)<br>{<br>   <i>// handler</i><sub>2</sub><br>}</font></pre>
+    В този случай ще се изпълни само първия <span style="font-family:
+      monospace; font-size: large; font-style: normal; font-variant:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); color: rgb(51, 51, 255); font-weight: bold;">catch</span>
+    блок.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><code><font face="Courier New" size="3"><font color="#008000">// <font size="3"><a href="../../../2014/NETB151/sources/ch17/exception2.cpp">exception2.cpp</a><br></font>#include </font>&lt;iostream&gt;<br><font color="#008000">#include </font>&lt;stdexcept&gt;<br></font></code><code></code><code><font><font><font><font face="Courier New" size="3"><font color="#000000"><font color="#008000">#include</font></font></font></font></font></font></code><code><font face="Courier New" size="3"><font color="#000000"> &lt;cmath&gt;</font></font></code><br><code><font face="Courier New" size="3"><b>using namespace </b>std;<br> <br><b>class </b>FutureValueError : <b>public </b>logic_error {<br><b>public</b>:<br>   FutureValueError(<b>const char </b>reason[]);<br>};<br><br>FutureValueError::FutureValueError(<b>const char </b>reason[])<br>   : logic_error(reason){}<br><br><b>double </b>future_value(<b>double </b>initial_balance, <b>double </b>p, <b>int </b>n)<br>{  <b>if </b>(p &lt; <font color="#800080">0 </font>|| n &lt; <font color="#800080">0</font>)<br>     <b>throw </b>FutureValueError(<font color="#ff0000">"illegal future_value parameter"</font>);<br>   <b>return </b>initial_balance * pow(<font color="#800080">1 </font>+ p / <font color="#800080">100</font>, n);<br>}<br><br><b>void </b>read(<b>double</b>&amp; init, <b>double</b>&amp; interest, <b>int</b>&amp; years)<br>{  cout &lt;&lt; <font color="#ff0000">"Enter initial value, interest and years: "</font>;<br>   cin &gt;&gt; init &gt;&gt; interest &gt;&gt; years;<br>   <b>if </b>(years &gt; <font color="#800080">100</font>) <b>throw </b>logic_error(<font color="#ff0000">"too many years!"</font>);<br>   cout &lt;&lt; init &lt;&lt; <font color="#ff0000">" " </font>&lt;&lt; interest &lt;&lt; <font color="#ff0000">" " </font>&lt;&lt; years &lt;&lt; endl;<br>}<br><br><b>int </b>main()<br>{  <b>bool </b>more = <b>true</b>;<br>   <b>while </b>(more)<br>    {  <b>double </b>init, interest;<br>       <b>int </b>years;<br>       <b>try<br>       </b>{  read(init, interest, years);<br>          <b>double </b>fvalue = future_value(init, interest, years); <br>          cout &lt;&lt; <font color="#ff0000">"The future value is " </font>&lt;&lt; fvalue &lt;&lt; endl;  <br>       }<br>       <font color="#000080"><i>/**/<br>       </i></font><b>catch </b>(FutureValueError&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A FutureValueError has occurred: "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       } <br>       <font color="#000080"><i>/**/      <br>       </i></font><b>catch </b>(logic_error&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A logic error has occurred: "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       }       <br>       cout &lt;&lt; <font color="#ff0000">"Retry? (y/n)"</font>;<br>       <b>char </b>input;<br>       cin &gt;&gt; input;<br>       <b>if </b>(input == 'n') more = <b>false</b>;<br>    } <font color="#000080"><i><br>    </i></font><b>return </b><font color="#800080">0</font>;<br> }<br></font></code></pre>
+    <hr size="2" width="100%"> <b><img alt="" src="../b5.gif"
+        height="18" width="21">Развиване на стека</b><br>
+    Често механизмът за обработка на изключения се прилага при вход на
+    данни. <br>
+    Пример (виж <b><a
+        href="../../../2014/NETB101/sources/ch6/product2.cpp"><tt>product2.cpp</tt></a></b>).<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">bool</span> Product::read(fstream&amp; fs)<br>{  getline(fs, name);<br>   <span style="color: rgb(51, 51, 255);">if</span> (name == "") <span style="color: rgb(51, 102, 255);">return</span> false; // end of file<br>   fs &gt;&gt; price &gt;&gt; score;<br>   <span style="color: rgb(51, 51, 255);">if</span> (fs.fail())<br>      <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span> <span style="font-weight: bold;">runtime_error</span>("Error while reading product");<br>   string remainder;<br>   getline(fs, remainder);<br>   <span style="color: rgb(51, 51, 255);">return</span> true;<br>}</font></pre>
+    Когато възникне логическа грешка, никога няма смисъл да се повтори
+    същата операция, но при <font size="+1"><tt>runtime_error</tt></font>
+    има шанс да се повтори операцията и грешката да се избегне. <br>
+    Има съществена разлика при обработката на край на файла и грешка при
+    входа. <br>
+    <br>
+    Йерархията на стандартните класове за обработка на изключения е
+    следната:<br>
+    <img alt=""
+      src="../../../2014/NETB151/slides/ch17/images/exceptions.png"
+      height="431" width="756"><br>
+    <br>
+    Нека имаме следната функция (виж <tt><a
+        href="../../../2014/NETB101/sources/ch9/bestval2.cpp">bestval2.cpp</a></tt>):<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>{  vector&lt;Product&gt; products;<br>   <span style="color: rgb(51, 51, 255);">bool</span> more = true;<br>   <span style="color: rgb(51, 51, 255);">while</span> (more)<br>   {  Product p;<br>      <span style="color: rgb(51, 51, 255);">if</span> (p.read(fs)) products.push_back(p);<br>      <span style="color: rgb(51, 51, 255);">else</span> more = false;<br>   }<br>   <i>// do something with</i> products<br>}</font></pre>
+    Когато функцията <span style="color: rgb(0, 0, 0); font-family:
+      monospace; font-size: large; font-style: normal; font-variant:
+      normal; font-weight: normal; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: left; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
       background-color: rgb(255, 255, 255); display: inline !important;
-      float: none;"><span class="Apple-converted-space">&nbsp;</span>T&gt;</span>
-    преди дефиницията на класа. Нека дефинираме наредена двойка елементи
-    с данни от произволен тип:<br>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">template</span>&lt;<span style="color: rgb(51, 51, 255);">typename</span> T&gt;<br><span style="color: rgb(51, 51, 255);">class</span> Pair {<br><span style="color: rgb(51, 51, 255);">public:</span><br>   Pair(T a, T b);<br>   T get_first() <span style="color: rgb(51, 51, 255);">const</span>;<br>   T get_second() <span style="color: rgb(51, 51, 255);">const</span>;<br><span style="color: rgb(51, 51, 255);">private:</span><br>   T first;<br>   T second;<br>};    </pre>
-    Всички член-функции се дефинират също като шаблони.<br>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><code><span style="font-family: 'Courier New'; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal;"><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">// <a href="../../../2014/NETB151/sources/ch17/pairs.cpp"><b>pairs.cpp</b></a></span><span class="cpp1-preprocessor" style="color: rgb(0, 128, 0);"><br>#include &lt;iostream&gt;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-preprocessor" style="color: rgb(0, 128, 0);">#include &lt;string&gt;<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">using</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">namespace</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> std;<br><br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">template</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">&lt;</span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">typename</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> T&gt;<br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">class</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> Pair<br> {<br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">public</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">:<br>    Pair(T a, T b);<br>    T get_first() </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br>    T get_second() </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br>    </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">void</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> print() </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">private</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">:<br>    T first;<br>    T second;<br> };<br> <br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">template</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">&lt;</span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">typename</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> T&gt;<br> Pair&lt;T&gt;::Pair(T a, T b)<br> {  first = a;<br>    second = b;<br> }<br> <br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">template</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">&lt;</span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">typename</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> T&gt;<br> T Pair&lt;T&gt;::get_first() </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">const<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> {  </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> first;             <br> }<br> <br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">template</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">&lt;</span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">typename</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> T&gt;<br> T Pair&lt;T&gt;::get_second() </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">const<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> {  </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> second;             <br> }<br> <br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">template</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">&lt;</span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">typename</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> T&gt;<br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">void</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> Pair&lt;T&gt;::print() </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">const<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> { cout &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"Pair: ("</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> &lt;&lt; first &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">","<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">        &lt;&lt; second &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">")"</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> &lt;&lt; endl;<br> }<br><br> </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> main()<br> {  Pair&lt;</span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">int</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">&gt; integers(</span><span class="cpp1-number" style="color: rgb(153, 51, 102);">10</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">,</span><span class="cpp1-number" style="color: rgb(153, 51, 102);">22</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">);<br>    integers.print();<br>    Pair&lt;</span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">double</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">&gt; doubles(</span><span class="cpp1-float" style="color: rgb(128, 0, 128);">1.5</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">, </span><span class="cpp1-float" style="color: rgb(128, 0, 128);">2.25</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">);<br>    doubles.print();<br>    Pair&lt;string&gt; strings(</span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"One"</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">, </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"Two"</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">);<br>    strings.print(); <br>    </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">char</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> ch; cin &gt;&gt; ch;<br>    </span><span class="cpp1-reservedword" style="color: rgb(51, 102, 255); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-number" style="color: rgb(153, 51, 102);">0</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br> }</span></span></code><br></pre>
-    &nbsp;Класът&nbsp; <b><tt><font color="#000099">List</font></tt></b>
-    (<a href="../../../2014/NETB151/sources/ch16/list2.cpp"><b><tt>list2.cpp</tt></b></a>,<b><tt>
-      </tt></b><a href="../../../2014/NETB151/sources/ch17/list0.cpp"><b><tt>list0.cpp</tt></b></a>)
-    съхранява свързан списък от низове. <br>
-    Използвайки шаблони,&nbsp; <b><tt><font color="#000099">List</font></tt></b>
-    ще може да съхранява стойности от произволен тип, както това става в
-    стандартния клас <b><tt>list</tt></b> от STL. <br>
-    За тази цел дефинираме шаблон на клас, като задаваме формален
-    параметър <b><tt><font color="#000099">T</font></tt></b> на шаблона
-    с конструкцията <br>
-    <br>
-    <b><tt><font color="#000099">template&lt;typename T&gt; <br>
-          class List;</font></tt></b> <br>
-    <br>
-    При създаване на обект от този клас задаваме фактически параметър <b><tt><font
-          color="#000099">string </font></tt></b>на шаблона по
-    познатата схема <br>
-    <br>
-    <b><tt><font color="#000099">List&lt;string&gt; staff;</font></tt></b>
-    <br>
-    <br>
-    Дефиниция на класа шаблон <tt>List</tt> в сравнение с по-рано
-    дефинирания клас <tt>List</tt>:<br>
-    <table style="font-family: 'Times New Roman'; letter-spacing:
-      normal; orphans: auto; text-indent: 0px; text-transform: none;
-      widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; text-align: left; width:
-      812.7999877929688px;" border="0" cellpadding="2" cellspacing="2"
-      width="100%">
-      <tbody>
-        <tr>
-          <td style="vertical-align: top; font-weight: bold;"><font><font
-                size="+1">
-                <pre><span style="color: rgb(0, 0, 153);">template</span>&lt;<span style="color: rgb(0, 0, 153);">typename</span> T&gt;<br><span style="color: rgb(0, 0, 153);">class</span> List {<br><span style="color: rgb(0, 0, 153);">public:</span><br>   List();<br>   <span style="color: rgb(0, 0, 153);">void</span> push_back(T s);<br>   <span style="color: rgb(0, 0, 153);">void</span> insert(Iterator&lt;T&gt; pos, T s);<br>   <span style="color: rgb(0, 0, 153);">void</span> erase(Iterator&lt;T&gt; pos);<br>   Iterator&lt;T&gt; begin();<br>   Iterator&lt;T&gt; end();<br><span style="color: rgb(0, 0, 153);">private:</span><br>   Node&lt;T&gt;* first;<br>   Node&lt;T&gt;* last;<br>};</pre>
-              </font></font></td>
-          <td style="vertical-align: top;"><font><font size="+1">
-                <pre><span style="font-weight: bold; color: rgb(51, 51, 255);">class</span> <span style="font-weight: bold;">List</span> {<br><span style="color: rgb(51, 51, 255); font-weight: bold;">public:</span><br>   <span style="font-weight: bold;">List</span>();<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> push_back(string s);<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> insert(<span style="font-weight: bold;">Iterator</span> pos, string s);<br>   <span style="font-weight: bold;">Iterator</span> erase(<span style="font-weight: bold;">Iterator</span> pos);<br>   <span style="font-weight: bold;">Iterator</span> begin();<br>   <span style="font-weight: bold;">Iterator</span> end();<br><span style="font-weight: bold; color: rgb(51, 51, 255);">private:</span><br>   <span style="font-weight: bold;">Node</span>* first;<br>   <span style="font-weight: bold;">Node</span>* last;<br>};</pre>
-              </font></font></td>
-        </tr>
-      </tbody>
-    </table>
-    <br>
-    Ще пренапишем класовете за свързан списък, като използваме шаблони.
-    <br>
-    <br>
-    <b><tt><font color="#000099">// <a
-            href="../../../2014/NETB151/sources/ch17/list.cpp">list.cpp</a></font></tt></b><a
-      href="../../NETB151/sources/ch17/list.cpp"> </a><br>
-    <tt><font size="+1">#include &lt;string&gt;<br>
-        #include &lt;iostream&gt;<br>
-        #include &lt;cassert&gt;<br>
-        using namespace std;<br>
-        <br>
-        /* forward declarations */<br>
-        template&lt;typename T&gt; class List;<br>
-        template&lt;typename T&gt; class Iterator;<br>
-        <br>
-        /**&nbsp;&nbsp; A class to hold the nodes of the linked list.<br>
-        */<br>
-        template&lt;typename T&gt;<br>
-        class Node {<br>
-        public:<br>
-        &nbsp;&nbsp; /**&nbsp; Constructs a node for a given data value.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the data to
-        store in this node<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; Node(T s);<br>
-        private:<br>
-        &nbsp;&nbsp; T data;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* previous;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* next;<br>
-        friend class List&lt;T&gt;;<br>
-        friend class Iterator&lt;T&gt;;<br>
-        };<br>
-        &nbsp;&nbsp; <br>
-        /** An iterator denotes a position in the list or&nbsp; past the
-        end of the list.<br>
-        */<br>
-        template&lt;typename T&gt;<br>
-        class Iterator {<br>
-        public:<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Constructs an iterator that is not
-        attached to any list.<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; Iterator();<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp;&nbsp;&nbsp; Looks up the value at a
-        position.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return the value of the
-        Node to which the iterator points<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; T operator*() const;<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Advances the iterator to the next
-        position.<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; void operator++(int dummy);<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Moves the iterator to the previous
-        position.<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; void operator--(int dummy);<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Compares two iterators.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the iterator to compare
-        with this iterator<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return true if this iterator and
-        b are equal<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; bool operator==(Iterator&lt;T&gt; b) const;<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Compares two iterators.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the iterator to compare
-        with this iterator<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return true if this iterator and
-        b are not equal<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; bool operator!=(Iterator&lt;T&gt; b) const;<br>
-        private:<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* position;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* last;<br>
-        friend class List&lt;T&gt;;<br>
-        };<br>
-        <br>
-        /**A linked list of values of a given type.<br>
-        &nbsp;&nbsp; @param T the type of the list values<br>
-        */<br>
-        template&lt;typename T&gt;<br>
-        class List {<br>
-        public:<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Constructs an empty list.<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; List();<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Constructs a list as a copy of
-        another list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to copy<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; List(const List&lt;T&gt;&amp; b);<br>
-        &nbsp;&nbsp; /**&nbsp;&nbsp; Deletes all nodes of this list.<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; ~List();<br>
-        &nbsp;&nbsp; /** Assigns another list to this list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to assign<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return a reference to this list<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; List&lt;T&gt;&amp; operator=(const
-        List&lt;T&gt;&amp; b);<br>
-        <br>
-        &nbsp;&nbsp; /**&nbsp; Appends an element to the list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the value to append<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; void push_back(T s);<br>
-        &nbsp;&nbsp; /**&nbsp; Inserts an element into the list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param iter the position before
-        which to insert<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the value to append<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; void insert(Iterator&lt;T&gt; iter, T s);<br>
-        &nbsp;&nbsp; /**&nbsp; Removes an element from the list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param i the position to remove<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator pointing to
-        the element after the<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; erased element<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; Iterator&lt;T&gt; erase(Iterator&lt;T&gt; i);<br>
-        &nbsp;&nbsp; /**&nbsp; Gets the beginning position of the list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator pointing to
-        the beginning of the list<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; Iterator&lt;T&gt; begin() const;<br>
-        &nbsp;&nbsp; /** Gets the past-the-end position of the list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator pointing past
-        the end of the list<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; Iterator&lt;T&gt; end() const;<br>
-        private:<br>
-        &nbsp;&nbsp; /**&nbsp; Copies another list to this list.<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to copy<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; void copy(const List&lt;T&gt;&amp; b);<br>
-        &nbsp;&nbsp; /**&nbsp; Deletes all nodes of this list.<br>
-        &nbsp;&nbsp; */<br>
-        &nbsp;&nbsp; void free();<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* first;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* last;<br>
-        };<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        List&lt;T&gt;::List()<br>
-        {&nbsp; first = NULL;<br>
-        &nbsp;&nbsp; last = NULL;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        List&lt;T&gt;::~List()<br>
-        {&nbsp; free();<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        List&lt;T&gt;::List(const List&lt;T&gt;&amp; b)<br>
-        {&nbsp; first = NULL;<br>
-        &nbsp;&nbsp; last = NULL;<br>
-        &nbsp;&nbsp; copy(b);<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        List&lt;T&gt;&amp; List&lt;T&gt;::operator=(const
-        List&lt;T&gt;&amp; b)<br>
-        {&nbsp; if (this != &amp;b)<br>
-        &nbsp;&nbsp; {<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free();<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; copy(b);<br>
-        &nbsp;&nbsp; }<br>
-        &nbsp;&nbsp; return *this;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        void List&lt;T&gt;::push_back(T s)<br>
-        {&nbsp; Node&lt;T&gt;* newnode = new Node&lt;T&gt;(s);<br>
-        &nbsp;&nbsp; if (last == NULL) /* list is empty */<br>
-        &nbsp;&nbsp; {&nbsp; <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = newnode;<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;<br>
-        &nbsp;&nbsp; }&nbsp;&nbsp; else<br>
-        &nbsp;&nbsp; {&nbsp; <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; newnode-&gt;previous = last;<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last-&gt;next = newnode;<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;<br>
-        &nbsp;&nbsp; }<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        void List&lt;T&gt;::insert(Iterator&lt;T&gt; iter, T s)<br>
-        {&nbsp; if (iter.position == NULL)<br>
-        &nbsp;&nbsp; {&nbsp; <br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push_back(s);<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>
-        &nbsp;&nbsp; }<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* after = iter.position;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* before = after-&gt;previous;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* newnode = new Node&lt;T&gt;(s);<br>
-        &nbsp;&nbsp; newnode-&gt;previous = before;<br>
-        &nbsp;&nbsp; newnode-&gt;next = after;<br>
-        &nbsp;&nbsp; after-&gt;previous = newnode;<br>
-        &nbsp;&nbsp; if (before == NULL) /* insert at beginning */<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = newnode;<br>
-        &nbsp;&nbsp; else<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before-&gt;next = newnode;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        Iterator&lt;T&gt; List&lt;T&gt;::erase(Iterator&lt;T&gt; i)<br>
-        { Iterator&lt;T&gt; iter = i;<br>
-        &nbsp;&nbsp; assert(iter.position != NULL);<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* remove = iter.position;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* before = remove-&gt;previous;<br>
-        &nbsp;&nbsp; Node&lt;T&gt;* after = remove-&gt;next;<br>
-        &nbsp;&nbsp; if (remove == first)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = after;<br>
-        &nbsp;&nbsp; else<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before-&gt;next = after;<br>
-        &nbsp;&nbsp; if (remove == last)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = before;<br>
-        &nbsp;&nbsp; else<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; after-&gt;previous = before;<br>
-        &nbsp;&nbsp; iter.position = after;<br>
-        &nbsp;&nbsp; delete remove;<br>
-        &nbsp;&nbsp; return iter;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        Iterator&lt;T&gt; List&lt;T&gt;::begin() const<br>
-        { Iterator&lt;T&gt; iter;<br>
-        &nbsp;&nbsp; iter.position = first;<br>
-        &nbsp;&nbsp; iter.last = last;<br>
-        &nbsp;&nbsp; return iter;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        Iterator&lt;T&gt; List&lt;T&gt;::end() const<br>
-        { Iterator&lt;T&gt; iter;<br>
-        &nbsp;&nbsp; iter.position = NULL;<br>
-        &nbsp;&nbsp; iter.last = last;<br>
-        &nbsp;&nbsp; return iter;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        Iterator&lt;T&gt;::Iterator()<br>
-        { position = NULL;<br>
-        &nbsp;&nbsp; last = NULL;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        T Iterator&lt;T&gt;::operator*() const<br>
-        { assert(position != NULL);<br>
-        &nbsp;&nbsp; return position-&gt;data;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        void Iterator&lt;T&gt;::operator++(int dummy)<br>
-        { assert(position != NULL);<br>
-        &nbsp;&nbsp; position = position-&gt;next;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        void Iterator&lt;T&gt;::operator--(int dummy)<br>
-        {&nbsp; if (position == NULL)&nbsp;&nbsp; position = last;<br>
-        &nbsp;&nbsp; else&nbsp; position = position-&gt;previous;<br>
-        &nbsp;&nbsp; assert(position != NULL);<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        bool Iterator&lt;T&gt;::operator==(Iterator&lt;T&gt; b) const<br>
-        {&nbsp; return position == b.position;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        bool Iterator&lt;T&gt;::operator!=(Iterator&lt;T&gt; b) const<br>
-        {&nbsp; return position != b.position;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        Node&lt;T&gt;::Node(T s)<br>
-        {&nbsp; data = s;<br>
-        &nbsp;&nbsp; previous = NULL;<br>
-        &nbsp;&nbsp; next = NULL;<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        void List&lt;T&gt;::copy(const List&lt;T&gt;&amp; b)<br>
-        {&nbsp;&nbsp; for (Iterator&lt;T&gt; p = b.begin(); p !=
-        b.end(); p++)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push_back(*p);<br>
-        }<br>
-        <br>
-        template&lt;typename T&gt;<br>
-        void List&lt;T&gt;::free()<br>
-        {&nbsp;&nbsp; while (begin() != end())&nbsp; erase(begin());<br>
-        }<br>
-        <br>
-        int main()<br>
-        {&nbsp; <br>
-        &nbsp;&nbsp; List&lt;string&gt; staff;<br>
-        &nbsp;&nbsp; staff.push_back("Cracker, Carl");<br>
-        &nbsp;&nbsp; staff.push_back("Hacker, Harry");<br>
-        &nbsp;&nbsp; staff.push_back("Lam, Larry");<br>
-        &nbsp;&nbsp; staff.push_back("Sandman, Susan");<br>
-        <br>
-        &nbsp;&nbsp; /* add a value in fourth place */<br>
-        &nbsp;&nbsp; Iterator&lt;string&gt; pos;<br>
-        &nbsp;&nbsp; pos = staff.begin();<br>
-        &nbsp;&nbsp; pos++;<br>
-        &nbsp;&nbsp; pos++;<br>
-        &nbsp;&nbsp; pos++;<br>
-        <br>
-        &nbsp;&nbsp; staff.insert(pos, "Reindeer, Rudolf");<br>
-        <br>
-        &nbsp;&nbsp; /* remove the value in second place */<br>
-        &nbsp;&nbsp; pos = staff.begin();<br>
-        &nbsp;&nbsp; pos++;<br>
-        <br>
-        &nbsp;&nbsp; staff.erase(pos);<br>
-        <br>
-        &nbsp;&nbsp; /* print all values */<br>
-        &nbsp;&nbsp; for (pos = staff.begin(); pos != staff.end();
-        pos++)<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; *pos &lt;&lt; "\n";<br>
-        &nbsp;&nbsp; return 0;<br>
-        }</font></tt><br>
-    <hr size="2" width="100%"><img alt="" src="../b5.gif" height="18"
-      width="20"><b>Вложени класове</b><br>
-    <p>В STL класът <tt>iterator </tt>е дефиниран в класа <tt>list</tt>:<br>
-    </p>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">list&lt;string&gt;::iterator pos = staff.begin();</pre>
-    <p>За да се вложи един клас в друг, вътрешният клас се дефинира във
-      външния клас:<br>
-    </p>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">class</span> List {<br>   ...<br>   <span style="color: rgb(51, 51, 255);">class</span> Iterator;<br>   ...<br>};</pre>
-    <p>Пример на клaса <tt>List</tt> със същия интерфейс, както и класа
-      <tt>list</tt> от STL. <br>
-    </p>
-    <p><tt><b>// <a href="../../../2014/NETB151/sources/ch17/list1.cpp">list1.cpp</a></b></tt><br>
-      <b><tt>#include &lt;string&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>#include &lt;iostream&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>#include &lt;cassert&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>using namespace std;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt; class List;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>class Node {</tt></b><b><tt><br>
-        </tt></b><b><tt>public:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node(T s);</tt></b><b><tt><br>
-        </tt></b><b><tt>private:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; T data;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* next;</tt></b><b><tt><br>
-        </tt></b><b><tt>friend class List&lt;T&gt;;</tt></b><b><tt><br>
-        </tt></b><b><tt>friend class List&lt;T&gt;::Iterator;</tt></b><b><tt><br>
-        </tt></b><b><tt>};</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>class List {</tt></b><b><tt><br>
-        </tt></b><b><tt>public:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List(const List&lt;T&gt;&amp; b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; ~List();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List&lt;T&gt;&amp; operator=(const
-          List&lt;T&gt;&amp; b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; class Iterator;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void push_back(T s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void insert(Iterator iter, T s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator erase(Iterator i);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator begin();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator end();</tt></b><b><tt><br>
-        </tt></b><b><tt>private:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void copy(const List&lt;T&gt;&amp;
-          b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void free();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* first;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* last;</tt></b><b><tt><br>
-        </tt></b><b><tt>};</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>class List&lt;T&gt;::Iterator {</tt></b><b><tt><br>
-        </tt></b><b><tt>public:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; T operator*() const;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void operator++(int dummy);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void operator--(int dummy);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; bool operator==(Iterator b) const;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; bool operator!=(Iterator b) const;</tt></b><b><tt><br>
-        </tt></b><b><tt>private:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* position;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* last;</tt></b><b><tt><br>
-        </tt></b><b><tt>friend class List&lt;T&gt;;</tt></b><b><tt><br>
-        </tt></b><b><tt>};</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::List()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; first = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; last = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::~List()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; free();</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::List(const List&lt;T&gt;&amp; b)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; first = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; last = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; copy(b);</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;&amp;
-          List&lt;T&gt;::operator=(const List&lt;T&gt;&amp; b)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; if (this != &amp;b)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; free();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; copy(b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return *this;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::push_back(T s)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Node&lt;T&gt;* newnode = new
-          Node&lt;T&gt;(s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (last == NULL) /* list is empty
-          */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; first = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; else</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; newnode-&gt;previous =
-          last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last-&gt;next =
-          newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::insert(Iterator iter, T s)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; if (iter.position == NULL)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; push_back(s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* after =
-          iter.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* before =
-          after-&gt;previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* newnode = new
-          Node&lt;T&gt;(s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; newnode-&gt;previous = before;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; newnode-&gt;next = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; after-&gt;previous = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (before == NULL) /* insert at
-          beginning */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; else</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before-&gt;next =
-          newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>typename List&lt;T&gt;::Iterator
-          List&lt;T&gt;::erase(Iterator i)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Iterator iter = i;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; assert(iter.position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* remove =
-          iter.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* before =
-          remove-&gt;previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* after =
-          remove-&gt;next;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (remove == first) first = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;
-          else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          before-&gt;next = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (remove == last) last = before;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;
-          after-&gt;previous = before;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.position = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; delete remove;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>typename List&lt;T&gt;::Iterator
-          List&lt;T&gt;::begin()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Iterator iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.position = first;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.last = last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>typename List&lt;T&gt;::Iterator
-          List&lt;T&gt;::end()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Iterator iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.position = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.last = last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::Iterator::Iterator()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; position = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; last = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>T List&lt;T&gt;::Iterator::operator*() const</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; assert(position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return position-&gt;data;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::Iterator::operator++(int
-          dummy)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; assert(position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; position = position-&gt;next;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::Iterator::operator--(int
-          dummy)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; if (position == NULL) position = last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;
-          else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      float: none;">read</span> изхвърли изключение, функцията <span
+      style="color: rgb(0, 0, 0); font-family: monospace; font-size:
+      large; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">process_products</span>
+    прекъсва и механизмът за обработка на изключения търси подходящ <span
+      style="color: rgb(51, 51, 255); font-family: monospace; font-size:
+      large; font-style: normal; font-variant: normal; font-weight:
+      bold; letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">catch</span> блок.
+    При прекъсването се изпълняват всички деструктори на локалните
+    обекти. <br>
+    В случая обектът&nbsp; <span style="color: rgb(0, 0, 0);
+      font-family: monospace; font-size: large; font-style: normal;
+      font-variant: normal; font-weight: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: left; text-indent:
+      0px; text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;">products</span> (от класа&nbsp; <span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: large;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">vector</span>) ще
+    бъде унищожен.<br>
+    Когато имаме указатели, трябва да се погрижим за унищожаването на
+    обектите в динамичната памет.<br>
+    Пример:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Product* p = <span style="color: rgb(51, 51, 255);">new</span> Product();<br><span style="color: rgb(51, 51, 255);">if</span> (p-&gt;read())<br>{<br>   ...<br>}<br><span style="color: rgb(51, 51, 255);">delete</span> p; // never executes if read throws an exception</font></pre>
+    генерира "memory leak", ако функцията <span style="color: rgb(0, 0,
+      0); font-family: monospace; font-size: large; font-style: normal;
+      font-variant: normal; font-weight: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: left; text-indent:
+      0px; text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;">read</span> изхвърли изключение (виж <tt><a
+        href="../../../2014/NETB151/sources/ch17/product1.cpp">product1.cpp</a></tt>).
 
 
 
-
-          position = position-&gt;previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; assert(position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>bool
-          List&lt;T&gt;::Iterator::operator==(Iterator b) const</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; return position == b.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>bool
-          List&lt;T&gt;::Iterator::operator!=(Iterator b) const</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; return position != b.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>Node&lt;T&gt;::Node(T s)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; data = s;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; previous = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; next = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::copy(const
-          List&lt;T&gt;&amp; b)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; for (Iterator p = b.begin(); p !=
-          b.end(); p++)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push_back(*p);</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::free()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; while (begin() != end()) erase(begin());</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>int main()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; List&lt;string&gt; staff;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Cracker, Carl");</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Hacker, Harry");</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Lam, Larry");</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Sandman, Susan");</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; /* add a value in fourth place */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List&lt;string&gt;::Iterator pos;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos = staff.begin();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.insert(pos, "Reindeer,
-          Rudolf");</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; /* remove the value in second place
-          */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos = staff.begin();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.erase(pos);</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; /* print all values */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; for (pos = staff.begin(); pos !=
-          staff.end(); pos++)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
-          *pos &lt;&lt; "\n";</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return 0;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b></p>
-    <hr size="2" width="100%">
+    <br>
+    В такъв случай може да се използва следната конструкция:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Product* p = NULL;<br><span style="color: rgb(51, 51, 255); font-weight: bold;">try</span><br>{  p = <span style="color: rgb(51, 51, 255);">new</span> Product();<br>   if (p-&gt;read())<br>   {<br>      ...<br>   }<br>   <span style="color: rgb(51, 51, 255);">delete</span> p;<br>}<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span>(...)<br>{  <span style="color: rgb(51, 51, 255);">delete</span> p;<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span>;<br>}</font></pre>
+    Блокът <span style="font-family: monospace; font-size: large;
+      font-style: normal; font-variant: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: left; text-indent:
+      0px; text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); color: rgb(51, 51, 255);
+      font-weight: bold;">catch</span><span style="color: rgb(0, 0, 0);
+      font-family: monospace; font-size: large; font-style: normal;
+      font-variant: normal; font-weight: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: left; text-indent:
+      0px; text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;">(...)</span> обработва всяко изключение, а
+    операторът <span style="color: rgb(51, 51, 255); font-family:
+      monospace; font-size: large; font-style: normal; font-variant:
+      normal; font-weight: bold; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: left; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255); display: inline !important;
+      float: none;">throw</span>&nbsp; без обект изпраща изключението да
+    се обработва от друг <span style="font-family: monospace;
+      font-size: large; font-style: normal; font-variant: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); color: rgb(51, 51, 255); font-weight: bold;">catch</span><span
+      style="color: rgb(0, 0, 0); font-family: monospace; font-size:
+      large; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;"></span> блок.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><code><span style="font-family: 'Courier New'; font-style: normal; font-variant: normal; font-weight: normal; font-size: 10pt; line-height: normal;"><span class="cpp1-preprocessor" style="color: rgb(0, 128, 0);">// <a href="../../../2014/NETB151/sources/ch17/product2.cpp">product2.cpp</a><br>#include &lt;iostream&gt;<br>#include &lt;fstream&gt;<br>#include &lt;stdexcept&gt;<br>#include &lt;vector&gt;<br></span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">using</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">namespace</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> std;<br> <br></span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">class</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> Product {<br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">public</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">:<br>       Product();<br>       </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">bool</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> read(istream&amp; fs);<br>       </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">void</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> print() </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">const</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">; <br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">private</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">:<br>       string name;<br>       </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">double</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> price;<br>       </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> score;<br>};    <br><br>Product::Product()<br>{ price = </span><span class="cpp1-number" style="color: rgb(128, 0, 128);">0</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br>  score = </span><span class="cpp1-number" style="color: rgb(128, 0, 128);">0</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;                <br>}<br><br></span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">bool</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> Product::read(istream&amp; fs)<br>{  cout &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"Product: "</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br>   getline(fs, name);<br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">if</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> (name == </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">""</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">) </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">false</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">; </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">// end of file<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">   fs &gt;&gt; price &gt;&gt; score;<br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">if</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> (fs.fail())<br>      </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">throw</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> runtime_error(</span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"Error while reading product"</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">);<br>   string remainder;<br>   getline(fs, remainder);   <br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">true</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br>}<br><br></span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">void</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> Product::print() </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">const<br></span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">{ cout &lt;&lt; name &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">" "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> &lt;&lt; price &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">" "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> &lt;&lt; score &lt;&lt; endl;<br>} <br>  <br></span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">void</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> process_products(istream&amp; fs)<br>{  vector&lt;Product*&gt; products;<br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">bool</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> more = </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">true</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">while</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> (more)<br>   {  Product* p = </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">new</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> Product;<br>      </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">try<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">      {  </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">if</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> (p-&gt;read(fs)) products.push_back(p);<br>         </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">else</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> more = </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">false</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br>      }   <br>      </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">catch</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">(runtime_error&amp; r)  </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">// runtime_error&amp; r)<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">      {  cout &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"1. "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> &lt;&lt; r.what() &lt;&lt; endl;<br>         </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">for</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> (</span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> i = </span><span class="cpp1-number" style="color: rgb(128, 0, 128);">0</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">; i &lt; products.size(); i++)<br>                                </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">delete</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> products[i];</span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;"><br>         throw; </span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"></span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;"></span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">                                                                    <br>      }                     <br>    }     <br>   </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">/* processing products */</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">       <br>   <br>   cout &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"Print:"</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> &lt;&lt; endl;<br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">for</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> (</span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> i = </span><span class="cpp1-number" style="color: rgb(128, 0, 128);">0</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">; i &lt; products.size(); i++)<br>   {  products[i]-&gt;print();<br>      </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">delete</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> products[i];<br>   }      <br>}<br><br> </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">int</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> main()<br> {  </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">try<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">    {  process_products(cin);<br>    }<br>    </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">catch</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">(runtime_error&amp; r)  </span><span class="cpp1-comment" style="color: rgb(10, 36, 106); font-style: italic;">// runtime_error&amp; r)<br></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);">    { cout &lt;&lt; </span><span class="cpp1-string" style="color: rgb(255, 0, 0);">"2. "</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> &lt;&lt; r.what() &lt;&lt; endl;                <br>    }                        <br>   </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;"></span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"><br>    </span><span class="cpp1-reservedword" style="color: rgb(0, 0, 0); font-weight: bold;">return</span><span class="cpp1-space" style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0);"> </span><span class="cpp1-number" style="color: rgb(128, 0, 128);">0</span><span class="cpp1-symbol" style="color: rgb(0, 0, 0);">;<br> }</span></span></code></pre>
+    <hr size="2" width="100%"> <b><img alt="" src="../b5.gif"
+        height="18" width="20"></b><b>Спецификации на изключенията</b><br>
+    <br>
+    При дефинирането на функция, можем да определим кои изключения може
+    да изхвърля тази функция. Например:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>     <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span> (UnexpectedEndOfFile, bad_alloc)</font></pre>
+    означава, че само зададените две изключения са позволени на тази
+    функция. <br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">  throw</span> ()</font></pre>
+    задава забрана за всички изключения, а липса на <span style="color:
+      rgb(51, 51, 255); font-family: monospace; font-size: large;
+      font-style: normal; font-variant: normal; font-weight: bold;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
+      255); display: inline !important; float: none;">throw</span>
+    означава разрешение за изключения от всеки тип.<br>
+    <ul style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;">
+      <li> <font size="+1">Stroustrup's example:<span
+            class="Apple-converted-space">&nbsp;</span></font><font
+          size="+1"><span style="font-family: monospace;">class Vector</span></font><font
+          size="+1"><span class="Apple-converted-space">&nbsp;</span>(</font><a
+          href="../../../2014/NETB151/sources/ch17/strous.cpp"
+          style="font-weight: bold;"><font size="+1"><span
+              style="font-family: monospace;">strous.cpp</span></font></a><font
+          size="+1">)</font> </li>
+    </ul>
+    <hr size="2" width="100%">&nbsp;&nbsp;
   </body>
 </html>
