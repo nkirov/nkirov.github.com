@@ -228,6 +228,10 @@
 
 
 
+
+
+
+
             включване на заглавен файл */</font></tt></b> <br>
       <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
       <br>
@@ -247,6 +251,10 @@
       <b><tt><font color="#000099">&nbsp;&nbsp; in_data &gt;&gt;
             s2;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 /*
+
+
+
+
 
 
 
@@ -310,11 +318,19 @@
 
 
 
+
+
+
+
             затваряне на файла */</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; s1
             &lt;&lt; endl &lt;&lt; s2 &lt;&lt; " "</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &lt;&lt;
+
+
+
+
 
 
 
@@ -379,6 +395,10 @@
       </tt><tt>&nbsp;&nbsp; @return the maximum value or 0 if the file
         has no numbers</tt><tt><br>
       </tt><tt>*/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
 
 
 
@@ -522,6 +542,10 @@
 
 
 
+
+
+
+
             включване на заглавен файл */</font></tt></b> <br>
       <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
       <br>
@@ -552,6 +576,10 @@
     <p><b><tt><font color="#000099">&nbsp;&nbsp;
             out_data.close();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 /*
+
+
+
+
 
 
 
@@ -709,6 +737,88 @@ int main()
    cout &lt;&lt; "The maximum value is " &lt;&lt; max &lt;&lt; "\n";
    return 0;
 }</b></pre>
-    <hr width="100%">
+    <hr width="100%"> ** Абстрактни класове<br>
+    <br>
+    Пример: Йерархия на геометрични фигури в равнината.<br>
+    <img alt="" src="images/Shapes.png" height="486" width="688"><br>
+    - Ако искаме да имаме полиморфна функция за лице на фигура - <font
+      size="+1"><tt>area</tt></font>, то тази функция трябва да бъде
+    дефинирана в базовия клас <font size="+1"><tt>Shape</tt></font>. <br>
+    - Тази функция има смисъл за всеки клас, производен на класа <font
+      size="+1"><tt>Shape</tt></font>, но в класа <font size="+1"><tt>Shape</tt></font>
+    тя няма смисъл.<br>
+    - Такава функция се декларира по специален начин в базовия клас и се
+    нарича чисто виртуална член-функция.<br>
+    <font size="+1"><tt>class Shape {</tt><tt><br>
+      </tt><tt>...</tt><tt><br>
+      </tt><tt>virtual double area() const = 0; </tt><tt><br>
+      </tt><tt>};</tt></font><br>
+    - Клас, който има поне една чисто виртуална член-функция се нарича
+    абстрактен клас.<br>
+    - Клас, който се състои изцяло от чисто виртуални член-функции
+    понякога се нарича интерфейс.<br>
+    Пример:<br>
+    <font size="+1"><tt>class Shape { <br>
+        public:</tt></font><br>
+    <font size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp; virtual
+            double perimeter() const = 0; <br>
+          </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double
+        area() const = 0; </tt><tt><br>
+      </tt><tt>};<br>
+        <br>
+        class Triangle: public Shape {<br>
+        public:<br>
+        &nbsp;&nbsp;&nbsp; ...</tt></font> <br>
+    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
+                virtual double perimeter() const <br>
+                &nbsp;&nbsp;&nbsp; { return a + b + c; } <br>
+              </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double
+            area() const <br>
+            &nbsp;&nbsp;&nbsp; {&nbsp;&nbsp; double p = (a + b + c)/2;<br>
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+            sqrt(p*(p-a)*(p-b)*(p-c)); <br>
+            &nbsp;&nbsp;&nbsp; }<br>
+            private:<br>
+            &nbsp;&nbsp;&nbsp; double a, b, c;<br>
+            };<br>
+          </tt></font></tt></font><br>
+    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt>class
+                Circle: public Shape {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp; ...<br>
+              </tt></font>
+            <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
+                        virtual double perimeter() const <br>
+                        &nbsp;&nbsp;&nbsp; { return 2*PI*r; } <br>
+                      </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual
+                    double area() const <br>
+                    &nbsp;&nbsp;&nbsp; { return PI*r*r; }<br>
+                    private:<br>
+                    &nbsp;&nbsp;&nbsp; double r;<br>
+                    };<br>
+                    ...<br>
+                    int main()<br>
+                    {<br>
+                    //&nbsp; Shape* s = new Shape; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; // <font
+                      color="#cc0000">ERROR!!</font> <br>
+                    &nbsp;&nbsp;&nbsp; Shape* s = new Triangle(4, 5,
+                    6);&nbsp;&nbsp; // First s is a triangle </tt></font></tt></font></tt></font></tt></font><br>
+    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt><font
+                  size="+1"><tt><font size="+1"><tt><font size="+1"><tt><font
+                              size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
+                                    cout &lt;&lt; "Area is " &lt;&lt;
+                                    s.area() &lt;&lt; "\n";</tt></font></tt></font></tt></font></tt></font>&nbsp;&nbsp;&nbsp;
+                    <br>
+                    &nbsp;&nbsp;&nbsp; s = new Circle(10);
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // Now it is a
+                    square<br>
+                    &nbsp;&nbsp;&nbsp; cout &lt;&lt; "Area is " &lt;&lt;
+                    s.area() &lt;&lt; "\n";<br>
+                    &nbsp;&nbsp;&nbsp; ...<br>
+                    &nbsp;&nbsp;&nbsp; return 0;<br>
+                    }</tt></font></tt></font></tt></font></tt></font><br>
+    <hr size="2" width="100%">
   </body>
 </html>
