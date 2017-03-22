@@ -44,8 +44,8 @@ bool Clock::is_military() const
 class TravelClock : public Clock {
 public:
    TravelClock(bool mil, string loc, int diff);
-   virtual string get_location() const;
-   virtual int get_hours() const;
+   string get_location() const;
+   int get_hours() const;
 private:
    string location;
    int time_difference;
@@ -74,11 +74,10 @@ int TravelClock::get_hours() const
 }
 
 int main()
-{  vector<Clock*> clocks(4);
+{  vector<Clock*> clocks(3);
    clocks[0] = new Clock(true);
    clocks[1] = new TravelClock(true, "Rome", -1);
    clocks[2] = new TravelClock(false, "Tokyo", 5);
-   clocks[3] = new TravelClock(true, "New York", -7);
 
    for (int i = 0; i < clocks.size(); i++)
    {
