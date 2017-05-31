@@ -13,23 +13,23 @@
     </center>
     <img alt="" src="../b5.gif" height="18" width="20"><b>Обработка на
       грешки</b><br>
-    Как да обработваме грешки, възникващи във функция или клас?<br>
-    Пример:<br>
+    Как да се обработват (логически) грешки, възникващи във функция или
+    клас?<br>
+    <i>Пример:</i><br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b>cout &lt;&lt; future_value(1000, -100, -1);</b></font></pre>
-    ** Не проверяваме условия за грешки и изпълняваме програмата.
+    ** Не се проверяват условия за грешки и се изпълнява програмата.
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font><br></pre>
-    ** Проверяваме условията за грешка, не правим нищо в случай на
-    грешка (връщаме фалшива стойност).<br>
+    ** Проверяват се условията за грешка, не се прави нищо в случай на
+    грешка (връща се фалшива стойност).<br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  </b><b><span style="color: rgb(51, 51, 255);">if</span></b><b> (p &lt; 0 || n &lt; 0) </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> 0;</b><b><br></b><b>   </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font></pre>
-    **Проверяваме условията за грешка, съобщаваме за грешката и спираме
-    изпълнението на програмата. <br>
+    ** Проверяват се условията за грешка, съобщава се за грешката и се
+    спира изпълнението на програмата. <br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  assert(p &gt;= 0 &amp;&amp; n &gt;= 0);</b><b><br></b><b>   </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font></pre>
     Въникващи проблеми:<br>
-    ** Ако не се прави проверка за грешка, програмата може да бъда
-    ненадеждна.<br>
+    ** Ако не се прави проверка за грешка, програмата е ненадеждна.<br>
     ** Ако се върне фалшива стойност, програмата продължава да използва
     стойността - никой не знае каква е грешката.<br>
-    ** Много реални програми не могат да бъде спирани като тези, които
+    ** Много реални програми не могат да бъдат спирани като тези, които
     управляват ракета, самолет или медицинско устройство.<br>
     <hr size="2" width="100%"> <b><img alt="" src="../b5.gif"
         height="18" width="20">Изхвърляне на изключения</b><br>
@@ -85,7 +85,22 @@
           letter-spacing: normal; line-height: normal; text-align: left;
           text-indent: 0px; text-transform: none; white-space: normal;
           word-spacing: 0px; background-color: rgb(255, 255, 255);
-          display: inline ! important; float: none;">catch</span></tt></b>
+          display: inline ! important; float: none;">catch<b>(</b></span></tt></b><b><tt><span
+          style="color: rgb(0, 0, 0); font-size: large; font-style:
+          normal; font-variant: normal; font-weight: normal;
+          letter-spacing: normal; line-height: normal; text-align: left;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          word-spacing: 0px; background-color: rgb(255, 255, 255);
+          display: inline ! important; float: none;"><b><span
+              style="color: rgb(0, 0, 0); font-family: monospace;
+              font-size: large; font-style: normal; font-variant:
+              normal; font-weight: normal; letter-spacing: normal;
+              line-height: normal; orphans: auto; text-align: left;
+              text-indent: 0px; text-transform: none; white-space:
+              normal; widows: auto; word-spacing: 0px;
+              -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+              0px; background-color: rgb(255, 255, 255); display: inline
+              !important; float: none;">logic_error</span>)</b></span></tt></b>
     се изпълнява веднага.<br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">while</span> (more)<br>{  <span style="color: rgb(51, 51, 255); font-weight: bold;">try</span> <br>   {<br>      <i>// code</i><br>   }<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (<span style="font-weight: bold;">logic_error</span>&amp; e)<br>   {  cout &lt;&lt; "A logic error has occurred "<br>           &lt;&lt; e.what() &lt;&lt; "\n";<br>      ........<br>   }<br>}</font></pre>
     Член-функцията <b><span style="color: rgb(0, 0, 0); font-family:
@@ -137,7 +152,7 @@
     <br class="Apple-interchange-newline">
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><code><font face="Courier New" size="3"><font color="#000000"><font color="#008000"> //<a href="../../../2014/NETB151/sources/ch17/exception1.cpp">exception1.cpp</a><br><font size="3"> #</font>include </font>&lt;iostream&gt;<br> <font color="#008000">#include </font>&lt;stdexcept&gt;<br> </font></font></code><code><font><font><font><font face="Courier New" size="3"><font color="#000000"><font color="#008000">#include</font></font></font></font></font></font></code><code><font face="Courier New" size="3"><font color="#000000"> &lt;cmath&gt;<br> <b>using namespace </b>std;<br><br> <b>double </b>future_value(<b>double </b>initial_balance, <b>double </b>p, <b>int </b>n)<br>{  <b>if </b>(p &lt; <font color="#800080">0 </font>|| n &lt; <font color="#800080">0</font>)<br>   {  logic_error description(<font color="#ff0000">"illegal future_value parameter"</font>);<br>      <b>throw </b>description;<br>   }<br>   <b>return </b>initial_balance * pow(<font color="#800080">1 </font>+ p / <font color="#800080">100</font>, n);<br>}<br><br> <b>int </b>main()<br> {  <b>bool </b>more = <b>true</b>;<br>    <b>while </b>(more)<br>    {  <b>double </b>init, interest;<br>       <b>int </b>years;<br>       cout &lt;&lt; <font color="#ff0000">"Enter initial value, interest and years: "</font>;<br>       cin &gt;&gt; init &gt;&gt; interest &gt;&gt; years;<br>    <br>       <b>try <br>       </b>{  <b>double </b>fvalue = future_value(init, interest, years); <br>          cout &lt;&lt; <font color="#ff0000">"The future value is " </font>&lt;&lt; fvalue &lt;&lt; endl;  <br>       }<br>       <b>catch </b>(logic_error&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A logic error has occurred "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       }       <br>       cout &lt;&lt; <font color="#ff0000">"Retry? (y/n)"</font>;<br>       <b>char </b>input;<br>       cin &gt;&gt; input;<br>       <b>if </b>(input == 'n') more = <b>false</b>;<br>    } <br><font color="#000080"><i>&nbsp;</i></font><b>return </b><font color="#800080">0</font>;<br> }<br></font></font></code></pre>
     Добре е всяко изключение да се дефинира като отделен клас. <br>
-    Пример:<br>
+    <i>Пример:</i><br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">class</span> FutureValueError : <span style="color: rgb(51, 51, 255);">public</span> <span style="font-weight: bold;">logic_error</span> {<br><span style="color: rgb(51, 51, 255);">public:</span><br>   FutureValueError(<span style="color: rgb(51, 51, 255);">const</span> <span style="color: rgb(51, 51, 255);">char</span> reason[]);<br>};<br><br>FutureValueError::FutureValueError(<span style="color: rgb(51, 51, 255);">const</span> <span style="color: rgb(51, 51, 255);">char</span> reason[])<br>   : <span style="font-weight: bold;">logic_error</span>(reason){}</font></pre>
     и функцията <span style="color: rgb(0, 0, 0); font-family:
       monospace; font-size: large; font-style: normal; font-variant:
@@ -157,6 +172,7 @@
 
 
 
+
     обект:<br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">if</span> (p &lt; 0 || n &lt; 0)<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span> FutureValueError("illegal parameter");</font></pre>
     Тъй като <span style="color: rgb(0, 0, 0); font-family: monospace;
@@ -166,6 +182,7 @@
       none; white-space: normal; widows: auto; word-spacing: 0px;
       -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
       255); display: inline !important; float: none;">FutureValueError</span>&nbsp;
+
 
 
 
@@ -292,7 +309,7 @@
     бъде унищожен.<br>
     Когато имаме указатели, трябва да се погрижим за унищожаването на
     обектите в динамичната памет.<br>
-    Пример:<br>
+    <i>Пример:</i><br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Product* p = <span style="color: rgb(51, 51, 255);">new</span> Product();<br><span style="color: rgb(51, 51, 255);">if</span> (p-&gt;read())<br>{<br>   ...<br>}<br><span style="color: rgb(51, 51, 255);">delete</span> p; // never executes if read throws an exception</font></pre>
     генерира "memory leak", ако функцията <span style="color: rgb(0, 0,
       0); font-family: monospace; font-size: large; font-style: normal;
@@ -303,6 +320,7 @@
       background-color: rgb(255, 255, 255); display: inline !important;
       float: none;">read</span> изхвърли изключение (виж <tt><a
         href="../../../2014/NETB151/sources/ch17/product1.cpp">product1.cpp</a></tt>).
+
 
 
 
@@ -350,7 +368,8 @@
         height="18" width="20"></b><b>Спецификации на изключенията</b><br>
     <br>
     При дефинирането на функция, можем да определим кои изключения може
-    да изхвърля тази функция. Например:<br>
+    да изхвърля тази функция. <br>
+    <i>Например:</i><br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>     <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span> (UnexpectedEndOfFile, bad_alloc)</font></pre>
     означава, че само зададените две изключения са позволени на тази
     функция. <br>
@@ -379,6 +398,6 @@
               style="font-family: monospace;">strous.cpp</span></font></a><font
           size="+1">)</font> </li>
     </ul>
-    <hr size="2" width="100%">&nbsp;&nbsp;
+    <hr size="2" width="100%">
   </body>
 </html>
