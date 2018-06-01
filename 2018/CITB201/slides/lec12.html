@@ -5,7 +5,7 @@
     <meta name="Author" content="Nikolay Kirov">
     <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
       [Netscape]">
-    <title>l13</title>
+    <title>l12</title>
   </head>
   <body>
     <center>
@@ -425,11 +425,13 @@
       </font></tt><b><font size="+1">Променливи като параметри на шаблон</font></b><tt><font
         size="+1"><br>
         <br>
-      </font></tt><font size="+1">Пример:</font><tt><font size="+1"><br>
+      </font></tt><i><font size="+1">Пример:</font></i><tt><font
+        size="+1"><br>
         &nbsp; template&lt;typename T, int ROWS, int COLUMNS&gt;<br>
-        &nbsp; class Matrix<br>
-        &nbsp; {<br>
-        ... private:<br>
+        &nbsp; class Matrix {<br>
+        &nbsp; public:<br>
+        &nbsp; ... <br>
+        &nbsp; private:<br>
         &nbsp;&nbsp;&nbsp;&nbsp; T data[ROWS][COLUMNS];<br>
         &nbsp; };<br>
         <br>
@@ -449,221 +451,325 @@
         &nbsp; Matrix&lt;int, 3, 4&gt; d;<br>
         &nbsp; b = a; </font></tt><tt><font size="+1"><tt><font
             size="+1">// Error, element types don’t match.<br>
-            &nbsp;
-          </font></tt></font></tt><tt><font size="+1"><tt><font
+            &nbsp; </font></tt></font></tt><tt><font size="+1"><tt><font
             size="+1"><tt><font size="+1">c = a;</font></tt> // Error,
             sizes don’t match, so types differ. </font></tt><br>
         &nbsp; d = a; </font></tt><tt><font size="+1"><tt><font
             size="+1"><tt><font size="+1">// OK. Element types and sizes
                 match.</font></tt></font></tt><br>
-        <br>
-      </font></tt>
+      </font></tt><br>
+    <font size="+1"><b><font size="+1">Шаблони и наследяване </font></b></font><tt><font
+        size="+1"><b><font size="+1"><br>
+          </font></b><tt><font size="+1"><br>
+          </font></tt></font></tt><i><font size="+1"><font size="+1">Пример</font></font></i><font
+      size="+1"><font size="+1"><i>:</i> </font></font><font size="+1"><font
+        size="+1"><font size="+1"><font size="+1">Клас-шаблон като базов
+            и производен клас</font></font></font></font><tt><font
+        size="+1"><font size="+1"><tt><font size="+1"><font size="+1"><br>
+                <br>
+                // <a href="../sources/inh_t.cpp">inh_t.cpp</a><br>
+                #include &lt;iostream&gt;<br>
+                #include &lt;string&gt;<br>
+                using namespace std;<br>
+                <br>
+                template&lt;typename T&gt;<br>
+                class A {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp; A(T aa):a(aa){}<br>
+                &nbsp;&nbsp;&nbsp; T geta() const { return a; }<br>
+                private:<br>
+                &nbsp;&nbsp;&nbsp; T a;<br>
+                };<br>
+                <br>
+                class B : public A&lt;int&gt; {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp; B(int bb):A(bb){};<br>
+                };<br>
+                <br>
+                template&lt;typename T&gt;<br>
+                class C : public A&lt;int&gt; {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp; C(T cc, int aa):A(aa){ c = cc; }<br>
+                &nbsp;&nbsp;&nbsp; T getc() const { return c; }<br>
+                private:<br>
+                &nbsp;&nbsp;&nbsp; T c;<br>
+                };<br>
+                <br>
+                template&lt;typename T&gt;<br>
+                class D : public A&lt;T&gt; {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp; D(T dd):A&lt;T&gt;(dd){}<br>
+                };<br>
+                <br>
+                int main()<br>
+                {<br>
+                &nbsp;&nbsp;&nbsp; A&lt;int&gt; a1(10);<br>
+                &nbsp;&nbsp;&nbsp; B b1(20);<br>
+                &nbsp;&nbsp;&nbsp; cout &lt;&lt; b1.geta() &lt;&lt;
+                endl;<br>
+                &nbsp;&nbsp;&nbsp; C&lt;string&gt; c1("abc", 30);<br>
+                &nbsp;&nbsp;&nbsp; cout &lt;&lt; c1.geta() &lt;&lt; " "
+                &lt;&lt; c1.getc() &lt;&lt; endl;<br>
+                &nbsp;&nbsp;&nbsp; D&lt;double&gt; d1(0.5);<br>
+                &nbsp;&nbsp;&nbsp; cout &lt;&lt; d1.geta() &lt;&lt;
+                endl;<br>
+                &nbsp;&nbsp; return 0;<br>
+                }<br>
+              </font></font></tt></font></font></tt><br>
+    <font size="+1"><font size="+1"><font size="+1"><font size="+1"><i><font
+                size="+1"><font size="+1">Пример</font></font></i><i><font
+                size="+1"><font size="+1">: </font></font></i><font
+              size="+1"><font size="+1"><font size="+1"><font size="+1">Клас-шаблон
+
+                    като производен клас<br>
+                    <br>
+                  </font></font></font></font></font></font></font></font><font
+      size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+              size="+1"><font size="+1"><font size="+1"><font size="+1"><tt>//
+
+                    </tt><a href="../sources/inh_t1.cpp"><tt>inh_t1.cpp</tt></a></font></font></font></font></font></font></font></font><font
+      size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+              size="+1"><font size="+1"><font size="+1"><font size="+1"><br>
+                  </font></font></font></font></font></font></font></font><font
+      size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+              size="+1"><font size="+1"><font size="+1"><font size="+1"><tt>#include
+
+                      &lt;iostream&gt;</tt><tt><br>
+                    </tt><tt>#include &lt;string&gt;</tt><tt><br>
+                    </tt><tt>using namespace std;</tt><tt><br>
+                    </tt><tt><br>
+                    </tt><tt>class A {</tt><tt><br>
+                    </tt><tt>public:</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; A(int aa):a(aa){}</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; int geta() const {
+                      return a; }</tt><tt><br>
+                    </tt><tt>private:</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; int a;</tt><tt><br>
+                    </tt><tt>};</tt><tt><br>
+                    </tt><tt><br>
+                    </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+                    </tt><tt>class B : public A {</tt><tt><br>
+                    </tt><tt>public:</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; B(T bb, int
+                      aa):A(aa),b(bb){}</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; T getb() const { return
+                      b; }</tt><tt><br>
+                    </tt><tt>private:</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; T b;</tt><tt><br>
+                    </tt><tt>};</tt><tt><br>
+                    </tt><tt><br>
+                    </tt><tt>int main()</tt><tt><br>
+                    </tt><tt>{</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; A a1(10);</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; a1.geta()
+                      &lt;&lt; endl;</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; B&lt;string&gt;
+                      b1("abc", 20);</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; b1.geta()
+                      &lt;&lt; " " &lt;&lt; b1.getb() &lt;&lt; endl;</tt><tt><br>
+                    </tt><tt>&nbsp;&nbsp; return 0;</tt><tt><br>
+                    </tt><tt>}</tt></font></font></font></font></font></font></font></font><font
+      size="+1"><font size="+1"><font size="+1"><font size="+1"><font
+              size="+1"><font size="+1"><font size="+1"><font size="+1"><br>
+                  </font></font></font></font></font></font></font></font><tt><font
+        size="+1"> </font></tt>
     <hr size="2" width="100%"><img alt="" src="../b5.gif" height="18"
       width="20"><b>Вложени класове</b><br>
-    <p>В STL класът <tt>iterator </tt>е дефиниран в класа <tt>list</tt>:<br>
+    <p>В STL класът <tt><font size="+1">iterator</font> </tt>е
+      дефиниран в класа <tt>list</tt>:<br>
     </p>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">list&lt;string&gt;::iterator pos = staff.begin();</pre>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">list&lt;string&gt;::iterator pos = staff.begin();</font></pre>
     <p>За да се вложи един клас в друг, вътрешният клас се дефинира във
       външния клас:<br>
     </p>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">class</span> List {<br>   ...<br>   <span style="color: rgb(51, 51, 255);">class</span> Iterator;<br>   ...<br>};</pre>
-    <p><i>Пример.&nbsp;</i> Клaсът <tt>List</tt> със същия интерфейс,
-      както и класът <tt>list</tt> от STL. <br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">class</span> List {<br>   ...<br>   <span style="color: rgb(51, 51, 255);">class</span> Iterator;<br>   ...<br>};</font></pre>
+    <p><i>Пример.&nbsp;</i> Клaсът <font size="+1"><tt>List</tt></font>
+      със същия интерфейс, както и класът <font size="+1"><tt>list</tt></font>
+      от STL. <br>
     </p>
-    <p><tt><b>// <a href="../../../2014/NETB151/sources/ch17/list1.cpp">list1.cpp</a></b></tt><br>
-      <b><tt>#include &lt;string&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>#include &lt;iostream&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>#include &lt;cassert&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>using namespace std;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt; class List;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>class Node {</tt></b><b><tt><br>
-        </tt></b><b><tt>public:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node(T s);</tt></b><b><tt><br>
-        </tt></b><b><tt>private:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; T data;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* next;</tt></b><b><tt><br>
-        </tt></b><b><tt>friend class List&lt;T&gt;;</tt></b><b><tt><br>
-        </tt></b><b><tt>friend class List&lt;T&gt;::Iterator;</tt></b><b><tt><br>
-        </tt></b><b><tt>};</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>class List {</tt></b><b><tt><br>
-        </tt></b><b><tt>public:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List(const List&lt;T&gt;&amp; b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; ~List();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List&lt;T&gt;&amp; operator=(const
-          List&lt;T&gt;&amp; b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; class Iterator;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void push_back(T s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void insert(Iterator iter, T s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator erase(Iterator i);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator begin();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator end();</tt></b><b><tt><br>
-        </tt></b><b><tt>private:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void copy(const List&lt;T&gt;&amp;
-          b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void free();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* first;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* last;</tt></b><b><tt><br>
-        </tt></b><b><tt>};</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>class List&lt;T&gt;::Iterator {</tt></b><b><tt><br>
-        </tt></b><b><tt>public:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Iterator();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; T operator*() const;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void operator++(int dummy);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; void operator--(int dummy);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; bool operator==(Iterator b) const;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; bool operator!=(Iterator b) const;</tt></b><b><tt><br>
-        </tt></b><b><tt>private:</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* position;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* last;</tt></b><b><tt><br>
-        </tt></b><b><tt>friend class List&lt;T&gt;;</tt></b><b><tt><br>
-        </tt></b><b><tt>};</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::List()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; first = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; last = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::~List()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; free();</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::List(const List&lt;T&gt;&amp; b)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; first = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; last = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; copy(b);</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;&amp;
-          List&lt;T&gt;::operator=(const List&lt;T&gt;&amp; b)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; if (this != &amp;b)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; free();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; copy(b);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return *this;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::push_back(T s)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Node&lt;T&gt;* newnode = new
-          Node&lt;T&gt;(s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (last == NULL) /* list is empty
-          */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; first = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; else</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; newnode-&gt;previous =
-          last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last-&gt;next =
-          newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::insert(Iterator iter, T s)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; if (iter.position == NULL)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; push_back(s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* after =
-          iter.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* before =
-          after-&gt;previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* newnode = new
-          Node&lt;T&gt;(s);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; newnode-&gt;previous = before;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; newnode-&gt;next = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; after-&gt;previous = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (before == NULL) /* insert at
-          beginning */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; else</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before-&gt;next =
-          newnode;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>typename List&lt;T&gt;::Iterator
-          List&lt;T&gt;::erase(Iterator i)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Iterator iter = i;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; assert(iter.position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* remove =
-          iter.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* before =
-          remove-&gt;previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; Node&lt;T&gt;* after =
-          remove-&gt;next;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (remove == first) first = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;
+    <p><font size="+1"><tt>// <a
+            href="../../../2014/NETB151/sources/ch17/list1.cpp">list1.cpp</a></tt><br>
+        <tt>#include &lt;string&gt;</tt><tt><br>
+        </tt><tt>#include &lt;iostream&gt;</tt><tt><br>
+        </tt><tt>#include &lt;cassert&gt;</tt><tt><br>
+        </tt><tt>using namespace std;</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt; class List;</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>class Node {</tt><tt><br>
+        </tt><tt>public:</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node(T s);</tt><tt><br>
+        </tt><tt>private:</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; T data;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* previous;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* next;</tt><tt><br>
+        </tt><tt>friend class List&lt;T&gt;;</tt><tt><br>
+        </tt><tt>friend class List&lt;T&gt;::Iterator;</tt><tt><br>
+        </tt><tt>};</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>class List {</tt><tt><br>
+        </tt><tt>public:</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; List();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; List(const List&lt;T&gt;&amp; b);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; ~List();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; List&lt;T&gt;&amp; operator=(const
+          List&lt;T&gt;&amp; b);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; class Iterator;</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; void push_back(T s);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; void insert(Iterator iter, T s);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Iterator erase(Iterator i);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Iterator begin();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Iterator end();</tt><tt><br>
+        </tt><tt>private:</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; void copy(const List&lt;T&gt;&amp; b);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; void free();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* first;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* last;</tt><tt><br>
+        </tt><tt>};</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>class List&lt;T&gt;::Iterator {</tt><tt><br>
+        </tt><tt>public:</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Iterator();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; T operator*() const;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; void operator++(int dummy);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; void operator--(int dummy);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; bool operator==(Iterator b) const;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; bool operator!=(Iterator b) const;</tt><tt><br>
+        </tt><tt>private:</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* position;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* last;</tt><tt><br>
+        </tt><tt>friend class List&lt;T&gt;;</tt><tt><br>
+        </tt><tt>};</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>List&lt;T&gt;::List()</tt><tt><br>
+        </tt><tt>{&nbsp; first = NULL;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; last = NULL;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>List&lt;T&gt;::~List()</tt><tt><br>
+        </tt><tt>{&nbsp; free();</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>List&lt;T&gt;::List(const List&lt;T&gt;&amp; b)</tt><tt><br>
+        </tt><tt>{&nbsp; first = NULL;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; last = NULL;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; copy(b);</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>List&lt;T&gt;&amp; List&lt;T&gt;::operator=(const
+          List&lt;T&gt;&amp; b)</tt><tt><br>
+        </tt><tt>{&nbsp; if (this != &amp;b)</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; {&nbsp; free();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; copy(b);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; }</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; return *this;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>void List&lt;T&gt;::push_back(T s)</tt><tt><br>
+        </tt><tt>{&nbsp; Node&lt;T&gt;* newnode = new Node&lt;T&gt;(s);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; if (last == NULL) /* list is empty */</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; {&nbsp; first = newnode;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; }</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; else</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; {&nbsp; newnode-&gt;previous = last;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last-&gt;next = newnode;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; }</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>void List&lt;T&gt;::insert(Iterator iter, T s)</tt><tt><br>
+        </tt><tt>{&nbsp; if (iter.position == NULL)</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; {&nbsp; push_back(s);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; }</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* after = iter.position;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* before =
+          after-&gt;previous;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* newnode = new
+          Node&lt;T&gt;(s);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; newnode-&gt;previous = before;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; newnode-&gt;next = after;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; after-&gt;previous = newnode;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; if (before == NULL) /* insert at beginning
+          */</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = newnode;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; else</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before-&gt;next =
+          newnode;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>typename List&lt;T&gt;::Iterator
+          List&lt;T&gt;::erase(Iterator i)</tt><tt><br>
+        </tt><tt>{&nbsp; Iterator iter = i;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; assert(iter.position != NULL);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* remove = iter.position;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* before =
+          remove-&gt;previous;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; Node&lt;T&gt;* after = remove-&gt;next;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; if (remove == first) first = after;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;
           else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          before-&gt;next = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (remove == last) last = before;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;
-          after-&gt;previous = before;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.position = after;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; delete remove;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>typename List&lt;T&gt;::Iterator
-          List&lt;T&gt;::begin()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Iterator iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.position = first;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.last = last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>typename List&lt;T&gt;::Iterator
-          List&lt;T&gt;::end()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; Iterator iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.position = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; iter.last = last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return iter;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>List&lt;T&gt;::Iterator::Iterator()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; position = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; last = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>T List&lt;T&gt;::Iterator::operator*() const</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; assert(position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return position-&gt;data;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::Iterator::operator++(int
-          dummy)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; assert(position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; position = position-&gt;next;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::Iterator::operator--(int
-          dummy)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; if (position == NULL) position = last;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;
+          before-&gt;next = after;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; if (remove == last) last = before;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; else&nbsp;&nbsp;&nbsp;&nbsp;
+          after-&gt;previous = before;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; iter.position = after;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; delete remove;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; return iter;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>typename List&lt;T&gt;::Iterator List&lt;T&gt;::begin()</tt><tt><br>
+        </tt><tt>{&nbsp; Iterator iter;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; iter.position = first;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; iter.last = last;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; return iter;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>typename List&lt;T&gt;::Iterator List&lt;T&gt;::end()</tt><tt><br>
+        </tt><tt>{&nbsp; Iterator iter;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; iter.position = NULL;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; iter.last = last;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; return iter;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>List&lt;T&gt;::Iterator::Iterator()</tt><tt><br>
+        </tt><tt>{&nbsp; position = NULL;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; last = NULL;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>T List&lt;T&gt;::Iterator::operator*() const</tt><tt><br>
+        </tt><tt>{&nbsp; assert(position != NULL);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; return position-&gt;data;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>void List&lt;T&gt;::Iterator::operator++(int dummy)</tt><tt><br>
+        </tt><tt>{&nbsp; assert(position != NULL);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; position = position-&gt;next;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>void List&lt;T&gt;::Iterator::operator--(int dummy)</tt><tt><br>
+        </tt><tt>{&nbsp; if (position == NULL) position = last;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;
           else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
 
@@ -674,75 +780,73 @@
 
 
 
-          position = position-&gt;previous;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; assert(position != NULL);</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>bool
-          List&lt;T&gt;::Iterator::operator==(Iterator b) const</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; return position == b.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>bool
-          List&lt;T&gt;::Iterator::operator!=(Iterator b) const</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; return position != b.position;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>Node&lt;T&gt;::Node(T s)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; data = s;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; previous = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; next = NULL;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::copy(const
-          List&lt;T&gt;&amp; b)</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; for (Iterator p = b.begin(); p !=
-          b.end(); p++)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push_back(*p);</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>template&lt;typename T&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>void List&lt;T&gt;::free()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; while (begin() != end()) erase(begin());</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>int main()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; List&lt;string&gt; staff;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Cracker, Carl");</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Hacker, Harry");</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Lam, Larry");</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.push_back("Sandman, Susan");</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; /* add a value in fourth place */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; List&lt;string&gt;::Iterator pos;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos = staff.begin();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.insert(pos, "Reindeer,
-          Rudolf");</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; /* remove the value in second place
-          */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos = staff.begin();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; pos++;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; staff.erase(pos);</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; /* print all values */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; for (pos = staff.begin(); pos !=
-          staff.end(); pos++)</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
-          *pos &lt;&lt; "\n";</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return 0;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b></p>
+
+
+          position = position-&gt;previous;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; assert(position != NULL);</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>bool List&lt;T&gt;::Iterator::operator==(Iterator b)
+          const</tt><tt><br>
+        </tt><tt>{&nbsp; return position == b.position;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>bool List&lt;T&gt;::Iterator::operator!=(Iterator b)
+          const</tt><tt><br>
+        </tt><tt>{&nbsp; return position != b.position;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>Node&lt;T&gt;::Node(T s)</tt><tt><br>
+        </tt><tt>{&nbsp; data = s;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; previous = NULL;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; next = NULL;</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>void List&lt;T&gt;::copy(const List&lt;T&gt;&amp; b)</tt><tt><br>
+        </tt><tt>{&nbsp; for (Iterator p = b.begin(); p != b.end(); p++)</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push_back(*p);</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>template&lt;typename T&gt;</tt><tt><br>
+        </tt><tt>void List&lt;T&gt;::free()</tt><tt><br>
+        </tt><tt>{&nbsp; while (begin() != end()) erase(begin());</tt><tt><br>
+        </tt><tt>}</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>int main()</tt><tt><br>
+        </tt><tt>{&nbsp; List&lt;string&gt; staff;</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; staff.push_back("Cracker, Carl");</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; staff.push_back("Hacker, Harry");</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; staff.push_back("Lam, Larry");</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; staff.push_back("Sandman, Susan");</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; /* add a value in fourth place */</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; List&lt;string&gt;::Iterator pos;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; pos = staff.begin();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; pos++;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; pos++;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; pos++;</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; staff.insert(pos, "Reindeer, Rudolf");</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; /* remove the value in second place */</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; pos = staff.begin();</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; pos++;</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; staff.erase(pos);</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; /* print all values */</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; for (pos = staff.begin(); pos !=
+          staff.end(); pos++)</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; *pos
+          &lt;&lt; "\n";</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; return 0;</tt></font><tt><br>
+      </tt><tt>}</tt></p>
     <hr size="2" width="100%">
   </body>
 </html>
