@@ -1,0 +1,849 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <title>Advanced Control Flow</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body style="color: rgb(0, 0, 0); background-color: rgb(255, 255, 255);">
+<h2>Chapter 7: Advanced Control Flow</h2>
+<h2>Chapter Goals</h2>
+<ul>
+  <li><font size="+1">To recognize the correct ordering of decisions in
+multiple branches </font></li>
+  <li><font size="+1">To program conditions using Boolean operators and
+variables</font></li>
+  <li><font size="+1">To understand nested branches and loops</font></li>
+  <li><font size="+1">To be able to program loops with the <tt>for</tt>
+and <tt>do/while</tt> statements</font></li>
+  <li><font size="+1">To learn how to process character, word, and line
+input</font></li>
+  <li><font size="+1">To learn how to read input from a file through
+redirection</font></li>
+  <li><font size="+1">To implement approximations and simulations</font></li>
+</ul>
+<h2>Multiple Alternatives</h2>
+<ul>
+  <li><font size="+1">By using collections of <tt>if/else</tt>
+statements, a program can distinguish between multiple alternatives.</font></li>
+  <li><font size="+1">Example: The user enters the name of a coin, and
+the program returns the value.</font></li>
+  <li>
+<font size="+1">This program has five alternatives to choose from:</font>
+    <ul>
+      <li><font size="+1"><tt>"penny"</tt></font></li>
+      <li><tt><font size="+1">"nickel"</font></tt></li>
+      <li><tt><font size="+1">"dime"</font></tt></li>
+      <li><tt><font size="+1">"quarter"</font></tt></li>
+      <li><font size="+1">erroneous input</font></li>
+    </ul>
+  </li>
+  <li><font size="+1">The order that the alternatives are checked is
+unimportant.</font></li>
+</ul>
+<h2>Multiple Alternatives (Coins Flowchart)</h2>
+<img src="images/multi-branches.png">
+<h2>Multiple Alternatives (<a href="../../sources/ch7/coins5.cpp"><tt>coins6.cpp</tt></a>)</h2>
+<iframe src="code/coins6.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">In some cases, the order of the tests is
+important. </font></li>
+  <li><font size="+1">Example: A program that displays a description of
+the likely impact of an earthquake based on its magnitude on the
+Richter scale.</font></li>
+  <li><font size="+1">Note that the order of the tests ensures that the
+right results are printed (see following code).</font></li>
+  <li>
+<font size="+1">Note that the </font><font size="+1"><span style="font-family: monospace;">if/else</span></font><font size="+1">
+structure ensure the alternatives are exclusive.
+Independent </font><font size="+1"><span style="font-family: monospace;">if</span></font><font size="+1">
+statements may cause a single input to print several messages.</font>
+</li>
+</ul>
+<h2>Multiple Alternatives (<a href="../../sources/ch7/richter.cpp"><tt>richter.cpp</tt></a>)</h2>
+<iframe src="code/richter.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr style="width: 100%; height: 2px;">
+<h2>Nested Branches</h2>
+<ul>
+  <li><font size="+1">Nested <tt>if/else</tt> statements can be used
+when there are two (or more) <i>levels</i> of decision making.</font></li>
+  <li>
+<font size="+1">Example: Taxes</font>
+    <ul>
+      <li><font size="+1">There is a different table for each marital
+status (decision 1).</font></li>
+      <li><font size="+1">Once you have found the right table, your are
+taxed differently according to your income (decision 2).</font></li>
+    </ul>
+  </li>
+  <blockquote>
+    <p>
+    </p>
+<table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr align="center" bgcolor="#00ffff">
+          <td><font size="+1">If your status is Single and <br>
+if the taxable income is over</font></td>
+          <td><font size="+1">but not over</font></td>
+          <td><font size="+1">the tax is</font></td>
+          <td><font size="+1">of the amount over</font></td>
+        </tr>
+        <tr align="center" bgcolor="#ffffff">
+          <td><font size="+1">$0</font></td>
+          <td><font size="+1">$21,450</font></td>
+          <td><font size="+1">15%</font></td>
+          <td><font size="+1">$0</font></td>
+        </tr>
+        <tr align="center" bgcolor="#ffffff">
+          <td><font size="+1">$21,450</font></td>
+          <td><font size="+1">$51,900</font></td>
+          <td><font size="+1">$3,217.50 + 28%</font></td>
+          <td><font size="+1">$21,450</font></td>
+        </tr>
+        <tr align="center" bgcolor="#ffffff">
+          <td><font size="+1">$51,900</font></td>
+          <td>
+<br>
+          </td>
+          <td><font size="+1">$11,743 + 31%</font></td>
+          <td><font size="+1">$51,900</font></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <p>
+    </p>
+<table bgcolor="black" border="1" cellpadding="6">
+      <tbody>
+        <tr align="center" bgcolor="#00ffff">
+          <td><font size="+1">If your status is Married and <br>
+if the taxable income is over</font></td>
+          <td><font size="+1">but not over</font></td>
+          <td><font size="+1">the tax is</font></td>
+          <td><font size="+1">of the amount over</font></td>
+        </tr>
+        <tr align="center" bgcolor="#ffffff">
+          <td><font size="+1">$0</font></td>
+          <td><font size="+1">$35,800</font></td>
+          <td><font size="+1">15%</font></td>
+          <td><font size="+1">$0</font></td>
+        </tr>
+        <tr align="center" bgcolor="#ffffff">
+          <td><font size="+1">$35,800</font></td>
+          <td><font size="+1">$86,500</font></td>
+          <td><font size="+1">$5,370.00 + 28%</font></td>
+          <td><font size="+1">$35,800</font></td>
+        </tr>
+        <tr align="center" bgcolor="#ffffff">
+          <td><font size="+1">$86,500</font></td>
+          <td>
+<br>
+          </td>
+          <td><font size="+1">$19,566.00+ 31%</font></td>
+          <td><font size="+1">$86,500</font></td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </blockquote>
+</ul>
+<font size="+1">        The two-level
+decision process is
+reflected in
+two levels of <tt>if</tt> statements.</font>
+<ul>
+  <li><font size="+1">We say the income test is <i>nested</i> inside
+the test for filing status.<img src="images/nested-branches.png" height="442" width="635"></font></li>
+  <li><font size="+1">More complicated decisions may require deeper
+levels of nesting.</font></li>
+</ul>
+<h2>Nested Branches (<a href="../../sources/ch7/tax.cpp"><tt>tax.cpp</tt></a>)</h2>
+<iframe src="code/tax.cpp.html" height="80%" width="80%">Your browser
+does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<hr>
+<h2>Boolean Operations</h2>
+<ul>
+  <li><font size="+1">An operator that combines test conditions is
+called a <i>logical</i> operator.</font></li>
+  <li><font size="+1">The <tt>&amp;&amp;</tt> (<i>and</i>) operator
+combines several tests into a new test that passes only when <span style="font-style: italic;">all</span> the
+conditions are <span style="font-family: monospace;">true</span>.</font></li>
+  <li><font size="+1">Example: Suppose you want to test whether your
+homework is due right now. The test passes only if both fields match.
+    <blockquote>
+      <pre>if (now.get_hours() == homework.get_hours() <span style="font-weight: bold;">&amp;&amp;</span><br>    <span style="font-weight: bold;"></span>now.get_minutes() == homework.get_minutes())<br>        cout &lt;&lt; "The homework is due right now!\n";</pre>
+    </blockquote>
+    </font></li>
+  <li><big style="font-family: monospace;"><a href="../../sources/ch7/hwdue1.cpp">hwdue1.cpp</a></big></li>
+  <li><big style="font-family: monospace;"><a href="../../sources/ch7/hwdue2.cpp">hwdue2.cpp</a></big></li>
+  <li><font size="+1">The <tt>||</tt> (<i>or</i>) operator combines
+two or more conditions and succeeds if <span style="font-style: italic;">at least one</span> of the conditions
+is <span style="font-family: monospace;">true</span>.
+    <blockquote>
+      <pre>if (state == "HI" || state == "AK")<br>                     shipping_charge = 10.00;</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<blockquote>
+<img src="images/boolean-ops.png"><br>
+ <font size="+1">The <tt>&amp;&amp;</tt> and <tt>||</tt>
+operators are computed using <i>lazy evaluation</i>.</font>
+</blockquote>
+<ul>
+  <li><font size="+1">The expressions are evaluated from left to right,
+and evaluation stops as soon as the truth value is determined.
+    <blockquote>
+      <pre>if (cin.fail() || area &lt; 0) cout &lt;&lt; "Input error.\n";<br>	<br>if (r &gt;= 0 &amp;&amp; -b / 2 + sqrt(r) &gt;= 0) ...</pre>
+    </blockquote>
+    </font></li>
+  <li>
+<font size="+1">The <tt>!</tt> (<i>not</i>) operator takes a
+single condition and evaluates to </font><font size="+1"><span style="font-family: monospace;">true</span></font><font size="+1"> if
+that condition is </font><font size="+1"><span style="font-family: monospace;">false</span></font><font size="+1">
+and to </font><font size="+1"><span style="font-family: monospace;">false</span></font><font size="+1"> if that condition is </font><font size="+1"><span style="font-family: monospace;">true</span></font><font size="+1">.
+    <blockquote>
+      <pre>if (!cin.fail()) quarters = quarters + n;</pre>
+    </blockquote>
+    </font>
+</li>
+  <li>
+<font size="+1">Summary:</font>
+    <p>
+    </p>
+<table border="0" cellpadding="4">
+      <tbody>
+        <tr>
+          <td>
+          <div align="center">
+          <table bgcolor="black" border="1" cellpadding="4">
+            <tbody>
+              <tr bgcolor="#00ffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><i><font size="+1">A</font></i></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><i><font size="+1">B</font></i></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center">
+<i><font size="+1">A</font></i><font size="+1"> </font><font size="+1">&amp;&amp;</font><font size="+1"> </font><i><font size="+1">B</font></i>
+</div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+                <td width="70">
+                <div align="center"><font size="+1">Any</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          </td>
+          <td width="20%"> <br>
+          </td>
+          <td>
+          <div align="center">
+          <table bgcolor="black" border="1" cellpadding="4">
+            <tbody>
+              <tr bgcolor="#00ffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><i><font size="+1">A</font></i></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><i><font size="+1">B</font></i></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center">
+<i><font size="+1">A</font></i><font size="+1"> </font><font size="+1">||</font><i><font size="+1">B</font></i>
+</div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+                <td width="70">
+                <div align="center"><font size="+1">Any</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+                <td style="font-family: monospace;" width="70">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          </td>
+        </tr>
+        <tr>
+          <td> <br>
+          </td>
+          <td>
+          <div align="center">
+          <table bgcolor="black" border="1" cellpadding="4">
+            <tbody>
+              <tr bgcolor="#00ffff">
+                <td style="font-family: monospace;" width="60">
+                <div align="center"><font size="+1"><i>A</i></font></div>
+                </td>
+                <td style="font-family: monospace;" width="60">
+                <div align="center"><font size="+1">!<i>A</i></font></div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="60">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+                <td style="font-family: monospace;" width="60">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+              </tr>
+              <tr bgcolor="#ffffff">
+                <td style="font-family: monospace;" width="60">
+                <div align="center"><font size="+1">false</font></div>
+                </td>
+                <td style="font-family: monospace;" width="60">
+                <div align="center"><font size="+1">true</font></div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          </div>
+          </td>
+          <td> <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </li>
+</ul>
+<hr style="width: 100%; height: 2px;">
+<h2>DeMorgan's Law</h2>
+<ul>
+  <li><font size="+1">Humans generally have a hard time comprehending
+logical conditions with <i>not</i> operators applied to <i>and</i>/<i>or</i>
+expressions. Suppose we want to charge a higher shipping rate if we
+don't ship within the continental United States.
+    <blockquote>
+      <pre>if (!(country == "USA" &amp;&amp; state != "AK" &amp;&amp; state != "HI"))<br>                      shipping_charge = 20.00;</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">DeMorgan's Law can be used to simplify these
+Boolean expressions.</font></li>
+  <li>
+<font size="+1">DeMorgan's Law has two forms:</font>
+    <p align="center">
+    </p>
+<table style="width: 594px; height: 92px;" border="0" cellpadding="4">
+      <tbody>
+        <tr>
+          <td style="font-family: monospace;" width="100">
+<big> </big>
+          <div align="center"><big>not (A and B)</big></div>
+          <big> </big>
+</td>
+          <td width="100">
+<big> </big>
+          <div align="center"><big>is the same as</big></div>
+          <big> </big>
+</td>
+          <td style="font-family: monospace;" width="100">
+<big> </big>
+          <div align="center"><big>not A or not B</big></div>
+          <big> </big>
+</td>
+        </tr>
+        <tr>
+          <td style="font-family: monospace;" width="100">
+<big> </big>
+          <div align="center"><big>not (A or B)</big></div>
+          <big> </big>
+</td>
+          <td width="100">
+<big> </big>
+          <div align="center"><big>is the same as</big></div>
+          <big> </big>
+</td>
+          <td style="font-family: monospace;" width="100">
+<big> </big>
+          <div align="center"><big>not A and not B</big></div>
+          <big> </big>
+</td>
+        </tr>
+      </tbody>
+    </table>
+    
+  </li>
+  <li><font size="+1">Pay particular attention to the fact that the <span style="font-family: monospace;">and</span>
+and <span style="font-family: monospace;">or</span> operators are
+reversed by moving the <span style="font-family: monospace;">not</span>
+inwards.</font></li>
+  <li><font size="+1">Example:
+    <blockquote>
+      <pre>state != "AK" &amp;&amp; state != "HI"</pre>
+    </blockquote>
+means
+    <blockquote>
+      <pre>!(state == "AK") &amp;&amp; !(state == "HI")</pre>
+    </blockquote>
+Applying DeMorgan's Law to the original expression yields
+    <blockquote>
+      <pre>!(state == "AK" || state == "HI")</pre>
+    </blockquote>
+Finally we have<br>
+    <blockquote>
+      <pre>if (country != "USA" || state == AK" || state == "HI") ...</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<hr width="100%">
+<h2>The <tt>for</tt> Loop</h2>
+<ul>
+  <li><font size="+1">The most common loop has the form
+    <blockquote>
+      <pre>i = <i>start</i>;<br>while (i &lt;= <i>end</i>)<br>{  . . . <br>   i++;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Because this loop is so common, there is a
+special form for it.
+    <blockquote>
+      <pre>for(i = <i>start</i>; i &lt;= <i>end</i>; i++)</pre>
+    </blockquote>
+    </font></li>
+  <li>
+<font size="+1">Example: Let us compute the function <span style="font-style: italic;">factorial</span>, <span style="font-style: italic;">n</span>!<span style="font-style: italic;">
+=</span> 1.2.3.4<span style="font-style: italic;">...n.</span> </font>
+    <blockquote>
+      <pre><font size="+1">int product = 1;<br>for (int i = 1; i &lt;= n; i++) product = product * i;</font></pre>
+    </blockquote>
+    <p><img src="images/for-loop.png"></p>
+  </li>
+</ul>
+<h2>Syntax 7.1: <tt>for</tt> Statement</h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 7.1 : <tt>for</tt>
+Statement</font></p>
+      <pre><font size="+1">for (<i>initialization_expression</i>;<i> condition</i>;<i> update_expression</i>)<i> statement</i></font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td height="30" valign="top">
+<font color="#00ffff" size="+1">Example:</font><font size="+1"> </font>
+</td>
+            <td height="30">
+            <pre><font size="+1">for (int i = 1; i &lt;= 10; i++) sum = sum + i;</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td><font color="#00ffff" size="+1">Purpose:</font></td>
+            <td><font size="+1">Execute the initialization statement.
+While the condition remains true, execute the statement and update the
+expression.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<hr style="width: 100%; height: 2px;">
+<h2>The <tt>for</tt> Loop (<a href="../../sources/ch7/forfac.cpp"><tt>forfac.cpp</tt></a>)</h2>
+<iframe src="code/forfac.cpp.html" height="70%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">We can count down instead of up:
+    <blockquote>
+      <pre>for(int n = 10; n &gt;= 0; n--) ...</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">The increment or decrement need not be in step 1:
+    <blockquote>
+      <pre>for(x = -10; x &lt;= 10; x = x + 0.5) ...</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">It is possible to put unrelated conditions into
+the loop (bad taste):
+    <blockquote>
+      <pre>for(rate = 6; month--; cout &lt;&lt; balance) ...</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<hr width="100%">
+<h2>The <tt>do</tt> Loop</h2>
+<ul>
+  <li><font size="+1">Sometimes you want to execute the body of a loop
+at least once and perform the loop test after the body was executed.</font></li>
+  <li><font size="+1">The <tt>do/while</tt> loop serves that purpose.
+    <blockquote>
+      <pre>do<br>{ <i>statements</i><br>}<br>while (<i>condition</i>);</pre>
+    </blockquote>
+    </font></li>
+  <li>
+<font size="+1">Example: A simple approximation algorithm to
+compute square root (ancient Greeks) - the sequence <br>
+    <br>
+    </font>
+    <div style="text-align: center;"><font size="+1"><span style="font-style: italic;">x</span><sub>0</sub>
+= <span style="font-style: italic;">a</span>,  <span style="font-style: italic;">x<sub>n+</sub></span><sub>1</sub> = (<span style="font-style: italic;"> x<sub>n</sub></span> + <span style="font-style: italic;">x/x<sub>n </sub></span>) / 2<br>
+    </font></div>
+    <font size="+1">converges and has limit square
+root of <span style="font-style: italic;">a</span>.
+    <blockquote>
+      <pre>do<br>{  xold = xnew;<br>   xnew = (xold + a / xold) / 2;<br>}<br>while (fabs(xnew - xold) &gt; EPSILON);</pre>
+    </blockquote>
+    <blockquote>
+      <p><img src="images/do-loop.png"></p>
+    </blockquote>
+    </font>
+</li>
+  <font size="+1"> </font>
+</ul>
+<h2><font size="+1">The <tt>do</tt> Loop (<a href="../../sources/ch7/sqroot.cpp"><tt>sqroot.cpp</tt></a>)</font></h2>
+<iframe src="code/sqroot.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<h2><font size="+1">The <tt>do</tt> Loop (Syntax 7.2: <tt>do/while</tt>
+Statement)</font></h2>
+<table bgcolor="#00ffff" border="1" cellpadding="4">
+  <tbody>
+    <tr>
+      <td bgcolor="#ffffff">
+      <p><font color="#00ffff" size="+1">Syntax 7.2: <tt>do/while</tt>
+Statement</font></p>
+      <pre><font size="+1">do<i> statement </i>while (<i>condition</i>);</font></pre>
+      <table border="0" cellpadding="4">
+        <tbody>
+          <tr>
+            <td valign="top">
+<font color="#00ffff" size="+1">Example:</font><font size="+1"> </font>
+</td>
+            <td>
+            <pre><font size="+1">do x = sqrt(x); while (x &gt;= 10);</font></pre>
+            </td>
+          </tr>
+          <tr>
+            <td>
+<font color="#00ffff" size="+1">Purpose:</font><font size="+1"> </font>
+</td>
+            <td><font size="+1">Execute the statement, then test the
+condition, and repeat the statement while the condition remains true.</font></td>
+          </tr>
+        </tbody>
+      </table>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Nested Loops</h2>
+<ul>
+  <li><font size="+1">How can we print a table of
+values?</font></li>
+  <li><font size="+1">For example, this table tells you the fate of
+$10,000 invested under various interest rates for a different number of
+years.</font></li>
+</ul>
+<blockquote style="font-family: monospace;"><font size="+1"><img src="images/table.png"></font></blockquote>
+<ul>
+  <font size="+1"> <li><font size="+1">Here is the pseudocode:
+    <blockquote>
+      <pre><i>print table header</i><br>double rate;<br>for (rate = RATE_MIN; rate &lt;= RATE_MAX; <br>     rate = rate + RATE_INCR)<br>{  <i>print table row</i><br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">How do we print a table row? You need to program
+another loop.
+    <blockquote>
+      <pre>int year;<br>for (year = YEAR_MIN; year &lt;= YEAR_MAX;<br>     year = year + YEAR_INCR)<br>{  balance = future_value(initial_balance, rate, year);<br>   cout &lt;&lt; setw(10) &lt;&lt; balance;<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">It's a good idea to print the table header as a
+loop as well.
+    <blockquote>
+      <pre>cout &lt;&lt; "Rate     ";<br><font size="+1">int year;<br>for (year = YEAR_MIN; year &lt;= YEAR_MAX;<br>     year = year + YEAR_INCR)<br>{  cout &lt;&lt; setw(2) &lt;&lt; year &lt;&lt; " years";<br>}</font></pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Once everything is put together, you have the
+loop printing a single row <i>nested</i> in the loop that traverses
+the interest rates.</font></li>
+  </font>
+</ul>
+<h2>Nested Loops (<a href="../../sources/ch7/table.cpp"><tt>table.cpp</tt></a>)</h2>
+<iframe src="code/table.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<h2>Nested Loops</h2>
+<ul>
+  <li><font size="+1">Sometimes the iteration count
+of the inner loop
+depends on the outer loop.</font></li>
+  <li><font size="+1">Example: printing a triangle shape.
+    <blockquote>
+      <pre>[]<br>[][]<br>[][][]<br>[][][][]</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">To print <tt>n</tt> rows, use the loop.
+    <blockquote>
+      <pre>for (int i = 1; i &lt;= n; i++)<br>{  <i>print triangle row</i><br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Each row contains <tt>i</tt> boxes.
+    <blockquote>
+      <pre>for (int j = 1; j &lt;= i; j++) cout &lt;&lt; "[]";<br>cout &lt;&lt; "\n";</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">Putting the two loops together yields
+    <blockquote>
+      <pre>for <font size="+1">(int i = 1; i &lt;= n; i++)</font><br>{<font size="+1">  for (int j = 1; j &lt;= i; j++) cout &lt;&lt; "[]";<br>   cout &lt;&lt; "\n";</font><br>}</pre>
+    </blockquote>
+    </font></li>
+  <li>
+<a href="../../sources/ch7/triangle.cpp"><font size="+1"><span style="font-family: monospace;">triangle.cpp</span></font></a><font size="+1"><br>
+    </font>
+</li>
+</ul>
+<hr width="100%">
+<h2>Processing Text Input</h2>
+<ul>
+  <li><font size="+1">When processing text input, is
+the input
+structured as a sequence of <i>characters</i>, <i>words</i>, or <i>lines</i>?</font></li>
+  <li><font size="+1">To input a sequence of word, use the loop
+    <blockquote>
+      <pre>string word;<br>while (cin &gt;&gt; word)<br>{  <i>process </i>word<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1"><tt>cin &gt;&gt; word</tt> has the same value as <tt>cin</tt>
+- it is the same test as <tt>!cin.fail()</tt>.</font></li>
+  <li><font size="+1">To process input one line at a time, use the <tt>getline</tt>
+function.
+    <blockquote>
+      <pre>string line;<br>while (getline(cin, line))<br>{  <i>process</i> line<br>}</pre>
+    </blockquote>
+    </font></li>
+  <li><font size="+1">As above, the <tt>getline</tt> function returns <tt>cin</tt>,
+so you can test that <tt>cin</tt> hasn't yet failed.</font></li>
+  <li><font size="+1">To process input character by character, use the
+loop
+    <blockquote>
+      <pre>char ch;<br>while (cin.get(ch))<br>{  <i>process</i> ch<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Processing Text Input (<a href="../../sources/ch7/words.cpp"><tt>words.cpp</tt></a>)</h2>
+<iframe src="code/words.cpp.html" height="50%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><big>You would type text in, and at the end of
+the input the
+program
+would tell you how many words you typed. (You would never want to use
+such a program!)</big></li>
+  <li><big>The program makes a lot of sense if input is read from a
+file.</big></li>
+  <li>
+<big>To link a file to the input of a program you type </big>
+    <blockquote>
+<big> </big>
+      <pre><big>words &lt; article.txt</big></pre>
+      <big> </big>
+</blockquote>
+    <big>on a command line. The input instructions no longer expect
+input from
+the keyboard but from the file <span style="font-family: monospace;">article.txt</span>.
+    </big>
+</li>
+  <li><big>Input redirection on the command line.</big></li>
+  <li>
+<big>If you can redirect also output of this program you type </big>
+    <blockquote>
+<big> </big>
+      <pre><big>words &lt; article.txt &gt; output.txt</big></pre>
+      <big> </big>
+</blockquote>
+  </li>
+</ul>
+<hr width="100%">
+<h2>Simulations</h2>
+<ul>
+  <li><font size="+1">The C++ library has a <i>random
+number
+generator</i>,
+which produces numbers that appear to be random.</font></li>
+  <li><font size="+1">Calling <tt>rand()</tt> yields a random
+number
+between 0 and <tt>RAND_MAX</tt> (usually 32767, but implementation
+dependent).</font></li>
+  <li><font size="+1">These numbers actual come from a a very long
+sequence of numbers computed from fairly simple formulas; they just
+behave like random numbers. </font></li>
+  <li><font size="+1">For that reason they are often called <i>pseudorandom</i>
+numbers.</font></li>
+  <li><font size="+1">The following program produces the <i>exact
+same
+output</i> every time the program is run (because the numbers are
+generated with formulas).
+    <blockquote>
+      <pre>int main()<br>{  int i;<br>   for (i = 1; i &lt;= 10; i++)<br>   {  int r = rand();<br>      cout &lt;&lt; r &lt;&lt; "\n";<br>   }<br>   return 0;<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<ul>
+  <li>
+<font size="+1">When you specify a new <i>seed</i>
+for the
+random number sequence, the generator generates a new (different)
+sequence.</font> </li>
+  <li>
+<font size="+1">The seed is set with the <tt>srand</tt>
+function.</font> </li>
+  <li>
+<font size="+1">By setting the seed based on the time, the
+random
+numbers will be different every time you run the program.
+    <blockquote>
+      <pre>Time now;<br>int seed = now.seconds_from(Time(0,0,0));<br>srand(seed);</pre>
+    </blockquote>
+    </font> </li>
+</ul>
+<ul>
+  <li><font size="+1">In actual applications you want
+to generate
+random numbers in different ranges, say between <tt>a</tt> and <tt>b</tt>.</font></li>
+  <li><font size="+1">For example, to simulate a die roll, you need
+numbers between <tt>a = 1</tt> and <tt>b = 6</tt>.</font></li>
+  <li><font size="+1">First compute <tt>rand() % (b - a + 1)</tt>
+to obtain a random value between 0 and <tt>b - a</tt>.</font></li>
+  <li><font size="+1">Add that to <tt>a</tt> to yield a random
+value
+between <tt>a</tt> and <tt>b</tt>.
+    <blockquote>
+      <pre>int rand_int(int a, int b)<br>{  return a + rand() % (b - a + 1);<br>}</pre>
+    </blockquote>
+    </font></li>
+</ul>
+<h2>Simulations (<a href="../../sources/ch7/dice.cpp"><tt>dice.cpp</tt></a>)</h2>
+<iframe src="code/dice.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe>
+<ul>
+  <li><font size="+1">To generate a random <i>floating-point
+number</i>,
+note that the quantity <tt>rand() * 1.0 / RAND_MAX
+    </tt>is a random floating-point value between 0 and 1.</font></li>
+  <li>
+<font size="+1">The </font><font size="+1"><span style="font-family: monospace;">1.0</span></font><font size="+1">
+ensures that the division is a
+floating-point number.
+    <blockquote>
+      <pre>double rand_double(double a, double b)<br>{  return a + (b - a) * rand() * (1.0 / RAND_MAX);<br>}</pre>
+    </blockquote>
+    </font>
+</li>
+</ul>
+<hr width="100%">
+<h2>Simulations (Buffon Needle Experiment)</h2>
+<ul>
+  <li><font size="+1">Devised by Comte George-Louis
+Leclerc de
+Buffon
+(1707-1788), a French naturalist.<br>
+    </font></li>
+  <li><font size="+1">A needle of length 1 inch is dropped onto
+paper
+that is ruled with parallel lines 2 inches apart.</font></li>
+  <li><font size="+1">If the needle drops onto a line, we count it
+as a <i>hit</i>.</font></li>
+  <li><font size="+1">The quotient <i>tries</i> / <i>hits</i>
+approximates <span style="font-style: italic;">pi</span>.</font></li>
+  <li><font size="+1">Our program randomly generates the lower
+point of
+the needle and an angle.</font></li>
+  <li><font size="+1">The upper point of the needle is given by <i>y</i><sub>high</sub>
+= <i>y</i><sub>low</sub> + sin(<i>angle</i>).</font></li>
+  <li><font size="+1">If <i>y</i><sub>high</sub> &gt;= 2, we count
+the
+needle as a hit.</font></li>
+</ul>
+<blockquote><img src="images/needle2.png"></blockquote>
+<h2>Simulations (<a href="../../sources/ch7/buffon.cpp"><tt>buffon.cpp</tt></a>)</h2>
+<iframe src="code/buffon.cpp.html" height="80%" width="80%">Your
+browser does not support the
+&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;iframe&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;
+tag.</iframe><br>
+<ul>
+  <li><font size="+1">The point of this program is not to compute <span style="font-style: italic;">pi</span> (after all, we
+needed the value of <span style="font-style: italic;">pi</span> in the
+    <span style="font-family: monospace;">deg2rad</span>
+function). Rather, the point is to show how to a physical experiment
+can be simulated on the computer.
+    </font></li>
+</ul>
+<hr>
+</body>
+</html>
