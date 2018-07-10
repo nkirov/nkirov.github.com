@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>LinkedStack1</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: LinkedStack1</font></h2>
+<br><dl><dd><pre>
+
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Object&gt;
+<font color="#A000A0">class</font> LinkedStack {
+<font color="#A000A0">protected</font>:                              	<font color="#0000FF">// local node structure</font>
+  <font color="#0000FF">// ... (insert Node here)</font>
+<font color="#A000A0">private</font>:                                	<font color="#0000FF">// member data</font>
+  NodePtr tp;					<font color="#0000FF">// pointer to stack top</font>
+  <font color="#A000A0">int</font> sz;					<font color="#0000FF">// number of items in stack</font>
+<font color="#A000A0">public</font>:
+  <font color="#000000">LinkedStack</font>() {				<font color="#0000FF">// default constructor</font>
+    tp = NULL;
+    sz = 0;
+  }
+  <font color="#A000A0">int</font> <font color="#000000">size</font>() <font color="#A000A0">const</font> { <font color="#00A000">return</font> sz; }		<font color="#0000FF">// number of elements in stack</font>
+  <font color="#A000A0">bool</font> <font color="#000000">isEmpty</font>() <font color="#A000A0">const</font> { <font color="#00A000">return</font> sz == 0; }	<font color="#0000FF">// is the stack empty?</font>
+  						<font color="#0000FF">// return stack top</font>
+  Object&amp; <font color="#000000">top</font>() <font color="#00A000">throw</font>(StackEmptyException) {
+    <font color="#00A000">if</font> (<font color="#000000">isEmpty</font>())
+      <font color="#00A000">throw</font> <font color="#000000">StackEmptyException</font>(<font color="#0000FF">"Top of empty stack"</font>);
+    <font color="#00A000">return</font> tp-&gt;element;
+  }
+  <font color="#A000A0">void</font> <font color="#000000">push</font>(<font color="#A000A0">const</font> Object&amp; e) {			<font color="#0000FF">// push element onto stack</font>
+    NodePtr v = <font color="#A000A0">new</font> <font color="#000000">Node</font>(e, tp);
+    tp = v;					<font color="#0000FF">// v is now the top</font>
+    sz++;
+  }
+  Object <font color="#000000">pop</font>() <font color="#00A000">throw</font>(StackEmptyException) {	<font color="#0000FF">// pop top element</font>
+    <font color="#00A000">if</font> (<font color="#000000">isEmpty</font>())
+      <font color="#00A000">throw</font> <font color="#000000">StackEmptyException</font>(<font color="#0000FF">"Pop of empty stack"</font>);
+    NodePtr old = tp;				<font color="#0000FF">// node to remove</font>
+    tp = tp-&gt;next;
+    sz--;
+    Object result = old-&gt;element;		<font color="#0000FF">// element to return</font>
+    <font color="#A000A0">delete</font> old;
+    <font color="#00A000">return</font> result;
+  }
+<font color="#0000FF">// ... (insert housekeeping functions here)</font>
+};
+</pre></dd></dl>
+</body>
+</html>
