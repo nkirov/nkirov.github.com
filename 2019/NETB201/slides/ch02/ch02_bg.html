@@ -85,9 +85,11 @@
     <a
 href="http://stackoverflow.com/questions/461203/when-to-use-virtual-destructors">When
 
+
       to use virtual destructors?</a><br>
     <a
 href="http://www.programmerinterview.com/index.php/c-cplusplus/virtual-destructors/">In
+
 
       C++, what’s a virtual destructor and when is it needed?</a>
     <h3>Полиморфизъм</h3>
@@ -116,14 +118,15 @@ href="http://www.programmerinterview.com/index.php/c-cplusplus/virtual-destructo
           <pre><span style="color: rgb(51, 51, 255);">template</span>&lt;<span style="color: rgb(51, 51, 255);">typename</span> T&gt;      // parameter list<br>T min(T a, T b)           // returns the minimum of a and b<br>{ <span style="color: rgb(51, 51, 255);">return</span> (a &lt; b ? a : b); } <br></pre>
         </blockquote>
       </li>
-      <li>Ние можем да извикаме нашата функция-шаблон за изчисляване на
-        минимума на обекти от различни типове. <br>
+      <li>Функцията-шаблон се извиква за изчисляване на минимума на
+        обекти от различни типове. <br>
       </li>
       <li>Може да използва всеки тип, при условие, че операция по-малко
         (&lt;) е дефинирана (предефинирана) за този тип. <br>
       </li>
       <li>Компилаторът разглежда типовете на аргументите на функцията за
-        да определи коя форма на функцията да приложи:<br>
+        да определи коя форма на функцията да приложи - да определи тип
+        за параметъра на шаблона.<br>
         <blockquote>
           <pre>cout &lt;&lt; min(3, 4);      // invokes min&lt;int&gt;(3,4)<br>cout &lt;&lt; min(6.9, 3.5);  // invokes min&lt;double&gt;(6.9, 3.5)<br>cout &lt;&lt; min('t', 'g');  // invokes min&lt;char&gt;('t', 'g')<br></pre>
         </blockquote>
@@ -134,7 +137,7 @@ href="http://www.programmerinterview.com/index.php/c-cplusplus/virtual-destructo
       <pre><span style="color: rgb(51, 51, 255);">template</span> &lt;<span style="color: rgb(51, 51, 255);">typename</span> Object&gt;<br><span style="color: rgb(51, 51, 255);">class</span> BasicVector {<br>   Object* a;                  // array storing an element<br>   <span style="color: rgb(51, 51, 255);">int</span> capacity;               // length of array a<br>public:<br>   BasicVector(<span style="color: rgb(51, 51, 255);">int</span> cap = 10)   // constructor<br>   {  capacity = cap;<br>      a = <span style="color: rgb(51, 51, 255);">new</span> Object[capacity];// allocate array storage<br>   }<br>   Object&amp; elemAtRank(<span style="color: rgb(51, 51, 255);">int</span> r)   // access element at index r<br>   {  <span style="color: rgb(51, 51, 255);">return</span> a[r];  }<br>// ...<br>};<br></pre>
     </blockquote>
     <blockquote>
-      <pre>BasicVector&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt; iv(5);     // vector of 5 integers<br>BasicVector&lt;<span style="color: rgb(51, 51, 255);">double</span>&gt; dv(20); // vector of 20 doubles<br>BasicVector&lt;string&gt; sv(10); // vector of 10 strings<br>//...<br>iv.elemAtRank(3) = 8;       // iv[3] = 8;<br>dv.elemAtRank(14) = 2.5;    // dv[14] = 2.5<br>sv.elemAtRank(7) = <span style="color: rgb(204, 0, 0);">"hello"</span>; // sv[7] = "hello"<br></pre>
+      <pre>BasicVector&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt; iv(5);     // vector of 5 integers<br>BasicVector&lt;<span style="color: rgb(51, 51, 255);">double</span>&gt; dv(20); // vector of 20 doubles<br>BasicVector&lt;string&gt; sv;     // vector of 10 strings<br>//...<br>iv.elemAtRank(3) = 8;       // iv[3] = 8;<br>dv.elemAtRank(14) = 2.5;    // dv[14] = 2.5<br>sv.elemAtRank(7) = <span style="color: rgb(204, 0, 0);">"hello"</span>; // sv[7] = "hello"<br></pre>
     </blockquote>
     <h3><span style="font-weight: bold;"></span></h3>
     <hr style="width: 100%; height: 2px;">
