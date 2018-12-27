@@ -1,0 +1,585 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>zdonev</title>
+  </head>
+  <body>
+    <a
+      href="https://www.hackerrank.com/nbu-december-2018-programming-contest">Декемврийско
+
+      състезание</a>&nbsp; на 15.12.2018, събота, 10:00, 702-2.<br>
+    <br>
+    <font size="+2"> </font><b>Решения на Здравко и Петър<br>
+      <br>
+    </b>A. Пароли<br>
+    <br>
+    <tt>#include &lt;cmath&gt;</tt><tt><br>
+    </tt><tt> #include &lt;cstdio&gt;</tt><tt><br>
+    </tt><tt> #include &lt;vector&gt;</tt><tt><br>
+    </tt><tt> #include &lt;iostream&gt;</tt><tt><br>
+    </tt><tt> #include &lt;algorithm&gt;</tt><tt><br>
+    </tt><tt> using namespace std;</tt><tt><br>
+    </tt><tt> </tt><tt><br>
+    </tt><tt> bool isPasswordValid(string pass, int len, int cap, int
+      dig, int spec) {</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; if(len&gt;pass.size()) {</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return false;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; int currLow=0;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; int currCap=0;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; int currDig=0;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; int currSpec=0;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; </tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; for(int i=0; i&lt;pass.size(); i++) {</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char currEl =
+      pass[i];</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; //workaround
+      for test compatibility</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(' '==currEl)
+      {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      return false;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; </tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; for(int i=0; i&lt;pass.size(); i++) {</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char currEl =
+      pass[i];</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool isCap =
+      ((currEl&gt;='A')&amp;&amp;(currEl&lt;='Z'));</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool isDig =
+      ((currEl&gt;='0')&amp;&amp;(currEl&lt;='9'));</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool isLow =
+      ((currEl&gt;='a')&amp;&amp;(currEl&lt;='z'));</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(isCap) {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      currCap++;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } </tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if(isDig)
+      {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      currDig++;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else
+      if((!isLow)&amp;&amp;(currEl!=' ')) {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      currSpec++;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      if((currCap&gt;=cap)&amp;&amp;(currDig&gt;=dig)&amp;&amp;(currSpec&gt;=spec))
+
+
+      {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      return true;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; return false;</tt><tt><br>
+    </tt><tt> }</tt><tt><br>
+    </tt><tt> </tt><tt><br>
+    </tt><tt> int main() {&nbsp;&nbsp; </tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; int len, cap, dig, spec, count;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; string pass="";</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; while(cin &gt;&gt; len &gt;&gt; cap
+      &gt;&gt; dig &gt;&gt; spec) {</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin &gt;&gt;
+      count;</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin.ignore();</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int i=0;
+      i&lt;count; i++) {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      getline(cin, pass);</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      if(isPasswordValid(pass, len, cap, dig, spec)) {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+      cout &lt;&lt; "yes" &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      else {</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+      cout &lt;&lt; "no" &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt> &nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt> } </tt>
+    <hr size="2" width="100%">B. Осем бита<br>
+    <br>
+    <tt>#include &lt;iostream&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>long long dp[66][9];</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; for (int k = 1; k &lt;= 8; k++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dp[k][k] = 1;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (int n =
+      k+1; n &lt;= 65; n++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      dp[n][k] = dp[n-1][k]*n/(n-k);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int t; cin &gt;&gt; t;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while (t--) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int x; cin
+      &gt;&gt; x;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; long long ans =
+      0;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int sz = 65;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (int i = 8;
+      i &gt;= 1; i--) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      while (sz--) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      if (dp[sz][i] &lt; x) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      x -= dp[sz][i];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      sz++;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      ans += (1 &lt;&lt; (sz-1));</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      break;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      ans &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">C. Намерете думата<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.sync_with_stdio(false);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.tie(0);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int rows, cols, k;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(cin &gt;&gt; rows &gt;&gt; cols
+      &gt;&gt; k) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      vector&lt;string&gt; myStrings;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;rows;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      string cur;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cin &gt;&gt; cur;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      myStrings.push_back(cur);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;cols;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      string cur;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      for(int j=0;j&lt;rows;j++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cur += myStrings[j][i];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      myStrings.push_back(cur);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; vector&lt;
+      vector&lt;bool&gt; &gt; used(rows, vector&lt;bool&gt;(cols,
+      false));</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;k;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      string curWord;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cin &gt;&gt; curWord;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      int cntMatch=0;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      for(int j=0;j&lt;myStrings.size();j++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      string s&nbsp; = myStrings[j];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      int curIdx=0;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      while((curIdx=s.find(curWord, curIdx)) != string::npos) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cntMatch++;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      curIdx+=curWord.size();</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; cntMatch &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">D. Монети<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.sync_with_stdio(false);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.tie(0);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int k;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(cin &gt;&gt; k) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const int
+      MAX_SIZE = 100001;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      vector&lt;int&gt; myVec(MAX_SIZE);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      vector&lt;int&gt; moneti(k);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;k;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cin &gt;&gt; moneti[i];</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      if (moneti[i] &lt; MAX_SIZE) myVec[moneti[i]]=1;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      for(int j=moneti[i]+1;j&lt;MAX_SIZE;j++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      if (myVec[j-moneti[i]] != 0 &amp;&amp; myVec[j] == 0) myVec[j]= 1
+      + myVec[j-moneti[i]];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      else if (myVec[j-moneti[i]] != 0 &amp;&amp; myVec[j] != 0)
+      myVec[j]= min(myVec[j], 1 + myVec[j-moneti[i]]);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int m;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin &gt;&gt; m;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;m;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      int x; cin &gt;&gt; x;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; myVec[x] &lt;&lt; " ";</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">E. Прозорец<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.sync_with_stdio(false);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.tie(0);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int m, n;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(cin &gt;&gt; m &gt;&gt; n) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      vector&lt;int&gt; numbers(m);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;m;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cin &gt;&gt; numbers[i];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; set&lt;int&gt;
+      ans;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      multiset&lt;int&gt; curWindow;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;n;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      curWindow.insert(numbers[i]);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      ans.insert(*curWindow.begin());</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;m-n;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      curWindow.erase( curWindow.find(numbers[i]));</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      curWindow.insert(numbers[i+n]);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      ans.insert(*curWindow.begin());</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      ans.size() &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <br>
+    <hr size="2" width="100%">F. Два цвята<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>vector&lt; vector&lt;int&gt; &gt; graph;</tt><tt><br>
+    </tt><tt>vector&lt;int&gt; colors;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>bool dfs(int node)</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int curColor = colors[node];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int nextColor = (curColor==1 ? 2 : 1);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; for(int i=0;i&lt;graph[node].size();i++)
+      {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(colors[
+      graph[node][i] ] == 0) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      colors[ graph[node][i] ] = nextColor;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      if(dfs(graph[node][i]) == false) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      return false;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else
+      if(colors[ graph[node][i] ] == curColor) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      return false;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return true;</tt><tt><br>
+    </tt><tt>}</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.sync_with_stdio(false);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin.tie(0);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int m;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(cin &gt;&gt; m) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; graph.clear();</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      graph.resize(1001);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; colors.clear();</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      colors.resize(1001, 0);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;m;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      int u, v;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cin &gt;&gt; u &gt;&gt; v;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      //u--; v--;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      graph[u].push_back(v);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      graph[v].push_back(u);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; colors[1]=1;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(dfs(1) ==
+      true) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; "YES" &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; "NO" &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">G. Пътища<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int n;</tt><tt><br>
+    </tt><tt>int wrongI, wrongJ;</tt><tt><br>
+    </tt><tt>vector&lt; vector&lt;bool&gt; &gt; visited;</tt><tt><br>
+    </tt><tt>int cntDuno;</tt><tt><br>
+    </tt><tt>int cntVisited=1;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>void dfs(int i, int j)</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; if(i&lt;0 || j&lt;0 || i&gt;=n ||
+      j&gt;=n) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; if(i==wrongI &amp;&amp; j==wrongJ) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; if(visited[i][j]) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cntVisited++;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; if(cntVisited == n*n) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cntDuno++;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cntVisited--;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; visited[i][j]=true;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; dfs(i-1,j&nbsp; );</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; dfs(i&nbsp; ,j-1);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; dfs(i+1,j&nbsp; );</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; dfs(i&nbsp; ,j+1);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; visited[i][j]=false;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cntVisited--;</tt><tt><br>
+    </tt><tt>}</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(cin &gt;&gt; n) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin &gt;&gt;
+      wrongI &gt;&gt; wrongJ;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wrongI--;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; wrongJ--;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; visited.clear();</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      visited.resize(n, vector&lt;bool&gt;(n,false));</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cntDuno=0;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cntVisited=1;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; dfs(0,0);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      cntDuno &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">H. Робот<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int arr[110][110];</tt><tt><br>
+    </tt><tt>int dp[110][110];</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; int T;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; cin &gt;&gt; T;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(T--) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int n;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cin &gt;&gt; n;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=1;i&lt;=n;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      for(int j=1;j&lt;=n;j++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cin &gt;&gt; arr[i][j];</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      dp[i][j] = max(dp[i-1][j], dp[i][j-1]) + arr[i][j];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      dp[n][n] &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">I. Задача за друга раница<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; string line;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(getline(cin,line)) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; stringstream
+      ss(line);</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int cnt;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ss &gt;&gt; cnt;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      vector&lt;int&gt; vec;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int cur;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while(ss
+      &gt;&gt; cur) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      vec.push_back(cur);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      sort(vec.rbegin(),vec.rend());</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int ans =0;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for(int
+      i=0;i&lt;cnt;i++) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      ans += vec[i];</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      ans &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">J. Автобус<br>
+    <br>
+    <tt>#include &lt;bits/stdc++.h&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>typedef unsigned long long ull;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; ull k;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; while(cin &gt;&gt; k) {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ull ans =
+      ((ull)1) &lt;&lt; k;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ans --;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      ans &lt;&lt; endl;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <hr size="2" width="100%">
+  </body>
+</html>
