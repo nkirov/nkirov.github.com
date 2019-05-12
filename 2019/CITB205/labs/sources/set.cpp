@@ -48,7 +48,7 @@ private:
     Set::~Set()
     {
         cout << "DD" << endl;
-        delete elements;
+        delete [] elements;
     }
     Set& Set::operator=(Set &b)
     {
