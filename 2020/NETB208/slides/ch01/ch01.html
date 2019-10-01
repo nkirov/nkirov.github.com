@@ -79,71 +79,12 @@
     indicates the absence of any type information (only for function
     type).<br>
     <a href="http://en.cppreference.com/w/cpp/language/type"><tt>http://en.cppreference.com/w/cpp/language/type</tt></a><br>
-    <h4><span style="font-weight: bold;">Characters</span></h4>
-    <span style="font-weight: bold;"></span>A <span style="font-family:
-      monospace;">char</span> variable holds a single character -
-    usually 8 bits. A<span style="font-weight: bold;"> literal</span> is
-    a constant value appearing in the program. <br>
-    <span style="font-family: monospace;">'a'</span>, <span
-      style="font-family: monospace;">'Q'</span>, <span
-      style="font-family: monospace;">'+'</span>,<span
-      style="font-family: monospace;"> '\n'</span>, <span
-      style="font-family: monospace;">'9'</span> are literals.<br>
-    Each character is associated with an integer code, usually ASCII
-    code.<br>
-    <blockquote>
-      <pre>cout &lt;&lt; 'a' &lt;&lt; <span style="color: rgb(51, 51, 255);">int</span>('a') 
-&lt;&lt; <span style="color: rgb(51, 51, 255);">static_cast</span>&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt;('a');
-</pre>
-    </blockquote>
-    <span style="font-weight: bold;"></span>
-    <h4><span style="font-weight: bold;"> Integers</span></h4>
-    2 bytes<span style="font-family: monospace;"> &lt;= <span
-        style="color: rgb(51, 51, 255);">sizeof</span>(<span
-        style="color: rgb(51, 51, 255);">short</span>) &lt;= </span><span
-      style="font-family: monospace;"><span style="color: rgb(51, 51,
-        255);">sizeof</span></span><span style="font-family: monospace;">(<span
-        style="color: rgb(51, 51, 255);">int</span>) &lt;= </span><span
-      style="font-family: monospace;"><span style="color: rgb(51, 51,
-        255);">sizeof</span></span><span style="font-family: monospace;">(<span
-        style="color: rgb(51, 51, 255);">long</span>) </span>and<span
-      style="font-family: monospace;"> </span><span style="font-family:
-      monospace;"></span><span style="font-family: monospace;"></span><br
-      style="font-family: monospace;">
-    <span style="font-family: monospace;"><span style="color: rgb(51,
-        51, 255);">sizeof</span></span><span style="font-family:
-      monospace;">(<span style="color: rgb(51, 51, 255);">long</span>)
-      &gt;= </span>4 bytes<br>
-    <ul>
-      <li> <span style="font-family: monospace;"></span>long constant:
-        <span style="font-family: monospace;">123456789L</span><br>
-      </li>
-      <li> <span style="font-family: monospace;"></span>octal (base 8)
-        integer constant (using digits <span style="font-family:
-          monospace;">0,1,2,3,4,5,6,7</span>): <span
-          style="font-family: monospace;">0273</span><br>
-      </li>
-      <li> <span style="font-family: monospace;"></span> hexadecimal
-        (base 16) integer constant (using digits <span
-          style="font-family: monospace;">0,..9, A, B, C, D, E, F</span>):
-
-
-
-
-        <span style="font-family: monospace;">0xA05</span><br>
-      </li>
-    </ul>
     <h4><span style="font-weight: bold;"> Enumerations</span></h4>
     An enumeration is a user-defined type that can hold any of a set of
     discrete values.<br>
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">enum</span> Color { RED, GREEN, BLUE };  // default values are 0, 1, 2<br><span style="color: rgb(51, 51, 255);">enum</span> Week { MONDAY = 1, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY };  <br>                                  // values are 1, 2, 3, .., 7<br><span style="color: rgb(51, 51, 255);">enum</span> Mood { HAPPY = 3, SAD = 1, ANXIOUS = 4, SLEEPY = 2 };<br>Color skyColor = BLUE;<br>Mood myMood = SLEEPY;<br>Week day = TUESDAY;</pre>
     </blockquote>
-    <h4><span style="font-weight: bold;"> Floating Point</span></h4>
-    -- double constants: <span style="font-family: monospace;">1.5402,
-      1.2E8, -2.25e-3, 1e5</span> (12-14 decimal digits)<br>
-    -- float constants: <span style="font-family: monospace;">1.23f,
-      6f, 1.234F, 23e-2F</span> (6-8 decimal digits)<br>
     <h4><span style="font-weight: bold;"> 1.1.3 Pointers, Arrays, and
         Structures<br>
       </span></h4>
@@ -152,6 +93,7 @@
     or <span style="font-weight: bold;">address</span>. A pointer holds
     the value of such an address. <br>
     The <span style="font-weight: bold;">address-of </span>operator,&nbsp;
+
 
 
 
@@ -176,23 +118,9 @@
     C++ provides <span style="font-weight: bold;">no</span> build-in
     runtime checking for array subscripting out of bounds [common
     programming error]!<br>
-    <h4><span style="font-weight: bold;"> Pointers and Arrays</span></h4>
-    The name of an array can be used as a pointer to the array's initial
-    element and vice versa.<br>
-    <blockquote>
-      <pre><span style="color: rgb(51, 51, 255);">char</span> c[] = {'c', 'a', 't'};<br><span style="color: rgb(51, 51, 255);">char</span>* p = c;             // p points to c[0]<br><span style="color: rgb(51, 51, 255);">char</span>* q = &amp;c[0];         // q also points to c[0]<br>cout &lt;&lt; c[2] &lt;&lt; p[2] &lt;&lt; q[2];  // outputs "ttt"<br></pre>
-    </blockquote>
-    Given two arrays <span style="font-family: monospace;">c</span> and
-    <span style="font-family: monospace;">d</span>, the comparison <span
-      style="font-family: monospace;">c == d</span> does <span
-      style="font-weight: bold;">not </span>test whether the contents
-    of the two arrays are equal.<br>
-    <h4> <span style="font-weight: bold;"> Strings</span> in C++<br>
-    </h4>
-    <blockquote>
-      <pre><span style="color: rgb(0, 153, 0);">#include</span>&lt;string&gt;;<br><span style="color: rgb(51, 51, 255);">using</span> std::string;<br>//...<br>  string s = <span style="color: rgb(204, 0, 0);">"to be"</span>;<br>  string t = <span style="color: rgb(204, 0, 0);">"not "</span> + s;     // t := "not to be"<br>  string u = s + " or " + t; // u := "to be or not to be"<br>  <span style="color: rgb(51, 51, 255);">if</span> (s &gt; t) cout u;<br>//...<br>  s = <span style="color: rgb(204, 0, 0);">"John"</span>;           <br>  <span style="color: rgb(51, 51, 255);">int</span> i = s.size();    // i = 4<br>  <span style="color: rgb(51, 51, 255);">char</span> c = s[3];       // c = 'n'<br>  s += <span style="color: rgb(204, 0, 0);">" Smith"</span>;       // s = "John Smith"<br>  <span style="color: rgb(51, 51, 255);">char</span> *p = s.c_str(); // p is a C-style string<br></pre>
-    </blockquote>
-    <h4><span style="font-weight: bold;"> C-Style Structures</span></h4>
+    <span style="font-weight: bold;"><br>
+      C-Style Structures</span> <br>
+    <br>
     A structure is useful for storing an aggregation of elements. The
     elements (<span style="font-weight: bold;">member</span>s or <span
       style="font-weight: bold;">field</span>s) may be of different
@@ -338,6 +266,7 @@
 
 
 
+
         an expression combines variables and literals with operators to
         create new values.</li>
     </ul>
@@ -434,26 +363,26 @@
       <tbody>
         <tr>
           <td style="vertical-align: top;"> <span style="font-weight:
-              bold; font-family: monospace;">var ++</span><br>
+              bold; font-family: monospace;">var++</span><br>
           </td>
           <td style="vertical-align: top;">post increment<br>
           </td>
         </tr>
         <tr>
           <td style="vertical-align: top;"><span style="font-weight:
-              bold; font-family: monospace;">var --<br>
+              bold; font-family: monospace;">var--<br>
             </span></td>
           <td style="vertical-align: top;">post decrement<br>
           </td>
         </tr>
         <tr>
           <td style="vertical-align: top;"><span style="font-weight:
-              bold; font-family: monospace;">++ var</span></td>
+              bold; font-family: monospace;">++var</span></td>
           <td style="vertical-align: top;">pre increment</td>
         </tr>
         <tr>
           <td style="vertical-align: top;"><span style="font-weight:
-              bold; font-family: monospace;">-- var</span></td>
+              bold; font-family: monospace;">--var</span></td>
           <td style="vertical-align: top;">pre decrement </td>
         </tr>
       </tbody>
@@ -553,6 +482,7 @@
           </td>
           <td style="vertical-align: top; font-family: monospace;">~100010
 -&gt;
+
 
 
 
@@ -792,61 +722,7 @@
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">int</span> a = 10, b, c, d;  <br>// <span style="font-weight: bold;">right associativity</span>  <br>d = c = b = a;     // is equivalent to d = (c = (b = a)); <br>// <span style="font-weight: bold;">left associativity</span>  <br>d - c + b - a;     // is equivalent to ((d - c) + b) - a;  <br>// <span style="font-weight: bold;">precedence </span><br>d &gt; c &amp;&amp; -b &lt;= a   // is equivalent to (d &gt; c) &amp;&amp; ((-b) &lt;= a)  <span style="font-weight: bold;"></span></pre>
     </blockquote>
-    <h4><span style="font-weight: bold;"> 1.2.1 Casting in Expressions</span></h4>
-    Casting is an operation that allows us to change the type of a
-    variable. <br>
-    <h4><span style="font-weight: bold;"> Traditional C-Style Casting</span></h4>
-    <ul>
-      <li> <span style="font-family: monospace;">(T)exp</span> -
-        C-style cast </li>
-      <li> <span style="font-family: monospace;">T(exp)</span> -
-        functional-style cast </li>
-    </ul>
-    <blockquote>
-      <pre><span style="color: rgb(51, 51, 255);">int</span> cat = 14;  <br><span style="color: rgb(51, 51, 255);">double</span> dog = (<span style="color: rgb(51, 51, 255);">double</span>)cat; <br><span style="color: rgb(51, 51, 255);">double</span> pig = <span style="color: rgb(51, 51, 255);">double</span>(cat);<br></pre>
-    </blockquote>
-    <h4><span style="font-weight: bold;"> Explicit Cast Operators</span></h4>
-    Casting operations can vary from harmless to dangerous, depending on
-    how similar the two types are and whether the information is lost.<br>
-    <ul>
-      <li> <span style="font-family: monospace;">short</span> to <span
-          style="font-family: monospace;">int</span> - harmless</li>
-      <li> <span style="font-family: monospace;">double</span> to <span
-          style="font-family: monospace;">int</span> - dangerous (the
-        fractional part of the number is lost)</li>
-      <li> <span style="font-family: monospace;">double*</span> to <span
-          style="font-family: monospace;">char*</span> - dangerous
-        (depends of the compiler, OS, hardware)</li>
-    </ul>
-    <h4><span style="font-weight: normal;">The standard of C++ supports
-        4 casting versions (operators):</span></h4>
-    <ul style="color: rgb(51, 51, 255);">
-      <li><span style="font-family: monospace;">static_cast</span></li>
-      <li><span style="font-family: monospace;">dynamic_cast</span></li>
-      <li><span style="font-family: monospace;">const_cast</span></li>
-      <li><span style="font-family: monospace;">reinterpret_cast</span></li>
-    </ul>
-    <h4> <span style="font-weight: normal;">using the notation: <span
-          style="font-family: monospace;">some_cast&lt;T&gt;(exp).</span></span><br>
-      <span style="font-weight: bold;"></span> </h4>
-    <h4><span style="font-weight: bold;"> Static Casting</span></h4>
-    <h4><span style="font-weight: normal;"><span style="font-family:
-          monospace;">static_cast&lt;T&gt;(exp)</span></span></h4>
-    <blockquote>
-      <pre><span style="color: rgb(51, 51, 255);">int</span> cat = 14;  <br><span style="color: rgb(51, 51, 255);">double</span> dog = static_cast&lt;<span style="color: rgb(51, 51, 255);">double</span>&gt;(cat); // dog := 14.0 <br><span style="color: rgb(51, 51, 255);">double</span> lion = 155.99;<br><span style="color: rgb(51, 51, 255);">int</span> pig = static_cast&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt;(lion);      // pig := 155<br></pre>
-    </blockquote>
-    <h4><span style="font-weight: bold;"> Implicit Casting</span></h4>
-    There are many instances where the programmer has not requested an
-    explicit case, but a change of types is required. In many of these
-    cases, C++ will perform an implicit cast. That is, the compiler will
-    automatically insert a cast into the machine-generated code - the
-    compiler automatically casts to the stronger type (without loss of
-    information).<br>
-    <span style="font-family: monospace;">char - short - int - long -?
-      float - double<br>
-    </span>
-    <h4> <font size="+1"><tt><a href="implicit_cast.cpp">implicit_cast.cpp</a></tt></font><br>
-      <span style="font-weight: bold;"></span> </h4>
+    <span style="font-weight: bold;"></span>
     <h3><span style="font-weight: bold;"></span></h3>
     <hr style="width: 100%; height: 2px;">
     <h3><span style="font-weight: bold;"> 1.3 Control Flow</span></h3>
@@ -878,8 +754,6 @@
     <hr style="width: 100%; height: 2px;">
     <h3><span style="font-weight: bold;"> 1.4 Functions<br>
       </span></h3>
-    <h4><span style="font-weight: bold;"> 1.4.1 Argument Passing<br>
-      </span></h4>
     <h4><span style="font-weight: bold;">&nbsp;1.4.2 Overloading<br>
       </span></h4>
     <h4><span style="font-weight: bold;"> Function Overloading</span></h4>
@@ -978,18 +852,14 @@
       </tbody>
     </table>
     <span style="font-weight: bold;"></span><span style="font-weight:
-      bold;">1.5.2 Constructors and Destructors<br>
-    </span>
-    <h4><span style="font-weight: bold;"> 1.5.3 Classes and Memory
-        Allocation<br>
-      </span></h4>
-    <h4><span style="font-weight: bold;"> 1.5.4 Class Friends and Class
-        Members</span></h4>
+      bold;"><br>
+      1.5.4 Class Friends and Class Members</span><span
+      style="font-weight: bold;"></span>
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">class</span> Matrix;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Matrix definition comes later<br><span style="color: rgb(51, 51, 255);">class</span> Vector {&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; // a 3-element vector<br><span style="color: rgb(51, 51, 255);">private:</span><br>&nbsp; <span style="color: rgb(51, 51, 255);">double</span> coord[3];<br><span style="color: rgb(51, 51, 255);">public:</span><br>&nbsp; // ...<br>&nbsp; <span style="color: rgb(51, 51, 255);">friend class</span> Matrix;&nbsp; &nbsp; &nbsp;// allow Matrix access to coord<br>};<br><span style="color: rgb(51, 51, 255);">class</span> Matrix { &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // a 3x3 array<br><span style="color: rgb(51, 51, 255);">private:</span><br>&nbsp; <span style="color: rgb(51, 51, 255);">double</span> a[3][3];<br><span style="color: rgb(51, 51, 255);">public:</span><br>&nbsp; // ...<br>&nbsp; Vector multiplyBy(<span style="color: rgb(51, 51, 255);">const</span> Vector&amp; v) {&nbsp; // multiply (a * v)<br>&nbsp;&nbsp;&nbsp; Vector w(0, 0, 0);<br>&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255);">for</span> (<span style="color: rgb(51, 51, 255);">int</span> i = 0; i &lt; 3; i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255);">for</span> (<span style="color: rgb(51, 51, 255);">int</span> j = 0; j &lt; 3; j++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; w.coord[i] += a[i][j] * v.coord[j]; // access private data<br>&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255);">return</span> w;<br>&nbsp; }<br>};<br></pre>
     </blockquote>
-    <h4><span style="font-weight: bold;"> Nesting Classes and Types
-        within Classes</span></h4>
+    <h4><span style="font-weight: bold;"> Nesting Classes<br>
+      </span></h4>
     Classes may contain member variables, member functions and types. We
     can nest a class definition within another class.<br>
     <blockquote>
@@ -997,9 +867,6 @@
     </blockquote>
     <h4><span style="font-weight: bold;"> 1.5.5 The Standard Template
         Library<br>
-      </span></h4>
-    <h4><span style="font-weight: bold;"> Templates and the STL Vector
-        Class<br>
       </span></h4>
     The Standard Template Library (STL) is a collection of useful
     classes for common data structures.<br>
