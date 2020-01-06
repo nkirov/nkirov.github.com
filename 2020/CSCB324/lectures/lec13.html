@@ -9,11 +9,89 @@
   <body>
     <h2>13. Динамично оптимиране<br>
     </h2>
-    <h3>Хедонийски език <br>
+    <h3>Разпознаване на контекстно свободен език [8.3.8]<br>
     </h3>
-    <p><br>
+    <h3>Хедонийски език [8.3.9]<br>
+    </h3>
+    <p>Програма за втоматична проверка на синтактичната коректност
+      според следните правила:<br>
+      0. Единствените символи в езика са p,q,r,s,t,u,v,w,x,y,z и
+      N,C,D,E,I.<br>
+      1. Всеки символ измежду p, q, r, s, t, u, v, w, x, y, z, взет
+      отделно, представлява правилно изречение<br>
+      на хедонийски език.<br>
+      2. Ако S е правилно изречение, то NS също е.<br>
+      3. Ако S и T са правилни изречения, то такива са и CST, DST, EST и
+      IST.<br>
+      4. Няма други правилни изречения, освен тези, получени по правила
+      0, 1, 2 и 3.<br>
     </p>
-    <hr size="2" width="100%">
+    <p>Реализация на 3:<br>
+      F(i, j)&nbsp; връща истина, ако частта от входното изречение
+      (низа) s<sub>i</sub>, s<sub>i+1</sub>,..., s<sub>j</sub> е
+      правилно изречение.<br>
+      1. F(i, j) = 1, ако i = j и s<sub>j</sub> е { p, q, r, s, t, u, v,
+      w, x, y, z }<br>
+      2. F(i, j) = 1, ако s<sub>i</sub> = N и F(i+1, j) = 1.<br>
+      3. F(i, j) = 1, ако s<sub>i</sub> е {C,D,E,I} съществува k, такова
+      че F(i+1, k) = 1 и F(k+1, j) = 1 <br>
+      4. иначе F(i, j) = 0</p>
+    <p><font size="+1"><tt>#include &lt;stdio.h&gt;</tt><tt><br>
+        </tt><tt>#include &lt;stdlib.h&gt;</tt><tt><br>
+        </tt><tt>#include &lt;string.h&gt;</tt><tt><br>
+        </tt><tt>#define MAX 100</tt><tt><br>
+        </tt><tt>#define NOT_CALCULATED 2<br>
+          <br>
+        </tt><tt></tt><tt>unsigned char F[MAX][MAX]; /* Целева функция
+          */</tt><tt><br>
+        </tt><tt>const char *s = "NNNNNNNNECINNxqpCDNNNNNwNNNtNNNNs"; /*
+          За проверка */ unsigned n; /* Дължина на изречението */</tt><tt><br>
+        </tt><tt><br>
+          void init(void) <br>
+          { unsigned i, j;</tt><tt><br>
+        </tt><tt>&nbsp; n = strlen(s);</tt><tt><br>
+        </tt><tt>&nbsp; for (i = 0; i &lt; n; i++)</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; for (j = 0; j &lt; n; j++) F[i][j] =
+          NOT_CALCULATED;</tt><tt><br>
+        </tt><tt>}<br>
+          <br>
+        </tt><tt></tt><tt>unsigned char check(unsigned st, unsigned en)
+          <br>
+          { unsigned k;</tt><tt><br>
+        </tt><tt>&nbsp; if (NOT_CALCULATED != F[st][en]) return
+          F[st][en];</tt><tt><br>
+        </tt><tt>&nbsp; else <br>
+          &nbsp; {</tt><tt><br>
+        </tt><tt>/**/ <br>
+          &nbsp;&nbsp;&nbsp; if (st == en)</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F[st][en] = (s[st] &gt;=
+          'p' &amp;&amp; s[st] &lt;= 'z'); <br>
+          &nbsp;&nbsp;&nbsp; else if ('N' == s[st])</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F[st][en] = check(st +
+          1, en);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; else if('C' == s[st] || 'D' == s[st]
+          || 'E' == s[st] || 'I' == s[st]) <br>
+          &nbsp;&nbsp;&nbsp; {</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; k = st + 1;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (k &lt; en
+          &amp;&amp; !(check(st + 1, k) &amp;&amp; check(k + 1, en)))</tt><tt>
+          k++;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; F[st][en] = (k != en);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; } <br>
+          &nbsp;&nbsp;&nbsp; else</tt><tt> F[st][en] = 0; <br>
+          &nbsp;&nbsp;&nbsp; return F[st][en];</tt><tt><br>
+        </tt><tt>&nbsp; } <br>
+          }<br>
+          <br>
+        </tt><tt></tt><tt>int main(void) <br>
+          { init();</tt><tt><br>
+        </tt><tt>&nbsp; printf("\n %s", check(0,n-1) ? "correct!" :
+          "incorrect!");</tt><tt><br>
+        </tt><tt>&nbsp; return 0; <br>
+          }</tt><tt><br>
+        </tt><tt> </tt></font></p>
+    <font size="+1"><tt> </tt></font>
+    <hr size="2" width="100%"><font size="+1"><tt> </tt></font>
     <p><br>
     </p>
   </body>
