@@ -10,5 +10,96 @@
   <body>
     <h3> <span style="font-weight: normal;"> 2.&nbsp; Динамично
         оптимиране - оптимизационни задачи</span></h3>
+    <p><br>
+      Задача за монети.<br>
+      Дадени са монети със стойности c<sub>1</sub>, c<sub>2</sub>, ...,
+      c<sub>k</sub> и целева сума n. Задачата е да се направи тази сума
+      с минимален брой монети.<br>
+    </p>
+    <p>Пример: Дадени са три вида монети със стойности 1, 3 и 4.<br>
+      solve(0) = 0<br>
+      solve(1) = 1<br>
+      solve(2) = 2<br>
+      solve(3) = 1<br>
+      solve(4) = 1<br>
+      solve(5) = 2<br>
+      solve(6) = 2<br>
+      solve(7) = 2<br>
+      solve(8) = 2<br>
+      solve(9) = 3<br>
+      solve(10) = 3<br>
+    </p>
+    <p>Рекурсивна формула за примера:<br>
+      <meta charset="utf-8">
+      solve(x) = min(solve(x−1) + 1, solve(x−3) + 1, solve(x−4) + 1)<br>
+    </p>
+    <p>
+      <meta charset="utf-8">
+      solve(10) = solve(7) + 1 = solve(4) + 2 = solve(0) + 3 = 3.<br>
+    </p>
+    <p>Обща рекурсивна формула:<br>
+      solve(0) = 0, solve(x) = min {solve(x - c<sub>i</sub>) + 1, i = 1,
+      2,..., k}<br>
+    </p>
+    <p><font size="+1"><tt>int solve(int x) </tt><tt><br>
+        </tt><tt> {</tt><tt><br>
+        </tt><tt> &nbsp;&nbsp;&nbsp; if (x == 0) return 0;</tt><tt><br>
+        </tt><tt> &nbsp;&nbsp;&nbsp; int best = INF;</tt><tt><br>
+        </tt><tt> &nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; k; i++) </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; if (x - c[i] &gt;= 0)
+          best = min(best, solve(x - c[i]) + 1);</tt><tt><br>
+        </tt><tt> &nbsp;&nbsp;&nbsp; return best;</tt><tt><br>
+        </tt><tt> } </tt></font></p>
+    <p>Със запомняне на пресметнатите стойности (memoization):<br>
+      <font size="+1"><tt>int solve(int x) </tt><tt><br>
+        </tt><tt>{</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; if (x == 0) return 0;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; if (value[x]&nbsp; &gt;= 0) return
+          value[x];</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; int best = INF;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; for (int i = 0; i &lt; k; i++) </tt><tt><br>
+        </tt><tt> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (x - c[i]
+          &gt;= 0) best = min(best, solve(x - c[i]) + 1);</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; value[x] = best;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; return best;</tt><tt><br>
+        </tt><tt>}</tt></font><br>
+    </p>
+    <p>Итеративен вариант:<br>
+      <meta charset="utf-8">
+      <font size="+1"><tt>value[0] = 0; </tt><tt><br>
+        </tt><tt>for (int x = 1; x &lt;= n; x++) </tt><tt><br>
+        </tt><tt>{ </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt>value[x] = INF; </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; k; i++) </tt><tt><br>
+        </tt><tt> &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; if (x - c[i]
+          &gt;= 0) value[x] = min(value[x], value[x - c[i]] + 1); </tt><tt><br>
+        </tt><tt>}<br>
+        </tt></font></p>
+    <p>Това решение получава с колко монети може да се направи сумата. С
+      кои монети е това решение може да се намери със следната
+      модификация:<br>
+    </p>
+    <p><font size="+1"><tt>int first[N];</tt><tt><br>
+        </tt><tt>value[0] = 0;</tt><tt><br>
+        </tt><tt>for (int x = 1; x &lt;= n; x++) </tt><tt><br>
+        </tt><tt>{</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; value[x] = INF;</tt><tt><br>
+        </tt><tt> &nbsp; &nbsp; for (int i = 0; i &lt; k; i++) <br>
+        </tt><tt>&nbsp;&nbsp; &nbsp;&nbsp; &nbsp; if (x-c &gt;= 0
+          &amp;&amp; value[x-c]+1 &lt; value[x]) </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt>{</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; value[x] =
+          value[x-c[i]]+1;</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; first[x] = c[i];</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+        </tt><tt>}<br>
+          <br>
+        </tt></font><font size="+1"><tt>while (n &gt; 0) <br>
+          {</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; first[n] &lt;&lt;
+          "\n";</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp; n -= first[n];</tt><tt><br>
+        </tt><tt>}</tt></font><br>
+    </p>
   </body>
 </html>
