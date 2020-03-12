@@ -159,6 +159,7 @@
 
 
 
+
             argc </font></tt></b>и<b><tt><font color="#000099"> char*
             argv[]</font></tt><font color="#000000">. </font></b><font
         color="#000000"><br>
@@ -293,6 +294,7 @@ key
 
 
 
+
             = string_to_int(arg.substr(2, arg.length() - 2));</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
@@ -316,6 +318,7 @@ if
 
 
 
+
             (infile.fail()) open_file_error(arg);</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
       <br>
@@ -325,6 +328,7 @@ if
             outfile.open(arg.c_str());</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 if
+
 
 
 
@@ -598,8 +602,12 @@ if
       <b><tt><font color="#000099">&nbsp; cin &gt;&gt; filename;</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp; fstream fs;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; fs.open(filename.c_str());</font></tt></b>
-      <br>
+      <b><tt><font color="#000099">&nbsp; fs.open(filename.c_str());<br>
+            &nbsp; if (fs.fail()) <br>
+            &nbsp; {&nbsp; cout &lt;&lt; "The file " &lt;&lt; filename
+            &lt;&lt; " does not exist!" &lt;&lt; endl;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>
+            &nbsp; }</font></tt></b><br>
       <b><tt><font color="#000099">&nbsp; fs.seekg(0, ios::end);</font></tt></b>
       <br>
       <b><tt><font color="#000099">&nbsp; int nrecord =
@@ -609,10 +617,17 @@ if
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &lt;&lt; nrecord - 1 &lt;&lt; ") ";</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp; int pos;</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp; cin &gt;&gt; pos;</font></tt></b>
-    </p>
+      <b><tt><font color="#000099">&nbsp; cin &gt;&gt; pos;<br>
+            &nbsp; if (cin.fail() or (pos &lt; 0) or (pos &gt;=
+            nrecord))<br>
+            &nbsp; {&nbsp; cout &lt;&lt; "The record is out of range!"
+            &lt;&lt; endl;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>
+            &nbsp; }<br>
+          </font></tt></b> </p>
     <p><b><tt><font color="#000099">&nbsp; const double SALARY_CHANGE =
-            5.0;</font></tt></b> <br>
+            5.0;<br>
+          </font></tt></b>&nbsp;<br>
       <b><tt><font color="#000099">&nbsp; Employee e;</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp; fs.seekg(pos*RECORD_SIZE,
             ios::beg);</font></tt></b> <br>
