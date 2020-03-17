@@ -5,226 +5,150 @@
     <meta name="Author" content="Nikolay Kirov">
     <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
       [Netscape]">
-    <title>lec04</title>
+    <title>lec03</title>
   </head>
   <body>
-    <center>
-      <h2 align="left">2. Потоци I</h2>
-    </center>
+    <h2 align="left"> 3. Потоци II</h2>
     <i>План:</i><br>
-    <span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      font-weight: normal; letter-spacing: normal; line-height: normal;
-      orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;">Пренасочване на входния и изходния потоци<br>
-    </span><span style="color: rgb(0, 0, 0); font-family: 'Times New
-      Roman'; font-size: medium; font-style: normal; font-variant:
-      normal; font-weight: normal; letter-spacing: normal; line-height:
-      normal; orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;">Четене и запис на текстови файлове<br>
-    </span>Йерархия на потоковите класове<br>
-    Абстрактни класове<br>
-    <hr size="2" width="100%"><img alt=""
-      src="../../../2018/CITB201/b5.gif" width="20" height="18"><span
-      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      font-weight: normal; letter-spacing: normal; line-height: normal;
-      orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;">Пренасочване на входния и изходния потоци (<a
-        href="../../CITB107/slides/ch07/lecture_7b.html">преговор</a>)<span
-        class="Apple-converted-space"></span></span><br style="color:
-      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">
-    <b style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><font
-          color="#006600">&nbsp;&nbsp;&nbsp; C:\my\&gt;myprog &lt;
-          a_cin.txt</font></tt></b><span style="color: rgb(0, 0, 0);
-      font-family: 'Times New Roman'; font-size: medium; font-style:
-      normal; font-variant: normal; font-weight: normal; letter-spacing:
-      normal; line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;"><span class="Apple-converted-space">&nbsp;</span></span><br
-      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      font-weight: normal; letter-spacing: normal; line-height: normal;
-      orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px;">
-    &nbsp; <span style="color: rgb(0, 0, 0); font-family: 'Times New
-      Roman'; font-size: medium; font-style: normal; font-variant:
-      normal; font-weight: normal; letter-spacing: normal; line-height:
-      normal; orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;">Вместо от клавиатурата, операционната система пренасочва
-      входа от текстов файл, в случая това е файла<span
-        class="Apple-converted-space">&nbsp;</span></span><b
-      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><font
-          color="#000000">a_cin.txt.&nbsp;</font></tt></b><span
-      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      font-weight: normal; letter-spacing: normal; line-height: normal;
-      orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;"><span class="Apple-converted-space"> </span></span><br
-      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      font-weight: normal; letter-spacing: normal; line-height: normal;
-      orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px;">
-    <b style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><font
-          color="#006600">&nbsp;&nbsp;&nbsp; C:\my\&gt;myprog &gt;
-          a_cout.txt</font></tt></b><span style="color: rgb(0, 0, 0);
-      font-family: 'Times New Roman'; font-size: medium; font-style:
-      normal; font-variant: normal; font-weight: normal; letter-spacing:
-      normal; line-height: normal; orphans: auto; text-align: start;
-      text-indent: 0px; text-transform: none; white-space: normal;
-      widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;"><span class="Apple-converted-space">&nbsp;</span></span><br
-      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      font-weight: normal; letter-spacing: normal; line-height: normal;
-      orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px;">
-    &nbsp; <span style="color: rgb(0, 0, 0); font-family: 'Times New
-      Roman'; font-size: medium; font-style: normal; font-variant:
-      normal; font-weight: normal; letter-spacing: normal; line-height:
-      normal; orphans: auto; text-align: start; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
-      word-spacing: 0px; -webkit-text-size-adjust: auto;
-      -webkit-text-stroke-width: 0px; display: inline !important; float:
-      none;">Вместо на екрана, операционната система пренасочва изхода
-      на текстов файл, в случая това е файла<span
-        class="Apple-converted-space">&nbsp;</span></span><b
-      style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
-      font-size: medium; font-style: normal; font-variant: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><font
-          color="#009900">a_cout.txt.</font></tt></b><span style="color:
-      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
-      display: inline !important; float: none;"><span
-        class="Apple-converted-space"> </span></span><br>
-    <i>Пример:</i> Четене на думи.<br>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><b><font color="#000080">// <a href="../../CITB107/sources/ch7/words.cpp">words.cpp</a><br>#include</font></b> <font color="#FF0000">&lt;iostream&gt;
-</font><b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;string&gt;
-</font><b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;
-
-</font><font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()
-</font><font color="#FF0000">{</font>&nbsp; <font color="#009900">int</font> count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;
-</font>&nbsp;&nbsp; string word<font color="#990000">;
-</font>&nbsp;&nbsp; <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>cin <font color="#990000">&gt;&gt;</font> word<font color="#990000">)</font> count<font color="#990000">++;
-
-</font>&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> count <font color="#990000">&lt;&lt;</font> <font color="#FF0000">" words.\n"</font><font color="#990000">;
-</font>&nbsp;&nbsp; <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;<br>}</font></tt><br><span style="color:
-      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
-      font-style: normal; font-variant: normal; font-weight: normal;
-      letter-spacing: normal; line-height: normal; orphans: auto;
-      text-align: start; text-indent: 0px; text-transform: none;
-      white-space: normal; widows: auto; word-spacing: 0px;
-      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
-      display: inline !important; float: none;">С пренасочване на входа програмата <tt>words</tt> за намиране на броя на думите може намери броя на думите в текстов
-      файл (едно по-смислено приложение на тази програма).<span class="Apple-converted-space"></span></span></pre>
-    <i>Пример:</i> Четене на редове<font color="#990000">:<br>
-      <pre><b>// <a href="../../CITB107/sources/ch7/lines.cpp">lines.cpp</a><br>#include &lt;iostream&gt;<br>#include &lt;string&gt;<br>using namespace std;<br><br>int main()<br>{  int count = 0;<br>   string lines;<br>   while (getline(cin, lines)) count++;<br>   cout &lt;&lt; count &lt;&lt; " lines.\n";<br>   return 0;<br>}</b></pre>
-    </font><i>Пример:</i> Четене на символи (букви, цифри и специални
-    символи)<font color="#990000">:<br>
-    </font>
-    <pre><font color="#990000"><b>// <a href="../../CITB107/sources/ch7/chars.cpp">chars.cpp</a><br>#include &lt;iostream&gt;<br>using namespace std;<br><br>int main()<br>{  int count = 0;<br>   char ch;<br>   while (cin.get(ch)) count++;<br>   cout &lt;&lt; count &lt;&lt; " chars.\n";<br>   return 0;<br>}<br></b></font></pre>
-    <hr size="2" width="100%">
-    <p><img alt="" src="../../../2018/CITB201/b5.gif" width="20"
-        height="18"> Четене и запис на текстови файлове. <br>
-      ** В заглавния файл <b><tt><font color="#000000">fstream</font></tt></b>
-      са дефинирани обекти, функции и операции за работа с файлове. <br>
-      А) Четене от файл. <br>
-      * Дефиниране на файлова променлива за четене - обект от класа <b><tt><font
-            color="#006600">ifstream:</font></tt></b> <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; ifstream inp_data;</font></tt></b>
-      <br>
-      * Отваряне на файл от текущата директория с име <b><tt><font
-            color="#006600">input.dat:</font></tt></b> <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;
-            inp_data.open("input.dat");</font></tt></b> <br>
-      * Четене от файл на: <br>
-      &nbsp;- цели числа и числа с плаваща точка <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; int n;</font></tt></b> <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; double x;</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; inp_data &gt;&gt; n
-            &gt;&gt; x;</font></tt></b> <br>
-      &nbsp;- низове <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; string s;</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; inp_data &gt;&gt;
-            s;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // чете до
-            разделител</font></tt></b> <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; getline(inp_data, s); //
-            чете цял ред</font></tt></b> <br>
-      &nbsp;- символи <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; char ch;</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp;
-            inp_data.get(ch);&nbsp;&nbsp;&nbsp; // чете един символ</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp;
-            inp_data.unget();&nbsp;&nbsp;&nbsp; // връща последния
-            прочетен символ в буфера</font></tt></b> <br>
-      * затваряне на файл <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; inp_data.close();</font></tt></b>
-    </p>
-    <p><i>Пример:</i> Четене и писане на различни типове данни.<br>
-    </p>
-    <p> <b><tt><font color="#000099">// <a href="sources/readf.cpp">readf.cpp</a></font></tt></b>
-      <br>
+    Низови потоци<br>
+    Аргументи от командния ред<br>
+    Пряк достъп<br>
+    <hr size="2" width="100%">&nbsp;<img alt="" src="../b5.gif"
+      width="20" height="18"> Низови (текстови) потоци. <br>
+    В езика С++ има възможност да се чете/пише от/в низове вместо да се
+    използват стандартни устройства или файлове. <br>
+    В заглавния файл <b><tt><font color="#000000">sstream</font></tt></b>
+    са дефинирани обекти, функции и операции за работа с текстови
+    потоци. <br>
+    <br>
+    * Входен поток - с обект от клас <b><tt><font color="#006600">istringstream.</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">string input = "January 23, 1881";</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">istringstream instr(input);</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">string month;</font></tt></b> <br>
+    <b><tt><font color="#006600">int day;</font></tt></b> <br>
+    <b><tt><font color="#006600">string comma;</font></tt></b> <br>
+    <b><tt><font color="#006600">int year;</font></tt></b> <br>
+    <b><tt><font color="#006600">instr &gt;&gt; month &gt;&gt; day
+          &gt;&gt; comma &gt;&gt; year;</font></tt></b> <br>
+    <br>
+    * Изходен поток - с обект от клас <b><tt><font color="#006600">ostringstream.</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">ostringstream outstr;</font></tt></b> <br>
+    <b><tt><font color="#006600">outstr &lt;&lt; setprecision(8)
+          &lt;&lt; sqrt(2);</font></tt></b> <br>
+    <b><tt><font color="#006600">string output = outstr.str();</font></tt></b>
+    <p><b>Пример:</b> Четене на час и минути в различни формати и
+      отпечатване в два стандартни формата. <br>
+      В САЩ има два формата за записване на време с разлика в часовете:
+      <i><br>
+        - <a
+          href="http://www.worldtimezone.com/wtz-names/wtz-am-pm.html">am/pm</a></i>
+      - денонощието започва с 12 am следват 1-11 am, 12 pm и 1-11 pm.<br>
+      - <i>military </i>- часовете са от 00 до 23. <b><tt><font
+            color="#000099"><br>
+            // <a
+              href="../../../2014/NETB151/sources/ch12/readtime.cpp">readtime.cpp</a></font></tt></b><a
+        href="../../../2014/NETB151/sources/ch12/readtime.cpp"> </a><br>
       <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">#include
-            &lt;fstream&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*
+      <b><tt><font color="#000099">#include &lt;sstream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">string int_to_string(int n)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{ ostringstream outstr;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; outstr &lt;&lt; n;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; return outstr.str();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">void read_time(int &amp;hours, int
+            &amp;minutes)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ string line;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; getline(cin, line);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; istringstream instr(line);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; hours;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; minutes = 0;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; char ch;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; instr.get(ch);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; if (ch == ':') instr &gt;&gt;
+            minutes;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;
+            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            instr.unget();</font></tt></b> </p>
+    <p><b><tt><font color="#000099">&nbsp; string suffix;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; suffix;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; if (suffix == "pm") hours +=
+            12;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">string time_to_string(int hours, int
+            minutes, bool am_pm)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ string suffix;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; if (am_pm)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; { if (hours &lt; 12) suffix =
+            "am";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else { suffix =
+            "pm"; hours -= 12; }</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (hours == 0)
+            hours = 12;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; }</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; string result =
+            int_to_string(hours) + ":";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; if (minutes &lt; 10) result =
+            result + "0";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; result = result +
+            int_to_string(minutes);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; if (am_pm) result = result + "
+            " + suffix;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; return result;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{ cout &lt;&lt; "Please enter the
+            time: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; int hours, minutes;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; read_time(hours, minutes);</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Using
+            am/pm:&nbsp;&nbsp; " &lt;&lt; time_to_string(hours, minutes,
+            true) &lt;&lt; "\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Military time:
+            " &lt;&lt; time_to_string(hours, minutes, false) &lt;&lt;
+            "\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; return 0;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <table cellpadding="4" width="100%" border="">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#993300">Please enter the time:
+                  10:20 pm</font></tt></b> <br>
+            <b><tt><font color="#993300">Using am/pm:&nbsp;&nbsp; 10:20
+                  pm</font></tt></b> <br>
+            <b><tt><font color="#993300">Military time: 22:20</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><img alt="" src="../b5.gif" width="20" height="18"> Аргументи от
+      командния ред. <br>
+      * Определение и използване. <br>
+      Операционните системи могат да предават данни от командния ред
+      (конзола, терминал) за стартиране на програма на С и С++ на самата
+      програма. <br>
+      За тази цел главната функция <b><tt><font color="#000099">main</font></tt></b>
+      може да има два формални параметри - <b><tt><font color="#000099">int
 
 
 
@@ -238,135 +162,131 @@
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            включване на заглавен файл */</font></tt></b> <br>
+            argc </font></tt></b>и<b><tt><font color="#000099"> char*
+            argv[]</font></tt><font color="#000000">. </font></b><font
+        color="#000000"><br>
+        <br>
+        Пример:</font>&nbsp; Отпечатване на аргументите от командния
+      ред.<br>
+      <b><tt><font color="#000099">// <a
+              href="../../../2014/NETB151/sources/ch12/simple.cpp">simple.cpp</a></font></tt></b><a
+        href="../../../2014/NETB151/sources/ch12/simple.cpp"> </a><br>
+      <b><tt>#include &lt;iostream&gt;</tt><tt><br>
+        </tt><tt>using namespace std;</tt><tt><br>
+        </tt><tt><br>
+        </tt><tt>int main(int argc, char* argv[])</tt><tt><br>
+        </tt><tt>{</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; for (int i=0; i&lt;argc; i++)</tt><tt><br>
+        </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+          "argv[" &lt;&lt; i &lt;&lt; "]=" &lt;&lt; argv[i] &lt;&lt;
+          endl; </tt><tt><br>
+        </tt><tt>&nbsp;&nbsp; return 0;</tt></b><br>
+      <br>
+      * Шифър на Цезар. <br>
+      Шифрирането се състои в замяна на буква от даден (изходен) текст с
+      друга буква, която се намира е след <b><tt>key</tt></b> букви в
+      азбуката. Дешифрирането на шифриран текст се състои във
+      възстановяване на изходното съобщение. <br>
+      Програмта работи със следните аргументи от командния ред: <br>
+      - флаг <b><tt>-d</tt></b> (незадължителен) за работа на
+      програмата по дешифриране; <br>
+      - флаг <b><tt>-k&lt;число&gt; </tt></b>(незадължителен) за
+      задаване на ключ (по подразбиране ключът е 3); <br>
+      - име на входен файл; <br>
+      - име на изходен файл. </p>
+    <p><b><tt><font color="#000099">// <a
+              href="../../../2014/NETB151/sources/ch12/caesar.cpp">caesar.cpp</a></font></tt></b><a
+        href="../../NETB151/sources/ch12/caesar.cpp"> </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;fstream&gt;</font></tt></b>
+      <br>
       <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">using namespace std;</font></tt></b>&nbsp;</p>
-    <p> <b><tt><font color="#000099">int main()</font></tt></b> <br>
-      <b><tt><font color="#000099">{&nbsp; ifstream in_data; /*
-            дефиниране на файлова променлива за четене */</font></tt></b>
+      <b><tt><font color="#000099">#include &lt;sstream&gt;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;
-            in_data.open("readf.txt");&nbsp; /* отваряне на файла
-            readf.txt */</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp;&nbsp; string s1, s2;</font></tt></b>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">void usage(string program_name)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; getline(in_data,
-            s1);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* четене на ред */</font></tt></b>
+      <b><tt><font color="#000099">{ cout &lt;&lt; "Usage: " &lt;&lt;
+            program_name</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &lt;&lt; " [-d] [-kn] infile outfile\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; exit(1);</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">void open_file_error(string
+            filename)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ cout &lt;&lt; "Error opening file "
+            &lt;&lt; filename &lt;&lt; "\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; exit(1);</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">int remainder(int a, int n)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; in_data &gt;&gt;
-            s2;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            четене на дума */</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp;&nbsp; int n;</font></tt></b>
+      <b><tt><font color="#000099">{ if (a &gt;= 0) return a % n;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; double x;</font></tt></b>
+      <b><tt><font color="#000099">&nbsp;
+            else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return n - 1
+            - (-a - 1) % n;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">char encrypt(char ch, int k)</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; in_data &gt;&gt; n
-            &gt;&gt;
-            x;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*
-            четене на числови данни */</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp;&nbsp; char ch;</font></tt></b>
+      <b><tt><font color="#000099">{ const int NLETTER = 26;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; while (!in_data.eof())</font></tt></b>
+      <b><tt><font color="#000099">&nbsp; if ('A' &lt;= ch &amp;&amp; ch
+            &lt;= 'Z')</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; return
+            static_cast&lt;char&gt;('A' + remainder(ch-'A'+k, NLETTER));</font></tt></b>
       <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            in_data.get(ch);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            /* четене на символ */</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp;&nbsp;
-            in_data.close();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            затваряне на файла */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; s1
-            &lt;&lt; endl &lt;&lt; s2 &lt;&lt; " "</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; if ('a' &lt;= ch &amp;&amp; ch
+            &lt;= 'z')</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; return
+            static_cast&lt;char&gt;('a' + remainder(ch-'a'+k, NLETTER));</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; return ch;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">void encrypt_file(ifstream&amp; in,
+            ofstream&amp; out, int k)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ char ch;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; while (in.get(ch))
+            out.put(encrypt(ch, k));</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">int string_to_int(string s)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{ istringstream instr(s);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; int n;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; n;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; return n;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">int main(int argc, char* argv[])</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{ bool decrypt = false;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; int key = 3;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; int nfile = 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; ifstream infile;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; ofstream outfile;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">&nbsp; if (argc&lt;3 or argc&gt;5)
+            usage(string(argv[0]));</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; for (int i = 1; i &lt; argc;
+            i++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; { string arg =
+            string(argv[i]);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; if (arg.length()
+            &gt;= 2 and arg[0] == '-')</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { char option =
+            arg[1];</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+            (option == 'd') decrypt = true;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else
+            if (option == 'k')</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-&lt;&lt;
+key
 
 
 
@@ -379,6 +299,20 @@
 
 
 
+            = string_to_int(arg.substr(2, arg.length() - 2));</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; else</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; { nfile++;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+            (nfile == 1)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+            infile.open(arg.c_str());</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if
 
 
 
@@ -391,6 +325,15 @@
 
 
 
+            (infile.fail()) open_file_error(arg);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else
+            if (nfile == 2)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {
+            outfile.open(arg.c_str());</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if
 
 
 
@@ -400,513 +343,357 @@
 
 
 
-            n &lt;&lt; " " &lt;&lt; x &lt;&lt; " " &lt;&lt; ch &lt;&lt;
-            endl;</font></tt></b> <br>
+
+
+
+            (outfile.fail()) open_file_error(arg);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; }</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if(nfile != 2)
+            usage(string(argv[0]));</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (decrypt) key = -key;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; encrypt_file(infile,
+            outfile, key);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; infile.close();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; outfile.close();</font></tt></b>
+      <br>
       <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
       <br>
-      <b><tt><font color="#000099">}</font></tt></b> <br>
-      <font color="#000000">Файл </font><b><tt><font color="#000099">readf.txt:</font></tt></b>
-    </p>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><font color="#000000">Изпълнение на програмата:</font> </p>
+    <table cellpadding="4" width="100%" border="">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#990000">&gt;caesar</font></tt></b>
+            <br>
+            <b><tt><font color="#990000">&gt;</font><font
+                  color="#000099">Usage: CAESAR.EXE [-d] [-kn] infile
+                  outfile</font></tt></b> </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><font color="#000000">Файл <b><tt>input.txt:</tt></b></font> </p>
     <table cellpadding="4" bgcolor="#CCCCCC" border="">
       <tbody>
         <tr>
-          <td> <b><tt><font color="#000000">many happy words</font></tt></b>
+          <td> <b><tt><font color="#993366">This is a text to encrypt
+                  (1-st) and decrypt (2-nd).</font></tt></b> <br>
+            <b><tt><font color="#993366">One more line. End.</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><font color="#000000">Изпълнение на програмата:</font> </p>
+    <table cellpadding="4" width="100%" border="">
+      <tbody>
+        <tr>
+          <td><b><tt><font color="#990000">&gt;caesar input.txt
+                  encrypt1.txt</font></tt></b></td>
+        </tr>
+      </tbody>
+    </table>
+    <font color="#000000">Файл <b><tt>encrypt1.txt</tt></b></font>
+    <table cellpadding="4" bgcolor="#CCCCCC" border="">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#993366">Wklv lv d whaw wr hqfubsw
+                  (1-vw) dqg ghfubsw (2-qg).</font></tt></b> <br>
+            <b><tt><font color="#993366">Rqh pruh olqh. Hqg.</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><font color="#000000">Изпълнение на програмата:</font> </p>
+    <table cellpadding="4" width="100%" border="">
+      <tbody>
+        <tr>
+          <td><b><tt><font color="#990000">&gt;caesar -k7 input.txt
+                  encrypt2.txt</font></tt></b></td>
+        </tr>
+      </tbody>
+    </table>
+    <font color="#000000">Файл <b><tt>encrypt2.txt</tt></b></font>
+    <table cellpadding="4" bgcolor="#CCCCCC" border="">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#993366">Aopz pz h alea av lujyfwa
+                  (1-za) huk kljyfwa (2-uk).</font></tt></b> <br>
+            <b><tt><font color="#993366">Vul tvyl spul. Luk.</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><font color="#000000">Изпълнение на програмата:</font> </p>
+    <table cellpadding="4" width="100%" border="">
+      <tbody>
+        <tr>
+          <td><b><tt><font color="#990000">&gt;caesar -d -k7
+                  encrypt2.txt output.txt</font></tt></b></td>
+        </tr>
+      </tbody>
+    </table>
+    <font color="#000000">Файл <b><tt>output.txt</tt></b></font>
+    <table cellpadding="4" bgcolor="#CCCCCC" border="">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#993366">This is a text to encrypt
+                  (1-st) and decrypt (2-nd).</font></tt></b> <br>
+            <b><tt><font color="#993366">One more line. End.</font></tt></b>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p> </p>
+    <hr width="100%"> <img alt="" src="../b5.gif" width="20"
+      height="18"> Произволен (пряк) достъп.<br>
+    Последователен достъп означава, че можем да четем/пишем от/във файл
+    само последователно - елемент след елемент, байт след байт.<br>
+    Сега бихме искали да можем да четем и пишем на всяко място във
+    файла, което се нарича пряк или произволен достъп.<br>
+    <br>
+    <img alt=""
+      src="../../../2014/NETB151/slides/ch12/images/random_access.png"
+      width="733" height="242"><br>
+    - <font color="#000000">включване на заглавен файл:</font> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; #include
+          &lt;fstream&gt;</font></tt></b> <br>
+    - дефиниране на файлова променлива за четене и писане: <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fstream fs;</font></tt></b>
+    <br>
+    Във всеки файл са дефинирани две специални позиции: <br>
+    <ul>
+      <li>get - позиция за четене,</li>
+      <li>put - позиция за писане.</li>
+    </ul>
+    <img alt=""
+      src="../../../2014/NETB151/slides/ch12/images/get_put.png"
+      width="444" height="295"><br>
+    <br>
+    - преместване на позициите за четене и писане: <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n = 10;</font></tt></b>
+    <br>
+    <b><tt><font color="#009900">/* преместване на позицията за четене
+          10 байта след началото на файла */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekg(n,
+          ios::beg);</font></tt></b> <br>
+    <b><tt><font color="#009900">/* преместване на позицията за писане
+          10 байта след началото на файла */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+          ios::beg);</font></tt></b> <br>
+    <b><tt><font color="#009900">/* преместване на позицията за писане в
+          края на файла */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+          ios::end);</font></tt></b> <br>
+    <b><tt><font color="#009900">/* преместване на позицията за писане
+          10 байта напред относно текущата позиция */</font></tt></b> <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; fs.seekp(n,
+          ios::cur);</font></tt></b> <br>
+    <br>
+    - намиране на текущите позициите за четене и писане: <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; long n;</font></tt></b>
+    <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellg();</font></tt></b>
+    <br>
+    <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; n = fs.tellp();</font></tt></b><br>
+    Дължината на файл можем да получим по следния начин:<br>
+    <font size="+1">
+      <pre>fs.seekg(0, ios::end);<br>long file_length = fs.tellg();</pre>
+    </font>- файлове с променлива или фиксирана дължина на записа: <br>
+    &nbsp;
+    <table cellspacing="0" cellpadding="2" border="">
+      <tbody>
+        <tr>
+          <td><b><tt><font color="#000000">Harry Hacker 500</font></tt></b></td>
+          <td><b><tt><font color="#000000">Johny Johnson 600</font></tt></b></td>
+          <td><b><tt><font color="#000000">Tedy Tompson 700.20</font></tt></b></td>
+        </tr>
+        <tr>
+          <td><b><tt>1234567890123456</tt></b></td>
+          <td><b><tt>12345678901234567</tt></b></td>
+          <td><b><tt>1234567890123456789</tt></b></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    &nbsp;
+    <table cellspacing="0" cellpadding="2" border="">
+      <tbody>
+        <tr>
+          <td><b><tt><font color="#000000">Harry
+                  Hacker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 500</font></tt></b></td>
+          <td><b><tt><font color="#000000">Johny
+                  Johnson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 600</font></tt></b></td>
+          <td><b><tt><font color="#000000">Tedy
+                  Tompson&nbsp;&nbsp;&nbsp; 700.20</font></tt></b></td>
+        </tr>
+        <tr>
+          <td><b><tt>1234567890123456789012</tt></b></td>
+          <td><b><tt>1234567890123456789012</tt></b></td>
+          <td><b><tt>1234567890123456789012</tt></b></td>
+        </tr>
+      </tbody>
+    </table>
+    <p>* Програма за четене на файлови записи, съдържащи име на служител
+      и заплата и промяна на заплатата на даден служител.&nbsp;</p>
+    <p>Примерен файл: <a
+        href="../../../2014/NETB151/sources/ch12/employee.dat"><b><tt>employee.dat</tt></b></a><br>
+    </p>
+    <p><b><tt><font color="#000099">// <a
+              href="../../../2014/NETB151/sources/ch12/database.cpp">database.cpp</a></font></tt></b><a
+        href="../../../2014/NETB151/sources/ch12/database.cpp"> </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;iomanip&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;fstream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;sstream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>&nbsp;</p>
+    <p> <b><tt><font color="#000099">#include "ccc_empl.h"</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">const int NEWLINE_LENGTH = 2; /* или
+            1 за Unix */</font></tt></b> <br>
+      <b><tt><font color="#000099">const int RECORD_SIZE = 30 + 10 +
+            NEWLINE_LENGTH;</font></tt></b> </p>
+    <p><b><tt><font color="#000099">double string_to_double(string s)</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">{ istringstream instr(s);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; double x;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; instr &gt;&gt; x;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; return x;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">void raise_salary(Employee &amp;e,
+            double percent)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ double new_salary =
+            e.get_salary()*(1 + percent/100);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; e.set_salary(new_salary);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">void read_employee(Employee &amp;e,
+            fstream &amp;fs)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ string line;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; getline(fs, line);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; if (fs.fail()) return;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; string name = line.substr(0,
+            30);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; double salary =
+            string_to_double(line.substr(30, 10));</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; e = Employee(name, salary);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">void write_employee(Employee e,
+            fstream &amp;fs)</font></tt></b> <br>
+      <b><tt><font color="#000099">{ fs &lt;&lt; e.get_name()</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+            setw(10 + (30 - e.get_name().length()))</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+            fixed &lt;&lt; setprecision(2)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+            e.get_salary() &lt;&lt; "\n";</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{ cout &lt;&lt; "Please enter the
+            data file name: ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; string filename;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; cin &gt;&gt; filename;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; fstream fs;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; fs.open(filename.c_str());<br>
+            &nbsp; if (fs.fail()) <br>
+            &nbsp; {&nbsp; cout &lt;&lt; "The file " &lt;&lt; filename
+            &lt;&lt; " does not exist!" &lt;&lt; endl;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>
+            &nbsp; }</font></tt></b><br>
+      <b><tt><font color="#000099">&nbsp; fs.seekg(0, ios::end);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; int nrecord =
+            fs.tellg()/RECORD_SIZE;</font></tt></b> </p>
+    <p><b><tt><font color="#000099">&nbsp; cout &lt;&lt; "Please enter
+            the record to update: (0 - "</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &lt;&lt; nrecord - 1 &lt;&lt; ") ";</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; int pos;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; cin &gt;&gt; pos;<br>
+            &nbsp; if (cin.fail() or (pos &lt; 0) or (pos &gt;=
+            nrecord))<br>
+            &nbsp; {&nbsp; cout &lt;&lt; "The record is out of range!"
+            &lt;&lt; endl;<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; exit(1);<br>
+            &nbsp; }<br>
+          </font></tt></b> </p>
+    <p><b><tt><font color="#000099">&nbsp; const double SALARY_CHANGE =
+            5.0;<br>
+          </font></tt></b>&nbsp;<br>
+      <b><tt><font color="#000099">&nbsp; Employee e;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; fs.seekg(pos*RECORD_SIZE,
+            ios::beg);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; read_employee(e, fs);</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp; raise_salary(e,
+            SALARY_CHANGE);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; fs.seekp(pos*RECORD_SIZE,
+            ios::beg);</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; write_employee(e, fs);</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">&nbsp; fs.close();</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp; return 0;</font></tt></b> <br>
+      <b><tt><font color="#000099">}</font></tt></b> <br>
+      <font color="#000000">Файл <b><tt>data.txt </tt></b>преди
+        изпълнение на програмата:</font> </p>
+    <table cellpadding="4" bgcolor="#CCCCCC" border="">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#000000">Harry
+Hacker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;500</font></tt></b>
             <br>
-            <b><tt><font color="#000000">one_word&nbsp; 123&nbsp;
-                  9.98&nbsp; N</font></tt></b> </td>
+            <b><tt><font color="#000000">Johny
+Johnson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;600</font></tt></b>
+            <br>
+            <b><tt><font color="#000000">Tedy
+Tompson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;777</font></tt></b>
+          </td>
         </tr>
       </tbody>
     </table>
     <table cellpadding="4" width="100%" border="">
       <tbody>
         <tr>
-          <td> <b><tt><font color="#993300">many happy words</font></tt></b>
-            <br>
-            <b><tt><font color="#993300">one_word&nbsp; 123&nbsp;
-                  9.98&nbsp; N</font></tt></b> </td>
+          <td> <b><tt><font color="#993300">Please enter the data file
+                  name: data.txt</font></tt></b> <br>
+            <b><tt><font color="#993300">Please enter the record to
+                  update: (0 - 2) 1</font></tt></b> </td>
         </tr>
       </tbody>
     </table>
-    <p><i>Пример:</i><i><tt> </tt></i>Четене на числа от файл, намиране
-      и отпечатване на най-голямото число.</p>
-    <p><tt> // <a href="../../../2014/NETB151/sources/ch12/maxval1.cpp">maxval1.cpp</a><br>
-        #include &lt;string&gt;</tt><tt><br>
-      </tt><tt>#include &lt;iostream&gt;</tt><tt><br>
-      </tt><tt>#include &lt;fstream&gt;</tt><tt><br>
-      </tt><tt>using namespace std;</tt><tt><br>
-      </tt><tt><br>
-      </tt><tt>/**</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; Reads numbers from a file and finds the
-        maximum value</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; @param in the input stream to read from</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; @return the maximum value or 0 if the file
-        has no numbers</tt><tt><br>
-      </tt><tt>*/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      </tt><tt><br>
-      </tt><tt>double read_data(ifstream&amp; in)</tt><tt><br>
-      </tt><tt>{&nbsp; double highest;</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; double next;</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; if (in &gt;&gt; next) highest = next;</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; else return 0;</tt><tt><br>
-      </tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; while (in &gt;&gt; next)</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; if (next &gt; highest) highest =
-        next;</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; </tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; return highest;</tt><tt><br>
-      </tt><tt>}</tt><tt><br>
-      </tt><tt><br>
-      </tt><tt>int main()</tt><tt><br>
-      </tt><tt>{&nbsp; string filename;</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; cout &lt;&lt; "Please enter the data file
-        name: ";</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; cin &gt;&gt; filename;</tt><tt><br>
-      </tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; ifstream infile;</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; infile.open(filename.c_str());</tt><tt><br>
-      </tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; if (infile.fail()) </tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "Error opening "
-        &lt;&lt; filename &lt;&lt; "\n";</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; }</tt><tt><br>
-      </tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; double max = read_data(infile);</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; cout &lt;&lt; "The maximum value is "
-        &lt;&lt; max &lt;&lt; "\n";</tt><tt><br>
-      </tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; infile.close();</tt><tt><br>
-      </tt><tt>&nbsp;&nbsp; return 0;</tt><tt><br>
-      </tt><tt>}</tt><br>
-    </p>
-    <i>Пример:</i> Отделяне на цифрови от текстови данни.
-    <p><tt> //<b> </b><b><a
-            href="../../../2014/NETB151/sources/ch12/readfile.cpp">readfile.cpp</a></b><b><br>
-        </b><b>#include &lt;string&gt;</b></tt><b><tt><br>
-        </tt></b><b><tt>#include &lt;iostream&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>#include &lt;fstream&gt;</tt></b><b><tt><br>
-        </tt></b><b><tt>using namespace std;</tt></b><b><tt><br>
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>int main()</tt></b><b><tt><br>
-        </tt></b><b><tt>{&nbsp; cout &lt;&lt; "Enter the file name: ";</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; string fname;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; cin &gt;&gt; fname;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; ifstream infile;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; infile.open(fname.c_str());</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; if (infile.fail())</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "ERROR";</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
-          1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; int sum = 0;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; while (!infile.eof())</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; char ch;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; infile.get(ch);</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ('0' &lt;= ch
-          &amp;&amp; ch &lt;= '9') /* it was a digit */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;
-          infile.unget(); /* oops - didn't want to read it */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          int n;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          infile &gt;&gt; n; /* read integer starting with ch */</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-          sum += n;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else cout
-          &lt;&lt; ch; </tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; infile.close();</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; cout &lt;&lt; "The sum is "
-          &lt;&lt; sum &lt;&lt; endl;</tt></b><b><tt><br>
-        </tt></b><b><tt>&nbsp;&nbsp; return 0;</tt></b><b><tt><br>
-        </tt></b><b><tt>}</tt></b><br>
-      <br>
-      Б) Писане във файл. <br>
-      * дефиниране на файлова променлива за писане - обект от класа <b><tt><font
-            color="#006600">ofstream:</font></tt></b> <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; ofstream out_data;</font></tt></b>
-      <br>
-      * отваряне на файл <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp;
-            out_data.open("output.dat");</font></tt></b> <br>
-      * писане във&nbsp; файл с: <br>
-      &nbsp;- изходен поток <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; int n = 2;</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; double x = 1.5;</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; string s = " Hello";</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; out_data &lt;&lt; n
-            &lt;&lt; "&nbsp; " &lt;&lt; x &lt;&lt; s;</font></tt></b> <br>
-      &nbsp;- член-функция <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; char ch = 'A';</font></tt></b>
-      <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; out_data.put(ch);</font></tt></b>
-      <br>
-      * затваряне на файл <br>
-      <b><tt><font color="#006600">&nbsp;&nbsp; out_data.close();</font></tt></b>
-    </p>
-    <p><i>Пример:</i> Писане на различни типове данни.</p>
-    <p> <b><tt><font color="#000099">// <a href="sources/writef.cpp">writef.cpp</a></font></tt></b>
-      <br>
-      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">#include
-            &lt;fstream&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            включване на заглавен файл */</font></tt></b> <br>
-      <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">using namespace std;</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">int main()</font></tt></b> <br>
-      <b><tt><font color="#000099">{&nbsp; ofstream out_data; /*
-            дефиниране на файлова променлива за писане */</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp;
-            out_data.open("writef.txt");&nbsp; /* отваряне на файла
-            writef.txt */</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp;&nbsp; string s = "Hello";</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; out_data &lt;&lt; s
-            &lt;&lt; endl; /* писане на низ */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; int n = 5;</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; double x = 5.5;</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; out_data &lt;&lt; n
-            &lt;&lt; " " &lt;&lt; x &lt;&lt; " "; /* писане на числови
-            данни */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; char ch = 'T';</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; out_data.put(ch); /*
-            писане на символ */</font></tt></b> </p>
-    <p><b><tt><font color="#000099">&nbsp;&nbsp;
-            out_data.close();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-/*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            затваряне на файла */</font></tt></b> <br>
-      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
-      <br>
-      <b><tt><font color="#000099">}</font></tt></b> <br>
-      <font color="#000000">Файл </font><font color="#000000"><tt><b>writef.txt:</b></tt></font><tt>
-      </tt> <tt> </tt><tt> </tt><tt> </tt> </p>
+    <font color="#000000">Файл <b><tt>data.txt </tt></b>след
+      изпълнение на програмата:</font>
     <table cellpadding="4" bgcolor="#CCCCCC" border="">
       <tbody>
         <tr>
-          <td> <b><font color="#000000">Hello</font></b><tt> </tt><br>
-            <b><font color="#000000">5 5.5 T</font></b> </td>
+          <td> <b><tt><font color="#000000">Harry
+Hacker&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;500</font></tt></b>
+            <br>
+            <b><tt><font color="#000000">Johny
+Johnson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;630.00</font></tt></b>
+            <br>
+            <b><tt><font color="#000000">Tedy
+Tompson&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;777</font></tt></b>
+          </td>
         </tr>
       </tbody>
     </table>
-    <br>
-    <i>Пример:</i> Отделяне на цифрови от текстови данни и записване на
-    числата във файл.<b><br>
-    </b>
-    <pre><b>// <a href="../../../2014/NETB151/sources/ch12/readwritefiles.cpp">readwritefiles.cpp</a><br>#include &lt;string&gt;
-#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-using namespace std;
-
-int main()
-{  cout &lt;&lt; "Enter the input file name: ";
-   string finame;
-   cin &gt;&gt; finame;
-   
-   ifstream infile;
-   infile.open(finame.c_str());
-   if (infile.fail())
-   {  cout &lt;&lt; "Error opening " &lt;&lt; finame &lt;&lt; endl;
-      return 1;            
-   }
-   
-   cout &lt;&lt; "Enter the output file name: ";
-   string foname;
-   cin &gt;&gt; foname;
-   
-   ofstream outfile;
-   outfile.open(foname.c_str());
-   if (outfile.fail())
-   {  cout &lt;&lt; "Error opening " &lt;&lt; foname &lt;&lt; endl;;
-      return 1;            
-   }
-   
-   while (!infile.eof())
-   {  char ch;
-      infile.get(ch);
-      if ('0' &lt;= ch &amp;&amp; ch &lt;= '9') /* it was a digit */
-      {  infile.unget(); /* oops - didn't want to read it */
-         int n;
-         infile &gt;&gt; n; /* read integer starting with ch */
-         outfile &lt;&lt; n &lt;&lt; endl;
-      }
-      else cout &lt;&lt; ch; 
-   }
-   infile.close();
-   outfile.close();
-   return 0;
-}<br></b></pre>
-    <hr size="2" width="100%">** Йерархия на потоковите класове<br>
-    <p>* Потоковата библиотека на С++ се състои от няколко класове,
-      свързани в следната йерархия:</p>
-    <p><img alt=""
-        src="../../../2014/NETB151/slides/ch12/images/stream_hierarchy.png"
-        width="715" height="337"><br>
-    </p>
-    <p>* Обектите <font size="+1"><tt>cin</tt></font> и <font
-        size="+1"><tt>cout </tt></font>са от класове, които са системно
-      зависими и нямат стандартни имена, но са производни класове
-      съответно на&nbsp; <font size="+1"><tt>istream</tt></font> и <font
-        size="+1"><tt>ostream</tt></font>. Затова можем да дефинираме:<br>
-    </p>
-    <p><font size="+1"> </font></p>
-    <pre><font size="+1">double read_data(istream&amp; in);</font></pre>
-    <font size="+1"> </font>
-    <p>и след това да извикаме функцията с параметри от различни
-      производни на <font size="+1"><tt>istream</tt></font> класове: .<br>
-    </p>
-    <p><font size="+1"> </font></p>
-    <pre><font size="+1">max = read_data(infile);<br>max = read_data(cin);</font></pre>
-    <font size="+1"> </font>
-    <p><i>Пример:</i> Четене на числа от файл или стандартен вход,
-      намиране и отпечатване на най-голямото число. </p>
-    <pre><b>// </b><b><a href="../../../2014/NETB151/sources/ch12/maxval2.cpp">maxval2.cpp</a></b><b><br></b><b>#include &lt;string&gt;
-#include &lt;iostream&gt;
-#include &lt;fstream&gt;
-using namespace std;
-
-/**
-   Reads numbers from a file and finds the maximum value
-   @param in the input stream to read from
-   @return the maximum value or 0 if the file has no numbers
-*/            
-double read_data(<font color="#993399">istream</font>&amp; in)
-{  double highest;
-   double next;
-   if (in &gt;&gt; next) highest = next;
-   else return 0;
-
-   while (in &gt;&gt; next)
-      if (next &gt; highest) highest = next;
-   
-   return highest;
-}
-
-int main()
-{  double max;
-
-   string input;
-   cout &lt;&lt; "Do you want to read from a file? (y/n) ";
-   cin &gt;&gt; input;
-
-   if (input == "y")
-   {  string filename;
-      cout &lt;&lt; "Please enter the data file name: ";
-      cin &gt;&gt; filename;
-
-      ifstream infile;
-      infile.open(filename.c_str());
-
-      if (infile.fail()) 
-      {  cout &lt;&lt; "Error opening " &lt;&lt; filename &lt;&lt; "\n";
-         return 1;
-      }
-
-      max = read_data(<font color="#993399">infile</font>);
-      infile.close();
-   }
-   else max = read_data(<font color="#993399">cin</font>);
-
-   cout &lt;&lt; "The maximum value is " &lt;&lt; max &lt;&lt; "\n";
-   return 0;
-}</b></pre>
-    <hr width="100%"> ** Абстрактни класове<br>
-    <br>
-    <i>Пример:</i> Йерархия на геометрични фигури в равнината.<br>
-    <img alt="" src="images/Shapes.png" width="688" height="486"><br>
-    - Ако искаме да имаме полиморфна функция за лице на фигура - <font
-      size="+1"><tt>area</tt></font>, то тази функция трябва да бъде
-    дефинирана в базовия клас <font size="+1"><tt>Shape</tt></font>. <br>
-    - Тази функция има смисъл за всеки клас, производен на класа <font
-      size="+1"><tt>Shape</tt></font>, но в класа <font size="+1"><tt>Shape</tt></font>
-    тя няма смисъл.<br>
-    - Такава функция се декларира по специален начин в базовия клас и се
-    нарича чисто виртуална член-функция.<br>
-    <font size="+1"><tt>class Shape {</tt><tt><br>
-      </tt><tt>...</tt><tt><br>
-      </tt><tt>virtual double area() const = 0; </tt><tt><br>
-      </tt><tt>};</tt></font><br>
-    - Клас, който има поне една чисто виртуална член-функция се нарича
-    абстрактен клас.<br>
-    - Клас, който се състои изцяло от чисто виртуални член-функции
-    понякога се нарича интерфейс.<br>
-    <i>Пример:</i><br>
-    <font size="+1"><tt>class Shape { <br>
-        public:</tt></font><br>
-    <font size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp; virtual
-            double perimeter() const = 0; <br>
-          </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double
-        area() const = 0; </tt><tt><br>
-      </tt><tt>};<br>
-        <br>
-        class Triangle: public Shape {<br>
-        public:<br>
-        &nbsp;&nbsp;&nbsp; ...</tt></font> <br>
-    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-                virtual double perimeter() const <br>
-                &nbsp;&nbsp;&nbsp; { return a + b + c; } <br>
-              </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double
-            area() const <br>
-            &nbsp;&nbsp;&nbsp; {&nbsp;&nbsp; double p = (a + b + c)/2;<br>
-            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
-            sqrt(p*(p-a)*(p-b)*(p-c)); <br>
-            &nbsp;&nbsp;&nbsp; }<br>
-            private:<br>
-            &nbsp;&nbsp;&nbsp; double a, b, c;<br>
-            };<br>
-          </tt></font></tt></font><br>
-    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt>class
-                Circle: public Shape {<br>
-                public:<br>
-                &nbsp;&nbsp;&nbsp; ...<br>
-              </tt></font> <font size="+1"><tt><font size="+1"><tt><font
-                      size="+1"><tt>&nbsp;&nbsp;&nbsp; virtual double
-                        perimeter() const <br>
-                        &nbsp;&nbsp;&nbsp; { return 2*PI*r; } <br>
-                      </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual
-                    double area() const <br>
-                    &nbsp;&nbsp;&nbsp; { return PI*r*r; }<br>
-                    private:<br>
-                    &nbsp;&nbsp;&nbsp; double r;<br>
-                    };<br>
-                    ...<br>
-                    int main()<br>
-                    {<br>
-                    //&nbsp; Shape* s = new Shape; &nbsp; &nbsp; &nbsp;
-                    &nbsp; &nbsp; &nbsp; &nbsp; // <font
-                      color="#cc0000">ERROR!!</font> <br>
-                    &nbsp;&nbsp;&nbsp; Shape* s = new Triangle(4, 5,
-                    6);&nbsp;&nbsp; // First s is a triangle </tt></font></tt></font></tt></font></tt></font><br>
-    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt><font
-                  size="+1"><tt><font size="+1"><tt><font size="+1"><tt><font
-                              size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-                                    cout &lt;&lt; "Area is " &lt;&lt;
-                                    s.area() &lt;&lt; "\n";</tt></font></tt></font></tt></font></tt></font>&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-                    <br>
-                    &nbsp;&nbsp;&nbsp; s = new Circle(10);
-                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
-                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // Now it is a
-                    square<br>
-                    &nbsp;&nbsp;&nbsp; cout &lt;&lt; "Area is " &lt;&lt;
-                    s.area() &lt;&lt; "\n";<br>
-                    &nbsp;&nbsp;&nbsp; ...<br>
-                    &nbsp;&nbsp;&nbsp; return 0;<br>
-                    }</tt></font></tt></font></tt></font></tt></font><br>
-    <hr size="2" width="100%">
+    <hr width="100%">
   </body>
 </html>
