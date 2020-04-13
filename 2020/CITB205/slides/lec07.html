@@ -12,13 +12,13 @@
       <h3 align="left">7. Въведение в структури от данни</h3>
     </center>
     <i>План:</i><br>
-    Свързани списъци<br>
+    Свързани списъци - основни понятия<br>
     Свързан списък, стек и опашка в Стандартната библиотека шаблони
     (STL)<br>
     Други стандартни контейнери в STL<br>
     Алгоритми в STL<br>
     <hr size="2" width="100%"><img alt="" src="../b5.gif" height="18"
-      width="20">&nbsp; <b>Свързани списъци. </b><br>
+      width="20">&nbsp; <b>Свързани списъци - основни понятия </b><br>
     * Свързан списък е линейна структура от данни (редица),&nbsp; където
     всяка стойност се съхранява в отделен блок от паметта, заедно с
     местоположението на съседните блокове в редицата. <br>
@@ -26,7 +26,7 @@
     да се вмъкне или отстрани елемент, без да се местят другите елементи
     - сложност <i>O</i>(1). <br>
     * <a href="../../CITB107/slides/ch09/lecture_9.html">Векторът</a>
-    (или<a href="../../CITB107/slides/ch09/lecture_10.html"> масивът</a>)
+    (и <a href="../../CITB107/slides/ch09/lecture_10.html">масивът</a>)
     е също линейна структура, но при вмъкване и изтриване на елемент се
     местят друти елементи - сложност <i>O</i>(<i>n</i>). <br>
     * Във всеки елемент на свързания списък се съхранява една данна
@@ -36,7 +36,15 @@
         src="../../../2014/NETB151/slides/ch16/images/linked_list_1.png"
         height="163" width="809"></div>
     <p>* Вмъкването и изтриването на елемент от свързан списък става
-      лесно - променят се стойностите само на няколко връзки (адреси). </p>
+      лесно - променят се стойностите само на няколко връзки (адреси).<br>
+      * На картинката: <br>
+      - създава се нов елемент Rudolf;<br>
+      - променя се следващия елемент след Larry (от Susan на Rudolf);<br>
+      - променя се&nbsp; предишния елемент на Susan (от Larry на
+      Rudolf); се<br>
+      - добавя се предишен елемнт Larrry на новия Rudolf;<br>
+      - добавя се следващ елемент Susan на новия елемнт Rudolf.<br>
+    </p>
     <center> <img alt=""
         src="../../../2014/NETB151/slides/ch16/images/insert_node.png"
         height="402" width="834"><br>
@@ -44,6 +52,10 @@
     </center>
     * Изтриването на елемент от свързан списък <b>не</b> изисква
     преместване на елементи на списъка.<br>
+    * На картинката:<br>
+    - променя се следващия елемент на Harry от Larry на Susan;<br>
+    - променя се предишния елемент на Susan от Larry&nbsp; на Harry;<br>
+    - изтрива се Larry.<br>
     <br>
     <div align="center"><img alt=""
         src="../../../2014/NETB151/slides/ch16/images/remove_node.png"
@@ -57,17 +69,26 @@
 
 
 
+
       </b>осигурява пряк достъп (<b>не</b> поддържа операция индекс). <br>
+      * За достъп до елементите на свързания списък е достатъчно да
+      знаем местоположенето (адреса) на първия елемент на списъка.<br>
+      * Достъп до <i>k</i>-тия елемнт на свързан списък се реализизира,
+      като се започне от първия му елемент и се обходят всички елементи
+      до <i>k</i>-тия, като се броят посетените елементи - сложност <i>O</i>(<i>n</i>).<br>
     </p>
     <hr size="2" width="100%">
     <p>** В стандартната библиотека шаблони (STL) на С++ има реализация
       на линейната структура свързан списък - <a
         href="http://www.cplusplus.com/reference/list/list/">шаблонът <b><tt><font
               color="#000099">list</font></tt></b></a>. <br>
-      * Достъп до елементите на свързания списък се осъществява
-      посредством итератор.<br>
-      * Всички операции се изпълняват за време <i>O</i>(1).<br>
-      <i>Пример:</i><br>
+      * Всички основни операции на класа <tt>list</tt> се изпълняват за
+      време <i>O</i>(1).<br>
+      * Достъп до елементите на свързания списък&nbsp; с <i>n</i>
+      елемента се осъществява посредством итератор за време <i>O</i>(<i>n</i>).
+
+      <i><br>
+        Пример:</i><br>
     </p>
     <p><b><tt><font color="#000099">// <a
               href="../../../2014/NETB151/sources/ch16/list1.cpp">list1.cpp</a></font></tt></b><a
@@ -102,6 +123,7 @@
 
 
 
+
             шаблон за списък */</font></tt></b> </p>
     <p><b><tt><font color="#000099">&nbsp;&nbsp;
             staff.push_back("Cracker, Carl");</font></tt></b> <br>
@@ -113,6 +135,7 @@
             staff.push_back("Sandman, Susan");</font></tt></b> </p>
     <p><b><tt><font color="#000099">&nbsp;&nbsp;
             list&lt;string&gt;::iterator pos;</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -183,6 +206,7 @@
 
 
 
+
       <b><tt><font color="#000000">/* извежда съдържание на текущата
             позиция */</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
@@ -203,13 +227,18 @@
       </tbody>
     </table>
     <img alt="" src="../b5.gif" height="18" width="20"><b>Стек и опашка</b><br>
-    * <b>Стек</b> е линейна структура от данни с добавяне и изтриване
-    на елементи само от единия край, наречен връх на стека. <br>
-    * Нарича се още LIFO от last in, first out. <br>
-    * Две са основните операции за стека: добавяне на елемент към стека
-    - <tt>push</tt> и изваждане на елемент от стека -&nbsp; <tt>pop</tt>.<br>
+    * <b>Стек</b> е линейна структура (редица) от данни с добавяне и
+    изтриване (изваждане) на елементи само от единия край, наречен връх
+    на стека. <br>
+    * Не е позволен достъп до другите елементи на редицата.<br>
+    * Това правило за добавяне и изваждане на елементи се нарича още
+    LIFO (last in, first out). <br>
+    * Основни операции: <br>
+    - добавяне на елемент към стека - <tt>push;</tt> <br>
+    - и изваждане на елемент от стека -&nbsp; <tt>pop</tt>.<br>
     * Двете основни операции отнемат константно време - <i>O</i>(1).<br>
     * <a href="http://www.cplusplus.com/reference/list/list/">Реализация
+
 
 
 
@@ -225,19 +254,22 @@
       в STL</a>. <i><br>
       Пример:</i> <font size="+1">
       <pre><span style="color: rgb(255, 0, 0); font-weight: bold;">stack</span>&lt;<span style="font-weight: bold; color: rgb(255, 0, 0);">string</span>&gt; s;<br>s.<span style="color: rgb(255, 0, 0);">push</span>("Tom");<br>s.<span style="color: rgb(255, 0, 0);">push</span>("Dick");<br>s.<span style="color: rgb(255, 0, 0);">push</span>("Harry");<br><span style="color: rgb(51, 51, 255); font-weight: bold;">while</span> (s.<span style="color: rgb(255, 0, 0);">size</span>() &gt; 0)<br>{  cout &lt;&lt; s.<span style="color: rgb(255, 0, 0);">top</span>() &lt;&lt; "\n";<br>   s.<span style="color: rgb(255, 0, 0);">pop</span>()<br>}</pre>
-    </font>* <b>Опашка</b> е линейна структура от данни с добавяне на
-    елементи от единия край и изтриване на елементи от другия край. <br>
-    * Нарича се още FIFO от first in, first out.<br>
-    * Две са основните операцииза опашка: добавяне на елемент към
-    опашката - <tt>push</tt> и изваждане на елемент от опашката - <tt>pop</tt>.
-    <br>
+    </font>* <b>Опашка</b> е линейна структура (редица) от данни с
+    добавяне на елементи от единия край и изтриване на елементи от
+    другия край. <br>
+    * Не е позволен достъп до другите елементи на редицата.<br>
+    * Това правило за добавяне и изваждане на елементи се нарича FIFO
+    (first in, first out).<br>
+    * Основни операции: <br>
+    - добавяне на елемент към опашката - <tt>push</tt>; <br>
+    - изваждане на елемент от опашката - <tt>pop</tt>. <br>
     * Двете основни операции се изпълняват за константно време - <i>O</i>(1).<br>
     <a href="http://www.cplusplus.com/reference/queue/queue/">Реализация
       в STL</a>:<br>
     <i>Пример:</i><br>
     <font size="+1">
       <pre><span style="font-weight: bold; color: rgb(255, 0, 0);">queue</span>&lt;<span style="color: rgb(255, 0, 0); font-weight: bold;">string</span>&gt; q;<br>q.<span style="color: rgb(255, 0, 0);">push</span>("Tom");<br>q.<span style="color: rgb(255, 0, 0);">push</span>("Dick");<br>q.<span style="color: rgb(255, 0, 0);">push</span>("Harry");<br><span style="color: rgb(51, 102, 255); font-weight: bold;">while</span> (q.<span style="color: rgb(255, 0, 0);">size</span>() &gt; 0)<br>{  cout &lt;&lt; q.<span style="color: rgb(255, 0, 0);">front</span>() &lt;&lt; "\n";<br>   q.<span style="color: rgb(255, 0, 0);">pop</span>();<br>}</pre>
-    </font>Пример: <br>
+    </font><i>Пример: </i><br>
     <pre><tt><b><font color="#000080">// <a href="../../../2014/NETB151/sources/ch16/fifolifo.cpp">fifolifo.cpp</a><br>01: #include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
 <b><font color="#000080">02: #include</font></b> <font color="#ff0000">&lt;string&gt;<br></font>03: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;queue&gt;</font>
 04: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;stack&gt;</font>
@@ -271,8 +303,8 @@
     * <b>М</b><b>ножество</b> (<tt><b><a
           href="http://www.cplusplus.com/reference/set/set/?kw=set">set</a></b>)</tt>
     е контейнер (линейна структура от данни), който поддържа линейна
-    наредба на елементите (независимо в какъв ред са въведени), като не
-    допуска дублиращи се стойности. <br>
+    наредба на елементите (сортирани), независимо в какъв ред са
+    въведени, като не допуска дублиращи се стойности. <br>
     * Достъп до елементите на множеството се осъществява посредством
     итератор.<br>
     * Елементите на <tt>set</tt> се съхраняват в нелинейна структура от
@@ -329,8 +361,12 @@ int main()
         <pre>map&lt;string, double&gt; scores;<br>scores["Tom"] = 90;<br>scores["Dick"] = 86;<br>scores["Harry"] = 100;</pre>
       </font></span>* <a
       href="http://www.cplusplus.com/reference/map/multimap/">Multimap</a>
-    е контейнер от двойки елементи - (ключ, стойност), като се допускат
-    елементи с еднакви ключове.<i><br>
+    е контейнер от двойки елементи (ключ, стойност), като се допускат
+    елементи с еднакви ключове.<br>
+    * Обект от шаблонът <a
+      href="http://www.cplusplus.com/reference/utility/pair/"><tt>pair</tt></a>
+    се състои от два публични елемента (данни) - <tt>first</tt> и <tt>second</tt>,
+    чиито типове се задават като параметри на шаблона.<i><br>
     </i>
     <pre><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; 
 font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; 
@@ -370,9 +406,10 @@ int main()
 }   <br></pre>
     <hr size="2" width="100%"> <img alt="" src="../b5.gif" height="18"
       width="20"><b>Алгоритми в STL</b><br>
-    * Причината за въвеждане и използване на итератори е отделянето на
-    алгоритмите от структурите от данни (контейнерите). <br>
+    * Причината за въвеждане и използване на итератори в STL е
+    отделянето на алгоритмите от структурите от данни (контейнерите). <br>
     * <a href="http://www.cplusplus.com/reference/algorithm/">Алгоритмите
+
 
 
 
