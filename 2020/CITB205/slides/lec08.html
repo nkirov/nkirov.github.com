@@ -18,6 +18,10 @@
       Реализация на свързани списъци - класове, итератори,&nbsp;
       операции.&nbsp;</p>
     <p>* Ще реализираме свързан списък с елементи - низове. <br>
+    </p>
+    <p><img
+        src="../../../2014/NETB151/slides/ch16/images/linked_list_1.png"
+        alt="list" width="809" height="163"><br>
       * Всеки връх на списъка съдържа низ и два указателя - адреси на
       предишен и следващ връх на свързания списък.<br>
     </p>
@@ -25,18 +29,22 @@
     <p>* Ключовата дума <tt>friend</tt> означава, че класът <tt>Node</tt>
       дава на член-функциите на класовете <tt>List</tt> и <tt>Iterator</tt>
       достъп до частните си членове. <br>
-      * Всеки обект от класа <tt>List</tt> съдържа адресите на първия и
-      последния елемент на свързания списък.<br>
+      * Свързан списък се задава, като се посочи адресът на първия му
+      елемент.<br>
+      * Всеки обект от класа <tt>List</tt> ще съдържа адресите на
+      първия и последния елемент на свързания списък.<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">class</span> <span style="font-weight: bold;">List</span> {<br><span style="color: rgb(51, 51, 255); font-weight: bold;">public:</span><br>   <span style="font-weight: bold;">List</span>();<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> push_back(string s);<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> insert(<span style="font-weight: bold;">Iterator</span> pos, string s);<br>   <span style="font-weight: bold;">Iterator</span> erase(<span style="font-weight: bold;">Iterator</span> pos);<br>   <span style="font-weight: bold;">Iterator</span> begin();<br>   <span style="font-weight: bold;">Iterator</span> end();<br><span style="font-weight: bold; color: rgb(51, 51, 255);">private:</span><br>   <span style="font-weight: bold;">Node</span>* first;<br>   <span style="font-weight: bold;">Node</span>* last;<br>};</pre>
     <p>* Когатo свързният списък е празен, двата указателя имат стойност
       <tt>NULL</tt>. <br>
-      * Итераторът задава позиция (на връх) в свързания списък.<br>
+      * Итераторът задава позиция (на връх) в свързания списък -
+      указател <tt>position</tt>.<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255); font-weight: bold;">class</span> <span style="font-weight: bold;">Iterator</span> {<br><span style="font-weight: bold; color: rgb(51, 51, 255);">public:</span><br>   <span style="font-weight: bold;">Iterator</span>();<br>   string get() <span style="font-weight: bold; color: rgb(51, 51, 255);">const</span>;     /* use instead of * */<br>   <span style="font-weight: bold; color: rgb(51, 102, 255);">void</span> next();            /* use instead of ++ */<br>   <span style="font-weight: bold; color: rgb(51, 102, 255);">void</span> previous();        /* use instead of -- */<br>   <span style="font-weight: bold; color: rgb(51, 102, 255);">bool</span> equals(<span style="font-weight: bold;">Iterator</span> b) <span style="font-weight: bold; color: rgb(51, 51, 255);">const</span>; /* use instead of == */<br><span style="font-weight: bold; color: rgb(51, 51, 255);">private:</span><br>   <span style="font-weight: bold;">Node</span>* position;<br>   <span style="font-weight: bold;">Node</span>* last;<br><span style="font-weight: bold; color: rgb(51, 51, 255);">friend class</span> <span style="font-weight: bold;">List</span>;<br>};</pre>
     <p>* Когато итераторът задава позиция "след последния елемент",
       стойността на&nbsp; <tt>position</tt> е <tt>NULL</tt>.&nbsp; <br>
       * Функциите <tt>begin</tt> и <tt>end</tt> от класа <tt>List</tt>&nbsp;
+
 
 
 
@@ -60,7 +68,7 @@
     </p>
     <img alt=""
       src="../../../2014/NETB151/slides/ch16/images/iterator_next.png"
-      width="879" height="537">
+      width="775" height="473">
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">Iterator</span>::next()<br>{  assert(position != NULL)<br>   position = position-&gt;next;<br>}</pre>
     <p>* Подобна е функцията <tt>previous</tt>:<br>
     </p>
@@ -69,12 +77,13 @@
     </p>
     <img alt=""
       src="../../../2014/NETB151/slides/ch16/images/appending.png"
-      width="868" height="362">
+      width="784" height="326">
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">List</span>::push_back(string s)<br>{  <span style="font-weight: bold;">Node</span>* newnode = <span style="font-weight: bold; color: rgb(51, 102, 255);">new</span> <span style="font-weight: bold;">Node</span>(s);<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (last == NULL) /* list is empty */<br>   {  first = newnode;<br>      last = newnode;<br>   }<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">else</span><br>   {  newnode-&gt;previous = last;<br>      last-&gt;next = newnode;<br>      last = newnode;<br>   }<br>}</pre>
-    <p>* Функцията <tt>insert</tt> променя данни на предишния и
-      следващия върхове - важен е редът на присвояванията.<img alt=""
+    <p>* Функцията <tt>insert</tt> променя данни на предишния (<tt>next</tt>)
+      и следващия (<tt>previous</tt>) върхове - важен е редът на
+      присвояванията.<img alt=""
         src="../../../2014/NETB151/slides/ch16/images/insert_node.png"
-        width="834" height="402"> </p>
+        width="760" height="366"> </p>
     <p>* Специален случай за празен списък:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (iter.position == NULL)<br>{  push_back(s);<br>   <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">return</span></span>;<br>}</pre>
@@ -236,6 +245,7 @@
 
 
 
+
             = last;</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last-&gt;next = </font></tt></b><b><tt><font
             color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
@@ -253,6 +263,7 @@
             позицията, преди която да се вмъкне</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 s
+
 
 
 
@@ -379,6 +390,7 @@ s
       <b><tt><font color="#000099">&nbsp;
             else&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 position
+
 
 
 
