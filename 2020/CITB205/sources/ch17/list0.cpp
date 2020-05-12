@@ -243,6 +243,13 @@ void List::free()
 {  while (begin() != end()) erase(begin());
 }
 
+void print(const List& l)
+{
+    Iterator pos;
+    for (pos = l.begin(); pos != l.end(); pos++)
+        cout << *pos << "\n";
+}
+
 int main()
 {  List staff;
 
@@ -250,25 +257,32 @@ int main()
    staff.push_back("Hacker, Harry");
    staff.push_back("Lam, Larry");
    staff.push_back("Sandman, Susan");
+    
+    List newstaff(staff); // copy constructor
+    cout << "newstaff1:" << endl;
+    print(newstaff);
 
+    Iterator pos;
    /* add a value in fourth place */
-   Iterator pos;
    pos = staff.begin();
    pos++;
    pos++;
    pos++;
-
    staff.insert(pos, "Reindeer, Rudolf");
 
    /* remove the value in second place */
    pos = staff.begin();
    pos++;
-
    staff.erase(pos);
 
-   /* print all values */
-   for (pos = staff.begin(); pos != staff.end(); pos++)
-      cout << *pos << "\n";
-
+   cout << "staff1:" << endl;
+   print(staff);
+   cout << "newstaff2:" << endl;
+   print(newstaff);
+    
+   staff = newstaff; // overloaded assigment operator
+   cout << "staff2:" << endl;
+   print(staff);
+                    // destructor
    return 0;
 }
