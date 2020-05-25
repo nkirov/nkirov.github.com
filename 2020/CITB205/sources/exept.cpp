@@ -4,7 +4,7 @@ using namespace std;
 
 void f()
 {  cout << "f" << endl;
-    throw runtime_error("RTE");
+   throw runtime_error("RTE");
 }
     
 void ff() throw ()
