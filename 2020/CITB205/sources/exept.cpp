@@ -4,10 +4,10 @@ using namespace std;
 
 void f()
 {  cout << "f" << endl;
-    throw runtime_error("RTE");
+    throw 22;
 }
     
-void ff() throw ()
+void ff()
 {   cout << "ff1" << endl;
     f();
     cout << "ff2" << endl;
@@ -18,8 +18,8 @@ int main()
     {  ff();
         cout << "main" << endl;
     }
-    catch(runtime_error& r)  // runtime_error& r)
-    { cout << "2. " << r.what() << endl;
+    catch(int k)  // runtime_error& r)
+    { cout << "2. " << k << endl;
     }
     return 0;
 }
