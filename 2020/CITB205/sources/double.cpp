@@ -1,9 +1,19 @@
 #include<iostream>
 using namespace std;
 
-class Student {
+class Person  {
 public:
-    Student()
+    Person(string n) { name = n; }
+    string get_name() const
+    { return name; }
+private:
+    string name;
+};
+
+class Student : // virtual
+      public Person {
+public:
+    Student(string n):Person(n)
     {  id = "sid"; }
     virtual string get_id() const
     { return id; }
@@ -11,9 +21,10 @@ private:
     string id;
 };
 
-class Employee {
+class Employee :  // virtual
+      public Person{
 public:
-    Employee()
+    Employee(string n):Person(n)
     { id = "eid"; }
     virtual string get_id() const
     { return id; }
@@ -23,7 +34,9 @@ private:
 
 class TeachingAssistant : public Employee, public Student {
 public:
-    TeachingAssistant():Employee(), Student(){}
+    TeachingAssistant(string n): Employee(n), Student(n),
+    Person(n)
+    {}
 //    string get_id() const;
     string student_id() const;
 };
@@ -36,21 +49,12 @@ string TeachingAssistant::student_id() const
 
 int main()
 {
-    TeachingAssistant* fred = new TeachingAssistant();
+    TeachingAssistant* fred = new TeachingAssistant("Fred");
     Employee* new_hire = fred; // Legal, because a TeachingAssistant is-a Employee
     Student* advisee = fred;  // Legal, because a TeachingAssistant is-a Student
+    cout << "Your name is " << fred->get_name() << endl;
     
-    // cout << "Your number is " << fred->get_id() << "\n";
-    // Error, ambiguous member function name
-    cout << "Your number is " << fred->Student::get_id() << "\n";
-    
-    cout << "Your number is " << new_hire->get_id() << "\n";
-    cout << "Your number is " << advisee->get_id() << "\n";
-    
-    cout << "Your number is " << fred->student_id() << "\n";
-   // cout << "Your number is " << new_hire->student_id() << "\n";
-    
-    Student* mary = new Student();
+    Student* mary = new Student("Mary");
  //   Student* mary = new TeachingAssistant();
     TeachingAssistant* lab_instructor = dynamic_cast<TeachingAssistant*>(mary);
     
