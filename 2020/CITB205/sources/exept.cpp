@@ -4,7 +4,11 @@ using namespace std;
 
 void f()
 {  cout << "f" << endl;
+<<<<<<< HEAD
     throw 22;
+=======
+   throw runtime_error("RTE");
+>>>>>>> dc1bbabcad3e9690096d9b4d99378e21207a82c2
 }
     
 void ff()
