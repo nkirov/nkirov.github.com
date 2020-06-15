@@ -10,7 +10,7 @@ private:
     string name;
 };
 
-class Student : // virtual
+class Student : virtual
       public Person {
 public:
     Student(string n):Person(n)
@@ -21,7 +21,7 @@ private:
     string id;
 };
 
-class Employee :  // virtual
+class Employee :  virtual
       public Person{
 public:
     Employee(string n):Person(n)
