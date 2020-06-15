@@ -40,7 +40,7 @@ int main()
     Employee* new_hire = fred; // Legal, because a TeachingAssistant is-a Employee
     Student* advisee = fred;  // Legal, because a TeachingAssistant is-a Student
     
-    // cout << "Your number is " << fred->get_id() << "\n";
+     cout << "Your number is " << fred->get_id() << "\n";
     // Error, ambiguous member function name
     cout << "Your number is " << fred->Student::get_id() << "\n";
     
@@ -48,7 +48,7 @@ int main()
     cout << "Your number is " << advisee->get_id() << "\n";
     
     cout << "Your number is " << fred->student_id() << "\n";
-   // cout << "Your number is " << new_hire->student_id() << "\n";
+    cout << "Your number is " << new_hire->student_id() << "\n";
     
     Student* mary = new Student();
  //   Student* mary = new TeachingAssistant();
