@@ -1,0 +1,450 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Chapter 7</title>
+  </head>
+  <body>
+    <big> </big>
+    <h2>9. Приоритетна опашка - втора част<br>
+    </h2>
+    <h2>Хип</h2>
+    <ul>
+      <li> <big>Ефективна реализация на приоритетна опашка използва
+          (нелинейна) структура от данни, наречена хип (купчина) - и
+          двете основни операции (вмъкване и изваждане) се изпълняват за
+          логаритмично време&nbsp;</big><big><span style="font-style:
+            italic;">O</span>(log <span style="font-style: italic;">n</span>).</big>
+      </li>
+    </ul>
+    <big> <span style="font-weight: bold;"> Структура от данни хип</span><br>
+    </big>
+    <ul>
+      <li><big>Хип е двоично дърво, пазещо ключове във вътрешните възли
+          и имащо следните свойства:</big></li>
+      <ul>
+        <li><big><span style="font-style: italic;">Хип-наредба
+              (Heap-Order)</span>: за всеки вътрешен възел <span
+              style="font-style: italic;">v</span> който не е корена, <span
+              style="font-family: monospace;">key</span>(<span
+              style="font-style: italic;">v</span>) ≥ <span
+              style="font-family: monospace;">key</span>(<span
+              style="font-family: monospace;">parent</span>(<span
+              style="font-style: italic;">v</span>));</big></li>
+        <li><big><span style="font-style: italic;">Пълно двоично дърво
+              (Complete Binary Tree)</span>: нека <span
+              style="font-style: italic;">h</span> е височината на
+            дървото</big></li>
+        <ul>
+          <li><big>за <span style="font-style: italic;">i</span> = 0, …
+              , <span style="font-style: italic;">h</span> − 2, има 2<sup><span
+                  style="font-style: italic;">i</span></sup> възела е
+              дълбочина <span style="font-style: italic;">i;</span></big></li>
+          <li><big>за дълбочина <span style="font-style: italic;">h </span>−
+              1, вътрешните възли са наляво от външните възли.</big></li>
+        </ul>
+      </ul>
+      <li><big>Последен възел (<span style="font-style: italic;">last
+            node</span>) на хипа е най-десния вътрешен възел на
+          дълбочина <span style="font-style: italic;">h</span> − 1.</big></li>
+    </ul>
+    <big><img style="width: 374px; height: 271px;" alt="" src="pic1.jpg"></big><br>
+    <big><span style="font-weight: bold;"></span>Твърдение: Хип <span
+        style="font-style: italic;">T</span> съдържащ <span
+        style="font-style: italic;">n</span> ключа има височина <span
+        style="font-style: italic;">h</span> = [log(<span
+        style="font-style: italic;">n</span> + 1)].<br>
+      Доказателство: (прилагаме свойството пълно двоично дърво)</big><br>
+    <ul>
+      <li> <big>Тъй като има 2<sup><span style="font-style: italic;">i</span></sup>
+          ключове с дълбочина <span style="font-style: italic;">i </span>=
+          0, … , <span style="font-style: italic;">h</span> −2 и поне
+          един ключ с дълбочина <span style="font-style: italic;">h</span>
+          −1, имаме <span style="font-style: italic;">n</span> ≥ 1 + 2
+          + 4 +… + 2<sup><span style="font-style: italic;">h</span> −2</sup>
+          + 1 =&nbsp; </big><big>2<sup><span style="font-style:
+              italic;">h</span> −1</sup></big><big>, следователно <span
+            style="font-style: italic;">n</span> ≥ 2<sup><span
+              style="font-style: italic;">h</span> − 1</sup>, т.е. <span
+            style="font-style: italic;">h</span> </big><font size="+1">≥</font><big>
+          log <span style="font-style: italic;">n</span> + 1.</big><big><sup>
+          </sup></big> </li>
+      <li> <big>От свойствата на пълно двоично дърво - има </big><big>2<sup><span
+              style="font-style: italic;">h</span> − 1</sup></big><big>&nbsp;
+
+
+
+
+
+
+
+
+
+
+          ключове с дълбочина </big><big><span style="font-style:
+            italic;">h</span> −1</big><big>, имаме <span
+            style="font-style: italic;">n</span> </big><big>≤</big><big>
+          1 + 2 + 4 +… + 2<sup><span style="font-style: italic;">h</span>
+            −1</sup> =&nbsp; </big><big>2<sup><span style="font-style:
+              italic;">h</span> </sup></big><big>−</big><big>1,</big><big>
+          следователно <span style="font-style: italic;">n</span> </big><big>≤</big><big>
+          2<sup><span style="font-style: italic;">h</span></sup> </big><big>−</big><big>1</big><big>,
+          т.е. <span style="font-style: italic;">h</span> ≤ log (<span
+            style="font-style: italic;">n</span> + 1).</big> </li>
+    </ul>
+    <big> <img style="width: 669px; height: 240px;" alt=""
+        src="pic2.jpg"><br>
+      <br>
+      <span style="font-weight: bold;">Реализация на приоритетна опашка
+        с хип</span><br>
+    </big>
+    <ul>
+      <li><big>Използва се хип за реализация на приоритетна опашка.<br>
+        </big></li>
+      <li><big>Обектите (<span style="font-family: monospace;">key</span>,
+          <span style="font-family: monospace;">element</span>) се пазят
+          във&nbsp; вътрешните възли.</big></li>
+      <li><big>Запазва се позицията на последния възел.</big></li>
+    </ul>
+    <big><img style="width: 678px; height: 258px;" alt="" src="pic3.jpg"><br>
+      &nbsp; <span style="font-weight: bold;">Представяне на хип с
+        вектор</span><br>
+    </big>
+    <ul>
+      <li><big>Ще представим хип с <span style="font-style: italic;">n</span>
+          ключове като вектор с дължина <span style="font-style:
+            italic;">n</span> + 1.</big></li>
+      <li><big>За възел с ранг <span style="font-style: italic;">i</span></big></li>
+      <ul>
+        <li><big>лявото дете е с ранг 2<span style="font-style: italic;">i,</span></big></li>
+        <li><big>дясното дете е с ранг 2<span style="font-style:
+              italic;">i</span> +1.</big></li>
+      </ul>
+      <li><big>Връзките между възлите не се пазят директно.</big></li>
+      <li><big>Листата на дървото не са представени във вектора.</big></li>
+      <li><big>Клетката с ранг 0 не се използва.</big></li>
+      <li><big>Операция <span style="font-family: monospace;">insertItem</span>
+          съответства на вмъкване с ранг <span style="font-style:
+            italic;">n</span> + 1.</big></li>
+      <li><big>Операция <span style="font-family: monospace;">removeMin</span>
+          съответства на премахване с ранг 1.</big></li>
+      <li><big>Получаваме хип сортиране "на място" (без допълнителна
+          памет).</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"><img style="width: 351px;
+          height: 329px;" alt="" src="pic4.jpg"><br>
+        Вмъкване</span><br>
+    </big>
+    <ul>
+      <li><big>Методът <span style="font-family: monospace;">insertItem</span>
+          на приоритетна опашка АТД съответства на добавяне на ключ <span
+            style="font-style: italic;">k</span> към хипа.</big></li>
+      <li><big>Алгоритъмът за добавяне се състои от 3 стъпки:</big></li>
+      <ul>
+        <li><big>намиране на възел за вмъкване <span style="font-style:
+              italic;">z </span>(нов последен възел);</big></li>
+        <li><big>Записваме <span style="font-style: italic;">k</span> в
+            <span style="font-style: italic;">z</span> и разширяваме <span
+              style="font-style: italic;">z</span> до вътрешен възел;</big></li>
+        <li><big>Възстановяваме хип-наредбата (дадено по-долу).</big></li>
+      </ul>
+    </ul>
+    <big><span style="font-weight: bold;"><br style="font-weight: bold;">
+      </span></big>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <img style="width: 365px;
+              height: 200px;" alt="" src="pic5.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"> <img style="width: 378px;
+              height: 185px;" alt="" src="pic6.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"></span><span
+        style="font-weight: bold;"><br>
+        "Бълбукане нагоре" след вмъкване</span><br>
+    </big>
+    <ul>
+      <li><big>След вмъкване на нов ключ <span style="font-style:
+            italic;">k</span>, хип-наредбата може да се наруши.</big></li>
+      <li><big>Алгоритъмът "бълбукане нагоре" (upheap) възстановява
+          хип-наредбата чрез размяна на <span style="font-style:
+            italic;">k</span> по пътя нагоре (към корена на дървото) от
+          възела на вмъкване.<br>
+        </big></li>
+      <li> <big><big><font size="+1">Размяната се </font></big>прекратява,
+
+
+
+
+
+
+          когато ключът</big><big><big> <font size="+1"><span
+                style="font-style: italic;">k</span></font> </big>достигне
+
+
+
+
+
+
+
+
+
+
+          корена или възел, чийто родител е с&nbsp; ключ по-малък или
+          равен на&nbsp;<span style="font-style: italic;">k.</span></big>
+      </li>
+      <li> <big>Тъй като хипът има височина <span style="font-style:
+            italic;">O</span>(log <span style="font-style: italic;">n</span>),
+
+
+
+
+
+
+
+
+
+
+        </big><big><font size="+1">алгоритъмът "бълбукане нагоре"</font>
+          се изпълнява за време <span style="font-style: italic;">O</span>(log
+
+
+
+
+
+
+
+
+
+          <span style="font-style: italic;">n</span>).</big> </li>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <img style="width: 375px;
+              height: 181px;" alt="" src="pic7.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"> <img style="width: 375px;
+              height: 188px;" alt="" src="pic8.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"></span><span
+        style="font-weight: bold;">Премахване</span><br>
+    </big>
+    <ul>
+      <li><big>Методът <span style="font-family: monospace;">removeMin</span>
+          на приоритетната опашка АТД съответства на премахване на ключа
+          на корен от хипа.</big></li>
+      <li><big>Алгоритъмът за премахване се състои от 3 стъпки:</big></li>
+      <ul>
+        <li><big>Заместване на ключа на корена с ключа на последния
+            възел <span style="font-style: italic;">w.</span></big></li>
+        <li><big>Свиваме <span style="font-style: italic;">w</span> и
+            неговите деца в едно листо.</big></li>
+        <li><big>Възстановяваме хип-наредбата (дадено по-долу).</big></li>
+      </ul>
+    </ul>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <img style="width: 301px;
+              height: 193px;" alt="" src="pic9.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"> <img style="width: 308px;
+              height: 182px;" alt="" src="pic10.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;">"Бълбукане надолу" след
+        премахване</span><br>
+    </big>
+    <ul>
+      <li> <big>След заместване на ключа на корена с ключа </big><big><big><font
+              size="+1"> <span style="font-style: italic;">k</span></font>
+          </big>на последния възел, хип-наредбата може да се наруши.</big>
+      </li>
+      <li><big>Алгоритъмът "бълбукане надолу" (downheap) възстановява
+          хип-наредбата чрез размяна на ключа <span style="font-style:
+            italic;">k</span> по пътя надолу (към листата) от корена.</big></li>
+      <li><big>Размяната се прекратява когато <span style="font-style:
+            italic;">k</span> достигне листо или възел, чийто деца имат
+          ключове по-големи или равни на <span style="font-style:
+            italic;">k</span></big></li>
+      <li> <big>Тъй като хипът има височина <span style="font-style:
+            italic;">O</span>(log <span style="font-style: italic;">n</span>),
+
+
+
+
+
+
+
+
+
+
+        </big><big><font size="+1">алгоритъмът "бълбукане надолу"</font>
+          се изпълнява за време <span style="font-style: italic;">O</span>(log
+
+
+
+
+
+
+
+
+
+          <span style="font-style: italic;">n</span>).</big> </li>
+    </ul>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <img style="width: 302px;
+              height: 185px;" alt="" src="pic11.jpg"><br>
+          </td>
+          <td style="vertical-align: top;"> <img style="width: 298px;
+              height: 193px;" alt="" src="pic12.jpg"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"><br>
+        Анализ<br>
+        <br>
+      </span></big>
+    <table style="text-align: left; width: 693px; height: 149px;"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big><span
+                style="font-weight: bold;">Function</span><br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span
+                style="font-weight: bold;">Time</span><br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>size(),
+
+
+
+
+
+
+
+
+
+
+              isEmpty()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>minElement(),
+
+
+
+
+
+
+
+
+
+
+              minKey()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertItem(k,e)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeMin()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <big style="font-weight: bold;">C++ реализация<br>
+      <br>
+    </big><big><a href="7.7_HeapTree.h-HeapTree.html">html-7.7</a>
+      (HeapTree)<br>
+      <a href="7.8_HeapPriorityQueue.h-HPQ1.html">html-7.8</a> (HPQ1)<br>
+      <a href="7.9_HeapPriorityQueue.h-HPQ2.html">html-7.<span
+          style="text-decoration: underline;">9</span></a> (HPQ2)<br>
+    </big><big><big><br>
+      </big></big><a href="https://visualgo.net/en/heap?slide=1">VisoAlgo</a><br>
+    <br>
+    <a href="https://www.cs.usfca.edu/%7Egalles/visualization/Heap.html">Heap
+
+
+
+
+      Visualization</a><br>
+    <big><br>
+    </big><big style="font-weight: bold;"> Сортиране с хип</big><big><br>
+    </big>
+    <ul>
+      <li><big>Разглеждаме приоритетна опашка с <span
+            style="font-style: italic;">n</span> обекти, реализирана
+          като хип:</big></li>
+      <ul>
+        <li><big>използваната памет е <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>);</big></li>
+        <li><big>методите <span style="font-family: monospace;">insertItem</span>
+            и <span style="font-family: monospace;">removeMin</span>
+            отнемат време <span style="font-style: italic;">O</span>(log
+
+
+
+
+
+
+
+
+            <span style="font-style: italic;">n</span>).</big></li>
+        <li><big>методите <span style="font-family: monospace;">size</span>,
+            <span style="font-family: monospace;">isEmpty</span>, <span
+              style="font-family: monospace;">minKey</span> и <span
+              style="font-family: monospace;">minElement</span> отнемат
+            време <span style="font-style: italic;">O</span>(1).</big></li>
+      </ul>
+      <li><big>Използвайки реализирана с хип приоритетна опашка, можем
+          да сортираме множество от <span style="font-style: italic;">n</span>
+          елемента за време <span style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span> log <span
+            style="font-style: italic;">n</span>).</big></li>
+      <li><big>Получения алгоритъм се нарича сортиране с хип.</big></li>
+      <li><big>Сортирането с хип е много по-бързо, отколкото
+          квадратичните алгоритми за сортиране, като вмъкване и избор.</big></li>
+    </ul>
+    <p><a
+        href="https://www.cs.usfca.edu/%7Egalles/visualization/HeapSort.html">HeapSort</a><br>
+    </p>
+    <ul>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>
