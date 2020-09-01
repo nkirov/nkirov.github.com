@@ -1,0 +1,605 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>l2</title>
+  </head>
+  <body>
+    <h3> <span style="font-weight: normal;"> 2. Evaluation and
+        complexity of algorithms [1.4] </span><br>
+    </h3>
+    <font color="#000000">Three main features of a computer algorithm:<br>
+      -- simplicity and elegance;<br>
+      -- correctness;<br>
+      -- speed.<br>
+      <br>
+    </font> <font color="#000000">Let's look at the following snippet:</font>
+    <p><b><tt><font color="#006600">cin &gt;&gt; n;</font></tt></b> <br>
+      <b><tt><font color="#006600">sum = 0;</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i=0; i&lt;n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j=0; j&lt;n; j++) sum++;</font></tt></b>
+      <br>
+      &nbsp; </p>
+    <table cols="2" cellpadding="6" width="100%">
+      <tbody>
+        <tr>
+          <td valign="top"> <font color="#000000">* How fast will the
+              above program work? what are the criteria by which its
+              speed is determined?<br>
+              * We can experimentally check how long the program will
+              run.<br>
+              * In order to investigate more generally its behavior is
+              to run it with different values of n.</font><span
+              style="font-style: italic;"></span><font color="#000000">
+              <br>
+              <br>
+              *The results are summarized in the following table:<br>
+              <br>
+              * The table shows that when we increase n (the dimension
+              of the input) 10 times, the execution time increases 100
+              times.<br>
+            </font> </td>
+          <td>
+            <center>
+              <table cellspacing="0" cellpadding="6" border="1">
+                <tbody>
+                  <tr>
+                    <td bgcolor="#ffff99">Input size <br>
+                      <span style="font-style: italic;">n</span> </td>
+                    <td bgcolor="#ffff99">Execution time <br>
+                      sec<br>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>10<sup>-6</sup> </td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>10<sup>-4</sup> </td>
+                  </tr>
+                  <tr>
+                    <td>1000</td>
+                    <td>0.01</td>
+                  </tr>
+                  <tr>
+                    <td>10<sup>4</sup> </td>
+                    <td>1.071</td>
+                  </tr>
+                  <tr>
+                    <td>10<sup>6</sup> </td>
+                    <td>106.5</td>
+                  </tr>
+                  <tr>
+                    <td>10<sup>8</sup> </td>
+                    <td>10663.6</td>
+                  </tr>
+                </tbody>
+              </table>
+            </center>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    &nbsp; <br>
+    <font color="#000000">* </font><font color="#000000"><font
+        color="#000000">Execution time is proportional to <i>g</i>(<i>n</i>)<i>
+          = c</i><sub>1</sub><i>n</i><sup>2 </sup>+ <i>c</i><sub>2</sub><i>n
+        </i>+ <i>c</i><sub>3</sub>, where <i>c</i><sub>1</sub>, <i>c</i><sub>2</sub>,
+        <i>c</i><sub>3</sub> are constants that are determined by a
+        given piece of the program (see below).&nbsp;</font></font> <br>
+    &nbsp;
+    <table cols="2" cellpadding="6" width="100%" border="0">
+      <tbody>
+        <tr>
+          <td valign="top"><font color="#000000">* Comparison of two
+              functions:<br>
+              &nbsp;<i>g</i><sub>1</sub>(<i>n</i>)<i>= </i>2<i>n</i><sup>2
+              </sup>и <i>g</i><sub>2</sub>(<i>n</i>)<i>= </i>200<i>n</i>,
+              <br>
+              which show the execution time of two given algorithms А<sub>1</sub>
+              and A<sub>2</sub>, </font><font color="#000000"><font
+                color="#000000">depending on</font> <i>n</i>.&nbsp;</font>
+            <br>
+            &nbsp; <br>
+            &nbsp;
+            <p>* Asymptotically, the algorithm A<sub>2</sub> is faster
+              and its complexity is linear, while that of A<sub>1</sub>
+              is quadratic..</p>
+          </td>
+          <td>
+            <center>
+              <table cellspacing="0" cellpadding="6" border="1">
+                <tbody>
+                  <tr>
+                    <td bgcolor="#ffff99"><i><font color="#000000">n</font></i></td>
+                    <td bgcolor="#ffff99"><font color="#000000"><font
+                          color="#000000"><i>g</i><sub>1</sub></font>(<i>n</i>)</font></td>
+                    <td bgcolor="#ffff99"><font color="#000000"><font
+                          color="#000000"><i>g</i><sub>2</sub></font>(<i>n</i>)</font></td>
+                  </tr>
+                  <tr>
+                    <td>1</td>
+                    <td>2</td>
+                    <td>200</td>
+                  </tr>
+                  <tr>
+                    <td>10</td>
+                    <td>200</td>
+                    <td>2000</td>
+                  </tr>
+                  <tr>
+                    <td>100</td>
+                    <td>2.10<sup>4</sup> </td>
+                    <td>2.10<sup>4</sup> </td>
+                  </tr>
+                  <tr>
+                    <td>1000</td>
+                    <td>2.10<sup>6</sup> </td>
+                    <td>2.10<sup>5</sup> </td>
+                  </tr>
+                  <tr>
+                    <td>10<sup>4</sup> </td>
+                    <td>2.10<sup>8</sup> </td>
+                    <td>2.10<sup>6</sup> </td>
+                  </tr>
+                  <tr>
+                    <td>10<sup>6</sup> </td>
+                    <td>2.10<sup>12</sup> </td>
+                    <td>2.10<sup>8</sup> </td>
+                  </tr>
+                </tbody>
+              </table>
+            </center>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <h4><font color="#000000">&nbsp;<span style="font-weight: bold;">Input
+
+          data size<br>
+        </span></font></h4>
+    <p><font color="#000000">* Let be a task in which the size of the
+        input data is determined by an integer n.<br>
+        * Almost all the tasks we will be looking at have this property.<br>
+        * We will explain the latter by looking at a few examples:</font>
+    </p>
+    Example 1.<br>
+    Sort an array with n elements.<br>
+    The size of the input data is determined by the number n of the
+    array elements.<br>
+    <br>
+    Example 2.<br>
+    Find the largest common divisor of a and b.<br>
+    In this example, the size of the input data is determined by the
+    number of binary digits (bits) of the greater of the numbers a and
+    b.<br>
+    <br>
+    Example 3.<br>
+    Find a cover tree on a graph.<br>
+    In this case, we characterize the size of the input by two numbers:
+    the number of vertices and the number of edges.
+    <p><font color="#000000"><b>Asymptotic notation</b><br>
+        <br>
+        * When we are speaking about the complexity of an algorithm, we
+        are most often interested in how it will work at a sufficiently
+        large size n of the input data.<br>
+        * When formally evaluating the complexity of algorithms, we
+        examine their behavior at "sufficiently large" n.<br>
+        <br>
+        1. O(f) defines the set of all functions g that grow no faster
+        than f, i.e. there is a constant c &gt; 0 such that g(n) &lt;=
+        cf(n) for all sufficiently large values ​​of n.<br>
+        <br>
+        2. Theta(f) determines the set of all functions g that grows as
+        fast as f (up to a constant factor), ie. there are constants c<sub>1</sub>
+        &gt; 0 and c<sub>2</sub> &gt; 0 such that </font><font
+        color="#000000"><font color="#000000">c<sub>1</sub></font>f(n)
+        &lt;= g(n) &lt;= </font><font color="#000000"><font
+          color="#000000">c<sub>1</sub></font>f(n) for all sufficiently
+        large values ​​of n.<br>
+        <br>
+        3. Omega(f) defines the set of all functions g that grow no
+        slower than f, ie. there exists a constant c &gt; 0 such that
+        g(n)&gt; = cf(n) for all sufficiently large values ​​of n.<i><br>
+        </i></font></p>
+    <p style="font-weight: bold;"><font color="#000000"><i>O</i>(<i>f</i>):
+
+        Properties and examples</font> </p>
+    <p><font color="#000000">* Notation <i>О</i>(<i>f</i>) is the most
+        commonly used in evaluating the complexity of algorithms and
+        programs.</font> <br>
+      <font color="#000000">* More important properties of </font><font
+        color="#000000"><i>О</i>(<i>f</i>)</font><font color="#000000">
+        (~ denotes belong to):</font> </p>
+    <li><font color="#000000">Reflexivity: <i>f</i> <span
+          style="font-family: symbol;">~</span><i> О</i>( <i>f </i>);</font></li>
+    <li> <font color="#000000">Transitivity: if <i>f</i> ~<i> О</i>(<i>g</i>),<i>
+          g</i> <font face="Symbol">~ </font><i>О</i>(<i>h</i>),
+        then&nbsp; <i>f</i><span style="font-family: symbol;"> ~</span>
+        <i>О</i>(<i>h</i>);</font> </li>
+    <li>Transposed symmetry<font color="#000000">:&nbsp; if <i>f</i>&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+        <font face="Symbol">~ <i>Omega </i></font>(<i>g</i>), then <i>g</i>
+        <font face="Symbol">~ </font><i>O</i>( <i>f </i>) </font><font
+        color="#000000">and vice versa;</font> </li>
+    <li> <font color="#000000">Constants can be ignored: for each <i>k
+          &gt; </i>0, <i>kF</i><span style="font-family: symbol;"> ~ </span><i>О</i>(<i>F</i>);</font>
+    </li>
+    <li> <font color="#000000"><i>n</i>, raised higher, increases
+        faster: <i>n<sup>r</sup></i><span style="font-family: symbol;">~
+        </span><i>О</i>(<i>n<sup>s</sup></i>), for 0 &lt; <i>r</i> &lt;
+        <i>s</i>.</font> </li>
+    <li> <font color="#000000">the growth rate of the sum of functions
+        is determined by the fastest growing of them: <i>f + g</i> ~
+        max(<i>O</i>( <i>f </i>), <i>O</i>(<i>g</i>));</font> </li>
+    <li><font color="#000000">if <i>f</i>(<i>n</i>) is a polynomial of
+        degree d, then <i>f</i><font face="Symbol"> ~ </font><i>О</i>(<i>n<sup>d</sup></i>);</font>
+    </li>
+    <p style="font-weight: bold;" align="center"><font color="#000000">Growth
+
+        rate of commonly used functions:</font> </p>
+    <center>
+      <table cols="6" cellspacing="0" cellpadding="4" width="59%"
+        border="1">
+        <tbody>
+          <tr>
+            <td bgcolor="#ffffcc">
+              <center>Function / <span style="font-style: italic;">n</span><br>
+              </center>
+            </td>
+            <td bgcolor="#ffffcc">
+              <center>1</center>
+            </td>
+            <td bgcolor="#ffffcc">
+              <center>2</center>
+            </td>
+            <td bgcolor="#ffffcc">
+              <center>10</center>
+            </td>
+            <td bgcolor="#ffffcc">
+              <center>100</center>
+            </td>
+            <td bgcolor="#ffffcc">
+              <center>1000</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+            <td>
+              <center>5</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center>log <i>n</i> </center>
+            </td>
+            <td>
+              <center>0</center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>3.32</center>
+            </td>
+            <td>
+              <center>6.64</center>
+            </td>
+            <td>
+              <center>9.96</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n</i></center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>10</center>
+            </td>
+            <td>
+              <center>100</center>
+            </td>
+            <td>
+              <center>1000</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center> <i>n</i> log <i>n</i> </center>
+            </td>
+            <td>
+              <center>0</center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>33.2</center>
+            </td>
+            <td>
+              <center>664</center>
+            </td>
+            <td>
+              <center>9996</center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center> <i>n</i><sup>2</sup> </center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>4</center>
+            </td>
+            <td>
+              <center>100</center>
+            </td>
+            <td>
+              <center>10<sup>4</sup> </center>
+            </td>
+            <td>
+              <center>10<sup>6</sup> </center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center> <i>n</i><sup>3</sup> </center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>8</center>
+            </td>
+            <td>
+              <center>1000</center>
+            </td>
+            <td>
+              <center>10<sup>6</sup> </center>
+            </td>
+            <td>
+              <center>10<sup>9</sup> </center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center>2<i><sup>n</sup></i> </center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>4</center>
+            </td>
+            <td>
+              <center>1024</center>
+            </td>
+            <td>
+              <center>10<sup>30</sup> </center>
+            </td>
+            <td>
+              <center>10<sup>300</sup> </center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center> <i>n</i>!</center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>2</center>
+            </td>
+            <td>
+              <center>3628800</center>
+            </td>
+            <td>
+              <center>10<sup>157</sup> </center>
+            </td>
+            <td>
+              <center>10<sup>2567</sup> </center>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <center><i>n<sup>n</sup></i></center>
+            </td>
+            <td>
+              <center>1</center>
+            </td>
+            <td>
+              <center>4</center>
+            </td>
+            <td>
+              <center>10<sup>10</sup> </center>
+            </td>
+            <td>
+              <center>10<sup>200</sup> </center>
+            </td>
+            <td>
+              <center>10<sup>3000</sup> </center>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+    <p><font color="#000000">** <b>Determining the complexity of an
+          algorithm.</b><br>
+        * Finding the function that determines the relationship between
+        the size of the input data and the runtime.<br>
+        * We always look at the worst case - the worst case inputs.<br>
+        - elementary operation - does not depend on the amount of data
+        processed</font><font color="#000000"> - <i>O</i>(1) ;</font> <br>
+      <font color="#000000">- operator sequence - is determined by the
+        asymptotically slowest -&nbsp; <i>f + g</i> </font><font
+        color="#000000"><span style="font-family: symbol;">~</span></font><font
+        color="#000000"> max(<i>O</i>( <i>f </i>), <i>O</i>(<i>g</i>));</font>
+      <br>
+      <font color="#000000">-operator composition - multiplication by
+        complexity- <i>f (g)</i> </font><font color="#000000"><span
+          style="font-family: symbol;">~</span></font><font
+        color="#000000"> <i>O</i>( <i>f*g</i>);</font> <br>
+      - conditional operators - is determined by the asymptotically
+      slowest between the condition and the different cases<font
+        color="#000000">;</font> <br>
+      <font color="#000000">- loops, two nested </font><font
+        color="#000000"><font color="#000000">loops</font>, <i>p</i>
+        nested c</font><font color="#000000"><font color="#000000">loops</font>
+        - <i>O</i>(<i>n</i>), </font><font color="#000000"><i><font
+            color="#000000"><i>O</i></font></i><font color="#000000">(</font><i><font
+            color="#000000"><i>n</i></font></i><font color="#000000"><sup>2</sup></font><font
+          color="#000000">)</font><i><font color="#000000">, </font>O</i>(<i>n<sup>p</sup></i>)
+        .</font> </p>
+    <font color="#000000">Estimating the complexity of the following
+      loops (how many times the loop will perform in the worst-case):</font>&nbsp;
+
+
+    <p><b><tt><font color="#000099">/</font><font color="#006600">/ 1</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; n; j++,
+            sum++);</font></tt></b> <br>
+      <b><tt><font color="#006600">// 2</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; n; j++) if
+            (a[i] == b[j]) return;</font></tt></b> <br>
+      <b><tt><font color="#006600">// 3</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; n; j++) if
+            (a[i] != b[j]) return;</font></tt></b> <br>
+      <b><tt><font color="#006600">// 4</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; n; j++) if
+            (a[i] == a[j]) return;</font></tt></b> <br>
+      <b><tt><font color="#006600">// 5</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; i; j++)
+            sum++;</font></tt></b> <br>
+      <b><tt><font color="#006600">// 6</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; n*n; j++)
+            sum++;</font></tt></b> <br>
+      <b><tt><font color="#006600">// 7</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; i*i; j++)
+            sum++;</font></tt></b> <br>
+      <b><tt><font color="#006600">// 8</font></tt></b> <br>
+      <b><tt><font color="#006600">for (i = 0; i &lt; n; i++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;for (j = 0; j &lt; i*i; j++)</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; for (k = 0; k &lt; j*j;
+            k++) sum++;</font></tt></b> <br>
+    </p>
+    <hr style="width: 100%; height: 2px;"> <span style="font-weight:
+      bold;"></span>
+    <h4>Logarithmic complexity</h4>
+    <p>Let's look at the loop: <br>
+      <b><tt><font color="#006600">for (sum = 0, i = 0; i &lt; n; i *=
+            2) sum++;</font></tt></b> <br>
+      The variable <b><tt>i</tt></b> has values 1, 2, 4, ..., 2<i><sup>k</sup></i>,
+      ...&nbsp; until it surpasses<tt> <b>n</b></tt>. The loop is run
+      [log <i>n</i>] times. The complexity is <i>O</i>(log <i>n</i>).
+    </p>
+    <p><span style="font-weight: bold;">Calculation of recursion
+        complexity</span><br>
+      * Binary search in sorted array - recursive algorithm.&nbsp;</p>
+    <pre>int binary_search(vector&lt;int&gt; v, int from, int to, int a)
+{  
+   if (from &gt; to)
+      return -1;
+   int mid = (from + to) / 2;
+   if (v[mid] == a)
+      return mid;
+   else if (v[mid] &lt; a)
+      return binary_search(v, mid + 1, to, a);
+   else
+      return binary_search(v, from, mid - 1, a);
+}<br></pre>
+    <p>* We count the references to the elements of the array.<br>
+      * The recursive function looks at the middle element and makes a
+      recursive call with a twice smaller array.<br>
+      * Therefore, if <i>T</i>(<i>n</i>) is the function that specifies
+      the number of hits, then <i>T</i>(<i>n</i>) = <i>T</i>(<i>n/</i>2)
+
+
+
+      + 1. <br>
+      * From the equality<br>
+      <i>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+        T</i>(<i>n</i>) = <i>T</i>(<i>n/</i>2) + 1 = <i>T</i>(<i>n/</i>4)
+
+
+
+
+
+      + 2 = <i>T</i>(<i>n/</i>8) + 3 = ... = <i>T</i>(<i>n/</i>2<i><sup>k</sup></i>)
+      + <i>k</i> <br>
+      we obtain for <i>n</i> = 2<i><sup>k</sup></i> that&nbsp;<i> T</i>(<i>n</i>)
+      = <i>T</i>(1) + log <i>n</i>, i.e. the complexity of the
+      algorithm is <i>O</i>(log <i>n</i>). </p>
+    <span style="font-weight: bold;">Difficulties of asymptotic notation
+      - dependence on input data</span><br>
+    * Best case, worst case, total complexity (examples - sorting
+    algorithms).<br>
+    <ul>
+      <li>the worst case<br>
+      </li>
+      <li>the best case<br>
+      </li>
+      <li>the average case<br>
+      </li>
+    </ul>
+    <hr width="100%">
+  </body>
+</html>
