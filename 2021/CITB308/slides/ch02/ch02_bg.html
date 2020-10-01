@@ -5,8 +5,13 @@
     <title>ch01_2</title>
   </head>
   <body>
-    <h2>Обектно-ориентирано програмиране<br>
-    </h2>
+    <h2>Обектно-ориентирано програмиране</h2>
+    <p>Цели и принципи<br>
+      Наследяване и полиморфизъм<br>
+      Шаблони<br>
+      Обработка на изключения<br>
+    </p>
+    <hr width="100%" size="2">
     <h3>Цели и принципи<br>
     </h3>
     <h4>Цели на обектно-ориентирания дизайн</h4>
@@ -38,7 +43,7 @@
     <hr style="width: 100%; height: 2px;">
     <h3><a href="../../../../2013/CITB201/slides/l05.html">Наследяване и
         полиморфизъм</a></h3>
-    <h3>Наследяване в C++</h3>
+    <font size="+1"><b>Наследяване в C++</b></font><br>
     Наследяването позволява проектирането на общи (базови) класове,
     които могат да бъдат специализирани за други (по-частни) класове, с
     повторно използване на кода на общия клас от специализираните
@@ -51,12 +56,12 @@
       <pre>Person person(...)<span style="color: rgb(51, 51, 255);"></span>;       // define a person&nbsp;<br>Student student<span style="color: rgb(51, 51, 255);"></span>(...);     // define a student<br>cout &lt;&lt; student.getName();// invokes Person::getName()<br>person.print();           // invokes Person::print();<br>student.print();          // invokes Student::print();<br>person.changeMajor(<span style="color: rgb(204, 0, 0);">"Math"</span>); // <span style="font-weight: bold;">ERROR!</span><br>student.changeMajor(<span style="color: rgb(204, 0, 0);">"Math"</span>); // OK<br><span style="color: rgb(51, 51, 255);">void</span> Person::print()    // definition of Person print<br>{ cout &lt;&lt; name &lt;&lt; " " &lt;&lt; ssn; }<br><span style="color: rgb(51, 51, 255);">void</span> Student::print()   // definition of Student print<br>{ Person::print();      // first print Person data<br>  cout &lt;&lt; major &lt;&lt; gradYear;<br>} <span style="color: rgb(51, 51, 255);"></span><br></pre>
     </blockquote>
     <span style="font-weight: bold;"><a href="vector.cpp"><span
-          style="color: rgb(204, 0, 0);"></span></a></span>
-    <h4><span style="font-weight: bold;">Class Protection</span></h4>
+          style="color: rgb(204, 0, 0);"></span></a></span><br>
+    <span style="font-weight: bold;">Class Protection</span><br>
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">class</span> Base {<br>   <span style="color: rgb(51, 51, 255);">private:</span><br>       <span style="color: rgb(51, 51, 255);">int</span> priv;<br>   <span style="color: rgb(51, 51, 255);">protected:</span><br>       <span style="color: rgb(51, 51, 255);">int</span> prot;<br>   <span style="color: rgb(51, 51, 255);">public:</span><br>       <span style="color: rgb(51, 51, 255);">int</span> publ;<br>};<br><span style="color: rgb(51, 51, 255);">class</span> Derived: <span style="color: rgb(51, 51, 255);">public</span> Base { <br>   <span style="color: rgb(51, 51, 255);">void </span>someMemberFunction() <br>   { cout &lt;&lt; priv;    // <span style="font-weight: bold;">ERROR:</span> private member<br>     cout &lt;&lt; prot;    // OK<br>     cout &lt;&lt; publ;    // OK<br>   }<br>};<br><span style="color: rgb(51, 51, 255);">class</span> Unrelated {<br>  Base X;<br>  <span style="color: rgb(51, 51, 255);">void</span> anotherMemberFunction() <br>  {  cout &lt;&lt; X.priv;   // <span style="font-weight: bold;">ERROR:</span> private member<br>     cout &lt;&lt; X.prot;   // <span style="font-weight: bold;">ERROR:</span> protected member<br>     cout &lt;&lt; X.publ;   // OK<br>  }<br>};<br></pre>
     </blockquote>
-    <h4><span style="font-weight: bold;">Конструктори и деструктори</span></h4>
+    <span style="font-weight: bold;">Конструктори и деструктори</span><br>
     <blockquote>
       <pre>Person::<span style="color: rgb(51, 51, 255);"></span>Person(<span style="color: rgb(51, 51, 255);">const</span> string &amp;nm, <span style="color: rgb(51, 51, 255);">const</span> string &amp;ss)  <br><span style="color: rgb(51, 51, 255);"></span>: name(nm), ssn(ss) {}           // initializer list<br>Student::Student(<span style="color: rgb(51, 51, 255);">const</span> string &amp;nm, <span style="color: rgb(51, 51, 255);">const</span> string &amp;ss,<br>                 <span style="color: rgb(102, 0, 204);">const</span> string &amp;maj, <span style="color: rgb(51, 51, 255);">int</span> year)<span style="color: rgb(51, 51, 255);"></span><br>: Person(nm, ss),      // initialize Person data members<br>  major(maj),          // initialize member<br>  gradYear(year) {}    // initialize gradYear<br>Person::~Person()      // Person destructor<br>{ ... }<br>Student::~Student()    // Student destructor<br>{ ... }<br>Student* s = <span style="color: rgb(51, 51, 255);">new</span> Student(...);<br>//...<br><span style="color: rgb(51, 51, 255);">delete</span> s;   // calls ~Student() then ~Person()<br></pre>
     </blockquote>
@@ -67,7 +72,7 @@
     <h3><a href="../../../../2013/CITB201/slides/l13.html">Шаблони
         (template)<br>
       </a></h3>
-    <h4>Функции-шаблони</h4>
+    <b>Функции-шаблони</b><br>
     <ul>
       <li>Минимум на две цели числа:<br>
         <blockquote>
@@ -100,7 +105,8 @@
         </blockquote>
       </li>
     </ul>
-    <h4>Класове-шаблони</h4>
+    <br>
+    <b>Класове-шаблони</b><br>
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">template</span> &lt;<span style="color: rgb(51, 51, 255);">typename</span> Object&gt;<br><span style="color: rgb(51, 51, 255);">class</span> BasicVector {<br>   Object* a;                  // array storing an element<br>   <span style="color: rgb(51, 51, 255);">int</span> capacity;               // length of array a<br>public:<br>   BasicVector(<span style="color: rgb(51, 51, 255);">int</span> cap = 10)   // constructor<br>   {  capacity = cap;<br>      a = <span style="color: rgb(51, 51, 255);">new</span> Object[capacity];// allocate array storage<br>   }<br>   Object&amp; elemAtRank(<span style="color: rgb(51, 51, 255);">int</span> r)   // access element at index r<br>   {  <span style="color: rgb(51, 51, 255);">return</span> a[r];  }<br>// ...<br>};<br></pre>
     </blockquote>
@@ -110,18 +116,18 @@
     <h3><span style="font-weight: bold;"></span></h3>
     <hr style="width: 100%; height: 2px;">
     <h3><span style="font-weight: bold;"><a
-          href="../../../../2013/CITB201/slides/l14.html">Изключения</a></span></h3>
+          href="../../../../2013/CITB201/slides/l14.html">Обработка на
+          изключения</a></span></h3>
     Изключенията са неочаквани събития, които се случват по време на
     изпълнението на програмата.<br>
-    <h4><span style="font-weight: bold;">Изключения-обекти<br>
-      </span></h4>
-    <h4><span style="font-weight: bold;">Използване на наследяване за
-        дефиниране на нови типове за изключения</span></h4>
+    <br>
+    <span style="font-weight: bold;">Използване на наследяване за
+      дефиниране на нови типове за изключения</span><br>
     <span style="font-weight: bold;"></span>
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);"></span><font style="color: rgb(51, 51, 255);" color="#a000a0">class</font> MathException {  // <font style="color: rgb(0, 0, 0);" color="#0000ff">generic math exception</font><br><font style="color: rgb(51, 51, 255);" color="#a000a0">private</font><span style="color: rgb(51, 51, 255);">:</span><br>  string errMsg;       // error message<br><font style="color: rgb(51, 51, 255);" color="#a000a0">public</font><span style="color: rgb(51, 51, 255);">:</span><br>  <font color="#000000">MathException</font>(<font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> string&amp; err) { errMsg = err; }<br>};<br><font style="color: rgb(51, 51, 255);" color="#a000a0">class</font> ZeroDivisionException : <span style="color: rgb(51, 51, 255);">public</span> MathException {<br><font style="color: rgb(51, 51, 255);" color="#a000a0">public</font><span style="color: rgb(51, 51, 255);">:</span><br>  ZeroDivisionException(<font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> string&amp; err) <br>: MathException(err) {}<br>};<br><font style="color: rgb(51, 51, 255);" color="#a000a0">class</font> NegativeRootException : <span style="color: rgb(51, 51, 255);">public</span> MathException {<br><font style="color: rgb(51, 51, 255);" color="#a000a0">public</font><span style="color: rgb(51, 51, 255);">:</span><br>  NegativeRootException(<font style="color: rgb(51, 51, 255);" color="#a000a0">const</font> string&amp; err) <br>: MathException(err) {}<br>};<br></pre>
     </blockquote>
-    <h4>Изхвърляне (throwing) и прихващане (catching) на изключения</h4>
+    <b>Изхвърляне (throwing) и прихващане (catching) на изключения</b><br>
     <blockquote>
       <pre><span style="color: rgb(51, 51, 255);">try</span> {<br>// ...<br><span style="color: rgb(51, 51, 255);">if</span> (divisor == 0) <span style="color: rgb(51, 51, 255);">throw</span> ZeroDivisionException("Division by zero");<br>//...<br>}<br><font style="color: rgb(51, 51, 255);" color="#a000a0">catch</font> (ZeroDivisionException&amp; zde) <br>{ // handle division by zero<br>}<br><font style="color: rgb(51, 51, 255);" color="#a000a0">catch</font> (MathException&amp; me) <br>{ // handle any math exception other than division by zero<br>}<br></pre>
     </blockquote>
