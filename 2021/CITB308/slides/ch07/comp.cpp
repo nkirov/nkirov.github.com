@@ -9,43 +9,36 @@ public:
     int getY() const { return y; }
 };
 
-class LexCompare {					// lex comparison
+class LexCompare {					      // lex comparison
 public:
-    int operator()(const Point2D& p1, const Point2D& p2) const {
-        if	     (p1.getX() < p2.getX()) 		// first compare x
-            return -1;
-        else if  (p1.getX() > p2.getX())
-            return +1;
-        else if  (p1.getY() < p2.getY()) 		// x's equal; compare y
-            return -1;
-        else if  (p1.getY() > p2.getY())
-            return +1;
-        else 					// both x and y are equal
-            return 0;
+    int operator()(const Point2D& p1, const Point2D& p2) const
+    {
+        if      (p1.getX() < p2.getX()) return -1; // first compare x
+        else if (p1.getX() > p2.getX()) return +1;
+        else if (p1.getY() < p2.getY()) return -1; // x's equal; compare y
+        else if (p1.getY() > p2.getY()) return +1;
+        else 					         return 0; // both x and y are equal
     }
 };
 
 template <typename Key, typename Comp>
-class GenericClass {				// example class
+class GenericClass
+{
     Comp comp;					// comparator object
-    // ...
+// ...
 public:
-    void memberFunction(Key p, Key q) {
-        if (comp(p, q) > 0) cout << "p > q" << endl;
-        else                cout << "p < q" << endl;
-        // compare keys using comp
+    void memberFunction(Key p, Key q)
+    {
+        if (comp(p, q) > 0)      cout << "p > q" << endl; // compare keys using comp
+        else if (comp(p, q) < 0) cout << "p > q" << endl
+        else                     cout << "p = q" << endl;
     }
 };
-// ...
-	// compare p, q using LexCompare
-// ...
-
 
 int main()
 {
     Point2D p, q(1, 0);					// p and q are points
     GenericClass<Point2D, LexCompare> concrete;
-    concrete.memberFunction(p, q);
+    concrete.memberFunction(p, q);     // compare p, q using LexCompare
     return 0;
 }
-

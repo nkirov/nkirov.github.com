@@ -31,7 +31,7 @@ protected:      					// typename shortcuts
   typedef NodeSequence<Item>	    Sequence;	// a sequence of items
 public:
   typedef Sequence::Position 	    Position;	// position in sequence
-protected:      					// local utilities
+protected:      				// local utilities
   const Key& key(const Position& p) const 		// position's key
     { return p.element().key(); }
   Element& element(const Position& p)			// position's element
@@ -40,10 +40,10 @@ private:        					// member data
   Sequence  S;						// sorted sequence
   Comp	    comp;					// comparator
 public:
-  SortedSeqPriorityQueue(): S(), comp() {}// default constructor
-  int size() const      				// number of items
+  SortedSeqPriorityQueue(): S(), comp() {} // default constructor
+  int size() const      				   // number of items
     { return S.size(); }
-  bool isEmpty() const  				// is the queue empty?
+  bool isEmpty() const  				   // is the queue empty?
     { return S.isEmpty(); }
 
 //Code Fragment: SSPQ2
@@ -60,15 +60,15 @@ public:
       S.insertBefore(curr, Item(k,e));		// insert here
     }
   }
-  Element& minElement()			// element with min key
+  Element& minElement()			     // element with min key
   {
         return element(S.first());
   }
-  const Key& minKey() const    	// returns minimum key
+  const Key& minKey() const    	     // returns minimum key
   {
       return key(S.first());
   }
-  void removeMin()				// remove minimum
+  void removeMin()				     // remove minimum
   {
     S.remove(S.first());
   }

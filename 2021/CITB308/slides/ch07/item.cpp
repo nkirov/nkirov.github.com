@@ -32,17 +32,17 @@ int main()
     Item<int, char> it1, it2(5,'W');
     const Item<int, char> it3(10,'Z');
     
-    cout << it1.key() << " " << it1.element() << endl;
-    cout << it2.key() << " " << it2.element() << endl;
-    cout << it3.key() << " " << it3.element() << endl;
+    cout << it1.key() << " " << it1.element() << endl; // 0 nonconstant
+    cout << it2.key() << " " << it2.element() << endl; // 5 nonconstant W
+    cout << it3.key() << " " << it3.element() << endl; // 10 constant Z
     
-    it1.element() = 'X';
+    it1.element() = 'X'; // nonconstant
     cout << endl;
     it2 = it3;
     
-    cout << it1.key() << " " << it1.element() << endl;
-    cout << it2.key() << " " << it2.element() << endl;
-    cout << it3.key() << " " << it3.element() << endl;
+    cout << it1.key() << " " << it1.element() << endl; // 0 nonconstant X
+    cout << it2.key() << " " << it2.element() << endl; // 10 nonconstant Z
+    cout << it3.key() << " " << it3.element() << endl; // 10 nonconstant Z
     return 0;
 }
 
