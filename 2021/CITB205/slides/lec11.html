@@ -1,0 +1,632 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>lec11</title>
+  </head>
+  <body>
+    <center>
+      <h3 align="left"> <b>11. Управление на паметта<br>
+        </b> </h3>
+    </center>
+    <i>План:</i><br>
+    Управление на паметта<br>
+    Деструктор<br>
+    Операция присвояване<br>
+    Конструктор за копиране<br>
+    <hr size="2" width="100%"><b>** Необходимост от управление на
+      паметта</b><br>
+    Ще разгледаме примера от <a href="lec02.html">Указатели</a> за
+    използване на указател в клас - <a
+      href="../../../2014/NETB151/sources/ch10/department.cpp"
+      style="font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255);"><font size="+1"><span
+          style="font-family: monospace;">department.cpp</span></font></a><span
+      style="font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: left; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      background-color: rgb(255, 255, 255);"><font size="+1"><span
+          style="font-family: monospace;">.<br>
+        </span></font></span>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; orphans: 2; text-align: left; widows: 2; background-color: rgb(255, 255, 255);"><font size="+1"><tt>// <a href="../sources/ch17/department0.cpp">department0.cpp</a><br> #include <font color="#990000">&lt;</font>string<font color="#990000">&gt;</font>
+ #include <font color="#990000">&lt;</font>iostream<font color="#990000">&gt;</font>
+ using namespace std<font color="#990000">;</font>
+
+ #include <font color="#ff0000">"ccc_empl.h"</font>
+<i><font color="#9a1900"> /**</font></i><span style="font-family: mon;"><span style="font-style: italic;"><br></span></span><i><font color="#9a1900">    A department in an organization.</font></i>
+<i><font color="#9a1900"> */</font></i>
+<font color="#0000ff"> class</font> Department <font color="#ff0000">{</font>
+ <font color="#0000ff">public</font><font color="#990000">:</font>
+    <font color="#000000">Department</font><font color="#990000">(</font>string n<font color="#990000">)</font><font color="#990000">;</font>
+    <font color="#009900">void</font> <font color="#000000">set_receptionist</font><font color="#990000">(</font>Employee<font color="#990000">*</font> e<font color="#990000">)</font><font color="#990000">;</font>
+    <font color="#009900">void</font> <font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font> <font color="#0000ff">const</font><font color="#990000">;</font>
+ <font color="#0000ff">private</font><font color="#990000">:</font>
+    string name<font color="#990000">;</font>
+    Employee<font color="#990000">*</font> receptionist<font color="#990000">;</font>
+ <font color="#ff0000">}</font><font color="#990000">;</font>
+ <i><font color="#9a1900">/**</font></i>
+ <i><font color="#9a1900">   Constructs a department with a given name.</font></i>
+ <i><font color="#9a1900">   @param n the department name</font></i>
+ <i><font color="#9a1900">*/</font></i>
+ Department<font color="#990000">:</font><font color="#990000">:</font><font color="#000000">Department</font><font color="#990000">(</font>string n<font color="#990000">)</font>
+ <font color="#ff0000">{</font>  name <font color="#990000">=</font> n<font color="#990000">;</font>
+    receptionist <font color="#990000">=</font> NULL<font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ <i><font color="#9a1900">/**</font></i>
+ <i><font color="#9a1900">   Sets the receptionist for this department.</font></i>
+ <i><font color="#9a1900">   @param e the receptionist</font></i>
+ <i><font color="#9a1900">*/</font></i>
+ <font color="#009900">void</font> Department<font color="#990000">:</font><font color="#990000">:</font><font color="#000000">set_receptionist</font><font color="#990000">(</font>Employee<font color="#990000">*</font> e<font color="#990000">)</font>
+ <font color="#ff0000">{</font> receptionist <font color="#990000">=</font> e<font color="#990000">;</font> <font color="#ff0000">}</font>
+ <i><font color="#9a1900">/**</font></i>
+ <i><font color="#9a1900">   Prints a description of this department.</font></i>
+ <i><font color="#9a1900">*/</font></i>
+ <font color="#009900">void</font> Department<font color="#990000">:</font><font color="#990000">:</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font> <font color="#0000ff">const</font>
+ <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Name: "</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> name <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font>
+         <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Receptionist: "</font><font color="#990000">;</font>
+    <font color="#000000">if</font> <font color="#990000">(</font>receptionist <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font> cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"None"</font><font color="#990000">;</font>
+    <font color="#0000ff">else</font>
+       cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> receptionist<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">get_name</font><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" "</font>
+            <font color="#990000">&lt;</font><font color="#990000">&lt;</font> receptionist<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">get_salary</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> <font color="#000000">main</font><font color="#990000">(</font><font color="#990000">)</font>
+ <font color="#ff0000">{</font>  Department <font color="#000000">shipping</font><font color="#990000">(</font><font color="#ff0000">"Shipping"</font><font color="#990000">)</font><font color="#990000">;</font>
+    Employee<font color="#990000">*</font> harry <font color="#990000">=</font> <font color="#0000ff">new</font> <font color="#000000">Employee</font><font color="#990000">(</font><font color="#ff0000">"Hacker, Harry"</font><font color="#990000">,</font> <font color="#993399">45000</font><font color="#990000">)</font><font color="#990000">;</font>
+    shipping<font color="#990000">.</font></tt><tt><font color="#000000">receptionist</font></tt><tt><font color="#990000">(</font>harry<font color="#990000">)</font><font color="#990000">;<br><br></font></tt></font><font size="+1"><tt><font color="#990000"><font size="+1"><tt>    Department <font color="#000000">qc</font><font color="#990000">(</font><font color="#ff0000">"Quality Control"</font><font color="#990000">)</font><font color="#990000">;</font></tt></font></font> <br>    Employee<font color="#990000">*</font> tina <font color="#990000">=</font> <font color="#0000ff">new</font> <font color="#000000">Employee</font><font color="#990000">(</font><font color="#ff0000">"Tester, Tina"</font><font color="#990000">,</font> <font color="#993399">50000</font><font color="#990000">)</font><font color="#990000">;</font>
+    qc<font color="#990000">.</font><font color="#000000">set_receptionist</font><font color="#990000">(</font>tina<font color="#990000">)</font><font color="#990000">;</font>
+    tina<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">set_salary</font><font color="#990000">(</font><font color="#993399">55000</font><font color="#990000">)</font><font color="#990000">;<br><br>   </font>&nbsp;shipping<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+    qc<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;<br><br>    </font><font color="#3366ff">delete</font> harry;<br>    <font color="#3366ff">delete</font> tina;<font color="#990000"> &nbsp;<br></font>   &nbsp;<font color="#0000ff">return</font> <font color="#993399">0</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font></tt></font></pre>
+    Променяме конструктора на класа, като там конструираме обект -
+    член-данна на класа.<br>
+    <pre><font size="+1">class Department {<br>   ...<br><span style="color: rgb(51, 51, 255);">private:</span>
+   string name;<br>   Employee* receptionist;<br>};<br><br>Department::Department(string n, Employee e)<br>{  <br>   name = n;
+   receptionist = <span style="color: rgb(51, 51, 255);">new </span>Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */<br>
+Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NULL;<br>}<br><a href="../sources/ch17/department1.cpp">department1.cpp</a><br></font></pre>
+    С операция <tt>new</tt> в <i>конструктора</i> на класа се създава
+    обект, данна на класа.<br>
+    Къде да се изпълни операция <tt>delete</tt>?<br>
+    С операция <tt>delete</tt> в <i>деструктора</i> на класа се
+    унищожава създадения обект от конструктора на класа.<br>
+    <hr size="2" width="100%">
+    <p><b>** Деструктор</b><br>
+    </p>
+    <p>Деструктор е специална член-функция, която се извиква автоматично
+      когато обектът излезе от обхват (out of scope).<br>
+      Деструкторът на класа <tt><font size="+1">Department</font></tt>
+      унищожава създадения от конструктора обект.<br>
+    </p>
+    <font size="+1"><tt>Department::~Department()</tt><tt><br>
+      </tt><tt>{ </tt><tt><span style="color: rgb(51, 51, 255);">delete</span></tt><tt>
+        receptionist;</tt><tt><br>
+      </tt><tt>}<br>
+      </tt></font>
+    <pre><font size="+1"><a href="../sources/ch17/department2.cpp">department2.cpp</a></font></pre>
+    <hr size="2" width="100%">
+    <p><b>** Предефиниране на операция присвояване<br>
+      </b></p>
+    <p>Нека имаме следните дефиниции:<b><br>
+      </b></p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department qc("Quality Control", Employee("Tester, Tina", 50000));<br>Department dept("Shipping", Employee("Hacker, Harry", 35000));</font></pre>
+    <p>и след това приложим операция присвояване, която е дефинирана за
+      всеки клас (и се нарича почленно копиране)<b>:<br>
+      </b></p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">dept = qc;</font></pre>
+    <p>1. Това присвояване води до загуба на памет (memory leak) - имаме
+      недостъпен обект (от тип<font size="+1"> </font>Employee)! <br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><img alt="" src="../../../2014/NETB151/slides/ch17/images/department_assignment.png" width="486" height="679"><b><br></b></pre>
+    <p>2. Когато един от обектите (<font size="+1"><tt>qc</tt></font>
+      или <font size="+1"><tt>dept</tt></font>) излезе от обхват (и
+      изтрие обекта), получаваме висящ указател (dangling pointer) -
+      указател към изтрит обект! <font size="+1"><br>
+      </font><font size="+1"><tt><a
+            href="../sources/ch17/department3.cpp">department3.cpp</a></tt></font></p>
+    <p>За да избегнем това, е необходимо да направим копие на обекта от
+      клас <font size="+1"><tt>Employee</tt></font> (с адрес от обекта
+      <font size="+1"><tt>qc</tt></font>) и да поставим адреса на
+      копието за стойност на полето <font size="+1"><tt>receptionist</tt></font>.<br>
+      Това може да се направи като предефинираме операция присвояване за
+      обекти от класа<font size="+1"><font size="+1"> </font></font><font
+        size="+1"><tt>Employee.</tt></font></p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department&amp; Department::<span style="color: rgb(51, 51, 255);">operator</span>=(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  if (<span style="color: rgb(51, 51, 255);">this</span> != &amp;b)<br>   {  name = b.name;<br>      <span style="color: rgb(51, 51, 255);">delete</span> receptionist;<br>      <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == <span style="color: rgb(51, 51, 255);">NULL</span>) receptionist = <span style="color: rgb(51, 51, 255);">NULL</span>;<br>      <span style="color: rgb(51, 51, 255);">else</span><br>         receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         			b.receptionist-&gt;get_salary());<br>    }<br>    <span style="color: rgb(51, 51, 255);">return</span> *<span style="color: rgb(51, 51, 255);">this</span>;<br>}</font></pre>
+    <p>- Променяме данните, които не са указатели (в случая <font
+        size="+1"><tt>name</tt></font>) от обект <font size="+1"><tt>b</tt></font>
+      в обект <font size="+1"><tt>*this</tt></font>; <br>
+      - Изтриваме указателя <font size="+1"><tt>receptionist</tt></font>
+      от <font size="+1"><tt>*this</tt></font> (текущия обект) и <br>
+      - Създаваме нов обект от тип <font size="+1"><tt>Employee</tt></font>
+      за <font size="+1"><tt>*this</tt></font>, копие на обекта<tt> <font
+          size="+1">*</font></tt><tt><font size="+1"><tt><tt>receptionist</tt></tt></font>
+      </tt>от параметъра (десния аргумент на операцията)<tt> </tt><tt><font
+          size="+1"><tt>b</tt></font>.&nbsp;</tt><tt> <br>
+      </tt></p>
+    <p>Функцията за предефиниране задължително трябва да е член-функция
+      (защо?)<b>.</b><br>
+      <tt><font size="+1"><a href="../sources/ch17/department4.cpp">department4.cpp</a></font></tt><b>
+      </b></p>
+    <hr size="2" width="100%">
+    <p><b>** Конструктор за копиране</b><br>
+    </p>
+    <p>Предназначението на операция присвояване е да промени съществуващ
+      обект, като го направи същия като друг обект и не е подходяща за
+      конструиране на нов обект. <br>
+      Например в оператора за дефиниране на обект:<br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department dept = qc; // <font color="#ff0000">not assignment operator!</font></font></pre>
+    <p>не може да се използва (и не е!) операция присвояване. <br>
+      Правилното конструиране на обект, копие на друг обект е: <br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department dept(qc);</font></pre>
+    <p>т.е. като се извика конструктор за копиране. <br>
+      За всеки клас в езика С++ има (по подразбиране) такъв конструктор,
+      но той действа с почленно копиране и възникава същия проблем,
+      както при операция присвояване. <br>
+      Решението е да се напише конструктор за копиране:<br>
+    </p>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department::Department(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  name = b.name;<br>   <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == NULL) receptionist = NULL;<br>   <span style="color: rgb(51, 51, 255);">else</span><br>      receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         			b.receptionist-&gt;get_salary());<br>}</font></pre>
+    <p>Конструктор за копиране се вика и когато се предава
+      параметър-стойност на функция, напр.<br>
+    </p>
+    <p><font size="+1"><tt>void print(Department d)</tt><tt><br>
+        </tt><tt>{ ... }</tt></font></p>
+    <font size="+1"> </font>
+    <p><font size="+1"><tt>Department dep("Administration")</tt><tt><br>
+        </tt><tt>...</tt><tt><br>
+        </tt><tt>print(dep);</tt><tt><br>
+        </tt><tt>....</tt></font><br>
+    </p>
+    <p><i>Пример:</i><font size="+1"><br>
+      </font></p>
+    <font size="+1"> </font>
+    <p> </p>
+    <font size="+1"> </font>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><font size="+1"><tt>// <a href="../../../2014/NETB151/sources/ch17/department.cpp">department.cpp</a><br>001: <font color="#000080">#include</font> <font color="#ff0000">&lt;string&gt;</font>
+002: <font color="#000080">#include</font> <font color="#ff0000">&lt;iostream&gt;</font>
+004: <font color="#0000ff">using</font> <font color="#0000ff">namespace</font> std<font color="#990000">;</font>
+005: 
+006: <font color="#000080">#include</font> <font color="#ff0000">"ccc_empl.h"</font>
+008: <i><font color="#9a1900">/**</font></i>
+009: <i><font color="#9a1900">   A department in an organization.</font></i>
+010: <i><font color="#9a1900">*/</font></i>
+011: <font color="#0000ff">class</font> Department <font color="#ff0000">{</font>
+013: <font color="#0000ff">public</font><font color="#990000">:</font>
+014:    <font color="#000000">Department</font><font color="#990000">(</font>string n<font color="#990000">)</font><font color="#990000">;</font>
+015:    <font color="#000000">Department</font><font color="#990000">(</font>string n<font color="#990000">,</font> Employee e<font color="#990000">)</font><font color="#990000">;</font>
+016:    <font color="#990000">~</font><font color="#000000">Department</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+017:    Department<font color="#990000">&amp;</font> <font color="#0000ff">operator</font><font color="#990000">=</font><font color="#990000">(</font><font color="#0000ff">const</font> Department<font color="#990000">&amp;</font> b<font color="#990000">)</font><font color="#990000">;</font>
+018:    <font color="#000000">Department</font><font color="#990000">(</font><font color="#0000ff">const</font> Department<font color="#990000">&amp;</font> b<font color="#990000">)</font><font color="#990000">;</font>
+019:    <font color="#009900">void</font> <font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font> <font color="#0000ff">const</font><font color="#990000">;</font>
+020: <font color="#0000ff">private</font><font color="#990000">:</font>
+021:    string name<font color="#990000">;</font>
+022:    Employee<font color="#990000">*</font> receptionist<font color="#990000">;</font>
+023: <font color="#ff0000">}</font><font color="#990000">;</font>
+024: 
+025: <i><font color="#9a1900">/**</font></i>
+026: <i><font color="#9a1900">   Constructs a department with a given name and no receptionist.</font></i>
+027: <i><font color="#9a1900">   @param n the department name</font></i>
+028: <i><font color="#9a1900">*/</font></i>
+029: Department<font color="#990000">:</font><font color="#990000">:</font><font color="#000000">Department</font><font color="#990000">(</font>string n<font color="#990000">)</font>
+030: <font color="#ff0000">{</font>  name <font color="#990000">=</font> n<font color="#990000">;</font>
+032:    receptionist <font color="#990000">=</font> NULL<font color="#990000">;</font>
+034:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Constructor: "</font><font color="#990000">;</font>
+035:    <font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+036: <font color="#ff0000">}</font>
+037: 
+038: <i><font color="#9a1900">/**</font></i>
+039: <i><font color="#9a1900">   Constructs a department with a given name and receptionist.</font></i>
+040: <i><font color="#9a1900">   @param n the department name</font></i>
+041: <i><font color="#9a1900">   @param e the receptionist</font></i>
+042: <i><font color="#9a1900">*/</font></i>
+043: Department<font color="#990000">:</font><font color="#990000">:</font><font color="#000000">Department</font><font color="#990000">(</font>string n<font color="#990000">,</font> Employee e<font color="#990000">)</font>
+044: <font color="#ff0000">{</font>  name <font color="#990000">=</font> n<font color="#990000">;</font>
+046:    receptionist <font color="#990000">=</font> <font color="#0000ff">new</font> <font color="#000000">Employee</font><font color="#990000">(</font>e<font color="#990000">.</font><font color="#000000">get_name</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">,</font> e<font color="#990000">.</font><font color="#000000">get_salary</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>  
+048:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Constructor: "</font><font color="#990000">;</font>
+049:    <font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+050: <font color="#ff0000">}</font>
+051: 
+052: <i><font color="#9a1900">/**</font></i>
+053: <i><font color="#9a1900">   Deletes the Employee object that this Department</font></i>
+054: <i><font color="#9a1900">   object manages.</font></i>
+055: <i><font color="#9a1900">*/</font></i>
+056: Department<font color="#990000">:</font><font color="#990000">:</font><font color="#990000">~</font><font color="#000000">Department</font><font color="#990000">(</font><font color="#990000">)</font>
+057: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Destructor: "</font><font color="#990000">;</font>
+059:    <font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+061:    <font color="#0000ff">delete</font> receptionist<font color="#990000">;</font> <br>062: <font color="#ff0000">}</font>
+063: 
+064: <i><font color="#9a1900">/**</font></i>
+065: <i><font color="#9a1900">   Constructs a Department object as a copy of another</font></i>
+066: <i><font color="#9a1900">   Department object.</font></i>
+067: <i><font color="#9a1900">   @param b the object to copy</font></i>
+068: <i><font color="#9a1900">*/</font></i>
+069: Department<font color="#990000">:</font><font color="#990000">:</font><font color="#000000">Department</font><font color="#990000">(</font><font color="#0000ff">const</font> Department<font color="#990000">&amp;</font> b<font color="#990000">)</font>
+070: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Copy constructor: "</font><font color="#990000">;</font>
+072:    b<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+073: 
+074:    name <font color="#990000">=</font> b<font color="#990000">.</font>name<font color="#990000">;</font>
+075:    <font color="#0000ff">if</font> <font color="#990000">(</font>b<font color="#990000">.</font>receptionist <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font> receptionist <font color="#990000">=</font> NULL<font color="#990000">;</font>
+077:    <font color="#0000ff">else</font>
+078:       receptionist <font color="#990000">=</font> <font color="#0000ff">new</font> <font color="#000000">Employee</font><font color="#990000">(</font>b<font color="#990000">.</font>receptionist<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">get_name</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">,</font>
+079:          b<font color="#990000">.</font>receptionist<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">get_salary</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+080: <font color="#ff0000">}</font>
+081: 
+082: <i><font color="#9a1900">/**</font></i>
+083: <i><font color="#9a1900">   Sets this Department object to a copy of another</font></i>
+084: <i><font color="#9a1900">   Department object.</font></i>
+085: <i><font color="#9a1900">   @param b the object to copy</font></i>
+086: <i><font color="#9a1900">*/</font></i>
+087: Department<font color="#990000">&amp;</font> Department<font color="#990000">:</font><font color="#990000">:</font><font color="#0000ff">operator</font><font color="#990000">=</font><font color="#990000">(</font><font color="#0000ff">const</font> Department<font color="#990000">&amp;</font> b<font color="#990000">)</font>
+088: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Assignment: "</font><font color="#990000">;</font>
+090:    <font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+091:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"= "</font><font color="#990000">;</font>
+092:    b<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+093:    
+094:    <font color="#0000ff">if</font> <font color="#990000">(</font><font color="#0000ff">this</font> <font color="#990000">!</font><font color="#990000">=</font> <font color="#990000">&amp;</font> b<font color="#990000">)</font>
+095:    <font color="#ff0000">{</font>  name <font color="#990000">=</font> b<font color="#990000">.</font>name<font color="#990000">;</font>
+097:       <font color="#0000ff">delete</font> receptionist<font color="#990000">;</font>
+098:       <font color="#0000ff">if</font> <font color="#990000">(</font>b<font color="#990000">.</font>receptionist <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font> receptionist <font color="#990000">=</font> NULL<font color="#990000">;</font>
+100:       <font color="#0000ff">else</font>
+101:          receptionist <font color="#990000">=</font> <font color="#0000ff">new</font> <font color="#000000">Employee</font><font color="#990000">(</font>b<font color="#990000">.</font>receptionist<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">get_name</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">,</font>
+102:             b<font color="#990000">.</font>receptionist<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">get_salary</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+103:    <font color="#ff0000">}</font>
+104:    <font color="#0000ff">return</font> <font color="#990000">*</font><font color="#0000ff">this</font><font color="#990000">;</font>
+105: <font color="#ff0000">}</font>
+106: 
+107: <i><font color="#9a1900">/**</font></i>
+108: <i><font color="#9a1900">   Prints a description of this department.</font></i>
+109: <i><font color="#9a1900">*/</font></i>
+110: <font color="#009900">void</font> Department<font color="#990000">:</font><font color="#990000">:</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font> <font color="#0000ff">const</font>
+111: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"[name="</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> name <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">",receptionist="</font><font color="#990000">;</font>
+113:    <font color="#0000ff">if</font> <font color="#990000">(</font>receptionist <font color="#990000">=</font><font color="#990000">=</font> NULL<font color="#990000">)</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"NULL"</font><font color="#990000">;</font>
+115:    <font color="#0000ff">else</font> cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> receptionist<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">get_name</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+117:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"]\n"</font><font color="#990000">;</font>
+118: <font color="#ff0000">}</font>
+119: 
+120: <font color="#009900">int</font> <font color="#000000">main</font><font color="#990000">(</font><font color="#990000">)</font>
+121: <font color="#ff0000">{</font>  Department <font color="#000000">shipping</font><font color="#990000">(</font><font color="#ff0000">"Shipping"</font><font color="#990000">)</font><font color="#990000">;</font>
+123:    Department <font color="#000000">qc</font><font color="#990000">(</font><font color="#ff0000">"Quality Control"</font><font color="#990000">,</font> <br>124:               <font color="#000000">Employee</font><font color="#990000">(</font><font color="#ff0000">"Tester, Tina"</font><font color="#990000">,</font> <font color="#993399">50000</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
+125:    Department <font color="#000000">dept</font><font color="#990000">(</font>qc<font color="#990000">)</font><font color="#990000">;</font> <br>126:    dept <font color="#990000">=</font> shipping<font color="#990000">;</font>
+127:    <font color="#0000ff">return</font> <font color="#993399">0</font><font color="#990000">;</font>
+128: <font color="#ff0000">}</font>
+</tt></font></pre>
+    Когато използваме указатели (и динамична памет) в данните на клас,
+    винаги трябва да дефинираме<b> "големите три": <br>
+    </b>
+    <ul>
+      <li><b>конструктор за копиране, </b></li>
+      <li><b>операция присвояване и </b></li>
+      <li><b>деструктор</b>.</li>
+    </ul>
+    <i>Пример:</i><br>
+    Клас <tt>List</tt> за реализация на свързан списък (<a
+      href="../../../2014/NETB151/sources/ch16/list2.cpp"><tt>list2.cpp</tt></a>)
+    с дефиниране на "големите три" ("big three")<font size="+1">.<br>
+    </font> <font size="+1"><br>
+      <tt>// <a href="../../../2014/NETB151/sources/ch17/list0.cpp">list0.cpp</a></tt><tt><br>
+      </tt><tt>#include &lt;string&gt;<br>
+        #include &lt;iostream&gt;<br>
+        #include &lt;cassert&gt;<br>
+        using namespace std;<br>
+        <br>
+        /* forward declarations */<br>
+        class List;<br>
+        class Iterator;<br>
+        <br>
+        /** A class to hold the nodes of the linked list.&nbsp; */<br>
+        class Node {<br>
+        public:<br>
+        /** Constructs a node for a given data value.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the data to store
+        in this node&nbsp; */<br>
+        &nbsp;&nbsp; Node(string s);<br>
+        private:<br>
+        &nbsp;&nbsp; string data;<br>
+        &nbsp;&nbsp; Node* previous;<br>
+        &nbsp;&nbsp; Node* next;<br>
+        friend class List;<br>
+        friend class Iterator;<br>
+        };<br>
+        &nbsp;&nbsp; <br>
+        /** An iterator denotes a position in the list or<br>
+        &nbsp;&nbsp;&nbsp; past the end of the list.&nbsp; */<br>
+        class Iterator {<br>
+        public:<br>
+        /** Constructs an iterator that is not attached to any
+        list.&nbsp; */<br>
+        &nbsp;&nbsp; Iterator();<br>
+        <br>
+        /** Looks up the value at a position.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return the value of the
+        Node to which the iterator <br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; points &nbsp; */<br>
+        &nbsp;&nbsp; string operator*() const;<br>
+        <br>
+        /** Advances the iterator to the next position.&nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void operator++(int dummy);<br>
+        &nbsp;&nbsp; <br>
+        /** Moves the iterator to the previous position.&nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void operator--(int dummy);<br>
+        <br>
+        /** Compares two iterators.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the iterator to
+        compare with this iterator<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return true if this
+        iterator and b are equal&nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; bool operator==(Iterator b) const;<br>
+        <br>
+        /** Compares two iterators.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the iterator to
+        compare with this iterator<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return true if this
+        iterator and b are not equal&nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; bool operator!=(Iterator b) const;<br>
+        private:<br>
+        &nbsp;&nbsp; Node* position;<br>
+        &nbsp;&nbsp; Node* last;<br>
+        friend class List;<br>
+        };<br>
+        <br>
+        /** A linked list of values of a given type.<br>
+        &nbsp;&nbsp;&nbsp; @param T the type of the list values&nbsp; */<br>
+        class List {<br>
+        public:<br>
+        &nbsp;&nbsp; /** Constructs an empty list.&nbsp; */<br>
+        &nbsp;&nbsp; List();<br>
+        <br>
+        &nbsp;&nbsp; /** Constructs a list as a copy of another list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to
+        copy&nbsp; */<br>
+        &nbsp;&nbsp; List(const List&amp; b);<br>
+        <br>
+        &nbsp;&nbsp; /** Deletes all nodes of this list.&nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; ~List();<br>
+        &nbsp;&nbsp; <br>
+        &nbsp;&nbsp;&nbsp; /** Assigns another list to this list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to assign<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return a reference to this
+        list&nbsp; */<br>
+        &nbsp;&nbsp; List&amp; operator=(const List&amp; b);<br>
+        <br>
+        &nbsp;&nbsp; /** Appends an element to the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the value to
+        append&nbsp; */<br>
+        &nbsp;&nbsp; void push_back(string s);<br>
+        <br>
+        &nbsp;&nbsp; /** Inserts an element into the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param iter the position
+        before which to insert<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param s the value to
+        append&nbsp; */<br>
+        &nbsp;&nbsp; void insert(Iterator iter, string s);<br>
+        <br>
+        &nbsp;&nbsp; /** Removes an element from the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param i the position to
+        remove<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator
+        pointing to the element after the<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; erased element&nbsp; */<br>
+        &nbsp;&nbsp; Iterator erase(Iterator i);<br>
+        <br>
+        &nbsp;&nbsp; /** Gets the beginning position of the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator
+        pointing to the beginning of the list&nbsp; */<br>
+        &nbsp;&nbsp; Iterator begin() const;<br>
+        <br>
+        &nbsp;&nbsp; /** Gets the past-the-end position of the list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @return an iterator
+        pointing past the end of the list&nbsp; */<br>
+        &nbsp; </tt><tt><tt>Iterator </tt>end() const;<br>
+        <br>
+        private:<br>
+        &nbsp;&nbsp; /** Copies another list to this list.<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; @param b the list to
+        copy&nbsp; */<br>
+        &nbsp;&nbsp; void copy(const List&amp; b);<br>
+        <br>
+        &nbsp;&nbsp; /** Deletes all nodes of this list.&nbsp;&nbsp; */<br>
+        &nbsp;&nbsp; void free();<br>
+        <br>
+        &nbsp;&nbsp; Node* first;<br>
+        &nbsp;&nbsp; Node* last;<br>
+        };<br>
+        <br>
+        List::List()<br>
+        {&nbsp; first = NULL;<br>
+        &nbsp;&nbsp; last = NULL;<br>
+        }<br>
+        <br>
+        List::~List()<br>
+        {&nbsp; free();<br>
+        }<br>
+        <br>
+        List::List(const List&amp; b)<br>
+        {&nbsp; first = NULL;<br>
+        &nbsp;&nbsp; last = NULL;<br>
+        &nbsp;&nbsp; copy(b);<br>
+        }<br>
+        <br>
+        List&amp; List::operator=(const List&amp; b)<br>
+        {&nbsp; if (this != &amp;b)<br>
+        &nbsp;&nbsp; {&nbsp; free();<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; copy(b);<br>
+        &nbsp;&nbsp; }<br>
+        &nbsp;&nbsp; return *this;<br>
+        }<br>
+        <br>
+        void List::push_back(string s)<br>
+        {&nbsp; Node* newnode = new Node(s);<br>
+        &nbsp;&nbsp; if (last == NULL) /* list is empty */<br>
+        &nbsp;&nbsp; {&nbsp; first = newnode;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;<br>
+        &nbsp;&nbsp; }<br>
+        &nbsp;&nbsp; else<br>
+        &nbsp;&nbsp; {&nbsp; newnode-&gt;previous = last;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last-&gt;next = newnode;<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; last = newnode;<br>
+        &nbsp;&nbsp; }<br>
+        }<br>
+        <br>
+        void List::insert(Iterator iter, string s)<br>
+        {&nbsp; if (iter.position == NULL)<br>
+        &nbsp;&nbsp; {&nbsp; push_back(s);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return;<br>
+        &nbsp;&nbsp; }<br>
+        <br>
+        &nbsp;&nbsp; Node* after = iter.position;<br>
+        &nbsp;&nbsp; Node* before = after-&gt;previous;<br>
+        &nbsp;&nbsp; Node* newnode = new Node(s);<br>
+        &nbsp;&nbsp; newnode-&gt;previous = before;<br>
+        &nbsp;&nbsp; newnode-&gt;next = after;<br>
+        &nbsp;&nbsp; after-&gt;previous = newnode;<br>
+        &nbsp;&nbsp; if (before == NULL) /* insert at beginning */<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; first = newnode;<br>
+        &nbsp;&nbsp; else<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; before-&gt;next = newnode;<br>
+        }<br>
+        <br>
+        Iterator List::erase(Iterator i)<br>
+        {&nbsp; Iterator iter = i;<br>
+        &nbsp;&nbsp; assert(iter.position != NULL);<br>
+        &nbsp;&nbsp; Node* remove = iter.position;<br>
+        &nbsp;&nbsp; Node* before = remove-&gt;previous;<br>
+        &nbsp;&nbsp; Node* after = remove-&gt;next;<br>
+        &nbsp;&nbsp; <br>
+        &nbsp;&nbsp; if (remove == first) first = after;<br>
+        &nbsp;&nbsp; else before-&gt;next = after;<br>
+        &nbsp;&nbsp; if (remove == last) last = before;<br>
+        &nbsp;&nbsp; else after-&gt;previous = before;<br>
+        &nbsp;&nbsp; <br>
+        &nbsp;&nbsp; iter.position = after;<br>
+        &nbsp;&nbsp; delete remove;<br>
+        &nbsp;&nbsp; return iter;<br>
+        }<br>
+        <br>
+        Iterator List::begin() const<br>
+        {&nbsp; Iterator iter;<br>
+        &nbsp;&nbsp; iter.position = first;<br>
+        &nbsp;&nbsp; iter.last = last;<br>
+        &nbsp;&nbsp; return iter;<br>
+        }<br>
+        <br>
+        Iterator List::end() const<br>
+        {&nbsp; Iterator iter;<br>
+        &nbsp;&nbsp; iter.position = NULL;<br>
+        &nbsp;&nbsp; iter.last = last;<br>
+        &nbsp;&nbsp; return iter;<br>
+        }<br>
+        <br>
+        Iterator::Iterator()<br>
+        {&nbsp; position = NULL;<br>
+        &nbsp;&nbsp; last = NULL;<br>
+        }<br>
+        <br>
+        string Iterator::operator*() const<br>
+        {&nbsp; assert(position != NULL);<br>
+        &nbsp;&nbsp; return position-&gt;data;<br>
+        }<br>
+        <br>
+        void Iterator::operator++(int dummy)<br>
+        {&nbsp; assert(position != NULL);<br>
+        &nbsp;&nbsp; position = position-&gt;next;<br>
+        }<br>
+        <br>
+        void Iterator::operator--(int dummy)<br>
+        {&nbsp; if (position == NULL) position = last;<br>
+        &nbsp;&nbsp; else position = position-&gt;previous;<br>
+        &nbsp;&nbsp; assert(position != NULL);<br>
+        }<br>
+        <br>
+        bool Iterator::operator==(Iterator b) const<br>
+        {&nbsp; return position == b.position;<br>
+        }<br>
+        <br>
+        bool Iterator::operator!=(Iterator b) const<br>
+        {&nbsp; return position != b.position;<br>
+        }<br>
+        <br>
+        Node::Node(string s)<br>
+        {&nbsp; data = s;<br>
+        &nbsp;&nbsp; previous = NULL;<br>
+        &nbsp;&nbsp; next = NULL;<br>
+        }<br>
+        <br>
+        void List::copy(const List&amp; b)<br>
+        {&nbsp; for (Iterator p = b.begin(); p != b.end(); p++)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; push_back(*p);<br>
+        }<br>
+        <br>
+        void List::free()<br>
+        {&nbsp; while (begin() != end()) <br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+        erase(begin());<br>
+        }<br>
+        <br>
+        void print(const List&amp; l)<br>
+        {<br>
+        &nbsp;&nbsp;&nbsp; Iterator pos;<br>
+        &nbsp;&nbsp;&nbsp; for (pos = l.begin(); pos != l.end(); pos++)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; *pos
+        &lt;&lt; "\n";<br>
+        }<br>
+        <br>
+        int main()<br>
+        {&nbsp; List staff;<br>
+        <br>
+        &nbsp;&nbsp; staff.push_back("Cracker, Carl");<br>
+        &nbsp;&nbsp; staff.push_back("Hacker, Harry");<br>
+        &nbsp;&nbsp; staff.push_back("Lam, Larry");<br>
+        &nbsp;&nbsp; staff.push_back("Sandman, Susan");<br>
+        <br>
+        &nbsp;&nbsp; List newstaff(staff); // copy constructor<br>
+        &nbsp;&nbsp; cout &lt;&lt; "newstaff1:" &lt;&lt; endl;<br>
+        &nbsp;&nbsp; print(newstaff);<br>
+        <br>
+        &nbsp;&nbsp; Iterator pos;<br>
+        &nbsp;&nbsp; /* add a value in fourth place */<br>
+        &nbsp;&nbsp; pos = staff.begin();<br>
+        &nbsp;&nbsp; pos++;<br>
+        &nbsp;&nbsp; pos++;<br>
+        &nbsp;&nbsp; pos++;<br>
+        &nbsp;&nbsp; staff.insert(pos, "Reindeer, Rudolf");<br>
+        <br>
+        &nbsp;&nbsp; /* remove the value in second place */<br>
+        &nbsp;&nbsp; pos = staff.begin();<br>
+        &nbsp;&nbsp; pos++;<br>
+        &nbsp;&nbsp; staff.erase(pos);<br>
+        <br>
+        &nbsp;&nbsp; cout &lt;&lt; "staff1:" &lt;&lt; endl;<br>
+        &nbsp;&nbsp; print(staff);<br>
+        &nbsp;&nbsp; cout &lt;&lt; "newstaff2:" &lt;&lt; endl;<br>
+        &nbsp;&nbsp; print(newstaff);<br>
+        &nbsp;&nbsp;&nbsp; <br>
+        &nbsp;&nbsp; staff = newstaff; // overloaded assignment operator<br>
+        &nbsp;&nbsp; cout &lt;&lt; "staff2:" &lt;&lt; endl;<br>
+        &nbsp;&nbsp; print(staff);<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        // destructor<br>
+        <br>
+        &nbsp;&nbsp; return 0;<br>
+        }<br>
+        <br>
+      </tt></font>Големите три (<a
+href="https://en.wikipedia.org/wiki/Rule_of_three_%28C%2B%2B_programming%29">Rule
+      of three</a>) се дефинират винаги, когато при създаване на обект
+    се заемат <a href="https://en.wikipedia.org/wiki/System_resource">системни
+      ресурси</a> (динамична памет, файлове).<font size="+1"><tt><br>
+      </tt></font>
+    <hr width="100%">
+  </body>
+</html>

@@ -1,0 +1,600 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.8 [en] (Win95; U)
+      [Netscape]">
+    <title>lec01</title>
+  </head>
+  <body>
+    <center>
+      <h3 align="left"> <b>1. Наследяване и полиморфизъм</b> </h3>
+    </center>
+    <i>План:</i><br>
+    Производни класове<br>
+    Дефиниции на функции в производния клас<br>
+    Пример с часовници<br>
+    Конструктор на базовия и производния клас<br>
+    Член функции в базовия и производния клас<br>
+    Данните на базовия и производния клас<br>
+    Полиморфизъм<br>
+    <hr size="2" width="100%"><img alt=""
+      src="../../../2018/CITB201/b5.gif" width="13" height="12"> <b>Производни
+
+
+      класове. </b><br>
+    Наследяването е механизъм за разширяване на вече съществуващи
+    класове. <br>
+    Новият клас наследява съществуващия, като в него се добавят нови
+    членове-функции и полета с данни.
+    <ul>
+      <li>Базов клас (общ): </li>
+    </ul>
+    <b><tt><font color="#006600">class Employee {</font></tt></b> <br>
+    <b><tt><font color="#006600">public:</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; Employee(string emp_name,
+          double init_salary);</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; void set_salary(double
+          new_salary);</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; string get_name() const;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; double get_salary() const;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; void print() const;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">private:</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; string name;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; double salary;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">};</font></tt></b> <br>
+    <ul>
+      <li><font color="#000000">Производен клас (специализиран):</font></li>
+    </ul>
+    <b><tt><font color="#006600">class Manager : public Employee {</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">public:</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; Manager(string n, double
+          sal, string dept);</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; string get_department()
+          const;</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; void print() const;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">private:</font></tt></b> <br>
+    <b><tt><font color="#006600">&nbsp;&nbsp; string department;</font></tt></b>
+    <br>
+    <b><tt><font color="#006600">};</font></tt></b> <br>
+    <font color="#000000">Обект от производния клас <b>е</b> обект и от
+      базовия клас; обратното не е вярно.</font><br>
+    <ul>
+      <li><font color="#000000">Конструиране на обект от производния
+          клас:</font> </li>
+    </ul>
+    <b><tt><font color="#009900">Manager nino("Nino", 670, "Computer
+          Science");</font></tt></b> <br>
+    <ul>
+      <li><font color="#000000">Извикване на член-функция от </font><font
+          color="#000000"><font color="#000000">базовия клас</font>:</font>
+      </li>
+    </ul>
+    <b><tt><font color="#009900">nino.set_salary(1200);</font></tt></b>
+    <br>
+    <ul>
+      <li><font color="#000000">Извикване на член-функция от </font><font
+          color="#000000"><font color="#000000">производния клас</font>:</font>
+      </li>
+    </ul>
+    <b><tt><font color="#009900">cout &lt;&lt; nino.get_department();</font></tt></b>
+    <br>
+    <ul>
+      <li>Данните в <font color="#000000">производния клас и обект от
+          производния клас:</font> </li>
+    </ul>
+    <table cols="2" width="100%">
+      <tbody>
+        <tr>
+          <td>
+            <center><b><tt><font color="#009900">Manager</font></tt></b></center>
+            <center>
+              <table cellspacing="0" border="">
+                <tbody>
+                  <tr>
+                    <td>
+                      <center><b><tt>Employee</tt></b></center>
+                      <center>
+                        <table cellspacing="0" cellpadding="4" border="">
+                          <tbody>
+                            <tr>
+                              <td> <b><tt>string name;</tt></b> <br>
+                                <b><tt>double salary;</tt></b> </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </center>
+                      <p><b><tt><font color="#3333FF">string department;</font></tt></b></p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </center>
+          </td>
+          <td>
+            <center><b><tt><font color="#009900">nino</font></tt></b></center>
+            <center>
+              <table cellspacing="0" border="">
+                <tbody>
+                  <tr>
+                    <td>
+                      <center><b><tt>Employee</tt></b></center>
+                      <center>
+                        <table cellspacing="0" cellpadding="4" border="">
+                          <tbody>
+                            <tr>
+                              <td> <b><tt><font color="#009900">"Nino"</font></tt></b>
+                                <br>
+                                <b><tt><font color="#009900">670</font></tt></b>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </center>
+                      <p><b><tt><font color="#009900">"Computer Science"</font></tt></b></p>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </center>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p><b><tt><font color="#006600">Employee</font></tt></b> - базов
+      клас, <tt><b><font color="#006600">Manager</font></b> </tt>-
+      производен клас <br>
+      - членовете-данни на базовият клас са членове-данни и на
+      производния клас (всеки обект от производния клас съдържа данните
+      на базовия клас); <br>
+      - функциите на производният клас <b>нямат</b> достъп&nbsp; до
+      частните членове на базовия клас.<br>
+    </p>
+    <hr width="100%">
+    <p>** <b>Дефиниции на функции в производния клас. </b><br>
+      Конструкторът на производния клас има две задачи: <br>
+      - да инициализира полетата с данни; <br>
+      - да инициализира обекта от базовия клас, който се&nbsp; съдържа в
+      производния клас.<br>
+      <b><tt><font color="#009900">&nbsp; Manager::Manager(string n,
+            double sal, string dept)</font></tt></b> <br>
+      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            Employee(n, sal)</font></tt></b> <br>
+      <b><tt><font color="#009900">&nbsp; { department = dept;&nbsp; }</font></tt></b>
+    </p>
+    <p>Ако в базовия и в производния класове има функции с едно и също
+      име (<b><tt>print()</tt></b>), то викането на член-функция на
+      базовия клас от функция на производния клас става с помощта на
+      операция "принадлежност към клас" -<b><tt> ::</tt></b> <br>
+      <b><tt><font color="#009900">&nbsp; void&nbsp; Manager::print()</font></tt></b>
+      <br>
+      <b><tt><font color="#009900">&nbsp; { Employee::print();</font></tt></b>
+      <br>
+      <b><tt><font color="#009900">&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+            department; }</font></tt></b> <br>
+    </p>
+    <p><tt>// <a href="../../../2014/NETB151/sources/ch11/manager.cpp">manager.cpp</a></tt><tt><br>
+      </tt><tt>#include &lt;iostream&gt;</tt><tt><br>
+      </tt><tt>#include &lt;string&gt;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>using namespace std;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>class Employee {</tt><tt><br>
+      </tt><tt>public:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; Employee(string emp_name, double
+        init_salary);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void set_salary(double new_salary);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; string get_name() const;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double get_salary() const;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void print() const;</tt><tt><br>
+      </tt><tt>private:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; string name;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; double salary;</tt><tt><br>
+      </tt><tt>};</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>class Manager : public Employee {</tt><tt><br>
+      </tt><tt>public:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; Manager(string n, double sal, string
+        dept);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; string get_department() const;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; void print() const;</tt><tt><br>
+      </tt><tt>private:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; string department;</tt><tt><br>
+      </tt><tt>};</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>int main()</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; Employee harry("Harry", 500);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; harry.set_salary(550);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; harry.print();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; harry.get_salary()
+        &lt;&lt; endl;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; Manager nino("Nino", 670, "Computer
+        Science");</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; nino.set_salary(1200);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; nino.print();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; nino.get_salary()
+        &lt;&lt; " "</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &lt;&lt;
+        nino.get_department() &lt;&lt; endl;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>Employee::Employee(string emp_name, double init_salary)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; name = emp_name;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; salary = init_salary;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>void Employee::set_salary(double new_salary)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; salary = new_salary;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>string Employee::get_name() const</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return name;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>double Employee::get_salary() const</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return salary;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>void Employee::print() const</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; get_name() &lt;&lt; " "
+        &lt;&lt; salary &lt;&lt; endl;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>Manager::Manager(string n, double sal, string dept)</tt><tt><br>
+      </tt><tt>: Employee(n, sal)</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; department = dept;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>string Manager::get_department() const</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return department;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>void&nbsp; Manager::print() const</tt><tt><br>
+      </tt><tt>{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; Employee::print();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; department &lt;&lt;
+        endl;</tt><tt><br>
+      </tt><tt>}</tt><br>
+    </p>
+    <hr width="100%"> <b>Пример.</b>&nbsp; Да се изобразят няколко
+    часовника, които показват часа в различни градове по света. <br>
+    Да напишем най-напред базовия клас <tt>Clock</tt> за показване на
+    локалното време по два начина - нормалния (military) и американския
+    (am/pm).<br>
+    В САЩ има два формата за записване на време с разлика в часовете
+    (два вида часовници): <i><br>
+      - <a href="http://www.worldtimezone.com/wtz-names/wtz-am-pm.html">am/pm</a></i>
+    - денонощието започва с 12 am (полунощ) следват 1-11 am, 12 pm
+    (обяд) и 1-11 pm.<br>
+    - <i>military </i>- часовете са от 00 до 23. <br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><tt><b><font color="#000080"> // <a href="../../../2014/NETB151/sources/ch11/clocks1.cpp">clock1.cpp</a></font></b></tt> <b><font color="#000080"><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iomanip&gt;</font>
+<b><font color="#000080"> #include</font></b> <font color="#ff0000">&lt;string&gt;</font>
+ <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+ 
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">"ccc_time.h"</font>
+ 
+ <b><font color="#0000ff">class</font></b> Clock <font color="#ff0000">{</font>
+ <b><font color="#0000ff">public</font></b><font color="#990000">:</font>
+<i><font color="#9a1900">/**</font></i>
+<i><font color="#9a1900"> Constructs a clock that can tell the local time.</font></i>
+<i><font color="#9a1900"> @param use_military true if the clock uses military format (21:05) and <br>                         flase if the clock uses "am/pm" format (9:05 pm)</font></i>
+<i><font color="#9a1900">*/</font></i>
+    <b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font><font color="#990000">;</font>
+<i><font color="#9a1900">/**</font></i>
+<i><font color="#9a1900"> Gets the location of this clock.</font></i>
+<i><font color="#9a1900"> @return the location</font></i>
+<i><font color="#9a1900">*/</font></i>
+    string <b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+<i><font color="#9a1900">/**</font></i>
+<i><font color="#9a1900"> Gets the hours of this clock.</font></i>
+<i><font color="#9a1900"> @return the hours, in military or am/pm format</font></i>
+<i><font color="#9a1900">*/</font></i>
+    <font color="#009900">int</font> <b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+<i><font color="#9a1900">/**</font></i>
+<i><font color="#9a1900"> Gets the minutes of this clock.</font></i>
+<i><font color="#9a1900"> @return the minutes</font></i>
+<i><font color="#9a1900">*/</font></i>
+    <font color="#009900">int</font> <b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+<i><font color="#9a1900">/**</font></i>
+<i><font color="#9a1900"> Checks whether this clock uses miltary format.</font></i>
+<i><font color="#9a1900"> @return true if miltary format</font></i>
+<i><font color="#9a1900">*/</font></i>
+    <font color="#009900">bool</font> <b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+ <b><font color="#0000ff">private</font></b><font color="#990000">:</font>
+    <font color="#009900">bool</font> military<font color="#990000">;</font>
+ <font color="#ff0000">}</font><font color="#990000">;</font>
+ 
+ Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font>
+ <font color="#ff0000">{</font> military <font color="#990000">=</font> use_military<font color="#990000">;</font>  <font color="#ff0000">}</font>
+ 
+ string Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font> <b><font color="#0000ff">return</font></b> <font color="#ff0000">"Local"</font><font color="#990000">;  </font><font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font> Time now<font color="#990000">;</font>
+   <font color="#009900">int</font> hours <font color="#990000">=</font> now<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+   <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>military<font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font>
+   <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">12</font><font color="#990000">;</font>
+   <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">&gt;</font> <font color="#993399">12</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours <font color="#990000">-</font> <font color="#993399">12</font><font color="#990000">;</font>
+   <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font> Time now<font color="#990000">;</font>
+   <b><font color="#0000ff">return</font></b> now<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">bool</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font> <b><font color="#0000ff">return</font></b> military<font color="#990000">;</font> <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+ <font color="#ff0000">{</font> Clock <b><font color="#000000">clock1</font></b><font color="#990000">(</font><b><font color="#0000ff">true</font></b><font color="#990000">)</font><font color="#990000">;</font>
+   Clock <b><font color="#000000">clock2</font></b><font color="#990000">(</font><b><font color="#0000ff">false</font></b><font color="#990000">)</font><font color="#990000">;</font>
+ 
+   <font color="#009900">bool</font> more <font color="#990000">=</font> <b><font color="#0000ff">true</font></b><font color="#990000">;</font>
+   <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>more<font color="#990000">)</font>
+   <font color="#ff0000">{</font> cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Military time: "</font>
+          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock1<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">":"</font>
+          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">'0'</font><font color="#990000">)</font> <br>          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock1<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <br>          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">' '</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+     cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"am/pm time: "</font>
+          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock2<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">":"</font>
+          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">'0'</font><font color="#990000">)</font> <br>          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock2<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <br>          <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">' '</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+ 
+     cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"Try again? (y/n) "</font><font color="#990000">;</font>
+     string input<font color="#990000">;</font>
+     <b><font color="#000000">getline</font></b><font color="#990000">(</font>cin<font color="#990000">,</font> input<font color="#990000">)</font><font color="#990000">;</font>
+     <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>input <font color="#990000">!</font><font color="#990000">=</font> <font color="#ff0000">"y"</font><font color="#990000">)</font> more <font color="#990000">=</font> <b><font color="#0000ff">false</font></b><font color="#990000">;</font>
+   <font color="#ff0000">}</font>
+   <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font></tt></pre>
+    <tt> <font color="#ff0000">}<br>
+      </font></tt><br>
+    Часовник, който показва часа в друг град по света.&nbsp; <br>
+    <br>
+    &nbsp;<img alt=""
+      src="../../../2014/NETB151/slides/ch11/images/datalayout.png"
+      width="740" height="223"><br>
+    Сега в производния клас <tt>TravelClock</tt> добавяме две полета с
+    данни - l<tt>ocation</tt> и<tt> time_difference</tt>. <br>
+    Времето на друго място, се получава, като към местното време се
+    добави разликата, получена от различните <a
+      href="http://www.timeanddate.com/time/map/">часови зони</a>. <br>
+    Например:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">TravelClock clock("London", -2);<br>cout &lt;&lt; "The time in " &lt;&lt; clock.<span style="font-weight: bold;">get_location</span>() &lt;&lt; " is "<br>   &lt;&lt; clock.<span style="font-weight: bold;">get_hours</span>() &lt;&lt; ":" &lt;&lt; clock.<span style="font-weight: bold;">get_minutes</span>();</pre>
+    Обект от <tt>TravelClock </tt>има 3 разлики с обект от <tt>Clock</tt>:<br>
+    - двете полета с данни:&nbsp; l<tt>ocation</tt> и<tt>
+      time_difference;<br>
+    </tt>- функцията<tt> </tt><tt>get_hours</tt><tt> </tt>добавя
+    разликата в часовите зони;<tt><br>
+    </tt>- функцията<tt> get_location </tt>връща името на мястото (а не
+    низа <tt>"Local").<br>
+    </tt>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 0, 153);">class</span> TravelClock : <span style="color: rgb(0, 0, 153);">public</span> Clock {<br><span style="color: rgb(0, 0, 153);">public:</span><br>   TravelClock(<span style="color: rgb(0, 0, 153);">bool</span> mil, <span style="color: rgb(0, 153, 0);">string</span> loc, <span style="color: rgb(0, 0, 153);">double</span> off);<br>   <span style="color: rgb(0, 0, 153);">int</span> <span style="font-weight: bold;">get_hours</span>() <span style="color: rgb(0, 0, 153);">const</span>;<br>   <span style="color: rgb(0, 153, 0);">string</span> <span style="font-weight: bold;">get_location</span>() <span style="color: rgb(0, 0, 153);">const</span>;<br><span style="color: rgb(0, 0, 153);">private:</span><br>   <span style="color: rgb(0, 153, 0);">string</span> location;<br>   <span style="color: rgb(0, 0, 153);">int</span> time_difference;<br>};</pre>
+    ** <b>Конструктор на базовия и производния клас</b><br>
+    Конструкторът на производния клас има две задачи: <br>
+    - да инициализира обекта от базовия клас, който се&nbsp; съдържа в
+    производния клас;<br>
+    - да инициализира полетата с данни.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">TravelClock::TravelClock(<span style="color: rgb(0, 0, 153);">bool</span> mil, <span style="color: rgb(0, 153, 0);">string</span> loc, <span style="color: rgb(0, 0, 153);">int</span> diff)<br>   : Clock(mil)<br>{  location = loc;<br>   time_difference = diff;<br>   <span style="color: rgb(0, 0, 153);">while</span> (time_difference &lt; 0)<br>          time_difference = time_difference + 24;<br>};</pre>
+    Ако не се извика конструктора на базовия клас, обектът от
+    производния клас се създава като автоматично (неявно) се вика
+    конструктора по подразбиране на базовия клас. <br>
+    Ако такъв конструктор няма, то задължително трябва да се вика явно
+    конструктора на базовия клас.<br>
+    <b>Забележка:</b> Когато дефинираме клас и не дефинираме
+    конструктор, то автоматично се дефинира конструктор по подразбиране
+    с празен блок. Ако обаче дефинираме поне един конструктор, то този
+    конструктор с празен блок не се дефинира автоматично.<br>
+    <br>
+    ** <b>Член функции в базовия и производния клас</b><br>
+    Нека <tt>B::f</tt> е функция в базовия клас. Производният <tt>D</tt>
+    клас може да:<br>
+    - <i>разшири</i> функцията <tt>B::f</tt> като дефинира <tt>D::f</tt>&nbsp;
+
+
+
+    в производния клас, използвайки дефиницията в базовия клас. Например
+    <b><tt>TravelClock::get_hours</tt></b> е <i>разширение</i> на <b><tt>Clock::get_hours</tt></b>;<br>
+    - <i>замести</i> функцията<tt> B::f</tt> с нова <tt>D::f</tt>,
+    дефинирана в производния клас и независима от нея. Например <b><tt>TravelClock::get_location</tt></b>
+    <i>замества</i> <b><tt>Clock::get_location</tt></b>;<br>
+    - <i>наследи</i> функцията <tt>B::f</tt> от базовия клас, без да я
+    дефинира отново. Например <tt>TravelClock</tt> <i>наследява</i> <b><tt>Clock::get_minutes</tt></b>
+    и <b><tt>Clock::is_military</tt></b>.<br>
+    <br>
+    Член-функция може да се извика без неявен параметър (когато се
+    извика с "неявен параметър" (обект) от производен клас), т.е. в блок
+    на функция от производния клас. <br>
+    <tt>int TravelClock::get_hours() const</tt><tt><br>
+    </tt><tt>{ . . . </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp; if (<b>is_military</b>())&nbsp; /* clock uses
+      military time */</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      return (h + time_difference) % 24;</tt><tt><br>
+    </tt><tt>&nbsp; . . . </tt><tt><br>
+    </tt><tt>}</tt><tt><br>
+    </tt>Когато в базовия и в производния клас има функции с едно и също
+    име (<b><tt>get_hours()</tt></b>), то за да извикаме функцията от
+    базовия клас в блок на функция от производния клас, трябва да
+    използваме операция "принадлежност към клас" - <tt>::</tt>, за да
+    избегнем рекурсията.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">int</span> TravelClock::<span style="font-weight: bold;">get_hours</span>() <span style="color: rgb(51, 51, 255);">const</span><br>{  . . .<br>   <span style="color: rgb(51, 51, 255);">int</span> h = Clock::<span style="font-weight: bold;">get_hours</span>(); /* calls base-class function */<br>   . . .<br>}</pre>
+    ** <b>Данните на базовия и производния клас</b><br>
+    Данните на базовия клас (<b><tt>military</tt></b>) не са достъпни от
+    член-функциите на производния клас.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt> <b><font color="#000080">// <a href="../../../2014/NETB151/sources/ch11/clocks2.cpp">clock2.cpp</a><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;</font><br> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iomanip&gt;</font><br> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;string&gt;</font><br> <b><font color="#0000ff">using</font> <font color="#0000ff">namespace</font></b> std<font color="#990000">;</font><br> <b><font color="#000080">#include</font></b> <font color="#ff0000">"ccc_time.h"</font><br> <br> <b><font color="#0000ff">class</font></b> Clock <font color="#ff0000">{</font><br> <b><font color="#0000ff">public</font></b><font color="#990000">:</font><br>    <b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font><font color="#990000">;</font> <br>    string <b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font><br>    <font color="#009900">int</font> <b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font><br>    <font color="#009900">int</font> <b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font><br>    <font color="#009900">bool</font> <b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font><br> <b><font color="#0000ff">private</font></b><font color="#990000">:</font><br>    <font color="#009900">bool</font> military<font color="#990000">;</font><br> <font color="#ff0000">}</font><font color="#990000">;</font><br> <br> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font><br> <font color="#ff0000">{</font> military <font color="#990000">=</font> use_military<font color="#990000">;</font> <font color="#ff0000">}</font><br> <br> string Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><br> <font color="#ff0000">{</font> <b><font color="#0000ff">return</font></b> <font color="#ff0000">"Local"</font><font color="#990000">;</font> <font color="#ff0000">}</font><br> <br> <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><br> <font color="#ff0000">{</font> Time now<font color="#990000">;</font><br>   <font color="#009900">int</font> hours <font color="#990000">=</font> now<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font><br>   <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>military<font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font><br>   <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">12</font><font color="#990000">;</font><br>   <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">&gt;</font> <font color="#993399">12</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours <font color="#990000">-</font> <font color="#993399">12</font><font color="#990000">;</font><br>   <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font><br> <font color="#ff0000">}</font><br> <br> <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><br> <font color="#ff0000">{</font> Time now<font color="#990000">;</font><br>   <b><font color="#0000ff">return</font></b> now<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font><br> <font color="#ff0000">}</font><br> <br> <font color="#009900">bool</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><br> <font color="#ff0000">{</font> <b><font color="#0000ff">return</font></b> military<font color="#990000">;</font>  <font color="#ff0000">}</font><br> <br> <b><font color="#0000ff">class</font></b> TravelClock <font color="#990000">:</font> <b><font color="#0000ff">public</font></b> Clock <font color="#ff0000">{<br></font> <b><font color="#0000ff">public</font></b><font color="#990000">:</font><br> <i><font color="#9a1900">/**</font></i><br><i><font color="#9a1900">   Constructs a travel clock that can tell the time</font></i><br><i><font color="#9a1900">    at a specified location</font></i><br><i><font color="#9a1900">   @param mil true if the clock uses military format</font></i><br><i><font color="#9a1900">   @param loc the location</font></i><br><i><font color="#9a1900">   @param diff the time difference from the local time</font></i><br><i><font color="#9a1900"> */</font></i><br>    <b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><font color="#009900">bool</font> mil<font color="#990000">,</font> string loc<font color="#990000">,</font> <font color="#009900">int</font> diff<font color="#990000">)</font><font color="#990000">;</font><br>    string <b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font><br>    <font color="#009900">int</font> <b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font><br> <b><font color="#0000ff">private</font></b><font color="#990000">:</font><br>    string location<font color="#990000">;</font><br>   <font color="#009900">int</font> time_difference<font color="#990000">;</font><br><font color="#ff0000"> }</font><font color="#990000">;</font><br> <br> TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><font color="#009900">bool</font> mil<font color="#990000">,</font> string loc<font color="#990000">,</font> <font color="#009900">int</font> diff<font color="#990000">)</font><br>    <font color="#990000">:</font> <b><font color="#000000">Clock</font></b><font color="#990000">(</font>mil<font color="#990000">)</font><br> <font color="#ff0000">{</font> location <font color="#990000">=</font> loc<font color="#990000">;</font><br>   time_difference <font color="#990000">=</font> diff<font color="#990000">;</font><br>   <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>time_difference <font color="#990000">&lt;</font> <font color="#993399">0</font><font color="#990000">)</font> <br>       time_difference <font color="#990000">=</font> time_difference <font color="#990000">+</font> <font color="#993399">24</font><font color="#990000">;</font><br> <font color="#ff0000">}</font><br> <br> string TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><br><font color="#ff0000"> {</font> <b><font color="#0000ff">return</font></b> location<font color="#990000">;</font> <font color="#ff0000">}</font><br> <br> <font color="#009900">int</font> TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><br> <font color="#ff0000">{</font> <font color="#009900">int</font> h <font color="#990000">=</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font><br>   <b><font color="#0000ff">if</font></b> <font color="#990000">(</font><b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font><br>       <b><font color="#0000ff">return</font></b> <font color="#990000">(</font>h <font color="#990000">+</font> time_difference<font color="#990000">)</font> <font color="#990000">%</font> <font color="#993399">24</font><font color="#990000">;</font><br>   <b><font color="#0000ff">else</font></b><br>   <font color="#ff0000">{</font>  h <font color="#990000">=</font> <font color="#990000">(</font>h <font color="#990000">+</font> time_difference<font color="#990000">)</font> <font color="#990000">%</font> <font color="#993399">12</font><font color="#990000">;</font><br>      <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>h <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">12</font><font color="#990000">;</font><br>      <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> h<font color="#990000">;</font><br>   <font color="#ff0000">}</font><br> <font color="#ff0000">}</font><br> <br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font><br> <font color="#ff0000">{</font> Clock <b><font color="#000000">clock1</font></b><font color="#990000">(</font><b><font color="#0000ff">true</font></b><font color="#990000">)</font><font color="#990000">;</font><br>   TravelClock <b><font color="#000000">clock2</font></b><font color="#990000">(</font><b><font color="#0000ff">true</font></b><font color="#990000">,</font> <font color="#ff0000">"Rome"</font><font color="#990000">,</font> -1<font color="#990000">)</font><font color="#990000">;</font><br>   TravelClock <b><font color="#000000">clock3</font></b><font color="#990000">(</font><b><font color="#0000ff">false</font></b><font color="#990000">,</font> <font color="#ff0000">"Tokyo"</font><font color="#990000">,</font> 5<font color="#990000">)</font><font color="#990000">;</font><br> <br>   cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock1<font color="#990000">.</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" time: "</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock1<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">":"</font><br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">'0'</font><font color="#990000">)</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock1<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">' '</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font><br>   cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock2<font color="#990000">.</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" time: "</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock2<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">":"</font><br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">'0'</font><font color="#990000">)</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock2<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">' '</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font><br>   cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock3<font color="#990000">.</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" time: "</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock3<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">":"</font><br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">'0'</font><font color="#990000">)</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clock3<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <br>       <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">' '</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font><br>   <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font><br> <font color="#ff0000">}<br></font></tt></pre>
+    <hr size="2" width="100%">&nbsp; <img alt=""
+      src="../../../2018/CITB201/b5.gif" width="13" height="12"> <b>Полиморфизъм</b><br>
+    Може да дефинираме вектор от часовници и да използваме цикъл за
+    показване на часа.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 153, 0);"><font size="+1">vector</font></span><font size="+1">&lt;Clock&gt; clocks(3);<br>/* populate clocks */<br>clocks[0] = <span style="color: rgb(0, 0, 153);"></span>Clock(<span style="color: rgb(51, 51, 255);">true</span>);<br>clocks[1] = <span style="color: rgb(0, 0, 153);"></span>TravelClock(true, "Rome", -1);<br>clocks[2] = <span style="color: rgb(0, 0, 153);"></span>TravelClock(false, "Tokyo", 5);<br><br><span style="color: rgb(51, 51, 255);">for</span> (<span style="color: rgb(51, 51, 255);">int</span> i = 0; i &lt; clocks.size(); i++)<clocks.size i=""><br>cout &lt;&lt; clocks[i]<font size="+1">.</font><span style="font-weight: bold;">get_location</span>() &lt;&lt; " time: "<br>     &lt;&lt; clocks[i]<font size="+1">.</font><span style="font-weight: bold;">get_hours</span>() &lt;&lt; ":"<br>     &lt;&lt; setw(2) &lt;&lt; setfill('0')<br>     &lt;&lt; clocks[i]<font size="+1">.</font><span style="font-weight: bold;">get_minutes</span>()<br>     &lt;&lt; setfill(' ') &lt;&lt; "\n";</clocks.size></font></pre>
+    Тъй като обект от производния клас <b>е</b> обект и от базовия
+    клас, то можем да използваме операция присвояване с ляв аргумент
+    обект от <tt>Clock</tt> и&nbsp; десен аргумент - обект от <tt>TravelClock</tt>
+    (обратното не е вярно). <br>
+    Ефектът обаче е <b>отрязване</b> на даните (при операция
+    присвояване), дефинирани в производния клас, т.е. на l<tt>ocation</tt>
+    и <tt>time_difference</tt>.<br>
+    [ <b><a href="../../../2014/NETB151/sources/ch11/clocks2a.cpp"><tt>clocks2a.cpp</tt></a></b>
+    ]&nbsp; <br>
+    <br>
+    Можем да използваме указатели към базовия клас за елементи на
+    вектора, тъй като указател от базов клас може "да сочи" обект от
+    производен клас (обратното не е вярно). <br>
+    Бележка: Указателите от различни класове имат една и съща дължина.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 153, 0);"><font size="+1">vector</font></span><font size="+1">&lt;Clock*&gt; clocks(3);<br>/* populate clocks */<br>clocks[0] = <span style="color: rgb(0, 0, 153);"></span><font size="+1">new </font>Clock(<span style="color: rgb(51, 51, 255);">true</span>);<br>clocks[1] = <span style="color: rgb(0, 0, 153);"></span>new TravelClock(true, "Rome", -1);<br>clocks[2] = <span style="color: rgb(0, 0, 153);"></span>new TravelClock(false, "Tokyo", 5);<br><br><span style="color: rgb(51, 51, 255);">for</span> (<span style="color: rgb(51, 51, 255);">int</span> i = 0; i &lt; clocks.size(); i++)<clocks.size i=""><br>cout &lt;&lt; clocks[i]-&gt;<span style="font-weight: bold;">get_location</span>() &lt;&lt; " time: "<br>     &lt;&lt; clocks[i]-&gt;<span style="font-weight: bold;">get_hours</span>() &lt;&lt; ":"<br>     &lt;&lt; setw(2) &lt;&lt; setfill('0')<br>     &lt;&lt; clocks[i]-&gt;<span style="font-weight: bold;">get_minutes</span>()<br>     &lt;&lt; setfill(' ') &lt;&lt; "\n";</clocks.size></font></pre>
+    Векторът <tt>clocks</tt> съдържа колекция от различни часовници.
+    Такава колекция се нарича <i>полиморфна</i>. <br>
+    [ <a href="../../../2014/NETB151/sources/ch11/clocks2b.cpp"><b><tt>clocks2b.cpp</tt></b></a>
+    ]&nbsp; <br>
+    <img alt=""
+      src="../../../2014/NETB151/slides/ch11/images/polyvector.png"
+      width="631" height="631"><br>
+    Резултатът от новия вариант е същия:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Local time is 21:15<br>Local time is 21:15<br>Local time is 9:15</pre>
+    защото указателите са от базовия клас и съответно с тях се вика
+    функция от същия клас. <br>
+    Това свързване на обект (неявен параметър) и член-функция се нарича
+    <i>статично свързване</i>. <br>
+    <br>
+    В С++ може да се реализира и <i>динамично свързване </i>- когато
+    се вика функция от класа, от който е обектът, към който сочи
+    указателя. <br>
+    За това динамично свързване е необходимо функциите да се обяват като
+    <i>виртуални</i>.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">class</span> Clock  {<br><span style="color: rgb(51, 51, 255);">public:</span><br>   Clock(<span style="color: rgb(51, 51, 255);">bool</span> use_military);<br>   <span style="color: rgb(51, 51, 255);">virtual</span> <span style="color: rgb(0, 153, 0);">string</span> <span style="font-weight: bold;">get_locatio</span>n() <span style="color: rgb(51, 51, 255);">const</span>;<br>   <span style="color: rgb(51, 51, 255);">virtual</span> <span style="color: rgb(51, 51, 255);">int</span> <span style="font-weight: bold;">get_hours</span>() <span style="color: rgb(51, 51, 255);">const</span>;<br>   <span style="color: rgb(51, 51, 255);">int</span> <span style="font-weight: bold;">get_minutes</span>() <span style="color: rgb(51, 51, 255);">const</span>;<br>   <span style="color: rgb(51, 51, 255);">bool</span> <span style="font-weight: bold;">is_military</span>() <span style="color: rgb(51, 51, 255);">const</span>;<br><span style="color: rgb(51, 51, 255);">private:</span><br>   . . .<br>};</pre>
+    Ето реализация на цялата програма с динамично свързване:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><b><font color="#000080"> // <a href="../../../2014/NETB151/sources/ch11/clocks3.cpp">clock<font color="#000080">s</font>3.cpp</a><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iomanip&gt;</font>
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;string&gt;</font>
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>
+ <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+ 
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">"ccc_time.h"</font>
+ 
+ <b><font color="#0000ff">class</font></b> Clock <font color="#ff0000">{</font>
+ <b><font color="#0000ff">public</font></b><font color="#990000">:</font>
+    <b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font><font color="#990000">;</font>
+    <b><font color="#0000ff">virtual</font></b> string <b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <b><font color="#0000ff">virtual</font></b> <font color="#009900">int</font> <b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <font color="#009900">int</font> <b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <font color="#009900">bool</font> <b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+ <b><font color="#0000ff">private</font></b><font color="#990000">:</font>
+    <font color="#009900">bool</font> military<font color="#990000">;</font>
+ <font color="#ff0000">}</font><font color="#990000">;</font>
+ 
+ Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font>
+ <font color="#ff0000">{</font>  military <font color="#990000">=</font> use_military<font color="#990000">;</font> <font color="#ff0000">}</font>
+ 
+ string Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> <font color="#ff0000">"Local"</font><font color="#990000">;</font>  <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  Time now<font color="#990000">;</font>
+    <font color="#009900">int</font> hours <font color="#990000">=</font> now<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>military<font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">12</font><font color="#990000">;</font>
+    <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">&gt;</font> <font color="#993399">12</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours <font color="#990000">-</font> <font color="#993399">12</font><font color="#990000">;</font>
+    <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  Time now<font color="#990000">;</font>
+    <b><font color="#0000ff">return</font></b> now<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">bool</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> military<font color="#990000">;</font>  <font color="#ff0000">}</font>
+ 
+ <b><font color="#0000ff">class</font></b> TravelClock <font color="#990000">:</font> <b><font color="#0000ff">public</font></b> Clock  <font color="#ff0000">{</font>
+ <b><font color="#0000ff">public</font></b><font color="#990000">:</font>
+    <b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><font color="#009900">bool</font> mil<font color="#990000">,</font> string loc<font color="#990000">,</font> <font color="#009900">int</font> diff<font color="#990000">)</font><font color="#990000">;</font>
+    string <b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <font color="#009900">int</font> <b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+ <b><font color="#0000ff">private</font></b><font color="#990000">:</font>
+    string location<font color="#990000">;</font>
+    <font color="#009900">int</font> time_difference<font color="#990000">;</font>
+ <font color="#ff0000">}</font><font color="#990000">;</font>
+ 
+ TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><font color="#009900">bool</font> mil<font color="#990000">,</font> string loc<font color="#990000">,</font> <font color="#009900">int</font> diff<font color="#990000">)</font>
+    <font color="#990000">:</font> <b><font color="#000000">Clock</font></b><font color="#990000">(</font>mil<font color="#990000">)</font>
+ <font color="#ff0000">{</font>  location <font color="#990000">=</font> loc<font color="#990000">;</font>
+    time_difference <font color="#990000">=</font> diff<font color="#990000">;</font>
+    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>time_difference <font color="#990000">&lt;</font> <font color="#993399">0</font><font color="#990000">)</font> <br>       time_difference <font color="#990000">=</font> time_difference <font color="#990000">+</font> <font color="#993399">24</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ string TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> location<font color="#990000">;</font>  <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <font color="#009900">int</font> h <font color="#990000">=</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font><b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font>
+       <b><font color="#0000ff">return</font></b> <font color="#990000">(</font>h <font color="#990000">+</font> time_difference<font color="#990000">)</font> <font color="#990000">%</font> <font color="#993399">24</font><font color="#990000">;</font>
+    <b><font color="#0000ff">else</font></b>
+    <font color="#ff0000">{</font>  h <font color="#990000">=</font> <font color="#990000">(</font>h <font color="#990000">+</font> time_difference<font color="#990000">)</font> <font color="#990000">%</font> <font color="#993399">12</font><font color="#990000">;</font>
+       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>h <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">12</font><font color="#990000">;</font>
+       <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> h<font color="#990000">;</font>
+    <font color="#ff0000">}</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+ <font color="#ff0000">{</font>  vector<font color="#ff0000">&lt;Clock*&gt;</font> <b><font color="#000000">clocks</font></b><font color="#990000">(</font><font color="#993399">3</font><font color="#990000">)</font><font color="#990000">;</font>
+    clocks<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#0000ff">new</font></b> <b><font color="#000000">Clock</font></b><font color="#990000">(</font><b><font color="#0000ff">true</font></b><font color="#990000">)</font><font color="#990000">;</font>
+    clocks<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#0000ff">new</font></b> <b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><b><font color="#0000ff">true</font></b><font color="#990000">,</font> <font color="#ff0000">"Rome"</font><font color="#990000">,</font> <font color="#993399">-1</font><font color="#990000">)</font><font color="#990000">;</font>
+    clocks<font color="#990000">[</font><font color="#993399">2</font><font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#0000ff">new</font></b> <b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><b><font color="#0000ff">false</font></b><font color="#990000">,</font> <font color="#ff0000">"Tokyo"</font><font color="#990000">,</font> <font color="#990000">5</font><font color="#990000">)</font><font color="#990000">;</font>
+ 
+    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> clocks<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+    <font color="#ff0000">{</font> cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clocks<font color="#990000">[</font>i<font color="#990000">]</font><font color="#990000">-</font><font color="#990000">&gt;</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" time: "</font> <br>           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clocks<font color="#990000">[</font>i<font color="#990000">]</font><font color="#990000">-</font><font color="#990000">&gt;</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">":"</font>
+           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">'0'</font><font color="#990000">)</font> <br>           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clocks<font color="#990000">[</font>i<font color="#990000">]</font><font color="#990000">-</font><font color="#990000">&gt;</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <br>           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">' '</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+    <font color="#ff0000">}</font>
+    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font></tt></pre>
+    <hr size="2" width="100%">
+  </body>
+</html>
