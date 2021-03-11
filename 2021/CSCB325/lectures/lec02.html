@@ -13,12 +13,13 @@
     <p><i>План:</i><br>
       Метод на динамичното оптимиране<br>
       Задача за монети - минимален брой<br>
-      Задача за монети - брой разбивания<br>
+      Задача за монети - брой разбивания <br>
+      Разбиване на естествено число<br>
       <i>Задачи за домашно 1 и 2</i><br>
     </p>
     <p> </p>
-    <hr width="100%" size="2">
-    <h4>Метод на динамичното оптимиране [8.1]<br>
+    <hr size="2" width="100%">
+    <h4>** Метод на динамичното оптимиране [8.1]<br>
     </h4>
     Общ принцип за решаване на трудни задачи:<br>
     Задачата се разбива на подзадачи, те от своя страна отново се
@@ -27,6 +28,10 @@
     подзадачите се комбинират по подходящ начин, така че да се получи
     решение на изходната задача. <br>
     -- <a href="../../CSCB324/lectures/lec11.html">Разделяй и владей</a>:&nbsp;
+
+
+
+
     множествата на подзадачите са непресичащи се (<a
       href="../../CSCB324/lectures/lec10.html">Двоично търсене</a>);<br>
     -- <a href="../../CSCB324/lectures/lec12.html">Динамично оптимиране</a>:
@@ -46,15 +51,15 @@
       едва тогава, в случай че задачата все още не е била решавана, ще
       извършваме съответните пресмятания.<br>
     </p>
-    <p>Програмистката техника, при която се извършва запълване на
-      таблица с резултатите от решенията на вече решени подзадачи с цел
+    <p>Програмистка техника, при която се извършва запълване на таблица
+      с резултатите от решенията на вече решени подзадачи с цел
       избягване на повторни пресмятания се нарича динамично оптимиране.<br>
       <br>
       Оптимизационни задачи&nbsp; (<a
         href="../../CSCB324/lectures/lec12.html">Задача за раницата</a>):<br>
       -- множество допустими кандидати за решения;<br>
       -- целева функция.<br>
-      На всеки кандидат за решение се съпоставя някакво число - сойност
+      На всеки кандидат за решение се съпоставя някакво число - стойност
       на целевата функция. <br>
       Целта е да се намери решение (оптимално решение), за което
       функцията приема своята екстремална (максимална или минимална)
@@ -63,7 +68,7 @@
       общия случай прилагането на динамично оптимиране ще ни даде само
       едно от тях).<br>
     </p>
-    <hr width="100%" size="2">
+    <hr size="2" width="100%">
     <p>** <b>Задача за монети - минимален брой</b> [Coin problem, AL p.
       65]</p>
     <p> Дадени са монети със стойности c<sub>1</sub>, c<sub>2</sub>,
@@ -83,12 +88,17 @@
       solve(9) = 3<br>
       solve(10) = 3<br>
     </p>
+    <p>solve: целева сума -&gt; минимален брой монети<br>
+    </p>
     <p>Рекурсивна формула за примера:<br>
       <meta charset="utf-8">
-      solve(x) = min(solve(x−1) + 1, solve(x−3) + 1, solve(x−4) + 1)<br>
-    </p>
+      solve(x) = min{solve(x−1) + 1, solve(x−3) + 1, solve(x−4) + 1} =
+      min{solve(x−1), solve(x−3) , solve(x−4) } + 1 </p>
     <p>
       <meta charset="utf-8">
+      solve(10) =&nbsp; min{solve(10 - 1), solve(10 - 3), solve(10 - 4)}
+      + 1 = min{solve(9), solve(7), solve(6)} = min{3, 2, 2} + 1 = 2 + 1
+      = 3<br>
       solve(10) = solve(7) + 1 = solve(4) + 2 = solve(0) + 3 = 3.<br>
     </p>
     <p>Обща рекурсивна формула за монети със стойности c<sub>1</sub>, c<sub>2</sub>,
@@ -105,7 +115,8 @@
           best = min(best, solve(x - c[i]) + 1);</tt><tt><br>
         </tt><tt> &nbsp;&nbsp;&nbsp; return best;</tt><tt><br>
         </tt><tt> } </tt></font></p>
-    <p>Със запомняне на пресметнатите стойности (memorization):<br>
+    <p>Рекурсия със запомняне на пресметнатите стойности (memorization)
+      в масива <font size="+1"><tt>value</tt></font>:<br>
       <font size="+1"><tt>int solve(int x) </tt><tt><br>
         </tt><tt>{</tt><tt><br>
         </tt><tt>&nbsp;&nbsp;&nbsp; if (x == 0) return 0;</tt><tt><br>
@@ -119,7 +130,8 @@
         </tt><tt>&nbsp;&nbsp;&nbsp; return best;</tt><tt><br>
         </tt><tt>}</tt></font><br>
     </p>
-    <p>Итеративен вариант:<br>
+    <p>Итеративен вариант със запомняне на пресметнатите стойности
+      (memorization) в масива <font size="+1"><tt>value</tt></font>::<br>
       <meta charset="utf-8">
       <font size="+1"><tt>value[0] = 0; </tt><tt><br>
         </tt><tt>for (int x = 1; x &lt;= n; x++) </tt><tt><br>
@@ -155,7 +167,7 @@
         </tt><tt>&nbsp;&nbsp;&nbsp; n -= first[n];</tt><tt><br>
         </tt><tt>}</tt></font><br>
     </p>
-    <hr width="100%" size="2">** <b>Задача за монети - брой разбивания</b>
+    <hr size="2" width="100%">** <b>Задача за монети - брой разбивания</b>
     [8.3.4]<br>
     <br>
     Дадени са n типа монети със стойности съответно: c<sub>0</sub>, c<sub>1</sub>,
@@ -174,6 +186,133 @@
     F(s, m) = sum{ F(s - i, i): i = 1, 2, ..., m,&nbsp; има k: c<sub>k</sub>
     = i} иначе<br>
     <br>
+    Пример: Монети <font size="+1"><tt>1,2,3,4,6</tt></font>, сума <font
+      size="+1"><tt>6</tt></font><br>
+    F(s, m)<br>
+    F(3, 2) = F(2, 1) + F(1, 2) = 1 + 1 = 2; F(3, 3) = 1 + F(2, 1) +
+    F(1, 2)&nbsp; = 1 + 1 + 1 = 3<br>
+    F(4,2) = F(3, 1) + F(2, 2)&nbsp; = 1 + 2&nbsp; = 3; F(4, 3) = F(3,
+    1) + F(2, 2) + F(1, 3) = 4; F(4, 4) = 1 + ...<br>
+    <br>
+    <table cellspacing="0" cellpadding="2" width="590" height="156"
+      border="1">
+      <tbody>
+        <tr>
+          <td valign="top" bgcolor="#ffffcc">s/m<br>
+          </td>
+          <td valign="top" bgcolor="#ffffcc">1<br>
+          </td>
+          <td valign="top" bgcolor="#ffffcc">2<br>
+          </td>
+          <td valign="top" bgcolor="#ffffcc">3<br>
+          </td>
+          <td valign="top" bgcolor="#ffffcc">4<br>
+          </td>
+          <td valign="top" bgcolor="#ffffcc">5<br>
+          </td>
+          <td valign="top" bgcolor="#ffffcc">6<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#ffffcc">1<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#ffffcc">2<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#ffffcc">3<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">2<br>
+          </td>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">3<br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#ffffcc">4<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top">3<br>
+          </td>
+          <td valign="top">4<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#ffffcc">5<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+        <tr>
+          <td valign="top" bgcolor="#ffffcc">6<br>
+          </td>
+          <td valign="top">1<br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+          <td valign="top"><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <br>
     <font size="+1"><tt>#include&lt;iostream&gt;</tt><tt><br>
       </tt><tt>#define MAXCOINS 100 /* Максимален брой монети */</tt><tt><br>
       </tt><tt>#define MAXSUM 100&nbsp;&nbsp; /* Максимална сума */</tt><tt><br>
@@ -187,6 +326,10 @@
         монети */</tt><tt><br>
       </tt><tt>unsigned sum =
         6;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
 
 
 
@@ -237,11 +380,19 @@
 
 
 
+
+
+
+
         F[sum][max] = 1;</tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (i = max;
         i &gt; 0; i--) /* Пресмятаме всички */</tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
 
 
 
@@ -262,9 +413,42 @@
         endl;</tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp; return 0;<br>
         }<br>
-      </tt><tt> </tt><tt> </tt></font>
-    <hr width="100%" size="2"><br>
-    <br>
-    <br>
+      </tt></font>
+    <hr size="2" width="100%"><font size="+1"><b>** Разбиване на
+        естествено число</b> [8.3.6]<br>
+      <br>
+      Разбиване на естествено число n е всяко мултимножество от
+      естествени числа, не непременно различни, чиято сума е n. Да се
+      намери броя на различните разбивания.<br>
+      <br>
+      Пример:&nbsp; n = 4<br>
+      4<br>
+      3 + 1<br>
+      2 + 2 <br>
+      2 + 1 + 1 <br>
+      1 + 1 + 1 + 1<br>
+      <br>
+      Виж <a href="../../CSCB324/lectures/lec07.html">Разбиване на
+        числа</a> [1.3.4]<br>
+      <br>
+      S(n, m)&nbsp; e броят на представянията на n като сума от
+      естествени числа, ненадминаващи m.<br>
+      <br>
+      S(1, n) = S(m, 1) = 1</font>,<br>
+    <font size="+1"><font size="+1"><font size="+1">S(n, n) = 1 + S(n, n
+          - 1),<br>
+        </font></font>S(n, m) = S(n, n), за n &lt; m,</font><br>
+    <font size="+1"><font size="+1">S(n, m) = S(n, m - 1) + S(n - m, m)
+      </font></font><font size="+1">за n &gt; m.<br>
+      <br>
+      S(4, 4) = 1 + S(4, 3);<br>
+      S(4, 3) = S(4, 2) + S(1, 3) = S(4, 2) + S(1, 1) = S(4, 2) + 1;<br>
+      S(4, 2) = S(4, 1) + S(2, 2) = 1 + 1 + S(2, 1)&nbsp; = 3;<br>
+      &nbsp;<br>
+    </font>
+    <hr size="2" width="100%"><i><a href="problems_1_2.html">Задачи за
+        домашно 1 и 2</a><br>
+    </i>
+    <hr size="2" width="100%">
   </body>
 </html>
