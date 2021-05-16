@@ -17,7 +17,7 @@
     Деструктор<br>
     Операция присвояване<br>
     Конструктор за копиране<br>
-    <hr size="2" width="100%"><b>** Необходимост от управление на
+    <hr width="100%" size="2"><b>** Необходимост от управление на
       паметта</b><br>
     Ще разгледаме примера от <a href="lec02.html">Указатели</a> за
     използване на указател в клас - <a
@@ -101,7 +101,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     Къде да се изпълни операция <tt>delete</tt>?<br>
     С операция <tt>delete</tt> в <i>деструктора</i> на класа се
     унищожава създадения обект от конструктора на класа.<br>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p><b>** Деструктор</b><br>
     </p>
     <p>Деструктор е специална член-функция, която се извиква автоматично
@@ -115,7 +115,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       </tt><tt>}<br>
       </tt></font>
     <pre><font size="+1"><a href="../sources/ch17/department2.cpp">department2.cpp</a></font></pre>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p><b>** Предефиниране на операция присвояване<br>
       </b></p>
     <p>Нека имаме следните дефиниции:<b><br>
@@ -158,11 +158,12 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       (защо?)<b>.</b><br>
       <tt><font size="+1"><a href="../sources/ch17/department4.cpp">department4.cpp</a></font></tt><b>
       </b></p>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p><b>** Конструктор за копиране</b><br>
     </p>
     <p>Предназначението на операция присвояване е да промени съществуващ
-      обект, като го направи същия като друг обект и не е подходяща за
+      обект (левия аргумент на операцията), като го направи същия като
+      друг обект (десния аргумент на операцията) и не е подходяща за
       конструиране на нов обект. <br>
       Например в оператора за дефиниране на обект:<br>
     </p>
@@ -172,9 +173,10 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department dept(qc);</font></pre>
     <p>т.е. като се извика конструктор за копиране. <br>
-      За всеки клас в езика С++ има (по подразбиране) такъв конструктор,
-      но той действа с почленно копиране и възникава същия проблем,
-      както при операция присвояване. <br>
+    </p>
+    <p> За всеки клас в езика С++ има (по подразбиране) такъв
+      конструктор, но той действа с почленно копиране и възникава същия
+      проблем, както при операция присвояване. <br>
       Решението е да се напише конструктор за копиране:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department::Department(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  name = b.name;<br>   <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == NULL) receptionist = NULL;<br>   <span style="color: rgb(51, 51, 255);">else</span><br>      receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         			b.receptionist-&gt;get_salary());<br>}</font></pre>
@@ -616,6 +618,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
         &nbsp;&nbsp; cout &lt;&lt; "staff2:" &lt;&lt; endl;<br>
         &nbsp;&nbsp; print(staff);<br>
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
         // destructor<br>
         <br>
         &nbsp;&nbsp; return 0;<br>
@@ -623,8 +626,10 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
         <br>
       </tt></font>Големите три (<a
 href="https://en.wikipedia.org/wiki/Rule_of_three_%28C%2B%2B_programming%29">Rule
+
       of three</a>) се дефинират винаги, когато при създаване на обект
     се заемат <a href="https://en.wikipedia.org/wiki/System_resource">системни
+
       ресурси</a> (динамична памет, файлове).<font size="+1"><tt><br>
       </tt></font>
     <hr width="100%">
