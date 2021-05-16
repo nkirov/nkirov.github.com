@@ -17,12 +17,13 @@
     Деструктор<br>
     Операция присвояване<br>
     Конструктор за копиране<br>
-    <br>
     <hr width="100%" size="2"><b>** Необходимост от управление на
       паметта</b><br>
-    Ще разгледаме примера от <a href="lec02.html">Указатели</a> за
-    използване на указател в клас - <a
-      href="../../../2014/NETB151/sources/ch10/department.cpp"
+    <br>
+    Ще разгледаме упростим примера от <a
+      href="../../CITB107/slides/ch10/lec11.html">Указатели</a> за
+    използване на указател в клас (<a
+      href="../../CITB107/sources/ch10/department.cpp"
       style="font-family: 'Times New Roman'; font-size: medium;
       font-style: normal; font-variant: normal; font-weight: normal;
       letter-spacing: normal; line-height: normal; orphans: auto;
@@ -38,7 +39,10 @@
       white-space: normal; widows: auto; word-spacing: 0px;
       -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
       background-color: rgb(255, 255, 255);"><font size="+1"><span
-          style="font-family: monospace;">.<br>
+          style="font-family: monospace;">)</span></font><span
+        style="font-family: monospace;"></span>,като оставим само
+      администратор.<font size="+1"><span style="font-family:
+          monospace;"><br>
         </span></font></span>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; orphans: 2; text-align: left; widows: 2; background-color: rgb(255, 255, 255);"><font size="+1"><tt>// <a href="../sources/ch17/department0.cpp">department0.cpp</a><br> #include <font color="#990000">&lt;</font>string<font color="#990000">&gt;</font>
  #include <font color="#990000">&lt;</font>iostream<font color="#990000">&gt;</font>
@@ -91,14 +95,15 @@
     tina<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">set_salary</font><font color="#990000">(</font><font color="#993399">55000</font><font color="#990000">)</font><font color="#990000">;<br><br>   </font>&nbsp;shipping<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
     qc<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;<br><br>    </font><font color="#3366ff">delete</font> harry;<br>    <font color="#3366ff">delete</font> tina;<font color="#990000"> &nbsp;<br></font>   &nbsp;<font color="#0000ff">return</font> <font color="#993399">0</font><font color="#990000">;</font>
  <font color="#ff0000">}</font></tt></font></pre>
-    Променяме конструктора на класа, като там конструираме обект -
+    Променяме конструктора на класа, като там създаваме (в динамичната
+    памет) обект от клас Employee и указател към него, който е
     член-данна на класа.<br>
     <pre><font size="+1">class Department {<br>   ...<br><span style="color: rgb(51, 51, 255);">private:</span>
    string name;<br>   Employee* receptionist;<br>};<br><br>Department::Department(string n, Employee e)<br>{  <br>   name = n;
-   receptionist = <span style="color: rgb(51, 51, 255);">new </span>Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */<br>
+   receptionist = <span style="color: rgb(51, 51, 255);">new </span>Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */
 Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NULL;<br>}<br><a href="../sources/ch17/department1.cpp">department1.cpp</a><br></font></pre>
     С операция <tt>new</tt> в <i>конструктора</i> на класа се създава
-    обект, данна на класа.<br>
+    обект, като указател към него е данна на класа.<br>
     Къде да се изпълни операция <tt>delete</tt>?<br>
     С операция <tt>delete</tt> в <i>деструктора</i> на класа се
     унищожава създадения обект от конструктора на класа.<br>
@@ -132,8 +137,9 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><img alt="" src="../../../2014/NETB151/slides/ch17/images/department_assignment.png" width="486" height="679"><b><br></b></pre>
     <p>2. Когато един от обектите (<font size="+1"><tt>qc</tt></font>
       или <font size="+1"><tt>dept</tt></font>) излезе от обхват (и
-      изтрие обекта), получаваме висящ указател (dangling pointer) -
-      указател към изтрит обект! <font size="+1"><br>
+      изтрие обекта <font size="+1"><tt>*receptionist</tt></font>),
+      получаваме висящ указател <font size="+1"><tt>receptionist </tt></font>(dangling
+      pointer) - указател към изтрит обект! <font size="+1"><br>
       </font><font size="+1"><tt><a
             href="../sources/ch17/department3.cpp">department3.cpp</a></tt></font></p>
     <p>За да избегнем това, е необходимо да направим копие на обекта от
@@ -623,6 +629,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
 
 
 
+
         // destructor<br>
         <br>
         &nbsp;&nbsp; return 0;<br>
@@ -633,8 +640,10 @@ href="https://en.wikipedia.org/wiki/Rule_of_three_%28C%2B%2B_programming%29">Rul
 
 
 
+
       of three</a>) се дефинират винаги, когато при създаване на обект
     се заемат <a href="https://en.wikipedia.org/wiki/System_resource">системни
+
 
 
 
