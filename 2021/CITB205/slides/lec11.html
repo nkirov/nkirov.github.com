@@ -20,7 +20,7 @@
     <hr width="100%" size="2"><b>** Необходимост от управление на
       паметта</b><br>
     <br>
-    Ще разгледаме упростим примера от <a
+    Ще упростим примера от <a
       href="../../CITB107/slides/ch10/lec11.html">Указатели</a> за
     използване на указател в клас (<a
       href="../../CITB107/sources/ch10/department.cpp"
@@ -39,9 +39,8 @@
       white-space: normal; widows: auto; word-spacing: 0px;
       -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
       background-color: rgb(255, 255, 255);"><font size="+1"><span
-          style="font-family: monospace;">)</span></font><span
-        style="font-family: monospace;"></span>,като оставим само
-      администратор.<font size="+1"><span style="font-family:
+          style="font-family: monospace;">)</span></font>, като оставим
+      само администратор.<font size="+1"><span style="font-family:
           monospace;"><br>
         </span></font></span>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-indent: 0px; text-transform: none; word-spacing: 0px; -webkit-text-stroke-width: 0px; orphans: 2; text-align: left; widows: 2; background-color: rgb(255, 255, 255);"><font size="+1"><tt>// <a href="../sources/ch17/department0.cpp">department0.cpp</a><br> #include <font color="#990000">&lt;</font>string<font color="#990000">&gt;</font>
@@ -108,10 +107,11 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     С операция <tt>delete</tt> в <i>деструктора</i> на класа се
     унищожава създадения обект от конструктора на класа.<br>
     <hr width="100%" size="2">
-    <p><b>** Деструктор</b><br>
+    <p><b>** Деструктор (destructor)</b><br>
     </p>
     <p>Деструктор е специална член-функция, която се извиква автоматично
-      когато обектът излезе от обхват (out of scope).<br>
+      когато обектът излезе от обхват (out of scope) - <a
+        href="../../CITB107/slides/ch05/lecture_5b.html">Функции II</a>.<br>
       Деструкторът на класа <tt><font size="+1">Department</font></tt>
       унищожава създадения от конструктора обект.<br>
     </p>
@@ -122,7 +122,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       </tt></font>
     <pre><font size="+1"><a href="../sources/ch17/department2.cpp">department2.cpp</a></font></pre>
     <hr width="100%" size="2">
-    <p><b>** Предефиниране на операция присвояване<br>
+    <p><b>** Предефиниране на операция присвояване (assignment operator)<br>
       </b></p>
     <p>Нека имаме следните дефиниции:<b><br>
       </b></p>
@@ -139,6 +139,8 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       или <font size="+1"><tt>dept</tt></font>) излезе от обхват (и
       изтрие обекта <font size="+1"><tt>*receptionist</tt></font>),
       получаваме висящ указател <font size="+1"><tt>receptionist </tt></font>(dangling
+
+
       pointer) - указател към изтрит обект! <font size="+1"><br>
       </font><font size="+1"><tt><a
             href="../sources/ch17/department3.cpp">department3.cpp</a></tt></font></p>
@@ -149,16 +151,16 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       Това може да се направи като предефинираме операция присвояване за
       обекти от класа<font size="+1"><font size="+1"> </font></font><font
         size="+1"><tt>Employee.</tt></font></p>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department&amp; Department::<span style="color: rgb(51, 51, 255);">operator</span>=(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  if (<span style="color: rgb(51, 51, 255);">this</span> != &amp;b)<br>   {  name = b.name;<br>      <span style="color: rgb(51, 51, 255);">delete</span> receptionist;<br>      <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == <span style="color: rgb(51, 51, 255);">NULL</span>) receptionist = <span style="color: rgb(51, 51, 255);">NULL</span>;<br>      <span style="color: rgb(51, 51, 255);">else</span><br>         receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         			b.receptionist-&gt;get_salary());<br>    }<br>    <span style="color: rgb(51, 51, 255);">return</span> *<span style="color: rgb(51, 51, 255);">this</span>;<br>}</font></pre>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department&amp; Department::<span style="color: rgb(51, 51, 255);">operator</span>=(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  if (<span style="color: rgb(51, 51, 255);">this</span> != &amp;b)<br>   {  name = b.name;<br>      <span style="color: rgb(51, 51, 255);">delete</span> receptionist;<br>      <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == <span style="color: rgb(51, 51, 255);">NULL</span>) receptionist = <span style="color: rgb(51, 51, 255);">NULL</span>;<br>      <span style="color: rgb(51, 51, 255);">else</span><br>         receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         			b.receptionist-&gt;get_salary());<br>    }<br>    <span style="color: rgb(51, 51, 255);">return</span> *<span style="color: rgb(51, 51, 255);">this</span>;<br>}<br><br></font><font size="+1">dept = qc; // dept.operator=(qc)</font><br></pre>
     <p>- Променяме данните, които не са указатели (в случая <font
         size="+1"><tt>name</tt></font>) от обект <font size="+1"><tt>b</tt></font>
       в обект <font size="+1"><tt>*this</tt></font>; <br>
-      - Изтриваме указателя <font size="+1"><tt>receptionist</tt></font>
+      - Изтриваме обекта с адрес в указателя <font size="+1"><tt>receptionist</tt></font>
       от <font size="+1"><tt>*this</tt></font> (текущия обект) и <br>
       - Създаваме нов обект от тип <font size="+1"><tt>Employee</tt></font>
       за <font size="+1"><tt>*this</tt></font>, копие на обекта<tt> <font
           size="+1">*</font></tt><tt><font size="+1"><tt><tt>receptionist</tt></tt></font>
-      </tt>от параметъра (десния аргумент на операцията)<tt> </tt><tt><font
+      </tt>от параметъра (десния аргумент на операция =)<tt> </tt><tt><font
           size="+1"><tt>b</tt></font>.&nbsp;</tt><tt> <br>
       </tt></p>
     <p>Функцията за предефиниране задължително трябва да е член-функция
@@ -166,7 +168,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       <tt><font size="+1"><a href="../sources/ch17/department4.cpp">department4.cpp</a></font></tt><b>
       </b></p>
     <hr width="100%" size="2">
-    <p><b>** Конструктор за копиране</b><br>
+    <p><b>** Конструктор за копиране (copy constructor)</b><br>
     </p>
     <p>Предназначението на операция присвояване е да промени съществуващ
       обект (левия аргумент на операцията), като го направи същия като
@@ -179,7 +181,8 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       Правилното конструиране на обект, копие на друг обект е: <br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department dept(qc);</font></pre>
-    <p>т.е. като се извика конструктор за копиране. <br>
+    <p>т.е. като се извика конструктор за копиране (и по-горе
+      компилаторът извиква конструктора за копиране). <br>
     </p>
     <p> За всеки клас в езика С++ има (по подразбиране) такъв
       конструктор, но той действа с почленно копиране и възникава същия
@@ -187,7 +190,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       Решението е да се напише конструктор за копиране:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department::Department(<span style="color: rgb(51, 51, 255);">const</span> Department&amp; b)<br>{  name = b.name;<br>   <span style="color: rgb(51, 51, 255);">if</span> (b.receptionist == NULL) receptionist = NULL;<br>   <span style="color: rgb(51, 51, 255);">else</span><br>      receptionist = <span style="color: rgb(51, 51, 255);">new</span> Employee(b.receptionist-&gt;get_name(),<br>         			b.receptionist-&gt;get_salary());<br>}</font></pre>
-    <p>Конструктор за копиране се вика и когато се предава
+    <p>Конструкторът за копиране се вика и когато се предава
       параметър-стойност на функция, напр.<br>
     </p>
     <p><font size="+1"><tt>void print(Department d)</tt><tt><br>
@@ -630,6 +633,8 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
 
 
 
+
+
         // destructor<br>
         <br>
         &nbsp;&nbsp; return 0;<br>
@@ -641,8 +646,12 @@ href="https://en.wikipedia.org/wiki/Rule_of_three_%28C%2B%2B_programming%29">Rul
 
 
 
+
+
       of three</a>) се дефинират винаги, когато при създаване на обект
     се заемат <a href="https://en.wikipedia.org/wiki/System_resource">системни
+
+
 
 
 
