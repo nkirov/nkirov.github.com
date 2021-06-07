@@ -110,20 +110,26 @@ int main()
 {
     // Implicitly converts from Manager to Employee
     Employee* e = new Manager("Sarah", 67000, "A");
+    cout << "1. "; e->print();
     // Explicitly converts from Employee to Manager
     Manager* m = dynamic_cast<Manager*>(e);
+     cout << "2. "; m->print();
     
   //  m = e; // ERROR!
     e = m;
+     cout << "3. "; e->print();
     m = static_cast<Manager*>(e);
+     cout << "4. "; m->print();
     e = static_cast<Employee*>(m);
+     cout << "5. "; e->print();
     
     vector<Employee*> department;
     department.push_back(e);
     department.push_back(new Employee("Harry", 30000));
     department.push_back(new Manager("John", 60000, "B"));
-    
+    cout << "test_dynamic_cast" << endl;
     test_dynamic_cast(department);
+    cout << "test_typeid" << endl;
     test_typeid(department);
     
     return 0;

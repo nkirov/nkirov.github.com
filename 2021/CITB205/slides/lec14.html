@@ -17,8 +17,9 @@
     Получаване на информация по време на изпълнение<br>
     Многократна наследственост<br>
     <hr size="2" width="100%"><img alt="" src="../b5.gif" width="20"
-      height="18"> <b>Абстрактни класове (преговор)</b><br>
-    <i>Пример: </i>Йерархия на геометрични фигури в равнината.<br>
+      height="18"> <b>Абстрактни класове (<a href="lec02.html">преговор</a>)<br>
+      <br>
+    </b> <i>Пример: </i>Йерархия на геометрични фигури в равнината.<br>
     <img alt="" src="images/Shapes.png" width="688" height="486"><br>
     - Ако искаме да имаме полиморфна функция за лице на фигура - <font
       size="+1"><tt>area</tt></font>, то тази функция трябва да бъде
@@ -32,12 +33,16 @@
     <font size="+1"><tt>class Shape {</tt><tt><br>
       </tt><tt>...</tt><tt><br>
       </tt><tt>virtual double area() const = 0; </tt><tt><br>
-      </tt><tt>};</tt></font><br>
-    - Клас, който има поне една чисто виртуална член-функция се нарича
-    абстрактен клас.<br>
+      </tt><tt>};<br>
+        <br>
+      </tt></font> - Клас, който има поне една чисто виртуална
+    член-функция се нарича абстрактен клас.<br>
     - Клас, който се състои изцяло от чисто виртуални член-функции
     понякога се нарича интерфейс.<br>
-    Пример:<br>
+    <br>
+    <i>Пример: </i>Абстрактен клас <tt>Shape</tt> и производни класове
+    <tt>Triangle</tt> и <tt>Circle</tt>.<br>
+    <br>
     <tt>class Shape { <br>
       public:</tt><br>
     <tt><tt>&nbsp;&nbsp;&nbsp; virtual double perimeter() const = 0; <br>
@@ -78,9 +83,10 @@
             &nbsp; &nbsp; &nbsp; // <font color="#cc0000">ERROR!!</font>
             <br>
             &nbsp;&nbsp;&nbsp; Shape* s = new Triangle(4, 5,
-            6);&nbsp;&nbsp; // First s is a triangle </tt></tt></tt></tt><br>
+            6);&nbsp;&nbsp; // First *s is a triangle </tt></tt></tt></tt><br>
     <tt><tt><tt><tt><tt><tt><tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt;
                     "Area is " &lt;&lt; s-&gt;area() &lt;&lt; "\n";</tt></tt></tt></tt>&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -97,7 +103,7 @@
             <br>
             &nbsp;&nbsp;&nbsp; s = new Circle(10); &nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; //
-            Now it is a circle<br>
+            Now *s is a circle<br>
             &nbsp;&nbsp;&nbsp; cout &lt;&lt; "Area is " &lt;&lt;
             s-&gt;area() &lt;&lt; "\n";<br>
             &nbsp;&nbsp;&nbsp; ...<br>
@@ -108,18 +114,20 @@
           </tt></tt></tt></tt><a
       href="https://www.tutorialspoint.com/cplusplus/cpp_interfaces.htm">Interfaces
 
+
       in C++ (Abstract Classes)</a><tt><tt><tt><tt><br>
           </tt></tt></tt></tt>
     <hr size="2" width="100%"><img alt="" src="../b5.gif" width="20"
-      height="18"> <b>Получаване на информация по време на изпълнение</b><br>
-    * <b>Операция </b><b><tt>dynamic_cast</tt></b><br>
+      height="18"> <b>Получаване на информация по време на изпълнение<br>
+      <br>
+    </b> * <b>Операция </b><b><tt>dynamic_cast</tt></b><br>
     Унарната операция <tt>dynamic_cast</tt> променя типа на указател. <br>
     Тя изисква тип като параметър на шаблон, и аргумент, който трябва да
     бъде указател или псевдоним (референция).<br>
     <br>
-    <i>Пример:</i>&nbsp; <tt><br>
-      Manager </tt>е производен клас на <tt>Employee:<br>
-      <br>
+    <i>Пример:</i>&nbsp; <tt>Manager </tt>е производен клас на <tt>Employee</tt>
+    с виртуална функция:<br>
+    <tt><br>
     </tt> <tt>&nbsp;&nbsp;&nbsp; // Implicitly converts pointer e from
       Manager* to Employee</tt><tt>*<br>
     </tt><tt>&nbsp;&nbsp;&nbsp; Employee* e = new Manager("Sarah",
@@ -129,13 +137,28 @@
       Employee* to pointer m from Manager</tt><tt>*<br>
     </tt><tt>&nbsp;&nbsp;&nbsp; Manager* m =
       dynamic_cast&lt;Manager*&gt;(e);</tt><br>
-    <br>
+    <tt><tt>&nbsp;&nbsp;&nbsp; if (m != NULL) cout &lt;&lt;
+        e-&gt;get_name() &lt;&lt; endl &lt;&lt; e-&gt;get_department()
+        &lt;&lt; endl;</tt><br>
+    </tt> <br>
     Ако аргументът е указател сочещ към клас, който е различен от
     параметъра на шаблона, резултатът от операцията е <tt>NULL</tt>. <br>
-    <br>
-    <i>Пример:</i> <br>
-    Проверка дали указател сочи към обект от даден клас в полиморфна
-    колекция.<br>
+    <tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Employee* e = new </tt><tt><tt>Employe</tt>("Sarah",
+
+      67000);</tt><tt><br>
+      <br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; // Explicitly converts pointer e from
+      Employee* to pointer m from Manager</tt><tt>*<br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Manager* m =
+      dynamic_cast&lt;Manager*&gt;(e); <br>
+      &nbsp;&nbsp;&nbsp; if (m == NULL) cout &lt;&lt; "NULL" &lt;&lt;
+      endl;<br>
+      <br>
+      <a href="../sources/dcast.cpp">dcast.cpp</a><br>
+    </tt> <br>
+    <i>Пример:</i> Проверка дали указател сочи към обект от даден клас в
+    полиморфна колекция.<br>
     <br>
     &nbsp;&nbsp;<tt>&nbsp;&nbsp; vector&lt;Employee*&gt; department;<br>
       &nbsp;&nbsp;&nbsp; .......<br>
@@ -146,6 +169,7 @@
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (m != NULL)</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -176,8 +200,10 @@
 
 
 
+
       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;&lt; " is a manager.\n";</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -210,8 +236,10 @@
 
 
 
+
       cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -232,18 +260,21 @@
     <tt><a href="../sources/dynamic.cpp">dynamic.cpp</a></tt><br>
     <meta charset="utf-8">
     <br>
-    Повече за <tt>dynamic_cas</tt>t:<br>
     <a
-href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c"><tt>https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c</tt><br>
+href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c">Повече
+      за <tt>dynamic_cas</tt>t</a>.<a
+href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c"><br>
     </a><br>
-    * <b>Операция </b><b><tt>typeid</tt></b><br>
-    За да се получи (името на) конкретен тип на даден обект,&nbsp; се
-    използва операция <tt>typeid</tt>. <br>
+    <hr size="2" width="100%">* <b>Операция </b><b><tt>typeid<br>
+        <br>
+      </tt></b> За да се получи (името на) конкретен тип на даден
+    обект,&nbsp; се използва операция <tt>typeid</tt>. <br>
     Аргумент на операцията е израз, или име на клас и връща обект от тип
     <tt>type_info</tt>, който е дефиниран в заглавния файл <tt>&lt;typeinfo&gt;</tt>.
     <br>
     В класа <tt>type_info</tt> има дефинирана член-функция <tt>name()</tt>,
     която връща име на тип.<br>
+    <br>
     <i>Пример:</i><br>
     <tt>for (int i = 0; i &lt; department.size(); i++)</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
@@ -251,6 +282,7 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     <br>
     Друг начин за тестване на типа на обект е да се сравнява стойността
     в <tt>typeinfo</tt> с тази на известен клас:<br>
+    <br>
     <tt>&nbsp;for (int i = 0; i &lt; department.size(); i++)</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp; {</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
@@ -270,8 +302,10 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
 
 
 
+
       cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -303,8 +337,10 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
 
 
 
+
       cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -326,6 +362,7 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     <br>
     <a href="https://en.cppreference.com/w/cpp/language/typeid"><tt>typeid</tt>
       operator</a><br>
+    <br>
     Използването на <tt>dynamic_cast</tt>&nbsp; и <tt>typeid</tt>
     трябва да се избягва, като се замества с механизма на виртуалните
     функции.<br>
@@ -421,6 +458,7 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     <br>
     Решение е да си използва пълното име на функцията или да се
     предефинира тази функция в производния клас.<br>
+    <br>
     &nbsp;<tt>class TeachingAssistant : public Student, public Employee</tt><tt><br>
     </tt><tt>&nbsp; {</tt><tt><br>
     </tt><tt>&nbsp; public:</tt><tt><br>
@@ -440,18 +478,22 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     <a
       href="https://www.cprogramming.com/tutorial/multiple_inheritance.html">Multiple
 
+
       Inheritance in C++</a><br>
     <br>
-    * <b>Дублиране на базови класове.</b><br>
-    <br>
-    <i>Пример:</i><br>
-    <tt>class MultiplePartTime : public Employee, public Employee //
-      Error </tt><tt><br>
+    <hr size="2" width="100%">* <b>Дублиране на базови класове.</b><br>
+    <i><i><br>
+      </i></i> <tt>class MultiplePartTime : public Employee, public
+      Employee // Error </tt><tt><br>
     </tt><tt>{ ... };</tt><br>
     <br>
     При използване на множествено наследяване може да се появи дублиране
     на базов клас.<br>
     <br>
+    <i>Пример: </i><tt>Student </tt>и <tt>Teacher</tt> са производни
+    на <tt>Person</tt>, а <tt>TeachingAssistant</tt> е производен на <tt>Student</tt>
+    и <tt>Teacher</tt>.<i><i><br>
+      </i></i><br>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <tt>class Person&nbsp; {</tt><tt><br>
     </tt><tt>&nbsp;public:</tt><tt><br>
@@ -481,6 +523,7 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
 
 
 
+
       наследяване.<br>
       <br>
     </b> <tt>class Student : virtual public Person {</tt><tt><br>
@@ -499,7 +542,9 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     <a
       href="https://www.cprogramming.com/tutorial/virtual_inheritance.html">Solving
 
+
       the Diamond Problem with Virtual Inheritance</a><br>
+    <br>
     Обща препоръка е да се избягва многократна наследственост.<br>
     <hr size="2" width="100%">
   </body>
