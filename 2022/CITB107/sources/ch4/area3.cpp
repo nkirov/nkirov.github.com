@@ -3,6 +3,7 @@
 using namespace std;
 
 int main()
+{
    double area;
    cout << "Please enter the area of a square: ";
    cin >> area;
