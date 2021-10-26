@@ -1,0 +1,215 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>lec7</title>
+  </head>
+  <body>
+    <h3>Kомбинаторни алгоритми.&nbsp; Разбиване на числа</h3>
+    <p><i>План:</i><br>
+      Пермутации<br>
+      Вариации<br>
+      Комбинации<br>
+      Триъгълник на Паскал<br>
+      Разбиване на числа </p>
+    <hr width="100%" size="2"><span style="font-weight: bold;">Kомбинаторни
+
+
+
+
+
+
+
+      алгоритми [1.3]</span><br>
+    <p>*** <a
+href="https://bg.wikipedia.org/wiki/%D0%9F%D0%B5%D1%80%D0%BC%D1%83%D1%82%D0%B0%D1%86%D0%B8%D1%8F"><span
+          style="font-weight: bold;">Пермутации</span></a> (<a
+        href="https://en.wikipedia.org/wiki/Permutation">Permutations</a>)
+      [1.3.1] - наредени <i>n</i>-торки.<br>
+      <span style="font-weight: bold;">А.</span> Без повторения { 1 2 3
+      } <br>
+      123&nbsp; 132&nbsp; 213&nbsp; 231&nbsp; 312&nbsp; 321 <br>
+      Общ брой <i>n</i>! <br>
+      [<a style="font-family: monospace;" href="sources/permute.cpp">permute.cpp</a>]<br>
+      <br>
+      <span style="font-weight: bold;">Б.</span> С повторения { 1 1 2 3
+      } <br>
+      1123&nbsp; 1132&nbsp; 1213&nbsp; 1231&nbsp; 1312&nbsp; 1321&nbsp;
+      2113&nbsp; 2131&nbsp; 2311&nbsp; 3112&nbsp; 3121&nbsp; 3211 <br>
+      Общ брой <i>n</i>!/(<i>s</i><sub>1</sub>!<i>s</i><sub>2</sub>!...<i>s<sub>k</sub></i>!),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      където <i>s<sub>i</sub></i>! е броят на <span style="font-style:
+        italic;">i</span>-тия различен елемент, участващ в
+      мултимножеството. В примера 4!/(2!1!1!) = 12.<br>
+    </p>
+    <p><a
+        href="http://www.cplusplus.com/reference/algorithm/next_permutation/"><tt>next_permutatiom</tt></a><br>
+    </p>
+    <hr width="100%" size="2">
+    <p>*** <span style="font-weight: bold;">Вариации</span> (<a
+        href="https://en.wikipedia.org/wiki/Permutation#k-permutations_of_n">k-permutations
+
+
+
+
+
+
+
+
+
+
+
+
+        of n</a>) [1.3.2] - нареден <i>k</i>-елементен списък измежду <i>n</i>
+      елемента.<br>
+      <span style="font-weight: bold;">А.</span> Без повторения <i>n =
+      </i>3 { 1 2 3 },&nbsp; <i>k = </i>2 <br>
+      12&nbsp; 13&nbsp; 21&nbsp; 23&nbsp; 31&nbsp; 32 <br>
+      Общ брой <i>n</i>!/(<i>n - k</i>)!&nbsp; В примера 3!/1 = 6. <br>
+    </p>
+    <p><span style="font-weight: bold;">Б.</span> С повторения <i>n = </i>3
+      { 1 2 3 },&nbsp; <i>k = </i>2 <br>
+      11&nbsp; 12&nbsp; 13&nbsp; 21&nbsp; 22&nbsp; 23&nbsp; 31&nbsp;
+      32&nbsp; 33 <br>
+      Общ брой <i>n<sup>k</sup></i>. В примера 3<sup>2 </sup>= 9. <br>
+      [<a style="font-family: monospace;" href="sources/variate.cpp">variate.cpp</a>]<br>
+    </p>
+    <hr width="100%" size="2">
+    <p>*** <a
+href="https://bg.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BC%D0%B1%D0%B8%D0%BD%D0%B0%D1%86%D0%B8%D1%8F_%28%D0%BC%D0%B0%D1%82%D0%B5%D0%BC%D0%B0%D1%82%D0%B8%D0%BA%D0%B0%29"><span
+          style="font-weight: bold;">Комбинации</span></a> (<a
+        href="https://en.wikipedia.org/wiki/Combination">Combinations</a>)
+      [1.3.3] <i>k</i>-елементно подмножество измежду <i>n</i>
+      елемента (ненаредено).<br>
+    </p>
+    <p><span style="font-weight: bold;">А.</span> Без повторения&nbsp; <i>n
+        = </i>5 { 1 2 3 4 5 },&nbsp; <i>k = </i>2 <br>
+      12&nbsp; 13&nbsp; 14&nbsp; 15&nbsp; 23&nbsp; 24&nbsp; 25&nbsp;
+      34&nbsp; 35&nbsp; 45 <br>
+      Общ брой <i>n</i>!/((<i>n - k</i>)!<i>k</i>!).&nbsp; В примера
+      5!/(3!2!) = 10. <br>
+      [<a style="font-family: monospace;" href="sources/comb.cpp">comb.cpp</a>]<br>
+    </p>
+    <p><span style="font-weight: bold;">Б. </span>с повторения <i>n =
+      </i>5 { 1 2 3 4 5 },&nbsp; <i>k = </i>2 <br>
+      11&nbsp; 12&nbsp; 13&nbsp; 14&nbsp; 15&nbsp; 22&nbsp; 23&nbsp;
+      24&nbsp; 25&nbsp; 33&nbsp; 34&nbsp; 35&nbsp; 44&nbsp; 45&nbsp; 55
+      <br>
+      Общ брой (<i>n </i>+ <i>k - </i>1)! / ((<i>n - </i>1)! <i>k</i>!).&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      В примера 6!/(4!2!) = 15. <br>
+    </p>
+    *** <a
+href="https://bg.wikipedia.org/wiki/%D0%A2%D1%80%D0%B8%D1%8A%D0%B3%D1%8A%D0%BB%D0%BD%D0%B8%D0%BA_%D0%BD%D0%B0_%D0%9F%D0%B0%D1%81%D0%BA%D0%B0%D0%BB">Триъгълник
+
+
+
+
+
+
+
+
+
+
+
+
+      на Паскал</a> (<a
+      href="https://en.wikipedia.org/wiki/Pascal%27s_triangle">Pascal's
+      triangle</a>)<a
+href="https://bg.wikipedia.org/wiki/%D0%A2%D1%80%D0%B8%D1%8A%D0%B3%D1%8A%D0%BB%D0%BD%D0%B8%D0%BA_%D0%BD%D0%B0_%D0%9F%D0%B0%D1%81%D0%BA%D0%B0%D0%BB">.</a><br>
+    1 1<br>
+    1 2 1<br>
+    1 3 3 1<br>
+    1 4 6 4 1<br>
+    1 5 10 10 5 1<br>
+    1 6 15 20 15 6 1<br>
+    1 7 21 35 35 21 7 1<br>
+    ....<br>
+    <br>
+    <span style="font-weight: bold;"></span>
+    <hr width="100%" size="2"><span style="font-weight: bold;">Разбиване
+      на числа [1.3.4]</span><br>
+    <br>
+    *** Разбиване на число като сума от естествени числа<br>
+    <br>
+    <i>Пример:</i> Да се генерират всички разбивания на числото 7.<br>
+    <a href="../sources/devnum.c"><tt>devnum.c</tt></a><br>
+    <br>
+    <tt>7<br>
+      6+1<br>
+      5+2<br>
+      5+1+1<br>
+      4+3<br>
+      4+2+1<br>
+      4+1+1+1<br>
+      3+3+1<br>
+      3+2+2<br>
+      3+2+1+1 <br>
+      3+1+1+1+1 <br>
+      2+2+2+1 <br>
+      2+2+1+1+1 <br>
+      2+1+1+1+1+1 <br>
+      1+1+1+1+1+1+1</tt><br>
+    <br>
+    *** Разбиване на число като сума от дадени числа<br>
+    <i>Пример:</i> Да се генерират всички разбивения на числото 15 с
+    числата 2, 3 и 5.<br>
+    <tt><a href="../sources/devnum3.c">devnum3.c</a><br>
+      <br>
+      5+5+5<br>
+      5+5+3+2 <br>
+      5+3+3+2+2 <br>
+      5+2+2+2+2+2 <br>
+      3+3+3+3+3 <br>
+      3+3+3+2+2+2 <br>
+      3+2+2+2+2+2+2<br>
+      <br>
+    </tt>
+    <hr width="100%" size="2">
+  </body>
+</html>
