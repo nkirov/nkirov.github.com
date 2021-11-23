@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
-#include <ccc_time.h>
+
+#include "ccc_time.h"
 
 class Employee {
 public:
@@ -52,8 +53,8 @@ void raise_salary(Employee& e, double percent)
 void Employee::print() const
 {  cout << "Name: " << get_name() << "; "
         << "Salary: " << get_salary() << "; "
-    << "Arrive: " << arrive.get_hour() << "; "
-    << "Leave: " << leave.get_hour() << "\n";
+    << "Arrive: " << arrive.get_hours() << "; "
+    << "Leave: " << leave.get_hours() << "\n";
 }
 
 void print(const Employee &emp)
