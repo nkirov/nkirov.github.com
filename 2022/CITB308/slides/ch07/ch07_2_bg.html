@@ -28,6 +28,7 @@
           използва (нелинейна) структура от данни, наречена хип
           (купчина) - и двете основни операции (вмъкване и изваждане) се
           изпълняват за време&nbsp;<span style="font-style: italic;">O</span>(log
+
           <span style="font-style: italic;">n</span>).</font> </li>
     </ul>
     <big> <span style="font-weight: bold;"> Структура от данни хип</span><br>
@@ -101,6 +102,7 @@
 
 
 
+
           ключове с дълбочина </big><big><span style="font-style:
             italic;">h</span> −1</big><big>, имаме <span
             style="font-style: italic;">n</span> </big><big>≤</big><big>
@@ -123,6 +125,7 @@
 
 
 
+
         на приоритетна опашка с хип</span><br>
     </big>
     <ul>
@@ -136,6 +139,7 @@
     <big><img style="width: 678px; height: 258px;" alt="" src="pic3.jpg"><br>
       &nbsp; </big>
     <hr width="100%" size="2"><big><span style="font-weight: bold;">Представяне
+
 
 
 
@@ -165,8 +169,57 @@
       <li><big>Получаваме хип сортиране "на място" (без допълнителна
           памет).</big></li>
     </ul>
-    <big><span style="font-weight: bold;"><img style="width: 351px;
-          height: 329px;" alt="" src="pic4.jpg"><br>
+    <big><span><img style="width: 351px; height: 329px;" alt=""
+          src="pic4.jpg"><br>
+        <br>
+      </span><span><tt>template &lt;typename E&gt;</tt><tt><br>
+        </tt><tt> class VectorCompleteTree {</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> //... insert private member data and protected
+          utilities here</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>public:</tt><tt><br>
+        </tt><tt> </tt><tt>VectorCompleteTree() : V(1) {}&nbsp; //
+          constructor</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>int size() const</tt><tt><br>
+        </tt><tt> </tt><tt>{ return V.size() − 1; }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>Position left(const Position&amp; p)</tt><tt><br>
+        </tt><tt> </tt><tt>{ return pos(2*idx(p)); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>Position right(const Position&amp; p)</tt><tt><br>
+        </tt><tt> </tt><tt>{ return pos(2*idx(p) + 1); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>Position parent(const Position&amp; p)</tt><tt><br>
+        </tt><tt> </tt><tt>{ return pos(idx(p)/2); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>bool hasLeft(const Position&amp; p) const</tt><tt><br>
+        </tt><tt> </tt><tt>{ return 2*idx(p) &lt;= size(); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>bool hasRight(const Position&amp; p) const</tt><tt><br>
+        </tt><tt> </tt><tt>{ 2*idx(p) + 1 &lt;= size(); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>bool isRoot(const Position&amp; p) const</tt><tt><br>
+        </tt><tt> </tt><tt>{ return idx(p) == 1; }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>Position root()</tt><tt><br>
+        </tt><tt> </tt><tt>{ return pos(1); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>Position last()</tt><tt><br>
+        </tt><tt> </tt><tt>{ return pos(size()); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>void addLast(const E&amp; e)</tt><tt><br>
+        </tt><tt> </tt><tt>{ V.push back(e); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>void removeLast()</tt><tt><br>
+        </tt><tt> </tt><tt>{ V.pop back(); }</tt><tt><br>
+        </tt><tt> </tt><tt><br>
+        </tt><tt> </tt><tt>void swap(const Position&amp; p, const
+          Position&amp; q)</tt><tt><br>
+        </tt><tt> </tt><tt>{ E e = *q; *q = *p; *p = e; }<br>
+        </tt><tt><br>
+        </tt>A vector-based implementation of the complete tree ADT.<br>
       </span></big>
     <hr width="100%" size="2"><big><span style="font-weight: bold;">Вмъкване</span><br>
     </big>
@@ -225,8 +278,10 @@
 
 
 
+
           когато ключът</big><big><big> <font size="+1"><span
                 style="font-style: italic;">k</span></font> </big>достигне
+
 
 
 
@@ -266,8 +321,10 @@
 
 
 
+
         </big><big><font size="+1">алгоритъмът "бълбукане нагоре"</font>
           се изпълнява за време <span style="font-style: italic;">O</span>(log
+
 
 
 
@@ -366,8 +423,10 @@
 
 
 
+
         </big><big><font size="+1">алгоритъмът "бълбукане надолу"</font>
           се изпълнява за време <span style="font-style: italic;">O</span>(log
+
 
 
 
@@ -433,6 +492,7 @@
 
 
 
+
               isEmpty()<br>
             </big></td>
           <td style="vertical-align: top;"><big><span style="font-style:
@@ -441,6 +501,7 @@
         </tr>
         <tr>
           <td style="vertical-align: top; font-family: monospace;"><big>minElement(),
+
 
 
 
@@ -489,7 +550,8 @@
 
 
 
-        за двоично дърво</a> АДТ. <br>
+
+        за двоично дърво</a> АДТ. </big><big><br>
       <br>
       <a href="7.8_HeapPriorityQueue.h-HPQ1.html">html-7.8</a> (HPQ1)<br>
       <a href="7.9_HeapPriorityQueue.h-HPQ2.html">html-7.<span
@@ -498,6 +560,7 @@
       </big></big><a href="https://visualgo.net/en/heap?slide=1">VisoAlgo</a><br>
     <br>
     <a href="https://www.cs.usfca.edu/%7Egalles/visualization/Heap.html">Heap
+
 
 
 
@@ -525,6 +588,7 @@
         <li><big>методите <span style="font-family: monospace;">insertItem</span>
             и <span style="font-family: monospace;">removeMin</span>
             отнемат време <span style="font-style: italic;">O</span>(log
+
 
 
 
