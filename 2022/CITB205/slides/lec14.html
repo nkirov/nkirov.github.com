@@ -1,0 +1,593 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>lec14</title>
+  </head>
+  <body>
+    <center>
+      <h3 align="left">14. Йерархии на наследственост<br>
+      </h3>
+    </center>
+    <i>План:</i><br>
+    Абстрактни класове<br>
+    Получаване на информация по време на изпълнение<br>
+    Многократна наследственост<br>
+    <hr width="100%" size="2"><img alt="" src="../b5.gif" width="20"
+      height="18"> <b>Абстрактни класове (<a href="lec02.html">преговор</a>)<br>
+      <br>
+    </b> <i>Пример: </i>Йерархия на геометрични фигури в равнината.<br>
+    <img alt="" src="images/Shapes.png" width="688" height="486"><br>
+    - Ако искаме да имаме полиморфна функция за лице на фигура - <font
+      size="+1"><tt>area</tt></font>, то тази функция трябва да бъде
+    дефинирана в базовия клас <font size="+1"><tt>Shape</tt></font>. <br>
+    - Тази функция има смисъл за всеки клас, производен на класа <font
+      size="+1"><tt>Shape</tt></font>, но в класа <font size="+1"><tt>Shape</tt></font>
+    тя няма смисъл.<br>
+    - Такава функция се декларира по специален начин в базовия клас и се
+    нарича чисто виртуална член-функция.<br>
+    <br>
+    <font size="+1"><tt>class Shape {</tt><tt><br>
+      </tt><tt>...</tt><tt><br>
+      </tt><tt>virtual double area() const = 0; </tt><tt><br>
+      </tt><tt>};<br>
+        <br>
+      </tt></font> - Клас, който има поне една чисто виртуална
+    член-функция се нарича абстрактен клас.<br>
+    - Клас, който се състои изцяло от чисто виртуални член-функции
+    понякога се нарича интерфейс.<br>
+    <br>
+    <i>Пример: </i>Абстрактен клас <tt>Shape</tt> и производни класове
+    <tt>Triangle</tt> и <tt>Circle</tt>.<br>
+    <br>
+    <tt>class Shape { <br>
+      public:</tt><br>
+    <tt><tt>&nbsp;&nbsp;&nbsp; virtual double perimeter() const = 0; <br>
+      </tt> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double area() const =
+      0; </tt><tt><br>
+    </tt><tt>};<br>
+      <br>
+      class Triangle: public Shape {<br>
+      public:<br>
+      &nbsp;&nbsp;&nbsp; ...</tt> <br>
+    <tt><tt><tt>&nbsp;&nbsp;&nbsp; virtual double perimeter() const <br>
+          &nbsp;&nbsp;&nbsp; { return a + b + c; } <br>
+        </tt> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double area() const <br>
+        &nbsp;&nbsp;&nbsp; {&nbsp;&nbsp; double p = (a + b + c)/2;<br>
+        &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+        sqrt(p*(p-a)*(p-b)*(p-c)); <br>
+        &nbsp;&nbsp;&nbsp; }<br>
+        private:<br>
+        &nbsp;&nbsp;&nbsp; double a, b, c;<br>
+        };<br>
+      </tt></tt><br>
+    <tt><tt><tt>class Circle: public Shape {<br>
+          public:<br>
+          &nbsp;&nbsp;&nbsp; ...<br>
+        </tt> <tt><tt><tt>&nbsp;&nbsp;&nbsp; virtual double perimeter()
+              const <br>
+              &nbsp;&nbsp;&nbsp; { return 2*PI*r; } <br>
+            </tt> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double area()
+            const <br>
+            &nbsp;&nbsp;&nbsp; { return PI*r*r; }<br>
+            private:<br>
+            &nbsp;&nbsp;&nbsp; double r;<br>
+            };<br>
+            ...<br>
+            int main()<br>
+            {<br>
+            //&nbsp; Shape* s = new Shape; &nbsp; &nbsp; &nbsp; &nbsp;
+            &nbsp; &nbsp; &nbsp; // <font color="#cc0000">ERROR!!</font>
+            <br>
+            &nbsp;&nbsp;&nbsp; Shape* s = new Triangle(4, 5,
+            6);&nbsp;&nbsp; // First *s is a triangle </tt></tt></tt></tt><br>
+    <tt><tt><tt><tt><tt><tt><tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+                    "Area is " &lt;&lt; s-&gt;area() &lt;&lt; "\n";</tt></tt></tt></tt>&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            <br>
+            &nbsp;&nbsp;&nbsp; s = new Circle(10); &nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; //
+            Now *s is a circle<br>
+            &nbsp;&nbsp;&nbsp; cout &lt;&lt; "Area is " &lt;&lt;
+            s-&gt;area() &lt;&lt; "\n";<br>
+            &nbsp;&nbsp;&nbsp; ...<br>
+            &nbsp;&nbsp;&nbsp; return 0;<br>
+            }<br>
+            <a href="../sources/abstract.cpp">abstract.cpp</a><br>
+            <br>
+          </tt></tt></tt></tt><a
+      href="https://www.tutorialspoint.com/cplusplus/cpp_interfaces.htm">Interfaces
+
+
+
+
+      in C++ (Abstract Classes)</a><tt><tt><tt><tt><br>
+          </tt></tt></tt></tt>
+    <hr width="100%" size="2"><img alt="" src="../b5.gif" width="20"
+      height="18"> <b>Получаване на информация по време на изпълнение<br>
+      <br>
+    </b> * <b>Операция </b><b><tt>dynamic_cast</tt></b><br>
+    Унарната операция <tt>dynamic_cast</tt> променя типа на указател. <br>
+    Тя изисква тип като параметър на шаблон, и аргумент, който трябва да
+    бъде указател или псевдоним (референция).<br>
+    <br>
+    <i>Пример:</i>&nbsp; <tt>Manager </tt>е производен клас на <tt>Employee</tt>
+    с виртуална функция:<br>
+    <tt><br>
+    </tt> <tt>&nbsp;&nbsp;&nbsp; // Implicitly converts pointer e from
+      Manager* to Employee</tt><tt>*<br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Employee* e = new Manager("Sarah",
+      67000, "A");</tt><tt><br>
+      <br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; // Explicitly converts pointer e from
+      Employee* to pointer m from Manager</tt><tt>*<br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Manager* m =
+      dynamic_cast&lt;Manager*&gt;(e);</tt><br>
+    <tt><tt>&nbsp;&nbsp;&nbsp; if (m != NULL) cout &lt;&lt;
+        m-&gt;get_name() &lt;&lt; endl &lt;&lt; m-&gt;get_department()
+        &lt;&lt; endl;<br>
+      </tt></tt><br>
+    <tt><tt>
+        <meta name="qrichtext" content="1">
+        <meta http-equiv="Content-Type" content="text/html;
+          charset=UTF-8">
+        <style type="text/css">
+p, li { white-space: pre-wrap; }
+</style></tt> </tt> <br>
+    Ако аргументът е указател сочещ към клас, който е различен от
+    параметъра на шаблона, резултатът от операцията е <tt>NULL</tt>. <br>
+    <tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Employee* e = new </tt><tt><tt>Employe</tt>("Sarah",
+
+
+
+      67000);</tt><tt><br>
+      <br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; // Explicitly converts pointer e from
+      Employee* to pointer m from Manager</tt><tt>*<br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Manager* m =
+      dynamic_cast&lt;Manager*&gt;(e); <br>
+      &nbsp;&nbsp;&nbsp; if (m == NULL) cout &lt;&lt; "NULL" &lt;&lt;
+      endl;<br>
+      <br>
+      <a href="../sources/dcast.cpp">dcast.cpp</a><br>
+    </tt> <br>
+    <i>Пример:</i> Проверка дали указател сочи към обект от даден клас в
+    полиморфна колекция.<br>
+    <br>
+    &nbsp;&nbsp;<tt>&nbsp;&nbsp; vector&lt;Employee*&gt; department;<br>
+      &nbsp;&nbsp;&nbsp; .......<br>
+      &nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; department.size(); i++)</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Manager* m =
+      dynamic_cast&lt;Manager*&gt;(department[i]);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (m != NULL)</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;&lt; " is a manager.\n";</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      m-&gt;set_bonus(2000); // Can now invoke manager member functions</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;&lt; " is not a
+      manager.\n";</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><br>
+    <tt><a href="../sources/dynamic.cpp">dynamic.cpp</a></tt><br>
+    <meta charset="utf-8">
+    <br>
+    <a
+href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c">Повече
+
+
+      за <tt>dynamic_cas</tt>t</a>.<a
+href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c"><br>
+    </a><br>
+    <hr width="100%" size="2">* <b>Операция </b><b><tt>typeid<br>
+        <br>
+      </tt></b> За да се получи (името на) конкретен тип на даден
+    обект,&nbsp; се използва операция <tt>typeid</tt>. <br>
+    Аргумент на операцията е израз, или име на клас и връща обект от тип
+    <tt>type_info</tt>, който е дефиниран в заглавния файл <tt>&lt;typeinfo&gt;</tt>.
+    <br>
+    В класа <tt>type_info</tt> има дефинирана член-функция <tt>name()</tt>,
+    която връща име на тип.<br>
+    <br>
+    <i>Пример:</i><br>
+    <tt>for (int i = 0; i &lt; department.size(); i++)</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      typeid(*department[i]).name() &lt;&lt; "\n";</tt><br>
+    <br>
+    Друг начин за тестване на типа на обект е да се сравнява стойността
+    в <tt>typeinfo</tt> с тази на известен клас:<br>
+    <br>
+    <tt>&nbsp;for (int i = 0; i &lt; department.size(); i++)</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+      (typeid(*department[i]) == typeid(Manager))</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      &lt;&lt; " is a manager. \n";</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      &lt;&lt; " is not a manager. \n";</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><br>
+    <br>
+    <a href="../sources/dynamic.cpp"><tt>dynamic.cpp</tt></a><br>
+    <br>
+    <a href="https://en.cppreference.com/w/cpp/language/typeid"><tt>typeid</tt>
+      operator</a><br>
+    <br>
+    Използването на <tt>dynamic_cast</tt>&nbsp; и <tt>typeid</tt>
+    трябва да се избягва, като се замества с механизма на виртуалните
+    функции.<br>
+    <hr width="100%" size="2"><img alt="" src="../b5.gif" width="20"
+      height="18"> <b>Многократна наследственост (множествено
+      наследяване)<br>
+      <br>
+    </b>
+    <div align="left"><b> </b><i>Пример</i>: Потоковата библиотека на
+      С++ се състои от няколко класове, свързани в следната йерархия:<br>
+      &nbsp;<img alt=""
+        src="../../../2014/NETB151/slides/ch12/images/stream_hierarchy.png"
+        width="715" height="337"><br>
+    </div>
+    <br>
+    Когато се използва многократно наследяване, диаграмата за
+    наследяване на класове вече не е дърво, а насочен ацикличен граф или
+    DAG. <br>
+    <i><br>
+      Пример: </i><br>
+    Викане на функция в производен клас, която е дефинирана и в двата
+    базови класове.<tt><br>
+      <br>
+      <img alt="" src="images/Student_Employee.png" width="328"
+        height="228"><br>
+      <br>
+    </tt><tt>// <a href="../sources/multi.cpp">multi.cpp</a></tt><tt><br>
+    </tt><tt>#include&lt;iostream&gt;</tt><tt><br>
+    </tt><tt>using namespace std;</tt><tt><br>
+    </tt><tt><br>
+    </tt><tt>class Student {</tt><tt><br>
+    </tt><tt>public:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Student()</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; {&nbsp; id = "sid"; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; virtual string get_id() const</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; { return id; }</tt><tt><br>
+    </tt><tt>private:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; string id;</tt><tt><br>
+    </tt><tt>};</tt><tt><br>
+      <br>
+    </tt><tt>class Employee {</tt><tt><br>
+    </tt><tt>public:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Employee()</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; { id = "eid"; }</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; virtual string get_id() const</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; { return id; }</tt><tt><br>
+    </tt><tt>private:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; string id;</tt><tt><br>
+    </tt><tt>};</tt><tt><br>
+      <br>
+    </tt><tt>class TeachingAssistant : public Employee, public Student {</tt><tt><br>
+    </tt><tt>public:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; TeachingAssistant():Employee(),
+      Student(){}</tt><tt><br>
+    </tt><tt>//&nbsp;&nbsp;&nbsp; string get_id() const;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; string student_id() const;</tt><tt><br>
+    </tt><tt>};</tt><tt><br>
+      <br>
+    </tt><tt>string TeachingAssistant::student_id() const</tt><tt><br>
+    </tt><tt>// Make student value available by a different name</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return Student::get_id();</tt><tt><br>
+    </tt><tt>}</tt><tt><br>
+      <br>
+    </tt><tt>int main()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; TeachingAssistant* fred = new
+      TeachingAssistant();</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Employee* new_hire =
+      fred;&nbsp;&nbsp;&nbsp; // Legal, because a TeachingAssistant is-a
+      Employee</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Student* advisee =
+      fred;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Legal, because a
+      TeachingAssistant is-a Student</tt><tt><br>
+    </tt><br>
+    <tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; "Your number is " &lt;&lt;
+        fred-&gt;get_id() &lt;&lt; "\n";&nbsp; // Error, ambiguous
+        member function name</tt><tt><br>
+      </tt> </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; Student* mary = new Student();</tt><tt><br>
+    </tt><tt>&nbsp;//&nbsp;&nbsp; Student* mary = new
+      TeachingAssistant();</tt><tt><br>
+      <br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; TeachingAssistant* lab_instructor =
+      dynamic_cast&lt;TeachingAssistant*&gt;(mary);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; if (lab_instructor != NULL)</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      "Yes, mary is a TeachingAssistant. \n";</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; else</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      "No, mary is not a TeachingAssistant. \n";</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; </tt><tt><br>
+    </tt><tt>&nbsp;&nbsp; </tt><tt></tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
+    </tt><tt>}</tt><br>
+    <br>
+    Решение е да си използва пълното име на функцията или да се
+    предефинира тази функция в производния клас.<br>
+    <br>
+    &nbsp;<tt>class TeachingAssistant : public Student, public Employee</tt><tt><br>
+    </tt><tt>&nbsp; {</tt><tt><br>
+    </tt><tt>&nbsp; public:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; string get_id() const;</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; string student_id() const;</tt><tt><br>
+    </tt><tt>&nbsp; };</tt><tt><br>
+    </tt><tt>// get_id will return Employee identification number string
+      TeachingAssistant::get_id()</tt><tt><br>
+    </tt><tt>{</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; return Employee::get_id();</tt><tt><br>
+    </tt><tt>&nbsp; }</tt><tt><br>
+    </tt><tt>string TeachingAssistant::student_id()</tt><tt><br>
+    </tt><tt>// Make student value available by a different name</tt><tt><br>
+    </tt><tt>&nbsp; {</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; return Student::get_id();</tt><tt><br>
+    </tt><tt>&nbsp; }</tt><br>
+    <a
+      href="https://www.cprogramming.com/tutorial/multiple_inheritance.html">Multiple
+
+
+
+
+      Inheritance in C++</a><br>
+    <br>
+    <hr width="100%" size="2">* <b>Дублиране на базови класове.</b><br>
+    <i><i><br>
+      </i></i> <tt>class MultiplePartTime : public Employee, public
+      Employee // Error </tt><tt><br>
+    </tt><tt>{ ... };</tt><br>
+    <br>
+    При използване на множествено наследяване може да се появи дублиране
+    на базов клас.<br>
+    <br>
+    <i>Пример: </i><tt>Student </tt>и <tt>Teacher</tt> са производни
+    на <tt>Person</tt>, а <tt>TeachingAssistant</tt> е производен на <tt>Student</tt>
+    и <tt>Teacher</tt>.<i><i><br>
+      </i></i><br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <tt>class Person&nbsp; {</tt><tt><br>
+    </tt><tt>&nbsp;public:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Person(string n);</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string get_name()
+      const;</tt><tt><br>
+    </tt><tt>&nbsp;private:</tt><tt><br>
+    </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; string name;</tt><tt><br>
+    </tt><tt>&nbsp;};</tt><tt><br>
+    </tt><tt>class Student : public Person { </tt><tt><br>
+    </tt><tt>... };</tt><tt><br>
+    </tt><tt>class Employee : public Person { </tt><tt><br>
+    </tt><tt>... };</tt>
+    <title>Cay S. Horstmann, Timothy A. Budd Big C++ 2008</title>
+    <tt><br>
+    </tt><tt>class TeachingAssistant : public Employee, public Student {
+    </tt><tt><br>
+    </tt><tt> ... };<br>
+      <br>
+    </tt> Във всеки обект от клас <tt>TeachingAssistant</tt>&nbsp; се
+    съдържат два пъти данни от клас <tt>Person</tt>.<br>
+    <br>
+    За да имаме само един екземпляр от клас&nbsp; Person, използваме <b>виртуално
+
+
+
+
+
+
+
+
+
+      наследяване.<br>
+      <br>
+    </b> <tt>class Student : virtual public Person {</tt><tt><br>
+    </tt><tt>... };</tt><tt><br>
+    </tt><tt>class Employee : virtual public Person {</tt><tt><br>
+    </tt><tt>... };</tt><tt><br>
+    </tt><tt>class TeachingAssistant : public Student, public Employee {</tt><tt><br>
+    </tt><tt>... };</tt><br>
+    <br>
+    <img alt="" src="images/vir.png" width="497" height="228"><br>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Cay S. Horstmann, Timothy A. Budd Big C++ 2008</title>
+    <br>
+    <a href="../sources/double.cpp"><font size="+1"><tt>double.cpp</tt></font></a><br>
+    <br>
+    <a
+      href="https://www.cprogramming.com/tutorial/virtual_inheritance.html">Solving
+
+
+
+
+      the Diamond Problem with Virtual Inheritance</a><br>
+    <br>
+    Обща препоръка е да се избягва многократна наследственост.<br>
+    <hr width="100%" size="2">
+  </body>
+</html>

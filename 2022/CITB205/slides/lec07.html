@@ -1,0 +1,472 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>l07</title>
+  </head>
+  <body>
+    <center>
+      <h3 align="left">7. Въведение в структури от данни</h3>
+    </center>
+    <i>План:</i><br>
+    Свързани списъци - основни понятия<br>
+    Свързан списък, стек и опашка в Стандартната библиотека шаблони
+    (STL)<br>
+    Други стандартни контейнери в STL<br>
+    Алгоритми в STL<br>
+    <hr size="2" width="100%"><img alt="" src="../b5.gif" width="20"
+      height="18">&nbsp; <b>Свързани списъци - основни понятия <br>
+      <br>
+    </b> * Свързан списък е линейна структура от данни (редица),&nbsp;
+    където всяка стойност се съхранява в отделен блок от паметта, заедно
+    с местоположението на съседните блокове в редицата. <br>
+    * Този начин на съхранение на елементите на редицата позволява лесно
+    да се вмъкне или отстрани елемент, без да се местят другите елементи
+    - сложност <i>O</i>(1). <br>
+    * <a href="../../CITB107/slides/ch09/lecture_9.html">Векторът</a>
+    (и <a href="../../CITB107/slides/ch09/lecture_10.html">масивът</a>)
+    е също линейна структура, но при вмъкване и изтриване на елемент се
+    местят друти елементи - сложност <i>O</i>(<i>n</i>). <br>
+    * Във всеки елемент на свързания списък се съхранява една данна
+    (стойност) и две връзки (адреси) - съм следващия елемент и към
+    предишния елементи от списъка.<br>
+    <br>
+    <i>Пример: </i>Свързан списък от низове - имена на хора, наредени
+    по азбучен ред<br>
+    <div align="center"><img alt=""
+        src="../../../2014/NETB151/slides/ch16/images/linked_list_1.png"
+        width="809" height="163"></div>
+    <p>* Вмъкването и изтриването на елемент от свързан списък става
+      лесно - променят се стойностите само на няколко връзки (адреси).<br>
+      <i>Пример:</i> Да се добави нов низ Rudolf, като се запази
+      азбучния ред на имената.<br>
+      - създава се нов елемент Rudolf;<br>
+      - променя се <i>следващия</i> елемент след Larry (от Susan на
+      Rudolf);<br>
+      - променя се&nbsp; <i>предишния</i> елемент на Susan (от Larry на
+      Rudolf);<br>
+      - добавя се <i>предишен</i> елемент Larrry на новия Rudolf;<br>
+      - добавя се <i>следващ</i> елемент Susan на новия елемнт Rudolf.<br>
+    </p>
+    <center> <img alt=""
+        src="../../../2014/NETB151/slides/ch16/images/insert_node.png"
+        width="834" height="402"><br>
+      <br>
+    </center>
+    * Изтриването на елемент от свързан списък <b>не</b> изисква
+    преместване на елементи на списъка.<br>
+    <br>
+    &nbsp;
+    <i> Пример:</i> Да се премахниe Larry от свързания списък.<br>
+    - променя се <i>следващия</i> елемент на Harry от Larry на Susan;<br>
+    - променя се <i>предишния</i> елемент на Susan от Larry&nbsp; на
+    Harry;<br>
+    - изтрива се Larry.<br>
+    <br>
+    <div align="center"><img alt=""
+        src="../../../2014/NETB151/slides/ch16/images/remove_node.png"
+        width="851" height="251"><br>
+    </div>
+    <p> * За разлика от линейната структура вектор, където има пряк
+      достъп до елементите му (с операция индекс), свързаният списък <b>не
+
+
+
+
+
+
+
+
+      </b>осигурява пряк достъп (<b>не</b> поддържа операция индекс). <br>
+      * За достъп до елементите на свързания списък е достатъчно да
+      знаем местоположенето (адреса) на първия елемент на списъка.<br>
+      * Достъп до <i>k</i>-тия елемнт на свързан списък се реализизира,
+      като се започне от първия му елемент и се обходят всички елементи
+      до <i>k</i>-тия, като се броят посетените елементи - сложност <i>O</i>(<i>n</i>).<br>
+    </p>
+    <hr size="2" width="100%">
+    <p>** В стандартната библиотека шаблони (STL) на С++ има реализация
+      на линейната структура свързан списък - <a
+        href="http://www.cplusplus.com/reference/list/list/">шаблонът <b><tt><font
+              color="#000099">list</font></tt></b></a>. <br>
+      * Всички основни операции на класа <tt>list</tt> се изпълняват за
+      време <i>O</i>(1).<br>
+      * Достъп до елементите на свързания списък&nbsp; с <i>n</i>
+      елемента се осъществява посредством итератор за време <i>O</i>(<i>n</i>).&nbsp;</p>
+    <p><i> Пример: </i>Да се построи свързан списък от низове, да се
+      добави елемент, да се изтрие елемент и да се обходи свързания
+      списък<br>
+    </p>
+    <p><b><tt><font color="#000099">// <a
+              href="../../../2014/NETB151/sources/ch16/list1.cpp">list1.cpp</a></font></tt></b><a
+        href="../../NETB151/sources/ch16/list1.cpp"> </a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;string&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">#include &lt;list&gt;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">int main()</font></tt></b> <br>
+      <b><tt><font color="#000099">{&nbsp; list&lt;string&gt;
+            staff;&nbsp;&nbsp;&nbsp;&nbsp; </font><font color="#000000">/*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            шаблон за списък */</font></tt></b> </p>
+    <p><b><tt><font color="#000099">&nbsp;&nbsp;
+            staff.push_back("Cracker, Carl");</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Hacker,
+            Harry");</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.push_back("Lam,
+            Larry");</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;
+            staff.push_back("Sandman, Susan");</font></tt></b> </p>
+    <p><b><tt><font color="#000099">&nbsp;&nbsp;
+            list&lt;string&gt;::iterator pos;</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <b><tt><font color="#000000">/* итератор на списък */</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">/* добавя елемент на четвърто място
+            */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.insert(pos,
+            "Reindeer, Rudolf");</font></tt></b> </p>
+    <p><b><tt><font color="#000099">/* отстранява втория елемент */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.begin();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos++;</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.erase(pos);</font></tt></b>
+    </p>
+    <p><b><tt><font color="#000099">/* добавя елемент на последно място
+            */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; pos = staff.end();</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; staff.insert(pos,
+            "Zeider, Zeev");</font></tt></b> </p>
+    <p><b><tt><font color="#000000">/* обхождане на списък */</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; for (pos =
+            staff.begin(); pos != staff.end(); pos++)</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+            &lt;&lt; *pos &lt;&lt; "\n";</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <b><tt><font color="#000000">/* извежда съдържание на текущата
+            позиция */</font></tt></b> <br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b>
+      <br>
+      <b><tt><font color="#000099">}</font></tt></b> </p>
+    <table cellpadding="4" width="100%" border="">
+      <tbody>
+        <tr>
+          <td> <b><tt><font color="#993300">Cracker, Carl</font></tt></b>
+            <br>
+            <b><tt><font color="#993300">Lam, Larry</font></tt></b> <br>
+            <b><tt><font color="#993300">Reindeer, Rudolf</font></tt></b>
+            <br>
+            <b><tt><font color="#993300">Sandman, Susan</font></tt></b>
+            <br>
+            <b><tt><font color="#993300">Zeider, Zeev</font></tt></b> </td>
+        </tr>
+      </tbody>
+    </table>
+    <img alt="" src="../b5.gif" width="20" height="18"><b>Стек и опашка<br>
+      <br>
+    </b> * <b>Стек</b> е линейна структура (редица) от данни с добавяне
+    и изтриване (изваждане) на елементи само от единия край, наречен
+    връх на стека. <br>
+    * Не е позволен достъп до другите елементи на редицата.<br>
+    * Това правило за добавяне и изваждане на елементи се нарича още
+    LIFO (last in, first out). <br>
+    * Основни операции: <br>
+    - добавяне на елемент към стека - <tt>push;</tt> <br>
+    - и изваждане на елемент от стека -&nbsp; <tt>pop</tt>.<br>
+    * Двете основни операции отнемат константно време - <i>O</i>(1).<br>
+    * <a href="http://www.cplusplus.com/reference/list/list/">Реализация
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      в STL</a>. <i><br>
+      <br>
+      Пример:</i> <font size="+1">
+      <pre><span style="color: rgb(255, 0, 0); font-weight: bold;">stack</span>&lt;<span style="font-weight: bold; color: rgb(255, 0, 0);">string</span>&gt; s;<br>s.<span style="color: rgb(255, 0, 0);">push</span>("Tom");<br>s.<span style="color: rgb(255, 0, 0);">push</span>("Dick");<br>s.<span style="color: rgb(255, 0, 0);">push</span>("Harry");<br><span style="color: rgb(51, 51, 255); font-weight: bold;">while</span> (s.<span style="color: rgb(255, 0, 0);">size</span>() &gt; 0)<br>{  cout &lt;&lt; s.<span style="color: rgb(255, 0, 0);">top</span>() &lt;&lt; "\n";<br>   s.<span style="color: rgb(255, 0, 0);">pop</span>()<br>}</pre>
+    </font>* <b>Опашка</b> е линейна структура (редица) от данни с
+    добавяне на елементи от единия край и изтриване на елементи от
+    другия край. <br>
+    * Не е позволен достъп до другите елементи на редицата.<br>
+    * Това правило за добавяне и изваждане на елементи се нарича FIFO
+    (first in, first out).<br>
+    * Основни операции: <br>
+    - добавяне на елемент към опашката - <tt>push</tt>; <br>
+    - изваждане на елемент от опашката - <tt>pop</tt>. <br>
+    * Двете основни операции се изпълняват за константно време - <i>O</i>(1).<br>
+    <a href="http://www.cplusplus.com/reference/queue/queue/">Реализация
+      в STL</a>:<br>
+    <i><br>
+      Пример: </i>Опашка от низове, добавяне и изтриване на елементи.<br>
+    <font size="+1">
+      <pre><span style="font-weight: bold; color: rgb(255, 0, 0);">queue</span>&lt;<span style="color: rgb(255, 0, 0); font-weight: bold;">string</span>&gt; q;<br>q.<span style="color: rgb(255, 0, 0);">push</span>("Tom");<br>q.<span style="color: rgb(255, 0, 0);">push</span>("Dick");<br>q.<span style="color: rgb(255, 0, 0);">push</span>("Harry");<br><span style="color: rgb(51, 102, 255); font-weight: bold;">while</span> (q.<span style="color: rgb(255, 0, 0);">size</span>() &gt; 0)<br>{  cout &lt;&lt; q.<span style="color: rgb(255, 0, 0);">front</span>() &lt;&lt; "\n";<br>   q.<span style="color: rgb(255, 0, 0);">pop</span>();<br>}</pre>
+    </font><i>Пример: </i>Елементите на опашка от низове се събират в
+    стек, който се отпечатва с иваждане на елементите му.<br>
+    <pre><tt><b><font color="#000080">// <a href="../../../2014/NETB151/sources/ch16/fifolifo.cpp">fifolifo.cpp</a><br>01: #include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+<b><font color="#000080">02: #include</font></b> <font color="#ff0000">&lt;string&gt;<br></font>03: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;queue&gt;</font>
+04: <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;stack&gt;</font>
+06: <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+07: 
+08: <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+09: <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"FIFO order:\n"</font><font color="#990000">;</font>
+11: 
+12:    queue<font color="#ff0000">&lt;string&gt;</font> q<font color="#990000">; // опашка</font>
+13:    q<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font><font color="#ff0000">"Tom"</font><font color="#990000">)</font><font color="#990000">;</font>
+14:    q<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font><font color="#ff0000">"Dick"</font><font color="#990000">)</font><font color="#990000">;</font>
+15:    q<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font><font color="#ff0000">"Harry"</font><font color="#990000">)</font><font color="#990000">;</font>
+16: 
+17:    stack<font color="#ff0000">&lt;string&gt;</font> s<font color="#990000">; // стек</font>
+18:    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>q<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&gt;</font> <font color="#993399">0</font><font color="#990000">)</font>
+19:    <font color="#ff0000">{</font>  string name <font color="#990000">=</font> q<font color="#990000">.</font><b><font color="#000000">front</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+21:       q<font color="#990000">.</font><b><font color="#000000">pop</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+22:       cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> name <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+23:       s<font color="#990000">.</font><b><font color="#000000">push</font></b><font color="#990000">(</font>name<font color="#990000">)</font><font color="#990000">;</font>
+24:    <font color="#ff0000">}</font>
+26:    cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"LIFO order:\n"</font><font color="#990000">;</font>
+28:    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>s<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&gt;</font> <font color="#993399">0</font><font color="#990000">)</font>
+29:    <font color="#ff0000">{</font>  cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> s<font color="#990000">.</font><b><font color="#000000">top</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+31:       s<font color="#990000">.</font><b><font color="#000000">pop</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+32:    <font color="#ff0000">}</font>
+34:    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+35: <font color="#ff0000">}</font></tt></pre>
+    <hr size="2" width="100%"> <img alt="" src="../b5.gif" width="20"
+      height="18"><b>Други стандартни контейнери</b><br>
+    <br>
+    * <b>М</b><b>ножество</b> (<tt><b><a
+          href="http://www.cplusplus.com/reference/set/set/?kw=set">set</a></b>)</tt>
+    е контейнер (линейна структура от данни), който поддържа линейна
+    наредба на елементите (сортирани), независимо в какъв ред са
+    въведени, като не допуска дублиращи се стойности. <br>
+    * Достъп до елементите на множеството се осъществява посредством
+    итератор.<br>
+    * Елементите на <tt>set</tt> се съхраняват в нелинейна структура от
+    данни.<br>
+    * Основните операции <tt>insert </tt>и <tt>erase</tt> имат
+    сложност <i>O</i>(log <i>n</i>).<br>
+    * Мултимножество (<tt><a
+        href="http://www.cplusplus.com/reference/set/multiset/">multiset</a></tt>)
+    е подобно на множество (<tt>set)</tt>, но допуска повече от един
+    елемент с една и съща стойност. <br>
+    <i>Пример:</i><br>
+    <pre><b>// <a href="../../../2014/NETB151/sources/ch16/set.cpp">set.cpp</a><br>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;set&gt;
+using namespace std;
+
+int main()
+{ set&lt;string&gt; s;
+  s.insert("Tom");
+  s.insert("Dick");
+  s.insert("Tom"); // !!!
+  s.insert("Harry");
+
+  cout &lt;&lt; "set: " &lt;&lt; endl;
+  set&lt;string&gt;::iterator p;
+  for (p = s.begin(); p!= s.end(); p++)
+     cout &lt;&lt; *p &lt;&lt; "\n";
+      
+  multiset&lt;string&gt; ms;
+  ms.insert("Tom");
+  ms.insert("Dick");
+  ms.insert("Tom"); // !!!
+  ms.insert("Harry");
+
+  cout &lt;&lt; "multiset: " &lt;&lt; endl;
+  multiset&lt;string&gt;::iterator mp;
+  for (mp = ms.begin(); mp!= ms.end(); mp++)
+     cout &lt;&lt; *mp &lt;&lt; "\n";
+  cout &lt;&lt; ms.size() &lt;&lt; endl;  
+  cout &lt;&lt; ms.count("Tom"); 
+        
+  return 0;   
+}    </b><br></pre>
+    * Контейнер <a href="http://www.cplusplus.com/reference/map/map/"><b><tt>map</tt></b></a>
+    съхранява двойки елементи (ключ, стойност).<br>
+    * Няма еднакви ключове.<br>
+    * Осигурява ефективен (пряк) достъп до елементите посредством
+    операция индекс.<br>
+    <span class="Apple-style-span" style="border-collapse: separate;
+      color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style:
+      normal; font-variant: normal; font-weight: normal; letter-spacing:
+      normal; line-height: normal; orphans: 2; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; font-size: medium;"><font size="+1">
+        <pre>map&lt;string, double&gt; scores;<br>scores["Tom"] = 90;<br>scores["Dick"] = 86;<br>scores["Harry"] = 100;</pre>
+      </font></span>* <a
+      href="http://www.cplusplus.com/reference/map/multimap/">Multimap</a>
+    е контейнер от двойки елементи (ключ, стойност), като се допускат
+    елементи с еднакви ключове.<br>
+    * Обект от шаблонът <a
+      href="http://www.cplusplus.com/reference/utility/pair/"><tt>pair</tt></a>
+    се състои от два публични елемента (данни) - <tt>first</tt> и <tt>second</tt>,
+    чиито типове се задават като параметри на шаблона.<i><br>
+    </i>
+    <pre><span class="Apple-style-span" style="border-collapse: separate; color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style: normal; 
+font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: 2; text-indent: 0px; text-transform: none; 
+white-space: normal; widows: 2; word-spacing: 0px; font-size: medium;"><font size="+1"><pre>multimap&lt;string, double&gt; 
+mmap;<br>mmap.insert(pair<string int="">("Tom", 90));<br>mmap.insert(pair<string int="">("Dick", 86));
+<br>mmap.insert(pair<string int="">("Harry", 100));<br>mmap.insert(pair<string int="">("Tom", 190));</string></string></string></string></pre>
+</font></span></pre>
+    <i>Пример:</i><br>
+    <pre><b>// <a href="../../../2014/NETB151/sources/ch16/map.cpp">map.cpp</a><br>#include &lt;iostream&gt;
+#include &lt;string&gt;
+#include &lt;map&gt;
+using namespace std;
+
+int main()
+{ map&lt;string, int&gt; scores;
+  scores["Tom"] = 90;
+  scores["Dick"] = 86;
+  scores["Harry"] = 100;
+  
+  map&lt;string, int&gt;::iterator p;
+  for (p = scores.begin(); p!= scores.end(); p++)
+     cout &lt;&lt; p-&gt;first &lt;&lt; " " &lt;&lt; p-&gt;second &lt;&lt; "\n";
+  cout &lt;&lt; scores.size() &lt;&lt; endl;   
+  
+  multimap&lt;string, int&gt; mmap;
+  mmap.insert(pair&lt;string, int&gt;("Tom", 90));
+  mmap.insert(pair&lt;string, int&gt;("Dick", 86));
+  mmap.insert(pair&lt;string, int&gt;("Harry", 100));
+  mmap.insert(pair&lt;string, int&gt;("Tom", 190));
+  
+  multimap&lt;string, int&gt;::iterator q;
+  for (q = mmap.begin(); q!= mmap.end(); q++)
+     cout &lt;&lt; q-&gt;first &lt;&lt; " " &lt;&lt; q-&gt;second &lt;&lt; "\n";
+  cout &lt;&lt; mmap.size() &lt;&lt; endl;   
+
+  return 0;</b>
+}   <br></pre>
+    <hr size="2" width="100%"> <img alt="" src="../b5.gif" width="20"
+      height="18"><b>Алгоритми в STL<br>
+      <br>
+    </b> * Причината за въвеждане и използване на итератори в STL е
+    отделянето на алгоритмите от структурите от данни (контейнерите). <br>
+    * <a href="http://www.cplusplus.com/reference/algorithm/">Алгоритмите
+
+
+
+
+
+
+
+
+
+
+
+
+
+      в STL</a> са реализирани от функции, които работят само с
+    итератори и по такъв начин са независими от контейнерите, където се
+    съхраняват данните. <br>
+    <br>
+    * <i>Пример:</i> Функция, която намира сумата на елементите на
+    контейнер - вектор или списък. <br>
+    <span class="Apple-style-span" style="border-collapse: separate;
+      color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style:
+      normal; font-variant: normal; font-weight: normal; letter-spacing:
+      normal; line-height: normal; orphans: 2; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; font-size: medium;"><font size="+1">
+        <pre><b>vector</b>&lt;double&gt; data;<br>/* do something with data */<br><br>double vsum = 0;<br><b>accumulate</b>(data.begin(), data.end(), vsum);<br>/* now vsum contains the sum of the elements in the vector */<br><br><b>list</b>&lt;double&gt; salaries;<br>/* do something with salaries */<br><br>double lsum = 0;<br><b>accumulate</b>(salaries.begin(), salaries.end(), lsum);<br>/* now lsum contains the sum of the elements in the list */</pre>
+      </font></span>* Библиотеката поддържа функции за търсене.<br>
+    <span class="Apple-style-span" style="border-collapse: separate;
+      color: rgb(0, 0, 0); font-family: 'Times New Roman'; font-style:
+      normal; font-variant: normal; font-weight: normal; letter-spacing:
+      normal; line-height: normal; orphans: 2; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: 2;
+      word-spacing: 0px; font-size: medium;"><font size="+1">
+        <pre>/* search for a certain name on the staff */<br><b>   list</b>&lt;string&gt;::<b>iterator</b> it =<br>   <b>find</b>(staff.begin(), staff.end(), name);<br><font size="+1"><font size="+1">   </font></font>cout &lt;&lt; *it &lt;&lt; endl;<br></pre>
+      </font></span>* Библиотеката поддържа и функции за сортиране: <tt><a
+href="http://www.cplusplus.com/reference/algorithm/sort/?kw=sort">sort</a></tt><tt>,
+    </tt><tt><a
+        href="http://www.cplusplus.com/reference/cstdlib/qsort/?kw=qsort">qsort</a></tt><br>
+    <hr width="100%">
+  </body>
+</html>

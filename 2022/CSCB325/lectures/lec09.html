@@ -1,0 +1,205 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>lec8</title>
+  </head>
+  <body>
+    <h2>8.&nbsp; Математически задачи<br>
+    </h2>
+    <i>План: </i><i><br>
+      <a href="problems_9_10.html">Задачи за домашно 9 и 10</a></i><br>
+    Полиноми - представяне, стойности, производни, интеграли,<br>
+    Числени методи<br>
+    Комплексни числа<br>
+    <a href="problems_11_12.html"><i>Задачи за домашно 11 и 12</i></a>
+    <hr size="2" width="100%">*** Полиноми (многочлен, <a
+      href="https://en.wikipedia.org/wiki/Polynomial">Polynomial</a>)<br>
+    <i>P<sub>n</sub></i>(<i>x</i>) = <i>a<sub>n</sub>x<sup>n</sup></i>
+    + <i>a<sub>n</sub></i><sub>-1</sub><i>x<sup>n</sup></i><sup>-1</sup>
+    + ... + <i>a</i><sub>1</sub><i>x</i> + <i>a</i><sub>0<br>
+      <br>
+    </sub>Полиноми с цели коефициенти<i>.<br>
+      Пример:</i><i> P</i><sub>3</sub>(<i>x</i>) = <i>x</i><sup>3</sup>
+    + 4<i>x</i><sup>2</sup> + 5<br>
+    <br>
+    Нормална форма на полином - коефициентите нямат общ делител.<br>
+    <i>Пример:</i><i> P</i><sub>3</sub>(<i>x</i>) = <i>x</i><sup>3</sup>
+    + 4<i>x</i><sup>2</sup> + 5 е нормална форма, а <i>P</i><sub>3</sub>(<i>x</i>)
+    = 2<i>x</i><sup>3</sup> + 8<i>x</i><sup>2</sup> + 10 не е.<br>
+    <br>
+    * Представяне<br>
+    - като редица от коефициенти<br>
+    <i>a</i><sub>0, </sub><i>a</i><sub>1</sub><i>, ..., a<sub>n</sub></i><br>
+    <i>Пример:</i><i> </i>5 0 4 1<i><br>
+    </i><br>
+    - като низ с правилата на TeX, <a
+      href="https://bg.wikipedia.org/wiki/LaTeX">LaTeX</a><br>
+    $a_nx^n + a_{n-1}x^{n-1} + \cdots + a_1x +a_0$<br>
+    <i>Пример:</i> $x^3+4x^2+5$<br>
+    <br>
+    - като низ на езика <a
+href="https://bg.wikipedia.org/wiki/%D0%9F%D0%B0%D1%81%D0%BA%D0%B0%D0%BB_%28%D0%B5%D0%B7%D0%B8%D0%BA_%D0%B7%D0%B0_%D0%BF%D1%80%D0%BE%D0%B3%D1%80%D0%B0%D0%BC%D0%B8%D1%80%D0%B0%D0%BD%D0%B5%29">Паскал</a>
+    (<a
+      href="https://en.wikipedia.org/wiki/Pascal_%28programming_language%29">Pascal</a>)<br>
+    <i>Пример: </i>x^3 + 4*x^2 + 5<br>
+    <br>
+    - като низ на езика С<br>
+    <i>Пример: </i>x*x*x + 4*x*x + 5<br>
+    <br>
+    * Пресмятане на стойност<br>
+    - По общата формула за многочлен със запазване на <i>x<sup>k</sup></i>,
+    за <i>k</i> = 1, 2, ..., <i>n</i>, без използване на аритметичната
+    функция <font size="+1"><tt>pow</tt></font>.<br>
+    <big> </big>- Стойността на полиномът <span style="font-style:
+      italic;">P<sub>n</sub></span>(<span style="font-style: italic;">x</span>)
+    се смята за време <span style="font-style: italic;">O</span>(<span
+      style="font-style: italic;">n</span>) по <a
+href="https://bg.wikipedia.org/wiki/%D0%A4%D0%BE%D1%80%D0%BC%D1%83%D0%BB%D0%B0_%D0%BD%D0%B0_%D0%A5%D0%BE%D1%80%D0%BD%D0%B5%D1%80">схемата
+
+
+
+
+
+
+
+
+
+
+      на Хорнер</a>.&nbsp;Последователно се пресмятат стойностите на
+    редица от <i>n</i> полинома, всяка за време <span
+      style="font-style: italic;">O</span>(1).<br>
+    <ul>
+      <li> <span style="font-style: italic;">p</span><sub>0</sub>(<span
+          style="font-style: italic;">x</span>) = <span
+          style="font-style: italic;">a<sub>n</sub></span><sub>,&nbsp;</sub><span
+          style="font-style: italic;"> p</span><sub><span
+            style="font-style: italic;">i</span></sub>(<span
+          style="font-style: italic;">x</span>) = <span
+          style="font-style: italic;">a<sub>n−i</sub></span> + <span
+          style="font-style: italic;">xp<sub>i</sub></span><sub>-1</sub>(<span
+          style="font-style: italic;">x</span>), <span
+          style="font-style: italic;">i</span> = 1, 2, …, <span
+          style="font-style: italic;">n</span>. </li>
+    </ul>
+    Получаваме <span style="font-style: italic;"></span><span
+      style="font-style: italic;"><span style="font-style: italic;">P<sub>n</sub></span>(<span
+        style="font-style: italic;">x</span>)</span> =<span
+      style="font-style: italic;"> p<sub>n</sub></span>(<span
+      style="font-style: italic;">x</span>). <br>
+    <br>
+    &nbsp;* <a
+href="https://bg.wikipedia.org/wiki/%D0%9F%D1%80%D0%BE%D0%B8%D0%B7%D0%B2%D0%BE%D0%B4%D0%BD%D0%B0">Производна</a>
+    на полином <br>
+    <i>P'<sub>n</sub></i>(<i>x</i>) = <i>na<sub>n</sub>x<sup>n</sup></i><sup>-1</sup>
+    + <i>(n</i>-1<i>)a<sub>n</sub></i><sub>-1</sub><i>x<sup>n</sup></i><sup>-2</sup>
+    + ... + <i>a</i><sub>2</sub><i>x</i> + <i>a</i><sub>1<br>
+      <br>
+    </sub> Програма за намиране на производната на полином.<br>
+    <br>
+    Минимална и максимална стойности:<br>
+    - решаване на уравнението <i>P'<sub>n</sub></i>(<i>x</i>) = 0.<br>
+    - в даден интервал, за цели стойности на аргумента <i>x<br>
+      <br>
+    </i><i>Задача от състезания</i>: Полином.<br>
+    <tt><a
+        href="https://www.hackerrank.com/nbu-march-2020-programming-contest">https://www.hackerrank.com/nbu-march-2020-programming-contest</a></tt><i><br>
+      &nbsp; </i> <br>
+    * <a
+href="https://bg.wikipedia.org/wiki/%D0%98%D0%BD%D1%82%D0%B5%D0%B3%D1%80%D0%B0%D0%BB">Интеграл</a><br>
+    - неопределен интеграл - примитивна функция<br>
+    <i>int</i>(<i>x<sup>n</sup></i>) = <i>x<sup>n</sup></i><sup>+1</sup>/(<i>n</i>+1),
+
+
+
+
+
+
+
+
+
+    защото (<i>x<sup>n</sup></i><sup>+1</sup>)' = (<i>n</i>+1)<i>x<sup>n
+        <br>
+        <img src="images/integral0.png" alt="int" width="187"
+          height="51"><br>
+      </sup></i>- определен интеграл - граници на ингегриране<br>
+    <img src="images/integral.png" alt="integral" width="267"
+      height="70"><br>
+    където <i>F</i>'(<i>x</i>) = <i>f</i>(<i>x</i>).<br>
+    <br>
+    - пресмятане на лице (площ) на фигура, заградена от графика на
+    функция и абцисната ос (<a
+href="https://www.brightstorm.com/math/calculus/the-definite-integral/definite-integrals-and-area/">видео</a>).<br>
+    <br>
+    <a href="../poly.pdf">Задачи за полиноми</a><br>
+    <hr size="2" width="100%">*** Числени методи<br>
+    * Нули на функция (корени на уравнение) - <a
+href="http://ocw.ump.edu.my/pluginfile.php/5099/mod_resource/content/7/Lecture%20Notes%20Topic%202.pdf">Slides</a><br>
+    - метод на разполовяването (<a
+      href="https://www.youtube.com/watch?v=Y2AUhxoQ-OQ">bisection
+      method</a>)<br>
+    <i>Задача:</i> <a href="../../CSCB324/lectures/problems_13_14.html">Корен2020</a><br>
+    - други методи<br>
+    <br>
+    * Системи от уравнения<br>
+    Задачи, при които се налага решаване на система от уравнения:
+    пресечни точки на фигури в равнината, <br>
+    <br>
+    - линейни системи от уравнения<br>
+    метод на Гаус - Gaussian Elimination - <a
+      href="https://www.youtube.com/watch?v=2j5Ic2V7wq4">видео</a><br>
+    <a href="https://en.wikipedia.org/wiki/Gauss%E2%80%93Seidel_method">Gauss–Seidel
+
+
+
+
+
+
+
+
+      method</a><br>
+    <br>
+    - нелинейни системи от уравнения<br>
+    Предварителни пресмятания и довеждане на решението до няколко
+    формули.<br>
+    &nbsp;Търсене на целочислени решения (пълно изчерпване).<br>
+    <br>
+    <a
+href="https://www.kaldata.com/%D1%85%D0%B0%D1%80%D0%B4%D1%83%D0%B5%D1%80/%D0%BF%D1%8A%D1%80%D0%B2%D0%B0%D1%82%D0%B0-%D0%BA%D0%B2%D0%B0%D0%BD%D1%82%D0%BE%D0%B2%D0%B0-%D1%81%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0-%D0%B7%D0%B0-%D1%80%D0%B5%D1%88%D0%B0%D0%B2%D0%B0%D0%BD%D0%B5-251381.html">Нелинейни
+
+
+
+
+
+
+
+
+      системи и квантови компютри</a><br>
+    <hr size="2" width="100%">*** Комплексни числа [<a
+      href="https://cses.fi/book/book.pdf">AL</a> Complex numbers, p.
+    266], (<a
+href="https://bg.wikipedia.org/wiki/%D0%9A%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%D0%BD%D0%BE_%D1%87%D0%B8%D1%81%D0%BB%D0%BE">Wiki</a>)<br>
+    <br>
+    Комплексно число се представя с израза <i>x + yi</i>, където <i>x</i>
+    и <i>b</i> са реални числа, а <i>i</i> се нарича имагинерна
+    единица, дефинирана с <i>i</i><sup>2</sup> = −1. <br>
+    В този израз <i>x</i> е реалната част, а <i>y</i> е имагинерната
+    част на комплексното число. <br>
+    <i>Пример:</i> Числото 3 + 2<i>i</i> има реална част 3 и имагинерна
+    част 2. <br>
+    <br>
+    Реалните числа могат да се представят като комплексни с имагинерна
+    част 0.<br>
+    <i>Пример</i>: 2 = 2 + 0<i>i</i>.<br>
+    <br>
+    <a href="http://www.cplusplus.com/reference/complex/">Комплексни
+      числа в C++11</a><br>
+    <a
+href="https://bg.wikipedia.org/wiki/%D0%A0%D0%B0%D0%B4%D0%B8%D0%B0%D0%BD">Радиани</a>
+    и градуси<br>
+    <br>
+    Комплексни числа и вектори в декартовата равнина.<br>
+    <i>Пример:</i> <a href="../../../2020/CSCB325/sources/com.cpp">com.cpp</a><br>
+    <hr size="2" width="100%">
+  </body>
+</html>
