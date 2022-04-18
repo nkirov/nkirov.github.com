@@ -13,15 +13,12 @@
     </center>
     <i>План:</i><br <p="">
     Реализация на свързани списъци - класове, итератори,&nbsp; операции
-    <hr size="2" width="100%">
-    <p><img alt="" src="../b5.gif" width="21" height="18">&nbsp;
-      Реализация на свързани списъци - класове, итератори,&nbsp;
-      операции.&nbsp;</p>
+    <hr width="100%" size="2">
     <p>* Ще реализираме свързан списък с елементи - низове. <br>
     </p>
     <p><img
         src="../../../2014/NETB151/slides/ch16/images/linked_list_1.png"
-        alt="list" width="809" height="163"><br>
+        alt="list" height="163" width="809"><br>
       * Всеки връх на списъка съдържа низ и два указателя - адреси на
       предишен и следващ връх на свързания списък.<br>
     </p>
@@ -31,15 +28,14 @@
       достъп до частните си членове. <br>
       * Свързан списък се задава, като се посочи адресът на първия му
       елемент.</p>
-    <p></p>
-    <hr size="2" width="100%">* Всеки обект от класа <tt>List</tt> ще
+    <hr width="100%" size="2">* Всеки обект от класа <tt>List</tt> ще
     съдържа адресите на първия (задължително) и последния (за удобство)
     елементи на свързания списък.<br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">class</span> <span style="font-weight: bold;">List</span> {<br><span style="color: rgb(51, 51, 255); font-weight: bold;">public:</span><br>   <span style="font-weight: bold;">List</span>();<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> push_back(string s);<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> insert(<span style="font-weight: bold;">Iterator</span> pos, string s);<br>   <span style="font-weight: bold;">Iterator</span> erase(<span style="font-weight: bold;">Iterator</span> pos);<br>   <span style="font-weight: bold;">Iterator</span> begin();<br>   <span style="font-weight: bold;">Iterator</span> end();<br><span style="font-weight: bold; color: rgb(51, 51, 255);">private:</span><br>   <span style="font-weight: bold;">Node</span>* first;  // адрес на първия елемент (връх, възел)<br>   <span style="font-weight: bold;">Node</span>* last;   // адрес на последния елемент (връх, възел)<br>};</pre>
     <p>* Когатo свързният списък е празен, двата указателя <tt>first</tt>
       и <tt>las</tt>t имат стойност <tt>NULL</tt>. <br>
     </p>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p>* Итераторът задава позиция (на връх) в свързания списък -
       указател <tt>position</tt>.<br>
     </p>
@@ -47,8 +43,11 @@
     <p>* Когато итераторът задава позиция "след последния елемент",
       стойността на&nbsp; <tt>position</tt> е <tt>NULL</tt>.&nbsp; <br>
     </p>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p>** Функциите <tt>begin</tt> и <tt>end</tt> от класа <tt>List</tt>&nbsp;
+
+
+
 
 
 
@@ -69,30 +68,30 @@
       връщат итератори:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold;">Iterator</span> <span style="font-weight: bold;">List</span>::begin() {<br>   <span style="font-weight: bold;">Iterator</span> iter;<br>   iter.position = first;<br>   iter.last = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">return</span> iter;<br>}<br><br><span style="font-weight: bold;">Iterator</span> <span style="font-weight: bold;">List</span>::end() {<br>   <span style="font-weight: bold;">Iterator</span> iter;<br>   iter.position = NULL;<br>   iter.last = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">return</span> iter;</pre>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p>** Функцията <tt>next</tt> от класа <tt>Iterator</tt> премества
       итератора на следващия елемент на списъка:<br>
     </p>
     <img alt=""
       src="../../../2014/NETB151/slides/ch16/images/iterator_next.png"
-      width="775" height="473">
+      height="473" width="775">
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">Iterator</span>::next()<br>{  assert(position != NULL)<br>   position = position-&gt;next;<br>}</pre>
     <p>* Подобна е функцията <tt>previous</tt>:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">Iterator</span>::previous()<br>{  <span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (position == NULL) position = last;<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">else</span>    position = position-&gt;previous;<br>   assert(position != NULL);<br>}</pre>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p>** Реализация на функция <tt>push_back</tt> от класа <tt>List</tt>:<br>
     </p>
     <img alt=""
       src="../../../2014/NETB151/slides/ch16/images/appending.png"
-      width="784" height="326">
+      height="326" width="784">
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">void</span> <span style="font-weight: bold;">List</span>::push_back(string s)<br>{  <span style="font-weight: bold;">Node</span>* newnode = <span style="font-weight: bold; color: rgb(51, 102, 255);">new</span> <span style="font-weight: bold;">Node</span>(s);<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (last == NULL) /* list is empty */<br>   {  first = newnode;<br>      last = newnode;<br>   }<br>   <span style="font-weight: bold; color: rgb(51, 51, 255);">else</span><br>   {  newnode-&gt;previous = last;<br>      last-&gt;next = newnode;<br>      last = newnode;<br>   }<br>}</pre>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p>** Функцията <tt>insert</tt> променя данни на предишния (<tt>next</tt>)
       и следващия (<tt>previous</tt>) върхове - важен е редът на
       присвояванията.<img alt=""
         src="../../../2014/NETB151/slides/ch16/images/insert_node.png"
-        width="760" height="366"> </p>
+        height="366" width="760"> </p>
     <p>* Специален случай за празен списък:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (iter.position == NULL)<br>{  push_back(s);<br>   <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">return</span></span>;<br>}</pre>
@@ -106,11 +105,11 @@
       върхове:<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">after-&gt;previous = newnode;  // (3)<br><span style="font-weight: bold; color: rgb(51, 51, 255);">if</span> (before == NULL) /* insert at beginning */<br>   first = newnode;<br><span style="font-weight: bold; color: rgb(51, 51, 255);">else</span><br>   before-&gt;next = newnode;  // (4)</pre>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p>** Реализация на функцията за изтриване на връх.<br>
       <img alt=""
         src="../../../2014/NETB151/slides/ch16/images/remove_node.png"
-        width="851" height="251"><br>
+        height="251" width="851"><br>
     </p>
     <p>* Дефинираме указатели за трите върха:<br>
     </p>
@@ -125,7 +124,7 @@
     <p>* Накрая изтриваме върха.<br>
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="font-weight: bold; color: rgb(51, 51, 255);">delete</span> remove;</pre>
-    <hr size="2" width="100%">
+    <hr width="100%" size="2">
     <p>* Ето и целия текст на програмата: <br>
       <b><tt><font color="#000099">// <a
               href="../../../2014/NETB151/sources/ch16/list2.cpp">list2.cpp</a></font></tt></b><a
@@ -265,6 +264,9 @@
 
 
 
+
+
+
             = last;</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp; last-&gt;next = </font></tt></b><b><tt><font
             color="#000099"><b><tt><font color="#000099">newnode</font></tt></b>;</font></tt></b>
@@ -282,6 +284,9 @@
             позицията, преди която да се вмъкне</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 s
+
+
+
 
 
 
@@ -439,6 +444,9 @@ position
 
 
 
+
+
+
             = position-&gt;previous;</font></tt></b> <br>
       <b><tt><font color="#000099">&nbsp; assert(position != NULL);</font></tt></b>
       <br>
@@ -455,7 +463,7 @@ position
       <b><tt><font color="#000099">{ <br>
             &nbsp; return position != b.position; <br>
             }</font></tt></b></p>
-    <table cellspacing="2" cellpadding="2" width="100%" border="1">
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
       <tbody>
         <tr>
           <td valign="top">
@@ -500,6 +508,9 @@ position
             <br>
             <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
+
+
+
                   pos.next()) cout &lt;&lt; pos.get() &lt;&lt; "\n";<br>
                 </font></tt></b><b><tt>&nbsp;/* извежда данната на
                 текущата позиция */<br>
@@ -524,6 +535,9 @@ position
                     staff.push_back("Sandman, Susan");</font></tt></b> </p>
             <p><b><tt><font color="#000099">&nbsp;&nbsp;
                     list&lt;string&gt;::iterator pos;</font></tt></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
 
 
 
@@ -576,7 +590,13 @@ position
                     staff.begin(); pos != staff.end(); pos++)</font></tt></b>
               <br>
               <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
                     cout &lt;&lt; *pos &lt;&lt; "\n";</font></tt></b>&nbsp;
+
+
+
               <br>
               <b><tt><font color="#000000">/* извежда данната на
                     текущата позиция */<br>
@@ -590,7 +610,7 @@ position
     </table>
     <p>Резултат от работата на програмата:<br>
     </p>
-    <table cellpadding="4" width="100%" border="">
+    <table width="100%" cellpadding="4" border="">
       <tbody>
         <tr>
           <td> <b><tt><font color="#993300">Cracker, Carl</font></tt></b>
@@ -604,11 +624,11 @@ position
       </tbody>
     </table>
     <p>Начално състояние на списъка: </p>
-    <table cols="5" width="100%">
+    <table cols="5" height="71" width="548">
       <tbody>
         <tr>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
@@ -624,7 +644,7 @@ position
             </table>
           </td>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
@@ -640,7 +660,7 @@ position
             </table>
           </td>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
@@ -656,7 +676,7 @@ position
             </table>
           </td>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
@@ -676,101 +696,113 @@ position
         </tr>
       </tbody>
     </table>
-    <p><font color="#000000">След добавяне на елемент на четвърто място:</font>
-    </p>
-    <table cols="5" width="100%">
+    <p><font color="#000000">След добавяне на елемент на четвърто място:<br>
+      </font></p>
+    <table height="99" width="674" cellspacing="2" cellpadding="2"
+      border="0">
       <tbody>
         <tr>
-          <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
-              border="">
+          <td valign="top">
+            <table width="100%" cellspacing="2" cellpadding="2"
+              border="1">
               <tbody>
                 <tr>
-                  <td><b><tt><font color="#000099">Cracker, Carl</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">Cracker,
+                          Carl</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">NULL</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">NULL</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">-&gt;</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">-&gt;</font></tt></b></td>
                 </tr>
               </tbody>
             </table>
+            <br>
           </td>
-          <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
-              border="">
+          <td valign="top">
+            <table width="100%" cellspacing="2" cellpadding="2"
+              border="1">
               <tbody>
                 <tr>
-                  <td><b><tt><font color="#000099">Hacker, Harry</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">Hacker,
+                          Harry</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">&lt;-</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">&lt;-</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">-&gt;</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">-&gt;</font></tt></b></td>
                 </tr>
               </tbody>
             </table>
+            <br>
           </td>
-          <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
-              border="">
+          <td valign="top">
+            <table width="100%" cellspacing="2" cellpadding="2"
+              border="1">
               <tbody>
                 <tr>
-                  <td><b><tt><font color="#000099">Lam, Larry</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">Lam,
+                          Larry</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">&lt;-</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">&lt;-</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">-&gt;</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">-&gt;</font></tt></b></td>
                 </tr>
               </tbody>
             </table>
+            <br>
           </td>
-          <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
-              border="">
+          <td valign="top">
+            <table width="100%" cellspacing="2" cellpadding="2"
+              border="1">
               <tbody>
                 <tr>
-                  <td><b><tt><font color="#000099">Reindeer, Rudolf</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">Reindeer,
+                          Rudolf</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">&lt;-</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">&lt;-</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">-&gt;</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">-&gt;</font></tt></b></td>
                 </tr>
               </tbody>
             </table>
+            <br>
           </td>
-          <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
-              border="">
+          <td valign="top">
+            <table width="100%" cellspacing="2" cellpadding="2"
+              border="1">
               <tbody>
                 <tr>
-                  <td><b><tt><font color="#000099">Sandman, Susan</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">Sandman,
+                          Susan</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">&lt;-</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">&lt;-</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">NULL</font></tt></b></td>
+                  <td valign="top"><b><tt><font color="#000099">NULL</font></tt></b></td>
                 </tr>
               </tbody>
             </table>
+            <br>
+          </td>
+          <td valign="top"><br>
           </td>
         </tr>
       </tbody>
     </table>
-    <p><font color="#000000">След отстраняване на втория елемент:</font>
-    </p>
-    <table cols="5" width="100%">
+    <font color="#000000">След отстраняване на втория елемент:</font>
+    <table cols="5" height="83" width="557">
       <tbody>
         <tr>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
@@ -786,7 +818,7 @@ position
             </table>
           </td>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
@@ -802,14 +834,14 @@ position
             </table>
           </td>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
                   <td><b><tt><font color="#000099">Reindeer, Rudolf</font></tt></b></td>
                 </tr>
                 <tr>
-                  <td><b><tt><font color="#000099">&lt;-</font></tt></b></td>
+                  <td><tt><b><font color="#000099">&lt;-</font></b></tt></td>
                 </tr>
                 <tr>
                   <td><b><tt><font color="#000099">-&gt;</font></tt></b></td>
@@ -818,7 +850,7 @@ position
             </table>
           </td>
           <td>
-            <table cellspacing="0" cellpadding="2" width="100%"
+            <table width="100%" cellspacing="0" cellpadding="2"
               border="">
               <tbody>
                 <tr>
