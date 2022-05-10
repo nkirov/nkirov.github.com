@@ -93,7 +93,23 @@
     qc<font color="#990000">.</font><font color="#000000">set_receptionist</font><font color="#990000">(</font>tina<font color="#990000">)</font><font color="#990000">;</font>
     tina<font color="#990000">-</font><font color="#990000">&gt;</font><font color="#000000">set_salary</font><font color="#990000">(</font><font color="#993399">55000</font><font color="#990000">)</font><font color="#990000">;<br><br>   </font>&nbsp;shipping<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
     qc<font color="#990000">.</font><font color="#000000">print</font><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;<br><br>    </font><font color="#3366ff">delete</font> harry;<br>    <font color="#3366ff">delete</font> tina;<font color="#990000"> &nbsp;<br></font>   &nbsp;<font color="#0000ff">return</font> <font color="#993399">0</font><font color="#990000">;</font>
- <font color="#ff0000">}</font></tt></font></pre>
+ <font color="#ff0000">}<br><br></font></tt></font></pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt><font size="+1">nkirov@cpp % c++
+                department0.cpp ccc_empl.cpp<br>
+                nkirov@cpp % ./a.out<br>
+                Name: Shipping<br>
+                Receptionist: None<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 55000<br>
+                nkirov@cpp %</font></tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
     Променяме конструктора на класа, като там създаваме (в динамичната
     памет) обект от клас Employee и указател към него, който е
     член-данна на класа.<br>
@@ -101,6 +117,22 @@
    string name;<br>   Employee* receptionist;<br>};<br><br>Department::Department(string n, Employee e)<br>{  <br>   name = n;
    receptionist = <span style="color: rgb(51, 51, 255);">new </span>Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */
 Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NULL;<br>}<br><a href="../sources/ch17/department1.cpp">department1.cpp</a><br></font></pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt><font size="+1">nkirov@cpp % c++
+                department1.cpp ccc_empl.cpp<br>
+                nkirov@cpp % ./a.out<br>
+                Name: Shipping<br>
+                Receptionist: Hacker, Harry 45000<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 50000<br>
+                nkirov@cpp %</font></tt><tt><br>
+            </tt></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
     С операция <tt>new</tt> в <i>конструктора</i> на класа се създава
     обект, като указател към него е данна на класа.<br>
     Къде да се изпълни операция <tt>delete</tt>?<br>
@@ -120,7 +152,30 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
         receptionist;</tt><tt><br>
       </tt><tt>}<br>
       </tt></font>
-    <pre><font size="+1"><a href="../sources/ch17/department2.cpp">department2.cpp</a></font></pre>
+    <pre><font size="+1"><a href="../sources/ch17/department2.cpp">department2.cpp</a><br></font></pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@Kcpp % c++ department2.cpp
+              ccc_empl.cpp</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Constructor:</tt><tt><br>
+            </tt><tt>Name: Shipping</tt><tt><br>
+            </tt><tt>Receptionist: Hacker, Harry 45000</tt><tt><br>
+            </tt><tt>Constructor:</tt><tt><br>
+            </tt><tt>Name: Quality Control</tt><tt><br>
+            </tt><tt>Receptionist: Tester, Tina 50000</tt><tt><br>
+            </tt><tt>Destructor:</tt><tt><br>
+            </tt><tt>Name: Quality Control</tt><tt><br>
+            </tt><tt>Receptionist: Tester, Tina 50000</tt><tt><br>
+            </tt><tt>Destructor:</tt><tt><br>
+            </tt><tt>Name: Shipping</tt><tt><br>
+            </tt><tt>Receptionist: Hacker, Harry 45000</tt><tt><br>
+            </tt><tt>nkirov@cpp %</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <hr width="100%" size="2">
     <p><b>** Предефиниране на операция присвояване (assignment operator)<br>
       </b></p>
@@ -134,7 +189,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     <p>1. Това присвояване води до загуба на памет (memory leak) - имаме
       недостъпен обект (от тип<font size="+1"> </font>Employee)! <br>
     </p>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><img alt="" src="../../../2014/NETB151/slides/ch17/images/department_assignment.png" width="486" height="679"><b><br></b></pre>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><img alt="" src="../../../2014/NETB151/slides/ch17/images/department_assignment.png" height="679" width="486"><b><br></b></pre>
     <p>2. Когато един от обектите (<font size="+1"><tt>qc</tt></font>
       или <font size="+1"><tt>dept</tt></font>) излезе от обхват (и
       изтрие обекта <font size="+1"><tt>*receptionist</tt></font>),
@@ -142,9 +197,39 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
 
 
 
+
       pointer) - указател към изтрит обект! <font size="+1"><br>
       </font><font size="+1"><tt><a
-            href="../sources/ch17/department3.cpp">department3.cpp</a></tt></font></p>
+            href="../sources/ch17/department3.cpp">department3.cpp</a><br>
+        </tt></font></p>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt><font size="+1">nkirov@cpp % c++
+                department3.cpp ccc_empl.cpp<br>
+                nkirov@cpp % ./a.out<br>
+                Constructor:<br>
+                Name: Shipping<br>
+                Receptionist: Hacker, Harry 45000<br>
+                Constructor:<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 50000<br>
+                Destructor:<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 50000<br>
+                Destructor:<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 50000<br>
+                a.out(98538,0x110221e00) malloc: *** error for object
+                0x7fbe08c059f0: pointer being freed was not allocated<br>
+                a.out(98538,0x110221e00) malloc: *** set a breakpoint in
+                malloc_error_break to debug<br>
+                zsh: abort&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ./a.out<br>
+                nkirov@cpp %</font></tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <p>За да избегнем това, е необходимо да направим копие на обекта от
       клас <font size="+1"><tt>Employee</tt></font> (с адрес от обекта
       <font size="+1"><tt>qc</tt></font>) и да поставим адреса на
@@ -166,8 +251,31 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       </tt></p>
     <p>Функцията за предефиниране задължително трябва да е член-функция
       (защо?)<b>.</b><br>
-      <tt><font size="+1"><a href="../sources/ch17/department4.cpp">department4.cpp</a></font></tt><b>
-      </b></p>
+      <tt><font size="+1"><a href="../sources/ch17/department4.cpp">department4.cpp</a><br>
+        </font></tt></p>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt><font size="+1">nkirov@cpp % c++
+                department4.cpp ccc_empl.cpp<br>
+                nkirov@cpp % ./a.out<br>
+                Constructor:<br>
+                Name: Shipping<br>
+                Receptionist: Hacker, Harry 45000<br>
+                Constructor:<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 50000<br>
+                Destructor:<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 50000<br>
+                Destructor:<br>
+                Name: Quality Control<br>
+                Receptionist: Tester, Tina 50000<br>
+                nkirov@cpp %</font></tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <hr width="100%" size="2">
     <p><b>** Конструктор за копиране (copy constructor)</b><br>
     </p>
@@ -313,8 +421,31 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
 123:    Department <font color="#000000">qc</font><font color="#990000">(</font><font color="#ff0000">"Quality Control"</font><font color="#990000">,</font> <br>124:               <font color="#000000">Employee</font><font color="#990000">(</font><font color="#ff0000">"Tester, Tina"</font><font color="#990000">,</font> <font color="#993399">50000</font><font color="#990000">)</font><font color="#990000">)</font><font color="#990000">;</font>
 125:    Department <font color="#000000">dept</font><font color="#990000">(</font>qc<font color="#990000">)</font><font color="#990000">;</font> <br>126:    dept <font color="#990000">=</font> shipping<font color="#990000">;</font>
 127:    <font color="#0000ff">return</font> <font color="#993399">0</font><font color="#990000">;</font>
-128: <font color="#ff0000">}</font>
-</tt></font></pre>
+128: <font color="#ff0000">}</font><br></tt></font></pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ department.cpp
+              ccc_empl.cpp</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Constructor: [name=Shipping,receptionist=NULL]</tt><tt><br>
+            </tt><tt>Constructor: [name=Quality
+              Control,receptionist=Tester, Tina]</tt><tt><br>
+            </tt><tt>Copy constructor: [name=Quality
+              Control,receptionist=Tester, Tina]</tt><tt><br>
+            </tt><tt>Assignment: [name=Quality
+              Control,receptionist=Tester, Tina]</tt><tt><br>
+            </tt><tt>= [name=Shipping,receptionist=NULL]</tt><tt><br>
+            </tt><tt>Destructor: [name=Shipping,receptionist=NULL]</tt><tt><br>
+            </tt><tt>Destructor: [name=Quality
+              Control,receptionist=Tester, Tina]</tt><tt><br>
+            </tt><tt>Destructor: [name=Shipping,receptionist=NULL]</tt><tt><br>
+            </tt><tt>nkirov@cpp %</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
     Когато използваме указатели (и динамична памет) в данните на клас,
     винаги трябва да дефинираме<b> "големите три": <br>
     </b>
@@ -322,14 +453,12 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       <li><b>конструктор за копиране, </b></li>
       <li><b>операция присвояване и </b></li>
       <li><b>деструктор</b>.</li>
-      <li><br>
-      </li>
     </ul>
     <i>Пример:</i> Клас <tt>List</tt> за реализация на свързан списък (<a
       href="../../../2014/NETB151/sources/ch16/list2.cpp"><tt>list2.cpp</tt></a>)
     с дефиниране на "големите три" ("big three")<font size="+1">.<br>
     </font> <font size="+1"><br>
-      <tt>// <a href="../../../2014/NETB151/sources/ch17/list0.cpp">list0.cpp</a></tt><tt><br>
+      <tt>// <a href="../sources/ch17/list00.cpp">list00.cpp</a></tt><tt><br>
       </tt><tt>#include &lt;string&gt;<br>
         #include &lt;iostream&gt;<br>
         #include &lt;cassert&gt;<br>
@@ -629,19 +758,42 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
         &nbsp;&nbsp; staff = newstaff; // overloaded assignment operator<br>
         &nbsp;&nbsp; cout &lt;&lt; "staff2:" &lt;&lt; endl;<br>
         &nbsp;&nbsp; print(staff);<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-
-
-
-
-
-
-
-        // destructor<br>
-        <br>
+        &nbsp;&nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // destructor<br>
         &nbsp;&nbsp; return 0;<br>
         }<br>
-        <br>
+      </tt></font>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ list00.cpp<br>
+              nkirov@cpp % ./a.out<br>
+              newstaff1:<br>
+              Cracker, Carl<br>
+              Hacker, Harry<br>
+              Lam, Larry<br>
+              Sandman, Susan<br>
+              staff1:<br>
+              Cracker, Carl<br>
+              Lam, Larry<br>
+              Reindeer, Rudolf<br>
+              Sandman, Susan<br>
+              newstaff2:<br>
+              Cracker, Carl<br>
+              Hacker, Harry<br>
+              Lam, Larry<br>
+              Sandman, Susan<br>
+              staff2:<br>
+              Cracker, Carl<br>
+              Hacker, Harry<br>
+              Lam, Larry<br>
+              Sandman, Susan<br>
+              nkirov@cpp %</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <font size="+1"><tt><br>
       </tt></font>Големите три (<a
 href="https://en.wikipedia.org/wiki/Rule_of_three_%28C%2B%2B_programming%29">Rule
 
@@ -651,8 +803,10 @@ href="https://en.wikipedia.org/wiki/Rule_of_three_%28C%2B%2B_programming%29">Rul
 
 
 
+
       of three</a>) се дефинират винаги, когато при създаване на обект
     се заемат <a href="https://en.wikipedia.org/wiki/System_resource">системни
+
 
 
 
