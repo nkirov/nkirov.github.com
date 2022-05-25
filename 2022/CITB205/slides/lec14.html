@@ -16,11 +16,11 @@
     Абстрактни класове<br>
     Получаване на информация по време на изпълнение<br>
     Многократна наследственост<br>
-    <hr width="100%" size="2"><img alt="" src="../b5.gif" width="20"
-      height="18"> <b>Абстрактни класове (<a href="lec02.html">преговор</a>)<br>
+    <hr width="100%" size="2">*** <b>Абстрактни класове (<a
+        href="lec02.html">преговор</a>)<br>
       <br>
     </b> <i>Пример: </i>Йерархия на геометрични фигури в равнината.<br>
-    <img alt="" src="images/Shapes.png" width="688" height="486"><br>
+    <img alt="" src="images/Shapes.png" height="486" width="688"><br>
     - Ако искаме да имаме полиморфна функция за лице на фигура - <font
       size="+1"><tt>area</tt></font>, то тази функция трябва да бъде
     дефинирана в базовия клас <font size="+1"><tt>Shape</tt></font>. <br>
@@ -102,6 +102,7 @@
 
 
 
+
             <br>
             &nbsp;&nbsp;&nbsp; s = new Circle(10); &nbsp;&nbsp;&nbsp;
             &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; //
@@ -111,20 +112,78 @@
             &nbsp;&nbsp;&nbsp; ...<br>
             &nbsp;&nbsp;&nbsp; return 0;<br>
             }<br>
-            <a href="../sources/abstract.cpp">abstract.cpp</a><br>
             <br>
-          </tt></tt></tt></tt><a
+            // <a href="../sources/abstract.cpp">abstract.cpp</a></tt></tt></tt></tt><br>
+    <pre>#include &lt;iostream&gt;
+#include &lt;cmath&gt;
+using namespace std;
+
+class Shape {
+public:
+    virtual double perimeter() const = 0;
+    virtual double area() const = 0;
+};
+
+class Triangle: public Shape {
+public:
+    Triangle(double aa, double bb, double cc):a(aa), b(bb), c(cc) {}
+    virtual double perimeter() const
+    { return a + b + c; }
+    virtual double area() const
+    {   double p = (a + b + c)/2;
+        return sqrt(p*(p-a)*(p-b)*(p-c));
+    }
+private:
+    double a, b, c;
+};
+
+const double PI = 3.14;
+
+class Circle: public Shape {
+public:
+    Circle(double rr):r(rr) {}
+    virtual double perimeter() const
+    { return 2*PI*r; }
+    virtual double area() const
+    { return PI*r*r; }
+private:
+    double r;
+};
+
+int main()
+{
+    //  Shape* s = new Shape;               // ERROR!!<br><br>   &nbsp;Shape* s = new Triangle(4, 5, 6);       // First s is a triangle
+    cout &lt;&lt; "Perimeter is " &lt;&lt; s-&gt;perimeter() &lt;&lt; endl;
+    cout &lt;&lt; "Area is " &lt;&lt; s-&gt;area() &lt;&lt; "\n";<br><br>   &nbsp;s = new Circle(10);                    // Now it is a circle
+    cout &lt;&lt; "Perimeter is " &lt;&lt; s-&gt;perimeter() &lt;&lt; endl;
+    cout &lt;&lt; "Area is " &lt;&lt; s-&gt;area() &lt;&lt; "\n";<br><br>   &nbsp;return 0;<br>&nbsp;}<br></pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ abstract.cpp</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Perimeter is 15</tt><tt><br>
+            </tt><tt>Area is 9.92157</tt><tt><br>
+            </tt><tt>Perimeter is 62.8</tt><tt><br>
+            </tt><tt>Area is 314</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <tt><tt><tt><tt> </tt></tt></tt></tt><br>
+    <a
       href="https://www.tutorialspoint.com/cplusplus/cpp_interfaces.htm">Interfaces
+
 
 
 
 
       in C++ (Abstract Classes)</a><tt><tt><tt><tt><br>
           </tt></tt></tt></tt>
-    <hr width="100%" size="2"><img alt="" src="../b5.gif" width="20"
-      height="18"> <b>Получаване на информация по време на изпълнение<br>
+    <hr width="100%" size="2">*** <b>Получаване на информация по време
+      на изпълнение<br>
       <br>
-    </b> * <b>Операция </b><b><tt>dynamic_cast</tt></b><br>
+    </b> ** <b>Операция </b><b><tt>dynamic_cast</tt></b><br>
     Унарната операция <tt>dynamic_cast</tt> променя типа на указател. <br>
     Тя изисква тип като параметър на шаблон, и аргумент, който трябва да
     бъде указател или псевдоним (референция).<br>
@@ -159,6 +218,7 @@ p, li { white-space: pre-wrap; }
 
 
 
+
       67000);</tt><tt><br>
       <br>
     </tt><tt>&nbsp;&nbsp;&nbsp; // Explicitly converts pointer e from
@@ -168,8 +228,65 @@ p, li { white-space: pre-wrap; }
       &nbsp;&nbsp;&nbsp; if (m == NULL) cout &lt;&lt; "NULL" &lt;&lt;
       endl;<br>
       <br>
-      <a href="../sources/dcast.cpp">dcast.cpp</a><br>
-    </tt> <br>
+      // <a href="../sources/dcast.cpp">dcast.cpp</a><br>
+      #include &lt;iostream&gt;<br>
+      #include &lt;string&gt;<br>
+      <br>
+      using namespace std;<br>
+      <br>
+      class Employee {<br>
+      public:<br>
+      &nbsp;&nbsp;&nbsp; Employee(string emp_name, double init_salary);<br>
+      &nbsp;&nbsp;&nbsp; void set_salary(double new_salary);<br>
+      &nbsp;&nbsp;&nbsp; string get_name() const;<br>
+      &nbsp;&nbsp;&nbsp; double get_salary() const;<br>
+      &nbsp;&nbsp;&nbsp; virtual void print() const;<br>
+      private:<br>
+      &nbsp;&nbsp;&nbsp; string name;<br>
+      &nbsp;&nbsp;&nbsp; double salary;<br>
+      };<br>
+      <br>
+      class Manager : public Employee {<br>
+      public:<br>
+      &nbsp;&nbsp;&nbsp; Manager(string n, double sal, string dept);<br>
+      &nbsp;&nbsp;&nbsp; string get_department() const;<br>
+      &nbsp;&nbsp;&nbsp; void print() const;<br>
+      private:<br>
+      &nbsp;&nbsp;&nbsp; string department;<br>
+      };<br>
+      <br>
+      int main()<br>
+      {<br>
+      &nbsp;&nbsp;&nbsp; Employee* e = new Manager("Sarah", 67000,
+      "ABV");<br>
+      // Explicitly converts pointer e from Employee* to pointer m from
+      Manager*<br>
+      &nbsp;&nbsp;&nbsp; Manager* m = dynamic_cast&lt;Manager*&gt;(e);<br>
+      &nbsp;&nbsp;&nbsp; e-&gt;print();<br>
+      &nbsp;&nbsp;&nbsp; if (m != NULL) m-&gt;print();<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; e = new Employee("Smith", 65000);<br>
+      &nbsp;&nbsp;&nbsp; m = dynamic_cast&lt;Manager*&gt;(e);<br>
+      &nbsp;&nbsp;&nbsp; if (m == NULL) cout &lt;&lt; "NULL" &lt;&lt;
+      endl;<br>
+      <br>
+      &nbsp;&nbsp;&nbsp; return 0;<br>
+      }<br>
+    </tt>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ dcast.cpp</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Sarah 67000</tt><tt><br>
+            </tt><tt>ABV</tt><tt><br>
+            </tt><tt>Sarah 67000</tt><tt><br>
+            </tt><tt>ABV</tt><tt><br>
+            </tt><tt>NULL</tt></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
     <i>Пример:</i> Проверка дали указател сочи към обект от даден клас в
     полиморфна колекция.<br>
     <br>
@@ -182,6 +299,7 @@ p, li { white-space: pre-wrap; }
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (m != NULL)</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -218,8 +336,10 @@ p, li { white-space: pre-wrap; }
 
 
 
+
       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;&lt; " is a manager.\n";</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -258,6 +378,7 @@ p, li { white-space: pre-wrap; }
 
 
 
+
       cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
@@ -277,20 +398,228 @@ p, li { white-space: pre-wrap; }
 
 
 
+
       &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &lt;&lt; " is not a
       manager.\n";</tt><tt><br>
-    </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><br>
-    <tt><a href="../sources/dynamic.cpp">dynamic.cpp</a></tt><br>
-    <meta charset="utf-8">
+    </tt><tt>&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+    </tt> <tt>// <a href="../sources/dynamic.cpp">dynamic.cpp</a><br>
+      <br>
+      #include &lt;iostream&gt;<br>
+      #include &lt;vector&gt;<br>
+      #include &lt;typeinfo&gt;<br>
+      using namespace std;<br>
+      <br>
+      class Employee {<br>
+      public:<br>
+      &nbsp;&nbsp;&nbsp; Employee(string, double);<br>
+      &nbsp;&nbsp;&nbsp; void set_salary(double);<br>
+      &nbsp;&nbsp;&nbsp; string get_name() const;<br>
+      &nbsp;&nbsp;&nbsp; double get_salary() const;<br>
+      &nbsp;&nbsp;&nbsp; virtual void print() const;<br>
+      &nbsp;//&nbsp;&nbsp; virtual void set_bonus(double) = 0;<br>
+      private:<br>
+      &nbsp;&nbsp;&nbsp; string name;<br>
+      &nbsp;&nbsp;&nbsp; double salary;<br>
+      };<br>
+      <br>
+      class Manager : public Employee {<br>
+      public:<br>
+      &nbsp;&nbsp;&nbsp; Manager(string n, double sal, string dept);<br>
+      &nbsp;&nbsp;&nbsp; string get_department() const;<br>
+      &nbsp;&nbsp;&nbsp; virtual void print() const;<br>
+      &nbsp;&nbsp;&nbsp; void set_bonus(double b)<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; set_salary(get_salary()
+      + b);<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      private:<br>
+      &nbsp;&nbsp;&nbsp; string department;<br>
+      };<br>
+      <br>
+      &nbsp;&nbsp;&nbsp; Employee::Employee(string emp_name, double
+      init_salary)<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; name = emp_name;<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; salary = init_salary;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; void Employee::set_salary(double new_salary)<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; salary = new_salary;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; string Employee::get_name() const<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return name;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; double Employee::get_salary() const<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return salary;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; void Employee::print() const<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      get_name() &lt;&lt; " " &lt;&lt; salary &lt;&lt; endl;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; Manager::Manager(string n, double sal, string
+      dept)<br>
+      &nbsp;&nbsp;&nbsp; : Employee(n, sal)<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; department = dept;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; string Manager::get_department() const<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return department;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; void&nbsp; Manager::print() const<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Employee::print();<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      department &lt;&lt; endl;<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      <br>
+      void test_dynamic_cast(vector&lt;Employee*&gt; department)<br>
+      {<br>
+      &nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; department.size(); i++)<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Manager* m =
+      dynamic_cast&lt;Manager*&gt;(department[i]);<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (m != NULL)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &lt;&lt; " is a manager.\n";<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      m-&gt;set_bonus(2000); // Can now invoke manager member functions<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &lt;&lt; " is not a manager.\n";<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      }<br>
+      <br>
+      void test_typeid(vector&lt;Employee*&gt; department)<br>
+      {<br>
+      &nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; department.size(); i++)<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt;
+      typeid(*department[i]).name() &lt;&lt; "\n";<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; for (int i = 0; i &lt; department.size(); i++)<br>
+      &nbsp;&nbsp;&nbsp; {<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+      (typeid(*department[i]) == typeid(Manager))<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &lt;&lt; " is a manager. \n";<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()<br>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      &lt;&lt; " is not a manager. \n";<br>
+      &nbsp;&nbsp;&nbsp; }<br>
+      }<br>
+      <br>
+      int main()<br>
+      {<br>
+      &nbsp;&nbsp;&nbsp; // Implicitly converts from Manager to Employee<br>
+      &nbsp;&nbsp;&nbsp; Employee* e = new Manager("Sarah", 67000, "A");<br>
+      &nbsp;&nbsp;&nbsp; cout &lt;&lt; "1. "; e-&gt;print();<br>
+      &nbsp;&nbsp;&nbsp; // Explicitly converts from Employee to Manager<br>
+      &nbsp;&nbsp;&nbsp; Manager* m = dynamic_cast&lt;Manager*&gt;(e);<br>
+      &nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; "2. "; m-&gt;print();<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp; //&nbsp; m = e; // ERROR!<br>
+      &nbsp;&nbsp;&nbsp; e = m;<br>
+      &nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; "3. "; e-&gt;print();<br>
+      &nbsp;&nbsp;&nbsp; m = static_cast&lt;Manager*&gt;(e);<br>
+      &nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; "4. "; m-&gt;print();<br>
+      &nbsp;&nbsp;&nbsp; e = static_cast&lt;Employee*&gt;(m);<br>
+      &nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; "5. "; e-&gt;print();<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; vector&lt;Employee*&gt; department;<br>
+      &nbsp;&nbsp;&nbsp; department.push_back(e);<br>
+      &nbsp;&nbsp;&nbsp; department.push_back(new Employee("Harry",
+      30000));<br>
+      &nbsp;&nbsp;&nbsp; department.push_back(new Manager("John", 60000,
+      "B"));<br>
+      &nbsp;&nbsp;&nbsp; cout &lt;&lt; "test_dynamic_cast" &lt;&lt;
+      endl;<br>
+      &nbsp;&nbsp;&nbsp; test_dynamic_cast(department);<br>
+      &nbsp;&nbsp;&nbsp; cout &lt;&lt; "test_typeid" &lt;&lt; endl;<br>
+      &nbsp;&nbsp;&nbsp; test_typeid(department);<br>
+      &nbsp;&nbsp;&nbsp; <br>
+      &nbsp;&nbsp;&nbsp; return 0;<br>
+      }<br>
+      <br>
+    </tt>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ dynamic.cpp</tt><tt><br>
+            </tt><tt>dynamic.cpp:96:24: warning: expression with side
+              effects will be evaluated</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; despite being used
+              as an operand to 'typeid'</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              [-Wpotentially-evaluated-expression]</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout
+              &lt;&lt; typeid(*department[i]).name() &lt;&lt; "\n";</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ^</tt><tt><br>
+            </tt><tt>dynamic.cpp:100:20: warning: expression with side
+              effects will be evaluated</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; despite being used
+              as an operand to 'typeid'</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              [-Wpotentially-evaluated-expression]</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+              (typeid(*department[i]) == typeid(Manager))</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ^</tt><tt><br>
+            </tt><tt>2 warnings generated.</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>1. Sarah 67000</tt><tt><br>
+            </tt><tt>A</tt><tt><br>
+            </tt><tt>2. Sarah 67000</tt><tt><br>
+            </tt><tt>A</tt><tt><br>
+            </tt><tt>3. Sarah 67000</tt><tt><br>
+            </tt><tt>A</tt><tt><br>
+            </tt><tt>4. Sarah 67000</tt><tt><br>
+            </tt><tt>A</tt><tt><br>
+            </tt><tt>5. Sarah 67000</tt><tt><br>
+            </tt><tt>A</tt><tt><br>
+            </tt><tt>test_dynamic_cast</tt><tt><br>
+            </tt><tt>Employee Sarah is a manager.</tt><tt><br>
+            </tt><tt>Employee Harry is not a manager.</tt><tt><br>
+            </tt><tt>Employee John is a manager.</tt><tt><br>
+            </tt><tt>test_typeid</tt><tt><br>
+            </tt><tt>7Manager</tt><tt><br>
+            </tt><tt>8Employee</tt><tt><br>
+            </tt><tt>7Manager</tt><tt><br>
+            </tt><tt>Employee Sarah is a manager.</tt><tt><br>
+            </tt><tt>Employee Harry is not a manager.</tt><tt><br>
+            </tt><tt>Employee John is a manager.</tt></td>
+        </tr>
+      </tbody>
+    </table>
     <br>
     <a
 href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c">Повече
 
 
-      за <tt>dynamic_cas</tt>t</a>.<a
-href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-in-c"><br>
-    </a><br>
-    <hr width="100%" size="2">* <b>Операция </b><b><tt>typeid<br>
+
+      за <tt>dynamic_cas</tt>t</a>.<br>
+    <hr width="100%" size="2">** <b>Операция </b><b><tt>typeid<br>
         <br>
       </tt></b> За да се получи (името на) конкретен тип на даден
     обект,&nbsp; се използва операция <tt>typeid</tt>. <br>
@@ -330,8 +659,10 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
 
 
 
+
       cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -369,8 +700,10 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
 
 
 
+
       cout &lt;&lt; "Employee " &lt;&lt; department[i]-&gt;get_name()</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -399,16 +732,15 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     Използването на <tt>dynamic_cast</tt>&nbsp; и <tt>typeid</tt>
     трябва да се избягва, като се замества с механизма на виртуалните
     функции.<br>
-    <hr width="100%" size="2"><img alt="" src="../b5.gif" width="20"
-      height="18"> <b>Многократна наследственост (множествено
-      наследяване)<br>
+    <hr width="100%" size="2">*** <b>Многократна наследственост
+      (множествено наследяване)<br>
       <br>
     </b>
     <div align="left"><b> </b><i>Пример</i>: Потоковата библиотека на
       С++ се състои от няколко класове, свързани в следната йерархия:<br>
       &nbsp;<img alt=""
         src="../../../2014/NETB151/slides/ch12/images/stream_hierarchy.png"
-        width="715" height="337"><br>
+        height="337" width="715"><br>
     </div>
     <br>
     Когато се използва многократно наследяване, диаграмата за
@@ -419,8 +751,8 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     Викане на функция в производен клас, която е дефинирана и в двата
     базови класове.<tt><br>
       <br>
-      <img alt="" src="images/Student_Employee.png" width="328"
-        height="228"><br>
+      <img alt="" src="images/Student_Employee.png" height="228"
+        width="328"><br>
       <br>
     </tt><tt>// <a href="../sources/multi.cpp">multi.cpp</a></tt><tt><br>
     </tt><tt>#include&lt;iostream&gt;</tt><tt><br>
@@ -491,8 +823,41 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     </tt><tt>&nbsp;&nbsp; </tt><tt></tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp; return 0;</tt><tt><br>
     </tt><tt>}</tt><br>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ multi.cpp</tt><tt><br>
+            </tt><tt>multi.cpp:43:41: error: member 'get_id' found in
+              multiple base classes of</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; different types</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; cout &lt;&lt; "Your number
+              is " &lt;&lt; fred-&gt;get_id() &lt;&lt; "\n";</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ^</tt><tt><br>
+            </tt><tt>multi.cpp:18:20: note: member found by ambiguous
+              name lookup</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp; virtual string get_id() const</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ^</tt><tt><br>
+            </tt><tt>multi.cpp:8:20: note: member found by ambiguous
+              name lookup</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp; virtual string get_id() const</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ^</tt><tt><br>
+            </tt><tt>multi.cpp:51:44: error: no member named
+              'student_id' in 'Employee'</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp; cout &lt;&lt; "Your number is "
+              &lt;&lt; new_hire-&gt;student_id() &lt;&lt; "\n";</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              ~~~~~~~~&nbsp; ^</tt><tt><br>
+            </tt><tt>2 errors generated.</tt><tt><br>
+            </tt><tt>nkirov@cpp %</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <br>
-    Решение е да си използва пълното име на функцията или да се
+    Едно решение е да си използва пълното име на функцията или да се
     предефинира тази функция в производния клас.<br>
     <br>
     &nbsp;<tt>class TeachingAssistant : public Student, public Employee</tt><tt><br>
@@ -510,9 +875,11 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     </tt><tt>// Make student value available by a different name</tt><tt><br>
     </tt><tt>&nbsp; {</tt><tt><br>
     </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; return Student::get_id();</tt><tt><br>
-    </tt><tt>&nbsp; }</tt><br>
-    <a
+    </tt><tt>&nbsp; }<br>
+      <br>
+    </tt> <a
       href="https://www.cprogramming.com/tutorial/multiple_inheritance.html">Multiple
+
 
 
 
@@ -564,6 +931,7 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
 
 
 
+
       наследяване.<br>
       <br>
     </b> <tt>class Student : virtual public Person {</tt><tt><br>
@@ -573,14 +941,95 @@ href="https://stackoverflow.com/questions/2253168/dynamic-cast-and-static-cast-i
     </tt><tt>class TeachingAssistant : public Student, public Employee {</tt><tt><br>
     </tt><tt>... };</tt><br>
     <br>
-    <img alt="" src="images/vir.png" width="497" height="228"><br>
+    <img alt="" src="images/vir.png" height="228" width="497"><br>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Cay S. Horstmann, Timothy A. Budd Big C++ 2008</title>
     <br>
-    <a href="../sources/double.cpp"><font size="+1"><tt>double.cpp</tt></font></a><br>
+    <font size="+1"><tt>// </tt></font><a href="../sources/double.cpp"><font
+        size="+1"><tt>double.cpp</tt></font></a><br>
+    <pre>#include&lt;iostream&gt;
+using namespace std;
+
+class Person  {
+public:
+    Person(string n) { name = n; }
+    string get_name() const
+    { return name; }
+private:
+    string name;
+};
+
+class Student : virtual
+      public Person {
+public:
+    Student(string n):Person(n)
+    {  id = "sid"; }
+    virtual string get_id() const
+    { return id; }
+private:
+    string id;
+};
+
+class Employee :  virtual
+      public Person{
+public:
+    Employee(string n):Person(n)
+    { id = "eid"; }
+    virtual string get_id() const
+    { return id; }
+private:
+    string id;
+};
+
+class TeachingAssistant : public Employee, public Student {
+public:
+    TeachingAssistant(string n): Employee(n), Student(n),
+    Person(n)
+    {}
+//    string get_id() const;
+    string student_id() const;
+};
+
+string TeachingAssistant::student_id() const
+// Make student value available by a different name
+{
+    return Student::get_id();
+}
+
+int main()
+{
+    TeachingAssistant* fred = new TeachingAssistant("Fred");
+    Employee* new_hire = fred; // Legal, because a TeachingAssistant is-a Employee
+    Student* advisee = fred;  // Legal, because a TeachingAssistant is-a Student
+    cout &lt;&lt; "Your name is " &lt;&lt; fred-&gt;get_name() &lt;&lt; endl;
+    
+    Student* mary = new Student("Mary");
+ //   Student* mary = new TeachingAssistant();
+    TeachingAssistant* lab_instructor = dynamic_cast&lt;TeachingAssistant*&gt;(mary);
+    
+    if (lab_instructor != NULL)
+        cout &lt;&lt; "Yes, mary is a TeachingAssistant. \n";
+    else
+        cout &lt;&lt; "No, mary is not a TeachingAssistant. \n";
+    
+    return 0;
+}
+</pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ double.cpp</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Your name is Fred</tt><tt><br>
+            </tt><tt>No, mary is not a TeachingAssistant.</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
     <br>
     <a
       href="https://www.cprogramming.com/tutorial/virtual_inheritance.html">Solving
+
 
 
 
