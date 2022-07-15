@@ -1,0 +1,306 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Debugging "C++" Programs Using "gdb"</title>
+</head>
+<body>
+<h1>Debugging C++ Programs Using "gdb"</h1>
+<h2><font color="brown">Why use a debugger?</font></h2>
+<p>
+This might sound silly, but I've heard of many programmers that claim
+they
+do not need a debugger. They simply don't create bugs. Well, one thing
+is sure - either they've no idea what they are saying, or they just
+never
+put their code to real test. Or maybe they're indeed as gifted as they
+claim. Unfortunately, most of us tend to have bugs in our code. We
+could
+use printing commands to test our code, or we could use a debugger.
+Many
+times our code might seem to work correctly, because we didn't test it
+under enough scenarios. Other times we know there's a bug, but by just
+reading
+the code we don't notice it is there. Thus, we should develop a habit
+of launching a debugger when we get into trouble. It shouldn't come
+instead
+of making an effort to write correct code, to add many tests in the
+code
+for invalid function arguments, NULL pointers, etc. But when we're in
+trouble, it's probably our best shot.
+</p>
+<p>
+The explanations given here are specific to the "gdb" debugger, since
+there
+are no real standards regarding the activation and usage of debuggers,
+but
+once you know what features to expect from a debugger, it's not too
+hard to adapt your knowledge to different debuggers.
+</p>
+<hr size="4">
+<font color="brown">
+<h2>Invoking the "gdb" debugger</h2>
+</font>
+<p>Before invoking the debugger. make sure you compiled your program
+(all its
+modules, as well as during linking) with the "-g" flag. Otherwise, life
+will
+be tough. Lets compile the "<a href="sqrtest2.cpp">sqrtest2.cpp</a>"
+program,
+and then invoke "gdb" to debug it:
+<br>
+</p>
+<pre><code>c++ -g sqrtest2.cpp -o sqr<br>gdb sqr<br></code></pre>
+Note that we run the program from the same directory it was compiled
+in,
+otherwise gdb won't find the source file, and thus won't be able to
+show
+us where in the code we are at a given point. It is possible to ask gdb
+to
+search for extra source files in some directory after launching it, but
+for now, it's easier to just invoke it from the correct directory.
+<hr size="4">
+<font color="brown">
+<h2>Setting breakpoints</h2>
+</font>
+<p>The problem with just running the code is that it keeps on running
+until
+the program exits, which is usually too late. For this, breakpoints are
+introduced. A break point is a command for the debugger to stop the
+execution of the program before executing a specific source line.We can
+set
+break points using two methods:
+</p>
+<ol>
+  <li> Specifying a specific line of code to stop in: <br>
+    <pre><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"> break</span> 42</code><br></pre>
+will insert a break point at line 42, in the for loop of the main
+function. </li>
+  <li> Specifying a function name, to break every time it is being
+called: <br>
+    <br>
+    <code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"> break</span> main </code> <br>
+    <br>
+this will set a break point right when starting the program (as the
+function "main" gets executed automatically on the beginning of any C
+or C++ program).</li>
+  <li>We can get the list of all breakpoints:<br>
+    <br>
+    <code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"></span></code><code><span style="font-weight: bold;">info break</span></code> <br>
+    <span style="font-family: monospace;">Num
+Type           Disp
+Enb Address    What</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">1  
+breakpoint     keep y   0x08048a33 in
+main at sqrtest2.cpp:42</span><br style="font-family: monospace;">
+    <span style="font-family: monospace;">2  
+breakpoint     keep y   0x08048a0c in
+main at sqrtest2.cpp:41</span><br>
+  </li>
+</ol>
+<hr size="4">
+<font color="brown">
+<h2>Stepping a command at a time</h2>
+</font>
+<p>So lets see, we've invoked gdb, set breakpoints, then typed:
+<br>
+</p>
+<pre><code><span style="font-weight: bold;"></span><span style="font-weight: bold;"></span></code><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"></span></code><code><span style="font-weight: bold;"> run</span><br></code></pre>
+Then the debugger gave something like the following:
+<br>
+<pre><code>Breakpoint 2, main () at sqrtest2.cpp:41<br>41      /*41*/     for (x = 0; x &lt;= 10; x = x + 0.5)</code><br></pre>
+<p>Now we want to start running the program slowly, step by step. There
+are two
+options for that:
+</p>
+<ol>
+  <li> "<span style="font-weight: bold;">next</span>" - causes the
+debugger to execute the current command, and
+stop again, showing the next command in the code to be executed. </li>
+  <li> "<span style="font-weight: bold;">step</span>" - causes the
+debugger to execute the current command, and
+if it is a function call - break at the beginning of that function.
+This is useful for debugging nested code. </li>
+</ol>
+Now is your time to experiment with these options with our debug
+program, and
+see how they work. It is also useful to read the debuggers help, using
+the
+command "<span style="font-weight: bold;">help break</span>" and "<span style="font-weight: bold;">help breakpoints</span>" to learn how to
+set several
+breakpoints, how to see what breakpoints are set, how to delete
+breakpoints,
+and how to apply conditions to breakpoints (i.e. make them stop the
+program
+only if a certain expression evaluates to "true" when the breakpoint is
+reached).
+<hr size="4">
+<font color="brown">
+<h2>Printing variables and expressions</h2>
+</font>
+<p>Without being able to examine variables contents during program
+execution, the whole idea of using a debugger is quite lost. You can
+print
+the contents of a variable with a command like this:
+<br>
+<br>
+</p>
+<pre><code><span style="color: rgb(51, 51, 255);">(gdb)</span><span style="font-weight: bold;"></span></code><code><span style="font-weight: bold;"> </span></code><code><span style="font-weight: bold;">print</span> x<br></code><br></pre>
+<p>And then you'll get a message like:
+<br>
+<br>
+<code>
+$1 = 0
+</code><br>
+<br>
+which means that "x" contains the number "0".<br>
+Note that this requires "x" to be in scope, or you'll get a message
+such as:
+<br>
+<br>
+<code>
+No symbol "x" in current context.
+</code><br>
+<br>
+For example, if you break inside the "squareroot" function and try to
+print the value of "x", you'll get this message.
+</p>
+<p>
+You may also try to print more complex expressions, like "xnew - xold",
+or
+"", and so on. In fact, you may
+also use type casts, call functions found in the program, and whatever
+your sick
+mind could imagine (well, almost). Again, this is a good time to try
+this
+out.
+</p>
+<hr size="4">
+<font color="brown">
+<h2>Examining the function call stack</h2>
+</font>
+<p>Once we got into a break-point and examined some variables, we might
+also
+wish to see "where we are". That is, what function is being executed
+now,
+which function called it, and so on. This can be done using the
+<code>"<span style="font-weight: bold;">where</span>"</code> command.
+At the gdb command prompt, just type
+"<span style="font-weight: bold;">where</span>",
+and you'll see something like this:
+<br>
+</p>
+<pre><code>#0  squareroot (a=0.5) at sqrtest2.cpp:31<br>#1  0x08048a41 in main () at sqrtest2.cpp:42<br></code></pre>
+This means the currently executing function is "squareroot", at file
+"sqrtest2.cpp", line 31. The function that called it is "main". We also
+see which
+arguments each function had received. If there were more functions in
+the call
+chain, we'd see them listed in order. This list is also called "a stack
+trace", since it shows us the structure of the execution stack at this
+point
+in the program's life.
+<p>Just as we can see contents of variables in the current function, we
+can
+see contents of variables local to the calling function, or to any
+other
+function on the stack. For example, if we want to see the contents of
+variable "x" in function "main", we can type the following two
+commands:
+<br>
+</p>
+<pre><code><span style="color: rgb(0, 0, 153);">(gdb)</span> <span style="font-weight: bold;">frame</span> 1<br>#1  0x08048a41 in main () at sqrtest2.cpp:42<br>42      /*42*/     {  double y = squareroot(x);<br><span style="color: rgb(0, 0, 153);">(gdb)</span> <span style="font-weight: bold;">print</span> x<br>$4 = 0.5<br></code></pre>
+The "<span style="font-weight: bold;">frame</span>" command tells the
+debugger to switch to the given stack
+frame
+('0' is the frame of the currently executing function). At that stage,
+any
+print command invoked will use the context of that stack frame.
+Of-course, if
+we issue a "<span style="font-weight: bold;">step</span>" or "<span style="font-weight: bold;">next</span>" command, the program will
+continue at the
+top
+frame, not at the frame we requested to see. After all, the debugger
+cannot
+"undo" all the calls and continue from there.<br>
+<br>
+To exit gdb type:<br>
+<pre><code><span style="color: rgb(0, 0, 153);">(gdb)<span style="color: rgb(0, 0, 0);"> quit</span></span></code></pre>
+<hr size="4">
+<font color="brown">
+<h2>Debugging a crashed program</h2>
+</font>
+<p>One of the problems about debugging programs, has to do with
+Murphy's law:
+<em>A program will crash when least expected</em>. This phrase just
+means
+that after you take the program out as production code, it will crash.
+And
+the bugs won't necessarily be easy to reproduce. Luckily, there is some
+aid for us, in the image of "core files".
+</p>
+<p>
+A core file contains the memory image of a process, and (assuming the
+program
+within the process contains debug info) its stack trace, contents of
+variables,
+and so on. A program is normally set to generate a core file containing
+its memory image when it crashes due to signals such as SEGV or BUS.
+Provided
+that the shell invoking the program was not set to limit the size of
+this core
+file, we will find this file in the working directory of the process
+(either
+the directory from which it was started, or the directory it last
+switched to
+using the <code>chdir</code> system call).
+</p>
+<p>
+Once we get such a core file, we can look at it by issuing the
+following
+command:
+<br>
+<br>
+</p>
+<pre><code><span style="color: rgb(0, 0, 153);">(gdb)</span></code><code> /path/to/program/sqr core<br></code><br></pre>
+<p>This assumes the program was launched using this path, and the core
+file is
+in the current directory. If it is not, we can give the path to the
+core
+file. When we get the debugger's prompt (assuming the core file was
+successfully
+read), we can issue commands such as "<span style="font-weight: bold;">print</span>",
+"<span style="font-weight: bold;">where</span>" or "<span style="font-weight: bold;">frame </span>X". We
+can not
+issue commands that imply execution (such as "<span style="font-weight: bold;">next</span>", or the invocation
+of
+function calls). In some situations, we will be able to see what caused
+the crash.
+</p>
+<p>
+One should note that if the program crashed due to invalid
+memory address access, this will imply that the memory of the program
+was corrupt, and thus that the core file is corrupt as well, and thus
+contains bad memory contents, invalid stack frames, etc. Thus, we
+should
+see the core file's contents as one possible past, out of many probable
+pasts (this makes core file analysis rather similar to quantum theory.
+almost).
+</p>
+<hr size="4">
+<font color="brown">
+<h2>Getting more info about debugging</h2>
+</font>
+<p>It is now probably time to go play around with your programs and
+your debugger.
+It is suggested to try "<span style="font-weight: bold;">help</span>"
+inside gdb, to learn more about its
+commands.
+Especially the "<span style="font-weight: bold;">dir</span>" command,
+that enables debugging programs whose
+source code
+is split over several directories.
+</p>
+<hr size="4">
+</body>
+</html>

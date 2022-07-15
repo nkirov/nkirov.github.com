@@ -1,0 +1,698 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Chapter 5</title>
+  </head>
+  <body>
+    <h2>Chapter 5: Vectors, Lists, and Sequences</h2>
+    <ul>
+      <li><big>The concept of a <span style="color: rgb(51, 51, 255);">sequence</span>,
+          where each object comes before or
+          after another, is fundamental (linear data structure).</big></li>
+      <li>
+        <big><span style="font-style: italic;">Vector</span>, <span
+            style="font-style: italic;">list</span> and <span
+            style="font-style: italic;">sequence</span> ADTs, each of
+          which
+          represents a collection of linearly arranged elements (</big><big
+          style="color: rgb(51, 51, 255);">sequences</big><big>) and
+          provides
+          functions for accessing, inserting and removing arbitrary
+          elements.</big>
+      </li>
+      <li><big><span style="font-style: italic;">Stacks</span>, <span
+            style="font-style: italic;">queues</span> and <span
+            style="font-style: italic;">deques</span> ADTs can be viewed
+          as restricted
+          types of <span style="color: rgb(51, 51, 255);">sequences</span>
+          that
+          access only the first and/or last elements.</big></li>
+      <li><big>The <span style="font-style: italic;">vector ADT</span>
+          is
+          an extension of the concrete <span style="color: rgb(255, 0,
+            0);">array
+            data structure</span>. It provides accessor functions that
+          can <span style="font-style: italic;">index</span> into the
+          middle of the <span style="color: rgb(51, 51, 255);">sequence</span>
+          and update
+          functions for adding and removing elements by their
+          indexes.</big></li>
+      <li><big>We use the term <span style="font-weight: bold;">rank</span>
+          to refer to the index of an element in <span
+            style="font-style: italic;">a vector</span>.</big></li>
+      <li>
+        <big>The <span style="font-style: italic;">list ADT</span> is
+          an
+          object-oriented extension of the concrete <span style="color:
+            rgb(255, 0, 0);">linked list data structure</span>. </big><big>
+          It provides accessor and update functions based on an
+          object-oriented
+          encapsulation of the <span style="font-style: italic;">node</span>
+          objects used by linked lists.</big>
+      </li>
+      <li><big>We call these abstract node objects<span
+            style="font-weight: bold;"> positions</span> to refer to the
+          elements
+          of <span style="font-style: italic;">list ADT</span>.</big></li>
+      <li><big>The <span style="font-style: italic;">sequence ADT</span>
+          is a unification of the vector and list concepts.</big></li>
+    </ul>
+    <h3>5.1 Vectors</h3>
+    <big><span style="font-weight: bold;"> 5.1.1 The Vector Abstract
+        Data
+        Type</span><br>
+    </big>
+    <ul>
+      <li>
+        <big>The <span style="font-style: italic;">rank</span> of an
+          element <span style="font-style: italic;">e</span> in a <span
+            style="color: rgb(51, 51, 255);">sequence</span> <span
+            style="font-style: italic;">S</span> is the number of
+          elements that
+          are before <span style="font-style: italic;">e</span> in <span
+            style="font-style: italic;">S</span>.</big><br>
+      </li>
+      <li><big>A linear <span style="color: rgb(51, 51, 255);">sequence</span>
+          that supports access to its elements by
+          their ranks
+          is called a <span style="font-style: italic;">vector.</span></big></li>
+      <li><big>The vector ADT extends the notion of <span style="color:
+            rgb(255, 0, 0);">array</span> by storing a <span
+            style="color: rgb(51, 51, 255);">sequence </span>of
+          arbitrary objects.</big></li>
+      <li><big>An element can be accessed, inserted or removed by
+          specifying its rank (number of elements preceding it)</big></li>
+      <li><big>An <span style="font-style: italic;">exception</span> is
+          thrown if an incorrect rank is specified
+          (e.g., a negative rank)<br>
+        </big></li>
+      <li>
+        <big>Main vector ADT operations: </big>
+        <ul>
+          <big> </big>
+          <li>
+            <span style="font-family: monospace;"><big>elemAtRank(int r)</big></span><big>:
+              returns the element at rank <span style="font-family:
+                monospace;">r</span>
+              without removing it</big>
+          </li>
+          <big> </big>
+          <li>
+            <span style="font-family: monospace;"><big>replaceAtRank(int
+                r,
+                Object o)</big></span><big>: replace the element at rank
+              <span style="font-family: monospace;">r</span> with <span
+                style="font-family: monospace;">o</span></big>
+          </li>
+          <big> </big>
+          <li>
+            <span style="font-family: monospace;"><big>insertAtRank(int
+                r,
+                Object o)</big></span><big>: insert a new element <span
+                style="font-family: monospace;">o</span> to have rank <span
+                style="font-family: monospace;">r</span></big>
+          </li>
+          <big> </big>
+          <li>
+            <span style="font-family: monospace;"><big>removeAtRank(int
+                r)</big></span><big>:
+              removes the element at rank <span style="font-family:
+                monospace;">r</span></big>
+          </li>
+          <big> </big>
+        </ul>
+        <big> </big>
+      </li>
+      <li><big>Additional operations: <span style="font-family:
+            monospace;">size()</span>
+          and <span style="font-family: monospace;">isEmpty()</span></big></li>
+    </ul>
+    <big><span style="font-weight: bold;"> 5.1.2 A Simple Array-Based
+        Implementation</span><br>
+    </big>
+    <ul>
+      <li><big>Use an <span style="color: rgb(255, 0, 0);">array</span>
+          <span style="font-style: italic;">V</span> of
+          size <span style="font-style: italic;">N</span></big></li>
+      <li><big>A variable <span style="font-style: italic;">n</span>
+          keeps
+          track of the size of the vector (number
+          of
+          elements stored)</big></li>
+      <li><big>Operation <span style="font-family: monospace;">elemAtRank(</span><span
+            style="font-style: italic;">r</span><span
+            style="font-family: monospace;">)</span> is implemented in <span
+            style="font-style: italic;">O</span>(1) time by returning <span
+            style="font-style: italic;">V</span><span
+            style="font-family: monospace;">[</span><span
+            style="font-style: italic;">r</span><span
+            style="font-family: monospace;">]</span></big></li>
+    </ul>
+    <big><img alt="" src="v1.jpg" style="width: 350px; height: 63px;"></big><br>
+    <big><span style="font-weight: bold;"><br>
+        Insertion<br>
+      </span></big>
+    <ul>
+      <li>
+        <big>In operation <span style="font-family: monospace;">insertAtRank(</span><span
+            style="font-style: italic;">r</span><span
+            style="font-family: monospace;">,</span><span
+            style="font-style: italic;">o</span><span
+            style="font-family: monospace;">)</span>, we need to make
+          room for the
+          new element by shifting forward the <span style="font-style:
+            italic;">n
+            − r</span> elements <span style="font-style: italic;">V</span><span
+            style="font-family: monospace;">[</span><span
+            style="font-style: italic;">r</span><span
+            style="font-family: monospace;">], . . ., </span></big><big
+          style="font-style: italic;">V</big><big><span
+            style="font-family: monospace;">[</span><span
+            style="font-style: italic;">n</span><span
+            style="font-family: monospace;"> − 1]</span></big>
+      </li>
+      <li><big>In the worst case (<span style="font-style: italic;">r</span>
+          = 0), this takes <span style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span>) time</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"><img alt="" src="v2.jpg"
+          style="width: 350px; height: 165px;"><br>
+        <br>
+        Deletion<br>
+      </span></big>
+    <ul>
+      <li>
+        <big>In operation <span style="font-family: monospace;">removeAtRank(</span><span
+            style="font-style: italic;">r</span><span
+            style="font-family: monospace;">)</span>, we need to fill
+          the hole
+          left by the removed element by shifting backward the <span
+            style="font-style: italic;">n − r −</span> 1 elements <span
+            style="font-style: italic;">V</span><span
+            style="font-family: monospace;">[</span><span
+            style="font-style: italic;">r</span><span
+            style="font-family: monospace;"> + 1], . . ., </span></big><big><span
+            style="font-style: italic;">V</span></big><big><span
+            style="font-family: monospace;">[</span><span
+            style="font-style: italic;">n</span><span
+            style="font-family: monospace;"> − 1]</span></big>
+      </li>
+      <li><big>In the worst case (<span style="font-style: italic;">r =</span>
+          0), this takes <span style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span>) time</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"><img alt="" src="v3.jpg"
+          style="width: 355px; height: 166px;"><br>
+        <br>
+        Performance<br>
+      </span></big>
+    <ul>
+      <li><big>In the array based implementation of a vector ADT<br>
+        </big></li>
+      <ul>
+        <li><big>The space used by the data structure is <span
+              style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>)</big></li>
+        <li><big><span style="font-family: monospace;">size</span>, <span
+              style="font-family: monospace;">isEmpty</span>, <span
+              style="font-family: monospace;">elemAtRank</span> and <span
+              style="font-family: monospace;">replaceAtRank</span> run
+            in <span style="font-style: italic;">O</span>(1) time</big></li>
+        <li>
+          <big><span style="font-family: monospace;">insertAtRank</span>
+            and <span style="font-family: monospace;">removeAtRank</span>
+            run in <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>)
+            time</big> </li>
+      </ul>
+      <li><big>If we use the array in a circular
+          fashion, <span style="font-family: monospace;">insertAtRank(0)</span>
+          and <span style="font-family: monospace;">removeAtRank(0</span>)
+          run
+          in <span style="font-style: italic;">O</span>(1) time</big></li>
+      <li><big>In an <span style="font-family: monospace;">insertAtRank</span>
+          operation, when the array is full,
+          instead
+          of throwing an <span style="font-style: italic;">exception</span>,
+          we
+          can replace the array with a larger one</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">5.1.3 An Extendable Array
+        Implementation</span><br>
+      <a href="5.2_ArrayVector.h-vector1.html">html-5.2</a><br>
+      <a href="5.3_ArrayVector.h-vector2.html">html-5.3</a><br>
+      Fixed Length Capacity Increment<span style="font-weight: bold;"><span
+          style="font-family: monospace;"></span></span></big><br>
+    <hr style="width: 100%; height: 2px;">
+    <h3>5.2 Lists</h3>
+    <big><span style="font-weight: bold;"> 5.2.1 Node-Based Operations
+        and
+        Positions</span><br>
+      <br>
+      Position ADT<br>
+    </big>
+    <ul>
+      <li><big>We view a <span style="font-style: italic;">list ADT</span>
+          as a container of elements that stores each
+          element at a
+          position and positions are arranged in a linear order</big></li>
+      <li><big>The <span style="font-style: italic;">position ADT</span>
+          models the notion of place within a data
+          structure where a single object is stored</big></li>
+      <li><big>A special nullposition refers to no object</big></li>
+      <li>
+        <big>Positions provide a unified view of diverse ways of storing
+          data, such as</big>
+        <ul>
+          <li><big>a cell of an array</big></li>
+          <li><big>a node of a linked list</big></li>
+        </ul>
+      </li>
+      <li>
+        <big>Member functions:</big>
+        <ul>
+          <li><big><span style="font-family: monospace;">Object&amp;
+                element()</span>: returns the element stored at this
+              position</big></li>
+          <li><big><span style="font-family: monospace;">bool isNull()</span>:
+              returns <span style="font-family: monospace;">true</span>
+              if this is a
+              null position</big></li>
+        </ul>
+      </li>
+      <li><big>A position is always defined relatively, that is in term
+          of
+          its neighbors. <span style="font-family: monospace;">p</span>
+          will
+          always be "after" some position <span style="font-family:
+            monospace;">q</span>
+          and "before" some position <span style="font-family:
+            monospace;">s</span>
+          (unless <span style="font-family: monospace;">p</span> is the
+          first or
+          last position). </big></li>
+    </ul>
+    <big> <span style="font-weight: bold;">
+        5.2.2 The List Abstract Data Type</span></big><big><br>
+    </big>
+    <ul>
+      <li><big>The list ADT models a sequence of <span
+            style="font-style: italic;">positions</span> storing
+          arbitrary objects</big></li>
+      <li><big>It establishes a before/after relation between positions</big></li>
+      <li>
+        <big>Generic methods:</big>
+        <ul>
+          <li><big><span style="font-family: monospace;">size()</span>,
+              <span style="font-family: monospace;">isEmpty()</span></big></li>
+        </ul>
+      </li>
+      <li>
+        <big>Query methods:</big>
+        <ul>
+          <li><big><span style="font-family: monospace;">isFirst(p)</span>,
+              <span style="font-family: monospace;">isLast(p)</span></big></li>
+        </ul>
+      </li>
+      <li>
+        <big>Accessor methods:</big>
+        <ul>
+          <li style="font-family: monospace;"><big>first(),
+              last()</big></li>
+          <li style="font-family: monospace;"><big>before(p),
+              after(p)</big></li>
+        </ul>
+      </li>
+      <li>
+        <big>Update methods: </big>
+        <ul>
+          <li style="font-family: monospace;"><big>replaceElement(p,
+              o), swapElements(p, q)</big></li>
+          <li style="font-family: monospace;"><big>insertBefore(p,
+              o), insertAfter(p, o)</big></li>
+          <li style="font-family: monospace;"><big>insertFirst(o),
+              insertLast(o)</big></li>
+          <li style="font-family: monospace;"><big>remove(p)</big></li>
+        </ul>
+      </li>
+    </ul>
+    <big><a href="5.4_List.h-List.html">html-5.4</a><br>
+      <span style="font-weight: bold;"><br>
+        5.2.3 Doubly Linked List Implementation</span></big><big><br>
+    </big>
+    <ul>
+      <li><big>A <span style="color: rgb(255, 0, 0);">doubly linked
+            list</span>
+          provides a natural implementation of
+          the list ADT</big></li>
+      <li>
+        <big>Nodes implement positions and store:</big>
+        <ul>
+          <li><big>element</big></li>
+          <li><big>link to the previous node</big></li>
+          <li><big>link to the next node</big></li>
+        </ul>
+      </li>
+      <li><big>Special trailer and header nodes</big></li>
+    </ul>
+    <img alt="" src="dll.jpg" style="width: 299px; height: 187px;"><br>
+    <big><a href="5.5_NodeList.h-Node.html">html-5.5</a> (Node)<br>
+      <br>
+      <img alt="" src="dll2.jpg" style="width: 726px; height: 212px;"><br>
+      <br>
+      <span style="font-weight: bold;">Using Positions</span><br>
+      <a href="5.6_NodeList.h-Position.html">html-5.6</a> (Positions)<br>
+      <a
+        href="5.7_InvalidPositionException.h-InvalidPositionException.html">html-5.7</a>
+      (InvalidPositionException)<br>
+      <br>
+      <span style="font-weight: bold;">Insertion</span><br>
+      We visualize operation <span style="font-family: monospace;">insertAfter(p,
+        X)</span>, which returns position <span style="font-family:
+        monospace;">q</span><br>
+      <img alt="" src="dll3.jpg" style="width: 680px; height: 399px;"><br>
+      <span style="font-weight: bold;">Deletion</span><br>
+      We visualize <span style="font-family: monospace;">remove(p)</span>,
+      where <span style="font-family: monospace;">p = last()</span><br>
+      <img alt="" src="dll4.jpg" style="width: 681px; height: 402px;"><br>
+      <a href="5.10_NodeList.h-NodeList1.html">html-5.10</a> (NodeList1)<br>
+      <a href="5.11_NodeList.h-NodeList2.html">html-5.11</a> (NodeList2)<br>
+      <br>
+      <span style="font-weight: bold;">Performance</span><br>
+    </big>
+    <ul>
+      <li>
+        <big>In the implementation of the list ADT by means of a doubly
+          linked list</big>
+        <ul>
+          <li><big>The space used by a list with <span
+                style="font-style: italic;">n</span> elements is <span
+                style="font-style: italic;">O</span>(<span
+                style="font-style: italic;">n</span>)</big></li>
+          <li><big>The space used by each position of the list is <span
+                style="font-style: italic;">O</span>(1)</big></li>
+          <li><big>All the operations of the list ADT run in <span
+                style="font-style: italic;">O</span>(1) time</big></li>
+          <li><big>Operation <span style="font-family: monospace;">element()</span>
+              of the position ADT runs in <span style="font-style:
+                italic;">O</span>(1)
+              time</big></li>
+        </ul>
+      </li>
+    </ul>
+    <big><span style="font-weight: bold;"></span></big>
+    <hr style="width: 100%; height: 2px;">
+    <h3>5.3 Sequences<br>
+    </h3>
+    <big><span style="font-weight: bold;"> 5.3.1 The Sequence Abstract
+        Data
+        Type</span><br>
+    </big>
+    <ul>
+      <li><big>The sequence ADT is the union of the vector and list ADTs</big></li>
+      <li>
+        <big>Elements accessed by</big>
+        <ul>
+          <li><big>Rank, or</big></li>
+          <li><big>Position</big></li>
+        </ul>
+      </li>
+      <li>
+        <big>Generic methods:</big>
+        <ul>
+          <li><big><span style="font-family: monospace;">size()</span>,
+              <span style="font-family: monospace;">isEmpty()</span></big></li>
+        </ul>
+      </li>
+      <li>
+        <big>Vector-based methods:</big>
+        <ul style="font-family: monospace;">
+          <li><big>elemAtRank(r), replaceAtRank(r, o), <br>
+            </big></li>
+          <li><big>insertAtRank(r, o),
+              removeAtRank(r)</big></li>
+        </ul>
+      </li>
+      <li>
+        <big>List-based methods:</big>
+        <ul style="font-family: monospace;">
+          <li><big>first(), last(), <br>
+            </big></li>
+          <li><big>before(p), after(p), <br>
+            </big></li>
+          <li><big>replaceElement(p,
+              o), swapElements(p, q), <br>
+            </big></li>
+          <li><big>insertBefore(p, o), insertAfter(p, o), <br>
+            </big></li>
+          <li><big>insertFirst(o), insertLast(o), <br>
+            </big></li>
+          <li><big>remove(p)</big></li>
+        </ul>
+      </li>
+      <li>
+        <big>Bridge methods:</big>
+        <ul style="font-family: monospace;">
+          <li><big>atRank(r), <br>
+            </big></li>
+          <li><big>rankOf(p)</big></li>
+        </ul>
+      </li>
+    </ul>
+    <big><span style="font-weight: bold;">
+        Multiple Inheritance in the Sequence ADT</span><br>
+      <a href="5.12_Sequence.h-Sequence.html">html-5.12</a> (Sequence)<br>
+      <br>
+      <span style="font-weight: bold;"> 5.3.2 Implementing a Sequence
+        with
+        a
+        Doubly Linked List<br>
+      </span>All of the functions of the list ADT can be easily
+      implemented
+      to run <span style="font-style: italic;">O</span>(1) time<span
+        style="font-weight: bold;">.<br>
+        <br>
+      </span><a href="5.13_NodeSequence.h-NodeSequence1.html">html-5.13</a>
+      (NodeSequence1)<br>
+      <a href="5.14_NodeSequence.h-NodeSequence2.html">html-5.14</a>
+      (NodeSequence2) <br>
+      <span style="font-weight: bold;"><br>
+        5.3.3 Implementing a Sequence with an Array</span><br>
+    </big>
+    <ul>
+      <li><big>We use a circular array storing positions</big></li>
+      <li>
+        <big>A position object stores:</big>
+        <ul>
+          <li><big>Element</big></li>
+          <li><big>Rank</big></li>
+        </ul>
+      </li>
+      <li><big>Indices <span style="font-style: italic;">f</span> and <span
+            style="font-style: italic;">l</span> keep track of first and
+          last
+          positions</big></li>
+    </ul>
+    <big><br>
+      <img alt="" src="s1.jpg" style="width: 502px; height: 440px;"><br>
+      <span style="font-weight: bold;"><br>
+        5.3.4 Comparing Sequence Implementations</span><br>
+    </big><br>
+    <table style="width: 593px; text-align: left; height: 272px;"
+      border="1" cellpadding="2" cellspacing="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Operation<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>Array<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>List<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>size,
+              isEmpty<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>atRank,
+rankOf,
+              elemAtRank<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big><span
+                style="font-style: italic;">n</span><br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>first,
+last,
+              before, after<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>replaceElement,
+              swapElements<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>replaceAtRank<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big><span
+                style="font-style: italic;">n</span><br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertAtRank,
+              removeAtRank<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big><span
+                style="font-style: italic;">n</span><br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big><span
+                style="font-style: italic;">n</span><br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertFirst,
+              insertLast<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertAfter,
+              insertBefore<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big><span
+                style="font-style: italic;">n</span><br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>remove<br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big><span
+                style="font-style: italic;">n</span><br>
+            </big></td>
+          <td style="vertical-align: top; text-align: center;"><big>1<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <hr style="width: 100%; height: 2px;">
+    <h3>5.5 Iterators<br>
+    </h3>
+    <ul>
+      <li><big>An iterator abstracts the process of scanning through a
+          collection of elements</big></li>
+      <li><big>An iterator consists of a sequence <span
+            style="font-style: italic;">S</span>, a current position in
+          <span style="font-style: italic;">S</span>, and
+          a
+          way of stepping to the next position in <span
+            style="font-style: italic;">S</span> and making it the
+          current
+          position.</big></li>
+    </ul>
+    <big>
+      <span style="font-weight: bold;">5.5.1 Iterator Functions</span></big><br>
+    <ul>
+      <li>
+        <big>We define the ObjectIterator ADT:</big>
+        <ul>
+          <li style="font-family: monospace;"><big>boolean hasNext()</big></li>
+          <li style="font-family: monospace;"><big>object next()</big></li>
+        </ul>
+      </li>
+      <li><big>Extends the concept of position by adding a traversal
+          capability</big></li>
+      <li><big>May be implemented with an array or singly linked list</big></li>
+      <li><big>An iterator is typically associated with an another data
+          structure</big></li>
+      <li>
+        <big>We can augment the Stack, Queue, Vector, List and
+          Sequence ADTs with method:</big>
+        <ul style="font-family: monospace;">
+          <li><big>ObjectIterator elements()</big></li>
+        </ul>
+      </li>
+      <li><big>Two notions of iterator:</big></li>
+      <ul>
+        <li><big>snapshot: freezes the contents of the data structure
+            at a
+            given time</big></li>
+        <li><big>dynamic: follows changes to the data structure</big></li>
+      </ul>
+    </ul>
+    <big>
+      <a href="5.16_IteratorPrint.cpp-DSACiterator.html">html-16</a>
+      (ObjectIterator)<br>
+      <br>
+      <span style="font-weight: bold;">STL Iterators</span><br>
+      <a href="5.17_IteratorPrint.cpp-STLiterator.html">html-17</a>
+      (STLiterator)</big> <span style="font-weight: bold;"></span><br>
+    <hr style="width: 100%; height: 2px;">
+    <h3>5.6 A Hierarchy of Sequence ADTs<br>
+    </h3>
+    <big><span style="font-weight: bold;"> 5.6.1 Functions of a
+        Container<br>
+      </span>A <span style="font-style: italic;">container</span> is a
+      data
+      structure that stores and organizes a collection of objects,
+      called the
+      elements of the container, and provides access to them through the
+      functions of an abstract data type.<span style="font-weight:
+        bold;"><br>
+      </span><br>
+      <span style="font-weight: bold;">The Container ADT</span><br>
+      The functions of a container:<br>
+    </big>
+    <ul>
+      <li><big><span style="font-style: italic;">Query functions</span>
+          -
+          return information on on the container or specific elements of
+          it;</big></li>
+      <li><big><span style="font-style: italic;">Accessor functions</span>
+          - return elements or positions of the container;</big></li>
+      <li><big><span style="font-style: italic;">Update functions</span>
+          -
+          change the container by ading elements, removing elements, or
+          altering
+          the relation between elements.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">
+        5.6.2 Inspectable Containers</span><br style="font-weight:
+        bold;">
+      Containers that do not provide update functions are called <span
+        style="font-style: italic;">inspectable containers</span>.<br>
+      <span style="font-weight: bold;"><br>
+        5.6.3 Inheritance Structure of Sequence ADTs</span></big> <br>
+    <a href="InspectableSequence.cpp"><big style="font-family:
+        monospace;">InspectableSequence.cpp</big><br>
+    </a>
+    <hr style="width: 100%; height: 2px;">
+    <br>
+    <br>
+  </body>
+</html>
