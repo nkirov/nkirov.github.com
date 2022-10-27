@@ -1,0 +1,2153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>lecture_6</title>
+  </head>
+  <body>
+    <h2>6. Функции<br>
+    </h2>
+    <p><i>План:</i><br>
+      Функциите като черни кутии<b><br>
+      </b>Писане на функции<br>
+      Коментари и документиране<br>
+      Връщане на стойност и оператор <font size="+1"><tt>return</tt></font><b><br>
+      </b>Параметри на функции<br>
+      Деклариране на функции<br>
+      Странични ефекти и процедури<br>
+      Параметри-псевдоними<br>
+      Параметри-псевдоними<br>
+      Константни псевдоними<br>
+      Област на действие на променливите, глобални променливи<br>
+      Постъпково прецизиране, създаване на кода, проиграване<br>
+    </p>
+    <hr width="100%" size="2">
+    <p>** <font size="+1">Функциите като <b>черни кутии<br>
+          <br>
+        </b></font> Функция е част от код, определен с име. <br>
+      До сега сме използвали редица функции, които са предоставени:<br>
+      -- от системните библиотеки на С++<br>
+      <font size="+1">&nbsp;&nbsp;&nbsp; </font><font size="+1"><tt>sqrt(x)</tt></font><font
+        size="+1"> - </font>пресмята корен квадратен на числото с
+      плаваща точка <font size="+1"><tt>x</tt> <br>
+        &nbsp;<tt> getline(cin, s)</tt></font><font size="+1"> - чете
+        един ред от потока <tt>cin</tt> <br>
+        -- като член-функции от класа string на Стандартната библиотека
+        с шаблони на С++ <br>
+        &nbsp;&nbsp;&nbsp;</font><font size="+1"><tt> s.length()</tt></font><font
+        size="+1"> - </font><font size="+1"><font size="+1"><font
+            size="+1">връща</font></font> дължината на низа <tt>s</tt><br>
+        --&nbsp; като член-функции от потребителските класове <tt>Time</tt>
+        и <tt>Employee</tt>, дефинирани в учебника<br>
+        <font size="+1"><tt>&nbsp; t.get_second()</tt></font><font
+          size="+1"> - връща секундите от обекта </font><font size="+1"><tt>t</tt></font><font
+          size="+1"> на класа </font><font size="+1"><tt>Time </tt></font><br>
+      </font></p>
+    <font size="+1">
+      <p>Функциите могат да се разглеждат като черни кутии, за които
+        знаем само вход и изход, без да се интересуваме как работи
+        функцията.<br>
+      </p>
+      <i>Пример: </i>Функцията за пресмятане на квадратен корен </font><font
+      size="+1"><tt>sqrt(x)</tt></font><font size="+1"><br>
+      <font size="+1"> </font>
+      <blockquote> <font size="+1"> </font>
+        <pre><span style="color: rgb(0, 153, 0); font-weight: bold;"><font size="+1">int</font></span><font size="+1"> <span style="font-weight: bold; color: rgb(153, 51, 153);">main</span>()<br>{ cout &lt;&lt; "Enter a positive number: ";<br>  <span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> x;<br>  cin &gt;&gt; x;<br>  x = <span style="color: rgb(153, 51, 153); font-weight: bold;">sqrt</span>(x); // sqrt is running<br>  cout &lt;&lt; "The result is " &lt;&lt; x &lt;&lt; "\n";<br>  <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> 0;<br>}</font></pre>
+      </blockquote>
+      <font size="+1">- Изпълнението на <tt>main()</tt> временно се
+        прекратява докато се изпълнява функцията <span
+          style="font-family: monospace;">sqrt</span>.</font><font
+        size="+1"> <br>
+        - Функцията <span style="font-family: monospace;">sqrt</span>
+        става активна и пресмята стойността за връщане, използвайки
+        някой метод, който ще даде конкретен резултат.<br>
+        - Върнатата стойност се прехвърля обратно на&nbsp;</font><font
+        size="+1"><span style="font-family: monospace;">main</span>,
+        която продължава изпълнението като използва тази стойност -
+        присвоява я на променливата </font></font><font size="+1"><font
+        size="+1"><tt>х</tt></font></font><font size="+1"><font
+        size="+1"> и после я отпечатва на екрана.</font><br>
+      <ul>
+        <li><font size="+1">Много функции имат входни стойности
+            (параметри, аргументи), които се&nbsp; предават (прехвърлят)
+            на функцията.</font></li>
+        <li><font size="+1"><i>Примери:</i><br>
+          </font></li>
+        <ul>
+          <li><font size="+1"><tt>x</tt> в<tt> sqrt(x)</tt></font></li>
+          <li><font size="+1"><tt>x</tt> и <tt>y</tt> в<tt> pow(x,y);</tt></font></li>
+          <li><font size="+1">изразът </font><font size="+1"><font
+                size="+1"><tt>b*b - 4*a*c</tt></font> в <tt>sqrt(b*b -
+                4*a*c);</tt></font><font size="+1"><tt><br>
+              </tt></font></li>
+        </ul>
+      </ul>
+      <table cols="2" width="100%">
+        <tbody>
+          <tr>
+            <td>
+              <table cellspacing="0" cellpadding="4" border="1">
+                <tbody>
+                  <tr>
+                    <td><big><span style="font-style: italic;">Функция</span>
+                      </big></td>
+                    <td><big><span style="font-style: italic;">Вид на
+                          параметъра</span> </big></td>
+                  </tr>
+                  <tr>
+                    <td><big><tt>sqrt(x)</tt></big></td>
+                    <td><big>променлива</big></td>
+                  </tr>
+                  <tr>
+                    <td><big><tt>sqrt(2.5)</tt></big></td>
+                    <td><big>константа<br>
+                      </big></td>
+                  </tr>
+                  <tr>
+                    <td><big><tt>sqrt(x + 1.02)</tt></big></td>
+                    <td><big>израз<br>
+                      </big></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+            <td>
+              <table style="width: 327px; height: 147px;"
+                cellspacing="0" cellpadding="4" border="1">
+                <tbody>
+                  <tr>
+                    <td style="font-style: italic;"><big><span
+                          style="font-style: italic;">Функция</span></big></td>
+                    <td style="font-style: italic;"><big> Брой на
+                        параметрите</big></td>
+                  </tr>
+                  <tr>
+                    <td><big><tt>sqrt(x)</tt></big></td>
+                    <td><big>1</big></td>
+                  </tr>
+                  <tr>
+                    <td><big><tt>pow(x,y)</tt></big></td>
+                    <td><big>2</big></td>
+                  </tr>
+                  <tr>
+                    <td><big><tt>harry.get_salary()</tt></big></td>
+                    <td><big>0</big></td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <table cellspacing="0" cellpadding="4" border="1">
+        <tbody>
+          <tr>
+            <td style="font-style: italic;"><big>Член-</big><big><span
+                  style="font-style: italic;">функция</span></big></td>
+            <td style="font-style: italic;"><big><font color="#000000">Неявен
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  параметър</font></big></td>
+            <td style="font-style: italic;"><big><font color="#000000">Тип
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                  на <br>
+                  неявен параметър</font><font color="#000000"><br>
+                </font></big></td>
+            <td valign="top"><i>Я</i><i>вен параметър</i><br>
+            </td>
+            <td valign="top"><i>Т</i><i>ип на</i><i><br>
+              </i><i> явен параметър</i><br>
+            </td>
+          </tr>
+          <tr>
+            <td><big><tt>harry.get_salary()</tt></big></td>
+            <td><big><tt>harry</tt></big></td>
+            <td><big><tt>Employee</tt></big></td>
+            <td valign="top">няма<br>
+            </td>
+            <td valign="top">-<br>
+            </td>
+          </tr>
+          <tr>
+            <td><big><tt>t.add_seconds(10)</tt></big></td>
+            <td><big><tt>t</tt></big></td>
+            <td><big><tt>Time</tt></big></td>
+            <td valign="top">10<br>
+            </td>
+            <td valign="top">int<br>
+            </td>
+          </tr>
+          <tr>
+            <td><big><tt>s.substr(0,num)</tt></big></td>
+            <td><big><tt>s</tt></big></td>
+            <td><big><tt>string</tt></big></td>
+            <td valign="top">0, num<br>
+            </td>
+            <td valign="top">int, string<br>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><font size="+1">Много функции имат изходна (върната)
+            стойност, която е от зададен тип. </font></li>
+      </ul>
+      <table cellspacing="0" cellpadding="4" border="1">
+        <tbody>
+          <tr>
+            <td style="font-style: italic;"><big><span
+                  style="font-style: italic;">Функция</span></big></td>
+            <td style="font-style: italic;"><big><font color="#000000">Тип
+
+
+
+
+
+
+
+
+                  на върнатата стойност</font></big></td>
+          </tr>
+          <tr>
+            <td><big><tt>sqrt(x)</tt></big></td>
+            <td><big><tt>double</tt><tt><br>
+                </tt></big></td>
+          </tr>
+          <tr>
+            <td><big><tt>c.substr(0, num)</tt></big></td>
+            <td><big><tt>string</tt><tt><br>
+                </tt></big></td>
+          </tr>
+          <tr>
+            <td><big><tt>t.get_seconds()</tt></big></td>
+            <td><big><tt>int</tt><tt><br>
+                </tt></big></td>
+          </tr>
+          <tr>
+            <td><big><tt>e.set_salary(s)</tt></big></td>
+            <td><big>no return value<br>
+              </big></td>
+          </tr>
+        </tbody>
+      </table>
+      <ul>
+        <li><font size="+1">Всяка функция има строго определени
+            изисквания за параметрите - тип и вид. </font></li>
+        <ul>
+        </ul>
+      </ul>
+      <table cellspacing="0" cellpadding="4" border="1">
+        <tbody>
+          <tr>
+            <td><big><span style="font-style: italic;">Функция</span></big></td>
+            <td style="font-style: italic;"><big>Изисквания за
+                параметрите - тип и lvalue/rvalue<br>
+              </big></td>
+          </tr>
+          <tr>
+            <td><big><tt>fabs(w)</tt></big></td>
+            <td><big>Параметърът <tt>w&nbsp;</tt> е от тип&nbsp; <tt>double</tt>
+                - константа, променлива, израз (rvalue)<br>
+              </big></td>
+          </tr>
+          <tr>
+            <td nowrap="nowrap"><big><tt>t.second_from(t1)</tt></big></td>
+            <td> <big>Параметърът&nbsp;</big><big><tt>t1</tt> е обект
+                от класа <tt>Time</tt> - константа, променлива</big> </td>
+          </tr>
+          <tr>
+            <td><big><tt>getline(cin,s)</tt></big></td>
+            <td><big>Първият параметър е обектът <tt>cin</tt>, вторият
+                параметър е променлива (lvalue) от тип <tt>string<br>
+                </tt></big></td>
+          </tr>
+        </tbody>
+      </table>
+      <hr style="width: 100%; height: 2px;"> <br>
+      **<b> Писане на функции<br>
+        <br>
+      </b>
+      <meta charset="utf-8">
+      <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><i>Пример:</i> Да се пресметне стойността на влог
+        с начална сума 1000 лв. след 10 години с годишната лихва да е
+        p%.&nbsp; Да се използва се формулата за пресмятане на сложна
+        лихва.<span class="Apple-converted-space"></span></span><br
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">
+      <pre><tt><font size="+1"><font color="#009900">double</font> <b><font color="#000000">future_value</font></b><font color="#990000">(</font><font color="#009900">double</font> p<font color="#990000">)<br></font> <font color="#ff0000">{</font>&nbsp; <font color="#009900">double</font> b <font color="#990000">=</font> <font color="#993399">1000</font> <font color="#990000">*</font> <b><font color="#000000">pow</font></b><font color="#990000">(</font><font color="#993399">1</font> <font color="#990000">+</font> p <font color="#990000">/</font> <font color="#993399">100</font><font color="#990000">,</font> <font color="#993399">10</font><font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> b<font color="#990000">;<br></font> <font color="#ff0000">}</font></font></tt></pre>
+      <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;">* Функцията се дефинира като се зададе: <br>
+        - тип на резултата (на връщаната стойност), <br>
+        - име на функцията, <br>
+        - тип на параметъра, <br>
+        - име на параметъра, <br>
+        - тяло на функцията.<span class="Apple-converted-space"> </span></span><br>
+      <pre><tt><b><font color="#000080"><font size="+1">// <a href="../../sources/ch5/futval1.cpp">futval<font color="#000080">1</font>.cpp</a><br> #include</font></font></b><font size="+1"> <font color="#ff0000">&lt;iostream&gt;<br></font><b><font color="#000080"> #include</font></b> <font color="#ff0000">&lt;cmath&gt;<br></font> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;<br></font>&nbsp;<br>// дефиниция на функция<br> <font color="#009900">double</font> <b><font color="#000000">future_value</font></b><font color="#990000">(</font><font color="#009900">double</font> p<font color="#990000">)<br></font> <font color="#ff0000">{</font>&nbsp; <font color="#009900">double</font> b <font color="#990000">=</font> <font color="#993399">1000</font> <font color="#990000">*</font> <b><font color="#000000">pow</font></b><font color="#990000">(</font><font color="#993399">1</font> <font color="#990000">+</font> p <font color="#990000">/</font> <font color="#993399">100</font><font color="#990000">,</font> <font color="#993399">10</font><font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> b<font color="#990000">;<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Please enter the interest rate in percent: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> rate<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> rate<font color="#990000">;<br></font>&nbsp;// извикване на функция<br>&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> balance <font color="#990000">=</font> <b><font color="#000000">future_value</font></b><font color="#990000">(</font>rate<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"After 10 years, the balance is "</font>&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> balance <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></font></tt><br></pre>
+    </font>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ futval1.cpp</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Please enter the interest rate in percent: 8</tt><tt><br>
+            </tt><tt>After 10 years, the balance is 2158.92</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <font size="+1"> </font><br>
+    * Твърдо свързани стойности (начална сума 1000 и брой години 10) -
+    да се избягват!<br>
+    * Многократно използване на функцията (reusable).<br>
+    <br>
+    <span style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><span class="Apple-converted-space"></span>* Друго решение
+      на същата задача - сега функцията<span
+        class="Apple-converted-space">&nbsp;</span></span><b
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt><font
+          color="#000000">future_value<span
+            class="Apple-converted-space">&nbsp;</span></font></tt></b><span
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;">има 3 параметъра: началната сума, годишната лихва и брой
+      години на престоя на влога в банката.</span><font size="+1">
+      <blockquote>
+        <pre><font size="+1"><span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> <span style="color: rgb(153, 51, 153); font-weight: bold;">future_value</span>(<span style="color: rgb(0, 153, 0);">double</span> initial_balance, <span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> p, <span style="color: rgb(0, 153, 0); font-weight: bold;">int</span> n)<br>{  <span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> b = initial_balance * <span style="font-weight: bold; color: rgb(153, 51, 153);">pow</span>(1 + p / 100, n);<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> b;<br>}</font></pre>
+      </blockquote>
+      <blockquote>
+        <pre><font size="+1"><span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> balance = <span style="font-weight: bold; color: rgb(153, 51, 153);">future_value</span>(1000, rate, 10);</font></pre>
+      </blockquote>
+      <a href="../../sources/ch5/futval.cpp"><big><span
+            style="font-family: monospace;">futval.cpp</span></big></a><br>
+    </font>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt><font size="+1">nkirov@cpp % c++
+                futval.cpp<br>
+                nkirov@cpp % ./a.out<br>
+                Please enter the interest rate in percent: 12<br>
+                After 10 years, the balance is 3105.85</font></tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <font size="+1"><br>
+      ** <b>Коментари и документиране<br>
+      </b></font>
+    <ul>
+      <li><font size="+1"> Всяка функция трябва да бъде документирана,
+          като преди да се пише самата функция, се записват коментари по
+          зададен шаблон.</font></li>
+      <li><font size="+1"> В учебника е приет формата javadoc. </font></li>
+    </ul>
+    <font size="+1"><font size="+1"><span style="color: rgb(0, 0, 0);
+          font-family: Times; font-size: medium; font-style: normal;
+          font-variant: normal; font-weight: normal; letter-spacing:
+          normal; line-height: normal; orphans: auto; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: auto; word-spacing: 0px; -webkit-text-stroke-width:
+          0px; display: inline !important; float: none;"><i>Пример:</i></span></font>
+      <pre><font size="+1">/**<br>   Computes the value of an investment with compound interest.<br>   @param initial_balance - the initial value of the investment<br>   @param p the interest rate per period in percent<br>   @param n the number of periods the investment is held<br>   @return the balance after n periods<br>*/<br><span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> <span style="font-weight: bold; color: rgb(153, 51, 153);">future_value</span>(<span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> initial_balance, <span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> p, <span style="color: rgb(0, 153, 0); font-weight: bold;">int</span> n)<br>{  <span style="color: rgb(0, 153, 0); font-weight: bold;">doubl</span><span style="font-weight: bold;">e</span> b = initial_balance * <span style="font-weight: bold; color: rgb(153, 51, 153);">pow</span>(1 + p / 100, n);<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> b;<br>}</font></pre>
+      Може да се използва и показания формат за български език.<br>
+      <meta charset="utf-8">
+      <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;"><tt><font color="#000099">/*</font></tt></b><span
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">
+      <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;"><tt><font color="#3333FF">ЦЕЛ:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            пресмята стойността на влог със сложна лихва</font></tt></b><span
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">
+      <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;"><tt><font color="#3333FF">ПОЛУЧАВА:&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            initial_balance - начална стойност на влога</font></tt></b><span
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">
+      <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;"><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            p - годишен лихвен процент</font></tt></b><span
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">
+      <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;"><tt><font color="#3333FF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            nyear - броя на годините</font></tt></b><span style="color:
+        rgb(0, 0, 0); font-family: Times; font-size: medium; font-style:
+        normal; font-variant: normal; font-weight: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">
+      <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;"><tt><font color="#3333FF">ЗАБЕЛЕЖКИ:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            лихвата се начислява всеки месец</font></tt></b><span
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;">
+      <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: auto;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px;"><tt><font color="#000099">*/</font></tt></b><span
+        style="color: rgb(0, 0, 0); font-family: Times; font-size:
+        medium; font-style: normal; font-variant: normal; font-weight:
+        normal; letter-spacing: normal; line-height: normal; orphans:
+        auto; text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: auto; word-spacing: 0px;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space"> </span></span><br>
+      <hr width="100%" size="2">** <b>Връщане на стойност и оператор </b><b><tt>return<br>
+          <br>
+        </tt></b> Когато се достигне до оператор <tt>return</tt>, от
+      функцията се излиза веднага и управлението се връща на извикващата
+      функция.<br>
+      <blockquote>
+        <pre><font size="+1"><span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> <span style="font-weight: bold; color: rgb(153, 51, 153);">future_value</span>(<span style="color: rgb(0, 153, 0); font-weight: bold;">double</span> initial_balance, </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> p, <span style="color: rgb(0, 153, 0); font-weight: bold;">int</span> n)<br>{  <span style="color: rgb(51, 51, 255); font-weight: bold;">if</span> (n &lt; 0) <span style="color: rgb(0, 153, 0);">return</span> 0;<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">if</span> (p &lt; 0) <span style="color: rgb(0, 153, 0);">return</span> 0;<br>   </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> b = initial_balance * <span style="color: rgb(153, 51, 153); font-weight: bold;">pow</span>(1 + p / 100, n);<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> b;<br>}</font></pre>
+      </blockquote>
+      Всеки клон на функцията (вследствие на оператор <tt>if</tt>)
+      трябва да връща някаква стойност. <br>
+      <br>
+    </font> <font size="+1"><font size="+1"><span style="color: rgb(0,
+          0, 0); font-family: Times; font-size: medium; font-style:
+          normal; font-variant: normal; font-weight: normal;
+          letter-spacing: normal; line-height: normal; orphans: auto;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: auto; word-spacing: 0px;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><i>Пример:</i></span></font>
+      <blockquote>
+        <pre><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> <span style="color: rgb(153, 51, 153); font-weight: bold;">future_value</span>(</font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> initial_balance, </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> p, <span style="color: rgb(0, 153, 0); font-weight: bold;">int</span> n)<br>{  <span style="color: rgb(0, 153, 0);">if</span> (p &gt;= 0) <br>      <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> initial_balance * <span style="color: rgb(153, 51, 153); font-weight: bold;">pow</span>(1 + p / 100, n);<br>   /* <b><span style="color: rgb(255, 0, 0);">Error</span></b> */<br>}</font></pre>
+      </blockquote>
+      Последният оператор на всяка функция би трябвало да бъде оператор
+      <tt>return</tt>.<br>
+    </font><br>
+    <font size="+1"><font size="+1"><i>Пример</i>:</font></font><font
+      size="+1"><font size="+1"><font size="+1"> Функция за пресмятане
+          на относителна близост на две числа.</font></font><br>
+      <blockquote>
+        <pre><font size="+1"><span style="color: rgb(0, 153, 0); font-weight: bold;">bool</span> <span style="color: rgb(153, 51, 153);">approx_equal</span>(</font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> x, </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> y)<br>{  <span style="color: rgb(51, 51, 255); font-weight: bold;">const</span><span style="font-weight: bold;"> </span></font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> EPSILON = 1E-14;<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">if</span> (x == 0) <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> <span style="color: rgb(153, 51, 153); font-weight: bold;">fabs</span>(y) &lt;= EPSILON;<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">if</span> (y == 0) <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> <span style="font-weight: bold; color: rgb(153, 51, 153);">fabs</span>(x) &lt;= EPSILON;<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> <span style="font-weight: bold; color: rgb(153, 51, 153);">fabs</span>(x - y) / <span style="font-weight: bold; color: rgb(153, 51, 153);">max</span>(<span style="font-weight: bold; color: rgb(153, 51, 153);">fabs</span>(x), <span style="color: rgb(153, 51, 153); font-weight: bold;">fabs</span>(y)) &lt;= EPSILON;<br>}</font></pre>
+      </blockquote>
+    </font><font size="+1"><font size="+1">Функция, която връща булева
+        стойност се нарича предикат.</font>
+      <pre><tt><b><font color="#000080"> <big>// <a href="../../sources/ch5/approx.cpp">approx.cpp</a><br> #include</big></font></b><big> <font color="#ff0000">&lt;iostream&gt;<br></font> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;algorithm&gt;<br></font> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;<br></font> <i><font color="#9a1900">/**<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; Tests whether two floating-point numbers are&nbsp;<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; approximately equal.<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; @param x a floating-point number<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; @param y another floating-point number<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; @return true if x and y are approximately equal<br></font></i> <i><font color="#9a1900">*/<br></font></i> <font color="#009900">bool</font> <b><font color="#000000">approx_equal</font></b><font color="#990000">(</font><font color="#009900">double</font> x<font color="#990000">,</font> <font color="#009900">double</font> y<font color="#990000">)<br></font> <font color="#ff0000">{</font>&nbsp; <b><font color="#0000ff">const</font></b> <font color="#009900">double</font> EPSILON <font color="#990000">=</font> <font color="#993399">1</font>E<font color="#990000">-</font><font color="#993399">14</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>x <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <b><font color="#000000">fabs</font></b><font color="#990000">(</font>y<font color="#990000">)</font> <font color="#990000">&lt;=</font> EPSILON<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>y <font color="#990000">==</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <b><font color="#000000">fabs</font></b><font color="#990000">(</font>x<font color="#990000">)</font> <font color="#990000">&lt;=</font> EPSILON<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <b><font color="#000000">fabs</font></b><font color="#990000">(</font>x <font color="#990000">-</font> y<font color="#990000">)</font> <font color="#990000">/</font> <b><font color="#000000">max</font></b><font color="#990000">(</font><b><font color="#000000">fabs</font></b><font color="#990000">(</font>x<font color="#990000">),</font> <b><font color="#000000">fabs</font></b><font color="#990000">(</font>y<font color="#990000">))</font> <font color="#990000">&lt;=</font> EPSILON<font color="#990000">;<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; <font color="#009900">double</font> x<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Enter a number: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> x<font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <font color="#009900">double</font> y<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Enter another number: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cin <font color="#990000">&gt;&gt;</font> y<font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">if</font></b> <font color="#990000">(</font><b><font color="#000000">approx_equal</font></b><font color="#990000">(</font>x<font color="#990000">,</font> y<font color="#990000">))<br></font>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"The numbers are approximately equal.\n"</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">else<br></font></b>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"The numbers are different.\n"</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></big></tt><br></pre>
+    </font>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt><font size="+1">nkirov@cpp % c++
+                approx.cpp<br>
+                nkirov@cpp % ./a.out<br>
+                Enter a number: 1<br>
+                Enter another number: 1.0000000000000001<br>
+                The numbers are approximately equal.<br>
+                nkirov@cpp % ./a.out<br>
+                Enter a number: 10<br>
+                Enter another number: 10.001<br>
+                The numbers are different.</font></tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <h3><span style="color: rgb(0, 0, 0); font-family: 'Times New
+        Roman'; font-size: medium; font-style: normal; font-variant:
+        normal; font-weight: normal; letter-spacing: normal;
+        line-height: normal; orphans: 2; text-align: start; text-indent:
+        0px; text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><b>** Параметри на функции</b><span
+          class="Apple-converted-space"> </span></span></h3>
+    <span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: 2; text-align: start; text-indent: 0px; text-transform:
+      none; white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;"><span
+        class="Apple-converted-space"></span></span><span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;"><span
+        class="Apple-converted-space"></span></span><span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: 2;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;"></span><font size="+1">
+      <p><span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;">* Формални параметри&nbsp; -
+          параметри-променливи, които се задават при дефиниране на
+          функцията.</span></p>
+    </font><font size="+1">
+      <pre><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> <span style="font-weight: bold; color: rgb(153, 51, 153);">future_value</span>(</font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> initial_balance, </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> p, <span style="color: rgb(0, 153, 0); font-weight: bold;">int</span> n)</font><br style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px;"></pre>
+      <p> <span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;">* Фактически параметри (аргументи) -
+          представляват изрази за инициализация на
+          параметрите-променливи и се задават при извикване на
+          функцията.<br>
+        </span></p>
+      <pre><font size="+1">b = <span style="font-weight: bold; color: rgb(153, 51, 153);">future_value</span>(total/2, rate, year2-year1);</font></pre>
+      <p><span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><span class="Apple-converted-space"></span></span><span
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"></span><font style="color: rgb(0, 0, 0);
+          font-family: 'Times New Roman'; font-size: medium; font-style:
+          normal; font-variant: normal; font-weight: normal;
+          letter-spacing: normal; line-height: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+          0px;" color="#000000">Фактическите параметри съответстват по
+          тип и брой на формалните параметри: променливите<span
+            class="Apple-converted-space">&nbsp;</span></font><b
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          letter-spacing: normal; line-height: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+          0px;"><tt><font color="#003300">total</font></tt></b><font
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px;" color="#000000"><span
+            class="Apple-converted-space">&nbsp;</span>и<span
+            class="Apple-converted-space">&nbsp;</span></font><b
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          letter-spacing: normal; line-height: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+          0px;"><tt><font color="#003300">rate<span
+                class="Apple-converted-space">&nbsp;</span></font></tt></b><font
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px;" color="#000000">са от тип<span
+            class="Apple-converted-space">&nbsp;</span></font><b
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          letter-spacing: normal; line-height: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+          0px;"><tt><font color="#006600">double</font></tt></b><font
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px;" color="#000000">, а<span
+            class="Apple-converted-space">&nbsp;</span></font><font
+          style="font-family: 'Times New Roman'; font-size: medium;
+          font-style: normal; font-variant: normal; font-weight: normal;
+          letter-spacing: normal; line-height: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+          0px;" color="#003300"><b><tt>year1</tt></b><span
+            class="Apple-converted-space">&nbsp;</span>и<span
+            class="Apple-converted-space">&nbsp;</span><b><tt>year2</tt></b></font><font
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px;" color="#000000"><span
+            class="Apple-converted-space">&nbsp;</span>са от тип<span
+            class="Apple-converted-space">&nbsp;</span></font><b
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          letter-spacing: normal; line-height: normal; orphans: 2;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: 2; word-spacing: 0px;
+          -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+          0px;"><tt><font color="#003300">int</font></tt></b><font
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px;" color="#000000"><span
+            class="Apple-converted-space">&nbsp;</span>.</font><span
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><span class="Apple-converted-space">&nbsp;</span></span></p>
+      <p> Формалните параметри са променливи, които може да се променят
+        в тялото на функцията.<br>
+      </p>
+      <blockquote>
+        <pre><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> <span style="font-weight: bold; color: rgb(153, 51, 153);">future_value</span>(</font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> initial_balance, </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> p, <span style="color: rgb(0, 153, 0); font-weight: bold;">int</span> n)<br>{  p = 1 + p / 100;<br>   </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> b = initial_balance * <span style="font-weight: bold; color: rgb(153, 51, 153);">pow</span>(p, n);<br>   <span style="color: rgb(51, 51, 255); font-weight: bold;">return</span> b;<br>}</font></pre>
+      </blockquote>
+      <p>Често това се счита за лош стил на програмиране (bad
+        programming style).<br>
+      </p>
+      <hr style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px;" width="100%">** <span
+        style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space"></span><b>Деклариране
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          на функции</b><b><span class="Apple-converted-space"> <br>
+            <br style="color: rgb(0, 0, 0); font-family: 'Times New
+              Roman'; font-size: medium; font-style: normal;
+              font-variant: normal; font-weight: normal; letter-spacing:
+              normal; line-height: normal; orphans: 2; text-align:
+              start; text-indent: 0px; text-transform: none;
+              white-space: normal; widows: 2; word-spacing: 0px;
+              -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+              0px;">
+          </span></b></span> <span style="color: rgb(0, 0, 0);
+        font-family: 'Times New Roman'; font-size: medium; font-style:
+        normal; font-variant: normal; font-weight: normal;
+        letter-spacing: normal; line-height: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+        display: inline !important; float: none;">Функциите трябва да
+        бъдат известни, преди да бъдат използвани. <br>
+        Дефинирането на дадена функция преди да бъде използвана не
+        винаги е удобно, особено при по-големи програми, които съдържат
+        много функции. <br>
+        <br>
+        За да се използва (извика) една функция, достатъчно е са
+        известни типа и името на функцията, и типовете на параметрите й.
+        <br>
+        Тези данни се съдържат в декларацията на функцията, която се
+        състои от: <br>
+        - тип на функцията (на връщаната стойност), <br>
+        - име на функцията, <br>
+        - типове и имена на параметри, <br>
+        - точка и запетая.<br>
+        <br style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px;">
+      </span> <span style="color: rgb(0, 0, 0); font-family: 'Times New
+        Roman'; font-size: medium; font-style: normal; font-variant:
+        normal; font-weight: normal; letter-spacing: normal;
+        line-height: normal; orphans: 2; text-align: start; text-indent:
+        0px; text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;">В езика C++ файлът с текста на програмата се
+        подрежда най-често по следния начин:&nbsp; <br>
+        - декларация на функция, <br>
+        - използване на функция, <br>
+        - дефиниране на функция. <br>
+      </span></font><font size="+1"><span style="color: rgb(0, 0, 0);
+        font-family: 'Times New Roman'; font-size: medium; font-style:
+        normal; font-variant: normal; font-weight: normal;
+        letter-spacing: normal; line-height: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+        display: inline !important; float: none;">&nbsp;<span
+          class="Apple-converted-space"><br>
+          <big><tt>#include &lt;iostream&gt;</tt><tt><br>
+            </tt><tt>#include &lt;cmath&gt;</tt><tt><br>
+            </tt><tt>using namespace std;</tt><tt><br>
+            </tt><tt><br>
+            </tt><tt>/* декларация на функцията future_value */</tt><tt><br>
+            </tt><tt>double future_value(double initial_balance, double
+              p, int nyear);<br>
+              <br>
+            </tt><tt>int main()</tt><tt><br>
+            </tt><tt>{ ...</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp; /* използване на функцията
+              future_value */</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp; double bal = future_value(10000,
+              rate, 10);</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp; ...</tt><tt><br>
+            </tt><tt>}<br>
+              <br>
+            </tt><tt>/* дефиниция на функцията future_value */</tt><tt><br>
+            </tt><tt>double future_value(double initial_balance, double
+              p, int nyear)</tt><tt><br>
+            </tt><tt>{</tt><tt><br>
+            </tt><tt>&nbsp;&nbsp;&nbsp; ... </tt><tt><br>
+            </tt><tt>}</tt></big></span></span><br>
+      <span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space"><span
+            style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+            font-size: medium; font-style: normal; font-variant: normal;
+            font-weight: normal; letter-spacing: normal; line-height:
+            normal; orphans: 2; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: 2;
+            word-spacing: 0px; -webkit-text-size-adjust: auto;
+            -webkit-text-stroke-width: 0px; display: inline !important;
+            float: none;">Декларациите на стандартните за езика функции
+            са в заглавните файлове.</span></span></span><br>
+      <hr style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px;" width="100%">** <span
+        style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space"></span><b>Странични
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+          ефекти и процедури</b><b><span class="Apple-converted-space">
+            <br style="color: rgb(0, 0, 0); font-family: 'Times New
+              Roman'; font-size: medium; font-style: normal;
+              font-variant: normal; font-weight: normal; letter-spacing:
+              normal; line-height: normal; orphans: 2; text-align:
+              start; text-indent: 0px; text-transform: none;
+              white-space: normal; widows: 2; word-spacing: 0px;
+              -webkit-text-size-adjust: auto; -webkit-text-stroke-width:
+              0px;">
+          </span></b></span></font>
+    <ul>
+      <li><font size="+1"> <span style="color: rgb(0, 0, 0);
+            font-family: 'Times New Roman'; font-size: medium;
+            font-style: normal; font-variant: normal; font-weight:
+            normal; letter-spacing: normal; line-height: normal;
+            orphans: 2; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: 2;
+            word-spacing: 0px; -webkit-text-size-adjust: auto;
+            -webkit-text-stroke-width: 0px; display: inline !important;
+            float: none;">Външно забележимият ефект от работата на
+            функция се нарича страничен ефект, напр. отпечатване на
+            някакво съобщение, прекратяване работата на програмата и др.
+          </span></font></li>
+      <li><font size="+1"><span style="color: rgb(0, 0, 0); font-family:
+            'Times New Roman'; font-size: medium; font-style: normal;
+            font-variant: normal; font-weight: normal; letter-spacing:
+            normal; line-height: normal; orphans: 2; text-align: start;
+            text-indent: 0px; text-transform: none; white-space: normal;
+            widows: 2; word-spacing: 0px; -webkit-text-size-adjust:
+            auto; -webkit-text-stroke-width: 0px; display: inline
+            !important; float: none;"> Функциите по принцип не трябва да
+            имат странични ефекти, обикновено пресмятат нещо и връщат
+            стойност.<span class="Apple-converted-space">&nbsp;</span></span></font></li>
+      <li><font size="+1"> <span style="color: rgb(0, 0, 0);
+            font-family: 'Times New Roman'; font-size: medium;
+            font-style: normal; font-variant: normal; font-weight:
+            normal; letter-spacing: normal; line-height: normal;
+            orphans: 2; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: 2;
+            word-spacing: 0px; -webkit-text-size-adjust: auto;
+            -webkit-text-stroke-width: 0px; display: inline !important;
+            float: none;">Когато едно действие трябва да бъде извършено
+            многократно (поне 2 пъти), има смисъл да бъде обособено като
+            функция. </span></font></li>
+      <li><font size="+1"><span style="color: rgb(0, 0, 0); font-family:
+            'Times New Roman'; font-size: medium; font-style: normal;
+            font-variant: normal; font-weight: normal; letter-spacing:
+            normal; line-height: normal; orphans: 2; text-align: start;
+            text-indent: 0px; text-transform: none; white-space: normal;
+            widows: 2; word-spacing: 0px; -webkit-text-size-adjust:
+            auto; -webkit-text-stroke-width: 0px; display: inline
+            !important; float: none;"> Функция, която не връща стойност
+            се нарича процедура.<span class="Apple-converted-space">
+              Всяка процедура има страничен ефект.</span></span></font></li>
+    </ul>
+    <font size="+1"> <span style="color: rgb(0, 0, 0); font-family:
+        'Times New Roman'; font-size: medium; font-style: normal;
+        font-variant: normal; font-weight: normal; letter-spacing:
+        normal; line-height: normal; orphans: 2; text-align: start;
+        text-indent: 0px; text-transform: none; white-space: normal;
+        widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"></span></font><font size="+1"><span style="color:
+        rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+        font-style: normal; font-variant: normal; font-weight: normal;
+        letter-spacing: normal; line-height: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+        display: inline !important; float: none;"><font size="+1"><font
+            size="+1"><i>Пример</i>:</font></font> Процедура </span><b><span
+          style="color: rgb(0, 0, 0); font-size: medium; font-style:
+          normal; font-variant: normal; font-weight: normal;
+          letter-spacing: normal; line-height: normal; text-align:
+          start; text-indent: 0px; text-transform: none; white-space:
+          normal; word-spacing: 0px; -moz-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline ! important;
+          float: none;"><tt>print_time</tt></span></b><span
+        style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"> за отпечатване на обект от тип<span
+          class="Apple-converted-space">&nbsp;</span></span><b
+        style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><font
+            color="#000000">Time.</font></tt></b><span style="color:
+        rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+        font-style: normal; font-variant: normal; font-weight: normal;
+        letter-spacing: normal; line-height: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+        display: inline !important; float: none;"><span
+          class="Apple-converted-space"> </span></span><br>
+      <pre><tt> <font size="+1"><b><font color="#000080">// <a href="../../sources/ch5/printime.cpp">printime.cpp</a> <br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;<br></font> <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iomanip&gt;<br></font> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;<br></font>&nbsp;<br> <b><font color="#000080">#include</font></b> <font color="#ff0000">"ccc_time.h"<br></font> <i><font color="#9a1900">/**<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; Print a time in the format h:mm:ss<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; @param t the time to print<br></font></i> <i><font color="#9a1900">*/<br></font></i> <font color="#009900">void</font> <b><font color="#000000">print_time</font></b><font color="#990000">(</font>Time t<font color="#990000">)<br></font> <font color="#ff0000">{</font>&nbsp; cout <font color="#990000">&lt;&lt;</font> t<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">()</font> <font color="#990000">&lt;&lt;</font> <font color="#ff0000">":" </font><font color="#990000">&lt;&lt;</font> setw(2) <font color="#990000">&lt;&lt;</font> setfill('0')&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> t<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">()</font> <font color="#990000">&lt;&lt;</font> <font color="#ff0000">":" </font><font color="#990000">&lt;&lt; </font>setw(2)&nbsp;<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <font color="#990000">&lt;&lt;</font> t<font color="#990000">.</font><b><font color="#000000">get_seconds</font></b><font color="#990000">() &lt;&lt;</font> setfill(' ')<font color="#990000">;<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; Time <b><font color="#000000">liftoff</font></b><font color="#990000">(</font><font color="#993399">7</font><font color="#990000">,</font> <font color="#993399">0</font><font color="#990000">,</font> <font color="#993399">15</font><font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; Time now<font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Liftoff: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#000000">print_time</font></b><font color="#990000">(</font>liftoff<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"Now: "</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#000000">print_time</font></b><font color="#990000">(</font>now<font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font>&nbsp;<br>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></font></tt><b><tt><font color="#000099"><br></font></tt></b></pre>
+    </font>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % c++ printime.cpp
+              ccc_time.cpp</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Liftoff: 7:00:15</tt><tt><br>
+            </tt><tt>Now: 11:00:00</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <font size="+1"> <b><br>
+        **Параметри-псевдоними</b> </font><br>
+    <font size="+1">
+      <pre><span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space"></span></span></pre>
+    </font><font size="+1"> </font>
+    <ul>
+      <li><span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><span class="Apple-converted-space">Досега
+            използваните параметри на функции сe наричат
+            параметри-променливи.</span></span></li>
+      <li><span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><span class="Apple-converted-space">Параметрите-променливи
+
+
+
+
+
+            са променливи, които се дефинират при извикване на функцията
+            и са различни от променливите в извикващата функция.</span></span></li>
+      <li><span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;">Параметър-псевдоним (reference parameter) не е
+          нова променлива, а е друго име (псевдоним) на съществуваща
+          променлива в извикващата функция.<span
+            class="Apple-converted-space"></span></span></li>
+      <li><span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><span class="Apple-converted-space">Всяка
+            промяна на стойността на параметъра-псевдоним е промяна и на
+            съответната променлива в извикващата функция.</span></span><span
+          style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+          font-size: medium; font-style: normal; font-variant: normal;
+          font-weight: normal; letter-spacing: normal; line-height:
+          normal; orphans: 2; text-align: start; text-indent: 0px;
+          text-transform: none; white-space: normal; widows: 2;
+          word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><span class="Apple-converted-space"></span></span><br>
+        <span style="color: rgb(0, 0, 0); font-family: 'Times New
+          Roman'; font-size: medium; font-style: normal; font-variant:
+          normal; font-weight: normal; letter-spacing: normal;
+          line-height: normal; orphans: 2; text-align: start;
+          text-indent: 0px; text-transform: none; white-space: normal;
+          widows: 2; word-spacing: 0px; -webkit-text-size-adjust: auto;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><span class="Apple-converted-space"></span></span></li>
+    </ul>
+    <font size="+1">
+      <pre><span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"><span class="Apple-converted-space"><i>Пример: </i>Функция за увеличаване на заплата. <br></span></span><span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;">Процедура<span class="Apple-converted-space">та </span></span><b style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><font color="#000000">raise_salary</font></tt></b><span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;"> увеличава заплатата на служител <tt>e </tt>с</span><b style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        letter-spacing: normal; line-height: normal; orphans: 2;
+        text-align: start; text-indent: 0px; text-transform: none;
+        white-space: normal; widows: 2; word-spacing: 0px;
+        -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><font color="#000000"><span class="Apple-converted-space">&nbsp;</span><tt>by<span class="Apple-converted-space">&nbsp;</span></tt></font></b><font style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px;" color="#000000">про</font><span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px; display: inline !important;
+        float: none;">цента.<span class="Apple-converted-space"> <br></span></span><br><font size="+1"><tt><b><font color="#000000">    raise_salary</font></b><font color="#990000">(</font>harry<font color="#990000">,</font> <font color="#993399">5</font><font color="#990000">);</font></tt></font></pre>
+      <blockquote>
+        <pre><font size="+1"><span style="color: rgb(0, 153, 0); font-weight: bold;">void</span> <span style="color: rgb(153, 51, 153); font-weight: bold;">raise_salary</span>(Employee<span style="font-weight: bold;">&amp;</span> e, </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> by)<br>{  </font><font style="font-weight: bold;" size="+1"><span style="color: rgb(0, 153, 0);">double</span></font><font size="+1"> new_salary = e.<span style="font-weight: bold; color: rgb(153, 51, 153);">get_salary</span>() * ( 1 + by / 100);<br>   e.<span style="font-weight: bold; color: rgb(153, 51, 153);">set_salary</span>(new_salary);<br>}</font></pre>
+      </blockquote>
+      <p style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+        font-size: medium; font-style: normal; font-variant: normal;
+        font-weight: normal; letter-spacing: normal; line-height:
+        normal; orphans: 2; text-align: start; text-indent: 0px;
+        text-transform: none; white-space: normal; widows: 2;
+        word-spacing: 0px; -webkit-text-size-adjust: auto;
+        -webkit-text-stroke-width: 0px;"> </p>
+      <pre><font size="+1"><tt><b><font color="#000080"> // <a href="../../sources/ch5/raisesal.cpp">raisesal.cpp</a><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>&nbsp;<br> <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;<br></font>&nbsp;<b><font color="#000080"><br> #include</font></b> <font color="#ff0000">"ccc_empl.h"<br></font>&nbsp;<br> <i><font color="#9a1900">/**<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; Raise an employee salary&nbsp;<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; @param e employee receiving raise<br></font></i>&nbsp;<i><font color="#9a1900">&nbsp;&nbsp; @param by the percentage of the raise<br></font></i> <i><font color="#9a1900">*/<br></font></i> <font color="#009900">void</font> <b><font color="#000000">raise_salary</font></b><font color="#990000">(</font>Employee<font color="#990000">&amp;</font> e<font color="#990000">,</font> <font color="#009900">double</font> by<font color="#990000">)<br></font> <font color="#ff0000">{</font>&nbsp; <font color="#009900">double</font> new_salary <font color="#990000">=</font> e<font color="#990000">.</font><b><font color="#000000">get_salary</font></b><font color="#990000">()</font> <font color="#990000">*</font> <font color="#990000">(</font><font color="#993399">1</font> <font color="#990000">+</font> by<font color="#990000">/</font><font color="#993399">100</font><font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; e<font color="#990000">.</font><b><font color="#000000">set_salary</font></b><font color="#990000">(</font>new_salary<font color="#990000">);<br></font> <font color="#ff0000">}<br></font>&nbsp;<br> <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()<br></font> <font color="#ff0000">{</font>&nbsp; Employee <b><font color="#000000">harry</font></b><font color="#990000">(</font><font color="#ff0000">"Hacker, Harry"</font><font color="#990000">,</font> <font color="#993399">45000.00</font><font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#000000">raise_salary</font></b><font color="#990000">(</font>harry<font color="#990000">,</font> <font color="#993399">5</font><font color="#990000">);<br></font>&nbsp;&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"New salary: "</font> <font color="#990000">&lt;&lt;</font> harry<font color="#990000">.</font><b><font color="#000000">get_salary</font></b><font color="#990000">()</font> <font color="#990000">&lt;&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;<br></font>&nbsp;&nbsp;&nbsp; <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;<br></font> <font color="#ff0000">}</font></tt></font></pre>
+    </font>
+    <ul>
+      <li><font size="+1">
+          <p style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+            font-size: medium; font-style: normal; font-variant: normal;
+            font-weight: normal; letter-spacing: normal; line-height:
+            normal; orphans: 2; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: 2;
+            word-spacing: 0px; -webkit-text-size-adjust: auto;
+            -webkit-text-stroke-width: 0px;">Формалният параметър<font
+              color="#000000"><span class="Apple-converted-space">&nbsp;</span><b><tt>Employee&amp;
+
+                  e</tt></b><span class="Apple-converted-space">&nbsp;</span>на
+
+              функцията<span class="Apple-converted-space">&nbsp;</span></font><b><tt><font
+                  color="#000099">raise_salary</font></tt></b><font
+              color="#000000"><span class="Apple-converted-space">&nbsp;</span>е</font><span
+              class="Apple-converted-space">&nbsp;</span>параметър-псевдоним
+
+
+
+
+
+
+            на променливата<span class="Apple-converted-space">&nbsp;</span><b><tt><font
+                  color="#000000">harry</font></tt></b><span
+              class="Apple-converted-space">&nbsp;</span>от главната
+            функция<span class="Apple-converted-space">&nbsp;</span><b><tt><font
+                  color="#000000">main.</font></tt></b></p>
+        </font></li>
+      <li><font size="+1">
+          <p style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+            font-size: medium; font-style: normal; font-variant: normal;
+            font-weight: normal; letter-spacing: normal; line-height:
+            normal; orphans: 2; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: 2;
+            word-spacing: 0px; -webkit-text-size-adjust: auto;
+            -webkit-text-stroke-width: 0px;"> Промяната на стойността на
+            параметъра-псевдоним<span class="Apple-converted-space">&nbsp;</span><b><tt><font
+                  color="#000000">e</font></tt></b><span
+              class="Apple-converted-space">&nbsp;</span>във функцията<span
+              class="Apple-converted-space">&nbsp;</span><b><tt><font
+                  color="#000000">raise_salary</font></tt></b><span
+              class="Apple-converted-space">&nbsp;</span>води до промяна
+            и на стойността на фактическия параметър (променливата)<span
+              class="Apple-converted-space">&nbsp;</span><b><tt><font
+                  color="#000000">harry</font></tt></b><span
+              class="Apple-converted-space">&nbsp;</span>от функция<span
+              class="Apple-converted-space">&nbsp;</span><b><tt><font
+                  color="#000000">main</font></tt></b>. </p>
+        </font></li>
+      <li><font size="+1">
+          <p style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+            font-size: medium; font-style: normal; font-variant: normal;
+            font-weight: normal; letter-spacing: normal; line-height:
+            normal; orphans: 2; text-align: start; text-indent: 0px;
+            text-transform: none; white-space: normal; widows: 2;
+            word-spacing: 0px; -webkit-text-size-adjust: auto;
+            -webkit-text-stroke-width: 0px;"> Параметрите-псевдоними се
+            наричат още входно-изходни параметри - те пренасят
+            информация от извикващата функция към извиканата функция и
+            обратно.</p>
+        </font></li>
+    </ul>
+    <hr width="100%" size="2">
+    <p><b><span class="Apple-converted-space">** </span></b><b>Константни
+
+
+        псевдоними</b><b><span class="Apple-converted-space"></span></b><br>
+    </p>
+    <p style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: 2; text-align: start; text-indent: 0px; text-transform:
+      none; white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;">*
+      Използват се за да се избегне копирането - особено нежелателно,
+      ако параметърът е обект, съдържащ много данни. <br>
+      * Тъй като стойността на константния псевдоним не може да се
+      променя, той не "пренася" данни от извиканата функция (<tt>print_employee</tt>)
+      в извикващата функция (<tt>main</tt>).<span
+        class="Apple-converted-space">&nbsp;</span></p>
+    <p style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: 2; text-align: start; text-indent: 0px; text-transform:
+      none; white-space: normal; widows: 2; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><span
+        class="Apple-converted-space"><i>Пример:</i> Функция ца
+        отпечатване на данните на обект от тип <tt>Employee</tt><br>
+      </span> <b><tt><font color="#006600">void print_employee(const
+            Employee &amp; e)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#006600">{</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#006600">&nbsp;cout &lt;&lt;
+            "Name:&nbsp;&nbsp; " &lt;&lt; e.get_name()</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &lt;&lt; "Salary: " &lt;&lt; e.get_salary();</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#006600">}</font></tt></b><b><tt><span
+            class="Apple-converted-space"> <br>
+            int main()<br>
+            {&nbsp; </span></tt></b><b><tt><span
+            class="Apple-converted-space"><font color="#000099"><br>
+              &nbsp;&nbsp; Employee harry("Hacker, Harry", 45000.00);</font><span
+              class="Apple-converted-space"> <br>
+              &nbsp;&nbsp; print_employee(harry);<br>
+              &nbsp;&nbsp; return 0;<br>
+            </span></span></tt></b><span class="Apple-converted-space"><b><tt>}</tt></b><br>
+      </span> </p>
+    <table cols="3" width="100%" cellspacing="0" cellpadding="4"
+      border="">
+      <tbody>
+        <tr>
+          <td><b>Параметри-променливи</b></td>
+          <td><b>Параметри-псевдоними</b></td>
+          <td><b>Константни псевдоними</b></td>
+        </tr>
+        <tr>
+          <td>Входни параметри за функцията</td>
+          <td>Входно-изходни параметри за функцията</td>
+          <td>-</td>
+        </tr>
+        <tr>
+          <td>Предаване на параметри чрез копиране</td>
+          <td>Предаване на параметри по адрес (не се копира)<br>
+          </td>
+          <td>Предаване на параметри по адрес (не се копира)<br>
+          </td>
+        </tr>
+        <tr>
+          <td>Стойността на параметъра може да се променя (фактическия
+            параметър <b>не</b> се променя)<br>
+          </td>
+          <td>Стойността на параметъра може да се променя (фактическия
+            параметър се променя)<br>
+          </td>
+          <td>Стойността на параметъра<span
+              class="Apple-converted-space">&nbsp;</span><b>не</b><span
+              class="Apple-converted-space">&nbsp;</span>може да се
+            променя</td>
+        </tr>
+        <tr>
+          <td>Фактически параметър може да бъде константа, променлива
+            или израз (rvalue)<br>
+          </td>
+          <td>Фактически параметър може да бъде само променлива (lvalue)<br>
+          </td>
+          <td>Фактически параметър може да бъде константа, променлива
+            или израз (rvalue)<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <hr width="100%" size="2">
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><b>** Област на действие на
+        променливите (scope), глобални променливи</b><b><span
+          class="Apple-converted-space"><br>
+          <br>
+        </span></b> * Ако едно и също име на променлива се използва в
+      две функции,&nbsp; то не съществува&nbsp; връзка между двете
+      променливи. <br>
+      * Областта на действие на променлива, която е дефинирана в <i>блока
+
+
+
+
+
+
+
+
+
+        на функция</i>, се простира единствено в рамките на тази
+      функция.<span class="Apple-converted-space">&nbsp; <br>
+        <i><br>
+          Пример:</i> Сложна лихва - променливи с едно и също име в две
+        функциии.</span><br>
+    </p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><b><tt><font color="#000099">// <a
+href="file:///Users/nkirov/git/nkirov.github.com/2023/CITB107/sources/ch5/futval1.cpp">futval1.cpp</a></font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">#include &lt;cmath&gt;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b></p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><b><tt><font color="#000099">double
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            f_val(double i_bal, double p, int ny)<span
+              class="Apple-converted-space">&nbsp;</span></font><font
+            color="#3333FF">/*дефиниции на параметрите-променливи i_bal,
+            p и ny*/</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp; double r;<span
+              class="Apple-converted-space">&nbsp;</span></font><font
+            color="#3333FF">/*дефиниция на променливата r в блока на
+            функцията future_value*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp; r = i_bal*pow(1 + p/(12*100),
+            12*ny);</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp; return r;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">} /</font><font color="#3333FF">*край
+            на областта на действие на променливите i_bal, p, ny и r*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">int main()</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;cout &lt;&lt; "Interest rate in
+            percent: ";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;double r; /*</font><font
+            color="#3333FF">дефиниция на променливата r в блока на
+            функцията</font><font color="#000099"><span
+              class="Apple-converted-space">&nbsp;</span></font><font
+            color="#3333FF">main*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;cin &gt;&gt; r;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;double bal = f_val(1000, r,
+            10); /*</font><font color="#3333FF">дефиниция на
+            променливата bal*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;cout &lt;&lt; "After 10 years,
+            the balance is " &lt;&lt; bal &lt;&lt; "\n";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;return 0;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">}<span class="Apple-converted-space">&nbsp;</span></font><font
+            color="#3333FF">/* край на областта на действие на
+            променливите r и bal*/</font></tt></b></p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">В примера няма връзка между двете
+      променливи с им<font color="#000000">е<span
+          class="Apple-converted-space">&nbsp;</span><b><tt>r<span
+              class="Apple-converted-space">&nbsp;</span></tt></b>в
+        двете функции<span class="Apple-converted-space">&nbsp;</span><b><tt>future_value</tt></b><span
+          class="Apple-converted-space">&nbsp;</span>и<span
+          class="Apple-converted-space">&nbsp;</span><b><tt>main</tt></b>.</font><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <br>
+      * Променлива, дефинирана в <i>блок на функция</i>, се нарича<span
+        class="Apple-converted-space">&nbsp;</span><b>локална променлива</b>.
+      <br>
+      * Областта на действие на локална променлива е от мястото на
+      дефинирането до края на <b>блока</b>, в който е дефинирана
+      променливата (block scope). <br>
+      * В тази област променливата е видима, т.е. може да бъде
+      използвана.<span class="Apple-converted-space">&nbsp;</span></p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">* Променлива, дефинирана <i>извън
+
+
+
+
+
+
+
+
+
+
+        блок на функция</i>, се нарича<span
+        class="Apple-converted-space">&nbsp;</span><b>глобална
+        променлива</b>. <br>
+      * Областта на действие на глобална променлива е от мястото на
+      дефинирането до края на <b>файла</b>, в който е дефинирана
+      променливата (file scope). <br>
+      * Досега са използвани глобалните променливи (обекти)<span
+        class="Apple-converted-space">&nbsp;</span><b><tt>cin<span
+            class="Apple-converted-space">&nbsp;</span></tt></b>и<span
+        class="Apple-converted-space">&nbsp;</span><b><tt>cout,</tt></b><span
+        class="Apple-converted-space">&nbsp;</span>които са дефинирани в
+      заглавния файл<span class="Apple-converted-space">&nbsp;</span><b><tt>iostream.h.<span
+            class="Apple-converted-space">&nbsp;</span></tt></b></p>
+    <p style="font-family: Times; font-size: medium; font-style: normal;
+      font-variant: normal; font-weight: normal; letter-spacing: normal;
+      line-height: normal; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><span
+        class="Apple-converted-space"><i>Пример: </i>Увеличаване на
+        заплата с глобална променлина</span><b><tt><span
+            class="Apple-converted-space">.</span></tt></b></p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><b><tt><font color="#000099"><span
+              class="Apple-converted-space"><i> </i></span>// <a
+href="file:///Users/nkirov/git/nkirov.github.com/2023/CITB107/sources/ch5/global.cpp">global.cpp</a></font></tt></b><a
+href="file:///Users/nkirov/git/nkirov.github.com/2023/CITB107/sources/ch5/global.cpp"><span
+          class="Apple-converted-space">&nbsp;</span></a><br>
+      <b><tt><font color="#000099">#include &lt;iostream&gt;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">using namespace std;</font></tt></b><span
+        class="Apple-converted-space"> <br>
+        <br>
+      </span> <b><tt><font color="#000099">#include "ccc_empl.cpp"</font></tt></b></p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><b><tt><font color="#000099">double
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            annual_raise; /</font><font color="#3333FF">* дефиниране на
+            глобална променлива */</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span></p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"> <b><tt><font color="#000099">void
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            raise_salary(Employee&amp; e)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{ double new_salary = e.get_salary()<br>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+            *(1 + annual_raise/100);</font></tt></b><span
+        class="Apple-converted-space">&nbsp; </span><b><tt><font
+            color="#000099"><span class="Apple-converted-space"></span></font><font
+            color="#3333FF">/* използване на глобалната променлива */</font></tt></b><span
+        class="Apple-converted-space"></span><br>
+      <b><tt><font color="#000099">&nbsp; e.set_salary(new_salary);<span
+              class="Apple-converted-space">&nbsp;</span></font></tt></b><span
+        class="Apple-converted-space"> </span><br>
+      <b><tt><font color="#000099">}</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span></p>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"> <b><tt><font color="#000099">int
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            main()</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{&nbsp; Employee boss("Reindeer,
+            Rudolf", 48000.00);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; Employee harry("Hacker,
+            Harry", 35000.00);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; annual_raise = 5; /</font><font
+            color="#3333FF">* използване на глобалната променлива */</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; raise_salary(boss);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; raise_salary(harry);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt;
+            boss.get_name() &lt;&lt; " " &lt;&lt; boss.get_salary()
+            &lt;&lt; "\n";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt;
+            harry.get_name()&lt;&lt; " " &lt;&lt;
+            harry.get_salary()&lt;&lt; "\n";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">}</font></tt></b></p>
+    <table style="font-family: Times; letter-spacing: normal; orphans:
+      auto; text-indent: 0px; text-transform: none; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;" width="100%"
+      cellpadding="4" border="">
+      <tbody>
+        <tr>
+          <td><b><tt><font color="#990000">Reindeer, Rudolf 50400</font></tt></b><span
+              class="Apple-converted-space">&nbsp;</span><br>
+            <b><tt><font color="#990000">Hacker, Harry 36750</font></tt></b></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    * Глобалните променливи предават данни между функциите, което трябва
+    да се избягва. <br>
+    * Използването им трябва да става само ако има основателна причина
+    за това. <br>
+    * Нормалният обмен на данни между функциите става с помощта на
+    параметрите на функциите.<span class="Apple-converted-space">&nbsp;</span>
+    <hr style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;" width="100%"><span style="color:
+      rgb(0, 0, 0); font-family: Times; font-size: medium; font-style:
+      normal; font-variant: normal; font-weight: normal; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;"><b><span style="color:
+          rgb(0, 0, 0); font-family: Times; font-size: medium;
+          font-style: normal; font-variant: normal; font-weight: normal;
+          letter-spacing: normal; line-height: normal; orphans: auto;
+          text-align: start; text-indent: 0px; text-transform: none;
+          white-space: normal; widows: auto; word-spacing: 0px;
+          -webkit-text-stroke-width: 0px; display: inline !important;
+          float: none;"><b><span class="Apple-converted-space"><br>
+              ** </span></b><b>Постъпково прецизиране, създаване на
+            кода, проиграване.<br>
+          </b><span class="Apple-converted-space">&nbsp;<br>
+          </span></span></b>* Една от най-добрите стратегии за решаване
+      на трудни задачи е декомпозицията (постъпково прецизиране) -
+      разбиване на задачата на няколко по-прости задачи. <br>
+      * Получените задачи също се разбиват на по-прости и процесът
+      продължава, докато се получат задачи, които могат да се решат
+      директно.<span class="Apple-converted-space"> </span></span><span
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><br>
+      <i><br>
+        Пример:</i> Задача за записване на число с думи.<span
+        class="Apple-converted-space"> <br>
+        <br style="color: rgb(0, 0, 0); font-family: Times; font-size:
+          medium; font-style: normal; font-variant: normal; font-weight:
+          normal; letter-spacing: normal; line-height: normal; orphans:
+          auto; text-align: start; text-indent: 0px; text-transform:
+          none; white-space: normal; widows: auto; word-spacing: 0px;
+          -webkit-text-stroke-width: 0px;">
+      </span></span> <b style="color: rgb(0, 0, 0); font-family: Times;
+      font-size: medium; font-style: normal; font-variant: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><tt><font color="#000099">// <a
+href="file:///Users/nkirov/git/nkirov.github.com/2023/CITB107/sources/ch5/intname.cpp">intname.cpp</a></font></tt></b><span
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">
+    <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt><font
+          color="#000099">#include &lt;iostream&gt;</font></tt></b><span
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">
+    <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt><font
+          color="#000099">#include &lt;string&gt;</font></tt></b><span
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"><span class="Apple-converted-space">&nbsp;</span></span><br
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;">
+    <b style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; letter-spacing:
+      normal; line-height: normal; orphans: auto; text-align: start;
+      text-indent: 0px; text-transform: none; white-space: normal;
+      widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><tt><font
+          color="#000099">using namespace std;</font></tt></b><span
+      style="color: rgb(0, 0, 0); font-family: Times; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"></span>
+    <p style="color: rgb(0, 0, 0); font-family: Times; font-size:
+      medium; font-style: normal; font-variant: normal; font-weight:
+      normal; letter-spacing: normal; line-height: normal; orphans:
+      auto; text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-stroke-width: 0px;"><b><tt><font color="#000099">string
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            digit_name(int n)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; превръща цифра в
+            английското й име</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло число
+            между 1 и 9</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на n
+            ("one" . . . "nine")</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{&nbsp; if (n == 1) return "one";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 2) return
+            "two";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 3) return
+            "three";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 4) return
+            "four";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 5) return
+            "five";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 6) return
+            "six";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 7) return
+            "seven";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 8) return
+            "eight";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 9) return
+            "nine";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return "";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">}</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">string teen_name(int n)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; превръща цяло число
+            между 10 и 19 в английското му име</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло число
+            между 10 и 19</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на n
+            ("ten" . . . "nineteen")</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{&nbsp; if (n == 10) return "ten";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 11) return
+            "eleven";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 12) return
+            "twelve";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 13) return
+            "thirteen";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 14) return
+            "fourteen";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 15) return
+            "fifteen";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 16) return
+            "sixteen";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 17) return
+            "seventeen";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 18) return
+            "eighteen";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 19) return
+            "nineteen";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return "";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">}</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">string tens_name(int n)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; дава английското име на
+            десетиците между 20 и 90</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло число
+            между 2 и 9</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на
+            10*n ("twenty" . . . "ninety")</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{&nbsp; if (n == 2) return "twenty";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 3) return
+            "thirty";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 4) return
+            "forty";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 5) return
+            "fifty";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 6) return
+            "sixty";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 7) return
+            "seventy";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 8) return
+            "eighty";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (n == 9) return
+            "ninety";</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return "";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">}</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">string int_name(int n)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">/* ЦЕЛ:&nbsp; превръща цяло число в
+            английското му име</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ПОЛУЧАВА: n - цяло
+            положително число &lt; 1000000</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">&nbsp;&nbsp; ВРЪЩА:&nbsp; името на n
+            (т.е. "two hundred seventy four")</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#3333FF">*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{&nbsp; int c = n; /*<span
+              class="Apple-converted-space">&nbsp;</span></font><font
+            color="#3333FF">оставащата за превръщане част</font><font
+            color="#000099"><span class="Apple-converted-space">&nbsp;</span>*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; string r;&nbsp; /*<span
+              class="Apple-converted-space">&nbsp;</span></font><font
+            color="#3333FF">стойността на функцията</font><font
+            color="#000099"><span class="Apple-converted-space">&nbsp;</span>*/</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (c &gt;= 1000)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = int_name(c /
+            1000) + " thousand";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = c
+            % 1000;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (c &gt;= 100)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = r + " " +
+            digit_name(c / 100) + " hundred";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = c
+            % 100;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (c &gt;= 20)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = r + " " +
+            tens_name(c / 10);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = c
+            % 10;</font></tt></b><span class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; else if (c &gt;= 10)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; {&nbsp; r = r + " " +
+            teen_name(c);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c = 0;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; }</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; if (c &gt; 0)</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r = r
+            + " " + digit_name(c);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return r;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">}</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">int main()</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">{&nbsp; int n;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt; "Please
+            enter a positive integer: ";</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cin &gt;&gt; n;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; cout &lt;&lt;
+            int_name(n);</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">&nbsp;&nbsp; return 0;</font></tt></b><span
+        class="Apple-converted-space">&nbsp;</span><br>
+      <b><tt><font color="#000099">}</font></tt></b></p>
+    <table style="font-family: Times; letter-spacing: normal; orphans:
+      auto; text-indent: 0px; text-transform: none; widows: auto;
+      word-spacing: 0px; -webkit-text-stroke-width: 0px;" width="100%"
+      cellpadding="4" border="">
+      <tbody>
+        <tr>
+          <td><tt><font color="#990000">Please enter a positive integer:<span
+                  class="Apple-converted-space">&nbsp;</span></font><font
+                color="#006600">20119</font></tt><span
+              class="Apple-converted-space">&nbsp;</span><br>
+            <tt><font color="#990000">&nbsp;twenty thousand one hundred
+                nineteen</font></tt></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Проиграване:<br>
+    int_name(20119)<br>
+    n: 20119<br>
+    c: 20119 | 119 | 19 | 0<br>
+    r: twenty | twenty thousand | twenty thousand one hundred | twenty
+    thousand one hundred nineteen<br>
+    <br>
+    int_name(20)<br>
+    n: 20<br>
+    c: 20 | 0<br>
+    r: twenty
+    <ul>
+    </ul>
+    <font size="+1">
+      <hr width="100%" size="2"> </font>
+  </body>
+</html>
