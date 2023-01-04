@@ -105,20 +105,20 @@ protected: 						    // local utilities
       return &A[i];					// return with success
     i = (i + 1) % N;				// try next slot
   } while (i != start);				// until back to start
-  return NULL;						// return with failure
+  return NULL;					// return with failure
 }
   	// search utility
-  EntryPtr inserter(const Key& key, const Element& e)	// insert utility
+  EntryPtr inserter(const Key& key, const Element& e)// insert utility
 { int i = hash.hashValue(key) % N;	// get hash index
-  int start = i;					// starting point
+  int start = i;				// starting point
   do {
-    if (A[i].status != USED) {				// slot is available?
+      if (A[i].status != USED) {		// slot is available?
       A[i] = HashEntry(key, e, USED);	// store it here
-      n++;						// increase size
+      n++;					// increase size
       return &A[i];				// return with success
     }    i = (i + 1) % N;		// try next slot
   } while (i != start);			// until back to start
-  return NULL;					// return with failure
+  return NULL;				// return with failure
 }
 
 public:
@@ -148,27 +148,36 @@ public:
 };
 
 int main()
-{ LinearProbeHashTable<int, string, HComp> table;
-  table.insertItem(1860, "5203161860");
+{ 
+  LinearProbeHashTable<int, string, HComp> table;
+  table.insertItem(1860, "9405164860");
   table.insertItem(1999, "9901011999");
   table.insertItem(128, "0202020128");
+
   LinearProbeHashTable<int, string, HComp>::Position pos;
   pos = table.find(1999);
   if (!pos.isNull()) cout << pos.key() << " " << pos.element() << endl;
+
   pos = table.find(1000);
   if (pos.isNull()) cout << "Not found" << endl;
   cout << "Size: " << table.size() << endl;
+
   table.insertItem(999, "8808080999");
   pos = table.find(999);
-  if (!pos.isNull()) cout << pos.key() << " " << pos.element() << endl;  
+  if (!pos.isNull()) cout << pos.key() << " " << pos.element() << endl; 
+ 
   try 
-  {  table.removeElement(1999);
+  {  
+     table.removeElement(1999);
      cout << "Removed 1999." << endl;
      table.removeElement(1000);
      cout << "Removed 1000." << endl;            
   }      
   catch (NonexistentElementException ex)
-  {  cout << ex.getMessage() << endl;        
+  {  
+     cout << ex.getMessage() << endl;        
   }     
+
   return 0;   
 }    
+
