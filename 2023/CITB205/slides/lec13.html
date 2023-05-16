@@ -17,7 +17,7 @@
     Прихващане на изключения<br>
     Развиване на стека<br>
     Спецификации на изключенията<br>
-    <hr width="100%" size="2"><br>
+    <hr size="2" width="100%"><br>
     *** <b>Обработка на грешки<br>
       <br>
     </b>До сега за обработка на грешки - <a
@@ -29,6 +29,7 @@
     1000 лв. след 10 години с годишната лихва да е p%.&nbsp; Да се
     използва се формулата за пресмятане на <a
 href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%BB%D0%B8%D1%85%D0%B2%D0%B0&amp;oq=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%BB%D0%B8%D1%85%D0%B2%D0%B0&amp;aqs=chrome..69i57.16359j0j7&amp;sourceid=chrome&amp;ie=UTF-8">сложна
+
 
 
 
@@ -56,14 +57,15 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
     стойността - никой не знае къде и каква е грешката.<br>
     ** Много реални програми не могат да бъдат спирани като тези, които
     управляват ракета, самолет или медицинско устройство.<br>
-    <hr width="100%" size="2"> <b><br>
+    <hr size="2" width="100%"> <b><br>
       *** Изхвърляне на изключения<br>
       <br>
     </b> C++ има механизъм за уведомяване и обработка на изключения. <br>
     Когато дадена функция открие грешка, тя може да сигнализира за
-    това&nbsp; състояние (изхвърли изключение) към някоя друга част на
-    програмата, чиято работа е да обработва грешки.&nbsp; <br>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{  </b><b><span style="color: rgb(51, 51, 255);">if</span></b><b> (p &lt; 0 || n &lt; 0)</b><b><br></b><b>   {  </b><b>logic_error</b><b> <font color="#cc0000">description</font>("illegal future_value parameter");</b><b><br></b><b>      </b><b><span style="color: rgb(51, 51, 255);">throw</span></b><b> description;</b><b><br></b><b>   }</b><b><br></b><b>   </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font></pre>
+    това&nbsp; състояние (да изхвърли изключение), като премине&nbsp;
+    към някоя друга част на програмата, чиято работа е да обработва
+    грешки.&nbsp; <br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n) </b><b><br></b><b>{  </b><b><span style="color: rgb(51, 51, 255);">if</span></b><b> (p &lt; 0 || n &lt; 0)</b><b><br></b><b>   {  </b><b>logic_error</b><b> <font color="#cc0000">description</font>("illegal future_value parameter");</b><b><br></b><b>      </b><b><span style="color: rgb(51, 51, 255);">throw</span></b><b> description;  </b>// изхвърля изключението </font><font size="+1"><font size="+1">description</font><b>   <br>   }</b><b><br></b><b>   </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><b><br></b><b>}</b></font></pre>
     Може да не се задава име на обекта за обработка на изключения:<br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><b><span style="color: rgb(51, 51, 255);">double</span></b><b> future_value(</b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> initial_balance, </b><b><span style="color: rgb(51, 51, 255);">double</span></b><b> p, </b><b><span style="color: rgb(51, 51, 255);">int</span></b><b> n)</b><b><br></b><b>{ </b><b><span style="color: rgb(51, 51, 255);">if</span></b><b> (p &lt; 0 || n &lt; 0)</b><b><br></b><b>    </b><b><span style="color: rgb(51, 51, 255);">throw</span></b><b> </b><b>logic_error</b><b>("illegal future_value parameter");</b><b><br></b><b> </b><b><span style="color: rgb(51, 51, 255);">return</span></b><b> initial_balance * pow(1 + p / 100, n);</b><br>}</font></pre>
     <span style="color: rgb(0, 0, 0); font-family: monospace; font-size:
@@ -82,11 +84,12 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
       widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
       -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
       255); display: inline !important; float: none;">stdexcept</span>.<br>
+    <br>
     Ключовата дума <font size="+1"><tt>throw</tt> </font>показва, че
     изпълнението на функциятя спира незабавно, но управлението не се
     връща на извикващата функция, а се търси частта от програмата за
     обработка на изключения.<br>
-    <hr width="100%" size="2"> <b><br>
+    <hr size="2" width="100%"> <b><br>
       *** Прихващане на изключения</b><br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255); font-weight: bold;">try</span><br>{<br>   // <i>code</i><br>}<br><span style="color: rgb(51, 51, 255); font-weight: bold;">catch</span> (<span style="font-weight: bold;">logic_error</span>&amp; e)<br>{<br>   <i>// handler</i><br>}</font></pre>
     Ако някоя от функциите в блока <span style="color: rgb(51, 51,
@@ -97,11 +100,11 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
       widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto;
       -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
       255); display: inline !important; float: none;">try</span>
-    изхвърли изключение <span style="color: rgb(0, 0, 0); font-family:
-      monospace; font-size: large; font-style: normal; font-variant:
-      normal; font-weight: normal; letter-spacing: normal; line-height:
-      normal; orphans: auto; text-align: left; text-indent: 0px;
-      text-transform: none; white-space: normal; widows: auto;
+    изхвърли изключение от тип&nbsp; <span style="color: rgb(0, 0, 0);
+      font-family: monospace; font-size: large; font-style: normal;
+      font-variant: normal; font-weight: normal; letter-spacing: normal;
+      line-height: normal; orphans: auto; text-align: left; text-indent:
+      0px; text-transform: none; white-space: normal; widows: auto;
       word-spacing: 0px; -webkit-text-size-adjust: auto;
       -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
       255); display: inline !important; float: none;">logic_error</span>,
@@ -111,7 +114,8 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
           letter-spacing: normal; line-height: normal; text-align: left;
           text-indent: 0px; text-transform: none; white-space: normal;
           word-spacing: 0px; background-color: rgb(255, 255, 255);
-          display: inline ! important; float: none;">catch<b>(</b></span></tt></b><b><tt><span
+          display: inline ! important; float: none;"><b><font
+              color="#3366ff">catch</font>(</b></span></tt></b><b><tt><span
           style="color: rgb(0, 0, 0); font-size: large; font-style:
           normal; font-variant: normal; font-weight: normal;
           letter-spacing: normal; line-height: normal; text-align: left;
@@ -177,16 +181,19 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
     </table>
     <br>
     <tt>//</tt><tt><a href="../sources/ch17/exception1.cpp">exception1.cpp</a></tt><tt><br>
+      <br>
     </tt><tt> </tt><tt><font size="3"> #</font></tt><tt>include
       &lt;iostream&gt;</tt><tt><br>
     </tt><tt> </tt><tt><font color="#008000">#include </font></tt><tt>&lt;stdexcept&gt;</tt><tt><br>
     </tt><tt> </tt><code><font><font><font><font size="3"><font
                 color="#000000"><font color="#008000">#include</font></font></font></font></font></font></code><code><font
-        size="3"><font color="#000000"><tt> &lt;cmath&gt;</tt></font></font><font
-        face="Courier New" size="3"><font color="#000000"><br>
-          <b>using namespace </b>std;<br>
+        size="3"><font color="#000000"><tt> &lt;cmath&gt;<br>
+            <br>
+          </tt></font></font><font face="Courier New" size="3"><font
+          color="#000000"> <b>using namespace </b>std;<br>
           <br>
           <b>double </b>future_value(<b>double </b>initial_balance, <b>double
+
 
 
 
@@ -219,15 +226,18 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
           <b>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; try <br>
           </b>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; { <br>
           &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <b>double
+
           </b>fvalue = future_value(init, interest, years); <br>
           &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; cout
           &lt;&lt; <font color="#ff0000">"The future value is " </font>&lt;&lt;
 
 
 
+
           fvalue &lt;&lt; endl; <br>
           &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; }<br>
           <b>&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; catch </b>(logic_error&amp;
+
           e)<br>
           &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; { <br>
           &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
@@ -243,6 +253,7 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
           'n') more = <b>false</b>;<br>
           } <br>
           <font color="#000080"><i>&nbsp;&nbsp;&nbsp;&nbsp; </i></font><b>return
+
           </b><font color="#800080">0</font>;<br>
           }<br>
         </font></font></code>
@@ -352,11 +363,12 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
       -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
       255); color: rgb(51, 51, 255); font-weight: bold;">catch</span>
     блок.<br>
-    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><code><font face="Courier New" size="3"><font color="#008000">// <font size="3"><a href="../sources/ch17/exception2.cpp">exception2.cpp</a><br></font>#include </font>&lt;iostream&gt;<br><font color="#008000">#include </font>&lt;stdexcept&gt;<br></font></code><code></code><code><font><font><font><font face="Courier New" size="3"><font color="#000000"><font color="#008000">#include</font></font></font></font></font></font></code><code><font face="Courier New" size="3"><font color="#000000"> &lt;cmath&gt;</font></font></code><br><code><font face="Courier New" size="3"><b>using namespace </b>std;<br> <br><b>class </b>FutureValueError : <b>public </b>logic_error {<br><b>public</b>:<br>   FutureValueError(<b>const char </b>reason[]);<br>};<br><br>FutureValueError::FutureValueError(<b>const char </b>reason[])<br>   : logic_error(reason){}<br><br><b>double </b>future_value(<b>double </b>initial_balance, <b>double </b>p, <b>int </b>n)<br>{  <b>if </b>(p &lt; <font color="#800080">0 </font>|| n &lt; <font color="#800080">0</font>)<br>     <b>throw </b>FutureValueError(<font color="#ff0000">"illegal future_value parameter"</font>);<br>   <b>return </b>initial_balance * pow(<font color="#800080">1 </font>+ p / <font color="#800080">100</font>, n);<br>}<br><br><b>void </b>read(<b>double</b>&amp; init, <b>double</b>&amp; interest, <b>int</b>&amp; years)<br>{  cout &lt;&lt; <font color="#ff0000">"Enter initial value, interest and years: "</font>;<br>   cin &gt;&gt; init &gt;&gt; interest &gt;&gt; years;<br>   <b>if </b>(years &gt; <font color="#800080">100</font>) <b>throw </b>logic_error(<font color="#ff0000">"too many years!"</font>);<br>   cout &lt;&lt; init &lt;&lt; <font color="#ff0000">" " </font>&lt;&lt; interest &lt;&lt; <font color="#ff0000">" " </font>&lt;&lt; years &lt;&lt; endl;<br>}<br><br><b>int </b>main()<br>{  <b>bool </b>more = <b>true</b>;<br>   <b>while </b>(more)<br>    {  <b>double </b>init, interest;<br>       <b>int </b>years;<br>       <b>try<br>       </b>{  read(init, interest, years);<br>          <b>double </b>fvalue = future_value(init, interest, years); <br>          cout &lt;&lt; <font color="#ff0000">"The future value is " </font>&lt;&lt; fvalue &lt;&lt; endl;  <br>       }<br>       <font color="#000080"><i>/**/<br>       </i></font><b>catch </b>(FutureValueError&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A FutureValueError has occurred: "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       } <br>       <font color="#000080"><i>/**/      <br>       </i></font><b>catch </b>(logic_error&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A logic error has occurred: "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       }       <br>       cout &lt;&lt; <font color="#ff0000">"Retry? (y/n)"</font>;<br>       <b>char </b>input;<br>       cin &gt;&gt; input;<br>       <b>if </b>(input == 'n') more = <b>false</b>;<br>    } <font color="#000080"><i><br>    </i></font><b>return </b><font color="#800080">0</font>;<br> }<br></font></code></pre>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px;"><code><font face="Courier New" size="3"><font color="#008000">// <font size="3"><a href="../sources/ch17/exception2.cpp">exception2.cpp</a><br><br></font>#include </font>&lt;iostream&gt;<br><font color="#008000">#include </font>&lt;stdexcept&gt;<br></font></code><code></code><code><font><font><font><font face="Courier New" size="3"><font color="#000000"><font color="#008000">#include</font></font></font></font></font></font></code><code><font face="Courier New" size="3"><font color="#000000"> &lt;cmath&gt;</font></font></code><br><code><font face="Courier New" size="3"><b>using namespace </b>std;<br> <br><b>class </b>FutureValueError : <b>public </b>logic_error {<br><b>public</b>:<br>   FutureValueError(<b>const char </b>reason[]);<br>};<br><br>FutureValueError::FutureValueError(<b>const char </b>reason[])<br>   : logic_error(reason){}<br><br><b>double </b>future_value(<b>double </b>initial_balance, <b>double </b>p, <b>int </b>n)<br>{  <b>if </b>(p &lt; <font color="#800080">0 </font>|| n &lt; <font color="#800080">0</font>)<br>     <b>throw </b>FutureValueError(<font color="#ff0000">"illegal future_value parameter"</font>);<br>   <b>return </b>initial_balance * pow(<font color="#800080">1 </font>+ p / <font color="#800080">100</font>, n);<br>}<br><br><b>void </b>read(<b>double</b>&amp; init, <b>double</b>&amp; interest, <b>int</b>&amp; years)<br>{  cout &lt;&lt; <font color="#ff0000">"Enter initial value, interest and years: "</font>;<br>   cin &gt;&gt; init &gt;&gt; interest &gt;&gt; years;<br>   <b>if </b>(years &gt; <font color="#800080">100</font>) <b>throw </b>logic_error(<font color="#ff0000">"too many years!"</font>);<br>   cout &lt;&lt; init &lt;&lt; <font color="#ff0000">" " </font>&lt;&lt; interest &lt;&lt; <font color="#ff0000">" " </font>&lt;&lt; years &lt;&lt; endl;<br>}<br><br><b>int </b>main()<br>{  <b>bool </b>more = <b>true</b>;<br>   <b>while </b>(more)<br>    {  <b>double </b>init, interest;<br>       <b>int </b>years;<br>       <b>try<br>       </b>{  read(init, interest, years);<br>          <b>double </b>fvalue = future_value(init, interest, years); <br>          cout &lt;&lt; <font color="#ff0000">"The future value is " </font>&lt;&lt; fvalue &lt;&lt; endl;  <br>       }<br>       <font color="#000080"><i>/**/<br>       </i></font><b>catch </b>(FutureValueError&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A FutureValueError has occurred: "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       } <br>       <font color="#000080"><i>/**/      <br>       </i></font><b>catch </b>(logic_error&amp; e)<br>       {  cout &lt;&lt; <font color="#ff0000">"A logic error has occurred: "<br>               </font>&lt;&lt; e.what() &lt;&lt; <font color="#ff0000">"\n"</font>;<br>       }       <br>       cout &lt;&lt; <font color="#ff0000">"Retry? (y/n)"</font>;<br>       <b>char </b>input;<br>       cin &gt;&gt; input;<br>       <b>if </b>(input == 'n') more = <b>false</b>;<br>    } <font color="#000080"><i><br>    </i></font><b>return </b><font color="#800080">0</font>;<br> }<br></font></code></pre>
     <table width="100%" cellspacing="2" cellpadding="2" border="1">
       <tbody>
         <tr>
           <td valign="top"><code><font size="3"><font face="Courier New">nkirov@cpp
+
 
 
 
@@ -380,16 +392,18 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
         </tr>
       </tbody>
     </table>
-    <hr width="100%" size="2"> <b><br>
+    <hr size="2" width="100%"> <b><br>
       *** Развиване на стека<br>
       <br>
     </b> Често механизмът за обработка на изключения се прилага при вход
     на данни. <br>
+    <br>
     <i>Пример</i>: (<a href="../../CITB107/sources/ch6/product2.cpp"><b><tt>product2.cpp</tt></b></a>).<br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">bool</span> Product::read(fstream&amp; fs)<br>{  getline(fs, name);<br>   <span style="color: rgb(51, 51, 255);">if</span> (name == "") <span style="color: rgb(51, 102, 255);">return</span> false; // end of file<br>   fs &gt;&gt; price &gt;&gt; score;<br>   <span style="color: rgb(51, 51, 255);">if</span> (fs.fail())<br>      <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span> <span style="font-weight: bold;">runtime_error</span>("Error while reading product");<br>   string remainder;<br>   getline(fs, remainder);<br>   <span style="color: rgb(51, 51, 255);">return</span> true;<br>}</font></pre>
     Когато възникне логическа грешка, няма смисъл да се повтори същата
     операция, но при <font size="+1"><tt>runtime_error</tt></font> има
     шанс да се повтори операцията и грешката да се избегне. <br>
+    <br>
     Има съществена разлика при обработката на край на файла (<font
       size="+1"><tt>return</tt></font>) и грешка при входа (<font
       size="+1"><tt>throw</tt></font>). <br>
@@ -459,6 +473,7 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
       -webkit-text-stroke-width: 0px; background-color: rgb(255, 255,
       255); display: inline !important; float: none;">read</span>
     изхвърли изключение (виж <a href="../sources/ch17/product1.cpp"><tt>product1.cpp</tt></a>).
+
 
 
 
@@ -557,6 +572,7 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
 
 
 
+
       </tt><tt><br>
       </tt><tt>}</tt><tt><br>
       </tt><tt><br>
@@ -607,9 +623,11 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
 
 
 
+
         delete products[i];</tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         throw;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -633,9 +651,11 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
 
 
 
+
       </tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -670,6 +690,7 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
 
 
 
+
         // runtime_error&amp; r)</tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp; { cout &lt;&lt; "2. " &lt;&lt;
         r.what() &lt;&lt;
@@ -684,9 +705,11 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
 
 
 
+
       </tt><tt><br>
       </tt><tt>&nbsp;&nbsp;&nbsp;
         }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
 
 
 
@@ -720,11 +743,11 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
     </table>
     <font size="+1"><tt><br>
       </tt></font>
-    <hr width="100%" size="2"> <b><br>
+    <hr size="2" width="100%"> <b><br>
       *** Спецификации на изключенията</b><br>
     <br>
     При дефинирането на функция, можем да определим кои изключения може
-    да изхвърля (да пропуска) функцията. <br>
+    да изхвърля (или да пропуска) функцията. <br>
     <i>Например:</i><br>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1"><span style="color: rgb(51, 51, 255);">void</span> process_products(fstream&amp; fs)<br>     <span style="color: rgb(51, 51, 255); font-weight: bold;">throw</span> (UnexpectedEndOfFile, bad_alloc)</font></pre>
     означава, че само зададените две изключения са позволени на тази
@@ -845,6 +868,6 @@ href="https://www.google.com/search?q=%D1%81%D0%BB%D0%BE%D0%B6%D0%BD%D0%B0+%D0%B
     </table>
     <br>
     <a href="../sources/ch17/strous.cpp">
-      <hr width="100%" size="2"> </a>
+      <hr size="2" width="100%"> </a>
   </body>
 </html>
