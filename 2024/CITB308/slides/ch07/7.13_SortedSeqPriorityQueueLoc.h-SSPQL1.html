@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>SSPQL1</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: SSPQL1</font></h2>
+<br><dl><dd><pre>
+
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Key, <font color="#A000A0">typename</font> Element, <font color="#A000A0">typename</font> Comp&gt;
+<font color="#A000A0">class</font> SortedSeqPriorityQueueLoc { 
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// typename shortcuts</font>
+  <font color="#A000A0">struct</font>  LocItem;					<font color="#0000FF">// a locatable item</font>
+  <font color="#A000A0">typedef</font> LocItem*			 LocItemPtr;	<font color="#0000FF">// a pointer to LocItem</font>
+  <font color="#A000A0">typedef</font> NodeSequence&lt;LocItemPtr&gt;	 Sequence;	<font color="#0000FF">// sequence</font>
+  <font color="#A000A0">typedef</font> Sequence::Position 		 Position;	<font color="#0000FF">// position in sequence</font>
+  <font color="#0000FF">// ... (insert LocItem here)</font>
+<font color="#A000A0">public</font>:
+  <font color="#0000FF">// ... (insert Locator here)</font>
+<font color="#A000A0">protected</font>: 						<font color="#0000FF">// local utilities</font>
+  <font color="#A000A0">const</font> Key&amp; <font color="#000000">key</font>(<font color="#A000A0">const</font> Position&amp; p) <font color="#A000A0">const</font> 		<font color="#0000FF">// position's key</font>
+    { <font color="#00A000">return</font> p.<font color="#000000">element</font>()-&gt;<font color="#000000">key</font>(); }
+  Element&amp; <font color="#000000">element</font>(<font color="#A000A0">const</font> Position&amp; p)			<font color="#0000FF">// position's element</font>
+    { <font color="#00A000">return</font> p.<font color="#000000">element</font>()-&gt;<font color="#000000">element</font>(); }
+  <font color="#A000A0">void</font> <font color="#000000">locInsert</font>(LocItemPtr locItem);			<font color="#0000FF">// insert utility</font>
+<font color="#A000A0">private</font>: 						<font color="#0000FF">// member data</font>
+  Sequence   S;						<font color="#0000FF">// sorted sequence</font>
+  Comp       comp;					<font color="#0000FF">// comparator</font>
+<font color="#A000A0">public</font>: 						<font color="#0000FF">// public functions</font>
+  <font color="#000000">SortedSeqPriorityQueueLoc</font>() : <font color="#000000">S</font>(), <font color="#000000">comp</font>() { }		<font color="#0000FF">// constructor</font>
+  Locator <font color="#000000">min</font>() <font color="#A000A0">const</font> 					<font color="#0000FF">// minimum item</font>
+      <font color="#00A000">throw</font>(EmptyContainerException) {
+    <font color="#00A000">if</font> (S.<font color="#000000">isEmpty</font>()) <font color="#00A000">throw</font> <font color="#000000">EmptyContainerException</font>(<font color="#0000FF">"Min of empty queue"</font>);
+    <font color="#00A000">else</font>
+      <font color="#00A000">return</font> <font color="#000000">Locator</font>(S.<font color="#000000">first</font>().<font color="#000000">element</font>());
+  }
+  Locator <font color="#000000">insertItem</font>(<font color="#A000A0">const</font> Key&amp; k, <font color="#A000A0">const</font> Element&amp; e) {	<font color="#0000FF">// insert (key,element)</font>
+    LocItemPtr locItem = <font color="#A000A0">new</font> <font color="#000000">LocItem</font>(k, e);		<font color="#0000FF">// allocate new item</font>
+    <font color="#000000">locInsert</font>(locItem);					<font color="#0000FF">// insert it</font>
+    <font color="#00A000">return</font> <font color="#000000">Locator</font>(locItem);				<font color="#0000FF">// return its locator</font>
+  }
+  <font color="#A000A0">void</font> <font color="#000000">remove</font>(Locator&amp; loc)				<font color="#0000FF">// remove item</font>
+      <font color="#00A000">throw</font>(InvalidPositionException) {
+    <font color="#00A000">if</font> (loc.<font color="#000000">isNull</font>()) <font color="#00A000">throw</font> <font color="#000000">InvalidPositionException</font>(<font color="#0000FF">"Removal of null locator"</font>);
+    S.<font color="#000000">remove</font>(loc.locItem-&gt;pos);				<font color="#0000FF">// remove from sequence</font>
+    <font color="#A000A0">delete</font> loc.locItem;					<font color="#0000FF">// delete the item</font>
+    loc.locItem = NULL;					<font color="#0000FF">// invalidate pointer</font>
+  }
+  <font color="#0000FF">// ...</font>
+</pre></dd></dl>
+</body>
+</html>

@@ -1,0 +1,1026 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>ch01_bg</title>
+  </head>
+  <body>
+    <h2>CITB308 Структури от данни<br>
+    </h2>
+    <h2 style="text-align: center;"> <img alt="" src="cover-dsac.jpg"
+        style="width: 235px; height: 306px;"><br>
+    </h2>
+    <hr width="100%" size="2">
+    <h2>1. Език за програмиране С++</h2>
+    Основни елементи на C++<br>
+    Изрази<br>
+    Управляващи оператори<br>
+    Функции<br>
+    Класове<br>
+    <hr width="100%" size="2">
+    <h3> <span style="font-weight: bold;">Основни елементи на C++<br>
+      </span> </h3>
+    <h4><span style="font-weight: bold;"> Проста С++ програма<br>
+      </span></h4>
+    <blockquote>
+      <pre><span style="color: rgb(0, 153, 0);">#include</span> &lt;stdlib&gt;<br><span style="color: rgb(0, 153, 0);">#include</span> &lt;iostream&gt;<br><span style="color: rgb(51, 51, 255);">int</span> main()<br>{ <span style="color: rgb(51, 51, 255);">int</span> x, y;<br>&nbsp; std::cout &lt;&lt; <span style="color: rgb(204, 0, 0);">"Please enter two numbers: "</span>; <br>&nbsp; std::cin &gt;&gt; x &gt;&gt; y;       // input stream <br>&nbsp; <span style="color: rgb(51, 51, 255);">int</span> sum = x + y;<br>&nbsp; std::cout &lt;&lt; <span style="color: rgb(204, 0, 0);">"Their sum is "</span> &lt;&lt; sum &lt;&lt; std::endl;<br>  <span style="color: rgb(51, 51, 255);">return</span> EXIT_SUCCESS;<br>}<br></pre>
+    </blockquote>
+    <h4><span style="font-weight: bold;"> Елементи<br>
+      </span></h4>
+    <ul>
+      <li>заглавни файлове (header files)</li>
+      <li>тяло на функцията (function body)</li>
+      <li>стандартен изходен поток (standard output stream) <span
+          style="font-family: monospace;">std::cout</span> </li>
+      <li>стандартен входен поток (standard input stream)<span
+          style="font-family: monospace;"> std::cin</span></li>
+      <li> <span style="font-family: monospace;">using namespace std;</span>
+      </li>
+    </ul>
+    -- оператор (statement) - част от програма (завършва с ;), съставен
+    оператор (if, return)<br>
+    -- операция (operator) - елемент на езика (<span style="font-family:
+      monospace;">+</span>, <span style="font-family: monospace;">=</span>,<span
+      style="font-family: monospace;"> ==</span>)<br>
+    -- операция (operation)&nbsp; - като действие или състояние
+    (събиране, присвояване, равно)<br>
+    <br>
+    <span style="font-weight: bold;"> Основни типове данни</span><br>
+    <table style="text-align: left;" height="147" width="785"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td><tt> bool<br>
+              char<br>
+              short<br>
+              int<br>
+              long<br>
+              float<br>
+              double<br>
+              enum</tt> </td>
+          <td> <tt> boolean<br>
+              character<br>
+              integer<br>
+              integer<br>
+              long integer<br>
+              single-precision floating point<br>
+              double-precision floating point<br>
+              enumeration</tt> </td>
+          <td> <tt>true, false<br>
+              писмен знак, символ 'A'<br>
+              къс цял<br>
+              цял<br>
+              дълъг цял<br>
+              единична точност плаваща запетая<br>
+              двойна точност плаваща запетая<br>
+              изброяване - множество от отделни стойности</tt></td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <span style="font-family: monospace; color: rgb(51, 51, 255);">bool</span>,
+    <span style="font-family: monospace; color: rgb(51, 51, 255);">char</span>,
+    <span style="font-family: monospace; color: rgb(51, 51, 255);">int</span>
+    и <span style="font-family: monospace; color: rgb(51, 51, 255);">enum</span>
+    се наричат интегрални типове (integral types).<br>
+    <span style="font-family: monospace; color: rgb(51, 51, 255);">void</span>
+    само за тип на функция, функцията не връща стойност<span
+      style="font-weight: bold;"></span><br>
+    <br>
+    <span style="font-weight: bold;"> Изброен тип</span><br>
+    Изброяване (enumeration) е дефиниран от потребителя тип, който
+    съдържа отделни стойности.<br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">enum</span> Color { RED, GREEN, BLUE };  // default values are 0, 1, 2<br><span style="color: rgb(51, 51, 255);">enum</span> Week { MONDAY = 1, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY};  <br>                                  // values are 1, 2, 3, .., 7<br><span style="color: rgb(51, 51, 255);">enum</span> Mood { HAPPY = 3, SAD = 1, ANXIOUS = 4, SLEEPY = 2 };<br>Color skyColor = BLUE;<br>Mood myMood = SLEEPY;<br>Week day = TUESDAY;</pre>
+    </blockquote>
+    <span style="font-weight: bold;">Указатели </span><span
+      style="font-weight: bold;">(pointers)</span><br>
+    Всяка променлива се съхранява в паметта на компютъра на някакво
+    място, наречено адрес. Указателят съдържа този адрес (число).<br>
+    Стойността на операция <i>адрес</i> (<font size="+1"><b><tt>&amp;</tt></b></font>)
+    е адресът на обекта (променливата), единствен аргумент на тази
+    операция.<br>
+    Достъп до обекта, адресиран от указателя се осъществява с операция <i>стойност
+
+
+
+      на указател</i> (dereferencing), която се означава със&nbsp; <tt><b>*</b></tt>.<br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">char</span> ch = 'Q';  <br><span style="color: rgb(51, 51, 255);">char</span>* p = &amp;ch;   // p holds the address of ch <br>cout &lt;&lt; *p;      // outputs the character 'Q'    <br>ch = 'Z';        // ch now holds 'Z'  <br>cout &lt;&lt; *p;      // outputs the character 'Z'  <br></pre>
+    </blockquote>
+    <br>
+    <span style="font-weight: bold;"> Масиви (arrays)</span><br>
+    Масив е множество (редица) от елементи от едни и същи тип.<br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">double</span> f[3];    // array of 3 doubles f[0], f[1], f[2]<br><span style="color: rgb(51, 51, 255);">double</span>* p[10];  // array of 10 double pointers p[0]..p[9]<br>f[2] = 2.5;<br>p[4] = &amp;f[2];   // p[4] points to f[2]<br>cout &lt;&lt; *p[4];  // outputs 2.5<br><span style="color: rgb(51, 51, 255);">int</span> a[] = { 10, 11, 12, 13 }; // initialization<br><span style="color: rgb(51, 51, 255);">int</span> b[20] = { 0 }; // initialize all elements with value 0<br></pre>
+    </blockquote>
+    C++ <b>не</b> поддържа проверка за излизане на индексите извън
+    границите на масива [common programming error]!<br>
+    <br>
+    <span style="font-weight: bold;"> C-структури </span><span
+      style="font-weight: bold;">(C-structures)</span><br>
+    <span style="font-weight: bold;"></span>Структурата съхранява
+    съвкупност от елементи. Елементите (членове или полета) могат да
+    бъдат от различни типове. <br>
+    <br>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <blockquote>
+              <pre><span style="color: rgb(51, 51, 255);">enum</span> MealType { NO_PREF, REGULAR, LOW_FAT, VEGETARIAN };<br><span style="color: rgb(51, 51, 255);">struct</span> Passenger {<br>    string name;         // "John Smith"<br>    MealType mealPref;   // LOW_FAT <br>    <span style="color: rgb(51, 51, 255);">bool</span> isFreqFlyer;    // true<br>    string freqFlyerNo;  // "293145"<br>};<br></pre>
+            </blockquote>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Дефинира се нов тип <span style="font-family: monospace;">Passenger</span>.
+    Достъп до член на структурата се дава с операция "точка": <span
+      style="font-family: monospace;">struct_variable.member</span>.<br>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <pre><span style="font-family: monospace;">	<br>	Passenger pass = { "John Smith", </span>LOW_FAT, true, "293145" };<br>	pass.name = "Pocahontas";    // change name<br>	pass.mealPref = VEGETARIAN;  // change meal preference</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Това е C-структура. Като цяло, структури и класове в C++ предоставят
+    много по-широка гама от възможности, отколкото това, което е
+    възможно в C-структурите (член функции, контрол на достъпа и др.).<br>
+    <br>
+    <span style="font-weight: bold;"> Динамична памет, операция </span><font
+      size="+1"><span style="font-family: monospace; font-weight:
+        normal;">new</span></font><span style="font-weight: bold;"></span><br>
+    C++ системата за изпълнение на задания (runtime system) запазва блок
+    от паметта на компютъра, наречена динамична памет (free memory,
+    dynamic memory or heap memory).<br>
+    Операция <span style="font-family: monospace;">new</span> динамично
+    отделя точното количество памет за обект от даден тип и връща адреса
+    на обекта. <br>
+    <br>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <blockquote>
+              <pre><span style="font-family: monospace;">Passenger *p</span>;<br>//...<br>p = <span style="color: rgb(51, 51, 255);">new</span> Passenger;         // p points the new Passenger<br>p-&gt;name = <span style="color: rgb(204, 0, 0);">"Pocahontas"</span>;    // <span style="font-weight: bold;">member selection</span>(arrow) operator<br>p-&gt;mealPref = VEGETARIAN;  // change meal preference<br>p-&gt;isFreqFlyer = false;<br>p-&gt;freqFlyerNo = <span style="color: rgb(204, 0, 0);">"NONE"</span>;<br>//...<br><span style="color: rgb(51, 51, 255);">delete</span> p;<br></pre>
+            </blockquote>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Новият обект от тип&nbsp; Passenger съществува в динамичната памет
+    докато не бъде изтрит.<br>
+    <br>
+    <span style="font-weight: bold;"> Memory Leaks</span><br>
+    Ако обектът е създаден с операция<span style="font-family:
+      monospace;"> new</span>, то той трябва да се изтрие (да се
+    освободи заеманата динамична памет) с <span style="font-family:
+      monospace;">delete</span>.<br>
+    <blockquote>
+      <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">char</span>* buffer = <span style="color: rgb(51, 51, 255);">new</span> char[500]</span>;<br>//...<br><span style="color: rgb(51, 51, 255);">delete</span> buffer; // <span style="color: rgb(255, 0, 0);">ERROR: delete only the fist element buffer[0]</span> <br></pre>
+    </blockquote>
+    Оставяне на недостъпни обекти в динамичната памет се нарича
+    "изтичане на памет" (memory leak).<br>
+    <blockquote>
+      <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">char</span>* buffer = <span style="color: rgb(51, 51, 255);">new</span> char[500]</span>;<br>//...<br><span style="color: rgb(51, 51, 255);">delete</span> [] buffer; // <span style="color: rgb(51, 204, 0);"><span style="color: rgb(0, 153, 0);">delete all elements</span> </span><br></pre>
+    </blockquote>
+    <span style="font-weight: bold;"> Константи и <span
+        style="font-family: monospace;">typedef</span></span><br>
+    <blockquote>
+      <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">const double</span> PI = 3.14159265;<br><span style="color: rgb(51, 51, 255);">const int</span> CUT_OFF[] = {90, 80, 70, 60}</span>;<br><span style="color: rgb(51, 51, 255);">const int</span> N_DAYS = 7;<br><span style="color: rgb(51, 51, 255);">const int</span> N_HOURS = 24*N_DAYS;<br><span style="color: rgb(51, 51, 255);">int</span> counter[N_HOURS];<br></pre>
+    </blockquote>
+    Често е полезно да се асоциира ново име с някой (обикновено
+    съставен) тип:<span style="font-weight: bold;"></span><br>
+    <blockquote>
+      <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">typedef char</span>* BufferPtr;   // type BufferPtr is a pointer to char<br><span style="color: rgb(51, 51, 255);">typedef double</span> Coordinate</span>; // type Coordinate is a double<br>//...<br>BufferPtr p;       // p is a pointer to a char<br>Coordinate x, y;   // x and y are of type double<br></pre>
+    </blockquote>
+    <br>
+    <span style="font-weight: bold;"> Локален и глобален обхват
+      (видимост, scope)</span><br>
+    <span style="font-weight: bold;"> </span>Частта от програмата,
+    където дадено име е достъпно се наричат ​​негов обхват<span
+      style="font-weight: bold;"></span>.<span style="font-weight:
+      bold;"></span><br>
+    <blockquote>
+      <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">const int</span> cat = 1;      // global cat<br><span style="color: rgb(51, 51, 255);">int</span> main() </span><br>{  <span style="color: rgb(51, 51, 255);"><br>	const int</span> cat = 2;   // local cat (to main)<br>   	cout &lt;&lt; cat;         // outputs 2<br>   <span style="color: rgb(51, 51, 255);">	return</span> 0;<br>}<br><span style="color: rgb(51, 51, 255);">int</span> dog = cat;          // dog = 1 (from global cat)<br></pre>
+    </blockquote>
+    <br>
+    <span style="font-weight: bold;"> Пространства от имена (namespaces)</span><br>
+    <span style="font-weight: bold;"></span>Именното пространство е
+    механизъм, който позволява на група от свързани имена да бъдат
+    дефинирани на едно място.<br>
+    <blockquote>
+      <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">namespace</span> myglobals {<br>   <span style="color: rgb(51, 51, 255);">int</span> cat; </span><br>   string dog = <span style="color: rgb(204, 0, 0);">"bow wow"</span>;<br>}<br>   <br><span style="color: rgb(51, 51, 255);">int</span> d = myglobals::cat;<br></pre>
+    </blockquote>
+    &nbsp; Достъп до обект <span style="font-family: monospace;">x</span>
+    в именното пространство <span style="font-family: monospace;">group</span>
+    дава операция "принадлежност" <tt>::</tt> (scope):&nbsp; <span
+      style="font-family: monospace;">group::x</span><span
+      style="font-weight: bold;"></span>.<br>
+    <a style="font-weight: bold;" href="namespace.cpp"><span
+        style="color: rgb(204, 0, 0);">namespace.cpp</span></a><br>
+    <br>
+    <span style="font-weight: bold;">&nbsp; Оператор <tt>using</tt></span><br>
+    <blockquote> <span style="font-family: monospace;"><span
+          style="color: rgb(51, 51, 255);">using</span> std::cout;</span><br
+        style="font-family: monospace;">
+      <span style="font-family: monospace;"><span style="color: rgb(51,
+          51, 255);">using</span> myglobals::cat;</span><br>
+    </blockquote>
+    или<br>
+    <blockquote> <span style="font-family: monospace;"><span
+          style="color: rgb(51, 51, 255);">using namespace</span> std;</span><br
+        style="font-family: monospace;">
+      <span style="font-family: monospace;"><span style="color: rgb(51,
+          51, 255);">using namespace</span> myglobals;</span><br>
+    </blockquote>
+    <hr style="width: 100%; height: 2px;">
+    <h3><span style="font-weight: bold;"> Изрази</span></h3>
+    Изразът съчетава променливи и литерали с операции за създаване на
+    нови стойности.<br>
+    <h4><span style="font-weight: bold;"> Избиране на член (member
+        selection) и индекс</span></h4>
+    Нека:<br>
+    <ul>
+      <li> <span style="font-weight: bold; font-family: monospace;">class_name</span>
+        означава име на клас или структура;</li>
+      <li> <span style="font-family: monospace; font-weight: bold;">member</span>
+        означава име на член (или поле) на този клас или структура;</li>
+      <li> <span style="font-family: monospace; font-weight: bold;">pointer</span>
+        означава указател към клас или структура;</li>
+      <li> <span style="font-family: monospace; font-weight: bold;">array</span>
+        означава масив или указател към първия елемент на масив;</li>
+      <li> <span style="font-weight: bold; font-family: monospace;">exp</span>
+        означава израз (<span style="font-weight: bold;">rvalue</span>).</li>
+    </ul>
+    Операции (<span style="font-weight: bold;">lvalue</span>):<br>
+    <table style="text-align: left;" height="103" width="814"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;
+            font-weight: bold;">class_name.member</td>
+          <td style="vertical-align: top;">class/structure member
+            selection<br>
+          </td>
+          <td style="vertical-align: top;">dot (member selection)
+            operator</td>
+          <td valign="top">операция "точка"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-family:
+              monospace; font-weight: bold;">pointer-&gt;member</span><br>
+          </td>
+          <td style="vertical-align: top;">class/structure member
+            selection</td>
+          <td style="vertical-align: top;">arrow operator<br>
+          </td>
+          <td valign="top">операция "стрелка"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-weight:
+              bold; font-family: monospace;">array[exp]</span><br>
+          </td>
+          <td style="vertical-align: top;">array subscripting<br>
+          </td>
+          <td style="vertical-align: top;">index (subscript) operator<br>
+          </td>
+          <td valign="top">операция "индекс"<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span style="font-weight: bold;"><br>
+      Аритметични операции<br>
+    </span><br>
+    Бинарни аритметични операции (<span style="font-weight: bold;">rvalue</span>):<span
+      style="font-weight: bold;"><br>
+    </span>
+    <table style="text-align: left; width: 469px; height: 144px;"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-weight:
+              bold; font-family: monospace;">exp + exp</span><br>
+          </td>
+          <td style="vertical-align: top;">addition<br>
+          </td>
+          <td valign="top">събиране<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold; font-family: monospace;">exp - exp</span></td>
+          <td style="vertical-align: top;">subtraction<br>
+          </td>
+          <td valign="top">изваждане<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold; font-family: monospace;">exp * exp</span></td>
+          <td style="vertical-align: top;">multiplication<br>
+          </td>
+          <td valign="top">умножение<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold; font-family: monospace;">exp / exp</span></td>
+          <td style="vertical-align: top;">division<br>
+          </td>
+          <td valign="top">деление<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold; font-family: monospace;">exp % exp</span></td>
+          <td style="vertical-align: top;">modulo (remainder)<br>
+          </td>
+          <td valign="top">остатък<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    Унарни операции: <span style="font-weight: bold; font-family:
+      monospace;">+x</span> и <span style="font-family: monospace;
+      font-weight: bold;">-x</span><span style="font-weight: bold;">.<br>
+    </span> <br>
+    <span style="font-weight: bold;"> Операции увеличаване (increment) и
+      намаляване (decrement)</span><br>
+    <ul>
+      <li> <span style="font-weight: bold; font-family: monospace;">var</span>
+        означава променлива или нещо, на което може да се присвои
+        стойност (<span style="font-weight: bold;">lvalue</span>).</li>
+    </ul>
+    <span style="font-weight: bold;"></span>
+    <table style="text-align: left; width: 366px; height: 116px;"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-weight:
+              bold; font-family: monospace;">var++</span><br>
+          </td>
+          <td style="vertical-align: top;">post increment<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold; font-family: monospace;">var--<br>
+            </span></td>
+          <td style="vertical-align: top;">post decrement<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold; font-family: monospace;">++var</span></td>
+          <td style="vertical-align: top;">pre increment</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-weight:
+              bold; font-family: monospace;">--var</span></td>
+          <td style="vertical-align: top;">pre decrement </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">int</span> a[] = { 0, 1, 2, 3 };<br><span style="color: rgb(51, 51, 255);">int</span> i = 2;           <br><span style="color: rgb(51, 51, 255);">int</span> j = i++;         // j = 2 and then i = 3<br><span style="color: rgb(51, 51, 255);">int</span> k = --i;         // i = 2 and then k = 2<br>cout &lt;&lt; a[k++];      // a[2] (=2) is output; then k = 3<br></pre>
+    </blockquote>
+    <b>Операции за сравнение:</b><br>
+    <table style="text-align: left; width: 506px; height: 172px;"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-family:
+              monospace; font-weight: bold;">exp &lt; exp</span><br>
+          </td>
+          <td style="vertical-align: top;">less than<br>
+          </td>
+          <td valign="top">по-малко<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &gt; exp</span></td>
+          <td style="vertical-align: top;">greater than<br>
+          </td>
+          <td valign="top">по-голямо<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &lt;= exp</span></td>
+          <td style="vertical-align: top;">less than or equal to<br>
+          </td>
+          <td valign="top">по-малко или равно<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &gt;= exp</span></td>
+          <td style="vertical-align: top;">greater than or equal to</td>
+          <td valign="top">по-голямо или равно</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp == exp</span></td>
+          <td style="vertical-align: top;">equal to<br>
+          </td>
+          <td valign="top">равно<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp != exp</span></td>
+          <td style="vertical-align: top;">not equal to<br>
+          </td>
+          <td valign="top">неравно<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    Стойности на тези операции са логическите стойности - <span
+      style="font-family: monospace;">true</span> и <span
+      style="font-family: monospace;">false</span>.<br>
+    <br>
+    <b>Логически операции:</b><br>
+    <table style="text-align: left;" height="87" width="388"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-family:
+              monospace; font-weight: bold;">! exp</span><br>
+          </td>
+          <td style="vertical-align: top;">logical not </td>
+          <td valign="top">логическо "не"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &amp;&amp; exp</span></td>
+          <td style="vertical-align: top;">logical and </td>
+          <td valign="top">логическо "и"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp || exp</span></td>
+          <td style="vertical-align: top;">logical or </td>
+          <td valign="top">логическо "или"<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span style="font-family: monospace;">exp</span> може да бъде
+    логически или аритметичен израз (0 означава <span
+      style="font-family: monospace;">false</span>, ненула означава <span
+      style="font-family: monospace;">true</span>).<br>
+    <br>
+    <span style="font-weight: bold;"> Побитови операции:</span><br>
+    <table style="text-align: left;" height="172" width="743"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-family:
+              monospace; font-weight: bold;">~exp</span><br>
+          </td>
+          <td style="vertical-align: top;">bitwise complement, ex. <br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">~100010
+-&gt;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            011101</td>
+          <td valign="top">побитово отрицание<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &amp; exp</span></td>
+          <td style="vertical-align: top;">bitwise and (conjunction),
+            ex. <br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">1001
+            &amp; 1100 -&gt; 1000</td>
+          <td valign="top">побитово "и"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp ^ exp</span></td>
+          <td style="vertical-align: top;">bitwise exclusive-or<br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">1001
+            ^ 1100 -&gt; 0101<br>
+          </td>
+          <td valign="top">побитово изключващо "или"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp | exp</span></td>
+          <td style="vertical-align: top;">bitwise or (disjunction)<br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">1001
+            | 1100 -&gt; 1101<br>
+          </td>
+          <td valign="top">побитово "или"<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &lt;&lt; exp</span></td>
+          <td style="vertical-align: top;">shift left </td>
+          <td style="vertical-align: top; font-family: monospace;">11001
+            &lt;&lt; 1&nbsp; -&gt; 10010 <br>
+          </td>
+          <td valign="top">преместване наляво<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp &gt;&gt; exp</span></td>
+          <td style="vertical-align: top;">shift right<br>
+          </td>
+          <td style="vertical-align: top; font-family: monospace;">11001
+            &gt;&gt; 1 -&gt; 01100<br>
+          </td>
+          <td valign="top">преместване надясно<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <span style="font-weight: bold;">Операции за присвояване</span><span
+      style="font-weight: bold;"></span><span style="font-weight:
+      normal;"><br>
+      Аритметичните операции (<span style="font-family: monospace;">+,
+        -, *,&nbsp; /, % </span>) и побитовите бинарни операции (<span
+        style="font-family: monospace;">&amp;, ^, |, &lt;&lt;, &gt;&gt;</span>)
+      се комбинират с оператора за присвояване <b><tt>=</tt></b>.</span><span
+      style="font-weight: bold;"></span>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">int</span><span style="font-family: monospace;"> i = 10; <br></span><span style="color: rgb(51, 51, 255);">int</span><span style="font-family: monospace;"> j = 5;<br></span><span style="color: rgb(51, 51, 255);">int</span><span style="font-family: monospace;"> k = 1;<br>i -= 4;     // i = i - 4; result 6</span><br>j *= -2;    // j = j * (-2); result -10<br>k &lt;&lt;= 1;    // k = k &lt;&lt; 1; result 2<br></pre>
+    </blockquote>
+    <br>
+    <span style="font-weight: bold;"> Други операции</span><br>
+    <table style="text-align: left;" height="160" width="739"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-family:
+              monospace; font-weight: bold;">class_name :: member</span><br>
+          </td>
+          <td style="vertical-align: top;">class scope resolution<br>
+          </td>
+          <td valign="top">принадлежност към клас<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">namespace_name :: member</span></td>
+          <td style="vertical-align: top;">namespace scope resolution </td>
+          <td valign="top">принадлежност към именно пространство<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace; font-weight: bold;">exp ? exp : exp<br>
+            </span></td>
+          <td style="vertical-align: top;">conditional expression <br>
+          </td>
+          <td valign="top">условна операция<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-weight:
+              bold; font-family: monospace;">stream &gt;&gt; var</span><br>
+          </td>
+          <td style="vertical-align: top;">input stream (overloaded)<br>
+          </td>
+          <td valign="top">входен поток<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-family:
+              monospace; font-weight: bold;">stream &lt;&lt; exp</span><br>
+          </td>
+          <td style="vertical-align: top;">output stream (overloaded)<br>
+          </td>
+          <td valign="top">изходен поток<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <span style="font-weight: bold;">Приоритет на операциите (<a
+        href="https://en.cppreference.com/w/cpp/language/operator_precedence">C++
+        Operator Precedence</a>)</span> <br>
+    Операциите в C + + имат приоритет, който определя реда, по който
+    операциите се извършват при липса на скоби.<br>
+    <table style="width: 685px; height: 588px;" border="1">
+      <tbody>
+        <tr>
+          <td bgcolor="silver"><b>Operator</b></td>
+          <td bgcolor="silver"><b>Description</b></td>
+          <td bgcolor="silver"><b>Associativity</b></td>
+        </tr>
+        <tr>
+          <td><tt>::</tt></td>
+          <td>scope</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>() [ ] -&gt; . sizeof</tt></td>
+          <td>&nbsp;</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>++ --</tt></td>
+          <td>increment, decrement</td>
+          <td rowspan="6">Right</td>
+        </tr>
+        <tr>
+          <td><tt>~</tt></td>
+          <td>bitwise complement<br>
+          </td>
+        </tr>
+        <tr>
+          <td><tt>! (not)<br>
+            </tt></td>
+          <td>unary NOT</td>
+        </tr>
+        <tr>
+          <td><tt>&amp; *</tt></td>
+          <td>reference and dereference<br>
+          </td>
+        </tr>
+        <tr>
+          <td> <span style="font-family: monospace;">..._cast, (type)</span><br>
+          </td>
+          <td>type casting</td>
+        </tr>
+        <tr>
+          <td><tt>+ -</tt></td>
+          <td>unary + and -<br>
+          </td>
+        </tr>
+        <tr>
+          <td><tt>* / %</tt></td>
+          <td>arithmetic operators</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>+ -</tt></td>
+          <td>addition, subtraction</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>&lt;&lt; &gt;&gt;</tt></td>
+          <td>bitwise shifts<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>&lt; &lt;= &gt; &gt;=</tt></td>
+          <td>relational operators</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>== !=</tt></td>
+          <td>relational operators</td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>&amp; <br>
+            </tt></td>
+          <td>bitwise and<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>^</tt></td>
+          <td style="vertical-align: top;">bitwise exclusive-or</td>
+          <td style="vertical-align: top;">Left</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt> |</tt></td>
+          <td style="vertical-align: top;">bitwise or<br>
+          </td>
+          <td style="vertical-align: top;">Left</td>
+        </tr>
+        <tr>
+          <td><tt>&amp;&amp; (and)<br>
+            </tt></td>
+          <td>logical operator and<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><tt>|| (or)<br>
+            </tt></td>
+          <td style="vertical-align: top;">logical operator or<br>
+          </td>
+          <td style="vertical-align: top;">Left</td>
+        </tr>
+        <tr>
+          <td><tt>?:</tt></td>
+          <td>conditional operator<br>
+          </td>
+          <td>Left</td>
+        </tr>
+        <tr>
+          <td><tt>= += -= *= /= %=<br>
+              &gt;&gt;= &lt;&lt;= &amp;= ^= |=</tt></td>
+          <td>assignment operators<br>
+          </td>
+          <td>Right</td>
+        </tr>
+        <tr>
+          <td><tt>,</tt></td>
+          <td>comma, separator</td>
+          <td>Left</td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">int</span> a = 10, b, c, d;  <br>// <span style="font-weight: bold;">right associativity</span>  <br>d = c = b = a;     // is equivalent to d = (c = (b = a)); <br>// <span style="font-weight: bold;">left associativity</span>  <br>d - c + b - a;     // is equivalent to ((d - c) + b) - a;  <br>// <span style="font-weight: bold;">precedence </span><br>d &gt; c &amp;&amp; -b &lt;= a   // is equivalent to (d &gt; c) &amp;&amp; ((-b) &lt;= a)  <span style="font-weight: bold;"></span></pre>
+    </blockquote>
+    <span style="font-weight: bold;"></span>
+    <h3><span style="font-weight: bold;"></span></h3>
+    <hr style="width: 100%; height: 2px;">
+    <h3><span style="font-weight: bold;"> Управляващи оператори<br>
+      </span></h3>
+    <span style="font-family: monospace;"><span style="color: rgb(51,
+        51, 255);">if</span> (&lt;condition&gt;) &lt;operator&gt;;</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;"><span style="color: rgb(51,
+        51, 255);">if</span> (&lt;condition&gt;) &lt;operator1&gt;; <span
+        style="color: rgb(51, 51, 255);">else</span> &lt;operator2&gt;;</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;"><span style="color: rgb(51,
+        51, 255);">while</span>(&lt;condition&gt;) &lt;opetator&gt;;</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;"><span style="color: rgb(51,
+        51, 255);">do</span> &lt;operator&gt;; <span style="color:
+        rgb(51, 51, 255);">while</span>(&lt;condition&gt;);</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;"><span style="color: rgb(51,
+        51, 255);">for</span> ([&lt;initialization&gt;];
+      [&lt;condition&gt;]; [&lt;increment&gt;]) &lt;operator&gt;;</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;"><span style="color: rgb(51,
+        51, 255);">for</span> ([&lt;expression1&gt;];
+      [&lt;expression2&gt;]; [&lt;expression3&gt;]) &lt;operator&gt;;</span><br
+      style="font-family: monospace;">
+    <span style="font-family: monospace;"><span style="color: rgb(51,
+        51, 255);">return</span> [&lt;expression&gt;];</span><br>
+    <h4><span style="font-weight: bold;"></span></h4>
+    <hr style="width: 100%; height: 2px;">
+    <h3><span style="font-weight: bold;"> Функции<br>
+      </span></h3>
+    <span style="font-weight: bold;"> Предефиниране (overloading) на
+      функции</span><span style="font-weight: bold;"></span><br>
+    Предефиниране на функции имаме, когато две или повече функции са
+    дефинирани със същото име, но различни списъци от параметри.<br>
+    <blockquote>
+      <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">void</span> print(</span><span style="color: rgb(51, 51, 255);">int</span><span style="font-family: monospace;"> x)<br>{ cout &lt;&lt; x; } </span></pre>
+    </blockquote>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">	<br>	void</span> print(<span style="color: rgb(51, 51, 255);">const</span> Passenger &amp;pass)<br>	{ <br>		cout &lt;&lt; pass.name &lt;&lt; <span style="color: rgb(204, 0, 0);">" "</span> &lt;&lt; pass.mealPref;<br>  <span style="color: rgb(51, 51, 255);">		if</span> (pass.isFreqFlyer) cout &lt;&lt; pass.freqFlyerNo;<br>	}</span></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span style="font-family: monospace;"><br>
+    </span><span style="font-weight: bold;">Предефиниране на операции<br>
+    </span>Тест за равенство за два <span style="font-family:
+      monospace;">Passenger </span>обекти:<br>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <blockquote>
+              <pre><span style="font-family: monospace;"><span style="color: rgb(51, 51, 255);">bool</span> <span style="color: rgb(51, 51, 255);">operator</span>==(<span style="color: rgb(51, 51, 255);">const</span> Passenger &amp;x, <span style="color: rgb(51, 51, 255);">const</span> Passenger &amp;y)<br>{ <br>	<span style="color: rgb(51, 51, 255);">return</span> x.name == y.name &amp;&amp;<br>        x.mealPref == y.mealPref &amp;&amp;<br>        x.isFreqFlyer == y.isFreqFlyer &amp;&amp;<br>        x.freqFlyerNo == y.freqFlyerNo;<br>}</span><br></pre>
+            </blockquote>
+            <span style="font-weight: bold;"></span><span
+              style="font-weight: bold;"> </span> </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <span style="font-weight: bold;">Използване на предефинирането</span>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <pre><span style="font-family: monospace;">	<br>	ostream&amp; <span style="color: rgb(51, 51, 255);">operator</span>&lt;&lt;(ostream &amp;out, <span style="color: rgb(51, 51, 255);">const</span> Passenger &amp;pass)<br>	{ <br>		out &lt;&lt; pass.name &lt;&lt; <span style="color: rgb(204, 0, 0);">" "</span></span><span style="font-family: monospace;"> &lt;&lt; pass.mealPref;<br>  <span style="color: rgb(51, 51, 255);">		if</span> (pass.isFreqFlyer) out &lt;&lt; pass.freqFlyerNo;</span><span style="font-family: monospace;"><br>  <span style="color: rgb(51, 51, 255);">		return</span> out;<br>	}<br>	//...<br>	Passenger pass1 = // details omitted<br>	Passenger pass2 = // details omitted<br>	cout &lt;&lt; pass1 &lt;&lt; pass2 &lt;&lt; endl;</span></pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span style="font-weight: bold;"></span><span style="font-weight:
+      bold;"></span>
+    <h4><span style="font-weight: bold;"></span></h4>
+    <hr style="width: 100%; height: 2px;">
+    <h3><span style="font-weight: bold;"> Класове<br>
+      </span></h3>
+    <span style="font-weight: bold;"> Структура на класа</span><br>
+    Класът се състои от членове. Членове, които са променливи или
+    константи са данни (член-променливи) и членове, които са ​​функции
+    се наричат член-функции (методи).<br>
+    <br>
+    <span style="font-weight: bold;"> Достъп</span><br>
+    Членовете могат да бъдат обявени за публични (<tt><b>public</b></tt>)
+    и те са достъпни за функции извън класа или частни&nbsp;(<tt><span
+        style="font-weight: bold;">private</span></tt>), които са
+    достъпни само за функциите от този клас. По подразбиране всички
+    членове са частни.<br>
+    <br>
+    <span style="font-weight: bold;"> Член-функции</span><br>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">
+            <blockquote>
+              <pre><span style="color: rgb(51, 51, 255);">enum</span> MealType { NO_PREF, REGULAR, LOW_FAT, VEGETARIAN };<br><span style="color: rgb(51, 51, 255);">class</span> Passenger {<br>  <span style="color: rgb(51, 51, 255);">private:</span><br>    string name;         // "John Smith"<br>    MealType mealPref;   // LOW_FAT <br>    <span style="color: rgb(51, 51, 255);">bool</span> isFreqFlyer;    // true<br>    string freqFlyerNo;  // "293145"<br>  <span style="color: rgb(51, 51, 255);">public:</span><br>    Passenger();                 // default constructor<br>    <span style="color: rgb(51, 51, 255);">bool</span> isFreqFlyer() <span style="color: rgb(51, 51, 255);">const</span>;    // <span style="font-weight: bold;">accessor function</span>                                         <br>    <span style="color: rgb(51, 51, 255);">void</span> makeFreqFlyer(<span style="color: rgb(51, 51, 255);">const</span> string &amp;newFreqFlyerNo);<br>                                 // <span style="font-weight: bold;">update </span>(mutator) <span style="font-weight: bold;">function</span>   <br>};<br>// ...<br><span style="color: rgb(51, 51, 255);">bool</span> Passenger::isFreqFlyer() <span style="color: rgb(51, 51, 255);">const</span><br>{ <span style="color: rgb(51, 51, 255);"><br>	return</span> isFreqFlyer; <br>}<br><span style="color: rgb(51, 51, 255);">void</span> Passenger::makeFreqFlyer(<span style="color: rgb(51, 51, 255);">const</span> string &amp;newFreqFlyerNo)<br>{ <br>	isFreqFlyer = <span style="color: rgb(51, 51, 255);">true</span>;<br>  	freqFlyerNo = newFreqFlyerNo;<br>}<br>//...<br>Passenger pass;<br>//...<br><span style="color: rgb(51, 51, 255);">if</span> (!pass.isFreqFlyer())          // OK<br>   pass.makeFreqFlyer("999999");  // OK<br>pass.name = "Joe Blow";           // <span style="font-weight: bold;">ERROR:</span> private member<br></pre>
+            </blockquote>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <span style="font-weight: bold;">Дефиниции на функции в класа
+      (in-class)</span><span style="font-weight: bold;"><br>
+    </span>
+    <table style="text-align: left; width: 100%;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <span style="font-weight:
+              bold;"></span>
+            <pre><span style="color: rgb(51, 51, 255);">	enum</span> MealType { NO_PREF, REGULAR, LOW_FAT, VEGETARIAN };<br><span style="color: rgb(51, 51, 255);">	class</span> Passenger {<br>  <span style="color: rgb(51, 51, 255);">	private:</span><br>    		string name;         // "John Smith"<br>    		MealType mealPref;   // LOW_FAT <br>    <span style="color: rgb(51, 51, 255);">		bool</span> isFreqFlyer;    // true<br>    		string freqFlyerNo;  // "293145"<br>  <span style="color: rgb(51, 51, 255);">	public:</span><br>    		Passenger();<br>    <span style="color: rgb(51, 51, 255);">		bool</span> isFreqFlyer() <span style="color: rgb(51, 51, 255);">const</span><br>    		{ <span style="color: rgb(51, 51, 255);">return</span> isFreqFlyer; }    &nbsp;<br>    		<span style="color: rgb(51, 51, 255);">void</span> makeFreqFlyer(<span style="color: rgb(51, 51, 255);">const</span> string &amp;newFreqFlyerNo)<br>    		{ <br>			isFreqFlyer = <span style="color: rgb(51, 51, 255);">true</span>;<br>      			freqFlyerNo = newFreqFlyerNo;<br>    		}<br>	};</pre>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <span style="font-weight: bold;"></span><br>
+    <span style="font-weight: bold;">Приятелски класове</span><br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">class</span> Matrix;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Matrix definition comes later<br><span style="color: rgb(51, 51, 255);">class</span> Vector {&nbsp;&nbsp;&nbsp; &nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; // a 3-element vector<br><span style="color: rgb(51, 51, 255);">private:</span><br>&nbsp; <span style="color: rgb(51, 51, 255);">double</span> coord[3];<br><span style="color: rgb(51, 51, 255);">public:</span><br>&nbsp; // ...<br>&nbsp; <span style="color: rgb(51, 51, 255);">friend class</span> Matrix;&nbsp; &nbsp; &nbsp;// allow Matrix access to coord<br>};<br><span style="color: rgb(51, 51, 255);">class</span> Matrix { &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // a 3x3 array<br><span style="color: rgb(51, 51, 255);">private:</span><br>&nbsp; <span style="color: rgb(51, 51, 255);">double</span> a[3][3];<br><span style="color: rgb(51, 51, 255);">public:</span><br>&nbsp; // ...<br>&nbsp; Vector multiplyBy(<span style="color: rgb(51, 51, 255);">const</span> Vector&amp; v) {&nbsp; // multiply (a * v)<br>&nbsp;&nbsp;&nbsp; Vector w(0, 0, 0);<br>&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255);">for</span> (<span style="color: rgb(51, 51, 255);">int</span> i = 0; i &lt; 3; i++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255);">for</span> (<span style="color: rgb(51, 51, 255);">int</span> j = 0; j &lt; 3; j++)<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; w.coord[i] += a[i][j] * v.coord[j]; // access private data<br>&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255);">return</span> w;<br>&nbsp; }<br>};<br></pre>
+    </blockquote>
+    <br>
+    <span style="font-weight: bold;"> Вложени класове</span><br>
+    Класовете може да съдържат променливи, член-функции и типове. Може
+    да се влагат и дефиниции други класове.<br>
+    <blockquote>
+      <pre><span style="color: rgb(51, 51, 255);">class</span> Complex {<span style="color: rgb(51, 51, 255);"></span><br><span style="color: rgb(51, 51, 255);">private:</span><br>    <span style="color: rgb(51, 51, 255);">class</span> Node {<br>    // ... <br>    };<br>    //... <br>};<br></pre>
+    </blockquote>
+    <br>
+    <span style="font-weight: bold;"> Стандартна библиотека с шаблони (</span>STL)<br>
+    Стандартната библиотека с шаблони (Standard Template Library - STL)
+    е колекция от полезни класове за общи структури от данни.<br>
+    <span style="font-weight: bold;"><br>
+      Стандартни контейнери:</span><br>
+    <table style="text-align: left;" height="228" width="705"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">stack<br>
+          </td>
+          <td style="vertical-align: top;">Container with last-in,
+            first-out access<br>
+          </td>
+          <td valign="top">стек<br>
+          </td>
+          <td valign="top">Контейнер с достъп LIFO<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">queue<br>
+          </td>
+          <td style="vertical-align: top;">Container with first-in,
+            first-out access</td>
+          <td valign="top">опашка<br>
+          </td>
+          <td valign="top">Контейнер с достъп FIFO</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">deque<br>
+          </td>
+          <td style="vertical-align: top;">Double-ended queue<br>
+          </td>
+          <td valign="top">дек<br>
+          </td>
+          <td valign="top">Опашка с два края<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">vector<br>
+          </td>
+          <td style="vertical-align: top;">Resizeable array<br>
+          </td>
+          <td valign="top">вектор<br>
+          </td>
+          <td valign="top">Масив с променлива дължина<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">list<br>
+          </td>
+          <td style="vertical-align: top;">Doubly linked list<br>
+          </td>
+          <td valign="top"> <br>
+          </td>
+          <td valign="top">Двусвързан списък<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">priority_queue<br>
+          </td>
+          <td style="vertical-align: top;">Queue ordered by value<br>
+          </td>
+          <td valign="top"> <br>
+          </td>
+          <td valign="top">Приоритетна опашка<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">set,
+            multiset<br>
+          </td>
+          <td style="vertical-align: top;">Set<br>
+          </td>
+          <td valign="top">множество<br>
+          </td>
+          <td valign="top"> <br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;">map,
+            multimap<br>
+          </td>
+          <td style="vertical-align: top;">Associative array
+            (dictionary)<br>
+          </td>
+          <td valign="top"> <br>
+          </td>
+          <td valign="top">Асоциативен масив (речник)<br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    &nbsp; Всеки STL-клас може да съдържа обекти от произволен тип.<br>
+    <blockquote>
+      <pre>vector&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt; scores(100);  <br>vector&lt;<span style="color: rgb(51, 51, 255);">char</span>&gt; buffer(500); <br>vector&lt;Passenger&gt; passList(20);<br>vector&lt;<span style="color: rgb(51, 51, 255);">int</span>&gt; newScores = scores;<br></pre>
+    </blockquote>
+    <span style="font-weight: bold;"><a href="vector.cpp"><span
+          style="color: rgb(204, 0, 0);">vector.cpp</span></a><br>
+    </span>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>

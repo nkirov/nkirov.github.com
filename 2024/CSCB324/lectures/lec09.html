@@ -1,0 +1,299 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>lec9</title>
+  </head>
+  <body>
+    <h2>9. Сортиране чрез сравнение и трансформация<br>
+    </h2>
+    <p><i>План:<br>
+        <a href="p_7_8.html">Задачи 7 и 8</a><br>
+      </i> Сортиране - общи положения; сортиране чрез сравнение<br>
+      Сортиране чрез трансформация<br>
+      Бързо сортиране<br>
+      Сортиране в STL<br>
+      <i>З<a href="p_9_10.html">адачи 9 и 10</a></i> </p>
+    <h3 style="font-weight: normal;"> </h3>
+    <hr width="100%" size="2">
+    <h3 style="font-weight: normal;"><font color="#000000">Сортиране -
+        общи положения; сортиране чрез сравнение [<a
+          href="https://en.wikipedia.org/wiki/Sorting_algorithm">wiki</a>]</font><br>
+    </h3>
+    <p>** Класификации на алгоритмите за сортиране [Глава 3, стр.187]<br>
+    </p>
+    <p>* В зависимост от местонахождението на данните: <br>
+      &nbsp;- вътрешно (директен достъп), например бързо сортиране и <br>
+      &nbsp;- външно (последователен достъп), например сливане.</p>
+    <p> * В зависимост от операцията: <br>
+      &nbsp;- чрез сравнение (<span style="font-family: monospace;">&lt;</span>,
+      <span style="font-family: monospace;">&gt;</span> и <span
+        style="font-family: monospace;">==</span>) на двойки елементи и
+      <br>
+      &nbsp;- чрез трансформация, напр. сортиране чрез броене.</p>
+    <p> * Свойство на алгоритъма за сортиране:<br>
+      &nbsp;- устойчиви - относителният ред на елементите с равни
+      ключове остава непроменен и<br>
+      &nbsp;- неустойчиви - разместване на елементи с равни ключове
+      (сортиране с 2 ключа)</p>
+    <p> * Ефективност на алгоритмите за сортиране - брой на извършени
+      сравнения и размени (присвоявания).<br>
+      * Използване на допълнителна памет.<br>
+    </p>
+    ** Дърво на сравненията; сортиране на 3 числа.<br>
+    ** Класически универсални "елементарни" методи за сортиране чрез
+    сравнение <span style="font-style: italic;">O</span>(<span
+      style="font-style: italic;">n</span><sup>2</sup>):<br>
+    &nbsp;- пряко вмъкване - намираме елемент, който "не е сортиран" и
+    го поставяме на мястото му в сортираната част;<br>
+    &nbsp;- пряка селекция (избор) - намираме най-малкия елемент и го
+    поставяме на мястото му в окончателно сортираната част;<br>
+    &nbsp;- мехурчето - последователно се разглеждат двойки елементи и
+    евентуално се разменят.<br>
+    <p>** Бързо сортиране на Хоор - <span style="font-style: italic;">O</span>(<span
+        style="font-style: italic;">n</span> log<sub>2</sub><span
+        style="font-style: italic;">n</span>) средно и <span
+        style="font-style: italic;">O</span>(<span style="font-style:
+        italic;">n</span><sup>2</sup>) в най-лошия случай.<br>
+    </p>
+    <p>** Пирамидално сортиране, сортиране чрез сливане: <span
+        style="font-style: italic;">O</span>(<span style="font-style:
+        italic;">n</span> log<sub>2</sub><span style="font-style:
+        italic;">n</span>) <br>
+      ** <span style="font-style: italic;">O</span>(<span
+        style="font-style: italic;">n</span> log<sub>2</sub><span
+        style="font-style: italic;">n</span>) не може да се подобри за
+      сортиране чрез сравняване.<big><br>
+      </big></p>
+    <big> </big>
+    <hr width="100%" size="2">
+    <h3 style="font-weight: normal;">** <font color="#000000">Сортиране
+        чрез трансформация [3.2]</font><big> </big></h3>
+    ** Сортиране чрез множество [3.2.1]<br>
+    &nbsp;&nbsp;&nbsp; Дадено е множество <span style="font-style:
+      italic;">M</span> от числа в затворения интервал [<span
+      style="font-style: italic;">a, b</span>] и инективна функция за
+    нареждане <span style="font-style: italic;">f:</span> <span
+      style="font-style: italic;">M <span style="font-family:
+        monospace;">-&gt;</span> </span>[<span style="font-style:
+      italic;">a, b</span>], т.е. ако <span style="font-style: italic;">x</span><sub>1</sub>
+    и <span style="font-style: italic;">x</span><sub>2</sub> са
+    различни, то са различни и <span style="font-style: italic;">f</span>
+    (<span style="font-style: italic;">x</span><sub>1</sub>) и <span
+      style="font-style: italic;">f</span> (<span style="font-style:
+      italic;">x</span><sub>2</sub>).<br>
+    &nbsp;&nbsp;&nbsp; Построяваме нулев масив <span
+      style="font-family: monospace;">S</span> с индекси от <span
+      style="font-style: italic;">a</span> до <span style="font-style:
+      italic;">b</span> <span style="font-style: italic;"></span>и с
+    едно минаване през множеството <span style="font-style: italic;">M
+    </span>поставяме стойности 1 на <tt>S</tt>[<i>f</i>(<i>x</i>)] за
+    всяко <i>x</i> от <i>M</i>.<br>
+    &nbsp;След това минаваме през масива <span style="font-family:
+      monospace;">S</span> за да подредим елементите на M.<big><br>
+    </big><i>Пример:</i><big><font size="+1"><tt><br>
+          M = { 5, 3, 2, 6 }, [1, 6], <br>
+          &nbsp;&nbsp;&nbsp;&nbsp; 1 2 3 4 5 6 &nbsp; &nbsp;&nbsp; 1 2 3
+          4 5 6<br>
+          S =&nbsp; 0,0,0,0,0,0; S = 0,1,1,0,1,1;&nbsp; </tt></font></big><big><font
+        size="+1"><tt><big><font size="+1"><tt>M = { </tt></font></big>2,
+
+
+
+
+
+
+
+
+
+          3, 5, 6 }</tt></font><br>
+    </big>Сложност <span style="font-style: italic;">O</span>(<span
+      style="font-style: italic;">m+n</span>)<span style="font-style:
+      italic;">, </span>където<span style="font-style: italic;"> n </span>е
+    броят на елементите на<span style="font-style: italic;"> M</span>, а<span
+      style="font-style: italic;"> m = b - a +</span> 1<span
+      style="font-style: italic;">.</span><span style="font-style:
+      italic;"></span> <br>
+    <br>
+    ** Сортиране чрез броене [3.2.2] <br>
+    &nbsp;Дефинираме масив <tt>cnt[]</tt>, като <tt>cnt[i]</tt>
+    съдържа броя на срещанията на числото <tt>i</tt>.<br>
+    <br>
+    ** Побитово сортиране [3.2.3] <br>
+    Идеята на побитовото сортиране се основава на двоичното вътрешно
+    представяне на числата в компютъра. <br>
+    Нека е зададено множество от цели числа без знак, чиито елементи ще
+    сортираме. <br>
+    Разделяме числата в два списъка в зависимост от стойността на
+    най-младшия им двоичен бит. <br>
+    Четните числа попадат в първия списък, а нечетните - във втория. <br>
+    Следва добавяне на втория списък към края на първия, при което
+    получаваме общ списък. <br>
+    Повтаряме операцията с предпоследния бит, след това с
+    предпредпоследния и т.н. <br>
+    Процесът приключва след извършване на операцията с най-старшия бит.<br>
+    Сложност <i>O</i>(<i>n</i>).<big><br>
+      <br>
+    </big>** Метод на бройните системи [3.2.4] <br>
+    Както побитовото, но по цифрите на числото в съответната бройна
+    система.<br>
+    <br>
+    ** Сортиране чрез пермутация [3.2.5]<br>
+    &nbsp;&nbsp; Дадено е множество <span style="font-style: italic;">M</span>
+    от <span style="font-style: italic;">n</span> елементи. Означаваме
+    с <span style="font-style: italic;">S</span> множеството {1, 2, 3,
+    ..., <span style="font-style: italic;">n</span>}<span
+      style="font-style: italic;">.</span>&nbsp; Функцията за нареждане
+    <span style="font-style: italic;">f:</span> <span
+      style="font-style: italic;">S <span style="font-family:
+        monospace;">-&gt;</span> </span><span style="font-style:
+      italic;">S</span> е сюрективна (инективна и върху), т.е. ако <span
+      style="font-style: italic;">x</span><sub>1</sub> и <span
+      style="font-style: italic;">x</span><sub>2</sub> са различни,
+    то&nbsp; <span style="font-style: italic;">f</span> (<span
+      style="font-style: italic;">x</span><sub>1</sub>) и <span
+      style="font-style: italic;">f</span> (<span style="font-style:
+      italic;">x</span><sub>2</sub>) са различни за всяко <span
+      style="font-style: italic;">y</span> от <span style="font-style:
+      italic;">S</span> съществува <span style="font-style: italic;">x</span>
+    от <span style="font-style: italic;">S</span> такова, че <span
+      style="font-style: italic;">y</span> = <span style="font-style:
+      italic;">f</span> (<span style="font-style: italic;">x</span>).<br>
+    &nbsp;&nbsp;&nbsp; Разменяме <span style="font-family: monospace;">m[1]</span>
+    с <span style="font-family: monospace;">m[m[1]]</span> докато на <span
+      style="font-family: monospace;">1</span>-во място не дойде <span
+      style="font-family: monospace;">1</span>. После по същия начин с
+    втория елемент и т.н.<big><br>
+    </big><i><br>
+      Пример:</i><big><br>
+      <tt>позиции </tt><tt><span style="text-decoration: underline;">1234567</span></tt><tt><br>
+      </tt><tt> </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </tt><tt><span
+          style="font-weight: bold;">4</span></tt><tt>37</tt><tt><span
+          style="font-weight: bold;">5</span></tt><tt>612</tt><tt><br>
+      </tt><tt> </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </tt><tt><span
+          style="font-weight: bold;">5</span></tt><tt>374</tt><tt><span
+          style="font-weight: bold;">6</span></tt><tt>12</tt><tt><br>
+      </tt><tt> </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </tt><tt><span
+          style="font-weight: bold;">6</span></tt><tt>3745</tt><tt><span
+          style="font-weight: bold;">12</span></tt><tt><br>
+      </tt><tt> </tt><tt><span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+        </span></tt><tt>1</tt><tt><span style="font-weight: bold;">37</span></tt><tt>4562</tt><tt><br>
+      </tt><tt> </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1</tt><tt><span
+          style="font-weight: bold;">7</span></tt><tt>3456</tt><tt><span
+          style="font-weight: bold;">2</span></tt><tt><br>
+      </tt><span style="font-family: monospace;"> <span
+          style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+        </span>1234567<span style="font-weight: bold;"> </span></span><br>
+      <span style="font-family: monospace;"><span style="font-weight:
+          bold;"></span></span></big>Броят на размените не недвишава <span
+      style="font-style: italic;">n</span>, а броят на сравненията - 2<span
+      style="font-style: italic;">n.<br>
+    </span><span style="font-weight: bold;"></span>
+    <hr style="width: 100%; height: 2px;">
+    <h3>Бързо сортиране</h3>
+    &nbsp;А. Разделяне на дялове: <br>
+    &nbsp;1. Избираме случаен елемент <span style="font-family:
+      monospace;">x</span> от масива <span style="font-family:
+      monospace;">a</span> <br>
+    &nbsp;2. Преглеждаме масива отляво (от началото), докато достигнем
+    до елемент <span style="font-family: monospace;">&gt;</span><font
+      style="font-family: monospace;"> x</font> <br>
+    &nbsp;3. Преглеждаме масива отдясно (от края), докато достигнем до
+    елемент <span style="font-family: monospace;">&lt; x </span><br>
+    &nbsp;4. Разменяме местата на двата елемента <font size="+1"><br>
+      <br>
+      <b><tt><font color="#006600">vector&lt;int&gt; a(n);</font></tt></b><br>
+      <b><tt><font color="#006600">void partition(int x)</font></tt></b><br>
+      <b><tt><font color="#006600">{</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp;int i=1, j=n;</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp;do</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp;{</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp; while (a[i] &lt; x) i++;</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp; while (a[j] &gt; x) j--;</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp; if (i&lt;=j)</font></tt></b><b><tt><font
+            color="#006600"> { swap(a[i], a[j]);&nbsp; i++; j--; }</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp;}</font></tt></b><br>
+      <b><tt><font color="#006600">&nbsp;while (i&lt;=j);</font></tt></b><br>
+      <b><tt><font color="#006600">}</font></tt></b></font>
+    <p>Б. Сортиране - след като масивът се раздели, двата му дяла се
+      подлагат на същата обработка и това продължава, докато се получат
+      дялове само с по един елемент. <br>
+    </p>
+    <p><b><tt><font color="#000099"><span style="color: rgb(204, 0, 0);">//
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <big><a href="sources/qsort.cpp">qsort.cpp</a></big></span><br>
+            <font size="+1">void quicksort(int left, int right)</font></font></tt></b>
+      <font size="+1"><br>
+        <b><tt><font color="#000099">{</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;int i=left, j=right;</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;int x=a[(i + j)/2];</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;do</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;{</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp; while (a[i] &lt; x) i++;</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp; while (a[j] &gt; x) j--;</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp; if (i&lt;=j)</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp; { swap(a[i], a[j]); i++;
+              j--; }</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;}</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;while (i&lt;=j);</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;if (left&lt;j)
+              quicksort(left, j);</font></tt></b><br>
+        <b><tt><font color="#000099">&nbsp;if (i&lt;right) quicksort(i,
+              right);</font></tt></b><br>
+        <b><tt><font color="#000099">}</font></tt></b></font> <br>
+    </p>
+    <p>Сортиране чрез сливане<br>
+      <a style="font-family: monospace;" href="sources/mergesort.cpp"><big>mergesort.cpp</big></a><br>
+    </p>
+    <hr width="100%" size="2">
+    <h3>Сортиране в STL <br>
+    </h3>
+    <big>- <tt>sort, qsort </tt><br>
+      - </big>контейнери<big> <tt>set, multiset</tt></big><br>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>

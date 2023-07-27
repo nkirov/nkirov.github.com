@@ -1,0 +1,1181 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Chapter 8</title>
+  </head>
+  <body>
+    <h2>Chapter 8: Dictionaries</h2>
+    <ul>
+      <li><big>The primary use of a dictionary is to store elements so
+          that they can be located quickly using keys.</big></li>
+      <li><big>Like a priority queue, a dictionary is a container of <span
+            style="font-style: italic;">key-element pairs</span>. </big></li>
+      <li><big>Nevertheless, although a total order relation on the keys
+          is always required for a priority queue, it is optional for a
+          dictionary. </big></li>
+      <li><big>Indeed, the simplest form of a dictionary assumes only
+          that we can determine whether <span style="font-style:
+            italic;">two keys are equal</span>.</big></li>
+      <li><big>When the total order relation on the keys is defined,
+          then we can talk about an <span style="font-style: italic;">ordered
+
+
+
+            dictionary</span>, and we specify additional ADT functions
+          that refer to the ordering of the keys.</big></li>
+    </ul>
+    <h3>8.1 The Dictionary Abstract Data Type</h3>
+    <ul>
+      <li><big>A dictionary ADT stores key-element pairs (<span
+            style="font-style: italic;">k</span>,<span
+            style="font-style: italic;">e</span>) which we call <span
+            style="font-style: italic;">items</span>, where <span
+            style="font-style: italic;">k</span> is the key and <span
+            style="font-style: italic;">e</span> is the element. </big></li>
+      <li><big>In an <span style="font-style: italic;">unordered
+            dictionary</span> we can use an equality tester object to
+          test whether two keys, <span style="font-style: italic;">k</span><sub>1</sub>
+          and <span style="font-style: italic;">k</span><sub>2</sub>,
+          are equal with function <span style="font-family: monospace;">isEqualTo(</span><span
+            style="font-style: italic;">k</span><sub>1</sub>, <span
+            style="font-style: italic;">k</span><sub>2</sub>).</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">8.1.1 The Dictionary ADT</span><br>
+    </big>
+    <ul>
+      <li><big>The dictionary ADT models a searchable collection of
+          key-element items</big></li>
+      <li><big>The main operations of a dictionary are searching,
+          inserting, and deleting items</big></li>
+      <li><big>Multiple items with the same key are allowed</big></li>
+      <li><big>Applications:</big></li>
+      <ul>
+        <li><big>address book</big></li>
+        <li><big>credit card authorization</big></li>
+        <li><big>mapping host names (e.g., <span style="font-family:
+              monospace;">www.nbu.bg</span>) to internet addresses
+            (e.g., <span style="font-family: monospace;">193.19.172.24</span>)</big></li>
+      </ul>
+      <li><big>As an ADT, a dictionary <span style="font-style:
+            italic;">D</span> supports the following functions:</big></li>
+    </ul>
+    <table style="width: 100%; text-align: left;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Function<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Input<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Output<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Description<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>size()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Integer<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Return the number of
+              items in <span style="font-style: italic;">D.</span><br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>isEmpty()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Boolean<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Test whether <span
+                style="font-style: italic;">D</span> is empty.<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>elements()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Iterator of objects
+              (elements)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Returns the elements
+              stored in <span style="font-style: italic;">D</span>.<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>keys()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Iterator of objects
+              (keys)</big></td>
+          <td style="vertical-align: top;"><big>Returns the keys stored
+              in <span style="font-style: italic;">D</span>.</big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>find(k)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Object (key)</big></td>
+          <td style="vertical-align: top;"><big>Position<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>If <span
+                style="font-style: italic;">D</span> contain an item
+              with key equal to <span style="font-family: monospace;">k</span>,
+              then return the position of such an item. If not, a null
+              position is returned.<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>findAll(k)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Object (key)</big></td>
+          <td style="vertical-align: top;"><big>Iterator of Positions</big></td>
+          <td style="vertical-align: top;"><big>Return an iterator of
+              positions for all items whose key equals <span
+                style="font-family: monospace;">k</span>.<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertItem(k,e)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Objects <span
+                style="font-family: monospace;">k</span> (key) and<span
+                style="font-family: monospace;"> e</span><span
+                style="font-family: monospace;"></span> (element) </big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Insert an item with
+              element <span style="font-family: monospace;">e</span>
+              and key <span style="font-family: monospace;">k</span>
+              into <span style="font-style: italic;">D</span>.<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeElement(k)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Object (key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Remove an item with key
+              equal to <span style="font-family: monospace;">k</span>
+              from <span style="font-style: italic;">D</span>. An error
+              condition occurs if <span style="font-style: italic;">D</span>
+              has no such item.<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeAllElements(k)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Object (key)</big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Remove the items with
+              key equal to <span style="font-family: monospace;">k</span>
+              from <span style="font-style: italic;">D</span>.</big></td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><big>Remarks: <br>
+        </big></li>
+      <ul>
+        <li><big>The way the items of a dictionary are stored is
+            implementation dependent.</big></li>
+        <li><big>The notation <span style="font-family: monospace;">p(x)</span>
+            indicates the position of the item storing element <span
+              style="font-family: monospace;">x</span>.</big></li>
+      </ul>
+      <li style="color: rgb(0, 102, 0);"><big>Example:</big></li>
+    </ul>
+    <table style="width: 100%; text-align: left;" cellspacing="2"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Operation<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Output<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Dictionary<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertItem(5,A)<br>
+              insertItem(7,B)<br>
+              insertItem(2,C)<br>
+              insertItem(8,D)<br>
+              insertItem(2,E)<br>
+              find(7)<br>
+              find(4)<br>
+              find(2)<br>
+              findAll(2)<br>
+              size()<br>
+              removeElement(5)<br>
+              removeElement(5)<br>
+              removeAllElements(2)<br>
+              find(2)<br>
+              findAll(2)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span
+                style="font-family: monospace;"></span><span
+                style="font-family: monospace;">-</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">-</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">-</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">-<br>
+                -<br style="font-family: monospace;">
+              </span><span style="font-family: monospace;">p(B)<br>
+                "null"<br>
+                p(C) or p(E)<br>
+                p(C),p(E)<br>
+                5<br>
+                -<br>
+                "error"<br>
+                -<br>
+                "null"<br>
+                "empty iterator"<br>
+              </span> </big></td>
+          <td style="vertical-align: top;"><big><span
+                style="font-family: monospace;">{(5,A)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B),(2,C)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}<br>
+              </span><span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+                style="font-family: monospace;">
+              <span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+              </span><span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+              </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+              </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+              </span><span style="font-family: monospace;">{(7,B),(8,D)}</span>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><big>Position class provides:</big></li>
+    </ul>
+    <table style="width: 100%; text-align: left;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Operation<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Input<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Output<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Description</big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>element()</big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Object (element)</big></td>
+          <td style="vertical-align: top;"><big>Return a reference to
+              the element of the associated item.<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>key()</big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Object (key)</big></td>
+          <td style="vertical-align: top;"><big>Return a constant
+              reference to the key of the associated item.</big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>isNull()</big></td>
+          <td style="vertical-align: top;"><big>-<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Boolean<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Determine if this is a
+              null position.<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <big><br>
+      <span style="font-weight: bold;">8.1.2 Log Files</span><br>
+    </big>
+    <ul>
+      <li><big>A simple way of realizing a dictionary is to use an
+          unordered vector, list, or general sequence to store the
+          key-element pairs. </big></li>
+      <li><big>Such an implementation is called a <span
+            style="font-style: italic;">log file</span>.</big></li>
+    </ul>
+    <big> </big>
+    <ul>
+      <li><big>A log file is a dictionary implemented by means of an <span
+            style="font-style: italic;">unsorted sequence</span></big></li>
+      <ul>
+        <li><big>We store the items of the dictionary in a sequence
+            (based on a doubly-linked lists or a circular array), in
+            arbitrary order</big></li>
+      </ul>
+      <li><big>Performance:</big></li>
+      <ul>
+        <li><big><span style="font-family: monospace;">insertItem</span>
+            takes <span style="font-style: italic;">O</span>(1) time
+            since we can insert the new item <span style="font-style:
+              italic;">at the beginning</span> or at the end of the
+            sequence</big></li>
+        <li><big><span style="font-family: monospace;">find</span> and <span
+              style="font-family: monospace;">removeElement</span> take
+            <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>) time since in the
+            worst case (the item is not found) we<span
+              style="font-style: italic;"> traverse</span> the entire
+            sequence to look for an item with the given key</big></li>
+      </ul>
+      <li><big>The log file is effective only for dictionaries of small
+          size or for dictionaries on which insertions are the most
+          common operations, while searches and removals are rarely
+          performed (e.g., historical record of logins to a workstation)</big></li>
+    </ul>
+    <hr style="width: 100%; height: 1px;">
+    <h3>8.2 Hash Tables</h3>
+    <ul>
+      <li><big>One of the most efficient ways to implement a dictionary
+          is to use a <span style="font-style: italic;">hash table</span>.
+        </big></li>
+      <li><big>Although hash tables have high <span style="font-style:
+            italic;">worst-case</span> running times for dictionary ADT
+          operations, we will see that their <span style="font-style:
+            italic;">expected-case</span> running time are excellent. </big></li>
+      <li><big>Letting <span style="font-style: italic;">n</span>
+          denote the number of items, the worst-case running times are <span
+            style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span>), but the expected-case
+          times are only <span style="font-style: italic;">O</span>(1).</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">8.2.1 Bucket Arrays</span><br>
+    </big>
+    <ul>
+      <li><big>A <span style="font-style: italic;">bucked array</span>
+          for a hash table is an array <span style="font-style:
+            italic;">A</span> of size <span style="font-style: italic;">N</span>,
+          where each cell of <span style="font-style: italic;">A</span>
+          is thought of as a "bucket" (that is, a container of
+          key-element pairs) and the integer <span style="font-style:
+            italic;">N</span> denotes the <span style="font-style:
+            italic;">capacity</span> of the array. </big></li>
+      <li><big>If the keys are integers <i>well distributed</i> in the
+          range [0, <span style="font-style: italic;">N</span> <span
+            style="font-style: italic;">-</span> 1], this bucket array
+          is all that is needed − an element <span style="font-style:
+            italic;">e</span> with a key <span style="font-style:
+            italic;">k</span> is simply inserted into the bucket <span
+            style="font-style: italic;">A</span>[<span
+            style="font-style: italic;">k</span>].</big></li>
+      <li><big>If keys are not unique, then two different elements may
+          be mapped to the same bucket in <span style="font-style:
+            italic;">A</span>. In this case, we say that a <span
+            style="font-style: italic;">collision</span> has occurs.</big></li>
+    </ul>
+    <img
+src="data:image/png;base64,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jy7T3rvnnn7uueV1aRNQFiwHLAcsBywHjkgOdD0ie2U7ZTlgOWA5YDmgOWCdtFUEywHLAcuBI5gD2ansW1NTk3r00UdV1y5d1AUXXqi6yGs6oba2Vr304otqwVlnpROtxvXuu++qZ595Rh177LFq7qmnphV/Q0ODuvuuu9TBgwfVZy69VOXn56cVv0F21513avzmc7pe33rrLbVx40aVnZWlzr/ggpSjRc9efOEFNWbMGDVy1KiU44uF4BnRt/3794d/XrhwocrLywt/TuUbdO3pp57SKAYMGKAmTpqUSnSHtb1+3Tq1fPlyVda7tzr99NMP+z0VX7S2tqpHH3lE+zbTfmNjo/Z5OdnZ6rzzzw/E56U0k77ue99T06dPVwht0S23GDrS8trc3Kwd1R23354WfE4k5eXl6rlnn1UTJkxQN9xwg3r88cedP6f8/WOPPaYmT56s3nnnHfXLm25KOb5oCF54/nn1wx/8INpPKf2uvr5eERxWffCBOnDgQEpx0fjq1avVf11/vTrp5JMz6qB37typHlq8WG3bulX//f2//zttDho+/OXPf1bFPXqoM+fPV/fee6+iP+mC3bt3q9tuu0196pJL1AcrV6p777knLahffukl9a1vfrMDru9+5ztq1qxZqrSsTN12660dfvP7IWWZNEJa8d57atiwYWro0KHqqquuUldfc43Kycnx29eE7gPPWWefrSNdQjcGcHG2RNFrrr1Wt1RVXa2WLV2qzpa+pAs+/vGP6wheU1Oj3njjjXShDePZs2ePNtLi4uLwd+l6g4MeP368uujii1Wq8dfX1alvXHmluvt//1cVFhami8SoeND3237/e/1bZWWlIrtPJ5CYFAgPcFCM5Mis0wUPP/SQGtU+gjn3vPPU5V/4grr4k59MOfpT5s5VRUVFYTxbJUCukaA9aNAgnZhee/XV6krxe1kyoksGUpZJ46AZegCUObp37642iSDTCektrhyiDCEZ2CMGQ5aVToDfe8VRLn7wwYyUG+4Rp4WTzASU9OqlKHecPm+een/FipR24b777tNG+qDwmWx63759KcXn1nhpaWn45yUycjtbSh3pBJzR7ZLN/kBGjgzzGT2nCyg7bN2yRaPrJfLfvn17ulB3KGe8Jz6vd58+GnfXrl1Vbm6u2tLer2Q6lDIn3STlhgJxzAZY6deaxuhq8GbylYxi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"
+      alt="" width="551" height="155"><br>
+    <big>
+      <title>Data Structures and Algorithms in C++ </title>
+      <br>
+      Analysis of the Bucket Array Structure<br>
+    </big>
+    <ul>
+      <li><big>Achivеment: <span style="font-style: italic;">O</span>(1)
+for
+
+
+
+
+          all functions </big></li>
+      <li><big>Drawback 1: It uses space Theta(<span style="font-style:
+            italic;">N</span>), wasteful when <span style="font-style:
+            italic;">N</span> is large relative to <span
+            style="font-style: italic;">n</span></big></li>
+      <li><big>Drawback 2: Keys are integers in [0, <span
+            style="font-style: italic;">N -</span> 1], which is often
+          not the case<span style="font-style: italic;"></span></big></li>
+    </ul>
+    <big><span style="font-weight: bold;">8.2.2 Hash Functions</span><br>
+    </big>
+    <ul>
+      <li><big>A <span style="font-style: italic;">hash function</span>
+          <span style="font-style: italic;">h</span> maps keys of a
+          given type to integers in a fixed interval [0, <span
+            style="font-style: italic;">N</span> − 1]</big></li>
+      <li><big><span style="color: rgb(0, 102, 0);">Example:</span> <span
+            style="font-style: italic;">h</span>(<span
+            style="font-style: italic;">x</span>) = <span
+            style="font-style: italic;">x</span> mod <span
+            style="font-style: italic;">N</span> is a hash function for
+          integer keys</big></li>
+      <li><big>The integer <span style="font-style: italic;">h</span>(<span
+            style="font-style: italic;">x</span>) is called the <span
+            style="font-style: italic;">hash value</span> of key <span
+            style="font-style: italic;">x</span></big></li>
+      <li><big>A <span style="font-style: italic;">hash table</span>
+          for a given key type consists of</big></li>
+      <ul>
+        <li><big>Hash function <span style="font-style: italic;">h</span></big></li>
+        <li><big>Array of size <span style="font-style: italic;">N</span></big></li>
+      </ul>
+      <li><big>When implementing a dictionary with a hash table, the
+          goal is to store item (<span style="font-style: italic;">k</span>,
+          <span style="font-style: italic;">e</span>) at index <span
+            style="font-style: italic;">i</span> =&nbsp; <span
+            style="font-style: italic;">h</span>(<span
+            style="font-style: italic;">k</span>)</big></li>
+      <li style="color: rgb(0, 102, 0);"><big>Example:</big></li>
+    </ul>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big><img style="width:
+                286px; height: 298px;" alt="" src="pic1.jpg"><br>
+            </big></td>
+          <td style="text-align: left; vertical-align: middle;">
+            <ul>
+              <li><big>We design a hash table for a dictionary storing
+                  items (SSN, Name), where SSN (social security number)
+                  is a nine-digit positive integer</big></li>
+              <li><big>Our hash table uses an array of size <span
+                    style="font-style: italic;">N</span> = 10 000 and
+                  the hash function <span style="font-style: italic;">h</span>(<span
+                    style="font-style: italic;">x</span>) = last four
+                  digits of <span style="font-style: italic;">x</span></big></li>
+              <li> <big>To avoid any collision, we have to use <span
+                    style="font-style: italic;">N</span> = 10 000 000
+                  000 and the hash function <span style="font-style:
+                    italic;">h</span>(<span style="font-style: italic;">x</span>)
+                  = <span style="font-style: italic;">x </span>(</big><big>Drawback
+
+
+
+
+                  1</big><big>)<span style="font-style: italic;"><br>
+                  </span></big> </li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <br>
+    <ul>
+      <li><big>A hash function is usually specified as the composition
+          of two functions:</big></li>
+      <ul>
+        <li><big>Hash code map: <span style="font-style: italic;">h</span><sub>1</sub>:
+            keys → integers</big></li>
+        <li><big>Compression map: <span style="font-style: italic;">h</span><sub>2</sub>:
+            integers → [0, <span style="font-style: italic;">N</span> −
+            1]</big></li>
+      </ul>
+      <li><big>The <span style="font-style: italic;">hash code</span>
+          map is applied first, and the <span style="font-style:
+            italic;">compression map</span> is applied next on the
+          result, i.e. <span style="font-style: italic;">h</span>(<span
+            style="font-style: italic;">x</span>) = <span
+            style="font-style: italic;">h</span><sub>2</sub>(<span
+            style="font-style: italic;">h</span><sub>1</sub>(<span
+            style="font-style: italic;">x</span>))</big></li>
+      <li><big>The goal of the hash function is to "disperse" the keys
+          in an apparently random way</big></li>
+      <li><big>The hash function is "good" if it maps the keys in out
+          dictionary to minimize collisions as much as possible.</big></li>
+      <li><big>Also it should be fast and easy to compute.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">8.2.3 Hash Codes</span><br>
+    </big>
+    <ul>
+      <li><big>The integer assigned to a key <span style="font-style:
+            italic;">k</span> is called the <span style="font-style:
+            italic;">hash code</span> or <span style="font-style:
+            italic;">hash value</span> for <span style="font-style:
+            italic;">k</span>.</big></li>
+    </ul>
+    <big>Hash Codes in C++<br>
+    </big>
+    <ul>
+      <li><big>Memory address:</big></li>
+      <ul>
+        <li><big>We reinterpret the memory address of the key object as
+            an integer</big></li>
+        <li><big>Good in general, except for numeric and string keys</big></li>
+      </ul>
+      <li><big>Integer cast:</big></li>
+      <ul>
+        <li><big>We reinterpret the bits of the key as an integer</big></li>
+        <li><big>Suitable for keys of length less than or equal to the
+            number of bits of the integer type (e.g. char, short, int
+            and float on many machines)</big></li>
+      </ul>
+      <li><big>Component sum:</big></li>
+      <ul>
+        <li><big>We partition the bits of the key into components of
+            fixed length (e.g. 16 or 32 bits) and we sum the components,
+            ignoring overflows</big></li>
+        <li><big>Suitable for numeric keys of fixed length greater than
+            or equal to the number of bits of the integer type (e.g.
+            long and double on many machines)</big></li>
+      </ul>
+    </ul>
+    <big>A Small C++ Example<br>
+      32-bit integer if we have 32-bit integer hash function<br>
+    </big>
+    <pre><big>int hashCode(int x)<br>{ return x; }</big></pre>
+    <big>64-bit integer if we have 32-bit integer hash function</big>
+    <pre><big>int hashCode(long x)<br>{  typedef unsigned long ulong;<br>   return hashCode(static_cast&lt;int&gt;(static_cast&lt;ulong&gt;(x) &gt;&gt; 32) <br>          + static_cast&lt;int&gt;(x));<br>}</big></pre>
+    <big>Polynomial Hash Codes<span style="font-weight: bold;"></span><br>
+    </big>
+    <ul>
+      <li><big>Polynomial accumulation:</big></li>
+      <ul>
+        <li><big>We partition the bits of the key into a sequence of
+            components of fixed length (e.g., 8, 16 or 32 bits) <span
+              style="font-style: italic;">a</span><sub>0</sub> <span
+              style="font-style: italic;">a</span><sub>1</sub>… <span
+              style="font-style: italic;">a</span><sub><span
+                style="font-style: italic;">n</span>−1</sub></big></li>
+        <li><big>We evaluate the polynomial<br>
+            <span style="font-style: italic;">p</span>(<span
+              style="font-style: italic;">z</span>) =<span
+              style="font-style: italic;"> a</span><sub>0</sub> +<span
+              style="font-style: italic;"> a</span><sub>1</sub><span
+              style="font-style: italic;">z</span> + <span
+              style="font-style: italic;">a</span><sub>2</sub> <span
+              style="font-style: italic;">z</span><sup><sub>2</sub></sup>
+            + … + <span style="font-style: italic;">a<sub>n</sub></span><sub>−1</sub><span
+              style="font-style: italic;">z<sup><sub>n</sub></sup></span><sup><sub>−1</sub></sup><br>
+            at a fixed value <span style="font-style: italic;">z</span>,
+            ignoring overflows</big></li>
+        <li><big>Especially suitable for strings (e.g., the choice <span
+              style="font-style: italic;">z</span> = 33 gives at most 6
+            collisions on a set of 50 000 English words!)</big></li>
+      </ul>
+      <li><big>Polynomial <span style="font-style: italic;">p</span>(<span
+            style="font-style: italic;">z</span>) can be evaluated in <span
+            style="font-style: italic;">O</span>(<span
+            style="font-style: italic;">n</span>) time using Horner’s
+          rule:</big></li>
+      <ul>
+        <li><big>The following polynomials are successively computed,
+            each from the previous one in <span style="font-style:
+              italic;">O</span>(1) time<br>
+            <span style="font-style: italic;">p</span><sub>0</sub>(<span
+              style="font-style: italic;">z</span>) = <span
+              style="font-style: italic;">a<sub>n</sub></span><sub>−1,&nbsp;</sub><span
+              style="font-style: italic;"> p</span><sub><span
+                style="font-style: italic;">i</span></sub>(<span
+              style="font-style: italic;">z</span>) = <span
+              style="font-style: italic;">a<sub>n−i−</sub></span><sub>1</sub>
+            + <span style="font-style: italic;">zp<sub>i−</sub></span><sub>1</sub>(<span
+              style="font-style: italic;">z</span>) (<span
+              style="font-style: italic;">i</span> = 1, 2, …, <span
+              style="font-style: italic;">n −</span> 1)</big></li>
+      </ul>
+      <li><big>We have <span style="font-style: italic;">p</span>(<span
+            style="font-style: italic;">z</span>) =<span
+            style="font-style: italic;"> p<sub>n</sub></span><sub>−1</sub>(<span
+            style="font-style: italic;">z</span>)</big></li>
+    </ul>
+    <big> Cyclic Shift Hash Codes<br>
+    </big>
+    <blockquote>
+      <pre><big>int hashCode(const char* p, int len) // hash a character array<br>{ unsigned int h = 0;<br>  for (int i = 0; i &lt; len; i++)<len i=""><br>  { h = (h &lt;&lt; 5)|(h &gt;&gt; 27);          // 5-bit cyclic shift<br>    h += (unsigned int)p[i];         // add in next character<br>  }<br>  return hashCode(int(h));<br>}<br></len></big></pre>
+    </blockquote>
+    <big>Experimental Results<br>
+      25000 English words<span style="font-weight: bold;"><br>
+      </span></big>
+    <table style="text-align: left; width: 687px; height: 144px;"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Shift<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Collisions Total<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Collisions Max<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>0<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>23739<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>86<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>1<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>10517<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>21<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>5<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>4<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>2<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>6<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>6<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>2<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top;"><big>11<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>453<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>4<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <big><br>
+      Hashing Floating-Point Quantities <br>
+    </big>
+    <blockquote>
+      <pre><big>int hashCode(const double&amp; x)       // hash a double<br>{ int len = sizeof(x);<br>  const char* p = reinterpret_cast&lt;const char *&gt;(&amp;x);<len i=""><br>  return hashCode(p, len);<br>}<br></len></big></pre>
+    </blockquote>
+    <big>C++ provides an operation called a <tt>reinterpret_cast,</tt>
+      to cast between such unrelated types. <br>
+      This cast treats quantities as a sequence of bits and makes no
+      attempt to intelligently convert the meaning of one quantity to
+      another.</big><br>
+    <a href="hash_code.cpp"><big><tt>hash_code.cpp</tt></big></a><br>
+    <big> </big>
+    <h4><big>8.2.4 Compression Maps</big></h4>
+    <ul>
+      <li><big>The hash code for a key <span style="font-style:
+            italic;">k</span> will typically not be suitable for
+          immediate use with a bucket array, because the range of
+          possible hash codes for our keys will typically exceed the
+          range of legal indices of our bucket array <span
+            style="font-style: italic;">A</span>.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">The Division Method</span><br>
+    </big>
+    <ul>
+      <li><big><span style="font-style: italic;">h</span><sub>2</sub>(<span
+            style="font-style: italic;">y</span>) = | <span
+            style="font-style: italic;">y </span>| mod <span
+            style="font-style: italic;">N</span></big></li>
+      <li><big>The size <span style="font-style: italic;">N</span> of
+          the hash table is usually chosen to be a <span
+            style="font-style: italic;">prime number</span><br>
+        </big></li>
+      <li><big>The reason has to do with number theory and is beyond the
+          scope of this course</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"> The MAD Method</span><br>
+      Multiply, Add and Divide (MAD):<br>
+    </big>
+    <ul>
+      <li><big><span style="font-style: italic;">h</span><sub>2</sub>(<span
+            style="font-style: italic;">y</span>) = <span
+            style="font-style: italic;">|ay</span> + <span
+            style="font-style: italic;">b</span>| mod <span
+            style="font-style: italic;">N</span></big></li>
+      <li><big><span style="font-style: italic;">a</span> and <span
+            style="font-style: italic;">b</span> are nonnegative
+          integers such that <span style="font-style: italic;">a</span>
+          mod <span style="font-style: italic;">N</span> ≠ 0</big></li>
+      <li><big>Otherwise, every integer would map to the same value <span
+            style="font-style: italic;">b</span></big></li>
+    </ul>
+    <big><span style="font-weight: bold;">8.2.5 Collision-Handling
+        Schemes</span><br>
+    </big>
+    <ul>
+      <li><big><span style="font-style: italic;">Collisions </span>occur
+when
+
+
+
+
+          different elements are mapped to the same cell</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">Separate Chaining <br>
+      </span></big>
+    <ul>
+      <li><big>Chaining: let each cell in the table point to a linked
+          list of elements that map there</big></li>
+      <li><big>Chaining is simple, but requires additional memory
+          outside the table</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"><img style="width: 394px;
+          height: 163px;" alt="" src="pic2.jpg"><br>
+      </span><span style="font-weight: bold;">Open Addressing Approach<br>
+      </span>Open addressing: the colliding item is placed in a <span
+        style="font-style: italic;">different cell </span>of the table<br>
+      <br style="font-weight: bold;">
+      <span style="font-weight: bold;">Linear Probing</span><br>
+    </big>
+    <ul>
+      <li><big>Linear probing handles collisions by placing the
+          colliding item in <span style="font-style: italic;">the next</span>
+          (circularly) available table cell</big></li>
+      <li><big>Each table cell inspected is referred to as a “probe”</big></li>
+      <li><big>Colliding items lump together, causing future collisions
+          to cause a longer sequence of probes</big></li>
+      <li><big>Example:<br>
+        </big></li>
+    </ul>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big><img style="width:
+                379px; height: 178px;" alt="" src="pic3.jpg"><br>
+            </big></td>
+          <td>
+            <ul>
+              <li><big><span style="font-style: italic;">h</span>(<span
+                    style="font-style: italic;">x</span>) = <span
+                    style="font-style: italic;">x</span> mod 13</big></li>
+              <li><big>Insert keys 18, 41, 22, 44, 59, 32, 31, 73, in
+                  this order</big></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"><br>
+        Search with Linear Probing<br>
+      </span></big>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: middle;">
+            <ul>
+              <li><big>Consider a hash table <span style="font-style:
+                    italic;">A</span> that uses linear probing</big></li>
+              <li><big><span style="font-family: monospace;">find</span>(<span
+                    style="font-style: italic;">k</span>)</big></li>
+              <ul>
+                <li><big>We start at cell <span style="font-style:
+                      italic;">h</span>(<span style="font-style:
+                      italic;">k</span>)</big></li>
+                <li><big>We probe consecutive locations until one of the
+                    following occurs:</big></li>
+                <ul>
+                  <li><big>An item with key <span style="font-style:
+                        italic;">k</span> is found, or</big></li>
+                  <li><big>An <span style="font-style: italic;">empty</span>
+                      cell is found, or</big></li>
+                  <li><big><span style="font-style: italic;">N</span>
+                      cells have been unsuccessfully probed</big></li>
+                </ul>
+              </ul>
+            </ul>
+          </td>
+          <td style="vertical-align: top; white-space: nowrap;"><big>Algorithm
+
+
+
+
+
+              <span style="color: rgb(204, 0, 0);"><span
+                  style="font-style: italic;">find</span>(<span
+                  style="font-style: italic;">k</span>)</span><br>
+              <span style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">&nbsp;&nbsp; i</span> ←<span
+                  style="font-style: italic;"> h</span>(<span
+                  style="font-style: italic;">k</span>)</span><br
+                style="color: rgb(51, 102, 102);">
+              <span style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">&nbsp;&nbsp; p</span> ← 0</span><br>
+              &nbsp;&nbsp; repeat<br>
+              <span style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+                  c</span> ← <span style="font-style: italic;">A</span>[<span
+                  style="font-style: italic;">i</span>]</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if<span style="color:
+                rgb(51, 102, 102);"> <span style="font-style: italic;">c</span>
+                = ∅</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              return <span style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">Position</span>(<span
+                  style="font-style: italic;">null</span></span>)<br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else if <span
+                style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">c.key</span>() = <span
+                  style="font-style: italic;">k</span></span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              return <span style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">Position</span>(<span
+                  style="font-style: italic;">c</span>)</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+              <span style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+                  i</span> ← (<span style="font-style: italic;">i +</span>
+                1) mod <span style="font-style: italic;">N</span></span><br
+                style="color: rgb(51, 102, 102);">
+              <span style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+                  p</span> ← <span style="font-style: italic;">p +</span>
+                1</span><br>
+              &nbsp;&nbsp; until <span style="color: rgb(51, 102,
+                102);"><span style="font-style: italic;">p</span> = <span
+                  style="font-style: italic;">N</span></span><br>
+              &nbsp;&nbsp; return <span style="color: rgb(51, 102,
+                102);"><span style="font-style: italic;">Position</span>(<span
+                  style="font-style: italic;">null</span>)</span><br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"><br>
+        Updates with Linear Probing<br>
+      </span></big>
+    <ul>
+      <li><big>To handle insertions and deletions, we introduce a
+          special object, called AVAILABLE, which replaces deleted
+          elements</big></li>
+      <li><big><span style="font-family: monospace;">removeElement</span>(<span
+            style="font-style: italic;">k</span>)</big></li>
+      <ul>
+        <li><big>We search for an item with key <span
+              style="font-style: italic;">k</span></big></li>
+        <li><big>If such an item (<span style="font-style: italic;">k</span>,
+            <span style="font-style: italic;">e</span>) is found, we
+            replace it with the special item AVAILABLE and we return the
+            position of this item</big></li>
+        <li><big>Else, we return a null position</big></li>
+      </ul>
+      <li><big><span style="font-family: monospace;">insertItem</span>(<span
+            style="font-style: italic;">k</span>, <span
+            style="font-style: italic;">e</span>)</big></li>
+      <ul>
+        <li><big>We throw an exception if the table is full</big></li>
+        <li><big>We start at cell <span style="font-style: italic;">h</span>(<span
+              style="font-style: italic;">k</span>) </big></li>
+        <li><big>We probe consecutive cells until one of the following
+            occurs:</big></li>
+        <ul>
+          <li><big>A cell <span style="font-style: italic;">i</span> is
+              found that is either empty or stores AVAILABLE, or</big></li>
+          <li><big><span style="font-style: italic;">N</span> cells have
+              been unsuccessfully probed</big></li>
+        </ul>
+        <li><big>We store item (<span style="font-style: italic;">k</span>,
+            <span style="font-style: italic;">e</span>) in cell <span
+              style="font-style: italic;">i</span></big></li>
+      </ul>
+    </ul>
+    <big><span style="font-weight: bold;"> </span><span
+        style="font-weight: bold;">Double Hashing</span><br>
+    </big>
+    <ul>
+      <li><big>Double hashing uses a secondary hash function <span
+            style="font-style: italic;">d</span>(<span
+            style="font-style: italic;">k</span>) and handles collisions
+          by placing an item in the first available cell of the series (<span
+            style="font-style: italic;">i+ jd</span>(<span
+            style="font-style: italic;">k</span>)) mod <span
+            style="font-style: italic;">N</span> for <span
+            style="font-style: italic;">j </span>= 0, 1, … , <span
+            style="font-style: italic;">N</span> −1</big></li>
+      <li><big>The secondary hash function <span style="font-style:
+            italic;">d</span>(<span style="font-style: italic;">k</span>)
+          cannot have zero values</big></li>
+      <li><big>The table size <span style="font-style: italic;">N</span>
+          must be a prime to allow probing of all the cells</big></li>
+      <li><big>Common choice of compression map for the secondary hash
+          function: <span style="font-style: italic;">d</span><sub>2</sub>(<span
+            style="font-style: italic;">k</span>) = <span
+            style="font-style: italic;">q − k</span> mod <span
+            style="font-style: italic;">q</span> where</big></li>
+      <ul>
+        <li><big><span style="font-style: italic;">q</span> &lt; <span
+              style="font-style: italic;">N</span></big></li>
+        <li><big><span style="font-style: italic;">q</span> is a prime
+            number<br>
+          </big></li>
+      </ul>
+      <li><big>The possible values for <span style="font-style:
+            italic;">d</span><sub>2</sub>(<span style="font-style:
+            italic;">k</span>) are 1, 2, … , <span style="font-style:
+            italic;">q</span></big></li>
+      <li><big>Example:</big></li>
+    </ul>
+    <big> </big>
+    <table style="text-align: left; width: 100%;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big><img style="width:
+                379px; height: 413px;" alt="" src="pic4.jpg"><br>
+            </big></td>
+          <td style="vertical-align: middle;">
+            <ul>
+              <li><big>Consider a hash table storing integer keys that
+                  handles collision with double hashing</big></li>
+              <ul>
+                <li><big><span style="font-style: italic;">N</span> = 13</big></li>
+                <li><big><span style="font-style: italic;">h</span>(<span
+                      style="font-style: italic;">k</span>) = <span
+                      style="font-style: italic;">k</span> mod 13</big></li>
+                <li><big><span style="font-style: italic;">d</span>(<span
+                      style="font-style: italic;">k</span>) = 7 − <span
+                      style="font-style: italic;">k</span> mod 7</big></li>
+              </ul>
+              <li><big>Insert keys 18, 41, 22, 44, 59, 32, 31, 73, in
+                  this order</big></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"><span style="font-weight:
+          bold;"></span></span><span style="font-weight: bold;"></span></big>
+    <h4><big> 8.2.7 A C++ Hash Table Implementation</big></h4>
+    <big><a href="8.1_LinearProbeHashTable.h-HashEntry.html">html-8.1</a>
+      (HashEntry)<br>
+      <a href="8.2_LinearProbeHashTable.h-Position.html">html-8.2</a></big>
+    <big>(Position)<br>
+      <a href="8.3_LinearProbeHashTable.h-Hash1.html">html-8.3</a></big>
+    <big> (Hash1)<br>
+      <a href="8.4_LinearProbeHashTable.h-Hash2.html">html-8.</a></big>
+    <big><a href="8.4_LinearProbeHashTable.h-Hash2.html">4</a> (Hash2)<br>
+      <br>
+      <a style="font-family: monospace;" href="hash.cpp">hash.cpp</a></big><span
+      style="font-family: monospace;"> </span><big><span
+        style="font-weight: bold;"><br>
+        <hr style="width: 100%; height: 2px;">
+        <h3>8.3 Ordered Dictionaries</h3>
+      </span>In an ordered dictionary, we wish to perform the usual
+      dictionary operations, but also maintain an order relation for the
+      keys in our dictionary.<br>
+      <br>
+      <span style="font-weight: bold;">8.3.1 The Ordered Dictionary ADT</span></big><span
+      style="font-weight: bold;"> </span><big><span style="font-weight:
+        bold;"></span><br>
+      An ordered dictionary supports the following functions beyond
+      those included in the general dictionary ADT (<a href="#8.1.1">8.1.1</a>):<br>
+    </big>
+    <ul>
+      <li><big><span style="font-family: monospace;">closestBefore(k)</span>
+          - Return a position of an item with the largest key less than
+          or equal to <span style="font-family: monospace;">k.</span></big></li>
+      <li><big><span style="font-family: monospace;">closestAfter(k)</span>
+          - Return a position of an item with the smallest key greater
+          than or equal to <span style="font-family: monospace;">k.</span></big></li>
+    </ul>
+    <big><span style="font-weight: bold;">8.3.2 Look-Up Tables</span><br>
+    </big>
+    <ul>
+      <li><big>A lookup table is a dictionary implemented by means of a
+          <span style="font-style: italic;">sorted sequence</span></big></li>
+      <ul>
+        <li><big>We store the items of the dictionary in an array-based
+            sequence, sorted by key</big></li>
+        <li><big>We use an external comparator for the keys</big></li>
+      </ul>
+      <li><big>Performance:</big></li>
+      <ul>
+        <li><big><span style="font-family: monospace;">find</span> takes
+            <span style="font-style: italic;">O</span>(log <span
+              style="font-style: italic;">n</span>) time, using binary
+            search</big></li>
+        <li><big><span style="font-family: monospace;">insertItem</span>
+            takes <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>) time since in the
+            worst case we have to shift <span style="font-style:
+              italic;">n</span>/2 items to make room for the new item</big></li>
+        <li><big><span style="font-family: monospace;">removeElement</span>
+            takes <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>) time since in the
+            worst case we have to shift <span style="font-style:
+              italic;">n</span>/2 items to compact the items after the
+            removal</big></li>
+      </ul>
+      <li><big>The lookup table is effective only for dictionaries of
+          small size or for dictionaries on which searches are the most
+          common operations, while insertions and removals are rarely
+          performed (e.g., credit card authorizations)</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">8.3.3 Binary Search </span><br>
+    </big>
+    <ul>
+      <li><big>Binary search performs operation <span
+            style="font-family: monospace;">find</span>(<span
+            style="font-style: italic;">k</span>) on a dictionary
+          implemented by means of an array-based sequence, sorted by key</big></li>
+      <ul>
+        <li><big>similar to the high-low game</big></li>
+        <li><big>at each step, the number of candidate items is halved</big></li>
+        <li><big>terminates after a logarithmic number of steps</big></li>
+      </ul>
+      <li><big>Example: <span style="font-family: monospace;">find</span>(7)</big></li>
+    </ul>
+    <big><img style="width: 718px; height: 225px;" alt="" src="pic5.jpg"><br>
+      <a style="font-family: monospace;" href="bsearch.cpp">bsearch.cpp</a><br>
+      <br>
+      <span style="font-weight: bold;">Analysis of Binary Search</span></big>
+    <big><br>
+    </big>
+    <ul>
+      <li><big>The running time is proportional to the number <span
+            style="font-style: italic;">k</span> of recursive calls. </big></li>
+      <li><big>The number of remaining candidates is reduced by at least
+          one half with each recursive call. </big></li>
+      <li><big>In the worst case (unsuccessful search), the recursive
+          call stops when there are no more candidates, i.e. <span
+            style="font-style: italic;">n</span>/2<sup><span
+              style="font-style: italic;">k</span></sup> = 1, <span
+            style="font-style: italic;">k</span> = log <span
+            style="font-style: italic;">n</span> and we obtain <span
+            style="font-style: italic;">O</span>(log <span
+            style="font-style: italic;">n</span>) running time.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"></span> <span
+        style="font-weight: bold;">Comparing Simple Ordered Dictionary
+        Implementations</span></big> <big><br>
+      <br>
+    </big>
+    <table style="width: 100%; text-align: left;" cellspacing="2"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Function<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Log File<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Look-Up Table<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>size(),
+
+
+
+
+              isEmpty()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>keys(),
+
+
+
+
+              elements()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>find(key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>findAll(key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Θ(<span
+                style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n
+                + s</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertItem(key,
+
+
+
+
+              element)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeElement(key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeAllElements()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Θ(<span
+                style="font-style: italic;">n</span>)</big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>
