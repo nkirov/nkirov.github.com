@@ -1,0 +1,973 @@
+<!DOCTYPE html PUBLIC "-//w3c//dtd html 4.0 transitional//en">
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="Author" content="Nikolay Kirov">
+    <meta name="GENERATOR" content="Mozilla/4.75 [en] (Win98; U)
+      [Netscape]">
+    <title>lec02</title>
+  </head>
+  <body>
+    <center>
+      <h2 align="left">2. Потоци I</h2>
+    </center>
+    <i>План:<br>
+    </i>Полиморфизъм (преговор)<i><br>
+    </i> <span style="color: rgb(0, 0, 0); font-family: 'Times New
+      Roman'; font-size: medium; font-style: normal; font-variant:
+      normal; font-weight: normal; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;">Пренасочване на входния и изходния потоци<br>
+    </span><span style="color: rgb(0, 0, 0); font-family: 'Times New
+      Roman'; font-size: medium; font-style: normal; font-variant:
+      normal; font-weight: normal; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;">Четене и запис на текстови файлове<br>
+    </span>Йерархия на потоковите класове<br>
+    Абстрактни класове<br>
+    <hr width="100%" size="2">
+    <h3><b>Полиморфизъм (преговор)<br>
+      </b></h3>
+    <b> </b>Дефинираме <a href="lec01.html">вектор от часовници</a>
+    (обекти от базовия клас) и използваме цикъл за показване на часа.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 153, 0);">vector</span>&lt;Clock&gt; clocks(3);<br>/* populate clocks */<br>clocks[0] = <span style="color: rgb(0, 0, 153);"></span>Clock(<span style="color: rgb(51, 51, 255);">true</span>);<br>clocks[1] = <span style="color: rgb(0, 0, 153);"></span>TravelClock(true, "Rome", -1);<br>clocks[2] = <span style="color: rgb(0, 0, 153);"></span>TravelClock(false, "Tokyo", 5);<br><br>for (int i = 0; i &lt; clocks.size(); i++)<clocks.size i=""><br>cout &lt;&lt; clocks[i].<span style="font-weight: bold;">get_location</span>() &lt;&lt; " time: "<br>     &lt;&lt; clocks[i].<span style="font-weight: bold;">get_hours</span>() &lt;&lt; ":"<br>     &lt;&lt; setw(2) &lt;&lt; setfill('0')<br>     &lt;&lt; clocks[i].<span style="font-weight: bold;">get_minutes</span>()<br>     &lt;&lt; setfill(' ') &lt;&lt; "\n";</clocks.size></pre>
+    [ <a href="../../../2014/NETB151/sources/ch11/clocks2a.cpp"><b><tt>clocks2a.cpp</tt></b></a>
+    ]&nbsp; <br>
+    <br>
+    Резултатът от работата на програмата е:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Local time is 21:15<br>Local time is 21:15<br>Local time is 9:15</pre>
+    Защо?<br>
+    - Тъй като обект от производния клас <b>е</b> обект и от базовия
+    клас, то можем да използваме операция присвояване с ляв аргумент
+    обект от (базовия клас) <tt>Clock</tt> и&nbsp; десен аргумент -
+    обект от (производния клас) <tt>TravelClock</tt> (обратното не е
+    вярно). <br>
+    - Ефектът обаче е <b>отрязване</b> на даните (при операция
+    присвояване), дефинирани в производния клас, т.е. на l<tt>ocation</tt>
+    и <tt>time_difference</tt>.<br>
+    <br>
+    Можем да използваме указатели към базовия клас за елементи на
+    вектора, тъй като указател от базов клас може съдържа адрес на обект
+    от производен клас (обратното не е вярно). <br>
+    <br>
+    <i>Бележка:</i> Указателите от различни класове имат една и съща
+    дължина (няма отрязване).<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(0, 153, 0);">vector</span>&lt;Clock*&gt; clocks(3);<br>/* populate clocks */<br>clocks[0] = <span style="color: rgb(0, 0, 153);"></span>new Clock(<span style="color: rgb(51, 51, 255);">true</span>);<br>clocks[1] = <span style="color: rgb(0, 0, 153);"></span>new TravelClock(true, "Rome", -1);<br>clocks[2] = <span style="color: rgb(0, 0, 153);"></span>new TravelClock(false, "Tokyo", 5);<br><br>for (int i = 0; i &lt; clocks.size(); i++)<clocks.size i=""><br>cout &lt;&lt; clocks[i]-&gt;<span style="font-weight: bold;">get_location</span>() &lt;&lt; " time: "<br>     &lt;&lt; clocks[i]-&gt;<span style="font-weight: bold;">get_hours</span>() &lt;&lt; ":"<br>     &lt;&lt; setw(2) &lt;&lt; setfill('0')<br>     &lt;&lt; clocks[i]-&gt;<span style="font-weight: bold;">get_minutes</span>()<br>     &lt;&lt; setfill(' ') &lt;&lt; "\n";</clocks.size></pre>
+    Векторът <tt>clocks</tt> съдържа колекция от различни часовници -
+    указатели към обекти от различни класове. Такава колекция се нарича
+    <i>полиморфна</i>. <br>
+    [ <a href="../../../2014/NETB151/sources/ch11/clocks2b.cpp"><b><tt>clocks2b.cpp</tt></b></a>
+    ]&nbsp; <br>
+    <img alt=""
+      src="../../../2014/NETB151/slides/ch11/images/polyvector.png"
+      height="409" width="409"><br>
+    Резултатът от новия вариант е същия:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);">Local time is 21:15<br>Local time is 21:15<br>Local time is 9:15</pre>
+    Защо?<br>
+    Указателите са дефинирани от базовия клас (<font size="+1"><tt>Clock</tt></font>)
+    и съответно с тях се вика функция от същия клас. <br>
+    <br>
+    Това свързване на обект (неявен параметър, напр. <font size="+1"><tt>clocks[i]</tt></font>)
+    и член-функция (напр. <font size="+1"><tt>get_location()</tt></font>)
+    като аргументи на операция стрелка, се нарича <i>статично свързване</i>
+    (<font size="+1"><tt>clocks[i]-&gt;get_location()</tt></font>) .<br>
+    <br>
+    В С++ може да се реализира и <i>динамично свързване </i>- когато
+    се вика член-функция (втори аргумент на операция стрелка) от класа,
+    от който е обектът, към който сочи указателя (първи аргумент на
+    операция стрелка). <br>
+    Напр. <font size="+1"><tt><br>
+        -- clocks[0]-&gt;get_location()</tt></font> <font size="+1"><tt><font
+          size="+1"><tt>-</tt></font></tt></font> <font size="+1"><tt>clocks[0]</tt></font><font
+      size="+1"> </font>е указател от базовия клас<font size="+1"> </font><font
+      size="+1"><font size="+1"><tt>Clock</tt></font>,</font> съдържа
+    адрес на обект от базовия клас<font size="+1"> </font><font
+      size="+1"><tt>Clock(true)</tt></font><font size="+1"> </font>и <font
+      size="+1"><tt><font size="+1"><tt>get_location() </tt></font></tt></font>е
+    член-функция от базовия клас<tt><tt> </tt></tt><font size="+1"><tt><font
+          size="+1"><tt><font size="+1"><font size="+1"><tt>Clock</tt></font></font></tt></font>;
+        <br>
+      </tt></font><font size="+1"><tt><font size="+1"><tt>--
+            clocks[1]-&gt;get_location() -</tt></font></tt></font><font
+      size="+1"><tt> clocks[1]</tt></font><font size="+1"> </font>е
+    указател от базовия клас<font size="+1"> </font><font size="+1"><font
+        size="+1"><tt>Clock</tt></font>,</font> съдържа адрес на обект
+    от производния клас<font size="+1"><tt> </tt><tt>TravelClock(true,
+        "Rome", -1) </tt></font><font size="+1"><font size="+1">и </font></font><font
+      size="+1"><tt><font size="+1"><tt><font size="+1"><tt>get_location()
+
+
+
+
+
+
+
+
+              </tt></font></tt></font></tt></font>е член-функция от
+    производния клас<font size="+1"><tt><font size="+1"><font size="+1"><font
+              size="+1"><tt> </tt><tt>TravelClock</tt></font></font></font><font
+          size="+1"><tt>. <br>
+            <br>
+          </tt></font></tt></font> За такова динамично свързване е
+    необходимо функциите да се обяват като <i>виртуални</i>.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><span style="color: rgb(51, 51, 255);">class</span> Clock  {<br><span style="color: rgb(51, 51, 255);">public:</span><br>   Clock(<span style="color: rgb(51, 51, 255);">bool</span> use_military);<br>   <span style="color: rgb(51, 51, 255);">virtual</span> <span style="color: rgb(0, 153, 0);">string</span> <span style="font-weight: bold;">get_locatio</span>n() <span style="color: rgb(51, 51, 255);">const</span>;<br>   <span style="color: rgb(51, 51, 255);">virtual</span> <span style="color: rgb(51, 51, 255);">int</span> <span style="font-weight: bold;">get_hours</span>() <span style="color: rgb(51, 51, 255);">const</span>;<br>   <span style="color: rgb(51, 51, 255);">int</span> <span style="font-weight: bold;">get_minutes</span>() <span style="color: rgb(51, 51, 255);">const</span>;<br>   <span style="color: rgb(51, 51, 255);">bool</span> <span style="font-weight: bold;">is_military</span>() <span style="color: rgb(51, 51, 255);">const</span>;<br><span style="color: rgb(51, 51, 255);">private:</span><br>   . . .<br>};</pre>
+    Ето реализация на цялата програма с динамично свързване:<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><b><font color="#000080"> // <a href="../../../2014/NETB151/sources/ch11/clocks3.cpp">clock<font color="#000080">s</font>3.cpp</a><br> #include</font></b> <font color="#ff0000">&lt;iostream&gt;</font>
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;iomanip&gt;</font>
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;string&gt;</font>
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">&lt;vector&gt;</font>
+ <b><font color="#0000ff">using</font></b> <b><font color="#0000ff">namespace</font></b> std<font color="#990000">;</font>
+ 
+ <b><font color="#000080">#include</font></b> <font color="#ff0000">"ccc_time.h"</font>
+ 
+ <b><font color="#0000ff">class</font></b> Clock <font color="#ff0000">{</font>
+ <b><font color="#0000ff">public</font></b><font color="#990000">:</font>
+    <b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font><font color="#990000">;</font>
+    <b><font color="#0000ff">virtual</font></b> string <b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <b><font color="#0000ff">virtual</font></b> <font color="#009900">int</font> <b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <font color="#009900">int</font> <b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <font color="#009900">bool</font> <b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+ <b><font color="#0000ff">private</font></b><font color="#990000">:</font>
+    <font color="#009900">bool</font> military<font color="#990000">;</font>
+ <font color="#ff0000">}</font><font color="#990000">;</font>
+ 
+ Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">Clock</font></b><font color="#990000">(</font><font color="#009900">bool</font> use_military<font color="#990000">)</font>
+ <font color="#ff0000">{</font>  military <font color="#990000">=</font> use_military<font color="#990000">;</font> <font color="#ff0000">}</font>
+ 
+ string Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> <font color="#ff0000">"Local"</font><font color="#990000">;</font>  <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  Time now<font color="#990000">;</font>
+    <font color="#009900">int</font> hours <font color="#990000">=</font> now<font color="#990000">.</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>military<font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">12</font><font color="#990000">;</font>
+    <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>hours <font color="#990000">&gt;</font> <font color="#993399">12</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> hours <font color="#990000">-</font> <font color="#993399">12</font><font color="#990000">;</font>
+    <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> hours<font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  Time now<font color="#990000">;</font>
+    <b><font color="#0000ff">return</font></b> now<font color="#990000">.</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">bool</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> military<font color="#990000">;</font>  <font color="#ff0000">}</font>
+ 
+ <b><font color="#0000ff">class</font></b> TravelClock <font color="#990000">:</font> <b><font color="#0000ff">public</font></b> Clock  <font color="#ff0000">{</font>
+ <b><font color="#0000ff">public</font></b><font color="#990000">:</font>
+    <b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><font color="#009900">bool</font> mil<font color="#990000">,</font> string loc<font color="#990000">,</font> <font color="#009900">int</font> diff<font color="#990000">)</font><font color="#990000">;</font>
+    string <b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+    <font color="#009900">int</font> <b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b><font color="#990000">;</font>
+ <b><font color="#0000ff">private</font></b><font color="#990000">:</font>
+    string location<font color="#990000">;</font>
+    <font color="#009900">int</font> time_difference<font color="#990000">;</font>
+ <font color="#ff0000">}</font><font color="#990000">;</font>
+ 
+ TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><font color="#009900">bool</font> mil<font color="#990000">,</font> string loc<font color="#990000">,</font> <font color="#009900">int</font> diff<font color="#990000">)</font>
+    <font color="#990000">:</font> <b><font color="#000000">Clock</font></b><font color="#990000">(</font>mil<font color="#990000">)</font>
+ <font color="#ff0000">{</font>  location <font color="#990000">=</font> loc<font color="#990000">;</font>
+    time_difference <font color="#990000">=</font> diff<font color="#990000">;</font>
+    <b><font color="#0000ff">while</font></b> <font color="#990000">(</font>time_difference <font color="#990000">&lt;</font> <font color="#993399">0</font><font color="#990000">)</font> <br>       time_difference <font color="#990000">=</font> time_difference <font color="#990000">+</font> <font color="#993399">24</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font>
+ 
+ string TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <b><font color="#0000ff">return</font></b> location<font color="#990000">;</font>  <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> TravelClock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <b><font color="#0000ff">const</font></b>
+ <font color="#ff0000">{</font>  <font color="#009900">int</font> h <font color="#990000">=</font> Clock<font color="#990000">:</font><font color="#990000">:</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font>
+    <b><font color="#0000ff">if</font></b> <font color="#990000">(</font><b><font color="#000000">is_military</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">)</font>
+       <b><font color="#0000ff">return</font></b> <font color="#990000">(</font>h <font color="#990000">+</font> time_difference<font color="#990000">)</font> <font color="#990000">%</font> <font color="#993399">24</font><font color="#990000">;</font>
+    <b><font color="#0000ff">else</font></b>
+    <font color="#ff0000">{</font>  h <font color="#990000">=</font> <font color="#990000">(</font>h <font color="#990000">+</font> time_difference<font color="#990000">)</font> <font color="#990000">%</font> <font color="#993399">12</font><font color="#990000">;</font>
+       <b><font color="#0000ff">if</font></b> <font color="#990000">(</font>h <font color="#990000">=</font><font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">)</font> <b><font color="#0000ff">return</font></b> <font color="#993399">12</font><font color="#990000">;</font>
+       <b><font color="#0000ff">else</font></b> <b><font color="#0000ff">return</font></b> h<font color="#990000">;</font>
+    <font color="#ff0000">}</font>
+ <font color="#ff0000">}</font>
+ 
+ <font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">(</font><font color="#990000">)</font>
+ <font color="#ff0000">{</font>  vector<font color="#ff0000">&lt;Clock*&gt;</font> <b><font color="#000000">clocks</font></b><font color="#990000">(</font><font color="#993399">3</font><font color="#990000">)</font><font color="#990000">;</font>
+    clocks<font color="#990000">[</font><font color="#993399">0</font><font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#0000ff">new</font></b> <b><font color="#000000">Clock</font></b><font color="#990000">(</font><b><font color="#0000ff">true</font></b><font color="#990000">)</font><font color="#990000">;</font>
+    clocks<font color="#990000">[</font><font color="#993399">1</font><font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#0000ff">new</font></b> <b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><b><font color="#0000ff">true</font></b><font color="#990000">,</font> <font color="#ff0000">"Rome"</font><font color="#990000">,</font> <font color="#993399">-1</font><font color="#990000">)</font><font color="#990000">;</font>
+    clocks<font color="#990000">[</font><font color="#993399">2</font><font color="#990000">]</font> <font color="#990000">=</font> <b><font color="#0000ff">new</font></b> <b><font color="#000000">TravelClock</font></b><font color="#990000">(</font><b><font color="#0000ff">false</font></b><font color="#990000">,</font> <font color="#ff0000">"Tokyo"</font><font color="#990000">,</font> <font color="#990000">5</font><font color="#990000">)</font><font color="#990000">;</font>
+ 
+    <b><font color="#0000ff">for</font></b> <font color="#990000">(</font><font color="#009900">int</font> i <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;</font> i <font color="#990000">&lt;</font> clocks<font color="#990000">.</font><b><font color="#000000">size</font></b><font color="#990000">(</font><font color="#990000">)</font><font color="#990000">;</font> i<font color="#990000">+</font><font color="#990000">+</font><font color="#990000">)</font>
+    <font color="#ff0000">{</font> cout <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clocks<font color="#990000">[</font>i<font color="#990000">]</font><font color="#990000">-</font><font color="#990000">&gt;</font><b><font color="#000000">get_location</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">" time: "</font> <br>           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clocks<font color="#990000">[</font>i<font color="#990000">]</font><font color="#990000">-</font><font color="#990000">&gt;</font><b><font color="#000000">get_hours</font></b><font color="#990000">(</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">":"</font>
+           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setw</font></b><font color="#990000">(</font><font color="#993399">2</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">'0'</font><font color="#990000">)</font> <br>           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> clocks<font color="#990000">[</font>i<font color="#990000">]</font><font color="#990000">-</font><font color="#990000">&gt;</font><b><font color="#000000">get_minutes</font></b><font color="#990000">(</font><font color="#990000">)</font> <br>           <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <b><font color="#000000">setfill</font></b><font color="#990000">(</font><font color="#ff0000">' '</font><font color="#990000">)</font> <font color="#990000">&lt;</font><font color="#990000">&lt;</font> <font color="#ff0000">"\n"</font><font color="#990000">;</font>
+    <font color="#ff0000">}</font>
+    <b><font color="#0000ff">return</font></b> <font color="#993399">0</font><font color="#990000">;</font>
+ <font color="#ff0000">}</font></tt></pre>
+    Резултатът е:<br>
+    <br>
+    <tt>Local time is 18:07</tt><tt><br>
+    </tt><tt>Rome time is 17:07</tt><tt><br>
+    </tt><tt>Tokyo time is 11:07</tt><br>
+    <br>
+    Когато в класа има виртуални член-функции, компилаторът създава <i>виртуална
+
+
+
+
+
+
+
+
+
+
+
+
+      таблица</i> (virtual table), в която са описани възможните връзки
+    обект-функция.<br>
+    Когато програмата се изпълнява, при всяко извикване на виртуална
+    член-функция се преглежда таблицата, за да се намери функция от кой
+    клас да се изпълни, съответстваща на типа на обекта, с който се вика
+    функцията (динамично свързване).<br>
+    <hr width="100%" size="2">
+    <h2>Потоци<br>
+    </h2>
+    <img alt="" src="../../../2018/CITB201/b5.gif" height="18"
+      width="20"><span style="color: rgb(0, 0, 0); font-family: 'Times
+      New Roman'; font-size: medium; font-style: normal; font-variant:
+      normal; font-weight: normal; letter-spacing: normal; line-height:
+      normal; orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;">Пренасочване на входния и изходния потоци (<a
+        href="../../CITB107/slides/ch08/lecture_8.html">преговор</a>)<br>
+      <br>
+    </span>Пренасочване на стандартния вход (обекта <font size="+1"><tt>cin</tt></font>).<br>
+    <font size="+1"><tt>C:\my\&gt;myprog &lt; a.txt </tt></font><br>
+    <br>
+    Вместо от клавиатурата, операционната система пренасочва входа от
+    текстов файл, в случая това е файла <font size="+1"><tt>a.txt</tt></font>.<br>
+    &nbsp;<br>
+    <font size="+1"><tt>&nbsp;C:\my\&gt;myprog &gt; b.txt</tt></font><br>
+    Вместо на екрана, операционната система пренасочва изхода на текстов
+    файл, в случая това е файла <font size="+1"><tt>b.txt.</tt></font>&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+    <br>
+    <span style="color: rgb(0, 0, 0); font-family: 'Times New Roman';
+      font-size: medium; font-style: normal; font-variant: normal;
+      font-weight: normal; letter-spacing: normal; line-height: normal;
+      orphans: auto; text-align: start; text-indent: 0px;
+      text-transform: none; white-space: normal; widows: auto;
+      word-spacing: 0px; -webkit-text-size-adjust: auto;
+      -webkit-text-stroke-width: 0px; display: inline !important; float:
+      none;"></span><br>
+    <i>Пример:</i> Четене на думи.<br>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><tt><b><font color="#000080">// <a href="../../CITB107/sources/ch7/words.cpp">words.cpp</a><br>#include</font></b> <font color="#FF0000">&lt;iostream&gt;
+</font><b><font color="#000080">#include</font></b> <font color="#FF0000">&lt;string&gt;
+</font><b><font color="#0000FF">using</font></b> <b><font color="#0000FF">namespace</font></b> std<font color="#990000">;
+
+</font><font color="#009900">int</font> <b><font color="#000000">main</font></b><font color="#990000">()
+</font><font color="#FF0000">{</font>&nbsp; <font color="#009900">int</font> count <font color="#990000">=</font> <font color="#993399">0</font><font color="#990000">;
+</font>&nbsp;&nbsp; string word<font color="#990000">;
+</font>&nbsp;&nbsp; <b><font color="#0000FF">while</font></b> <font color="#990000">(</font>cin <font color="#990000">&gt;&gt;</font> word<font color="#990000">)</font> count<font color="#990000">++;
+
+</font>&nbsp;&nbsp; cout <font color="#990000">&lt;&lt;</font> count <font color="#990000">&lt;&lt;</font> <font color="#FF0000">" words.\n"</font><font color="#990000">;
+</font>&nbsp;&nbsp; <b><font color="#0000FF">return</font></b> <font color="#993399">0</font><font color="#990000">;<br>}</font></tt><br><span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;">С пренасочване на входа програмата <font size="+1"><tt>words</tt></font> намира броя на думите в текстов
+      файл.<span class="Apple-converted-space"></span></span></pre>
+    <i>Пример:</i> Четене на редове<font color="#990000">.<br>
+      <pre><b>// <a href="../../CITB107/sources/ch7/lines.cpp">lines.cpp</a><br>#include &lt;iostream&gt;<br>#include &lt;string&gt;<br>using namespace std;<br><br>int main()<br>{  int count = 0;<br>   string lines;<br>   while (getline(cin, lines)) count++;<br>   cout &lt;&lt; count &lt;&lt; " lines.\n";<br>   return 0;<br>}<br></b></pre>
+    </font>
+    <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: start; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;"><span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;">С пренасочване на входа програмата <font size="+1"><tt>lines</tt></font> намира броя на редовете в текстов
+      файл.</span></pre>
+    <i>Пример:</i> Четене на символи (букви, цифри и специални символи)<font
+      color="#990000">.<br>
+    </font>
+    <pre><font color="#990000"><b>// <a href="../../CITB107/sources/ch7/chars.cpp">chars.cpp</a><br>#include &lt;iostream&gt;<br>using namespace std;<br><br>int main()<br>{  int count = 0;<br>   char ch;<br>   while (cin.get(ch)) count++;<br>   cout &lt;&lt; count &lt;&lt; " chars.\n";<br>   return 0;<br>}<br></b></font><br><font color="#990000"><b><span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;">С пренасочване на входа програмата </span></b></font><b><span style="font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"><font size="+1"><tt>cha</tt></font></span></b><span style="font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"><font size="+1"><tt>r</tt></font></span><b><span style="font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"><font size="+1"><tt>s</tt></font></span></b><font color="#990000"><b><span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;"> намира броя на байтовете</span></b><span style="color: rgb(0, 0, 0); font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width: 0px; display: inline !important; float: none;"> </span></font><span style="font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-variant: normal; letter-spacing: normal; line-height: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">на </span><b><span style="font-family: &quot;Times New Roman&quot;; font-size: medium; font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; text-align: start; text-indent: 0px; text-transform: none; white-space: normal; word-spacing: 0px; -moz-text-size-adjust: auto; -webkit-text-stroke-width: 0px; display: inline !important; float: none;">т</span></b><font color="#990000"><b><span style="color:
+      rgb(0, 0, 0); font-family: 'Times New Roman'; font-size: medium;
+      font-style: normal; font-variant: normal; font-weight: normal;
+      letter-spacing: normal; line-height: normal; orphans: auto;
+      text-align: start; text-indent: 0px; text-transform: none;
+      white-space: normal; widows: auto; word-spacing: 0px;
+      -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px;
+      display: inline !important; float: none;">екстов
+      файл.</span>
+</b></font></pre>
+    <hr width="100%" size="2">
+    <p><img alt="" src="../../../2018/CITB201/b5.gif" height="18"
+        width="20"> Четене и запис на текстови файлове. <br>
+    </p>
+    <p> ** В заглавния файл <b><tt><font color="#000000">fstream.h</font></tt></b>
+      са дефинирани класове, обекти, функции и операции за работа с
+      файлове. <br>
+      <br>
+      А) Четене от файл. <br>
+    </p>
+    <p> * Дефиниране на файлова променлива за четене - обект от класа <b><tt><font
+            color="#006600">ifstream:</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp; ifstream inp_data;<br>
+          </font></tt></b>&nbsp;<br>
+      * Отваряне на файл от текущата директория с име <b><tt><font
+            color="#006600">input.dat:</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;&nbsp;
+            inp_data.open("input.dat");<br>
+          </font></tt></b>&nbsp;<br>
+      * Четене от файл на: <br>
+      &nbsp;- цели числа и числа с плаваща точка - с операция входен
+      поток<br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; int n;</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; double x;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; inp_data &gt;&gt; n
+            &gt;&gt; x;</font></tt></b> <br>
+      &nbsp;- низове с операция входен поток и функция <b><tt>getline</tt></b><br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; string s;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; inp_data &gt;&gt;
+            s;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // чете до
+            разделител</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; getline(inp_data, s); //
+            чете цял ред</font></tt></b> <br>
+      &nbsp;- символи с член-функция <b><tt>get</tt></b><br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; char ch;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;
+            inp_data.get(ch);&nbsp;&nbsp;&nbsp; // чете един символ</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;
+            inp_data.unget();&nbsp;&nbsp;&nbsp; // връща последния
+            прочетен символ в буфера<br>
+          </font></tt></b>&nbsp;<br>
+      * Затваряне на файл <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; inp_data.close();</font></tt></b>
+    </p>
+    <i>Пример:</i><i><tt> </tt></i>Четене на числа от файл, намиране и
+    отпечатване на най-голямото число.
+    <p><tt> // <a href="../../../2014/NETB151/sources/ch12/maxval1.cpp">maxval1.cpp</a><br>
+        #include &lt;string&gt;</tt><tt><br>
+      </tt><tt>#include &lt;iostream&gt;</tt><tt><br>
+      </tt><tt>#include &lt;fstream&gt;</tt><tt><br>
+      </tt><tt>using namespace std;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>/**</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; Reads numbers from a file and finds the
+        maximum value</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; @param in the input stream to read from</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; @return the maximum value or 0 if the file
+        has no numbers</tt><tt><br>
+      </tt><tt>*/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </tt><tt><br>
+      </tt><tt>double read_data(ifstream&amp; in)</tt><tt><br>
+      </tt><tt>{&nbsp; double highest;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; double next;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; if (in &gt;&gt; next) highest = next;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; else return 0;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; while (in &gt;&gt; next)</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp; if (next &gt; highest) highest =
+        next;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; return highest;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>int main()</tt><tt><br>
+      </tt><tt>{&nbsp; string filename;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; cout &lt;&lt; "Please enter the data file
+        name: ";</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; cin &gt;&gt; filename;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; ifstream infile;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; infile.open(filename.c_str());</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; if (infile.fail()) </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "Error opening "
+        &lt;&lt; filename &lt;&lt; "\n";</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; double max = read_data(infile);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; cout &lt;&lt; "The maximum value is "
+        &lt;&lt; max &lt;&lt; "\n";</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; infile.close();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp; return 0;</tt><tt><br>
+      </tt><tt>}<br>
+      </tt></p>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>cin/cout</tt><br>
+          </td>
+          <td valign="top">файл<tt> <b>maxval.txt</b></tt></td>
+        </tr>
+        <tr>
+          <td valign="top"><tt>Please enter the data file name: <b>maxval.txt</b></tt><tt><br>
+            </tt><tt>The maximum value is 34399</tt><br>
+          </td>
+          <td valign="top"><tt>31695 32798.9</tt><tt><br>
+            </tt><tt>25895</tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              26199 34399 29316</tt><tt><br>
+            </tt><tt>24495 23318.04 26632 25795.34</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Като параметри на функции файловите обекти се обявяват винаги
+      като параметри-псевдоними.<tt><br>
+      </tt> </p>
+    <i>Пример:</i> Отделяне на цифрови от текстови данни.
+    <p><tt> //<b> </b><b><a
+            href="../../../2014/NETB151/sources/ch12/readfile.cpp">readfile.cpp</a><br>
+          <br>
+        </b><b> </b><b>#include &lt;string&gt;</b></tt><b><tt><br>
+        </tt></b><b><tt>#include &lt;iostream&gt;</tt></b><b><tt><br>
+        </tt></b><b><tt>#include &lt;fstream&gt;</tt></b><b><tt><br>
+        </tt></b><b><tt>using namespace std;</tt></b><b><tt><br>
+        </tt></b><b><tt><br>
+        </tt></b><b><tt>int main()</tt></b><b><tt><br>
+        </tt></b><b><tt>{&nbsp; cout &lt;&lt; "Enter the file name: ";</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; string fname;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; cin &gt;&gt; fname;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; ifstream infile;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; infile.open(fname.c_str());</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; if (infile.fail())</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; cout &lt;&lt; "ERROR";</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+          1;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; </tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; int sum = 0;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; while (!infile.eof())</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; {&nbsp; char ch;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; infile.get(ch);</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if ('0' &lt;= ch
+          &amp;&amp; ch &lt;= '9') /* </tt></b><tt>it was a digit </tt><b><tt>*/</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {&nbsp;
+          infile.unget();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          /*</tt></b><tt> <i>oops - didn't want to read it</i></tt><b><tt>
+          */</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          int n;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          infile &gt;&gt;
+          n;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+          /* </tt></b><tt>read integer starting with ch</tt><b><tt> */</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          sum += n;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else cout
+          &lt;&lt; ch; </tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; }</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; infile.close();</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; cout &lt;&lt; "The sum is "
+          &lt;&lt; sum &lt;&lt; endl;</tt></b><b><tt><br>
+        </tt></b><b><tt>&nbsp;&nbsp; return 0;</tt></b><b><tt><br>
+        </tt></b><b><tt>}<br>
+        </tt></b></p>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>cin/cout</tt><br>
+          </td>
+          <td valign="top"><tt>файл <b>first.txt</b></tt><tt><br>
+            </tt></td>
+        </tr>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Enter the file name: first.cpp</tt><tt><br>
+            </tt><tt>ERROR%</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Enter the file name: <b>first.txt</b></tt><tt><br>
+            </tt><tt>alabala</tt><tt><br>
+            </tt><tt>abc</tt><tt><br>
+            </tt><tt>o-o-ops</tt><tt><br>
+            </tt><tt>&nbsp;one</tt><tt><br>
+            </tt><tt>endend</tt><tt><br>
+            </tt><tt><br>
+            </tt><tt>The sum is 359</tt><br>
+          </td>
+          <td valign="top"><tt>alabala</tt><tt><br>
+            </tt><tt>100abc</tt><tt><br>
+            </tt><tt>o-o-ops24</tt><tt><br>
+            </tt><tt>10 1one2</tt><tt><br>
+            </tt><tt>end222end</tt><tt><br>
+            </tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <p>Б) Писане във файл. <br>
+    </p>
+    <p> * дефиниране на файлова променлива за писане - обект от класа <b><tt><font
+            color="#006600">ofstream:</font></tt></b> <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; ofstream out_data;<br>
+          </font></tt></b>&nbsp;<br>
+      * отваряне на файл <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp;
+            out_data.open("output.dat");<br>
+          </font></tt></b><font color="#006600">Ако в текущата папка
+        съществува файл с това име, операционната система го изтрива и
+        създава празен файл с това име.</font><br>
+      <br>
+      * писане във&nbsp; файл с: <br>
+      &nbsp;- изходен поток <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; int n = 2;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; double x = 1.5;</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; string s = " Hello";</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; out_data &lt;&lt; n
+            &lt;&lt; "&nbsp; " &lt;&lt; x &lt;&lt; s;</font></tt></b> <br>
+      &nbsp;- член-функция <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; char ch = 'A';</font></tt></b>
+      <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; out_data.put(ch);<br>
+          </font></tt></b>&nbsp;<br>
+      * затваряне на файл <br>
+      <b><tt><font color="#006600">&nbsp;&nbsp; out_data.close();</font></tt></b>
+    </p>
+    <i>Пример:</i> Отделяне на цифрови от текстови данни и записване на
+    числата във файл.<b><br>
+    </b>
+    <pre><b>// <a href="../../../2014/NETB151/sources/ch12/readwritefiles.cpp">readwritefiles.cpp</a><br><br>#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+int main()
+{  cout &lt;&lt; "Enter the input file name: ";
+   string finame;
+   cin &gt;&gt; finame;
+   
+   ifstream infile;
+   infile.open(finame.c_str());
+   if (infile.fail())
+   {  cout &lt;&lt; "Error opening " &lt;&lt; finame &lt;&lt; endl;
+      return 1;            
+   }
+   
+   cout &lt;&lt; "Enter the output file name: ";
+   string foname;
+   cin &gt;&gt; foname;
+   
+   ofstream outfile;
+   outfile.open(foname.c_str());
+   if (outfile.fail())
+   {  cout &lt;&lt; "Error opening " &lt;&lt; foname &lt;&lt; endl;;
+      return 1;            
+   }
+   
+   while (!infile.eof())
+   {  char ch;
+      infile.get(ch);
+      if ('0' &lt;= ch &amp;&amp; ch &lt;= '9') /* it was a digit */
+      {  infile.unget(); /* oops - didn't want to read it */
+         int n;
+         infile &gt;&gt; n; /* read integer starting with ch */
+         outfile &lt;&lt; n &lt;&lt; endl;
+      }
+      else cout &lt;&lt; ch; 
+   }
+   infile.close();
+   outfile.close();
+   return 0;
+}<br></b></pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>cin/cout<br>
+            </tt></td>
+          <td valign="top"><tt>файл <b>first.txt</b></tt><tt><br>
+            </tt></td>
+          <td valign="top"><tt>файл <b><font color="#3366ff">second.txt</font></b></tt><tt><br>
+            </tt></td>
+        </tr>
+        <tr>
+          <td valign="top"><tt>nkirov@cpp % ./a.out <br>
+              Enter the input file name: <b>first.txt</b></tt><tt><br>
+            </tt><tt>Enter the output file name: <b><font
+                  color="#3366ff">second.txt</font></b></tt><tt><br>
+            </tt><tt>alabala</tt><tt><br>
+            </tt><tt>abc</tt><tt><br>
+            </tt><tt>o-o-ops</tt><tt><br>
+            </tt><tt>&nbsp;one</tt><tt><br>
+            </tt><tt>endend</tt><br>
+          </td>
+          <td valign="top"><tt>alabala</tt><tt><br>
+            </tt><tt>100abc</tt><tt><br>
+            </tt><tt>o-o-ops24</tt><tt><br>
+            </tt><tt>10 1one2</tt><tt><br>
+            </tt><tt>end222end</tt><tt><br>
+            </tt></td>
+          <td valign="top"><tt>100</tt><tt><br>
+            </tt><tt>24</tt><tt><br>
+            </tt><tt>10</tt><tt><br>
+            </tt><tt>1</tt><tt><br>
+            </tt><tt>2</tt><tt><br>
+            </tt><tt>222</tt><br>
+            <br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <hr width="100%" size="2">** Йерархия на потоковите класове<br>
+    <p>* Потоковата библиотека на С++ се състои от няколко класа,
+      свързани в следната йерархия:</p>
+    <p><img alt=""
+        src="../../../2014/NETB151/slides/ch12/images/stream_hierarchy.png"
+        height="337" width="715"><br>
+    </p>
+    <p>* Има още един (най-базов) клас с име <tt><font size="+1">ios</font></tt>,
+      които е базов клас на <font size="+1"><tt>istream</tt></font> и <font
+        size="+1"><tt>ostream</tt></font> (и напряк базов клас за всички
+      други класове в йерархията).<br>
+      * Обектите <font size="+1"><tt>cin</tt></font> и <font size="+1"><tt>cout
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        </tt></font>са от класове, които са системно зависими и нямат
+      стандартни имена, но са производни класове съответно на&nbsp; <font
+        size="+1"><tt>istream</tt></font> и <font size="+1"><tt>ostream</tt></font>.
+      <br>
+    </p>
+    <img src="images/v1.png" alt="ios" height="363" width="643">
+    <p>Затова можем да дефинираме:<br>
+    </p>
+    <p><font size="+1"> </font></p>
+    <pre><font size="+1">double read_data(istream&amp; in);</font></pre>
+    <font size="+1"> </font>
+    <p>и след това да извикаме функцията с параметри от различни
+      производни на <font size="+1"><tt>istream</tt></font> класове: .<br>
+    </p>
+    <p><font size="+1"> </font></p>
+    <pre><font size="+1">max = read_data(infile);<br>max = read_data(cin);</font></pre>
+    <font size="+1"> </font>
+    <p><i>Пример:</i> Четене на числа от файл или стандартен вход,
+      намиране и отпечатване на най-голямото число. </p>
+    <pre><b>// </b><b><a href="../../../2014/NETB151/sources/ch12/maxval2.cpp">maxval2.cpp</a></b><b><br><br></b><b>#include &lt;string&gt;
+#include &lt;iostream&gt;
+#include &lt;fstream&gt;
+using namespace std;
+
+/**
+   Reads numbers from a file and finds the maximum value
+   @param in the input stream to read from
+   @return the maximum value or 0 if the file has no numbers
+*/            
+double read_data(<font color="#993399">istream</font>&amp; in)
+{  double highest;
+   double next;
+   if (in &gt;&gt; next) highest = next;
+   else return 0;
+
+   while (in &gt;&gt; next)
+      if (next &gt; highest) highest = next;
+   
+   return highest;
+}
+
+int main()
+{  double max;
+
+   string input;
+   cout &lt;&lt; "Do you want to read from a file? (y/n) ";
+   cin &gt;&gt; input;
+
+   if (input == "y")
+   {  string filename;
+      cout &lt;&lt; "Please enter the data file name: ";
+      cin &gt;&gt; filename;
+
+      ifstream infile;
+      infile.open(filename.c_str());
+
+      if (infile.fail()) 
+      {  cout &lt;&lt; "Error opening " &lt;&lt; filename &lt;&lt; "\n";
+         return 1;
+      }
+
+      max = read_data(<font color="#993399">infile</font>);
+      infile.close();
+   }
+   else max = read_data(<font color="#993399">cin</font>);
+
+   cout &lt;&lt; "The maximum value is " &lt;&lt; max &lt;&lt; "\n";
+   return 0;
+}<br></b></pre>
+    <table width="100%" cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td valign="top"><tt>cin/cout</tt><br>
+          </td>
+          <td valign="top"><tt>файл <b>maxval.txt</b></tt></td>
+        </tr>
+        <tr>
+          <td valign="top"><tt><tt>nkirov@cpp % c++ maxval2.cpp<br>
+              </tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Do you want to read from a file? (y/n) y</tt><tt><br>
+            </tt><tt>Please enter the data file name: <b>maxval.txt</b></tt><tt><br>
+            </tt><tt>The maximum value is 34399</tt><tt><br>
+            </tt><tt>nkirov@cpp % ./a.out</tt><tt><br>
+            </tt><tt>Do you want to read from a file? (y/n) n</tt><tt><br>
+            </tt><tt>234 324 100 210</tt><tt><br>
+            </tt><tt>872 300</tt><tt><br>
+            </tt><tt>The maximum value is 872</tt><tt><br>
+            </tt><tt>nkirov@cpp %</tt><br>
+          </td>
+          <td valign="top"><tt>31695 32798.9</tt><tt><br>
+            </tt><tt>25895</tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+              26199 34399 29316</tt><tt><br>
+            </tt><tt>24495 23318.04 26632 25795.34</tt></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr width="100%">
+    <h4> ** Абстрактни класове</h4>
+    <i>Пример:</i> Йерархия на геометрични фигури в равнината.<br>
+    <img alt="" src="images/Shapes.png" height="486" width="688"><br>
+    - Ако искаме да имаме полиморфна функция за лице на фигура - <font
+      size="+1"><tt>area</tt></font>, то тази функция трябва да бъде
+    дефинирана в базовия клас <font size="+1"><tt>Shape</tt></font>. <br>
+    - Тази функция има смисъл за всеки клас, производен на класа <font
+      size="+1"><tt>Shape</tt></font>, но в класа <font size="+1"><tt>Shape</tt></font>
+    тя няма смисъл.<br>
+    - Такава функция се декларира по специален начин в базовия клас и се
+    нарича <i>чисто виртуална</i> член-функция.<br>
+    <font size="+1"><tt>class Shape {</tt><tt><br>
+      </tt><tt>...</tt><tt><br>
+      </tt><tt>virtual double area() const = 0; </tt><tt><br>
+      </tt><tt>};<br>
+        <br>
+      </tt></font> - Клас, който има поне една чисто виртуална
+    член-функция се нарича абстрактен клас.<br>
+    - Клас, който се състои изцяло от чисто виртуални член-функции
+    понякога се нарича <i>интерфейс</i>.<br>
+    <br>
+    <i>Пример:</i><br>
+    <font size="+1"><tt>class Shape { <br>
+        public:</tt></font><br>
+    <font size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp; virtual
+            double perimeter() const = 0; <br>
+          </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double
+        area() const = 0; </tt><tt><br>
+      </tt><tt>};<br>
+        <br>
+        class Triangle: public Shape {<br>
+        public:<br>
+        &nbsp;&nbsp;&nbsp; ...</tt></font> <br>
+    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                virtual double perimeter() const <br>
+                &nbsp;&nbsp;&nbsp; { return a + b + c; } <br>
+              </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual double
+            area() const <br>
+            &nbsp;&nbsp;&nbsp; {&nbsp;&nbsp; double p = (a + b + c)/2;<br>
+            &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; return
+            sqrt(p*(p-a)*(p-b)*(p-c)); <br>
+            &nbsp;&nbsp;&nbsp; }<br>
+            private:<br>
+            &nbsp;&nbsp;&nbsp; double a, b, c;<br>
+            };<br>
+          </tt></font></tt></font><br>
+    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt>class
+                Circle: public Shape {<br>
+                public:<br>
+                &nbsp;&nbsp;&nbsp; ...<br>
+              </tt></font> <font size="+1"><tt><font size="+1"><tt><font
+                      size="+1"><tt>&nbsp;&nbsp;&nbsp; virtual double
+                        perimeter() const <br>
+                        &nbsp;&nbsp;&nbsp; { return 2*PI*r; } <br>
+                      </tt></font> </tt><tt>&nbsp;&nbsp;&nbsp; virtual
+                    double area() const <br>
+                    &nbsp;&nbsp;&nbsp; { return PI*r*r; }<br>
+                    private:<br>
+                    &nbsp;&nbsp;&nbsp; double r;<br>
+                    };<br>
+                    ...<br>
+                    int main()<br>
+                    {<br>
+                    //&nbsp; Shape* s = new Shape; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; // <font
+                      color="#cc0000">ERROR!!</font> <br>
+                    &nbsp;&nbsp;&nbsp; Shape* s = new Triangle(4, 5,
+                    6);&nbsp;&nbsp; // First s is a triangle </tt></font></tt></font></tt></font></tt></font><br>
+    <font size="+1"><tt><font size="+1"><tt><font size="+1"><tt><font
+                  size="+1"><tt><font size="+1"><tt><font size="+1"><tt><font
+                              size="+1"><tt><font size="+1"><tt>&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                                    cout &lt;&lt; "Area is " &lt;&lt;
+                                    s.area() &lt;&lt; "\n";</tt></font></tt></font></tt></font></tt></font>&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                    <br>
+                    &nbsp;&nbsp;&nbsp; s = new Circle(10);
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+                    &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; // Now it is a
+                    square<br>
+                    &nbsp;&nbsp;&nbsp; cout &lt;&lt; "Area is " &lt;&lt;
+                    s.area() &lt;&lt; "\n";<br>
+                    &nbsp;&nbsp;&nbsp; ...<br>
+                    &nbsp;&nbsp;&nbsp; return 0;<br>
+                    }</tt></font></tt></font></tt></font></tt></font><br>
+    <hr width="100%" size="2">
+  </body>
+</html>

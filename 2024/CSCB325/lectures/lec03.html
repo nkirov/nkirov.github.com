@@ -1,0 +1,157 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type">
+    <title>lec3</title>
+  </head>
+  <body>
+    <h3>3. Представяне на граф. Обхождане на граф</h3>
+    <i>План: </i><i><br>
+      <a href="problems_1_2.html">Задачи за домашно 1 и 2</a></i><br>
+    Дефиниции<br>
+    Представяне<br>
+    Обхождане<br>
+    <i><a href="problems_3_4.html">Задачи за домашно 3 и 4</a><br>
+    </i>
+    <hr width="100%" size="2">
+    <h4>Дефиниции [5.1, стр. 247] </h4>
+    <img src="images/graph.png" alt="graph" height="309" width="758"><br>
+    * Връх, възел (vertex, node), дъга, ребро (arc, edge), <i>n</i>
+    върха, <i>m</i> ребра<span style="font-weight: normal;"><br>
+      * Ориентиран и неориентиран граф</span><br>
+    * Претеглен граф (дължини/тегла на дъгите)<span style="font-weight:
+      normal;"><br>
+      * Предшественици и наследници, инцидентност (между връх и дъга),
+      съседност (върхове, дъги)<br>
+      * Степен на връх се нарича броят на ребрата, инцидентни с него</span><br
+      style="font-weight: normal;">
+    <span style="font-weight: normal;">* Път в граф<br>
+      <i>Пример:</i> 10-11-6-3-2; 7, 6, 12<br>
+    </span>* Свързан граф,<span style="font-weight: normal;"> компоненти
+      на свързаност <br>
+      Ориентиран граф се нарича <i>слабо свързан</i>, ако всеки два
+      върха i и j са краища на поне един път от i до j или от j до i). <br>
+      Когато в ориентиран граф за всеки два върха i, j съществува път
+      както от i до j, така и от j до i, то графът се нарича <i>силно
+        свързан</i>. <br>
+      Неориентиран граф се нарича свързан, ако съществува път между
+      всяка двойка негови върхове i, j.<br>
+      <br>
+      * </span><span style="font-weight: normal;"><span
+        style="font-weight: normal;">Цикъл<br>
+        <i>Пример:</i>&nbsp; 5-7-6-3-2-5</span></span><span
+      style="font-weight: normal;">; <br>
+      * Цикличен и ацикличен граф<br>
+      * Мултиграф</span> (повторение на ребра)<br style="font-weight:
+      normal;">
+    <span style="font-weight: normal;"><br>
+      * Пълен граф - има дъга между всеки два върха<br>
+      * Двуделен граф - две подмножества от върхове без дъги между
+      върховете във всяко от подмножествата</span><br>
+    * Подграф - подмножество от върхове и всички дъги между тях<br
+      style="font-weight: normal;">
+    <span style="font-weight: normal;">* Дърво</span> (неориентиран
+    свързан граф без цикли), кореново дърво, покриващо дърво<br>
+    <hr width="100%" size="2">
+    <h4>Представяне [5.2]</h4>
+    <img src="images/graph2.png" alt="graph2" height="223" width="306"><br>
+    <br>
+    * Списък на ребрата [5.2.1]<br>
+    <i>Пример:</i> <br>
+    <font size="+1"><tt>(1,2), (2,4), (2,5), (3,4), (3,5), (4,5)<br>
+        <br>
+      </tt></font> памет <i>O</i>(<i>m</i>), съседни ребра <i>O</i>(<i>m</i>)
+    или <i>O</i>(log<i> m</i>)<br>
+    <br>
+    * Матрица на съседство (достижимост) [5.2.2]<br>
+    <i>Пример:</i><br>
+    <font size="+1"><tt>&nbsp; <b>1 2 3 4 5</b></tt><tt><br>
+      </tt><tt><b>1</b> 0 1 0 0 0</tt><tt><br>
+      </tt><tt><b>2</b> 1 0 0 1 1</tt><tt><br>
+      </tt><tt><b>3</b> 0 0 0 1 1</tt><tt><br>
+      </tt><tt><b>4</b> 0 1 1 0 1</tt><tt><br>
+      </tt><tt><b>5</b> 0 1 1 1 0<br>
+        <br>
+      </tt></font> памет <i>O</i>(<i>n</i><sup>2</sup>), съществуване
+    на ребро между два върха <i>O</i>(1), наследници на връх <i>O</i>(<i>n</i>)<br>
+    <br>
+    * Списък на наследниците [5.2.3]<br>
+    <i>Пример:</i><br>
+    1 -&gt; 2<br>
+    2 -&gt; 1, 4, 5<br>
+    3 -&gt; 4, 5<br>
+    4 -&gt; 2, 3, 5<br>
+    5 -&gt; 2, 3, 4<br>
+    <br>
+    памет <i>O</i>(<i>m</i>), наследници на връх <i>O</i>(1), ребро
+    между два върха <i>O</i>(бр.насл.) или <i>O</i>(log бр.насл.) <br>
+    <br>
+    * Матрица на инцидентност връх - дъга [5.2.4]<br>
+    <i>Пример:</i><br>
+    <font size="+1"><tt><b>&nbsp;&nbsp;</b>&nbsp;&nbsp;&nbsp;&nbsp; 1 2
+        3 4 5<br>
+        (1,2)&nbsp; 1 1 0 0 0<br>
+        (2,4)&nbsp; 0 1 0 1 0<br>
+        (2,5)&nbsp; 0 1 0 0 1<br>
+        (3,4)&nbsp; 0 0 1 1 0<br>
+        (3,5)&nbsp; 0 0 1 0 1<br>
+        (4,5)&nbsp; 0 0 0 1 1 <br>
+        <br>
+        <b> </b></tt></font> памет <i>O</i>(<i>m.n</i>), ребро между
+    два върха <i>O</i>(<i>m</i>)
+    <hr width="100%" size="2">
+    <h4>Обхождане [5.3]</h4>
+    <img src="images/graph3.png" alt="graph3" height="291" width="454">
+    <br>
+    <br>
+    * Обхождане в ширина (<a
+      href="http://en.wikipedia.org/wiki/Breadth-first_search">BFS</a>)
+    [5.3.1]<span style="font-weight: bold;"></span> <a
+      href="https://www.youtube.com/watch?v=s-CYnVz-uh4#t=9.519637">лекция
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      в MIT</a><br>
+    <i>Пример:<br>
+    </i><font size="+1"><tt>1; (1)2; (2)3,(2)4,(2)5; (5)7,(3)6,(4)12;
+        (7)10; (10)11</tt></font><i><br>
+      <br>
+    </i>* Обхождане в&nbsp; дълбочина (<a
+      href="http://en.wikipedia.org/wiki/Depth-first_search">DFS</a>)
+    [5.3.2]<br>
+    <i>Пример:<br>
+    </i><font size="+1"><tt>1,(1)2,(2)4,(4)12,(12)6,(6)7,(7)5;
+        (7)10,(10)11; (2)3</tt></font><i><br>
+    </i>или<i><br>
+    </i><font size="+1"><tt>1,(1)2,(2)3,(3)6,</tt></font><tt><font
+        size="+1">(6)12</font></tt>, (12)4; (6)7, (7)10, (10)11;&nbsp;
+    (7)5<br>
+    <br>
+    * Най-кратък път между два върха по брой на върховете [5.4.1]<br>
+    <i>Пример:<br>
+    </i><font size="+1"><tt>1, 2, 4, 12, 6 </tt></font>(път)<font
+      size="+1"><tt><br>
+        1 2, 3, 6 </tt></font>(най-кратък път)<font size="+1"><tt><br>
+        <br>
+      </tt></font> * Проверка за цикличност [5.4.1]<br>
+    <br>
+    * Намиране на всички прости пътища между два върха [5.4.1]<br>
+    <i>Пример:<br>
+    </i><font size="+1"><tt>1, 2, 4, 12, 6</tt></font><font size="+1"><tt><br>
+        1 2, 3, 6<br>
+        1, 2, 5, 7, 6 </tt></font><br>
+    <hr width="100%" size="2">
+  </body>
+</html>
