@@ -1,0 +1,537 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Chapter 6</title>
+  </head>
+  <body>
+    <h2>6. Дървета - първа част</h2>
+    <p>Дърво - дефиниция, терминология и основни свойства<br>
+      Наредени дървета<br>
+      Функции за дърво АТД<br>
+      Дълбочина и височина на възел<br>
+      Preorder обхождане<br>
+      Postorder обхождане <br>
+      Други видове обхождания<br>
+    </p>
+    <hr width="100%" size="2">
+    <h3>Дърво<br>
+    </h3>
+    <big><span style="font-weight: bold;">Дърво</span> е нелинейна
+      стуктура от данни, която съхранява елементите йерархично<span
+        style="font-style: italic;"></span>. <br>
+      С изключение на един елемент (<i>корен</i>) всеки елемент от <b>дървото</b>
+      има един <i>родител</i> и нула или повече <i>деца</i>.<br>
+    </big>
+    <ul>
+      <li><big>В компютърните науки <b>дървото</b> е абстрактен модел
+          на йерархична структура.</big></li>
+      <li><big><b>Дървото</b> се състои от възли с връзки (релации)
+          родител-дете.</big></li>
+      <li><big>Приложения:</big></li>
+      <ul>
+        <li><big>диаграми;</big></li>
+        <li><big>файлови системи;</big></li>
+        <li><big>програмни среди.</big></li>
+      </ul>
+      <li><big>[Picture]<br>
+        </big></li>
+    </ul>
+    <big> </big><big style="font-weight: bold;">Терминология и основни
+      свойства</big><big><br>
+    </big>
+    <ul>
+      <big> </big>
+      <li> <big><b>Дървото</b> <i>T</i> е съвкупност от <i>възли</i>
+          за съхранение на елементи с връзката <i>родител-дете</i> със
+          следните свойства:</big>
+        <ul>
+          <big> </big>
+          <li><big><span style="font-style: italic;">T</span> има
+              специален възел <span style="font-style: italic;">r</span>,
+              наречен <i>корен</i> на&nbsp;<span style="font-style:
+                italic;">T</span>, който няма родител.</big></li>
+          <big> </big>
+          <li><big>Всеки възел <span style="font-style: italic;">v</span>
+              на <span style="font-style: italic;">T,</span> различен
+              от <span style="font-style: italic;">r</span> има
+              единствен <i>родител</i> (parent node) <span
+                style="font-style: italic;">u</span>.</big></li>
+          <big> </big>
+        </ul>
+        <big> </big> </li>
+      <big> </big>
+      <li><big>Ако възел <span style="font-style: italic;">u</span> е
+          родител на възел <span style="font-style: italic;">v</span>,
+          казваме, че <span style="font-style: italic;">v</span> е <i>дете</i>
+          (<i>наследник</i>)&nbsp; на&nbsp;<span style="font-style:
+            italic;">u</span>.</big></li>
+      <big> </big>
+      <li><big>Ако два възела са деца на един и същи родител, то те са <i>братя</i>
+          (или сестри, siblings).<span style="font-weight: bold;"><br>
+          </span></big></li>
+      <big> </big>
+      <li><big>Един възел е <i>външен</i>, ако няма деца и <i>вътрешен</i>,
+          ако не е външен, т.е. има едно или повече деца. Външните възли
+          се наричат <i>листа</i>.<span style="font-weight: bold;"></span></big></li>
+      <big> </big>
+      <li><big><i>Поддърво</i> на&nbsp; <span style="font-style:
+            italic;">T</span> с корен възел <span style="font-style:
+            italic;">v</span> е <b>дървото</b>, състоящо се от всички
+          наследници на <span style="font-style: italic;">v</span> в <span
+            style="font-style: italic;">T</span> (включително <span
+            style="font-style: italic;">v</span>).</big></li>
+      <big> </big>
+      <li><big><i>Предшественик</i> на един възел е или родителя му или
+          предшественик на родителя му.</big></li>
+      <big> </big>
+      <li><big>Възел <span style="font-style: italic;">v</span> е <i>наследник</i>
+          на възел <span style="font-style: italic;">u</span> ако <span
+            style="font-style: italic;">u</span> е предшественик на <span
+            style="font-style: italic;">v</span>.</big></li>
+      <li><big>Пример:</big></li>
+    </ul>
+    <table style="width: 100%; text-align: left;" cellspacing="2"
+      cellpadding="2" border="0">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><img alt="" src="pic2.jpg"
+              style="width: 353px; height: 329px;"></td>
+          <td style="vertical-align: top;">
+            <ul>
+              <li><big>Корен: възел без родител (A)</big></li>
+              <li><big>Вътрешен възел: възел с поне едно дете (A, B, C,
+                  F)</big></li>
+              <li><big>Външен възел (т.е. лист ): връх без деца (E, I,
+                  J, K, G, H, D)</big></li>
+              <li><big>Предшественик на възел (K): родител (F), баба
+                  (B), прабаба (A)<br>
+                </big></li>
+              <li><big><i>Дълбочина</i><i> на възел</i> (F): брой на
+                  предшествениците (2)<br>
+                </big></li>
+              <li> <big><i>Височина на дърво</i>: максимална дълбочина
+                  (3) на възел </big><big>(J)<br>
+                </big> </li>
+              <li><big>Наследници на възел (A): дете (B), внуче (F),
+                  правнуче (I)</big></li>
+              <li><big>Поддърво с корен (C) се състои от възел (C) и
+                  всички негови наследници (G, H)</big></li>
+              <li><big>Линейно представяне: A(B(E, F(I, J, K)), C(G, H),
+                  D)<br>
+                </big></li>
+            </ul>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"><br>
+      </span></big>
+    <hr width="100%" size="2"><big><span style="font-weight: bold;">Наредени
+
+
+
+
+
+        дървета</span><br>
+    </big>
+    <ul>
+      <li><big>Едно <b>дърво</b> е <i>наредено</i>, ако е дефинирана <u>линейна
+
+
+
+
+
+
+
+            наредба за децата</u> на всеки възел (наредба на
+          братя/сестри). <br>
+        </big></li>
+      <li><big><i>Двоично дърво</i> е наредено дърво в което всеки възел
+          има най-много две деца. </big></li>
+      <li> <big><span style="font-weight: bold;"></span></big><big>Едно
+          двоично дърво е <i>правилно</i>, ако всеки възел има нула или
+          две деца.</big> </li>
+      <li><big>За всеки вътрешен възел на двоично дърво означаваме
+          децата му като <i>ляво дете</i> (ляв наследник) и <i>дясно
+            дете</i> (десен наследник). <br>
+        </big></li>
+      <li><big>Поддървото с корен лявото (дясното) дете на вътрешен
+          възел <span style="font-style: italic;">v</span> се нарича <i>ляво
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            поддърво</i> (<i>дясно поддърво)</i> на&nbsp;<span
+            style="font-style: italic;">v</span>.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"> </span></big>
+    <hr width="100%" size="2"><big><span style="font-weight: bold;">Функции
+
+
+
+
+
+        за дърво АТД</span><br>
+    </big>
+    <ul>
+      <li><big>Ще използваме <i>позиции</i> за абстракция на възлите:</big></li>
+      <ul>
+        <li style="font-family: monospace;"><big>Object <span
+              style="color: rgb(255, 0, 0);">element</span>(Position)
+            &nbsp; &nbsp; &nbsp; [<a href="../ch05/ch05_bg.html">link</a>
+            клас Positions]<br>
+          </big></li>
+      </ul>
+      <li><big>Общи методи (common methods):</big></li>
+      <ul>
+        <li style="font-family: monospace;"><big>integer <span
+              style="color: rgb(255, 0, 0);">size</span>()</big></li>
+        <li style="font-family: monospace;"><big>boolean <span
+              style="color: rgb(255, 0, 0);">isEmpty</span>()</big></li>
+        <li style="font-family: monospace;"><big>ObjectIterator <span
+              style="color: rgb(255, 0, 0);">elements</span>()&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+
+
+
+
+
+
+
+
+
+
+
+
+            [<a href="../ch05/ch05_bg.html">link</a>]<br>
+          </big></li>
+        <li style="font-family: monospace;"><big>PositionIterator <span
+              style="color: rgb(255, 0, 0);">positions</span>()</big></li>
+      </ul>
+      <li><big>Методи за достъп (access methods):</big></li>
+      <ul>
+        <li style="font-family: monospace;"><big>Position <span
+              style="color: rgb(255, 0, 0);">root</span>()</big></li>
+        <li style="font-family: monospace;"> <big>Position <span
+              style="color: rgb(255, 0, 0);">parent</span>(<span
+              style="font-style: italic;"></span></big><big>Position</big><big><span
+              style="font-style: italic;"></span>)</big> </li>
+        <li style="font-family: monospace;"> <big>PositionIterator <span
+              style="color: rgb(255, 0, 0);">children</span>(</big><big>Position</big><big><span
+              style="font-style: italic;"></span>)</big> </li>
+      </ul>
+      <li><big>Методи за запитване (query methods):</big></li>
+      <ul style="font-family: monospace;">
+        <li> <big>boolean <span style="color: rgb(255, 0, 0);">isInternal</span>(</big><big>Position</big><big><span
+              style="font-style: italic;"></span>)</big> </li>
+        <li> <big>boolean <span style="color: rgb(255, 0, 0);">isExternal</span>(<span
+              style="font-style: italic;"></span></big><big>Position</big><big><span
+              style="font-style: italic;"></span>)</big> </li>
+        <li> <big>boolean <span style="color: rgb(255, 0, 0);">isRoot</span>(</big><big>Position</big><big>)</big>
+        </li>
+      </ul>
+      <li><big>Методи за промяна (update methods):</big></li>
+      <ul style="font-family: monospace;">
+        <li> <big>void <span style="color: rgb(255, 0, 0);">swapElements</span>(</big><big>Position</big><big>,
+          </big><big>Position</big><big>)</big> </li>
+        <li> <big>void <span style="color: rgb(255, 0, 0);">replaceElement</span>(</big><big>Position</big><big>,
+          </big><big>Object</big><big>)</big> </li>
+      </ul>
+      <li><big>Допълнителни методи за промяна могат да бъдат дефинирани
+          в структурата от данни, която реализира <b>дърво</b> АТД.</big></li>
+    </ul>
+    <big><span style="font-weight: bold;">Интерфейс за дърво АТД<br>
+        <br>
+      </span><a
+href="6.1a_InspectablePositionalContainer.h-InspectablePositionalContainer.html">html-6.1a</a>
+      (InspectablePositionalContainer)&nbsp; [<a
+        href="../ch05/ch05_bg.html">link</a>]<br>
+      <a href="6.1b_PositionalContainer.h-PositionalContainer.html">html-6.1b</a>
+      (PositionalContainer)<br>
+      <a href="6.1c_InspectableTree.h-InspectableTree.html">html-6.1c</a>
+      (InspectableTree)<br>
+      <a href="6.1d_Tree.h-Tree.html">html-6.1d</a> (Tree)</big> <br>
+    <ul style="font-family: monospace;">
+      <li><big><a href="Tree.cpp">Tree.cpp</a></big></li>
+    </ul>
+    <span style="font-weight: bold;"></span>
+    <hr style="width: 100%; height: 2px;">
+    <h3> Основни операции за дърво АТД<br>
+    </h3>
+    <big><span style="font-weight: bold;"> </span></big>
+    <table style="text-align: left;" width="758" cellspacing="0"
+      cellpadding="2" border="1" height="281">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big><br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Input<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Output<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>root()</big></td>
+          <td style="vertical-align: top;"><big>None<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Position<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>parent(v)</big></td>
+          <td style="vertical-align: top;"><big>Position</big></td>
+          <td style="vertical-align: top;"><big>Position</big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>isInternal(v)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Position</big></td>
+          <td style="vertical-align: top;"><big>bool<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>isExternal(v)</big></td>
+          <td style="vertical-align: top;"><big>Position</big></td>
+          <td style="vertical-align: top;"><big>bool<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>isRoot(v)</big></td>
+          <td style="vertical-align: top;"><big>Position</big></td>
+          <td style="vertical-align: top;"><big>bool<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>children(v)</big></td>
+          <td style="vertical-align: top;"><big>Position</big></td>
+          <td style="vertical-align: top;"><big>Iterator of positions</big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">c</span><sub
+                style="font-style: italic;">v</sub>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>swapElements(v,w)</big></td>
+          <td style="vertical-align: top;"><big>Two positions<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>None<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>replaceElement(v,e)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>A position and an object<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>None<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>elements()</big></td>
+          <td style="vertical-align: top;"><big>None<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Iterator of objects<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>positions()</big></td>
+          <td style="vertical-align: top;"><big>None<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Iterator of positions<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="font-weight: bold;"><br style="font-weight: bold;">
+      </span><span style="font-weight: bold;"> Дълбочина и височина<br>
+        <br>
+      </span><i>Дълбочина</i> на възел</big><big> </big><big><span
+        style="font-style: italic;">v</span> от <b>дървото</b> <i>T</i>
+      е броят на предшествениците му, без самия възел <span
+        style="font-style: italic;">v</span>.<br>
+      <a href="6.3_TreeComputations.cpp-depth.html">html-6.3</a> (depth)<br>
+      <br>
+      <i>Височина</i> на възел <span style="font-style: italic;">v</span>
+      в <b>дървото</b> <span style="font-style: italic;">T</span> се
+      дефинира рекурсивно:<br>
+    </big>
+    <ul>
+      <big> </big>
+      <li><big>Ако <span style="font-style: italic;">v</span> е външен
+          възел, то неговата височина 0.</big></li>
+      <big> </big>
+      <li><big>Иначе, височината на <span style="font-style: italic;">v</span>
+          е 1 плюс максималната височина на децата му<span
+            style="font-style: italic;"></span>.</big></li>
+    </ul>
+    <big>Височина на <b>дървото</b> <span style="font-style: italic;">T</span>
+      е височината на корена на <span style="font-style: italic;">T</span>.<br>
+      <a href="6.5_TreeComputations.cpp-height1.html">html-6.5</a>
+      (height1)<br>
+      <a href="6.6_TreeComputations.cpp-height2.html">html-6.6</a>
+      (height2)<span style="font-weight: bold;"><br style="font-weight:
+          bold;">
+      </span><span style="font-weight: bold;"> </span></big>
+    <hr width="100%" size="2"><big><span style="font-weight: bold;">Preorder
+
+
+
+
+
+        обхождане (родител-наследници)<br>
+      </span></big>
+    <ul>
+      <li><big>1. възел 2. наследници<span style="font-weight: bold;"></span></big></li>
+      <li><big><span style="font-weight: bold;"></span>[Picture]</big></li>
+      <li><font size="+1">За представеното графично дърво получаваме
+          редицата: A B E F I J K C G H D</font></li>
+    </ul>
+    <big> </big>
+    <table style="text-align: left; width: 355px; height: 92px;"
+      cellspacing="0" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Algorithm <span
+                style="font-style: italic; color: rgb(255, 0, 0);">preOrder</span><span
+                style="color: rgb(255, 0, 0);">(<span style="font-style:
+                  italic;">v</span>)</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color:
+                rgb(51, 102, 102);"><span style="font-style: italic;">visit</span>(<span
+                  style="font-style: italic;">v</span>)</span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp; for each <span style="color:
+                rgb(51, 102, 102);">child <span style="font-style:
+                  italic;">w</span> of <span style="font-style:
+                  italic;">v</span></span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+                style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">preOrder</span>(<span
+                  style="font-style: italic;">w</span>)</span></big></td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="color: rgb(51, 102, 102);"></span><br>
+      <span style="font-weight: bold;">Отпечатване на дърво: приложение
+        на Preorder обхождане</span><br>
+      <a href="6.9_TreeComputations.cpp-preorderPrint.html">html-6.9</a>
+      (preorderPrint)<br>
+      <br>
+      <span style="font-weight: bold;">Използване на Preorder обхождане
+        за представяне на дърво</span><br>
+    </big><big><a href="6.10_TreeComputations.cpp-parenPrint.html">html-6.10</a>
+      (parentPrint)</big><br>
+    <big><br>
+      <span style="font-weight: bold;"> </span></big><font size="+1"><span
+        style="font-weight: bold;"><span style="font-weight: bold;"></span></span></font>
+    <hr width="100%" size="2"><font size="+1"><span style="font-weight:
+        bold;"><span style="font-weight: bold;">Postorder обхождане</span></span></font><big><span
+        style="font-weight: bold;"> (наследници-родител)<br>
+      </span></big>
+    <ul>
+      <li> <big>1. </big><big>наследници</big><big> 2. възел</big> </li>
+      <li><big><span style="font-weight: bold;"></span>[Picture]</big></li>
+      <li><font size="+1">За представеното графично дърво получаваме
+          редицата: E I J K F B G H C D A</font></li>
+    </ul>
+    <big> </big>
+    <table style="text-align: left; width: 355px; height: 92px;"
+      cellspacing="0" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"> <big>Algorithm <span
+                style="font-style: italic; color: rgb(255, 0, 0);">postOrder</span><span
+                style="color: rgb(255, 0, 0);">(<span style="font-style:
+                  italic;">v</span>)</span><span style="color: rgb(51,
+                102, 102);"></span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp; for each <span style="color:
+                rgb(51, 102, 102);">child <span style="font-style:
+                  italic;">w</span> of <span style="font-style:
+                  italic;">v</span></span><br>
+              &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+                style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">postOrder</span>(<span
+                  style="font-style: italic;">w</span>)<br>
+              </span></big><big>&nbsp;&nbsp;&nbsp;&nbsp; <span
+                style="color: rgb(51, 102, 102);"><span
+                  style="font-style: italic;">visit</span>(<span
+                  style="font-style: italic;">v</span>)</span></big><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><span style="color: rgb(51, 102, 102);"></span></big><big><br>
+      <span style="font-weight: bold;">Пример за използване на Postorder
+        обхождане</span><br>
+      <a href="6.12_TreeComputations.cpp-postorderPrint.html">html-6.12</a>
+      (postorderPrint)<br>
+      <br>
+      <span style="font-weight: bold;">Postorder алгоритъм за пресмятане
+        на използването на диска</span><br>
+      <a href="6.13_TreeComputations.cpp-diskSpace.html">html-6.13</a>
+      (diskSpace)<br>
+      <span style="font-weight: bold;"></span></big>
+    <hr width="100%" size="2"><big><span style="font-weight: bold;">Други
+
+
+
+
+
+        видове обхождания</span><br>
+    </big>
+    <ul>
+      <li><big>Например бихме могли да обходим едно <b>дърво</b>, така
+          че ще посетим всички възли с дълбочина <span
+            style="font-style: italic;">d</span> преди тези с дълбочина
+          <span style="font-style: italic;">d+</span>1 - обхождане в
+          ширина - <a
+            href="https://en.wikipedia.org/wiki/Breadth-first_search">breadth-first
+            search</a> (BFS)<br>
+        </big></li>
+      <li><big>[Picture]</big></li>
+      <li><big>За представеното графично дърво получаваме редицата: A B
+          C D E F G H I J K<br>
+        </big></li>
+    </ul>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>

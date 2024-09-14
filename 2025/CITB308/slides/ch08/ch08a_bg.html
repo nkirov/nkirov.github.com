@@ -1,0 +1,810 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>Chapter 8</title>
+  </head>
+  <body>
+    <h2>11. Речници - първа част</h2>
+    <p><font size="+1">Речник АТД<br>
+        Log файлове<br>
+        Нареден речник АТД<br>
+        Lookup таблици<br>
+        Двоично търсене<br>
+        Сравнение на прости реализации на нареден речник АТД</font><br>
+    </p>
+    <hr width="100%" size="2">
+    <h3>Речници (Dictionaries)<br>
+    </h3>
+    <ul>
+      <li><big>Основната употреба на речника е да съхранява обекти,
+          така, че те да могат да се намират бързо с използване на
+          ключове.</big></li>
+      <li><big><span style="font-style: italic;"></span>Подобно на
+          приоритетната опашка, речникът е контейнер на двойки
+          ключ-елемент.</big></li>
+      <li><big>За разлика от приоритетната опашка, където се иска пълна
+          наредба на ключовете, за речника тя не е задължителна.</big>
+        <ul>
+          <li><big>Най-простата форма на речника изисква само да може да
+              се определи дали два ключа са еднакви.<br>
+            </big></li>
+          <li><big>Когато е дефинирана пълна наредба на ключовете
+              получаваме <i>нареден речник</i>.</big></li>
+        </ul>
+      </li>
+    </ul>
+    <p><big><span style="font-weight: bold;">Речник АТД</span></big></p>
+    <ul>
+    </ul>
+    <ul>
+      <li><font size="+1">Речник АТД съхранява <b>двойки</b>
+          ключ-елемент (<span style="font-style: italic;">k</span>,<span
+            style="font-style: italic;"> e</span>), които ще наричаме <b>членове</b>
+          на речника (items), където <span style="font-style: italic;">k</span>
+          е ключ и <span style="font-style: italic;">e</span> е
+          елемент. </font></li>
+      <font size="+1"> </font>
+      <li><font size="+1"> В ненареден речник можем да използваме
+          обект-тестер за проверка дали два ключа <span
+            style="font-style: italic;">k</span><sub>1</sub> и <span
+            style="font-style: italic;">k</span><sub>2</sub> са равни с
+          функция за равенство (еднаквост) <span style="font-family:
+            monospace;">isEqualTo(</span><span style="font-style:
+            italic;">k</span><sub>1</sub>, <span style="font-style:
+            italic;">k</span><sub>2</sub>).</font><big><br>
+        </big> </li>
+    </ul>
+    <big> </big>
+    <ul>
+      <li><big>Речник АТД моделира възможности за търсене в колекция от
+          двойки ключ-елемент.</big></li>
+      <li><big>Основни операции за речник са <i>търсене</i> (find), <i>вмъкване</i>
+          (добавяне, insert) и <i>премахване</i> (изтриване, delete).</big></li>
+      <li><big>Допуска се няколко членове на речника да имат един и същи
+          ключ (подобно на "обикновен" речник).</big></li>
+      <li><big>Приложения:</big></li>
+      <ul>
+        <li><big>книга с адреси (address book);</big></li>
+        <li><big>авторизация на кредитни карти (credit card
+            authorization);</big></li>
+        <li><big>DNS съответствия [име на хост (напр.&nbsp; <span
+              style="font-family: monospace;">www.nbu.bg</span>) -
+            интернет адрес (<span style="font-family: monospace;">193.19.172.24</span>)].</big></li>
+      </ul>
+      <li><big>Речник АТД използва <b>позиции</b> и поддържа следните
+          функции за речника D:</big></li>
+    </ul>
+    <table style="width: 100%; text-align: left;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">Function<br>
+          </td>
+          <td style="vertical-align: top;">Input<br>
+          </td>
+          <td style="vertical-align: top;">Output<br>
+          </td>
+          <td style="vertical-align: top;">Description<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">size()<br>
+            </font> </td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Integer<br>
+          </td>
+          <td style="vertical-align: top;">Връща броя на елементите на <span
+              style="font-style: italic;">D.</span><br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">isEmpty()<br>
+            </font> </td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Boolean<br>
+          </td>
+          <td style="vertical-align: top;">Проверява дали <span
+              style="font-style: italic;">D</span> е празен.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">elements()<br>
+            </font> </td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Iterator of objects
+            (elements)<br>
+          </td>
+          <td style="vertical-align: top;">Връща елементите, записани в
+            <span style="font-style: italic;">D</span>.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">keys()<br>
+            </font> </td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Iterator of objects (keys)</td>
+          <td style="vertical-align: top;">Връща ключовете, записани в <span
+              style="font-style: italic;">D</span>.</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">find(k)<br>
+            </font> </td>
+          <td style="vertical-align: top;">Object k (key)</td>
+          <td style="vertical-align: top;">Position<br>
+          </td>
+          <td style="vertical-align: top;">Ако <span style="font-style:
+              italic;">D</span> съдържа член с ключ, равен на <span
+              style="font-family: monospace;">k</span>, връща позицията
+            на този член. Ако не, връща nullposition.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">findAll(k)<br>
+            </font> </td>
+          <td style="vertical-align: top;">Object k (key)</td>
+          <td style="vertical-align: top;">Iterator of Positions</td>
+          <td style="vertical-align: top;">Връща итератор от позициите
+            на всички членове, чийто ключове са равни на <span
+              style="font-family: monospace;">k</span>.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">insertItem(k,e)<br>
+            </font> </td>
+          <td style="vertical-align: top;">Objects: <span
+              style="font-family: monospace;">k</span> (key) and<span
+              style="font-family: monospace;"> e</span><span
+              style="font-family: monospace;"></span> (element) </td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Вмъква двойка с ключ <span
+              style="font-family: monospace;">k</span> и елемент <span
+              style="font-family: monospace;">e</span> в <span
+              style="font-style: italic;">D</span>.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">removeElement(k)<br>
+            </font> </td>
+          <td style="vertical-align: top;">Object k (key)<br>
+          </td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Премахва член с ключ равен на
+            <span style="font-family: monospace;">k</span> от <span
+              style="font-style: italic;">D</span>. Ако в <span
+              style="font-style: italic;">D</span> няма такъв член се
+            генерира грешка (error condition).<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">removeAllElements(k)<br>
+            </font> </td>
+          <td style="vertical-align: top;">Object k (key)</td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Премахва всички двойки с
+            ключове равни на <span style="font-family: monospace;">k</span>
+            от <span style="font-style: italic;">D</span>.</td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <ul>
+      </ul>
+      <li><big>Пример: <br>
+        </big>
+        <ul>
+          <li><big>Използване на функциите на речник АТД</big></li>
+          <li><big>Начинът, по който членовете на речника се съхраняват
+              зависи от реализацията на речника.</big></li>
+          <li><big>Означението <span style="font-family: monospace;">p(x)</span>
+              показва позицията на члена на речника, където се пази
+              елемента <span style="font-family: monospace;">x</span>.</big></li>
+        </ul>
+      </li>
+    </ul>
+    <table style="width: 100%; text-align: left;" cellspacing="2"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">Operation<br>
+          </td>
+          <td style="vertical-align: top;">Output<br>
+          </td>
+          <td style="vertical-align: top;">Dictionary<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">insertItem(5,A)<br>
+              insertItem(7,B)<br>
+              insertItem(2,C)<br>
+              insertItem(8,D)<br>
+              insertItem(2,E)<br>
+              find(7)<br>
+              find(4)<br>
+              find(2)<br>
+              findAll(2)<br>
+              size()<br>
+              removeElement(5)<br>
+              removeElement(5)<br>
+              removeAllElements(2)<br>
+              find(2)<br>
+              findAll(2)</font><br>
+          </td>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace;"></span><span style="font-family: monospace;">-</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">-</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">-</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">-<br>
+              -<br style="font-family: monospace;">
+            </span><span style="font-family: monospace;">p(B)<br>
+              "nullposition"<br>
+              p(C) or p(E)<br>
+              p(C),p(E)<br>
+              5<br>
+              -<br>
+              "error"<br>
+              -<br>
+              "nullposition"<br>
+              "empty iterator"<br>
+            </span> </td>
+          <td style="vertical-align: top;"><span style="font-family:
+              monospace;">{(5,A)}</span><br style="font-family:
+              monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B),(2,C)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}<br>
+            </span><span style="font-family: monospace;">{(5,A),(7,B),(2,C),(8,D),(2,E)}</span><br
+              style="font-family: monospace;">
+            <span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+            </span><span style="font-family: monospace;">{(7,B),(2,C),(8,D),(2,E)}<br>
+            </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+            </span><span style="font-family: monospace;">{(7,B),(8,D)}<br>
+            </span><span style="font-family: monospace;">{(7,B),(8,D)}</span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <ul>
+      <li><big><a href="../ch05/ch05_bg.html">Позиция АТД</a> поддържа
+          следните функции:</big></li>
+    </ul>
+    <table style="width: 100%; text-align: left;" cellspacing="0"
+      cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;">Operation<br>
+          </td>
+          <td style="vertical-align: top;">Input<br>
+          </td>
+          <td style="vertical-align: top;">Output<br>
+          </td>
+          <td style="vertical-align: top;">Description</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">element()</font></td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Object (element)</td>
+          <td style="vertical-align: top;">Връща псевдоним на елемента
+            от двойката на тази позиция.<br>
+          </td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">key()</font></td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Object (key)</td>
+          <td style="vertical-align: top;">Връща константен псевдоним на
+            ключа от двойката на тази позиция.</td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><font
+              size="+1">isNull()</font></td>
+          <td style="vertical-align: top;">-<br>
+          </td>
+          <td style="vertical-align: top;">Boolean<br>
+          </td>
+          <td style="vertical-align: top;">Връща <tt>true</tt>, ако
+            това е <tt>nullposition.</tt><br>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <big><br>
+      <span style="font-weight: bold;">Log файлове</span><br>
+    </big>
+    <ul>
+      <li><big>Един прост начин за реализация на речник АТД е да се
+          използва (ненаредени) вектор АТД, списък АТД или редица АТД за
+          запазване на двойката ключ-елемент. </big></li>
+      <li><big>Тази реализация се нарича <span style="font-style:
+            italic;">log файл</span>.</big></li>
+    </ul>
+    <big> </big>
+    <ul>
+      <li><big>Log файл е речник АТД, реализиран с несортирана редица
+          (може да няма наредба на ключовете).<span style="font-style:
+            italic;"></span></big></li>
+      <ul>
+        <li><big>Съхраняваме членовете на речника в редица (базирана на
+            двойносвързан списък или кръгов масив) в произволен ред.</big></li>
+      </ul>
+      <li><big>Performance:</big></li>
+      <ul>
+        <li><big><font size="+1"><span style="font-family: monospace;">insertItem</span></font>
+            отнема време <span style="font-style: italic;">O</span>(1),
+            защото добавяме нов член в началото или в края на редицата.</big></li>
+        <li><big><font size="+1"><span style="font-family: monospace;">find</span></font>
+            и <font size="+1"><span style="font-family: monospace;">removeElement</span></font>
+            отнемат време<span style="font-style: italic;"> O</span>(<span
+              style="font-style: italic;">n</span>), защото в най-лошия
+            случай (обектът не е намерен) трябва да обходим (претърсим)
+            цялата редица, сравнявайки ключовете на всички членове на
+            редицата с дадения ключ (линейно търсене).</big></li>
+      </ul>
+    </ul>
+    <p><a
+href="https://www.youtube.com/watch?v=-PuqKbu9K3U&amp;ab_channel=AlgoRythmics">LINEAR
+
+
+
+        search with FLAMENCO dance </a><br>
+    </p>
+    <ul>
+      <ul>
+      </ul>
+      <li><big>Log файлът е ефективен само за речници с малки размери
+          или за речници, за които вмъкването са най-честата операция,
+          докато търсене и изтриване се изпълняват рядко (напр., запис
+          на историята потребителски имена на работна станция).</big></li>
+      <li><big>Интересна <a
+href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-a-dictionary-data-structure">реализация
+
+
+
+
+
+            на С++</a> на ненареден речник със STL вектори.<br>
+        </big></li>
+    </ul>
+    <big><span style="font-weight: bold;">
+        <hr style="width: 100%; height: 2px;">
+        <h3>Наредени речници<br>
+        </h3>
+      </span>В нареден речник се иска, освен обичайните операции за
+      речник, да поддържа и такива, свързани с наредбата на ключовете.<br>
+      <br>
+      <span style="font-weight: bold;">Нареден речник АТД</span></big><span
+      style="font-weight: bold;"> </span><big><span style="font-weight:
+        bold;"></span><br>
+      <br>
+      Нареденият речник поддържа следните функции извън тези, включени в
+      общия речник АТД:<br>
+    </big>
+    <ul>
+      <li><big><font size="+1"><span style="font-family: monospace;">closestBefore(k)</span></font>
+          - Връща позиция на обект с най-голям ключ, по-малък или равен
+          на <span style="font-family: monospace;">k.</span></big></li>
+      <li><big><font size="+1"><span style="font-family: monospace;">closestAfter(k)</span></font>
+          - Връща позиция на обект с най-малкия ключ, по-голям или равен
+          на <span style="font-family: monospace;">k.</span></big></li>
+    </ul>
+    <p><font size="+1"><i>Пример: </i><br>
+        <tt>позиции: 0 1 2 3 4 5 6 7 8 9</tt><tt><br>
+        </tt></font><tt><font size="+1">ключове: 2 3 3 4 4 4 5 7 9 9</font></tt></p>
+    <p><tt><big><font size="+1"><span style="font-family: monospace;">closestBefore(5)
+
+
+
+
+              -&gt; позиция 6, ключ 5<tt><big><font size="+1"><span
+                      style="font-family: monospace;"><br>
+                      closestBefore(4) -&gt; позиции 3, 4 или 5, ключ 4<tt><big><font
+                            size="+1"><span style="font-family:
+                              monospace;"><br>
+                              closestBefore(6) -&gt; позиция 6, ключ 5<br>
+                            </span></font></big></tt></span></font></big></tt></span></font></big></tt><br>
+      <tt><big><font size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;"><tt><big><font
+                            size="+1"><span style="font-family:
+                              monospace;"><big><font size="+1"><span
+                                    style="font-family: monospace;">closestAfter(5)
+
+
+
+
+                                  </span></font></big></span></font></big></tt></span></font></big></tt></span></font></big></tt><tt><big><font
+            size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;"><tt><big><font
+                            size="+1"><span style="font-family:
+                              monospace;"><big><font size="+1"><span
+                                    style="font-family: monospace;"><tt><big><font
+                                          size="+1"><span
+                                            style="font-family:
+                                            monospace;">-&gt; позиция 6,
+                                            ключ 5<br>
+                                          </span></font></big></tt></span></font></big></span></font></big></tt></span></font></big></tt></span></font></big></tt><tt><big><font
+            size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;"><tt><big><font
+                            size="+1"><span style="font-family:
+                              monospace;"><big><font size="+1"><span
+                                    style="font-family: monospace;">closestAfter(4)
+
+
+
+
+                                    -&gt; </span></font></big></span></font></big></tt></span></font></big></tt></span></font></big></tt><tt><big><font
+            size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;">позиции
+
+
+
+
+                      3, 4 или 5, ключ 4<br>
+                    </span></font></big></tt></span></font></big></tt><tt><big><font
+            size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;"><tt><big><font
+                            size="+1"><span style="font-family:
+                              monospace;"><big><font size="+1"><span
+                                    style="font-family: monospace;">closestAfter(6)
+
+
+
+
+                                    -&gt; </span></font></big></span></font></big></tt></span></font></big></tt></span></font></big></tt><tt><big><font
+            size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;"><tt><big><font
+                            size="+1"><span style="font-family:
+                              monospace;">позиция 7, ключ 7</span></font></big></tt></span></font></big></tt></span></font></big></tt><br>
+      <tt><big><font size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;"></span></font></big></tt></span></font></big></tt><tt><big><font
+            size="+1"><span style="font-family: monospace;"><tt><big><font
+                    size="+1"><span style="font-family: monospace;"><tt><big><font
+                            size="+1"><span style="font-family:
+                              monospace;"><big><font size="+1"><span
+                                    style="font-family: monospace;"><tt><big><font
+                                          size="+1"><span
+                                            style="font-family:
+                                            monospace;"></span></font></big></tt></span></font></big></span></font></big></tt></span></font></big></tt></span></font></big></tt></p>
+    <ul>
+    </ul>
+    <big><span style="font-weight: bold;">Lookup таблици</span><br>
+    </big>
+    <ul>
+      <li><big>Lookup таблица е нареден речник, реализиран с наредена
+          редица.<span style="font-style: italic;"></span></big></li>
+      <ul>
+        <li><big>Ще съхраняваме обектите на речника в масив базиран на
+            редица АТД, сортирани по ключ. <br>
+          </big></li>
+        <li><big>Ще използваме външен компаратор за сравнение на
+            ключовете.</big></li>
+      </ul>
+      <li><big>Performance:</big></li>
+      <ul>
+        <li><big><font size="+1"><span style="font-family: monospace;">find</span></font>
+            отнема време <span style="font-style: italic;">O</span>(log
+            <span style="font-style: italic;">n</span>), като използваме
+            двоично търсене.</big></li>
+        <li><big><font size="+1"><span style="font-family: monospace;">insertItem</span></font>
+            отнема време <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>), защото в най-лошия
+            случай преместваме <span style="font-style: italic;">n</span>/2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            обекта, за да направим място на новия обект.</big></li>
+        <li> <big><font size="+1"><span style="font-family: monospace;">removeElement</span></font>
+            отнема време <span style="font-style: italic;">O</span>(<span
+              style="font-style: italic;">n</span>),&nbsp; </big><big><big><font
+                size="+1">защото в най-лошия случай преместваме <span
+                  style="font-style: italic;">n</span>/2 обекта,</font>
+            </big>за да запълним празното място след премахването.</big>
+        </li>
+      </ul>
+      <li><big>Lookup таблицата е ефективна само за речници с малки
+          размери, или за речници, на която търсенето е най-честата
+          операция, докато вмъкване и отстраняване са рядко изпълнявани
+          (например оторизация на кредитни карти).<br>
+        </big></li>
+    </ul>
+    <big><span style="font-weight: bold;">Двоично търсене [<a
+          href="../../../../2019/CITB205/slides/lec07.html">ООП</a>]</span><br>
+    </big>
+    <ul>
+      <li><big>Двоичното търсене изпълнява операция <span
+            style="font-family: monospace;">find</span>(<span
+            style="font-style: italic;">k</span>) за речник, реализиран
+          с масив-базирана редица, наредена по ключове:<br>
+        </big></li>
+      <ul>
+        <li><big>на всяка стъпка броят на кандидатите се намалява
+            наполовина;</big></li>
+        <li><big>завършва за логаритмичен брой стъпки (относно
+            големината на речника).</big></li>
+      </ul>
+      <li><big><i>Пример:</i> <span style="font-family: monospace;">find</span>(7)</big></li>
+    </ul>
+    <big><img style="width: 718px; height: 225px;" alt="" src="pic5.jpg"><br>
+      <br>
+      От курса по ООП: <a style="font-family: monospace;"
+        href="bsearch.cpp">bsearch.cpp </a><br>
+      <br>
+      Двоично търсене:&nbsp; <a
+href="https://www.youtube.com/watch?v=HlEz93t628E&amp;ab_channel=SimpleSnippets">алгоритъм</a>
+      и <a
+href="https://www.youtube.com/watch?v=fxm3w0KuqWA&amp;ab_channel=SimpleSnippets">писане
+
+
+
+
+
+
+        на програма на С++</a> (на английски).<br>
+      <br>
+      <a
+href="https://www.youtube.com/watch?v=iP897Z5Nerk&amp;ab_channel=AlgoRythmics">BINARY
+
+
+
+        search with FLAMENCO dance</a><br>
+      <br>
+      <span style="font-weight: bold;">Анализ на двоично търсене</span></big><big><br>
+    </big>
+    <ul>
+      <li><big>Времето за изпълнение е пропорционално на числото <span
+            style="font-style: italic;">k</span> на рекурсивните
+          извиквания. </big></li>
+      <li><big>Броят на оставащите кандидати се намалява най-малко
+          наполовина с всяко рекурсивно извикване. </big></li>
+      <li><big>В най-лошия случай (неуспешно търсене), рекурсията спира
+          когато няма повече кандидати, т.е. <span style="font-style:
+            italic;">n</span>/2<sup><span style="font-style: italic;">k</span></sup>
+          = 1, <span style="font-style: italic;">k</span> = log <span
+            style="font-style: italic;">n</span> и получаваме време за
+          изпълнение <span style="font-style: italic;">O</span>(log <span
+            style="font-style: italic;">n</span>).</big></li>
+    </ul>
+    <big><span style="font-weight: bold;"></span> <span
+        style="font-weight: bold;">Сравнение на прости реализации на
+        нареден речник АТД</span></big> <big><br>
+      <br>
+    </big>
+    <table style="text-align: left;" height="224" width="846"
+      cellspacing="2" cellpadding="2" border="1">
+      <tbody>
+        <tr>
+          <td style="vertical-align: top;"><big>Function<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Log File<br>
+            </big></td>
+          <td style="vertical-align: top;"><big>Lookup Table<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>size(),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              isEmpty()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>keys(),
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              elements()<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>find(key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>findAll(key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><i>O</i>(<span
+                style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(log <span style="font-style: italic;">n
+                + s</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>insertItem(key,
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              element)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(1)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeElement(key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+        <tr>
+          <td style="vertical-align: top; font-family: monospace;"><big>removeAllElements(key)<br>
+            </big></td>
+          <td style="vertical-align: top;"><big><i>O</i>(<span
+                style="font-style: italic;">n</span>)</big></td>
+          <td style="vertical-align: top;"><big><span style="font-style:
+                italic;">O</span>(<span style="font-style: italic;">n</span>)<br>
+            </big></td>
+        </tr>
+      </tbody>
+    </table>
+    <hr style="width: 100%; height: 2px;">
+  </body>
+</html>
