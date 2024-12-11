@@ -17,7 +17,7 @@
     <h3>Речници (Dictionaries)<br>
     </h3>
     <ul>
-      <li><big>Основната употреба на речника е да съхранява обекти,
+      <li><big>Основното предназначение на речника е да съхранява обекти
           така, че те да могат да се намират бързо с използване на
           ключове.</big></li>
       <li><big><span style="font-style: italic;"></span>Подобно на
@@ -26,7 +26,7 @@
       <li><big>За разлика от приоритетната опашка, където се иска пълна
           наредба на ключовете, за речника тя не е задължителна.</big>
         <ul>
-          <li><big>Най-простата форма на речника изисква само да може да
+          <li><big>Най-общата форма на речника изисква само да може да
               се определи дали два ключа са еднакви.<br>
             </big></li>
           <li><big>Когато е дефинирана пълна наредба на ключовете
@@ -382,6 +382,7 @@ href="https://www.youtube.com/watch?v=-PuqKbu9K3U&amp;ab_channel=AlgoRythmics">L
 
 
 
+
         search with FLAMENCO dance </a><br>
     </p>
     <ul>
@@ -392,14 +393,86 @@ href="https://www.youtube.com/watch?v=-PuqKbu9K3U&amp;ab_channel=AlgoRythmics">L
           докато търсене и изтриване се изпълняват рядко (напр., запис
           на историята потребителски имена на работна станция).</big></li>
       <li><big>Интересна <a
-href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-a-dictionary-data-structure">реализация
-
-
-
-
-
-            на С++</a> на ненареден речник със STL вектори.<br>
-        </big></li>
+href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-a-dictionary-data-structure">реализация</a>
+          на ненареден речник със STL вектори:</big></li>
+    </ul>
+    <p><tt>#ifndef DICTIONARY_H_INCLUDED</tt><tt><br>
+      </tt><tt>#define DICTIONARY_H_INCLUDED</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>#include &lt;initializer_list&gt;</tt><tt><br>
+      </tt><tt>#include &lt;algorithm&gt;</tt><tt><br>
+      </tt><tt>#include &lt;vector&gt;</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>template &lt;typename T, typename U&gt;</tt><tt><br>
+      </tt><tt>class Dictionary{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; private:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        std::vector&lt;T&gt; keys;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        std::vector&lt;U&gt; values;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; public:</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dictionary();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        Dictionary(std::initializer_list&lt;std::pair&lt;T,U&gt;&gt;);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; bool has(T)
+        const;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; void add(T,U);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T* begin();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T* end();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; U
+        operator[](T);</tt><tt><br>
+      </tt><tt>};</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>template &lt;typename T, typename U&gt;</tt><tt><br>
+      </tt><tt>T* Dictionary&lt;T,U&gt;::begin(){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return &amp;(keys[0]);</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>template &lt;typename T, typename U&gt;</tt><tt><br>
+      </tt><tt>T* Dictionary&lt;T,U&gt;::end(){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return &amp;(keys[keys.size()-1])+1;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>template &lt;typename T, typename U&gt;</tt><tt><br>
+      </tt><tt>Dictionary&lt;T,U&gt;::Dictionary
+        (std::initializer_list&lt;std::pair&lt;T,U&gt;&gt; store){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (std::pair&lt;T,U&gt; object :
+        store){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        keys.push_back(object.first);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        values.push_back(object.second);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>template &lt;typename T, typename U&gt;</tt><tt><br>
+      </tt><tt>bool Dictionary&lt;T,U&gt;::has(T targetKey) const{</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; for (T currentKey : keys){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (currentKey
+        == targetKey){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        return true;</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; }</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return false;</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>template &lt;typename T, typename U&gt;</tt><tt><br>
+      </tt><tt>void Dictionary&lt;T,U&gt;::add (T key, U value){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; keys.push_back(key);</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; values.push_back(value);</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>template &lt;typename T, typename U&gt;</tt><tt><br>
+      </tt><tt>U Dictionary&lt;T,U&gt;::operator[] (T key){</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; unsigned int pos =
+        std::find(keys.begin(), keys.end(), key) - keys.begin();</tt><tt><br>
+      </tt><tt>&nbsp;&nbsp;&nbsp; return values[pos];</tt><tt><br>
+      </tt><tt>}</tt><tt><br>
+      </tt><tt><br>
+      </tt><tt>#endif // DICTIONARY_H_INCLUDED</tt><br>
+    </p>
+    <ul>
     </ul>
     <big><span style="font-weight: bold;">
         <hr style="width: 100%; height: 2px;">
@@ -412,21 +485,22 @@ href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-
       style="font-weight: bold;"> </span><big><span style="font-weight:
         bold;"></span><br>
       <br>
-      Нареденият речник поддържа следните функции извън тези, включени в
+      Нареденият речник поддържа следните функции освен тези, включени в
       общия речник АТД:<br>
     </big>
     <ul>
       <li><big><font size="+1"><span style="font-family: monospace;">closestBefore(k)</span></font>
-          - Връща позиция на обект с най-голям ключ, по-малък или равен
-          на <span style="font-family: monospace;">k.</span></big></li>
+          - връща позиция на обект с най-голям ключ, по-малък или равен
+          на <span style="font-family: monospace;">k</span></big></li>
       <li><big><font size="+1"><span style="font-family: monospace;">closestAfter(k)</span></font>
-          - Връща позиция на обект с най-малкия ключ, по-голям или равен
-          на <span style="font-family: monospace;">k.</span></big></li>
+          - връща позиция на обект с най-малкия ключ, по-голям или равен
+          на <span style="font-family: monospace;">k</span></big></li>
     </ul>
     <p><font size="+1"><i>Пример: </i><br>
         <tt>позиции: 0 1 2 3 4 5 6 7 8 9</tt><tt><br>
         </tt></font><tt><font size="+1">ключове: 2 3 3 4 4 4 5 7 9 9</font></tt></p>
     <p><tt><big><font size="+1"><span style="font-family: monospace;">closestBefore(5)
+
 
 
 
@@ -443,6 +517,7 @@ href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-
                             size="+1"><span style="font-family:
                               monospace;"><big><font size="+1"><span
                                     style="font-family: monospace;">closestAfter(5)
+
 
 
 
@@ -467,9 +542,11 @@ href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-
 
 
 
+
                                     -&gt; </span></font></big></span></font></big></tt></span></font></big></tt></span></font></big></tt><tt><big><font
             size="+1"><span style="font-family: monospace;"><tt><big><font
                     size="+1"><span style="font-family: monospace;">позиции
+
 
 
 
@@ -481,6 +558,7 @@ href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-
                             size="+1"><span style="font-family:
                               monospace;"><big><font size="+1"><span
                                     style="font-family: monospace;">closestAfter(6)
+
 
 
 
@@ -505,8 +583,8 @@ href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-
     <big><span style="font-weight: bold;">Lookup таблици</span><br>
     </big>
     <ul>
-      <li><big>Lookup таблица е нареден речник, реализиран с наредена
-          редица.<span style="font-style: italic;"></span></big></li>
+      <li><big>Lookup таблица е <i>нареден речник</i>, реализиран с
+          наредена редица.<span style="font-style: italic;"></span></big></li>
       <ul>
         <li><big>Ще съхраняваме обектите на речника в масив базиран на
             редица АТД, сортирани по ключ. <br>
@@ -524,6 +602,7 @@ href="https://codereview.stackexchange.com/questions/208188/c-implementation-of-
             отнема време <span style="font-style: italic;">O</span>(<span
               style="font-style: italic;">n</span>), защото в най-лошия
             случай преместваме <span style="font-style: italic;">n</span>/2
+
 
 
 
@@ -596,10 +675,12 @@ href="https://www.youtube.com/watch?v=fxm3w0KuqWA&amp;ab_channel=SimpleSnippets"
 
 
 
+
         на програма на С++</a> (на английски).<br>
       <br>
       <a
 href="https://www.youtube.com/watch?v=iP897Z5Nerk&amp;ab_channel=AlgoRythmics">BINARY
+
 
 
 
@@ -626,8 +707,8 @@ href="https://www.youtube.com/watch?v=iP897Z5Nerk&amp;ab_channel=AlgoRythmics">B
         нареден речник АТД</span></big> <big><br>
       <br>
     </big>
-    <table style="text-align: left;" height="224" width="846"
-      cellspacing="2" cellpadding="2" border="1">
+    <table style="text-align: left;" width="846" cellspacing="2"
+      cellpadding="2" border="1" height="224">
       <tbody>
         <tr>
           <td style="vertical-align: top;"><big>Function<br>
@@ -639,6 +720,7 @@ href="https://www.youtube.com/watch?v=iP897Z5Nerk&amp;ab_channel=AlgoRythmics">B
         </tr>
         <tr>
           <td style="vertical-align: top; font-family: monospace;"><big>size(),
+
 
 
 
@@ -712,6 +794,7 @@ href="https://www.youtube.com/watch?v=iP897Z5Nerk&amp;ab_channel=AlgoRythmics">B
 
 
 
+
               elements()<br>
             </big></td>
           <td style="vertical-align: top;"><big><span style="font-style:
@@ -744,6 +827,7 @@ href="https://www.youtube.com/watch?v=iP897Z5Nerk&amp;ab_channel=AlgoRythmics">B
         </tr>
         <tr>
           <td style="vertical-align: top; font-family: monospace;"><big>insertItem(key,
+
 
 
 
