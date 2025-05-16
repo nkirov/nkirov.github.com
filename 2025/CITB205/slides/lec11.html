@@ -107,8 +107,8 @@
     </table>
     <br>
     Променяме конструктора на класа, като там създаваме (в динамичната
-    памет) обект от клас Employee и указател към него, който е
-    член-данна на класа.<br>
+    памет) обект от клас <font size="+1"><tt>Employee</tt></font> и
+    указател към него, който е член-данна на класа.<br>
     <pre><font size="+1">class Department {<br>   ...<br><span style="color: rgb(51, 51, 255);">private:</span>
    string name;<br>   Employee* receptionist;<br>};<br><br>Department::Department(string n, Employee e)<br>{  <br>   name = n;
    receptionist = <span style="color: rgb(51, 51, 255);">new </span>Employee(e.get_name(), e.get_salary());<br>}<br><br>/* second constructor */
@@ -178,8 +178,8 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     <p>Нека имаме следните дефиниции:<b><br>
       </b></p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department qc("Quality Control", Employee("Tester, Tina", 50000));<br>Department dept("Shipping", Employee("Hacker, Harry", 35000));</font></pre>
-    <p>и след това приложим операция присвояване, която е дефинирана за
-      всеки клас (и се нарича почленно копиране)<b>:<br>
+    <p>и след това приложим операция <i>присвояване</i>, която е
+      дефинирана за обекти от всеки клас (и се нарича почленно копиране)<b>:<br>
       </b></p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">dept = qc;</font></pre>
     <p>1. Това присвояване води до загуба на памет (memory leak) - имаме
@@ -190,6 +190,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
       или <font size="+1"><tt>dept</tt></font>) излезе от обхват (и
       изтрие обекта <font size="+1"><tt>*receptionist</tt></font>),
       получаваме висящ указател <font size="+1"><tt>receptionist </tt></font>(dangling
+
 
 
 
@@ -280,10 +281,10 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     <hr width="100%" size="2">
     <p><b>** Конструктор за копиране (copy constructor)</b><br>
     </p>
-    <p>Предназначението на операция присвояване е да промени съществуващ
-      обект (левия аргумент на операцията), като го направи същия като
-      друг обект (десния аргумент на операцията) и не е подходяща за
-      конструиране на нов обект. <br>
+    <p>Предназначението на операция <i>присвояване </i>е да промени
+      съществуващ обект (левия аргумент на операцията), като го направи
+      същия като друг обект (десния аргумент на операцията) и не е
+      подходяща за конструиране на нов обект. <br>
     </p>
     <p> Например в оператора за дефиниране на обект:<br>
     </p>
@@ -294,7 +295,7 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     </p>
     <pre style="color: rgb(0, 0, 0); font-style: normal; font-variant: normal; font-weight: normal; letter-spacing: normal; line-height: normal; orphans: auto; text-align: left; text-indent: 0px; text-transform: none; widows: auto; word-spacing: 0px; -webkit-text-size-adjust: auto; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255);"><font size="+1">Department dept(qc); // copy constructor</font></pre>
     <p>т.е. като се извика конструктор за копиране (и по-горе
-      компилаторът извиква конструктора за копиране). <br>
+      компилаторът и поставя конструктора за копиране!). <br>
     </p>
     <p> За всеки клас в езика С++ има (по подразбиране) такъв
       конструктор, но той действа с почленно копиране и възниква същия
@@ -309,6 +310,8 @@ Department::Department(string n)<br>{  <br>   name = n;<br>   receptionist = NUL
     <p><font size="+1"><tt>void print(Department d)</tt><tt><br>
         </tt><tt>{ ... }</tt></font></p>
     <font size="+1"> </font>
+    <p><font size="+1">или</font><font size="+1"><tt><br>
+        </tt></font></p>
     <p><font size="+1"><tt>Department dep("Administration")</tt><tt><br>
         </tt><tt>...</tt><tt><br>
         </tt><tt>print(dep);</tt><tt><br>
@@ -812,8 +815,10 @@ href="https://en.wikipedia.org/wiki/Rule_of_three_%28C%2B%2B_programming%29">Rul
 
 
 
+
       of three</a>) се дефинират винаги, когато при създаване на обект
     се заемат <a href="https://en.wikipedia.org/wiki/System_resource">системни
+
 
 
 
