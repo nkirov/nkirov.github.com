@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HPQ2</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: HPQ2</font></h2>
+<br><dl><dd><pre>
+
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Key, <font color="#A000A0">typename</font> Element, <font color="#A000A0">typename</font> Comp&gt;
+<font color="#A000A0">void</font> HeapPriorityQueue&lt;Key, Element, Comp&gt;::
+<font color="#000000">insertItem</font>(<font color="#A000A0">const</font> Key&amp; k, <font color="#A000A0">const</font> Element&amp; e) {		<font color="#0000FF">// insert key-element</font>
+  Position z = T.<font color="#000000">add</font>(<font color="#000000">Item</font>(k, e));
+  <font color="#00A000">while</font> (!T.<font color="#000000">isRoot</font>(z)) {				<font color="#0000FF">// up-heap bubbling</font>
+    Position u = T.<font color="#000000">parent</font>(z);
+    <font color="#00A000">if</font> (<font color="#000000">comp</font>(<font color="#000000">key</font>(u), <font color="#000000">key</font>(z)) &lt;= 0) <font color="#00A000">break</font>;
+    T.<font color="#000000">swapElements</font>(u, z);
+    z = u;
+  }
+}
+
+<font color="#A000A0">template</font> &lt;<font color="#A000A0">typename</font> Key, <font color="#A000A0">typename</font> Element, <font color="#A000A0">typename</font> Comp&gt;
+<font color="#A000A0">void</font> HeapPriorityQueue&lt;Key, Element, Comp&gt;::
+<font color="#000000">removeMin</font>()						<font color="#0000FF">// remove minimum</font>
+    <font color="#00A000">throw</font>(EmptyContainerException) {
+  <font color="#00A000">if</font> (<font color="#000000">isEmpty</font>())
+    <font color="#00A000">throw</font> <font color="#000000">EmptyContainerException</font>(<font color="#0000FF">"Removal from empty queue"</font>);
+  <font color="#00A000">if</font> (<font color="#000000">size</font>() == 1)
+    T.<font color="#000000">remove</font>();
+  <font color="#00A000">else</font> {
+    T.<font color="#000000">replaceElement</font>(T.<font color="#000000">root</font>(), T.<font color="#000000">remove</font>());
+    Position r = T.<font color="#000000">root</font>();
+    <font color="#00A000">while</font> (T.<font color="#000000">isInternal</font>(T.<font color="#000000">leftChild</font>(r))) { 		<font color="#0000FF">// down-heap bubbling</font>
+      Position s = T.<font color="#000000">rightChild</font>(r);
+      <font color="#00A000">if</font> (T.<font color="#000000">isExternal</font>(T.<font color="#000000">rightChild</font>(r)) ||
+          <font color="#000000">comp</font>(<font color="#000000">key</font>(T.<font color="#000000">leftChild</font>(r)), <font color="#000000">key</font>(T.<font color="#000000">rightChild</font>(r))) &lt;= 0)
+        s = T.<font color="#000000">leftChild</font>(r);
+      <font color="#00A000">if</font> (<font color="#000000">comp</font>(<font color="#000000">key</font>(s), <font color="#000000">key</font>(r)) &lt; 0) {
+        T.<font color="#000000">swapElements</font>(r, s);
+        r = s;
+      }
+      <font color="#00A000">else</font> <font color="#00A000">break</font>;
+    }
+  }
+}
+</pre></dd></dl>
+</body>
+</html>
