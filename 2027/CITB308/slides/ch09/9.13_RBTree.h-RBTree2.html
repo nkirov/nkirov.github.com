@@ -1,0 +1,40 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML Basic 1.0//EN" "http://www.w3.org/TR/xhtml-basic/xhtml-basic10.dtd">
+<?xml version="1.0" encoding="utf-8"?><html xmlns="http://www.w3.org/1999/xhtml" lang="en-US">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>RBTree2</title>
+</head>
+<body vlink="purple" text="black" bgcolor="#FFFABB" link="blue">
+<h2><font face="Helvetica">Code Fragment: RBTree2</font></h2>
+<br><dl><dd><pre>
+
+<font color="#A000A0">public</font>:
+  <font color="#A000A0">void</font> <font color="#000000">insertItem</font>(<font color="#A000A0">const</font> Key&amp; k, <font color="#A000A0">const</font> Element&amp; e) {	<font color="#0000FF">// insert (key,element)</font>
+    BTPosition z = <font color="#000000">inserter</font>(k, e);			<font color="#0000FF">// insert in base tree</font>
+    <font color="#00A000">if</font> (T.<font color="#000000">isRoot</font>(z))
+      <font color="#000000">setBlack</font>(z);					<font color="#0000FF">// root is always black</font>
+    <font color="#00A000">else</font> 
+      <font color="#000000">remedyDoubleRed</font>(z);				<font color="#0000FF">// rebalance if needed</font>
+  }
+<font color="#A000A0">protected</font>:
+  <font color="#A000A0">void</font> <font color="#000000">remedyDoubleRed</font>(<font color="#A000A0">const</font> BTPosition&amp; z) {		<font color="#0000FF">// fix double-red z</font>
+    BTPosition v = T.<font color="#000000">parent</font>(z);				<font color="#0000FF">// v is z's parent</font>
+    <font color="#00A000">if</font> (T.<font color="#000000">isRoot</font>(v) || <font color="#000000">isBlack</font>(v)) <font color="#00A000">return</font>;		<font color="#0000FF">// v is black, all ok</font>
+    							<font color="#0000FF">// z, v are double-red</font>
+    <font color="#00A000">if</font> (<font color="#000000">isBlack</font>(T.<font color="#000000">sibling</font>(v)))  {			<font color="#0000FF">// Case 1: restructuring</font>
+      v = T.<font color="#000000">restructure</font>(z);
+      <font color="#000000">setBlack</font>(v);					<font color="#0000FF">// top vertex now black</font>
+      <font color="#000000">setRed</font>(T.<font color="#000000">leftChild</font>(v)); <font color="#000000">setRed</font>(T.<font color="#000000">rightChild</font>(v));	<font color="#0000FF">// children are red</font>
+    }  
+    <font color="#00A000">else</font>  {						<font color="#0000FF">// Case 2: recoloring</font>
+      <font color="#000000">setBlack</font>(v);					<font color="#0000FF">// make v black</font>
+      <font color="#000000">setBlack</font>(T.<font color="#000000">sibling</font>(v));				<font color="#0000FF">// ..and its sibling</font>
+      BTPosition u = T.<font color="#000000">parent</font>(v);			<font color="#0000FF">// u is v's parent</font>
+      <font color="#00A000">if</font> (T.<font color="#000000">isRoot</font>(u)) <font color="#00A000">return</font>;
+      <font color="#000000">setRed</font>(u);					<font color="#0000FF">// make u red</font>
+      <font color="#000000">remedyDoubleRed</font>(u);				<font color="#0000FF">// may need to fix u now</font>
+    }
+  }
+</pre></dd></dl>
+</body>
+</html>

@@ -1,0 +1,333 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+  <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+  <title>Chapter 9</title>
+</head>
+<body>
+<h2>Chapter 9: Search Trees I<br>
+</h2>
+<big>We study several alternative data structures based on trees for
+realizing ordered dictionary. The fundamental operations in an ordered
+dictionary ADT are:<br>
+</big>
+<ul>
+  <li>
+<big><span style="font-family: monospace;">find(k)</span> -
+Return the position of an item with key </big><big><span style="font-family: monospace;">k</span></big><big>, and return a null
+position if no such item exists. </big>
+</li>
+  <li><big><span style="font-family: monospace;">findAll(k)</span> -
+Return an iterator of positions for all items with key <span style="font-family: monospace;">k</span>, and return a null position
+if no such item exists. </big></li>
+  <li><big><span style="font-family: monospace;">insertItem(k,e)</span>
+- Inserts an item with element <span style="font-family: monospace;">e</span>
+and key <span style="font-family: monospace;">k</span>.</big></li>
+  <li><big><span style="font-family: monospace;">removeElement(k)</span>
+- Remove an item with key <span style="font-family: monospace;">k</span>.
+An error condition occurs if there is no such item.</big></li>
+  <li><big><span style="font-family: monospace;">removeAllElements(k)</span>
+- Remove all items with key equal to <span style="font-family: monospace;">k</span>.</big></li>
+</ul>
+<h3>
+9.1 Binary Search Trees</h3>
+<big>[<a href="BinarySearchTrees-slides.pdf">BinarySearchTrees.pdf</a>
+5]<br>
+</big>
+<ul>
+  <li><big>A binary search tree is a binary tree storing keys (or
+key-element pairs) at its internal nodes and satisfying the following
+property:</big></li>
+  <li><big>􀂄Let u, v, and wbe three nodes such that uis in the left
+subtree of vand wis in the right subtree of v. We have key(u)≤key(v)
+≤key(w)</big></li>
+  <li><big>External nodes do not store items</big></li>
+  <li><big>An inorder traversal of a binary search trees visits the
+keys in increasing order</big></li>
+</ul>
+<big><img style="width: 378px; height: 184px;" alt="" src="pic1.jpg"><br>
+Inorder traversal visits the keys of its dictionary in nondecreasing
+order.</big><br>
+<h4><big> 9.1.1 Searching</big></h4>
+<big>[<a href="BinarySearchTrees-slides.pdf">BinarySearchTrees.pdf</a>
+6]<br>
+</big>
+<ul>
+  <li><big>To search for a key k, we trace a downward path starting at
+the root</big></li>
+  <li><big>The next node visited depends on the outcome of the
+comparison of kwith the key of the current node</big></li>
+  <li><big>If we reach a leaf, the key is not found and we return a
+null position</big></li>
+  <li><big>Example: find(4)</big></li>
+</ul>
+<big><img style="width: 386px; height: 181px;" alt="" src="pic2.jpg"><br>
+Algorithmfind (k,v)<br>
+ifT.isExternal (v)<br>
+returnPosition(null)<br>
+if k&lt;key(v)<br>
+returnfind(k,T.leftChild(v))<br>
+else if k=key(v)<br>
+returnPosition(v)<br>
+else{ k&gt;key(v) }<br>
+returnfind(k,T.rightChild(v))<br>
+<br>
+<span style="font-weight: bold;">Analysis of Binary Tree Searching<br>
+</span>Function<span style="font-family: monospace;"> find(k)</span> on
+dictionary <span style="font-style: italic;">D</span> runs <span style="font-style: italic;">O</span>(<span style="font-style: italic;">h</span>)
+time, where <span style="font-style: italic;">h</span> is the height
+of the binary search tree <span style="font-style: italic;">T</span>
+used to implement <span style="font-style: italic;">D</span>.<span style="font-weight: bold;"><br>
+</span></big>
+<h4><big> 9.1.2 Update Operations</big></h4>
+<big><span style="font-weight: bold;">Insertion</span><br>
+[<a href="BinarySearchTrees-slides.pdf">BinarySearchTrees.pdf</a> 
+7]<br>
+</big>
+<ul>
+  <li><big>To perform operation insertItem(k, o), we search for key k</big></li>
+  <li><big>Assume k is not already in the tree, and let let w be the
+leaf reached by the search</big></li>
+  <li><big>We insert k at node w and expand w into an internal node</big></li>
+  <li><big>Example: insert 5</big></li>
+</ul>
+<big><br style="font-weight: bold;">
+</big>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+<img style="width: 377px; height: 196px;" alt="" src="pic3.jpg"><br>
+      </td>
+      <td style="vertical-align: top;">
+<img style="width: 394px; height: 226px;" alt="" src="pic4.jpg"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big><span style="font-weight: bold;"><br>
+Removal</span><br>
+[<a href="BinarySearchTrees-slides.pdf">BinarySearchTrees.pdf</a> 
+8, 9]<br>
+</big>
+<ul>
+  <li><big>To perform operation removeElement(k), we search for key k</big></li>
+  <li><big>Assume key kis in the tree, and let let vbe the node storing
+k</big></li>
+  <li><big>If node vhas a leaf child w, we remove vand wfrom the tree
+with operation removeAboveExternal(w)</big></li>
+  <li><big>Example: remove 4</big></li>
+</ul>
+<big><span style="font-weight: bold;"><br>
+</span></big>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+<img style="width: 398px; height: 228px;" alt="" src="pic5.jpg"><br>
+      </td>
+      <td style="vertical-align: top;">
+<img style="width: 376px; height: 181px;" alt="" src="pic6.jpg"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<big><span style="font-weight: bold;"><br>
+</span></big>
+<ul>
+  <li><big>We consider the case where the key kto be removed is stored
+at a node vwhose children are both internal</big></li>
+  <ul>
+    <li><big>􀂄we find the internal node w that follows vin an inorder
+traversal</big></li>
+    <li><big>􀂄we copy key(w)into node v</big></li>
+    <li><big>􀂄we remove node w and its left child z (which must be a
+leaf) by means of operation removeAboveExternal(z)</big></li>
+  </ul>
+  <li><big>Example: remove 3</big></li>
+</ul>
+<br>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+<img style="width: 380px; height: 257px;" alt="" src="pic7.jpg"><br>
+      </td>
+      <td style="vertical-align: top;">
+<img style="width: 382px; height: 195px;" alt="" src="pic8.jpg"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<big><span style="font-weight: bold;">Best-case versus Worst-case<br>
+</span>[<a href="BinarySearchTrees-slides.pdf">BinarySearchTrees.pdf</a> 
+10]<br>
+<br>
+</big><br>
+<table style="text-align: left; width: 100%;" border="0" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">
+<img style="width: 378px; height: 396px;" alt="" src="pic9.jpg"><br>
+      </td>
+      <td style="vertical-align: middle;">
+      <ul>
+        <li><big>Consider a dictionary with <span style="font-style: italic;"></span></big></li>
+        <li><big><span style="font-style: italic;"></span> items
+implemented by means
+of a binary search tree of height <span style="font-style: italic;">h</span></big></li>
+        <ul>
+          <li><big>the space used is <span style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>)</big></li>
+          <li>
+<big>methods <span style="font-family: monospace;">findElement()</span>,
+            <span style="font-family: monospace;">insertItem()</span>
+and <span style="font-family: monospace;">removeElement()</span>
+take <span style="font-style: italic;">O</span>(<span style="font-style: italic;">h</span>) time</big>
+          </li>
+        </ul>
+        <li><big>The height his <span style="font-style: italic;">O</span>(<span style="font-style: italic;">n</span>) in the worst case and <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>) in the best case</big></li>
+      </ul>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<h4><big> 9.1.3 C++ Implementation</big></h4>
+<big><span style="font-weight: bold;">A Binary Search Tree in C++<br>
+</span><a href="9.2_BinarySearchTree.h-Position.html">html-9.2</a>
+(Position)<br>
+<a href="9.3_BinarySearchTree.h-BST1.html">html-9.3</a> (BST1)<br>
+<a href="9.4_BinarySearchTree.h-BST2.html">html-9.4</a> (BST2)<br>
+<a href="9.5_BinarySearchTree.h-BST3.html">html-9.5</a> (BST3)<br>
+<a href="9.6_BinarySearchTree.h-BST4.html">html-9.6</a> (BST4)<br>
+<br>
+<a style="font-family: monospace;" href="except.h">except.h</a><span style="font-family: monospace;">  -   </span><a style="font-family: monospace;" href="LBTree.h">LBTree.h</a><span style="font-family: monospace;">   -   </span><a style="font-family: monospace;" href="BSTree.cpp">BSTree.cpp</a><br>
+</big>
+<h4>
+<big> 9.1.4 Performance</big><br>
+</h4>
+<hr style="width: 100%; height: 2px;">
+<h3> 9.2 AVL Trees</h3>
+<big><span style="font-weight: bold;">Definition<br>
+</span>[<a href="AVLTrees-slides.pdf">AVLTrees.pdf</a> 1, 2]<br>
+</big>
+<ul>
+  <li><big>AVL trees are balanced.</big></li>
+  <li><big>An AVL Tree is a binary search treesuch that for every
+internal node v of T, the heights of the children of v can differ by at
+most 1.</big></li>
+  <li><big>AVL tree is named after the initials of inventors,
+Adel'son-Vel'skii
+and Landis (1962).</big></li>
+</ul>
+<span style="font-weight: bold;"></span> <big>Fact: The heightof an
+AVL tree storing <span style="font-style: italic;">n</span> keys is <span style="font-style: italic;">O</span>(log <span style="font-style: italic;">n</span>).<br>
+Proof: Let us bound <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>): the minimum number of internal
+nodes of an AVL tree of height <span style="font-style: italic;">h</span>.<br>
+We easily see that <span style="font-style: italic;">n</span>(1) = 1
+and <span style="font-style: italic;">n</span>(2) = 2<br>
+For <span style="font-style: italic;">n</span> &gt; 2, an AVL tree of
+height <span style="font-style: italic;">h</span> contains the root
+node, one AVL subtree of height <span style="font-style: italic;">n -</span>
+1 and another of height <span style="font-style: italic;">n - </span>2.<br>
+That is, <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) = 1 + <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h
+</span>- 1) + <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span> - 2).<br>
+Knowing <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h -</span> 1) &gt; <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h
+</span>- 2), we get <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) &gt; 2<span style="font-style: italic;">n</span>(<span style="font-style: italic;">h
+</span>- 2). <br>
+So <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) &gt; 2<span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>
+- 2), <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) &gt; 4<span style="font-style: italic;">n</span>(<span style="font-style: italic;">h
+</span>- 4), <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) &gt; 8<span style="font-style: italic;">n</span>(<span style="font-style: italic;">n
+</span>- 6), … (by induction), <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) &gt; 2<span style="font-style: italic;">in</span>(<span style="font-style: italic;">h</span>
+- 2<span style="font-style: italic;">i</span>).<br>
+Solving the base case we get: <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) &gt; 2 <span style="font-style: italic;">h</span>/2 - 1.<br>
+Taking logarithms: <span style="font-style: italic;">h</span> &lt; 2
+log <span style="font-style: italic;">n</span>(<span style="font-style: italic;">h</span>) + 2.<br>
+Thus the height of an AVL tree is <span style="font-style: italic;">O</span>(log
+<span style="font-style: italic;">n</span>).<br>
+<br>
+</big><big><span style="font-weight: bold;"> 9.2.1 Update Operations</span></big><br>
+<big><span style="font-weight: bold;">Insertion<br>
+</span></big><big>[<a href="AVLTrees-slides.pdf">AVLTrees.pdf</a> 3-8]</big><br>
+<big><span style="font-family: monospace;">expandExternal(w)</span><br>
+"search and repair" strategy:<br>
+</big>
+<ul>
+  <li><big><span style="font-style: italic;">z</span> is the first
+unbalanced node</big></li>
+  <li><big><span style="font-style: italic;">y</span> is its child with
+higher height</big></li>
+  <li>
+<big><span style="font-style: italic;">x</span> is a child of <span style="font-style: italic;">y</span> with </big><big>higher height</big>
+</li>
+  <li><big><span style="font-style: italic;">w</span> (inserted node)
+is a child of <span style="font-style: italic;">x</span><br>
+    </big></li>
+</ul>
+<big>trinode restructuring:<br>
+rename <span style="font-style: italic;">x,y,z</span> as <span style="font-style: italic;">a,b,c</span> in an <span style="font-style: italic;">inorder traversal</span> of the binary tree<br>
+<span style="font-family: monospace;">restructure(x)</span><br>
+<br>
+</big><big><span style="font-weight: bold;">Removal<br>
+</span></big><big>[<a href="AVLTrees-slides.pdf">AVLTrees.pdf</a> 9,10]</big><br>
+<big><span style="font-weight: bold;"></span><span style="font-family: monospace;">removeAboveExternal(k)</span><span style="font-weight: bold;"><br>
+</span></big><big>"search and </big><big>repair</big><big>" strategy
+and </big><big>trinode restructuring</big><br>
+<h4><big> 9.2.2 C++ Implementation</big></h4>
+<big><a href="9.8_AVLTree.h-AVLItem.html">html-9.8</a> (AVLItem)<br>
+<a href="9.9_AVLTree.h-AVLTree2.html">html-9.9</a> (AVLTree2)<br>
+<a href="9.10_AVLTree.h-AVLTree1.html">html-9.10</a> (AVLTree1)</big>
+<br>
+<h4> 9.2.3 Performance</h4>
+<big>[<a href="AVLTrees-slides.pdf">AVLTrees.pdf</a> 11]</big><br>
+<hr style="width: 100%; height: 2px;">
+<h3> 9.3 Multi-Way Search Trees</h3>
+<big><span style="font-weight: bold;">Definition</span><br>
+</big><span style="font-weight: bold;"></span><big>[<a href="24Trees-slides.pdf">24Trees.pdf</a> 3, 4<br>
+<br>
+<span style="font-weight: bold;">Searching in a Multi-Way Tree<br>
+</span>[<a href="24Trees-slides.pdf">24Trees.pdf</a> 5<br style="font-weight: bold;">
+<br>
+<span style="font-weight: bold;">Data Structures</span></big>
+<br>
+<hr style="width: 100%; height: 2px;">
+<h3> 9.4 (2,4) Trees</h3>
+<big>[<a href="24Trees-slides.pdf">24Trees.pdf</a> 5-7<br>
+</big>
+<h4><big> 9.4.1 Update Operations</big></h4>
+<big>I<span style="font-weight: bold;">nsertion<br>
+</span>[<a href="24Trees-slides.pdf">24Trees.pdf</a> 8, 9<br>
+<br>
+<span style="font-weight: bold;">Analysis of Insertion in a (2,4) Tree<br>
+</span>[<a href="24Trees-slides.pdf">24Trees.pdf</a> 10<br>
+<br>
+<span style="font-weight: bold;">Removal<br>
+</span>[<a href="24Trees-slides.pdf">24Trees.pdf</a> 11-13<br>
+</big>
+<h4><big> 9.4.2 Performance</big></h4>
+<hr style="width: 100%; height: 2px;">
+<h3> 9.5 Red-Black Trees</h3>
+<big>[<a href="RedBlackTrees-slides.pdf">RedBlackTrees.pdf </a>3-5]<br>
+</big>
+<h4><big> 9.5.1 Update Operations</big></h4>
+<big><span style="font-weight: bold;">Insertion<br>
+</span>[<a href="RedBlackTrees-slides.pdf">RedBlackTrees.pdf </a>6-11]<br>
+<br>
+<span style="font-weight: bold;">Removal<br>
+</span>[<a href="RedBlackTrees-slides.pdf">RedBlackTrees.pdf </a>12,
+13]<br>
+</big>
+<h4><big> 9.5.2 C++ Implementation</big></h4>
+<big><a href="9.11_RBTree.h-RBItem.html">html-9.11</a> (RBItem)<br>
+<a href="9.12_RBTree.h-RBTree1.html">html-9.12</a> (RBTree1)<br>
+<a href="9.13_RBTree.h-RBTree2.html">html-9.13</a> (RBTree2)<br>
+<a href="9.14_RBTree.h-RBTree3.html">html-9.14</a> (RBTree3)<br>
+</big>
+<h4><big> 9.5.3 Performance</big></h4>
+<big>[<a href="RedBlackTrees-slides.pdf">RedBlackTrees.pdf </a>14]<br>
+</big><br>
+<hr style="width: 100%; height: 2px;">
+<br>
+<br>
+</body>
+</html>
